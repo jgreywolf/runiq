@@ -93,6 +93,142 @@ describe('Data-Driven Syntax', () => {
       expect(profile.nodes).toHaveLength(1);
       expect(profile.nodes[0].dataSource).toBe('metrics');
     });
+
+    it('parses data use and map statements in diagram', () => {
+      const input = `
+        diagram "test" {
+          datasource "json" key:energy from:"energy.json"
+          data use energy
+          map energy as sankey {
+            nodes: "nodes"
+            links: "links"
+            nodeId: "id"
+          }
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.errors).toHaveLength(0);
+
+      const profile = result.document!.profiles[0] as any;
+      expect(profile.dataUse).toBe('energy');
+      expect(profile.dataMaps).toHaveLength(1);
+      expect(profile.dataMaps[0].target).toBe('sankey');
+      expect(profile.dataMaps[0].fields.nodeId).toBe('id');
+    });
+
+    it('parses data use and map statements in timeline', () => {
+      const input = `
+        timeline "Roadmap" {
+          datasource "csv" key:tasks from:"tasks.csv"
+          data use tasks
+          map tasks as tasks {
+            id: "id"
+            label: "name"
+            startDate: "start"
+            endDate: "end"
+          }
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.errors).toHaveLength(0);
+
+      const profile = result.document!.profiles[0] as any;
+      expect(profile.dataUse).toBe('tasks');
+      expect(profile.dataMaps).toHaveLength(1);
+      expect(profile.dataMaps[0].target).toBe('tasks');
+      expect(profile.dataMaps[0].fields.startDate).toBe('start');
+    });
+
+    it('parses data use and map statements in treemap', () => {
+      const input = `
+        treemap "Usage" {
+          datasource "json" key:usage from:"usage.json"
+          data use usage
+          map usage as treemap {
+            id: "id"
+            parentId: "parent"
+            value: "value"
+          }
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.errors).toHaveLength(0);
+
+      const profile = result.document!.profiles[0] as any;
+      expect(profile.dataUse).toBe('usage');
+      expect(profile.dataMaps).toHaveLength(1);
+      expect(profile.dataMaps[0].target).toBe('treemap');
+      expect(profile.dataMaps[0].fields.parentId).toBe('parent');
+    });
+  });
+
+  describe('Data map validation warnings', () => {
+    it('warns when data use references missing source', () => {
+      const input = `
+        diagram "test" {
+          data use missingSource
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.warnings).toContain('Data source not found: missingSource');
+    });
+
+    it('warns when data map references missing source', () => {
+      const input = `
+        diagram "test" {
+          map missingSource as sankey {
+            from: "from"
+            to: "to"
+            value: "amount"
+          }
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.warnings).toContain(
+        'Data map source not found: missingSource'
+      );
+    });
+
+    it('warns when data map is missing required fields', () => {
+      const input = `
+        timeline "Roadmap" {
+          datasource "csv" key:tasks from:"tasks.csv"
+          map tasks as tasks {
+            id: "taskId"
+          }
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.warnings.some((warning) =>
+        warning.includes(
+          'Data map for tasks is missing required field(s)'
+        )
+      )).toBe(true);
+    });
+
+    it('warns when data map target does not match profile', () => {
+      const input = `
+        treemap "Usage" {
+          datasource "csv" key:tasks from:"tasks.csv"
+          map tasks as tasks {
+            label: "name"
+            startDate: "start"
+            endDate: "end"
+          }
+        }
+      `;
+      const result = parse(input);
+      expect(result.success).toBe(true);
+      expect(result.warnings).toContain(
+        'Data map target tasks is not supported in treemap profiles'
+      );
+    });
   });
 
   describe('ForEachBlock', () => {

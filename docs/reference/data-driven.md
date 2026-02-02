@@ -114,6 +114,64 @@ diagram "Metrics" {
 }
 ```
 
+## Profile Data Maps (Timeline, Treemap, Sankey)
+
+Some profiles support `data use` + `map ... as ...` to map rows into profile-specific structures.
+
+### Timeline (events, tasks, milestones)
+
+```runiq
+timeline "Data-Driven Roadmap" {
+  datasource "csv" key:roadmap from:"id,label,start,end,lane\nT1,Planning,2024-01-05,2024-02-01,Product\nT2,Build,2024-02-05,2024-03-15,Engineering"
+
+  data use roadmap
+  map roadmap as tasks {
+    id: "id"
+    label: "label"
+    startDate: "start"
+    endDate: "end"
+    lane: "lane"
+  }
+}
+```
+
+### Treemap (hierarchy)
+
+```runiq
+treemap "Usage" {
+  datasource "json" key:usage from:"[{\"id\":\"core\",\"label\":\"Core\",\"value\":70},{\"id\":\"auth\",\"label\":\"Auth\",\"value\":40,\"parent\":\"core\"}]"
+
+  data use usage
+  map usage as treemap {
+    id: "id"
+    parentId: "parent"
+    label: "label"
+    value: "value"
+  }
+}
+```
+
+### Sankey (diagram profile)
+
+```runiq
+diagram "Energy Flow" {
+  datasource "csv" key:flows from:"source,target,value\nCoal,Grid,300\nSolar,Grid,100\nGrid,Homes,380"
+
+  data use flows
+  map flows as sankey {
+    source: "source"
+    to: "target"
+    value: "value"
+  }
+
+  shape energy as @sankeyChart label:"Energy Distribution"
+}
+```
+
+### Warning Behavior
+
+If required mappings are missing, the editor reports warnings and skips only the invalid rows. The rest of the datasource still renders.
+
 ## Template Syntax
 
 ### Variable Substitution

@@ -168,12 +168,20 @@ function injectDataIntoCode(syntaxCode: string, data: string): string {
 }
 
 function normalizeDataSourceOptions(
-	options?: Array<{ name: string; value: string | number | boolean }>
+	options?:
+		| Array<{ name: string; value: string | number | boolean }>
+		| Record<string, unknown>
 ): Record<string, unknown> {
 	const normalized: Record<string, unknown> = {};
 	if (!options) return normalized;
-	for (const option of options) {
-		normalized[option.name] = option.value;
+	if (Array.isArray(options)) {
+		for (const option of options) {
+			normalized[option.name] = option.value;
+		}
+		return normalized;
+	}
+	if (typeof options === 'object') {
+		return { ...options };
 	}
 	return normalized;
 }
@@ -517,6 +525,406 @@ function applyDataSourcesToCharts(profile: any, warnings: string[]): void {
 	}
 }
 
+function getMappedValue(
+	row: Record<string, unknown>,
+	fields: Record<string, string>,
+	key: string
+): unknown {
+	const sourceKey = fields[key] ?? key;
+	return row[sourceKey];
+}
+
+function normalizeDataRows(
+	data: unknown,
+	target: string,
+	warnings: string[],
+	sourceKey: string
+): Array<Record<string, unknown>> | null {
+	if (Array.isArray(data)) {
+		return data as Array<Record<string, unknown>>;
+	}
+
+	if (data && typeof data === 'object') {
+		const obj = data as Record<string, unknown>;
+		const nested = obj[target];
+		if (Array.isArray(nested)) {
+			return nested as Array<Record<string, unknown>>;
+		}
+	}
+
+	warnings.push(`Datasource "${sourceKey}" does not provide rows for ${target}.`);
+	return null;
+}
+
+function applyDataSourcesToTimeline(profile: any, warnings: string[]): void {
+	const dataSources = resolveDataSources(profile, warnings);
+	if (dataSources.size === 0 || !Array.isArray(profile.dataMaps)) {
+		return;
+	}
+
+	const events: any[] = Array.isArray(profile.events) ? [...profile.events] : [];
+	const tasks: any[] = Array.isArray(profile.tasks) ? [...profile.tasks] : [];
+	const milestones: any[] = Array.isArray(profile.milestones)
+		? [...profile.milestones]
+		: [];
+
+	for (const map of profile.dataMaps) {
+		const target = map.target;
+		if (!['timeline', 'events', 'tasks', 'milestones'].includes(target)) continue;
+
+		const fields: Record<string, string> = map.fields ?? {};
+		const hasLabel = !!(fields.label || fields.name);
+		const missingFields: string[] = [];
+
+		if (!fields.date && (target === 'timeline' || target === 'events' || target === 'milestones')) {
+			missingFields.push('date');
+		}
+		if (target === 'tasks') {
+			if (!fields.startDate) missingFields.push('startDate');
+			if (!fields.endDate) missingFields.push('endDate');
+		}
+		if (!hasLabel) {
+			missingFields.push('label/name');
+		}
+		if (missingFields.length > 0) {
+			warnings.push(
+				`Datasource "${map.source}" is missing ${missingFields.join(
+					', '
+				)} mapping for ${target}.`
+			);
+			continue;
+		}
+
+		const source = dataSources.get(map.source);
+		if (!source) {
+			warnings.push(`Datasource "${map.source}" not found for ${target} mapping.`);
+			continue;
+		}
+
+		const rows = normalizeDataRows(source.data, target, warnings, map.source);
+		if (!rows) continue;
+
+		let skipped = 0;
+
+		if (target === 'tasks') {
+			rows.forEach((row, index) => {
+				const label =
+					getMappedValue(row, fields, 'label') ??
+					getMappedValue(row, fields, 'name');
+				const startDate = getMappedValue(row, fields, 'startDate');
+				const endDate = getMappedValue(row, fields, 'endDate');
+				if (!label || !startDate || !endDate) {
+					skipped += 1;
+					return;
+				}
+
+				const task: any = {
+					id: String(
+						getMappedValue(row, fields, 'id') ?? `task-${index + 1}`
+					),
+					label: String(label),
+					startDate: String(startDate),
+					endDate: String(endDate)
+				};
+
+				const description = getMappedValue(row, fields, 'description');
+				const color =
+					getMappedValue(row, fields, 'fillColor') ??
+					getMappedValue(row, fields, 'color');
+				const lane =
+					getMappedValue(row, fields, 'lane') ??
+					getMappedValue(row, fields, 'laneId');
+
+				if (description) task.description = String(description);
+				if (color) task.fillColor = String(color);
+				if (lane) task.lane = String(lane);
+
+				tasks.push(task);
+			});
+			if (skipped > 0) {
+				warnings.push(
+					`Datasource "${map.source}" skipped ${skipped} task row(s) missing required fields.`
+				);
+			}
+			continue;
+		}
+
+		if (target === 'milestones') {
+			rows.forEach((row, index) => {
+				const label =
+					getMappedValue(row, fields, 'label') ??
+					getMappedValue(row, fields, 'name');
+				const date = getMappedValue(row, fields, 'date');
+				if (!label || !date) {
+					skipped += 1;
+					return;
+				}
+
+				const milestone: any = {
+					id: String(
+						getMappedValue(row, fields, 'id') ?? `milestone-${index + 1}`
+					),
+					label: String(label),
+					date: String(date)
+				};
+
+				const description = getMappedValue(row, fields, 'description');
+				const color =
+					getMappedValue(row, fields, 'fillColor') ??
+					getMappedValue(row, fields, 'color');
+				const lane =
+					getMappedValue(row, fields, 'lane') ??
+					getMappedValue(row, fields, 'laneId');
+
+				if (description) milestone.description = String(description);
+				if (color) milestone.fillColor = String(color);
+				if (lane) milestone.lane = String(lane);
+
+				milestones.push(milestone);
+			});
+			if (skipped > 0) {
+				warnings.push(
+					`Datasource "${map.source}" skipped ${skipped} milestone row(s) missing required fields.`
+				);
+			}
+			continue;
+		}
+
+		rows.forEach((row, index) => {
+			const label =
+				getMappedValue(row, fields, 'label') ?? getMappedValue(row, fields, 'name');
+			const date = getMappedValue(row, fields, 'date');
+			if (!label || !date) {
+				skipped += 1;
+				return;
+			}
+
+			const event: any = {
+				id: String(getMappedValue(row, fields, 'id') ?? `event-${index + 1}`),
+				label: String(label),
+				date: String(date)
+			};
+
+			const description = getMappedValue(row, fields, 'description');
+			const icon = getMappedValue(row, fields, 'icon');
+			const color =
+				getMappedValue(row, fields, 'fillColor') ??
+				getMappedValue(row, fields, 'color');
+
+			if (description) event.description = String(description);
+			if (icon) event.icon = String(icon);
+			if (color) event.fillColor = String(color);
+
+			events.push(event);
+		});
+		if (skipped > 0) {
+			warnings.push(
+				`Datasource "${map.source}" skipped ${skipped} event row(s) missing required fields.`
+			);
+		}
+	}
+
+	if (events.length > 0) profile.events = events;
+	if (tasks.length > 0) profile.tasks = tasks;
+	if (milestones.length > 0) profile.milestones = milestones;
+}
+
+function applyDataSourcesToTreemap(profile: any, warnings: string[]): void {
+	const dataSources = resolveDataSources(profile, warnings);
+	if (dataSources.size === 0 || !Array.isArray(profile.dataMaps)) {
+		return;
+	}
+
+	for (const map of profile.dataMaps) {
+		if (map.target !== 'treemap') continue;
+
+		const fields: Record<string, string> = map.fields ?? {};
+		const hasLabel = !!(fields.label || fields.name);
+		if (!fields.value || !hasLabel) {
+			const missing = [
+				!fields.value ? 'value' : null,
+				!hasLabel ? 'label/name' : null
+			].filter(Boolean);
+			warnings.push(
+				`Datasource "${map.source}" is missing ${missing.join(
+					', '
+				)} mapping for treemap.`
+			);
+			continue;
+		}
+
+		const source = dataSources.get(map.source);
+		if (!source) {
+			warnings.push(`Datasource "${map.source}" not found for treemap mapping.`);
+			continue;
+		}
+
+		const rows = normalizeDataRows(source.data, 'treemap', warnings, map.source);
+		if (!rows) continue;
+
+		const nodesById = new Map<string, any>();
+		let skipped = 0;
+
+		rows.forEach((row, index) => {
+			const label =
+				getMappedValue(row, fields, 'label') ??
+				getMappedValue(row, fields, 'name');
+			if (!label) {
+				skipped += 1;
+				return;
+			}
+
+			const valueRaw = getMappedValue(row, fields, 'value');
+			const value = valueRaw !== undefined ? Number(valueRaw) : undefined;
+			if (value === undefined || Number.isNaN(value)) {
+				skipped += 1;
+				return;
+			}
+			const color = getMappedValue(row, fields, 'color');
+			const id = getMappedValue(row, fields, 'id') ?? `node-${index + 1}`;
+			const parentId = getMappedValue(row, fields, 'parentId');
+
+			const node: any = {
+				label: String(label)
+			};
+
+			if (value !== undefined && !Number.isNaN(value)) {
+				node.value = value;
+			}
+			if (color) node.color = String(color);
+
+			node.__id = String(id);
+			if (parentId) node.__parentId = String(parentId);
+
+			nodesById.set(node.__id, node);
+		});
+
+		if (skipped > 0) {
+			warnings.push(
+				`Datasource "${map.source}" skipped ${skipped} treemap row(s) missing required fields.`
+			);
+		}
+
+		const roots: any[] = [];
+		for (const node of nodesById.values()) {
+			if (node.__parentId && nodesById.has(node.__parentId)) {
+				const parent = nodesById.get(node.__parentId);
+				parent.children = parent.children ?? [];
+				parent.children.push(node);
+			} else {
+				roots.push(node);
+			}
+		}
+
+		for (const node of nodesById.values()) {
+			delete node.__id;
+			delete node.__parentId;
+		}
+
+		if (roots.length > 0) {
+			profile.nodes = roots;
+		}
+	}
+}
+
+function applyDataSourcesToDiagram(profile: any, warnings: string[]): void {
+	const dataSources = resolveDataSources(profile, warnings);
+	if (dataSources.size === 0 || !Array.isArray(profile.dataMaps)) {
+		return;
+	}
+
+	const sankeyMaps = profile.dataMaps.filter((map: any) => map.target === 'sankey');
+	if (sankeyMaps.length === 0 || !Array.isArray(profile.nodes)) return;
+
+	for (const map of sankeyMaps) {
+		const fields: Record<string, string> = map.fields ?? {};
+		const hasSource = !!(fields.source || fields.from);
+		const hasTarget = !!(fields.target || fields.to);
+		const hasValue = !!fields.value;
+
+		if (!hasSource || !hasTarget || !hasValue) {
+			const missing = [
+				!hasSource ? 'source/from' : null,
+				!hasTarget ? 'target/to' : null,
+				!hasValue ? 'value' : null
+			].filter(Boolean);
+			warnings.push(
+				`Datasource "${map.source}" is missing ${missing.join(
+					', '
+				)} mapping for sankey.`
+			);
+			continue;
+		}
+
+		const source = dataSources.get(map.source);
+		if (!source) {
+			warnings.push(`Datasource "${map.source}" not found for sankey mapping.`);
+			continue;
+		}
+
+		let sankeyData: Record<string, unknown> | null = null;
+
+		if (Array.isArray(source.data)) {
+			const rows = source.data as Array<Record<string, unknown>>;
+			const normalizedRows = rows.map((row) => ({
+				source: getMappedValue(row, fields, 'source') ?? getMappedValue(row, fields, 'from'),
+				target: getMappedValue(row, fields, 'target') ?? getMappedValue(row, fields, 'to'),
+				value: getMappedValue(row, fields, 'value'),
+				label: getMappedValue(row, fields, 'label'),
+				color: getMappedValue(row, fields, 'color')
+			}));
+			sankeyData = buildSankeyDataFromRows(
+				normalizedRows as Array<Record<string, unknown>>,
+				warnings,
+				map.source
+			);
+		} else if (source.data && typeof source.data === 'object') {
+			const obj = source.data as Record<string, unknown>;
+			const nodesKey = fields.nodes ?? 'nodes';
+			const linksKey = fields.links ?? 'links';
+			const rawNodes = obj[nodesKey];
+			const rawLinks = obj[linksKey];
+
+			if (Array.isArray(rawLinks)) {
+				const normalizedLinks = rawLinks.map((link: any) => ({
+					source: link[fields.source ?? fields.from ?? 'source'],
+					target: link[fields.target ?? fields.to ?? 'target'],
+					value: link[fields.value ?? 'value'],
+					label: link[fields.label ?? 'label'],
+					color: link[fields.color ?? 'color']
+				}));
+
+				const linkData = buildSankeyDataFromRows(
+					normalizedLinks as Array<Record<string, unknown>>,
+					warnings,
+					map.source
+				);
+
+				if (linkData) {
+					if (Array.isArray(rawNodes)) {
+						const nodeIdKey = fields.nodeId ?? fields.id ?? 'id';
+						const nodes = rawNodes.map((node: any) => ({
+							id: String(node[nodeIdKey]),
+							label: node[fields.label ?? 'label'],
+							color: node[fields.color ?? 'color']
+						}));
+						sankeyData = { ...linkData, nodes };
+					} else {
+						sankeyData = linkData;
+					}
+				}
+			}
+		}
+
+		if (!sankeyData) continue;
+
+		for (const node of profile.nodes) {
+			if (node.shape !== 'sankeyChart') continue;
+			node.data = { ...(node.data || {}), ...sankeyData };
+		}
+	}
+}
+
 export async function renderDiagram(
 	code: string,
 	dataContent: string,
@@ -575,6 +983,11 @@ export async function renderDiagram(
 
 		if (profileType === 'diagram') {
 			applyDataSourcesToCharts(profile as any, result.warnings);
+			applyDataSourcesToDiagram(profile as any, result.warnings);
+		} else if (profileType === 'timeline') {
+			applyDataSourcesToTimeline(profile as any, result.warnings);
+		} else if (profileType === 'treemap') {
+			applyDataSourcesToTreemap(profile as any, result.warnings);
 		}
 
 		if (profileType === 'diagram' && dataContent) {

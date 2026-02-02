@@ -247,6 +247,8 @@ describe('Data Property Parser', () => {
       `;
 
       const result = parse(dsl);
+      if (!result.success) {
+      }
       expect(result.success).toBe(true);
       expect(result.diagram?.nodes).toHaveLength(2);
       expect(result.diagram?.nodes[0].data).toEqual({});

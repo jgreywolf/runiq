@@ -590,6 +590,9 @@ export interface TimelineProfile {
   tasks?: TimelineTask[];
   milestones?: TimelineMilestone[];
   dependencies?: TimelineDependency[];
+  dataSources?: import('./data-types.js').DataSourceDefinition[];
+  dataUse?: string;
+  dataMaps?: import('./data-types.js').DataMapDefinition[];
 }
 
 /**
@@ -766,6 +769,9 @@ export interface TreemapProfile {
   showValues?: boolean;
   showLegend?: boolean;
   nodes: TreemapNode[];
+  dataSources?: import('./data-types.js').DataSourceDefinition[];
+  dataUse?: string;
+  dataMaps?: import('./data-types.js').DataMapDefinition[];
 }
 
 export interface TreemapNode {

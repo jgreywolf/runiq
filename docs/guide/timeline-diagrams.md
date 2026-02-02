@@ -155,6 +155,33 @@ timeline "Product Roadmap" {
 
 **Orientation Note:** Gantt/roadmap timelines currently render **horizontally** only. Vertical orientation is supported for event/period timelines.
 
+## Data-Driven Timelines
+
+Timeline profiles can bind to CSV or JSON data sources and map rows to events, tasks, or milestones.
+
+```runiq
+timeline "Data-Driven Roadmap" {
+  datasource "csv" key:roadmap from:"id,label,start,end,lane\nT1,Planning,2024-01-05,2024-02-01,Product\nT2,Build,2024-02-05,2024-03-15,Engineering\nT3,Launch Prep,2024-03-20,2024-04-10,Go-To-Market"
+
+  data use roadmap
+  map roadmap as tasks {
+    id: "id"
+    label: "label"
+    startDate: "start"
+    endDate: "end"
+    lane: "lane"
+  }
+}
+```
+
+**Data map targets:**
+
+- `timeline` or `events`: map to event rows (requires `date` + `label`/`name`)
+- `tasks`: map to task rows (requires `startDate` + `endDate` + `label`/`name`)
+- `milestones`: map to milestone rows (requires `date` + `label`/`name`)
+
+If required fields are missing, the editor reports warnings and skips those rows.
+
 ## Basic Timeline
 
 ```runiq

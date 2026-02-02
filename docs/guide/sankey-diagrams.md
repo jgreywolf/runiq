@@ -49,6 +49,12 @@ For standalone `.runiq` files, you can reference external JSON:
 ```runiq
 diagram "Energy Flow" {
   datasource "json" key:energyData from:"energy-flow.json"
+  data use energyData
+  map energyData as sankey {
+    nodes: "nodes"
+    links: "links"
+    nodeId: "id"
+  }
   shape energy as @sankeyChart from:energyData
 }
 ```
@@ -60,6 +66,14 @@ You can also load Sankey links from CSV using a datasource and `from:` on the sh
 ```runiq
 diagram "Energy Flow" {
   datasource "csv" key:flows from:"source,target,value,sourceLabel,targetLabel\nCoal,Grid,300,Coal Power,Power Grid\nSolar,Grid,100,Solar Energy,Power Grid\nGrid,Homes,380,Power Grid,Residential"
+  data use flows
+  map flows as sankey {
+    source: "source"
+    to: "target"
+    value: "value"
+    label: "label"
+    color: "color"
+  }
   shape energy as @sankeyChart from:flows label:"Energy Distribution"
 }
 ```
@@ -69,6 +83,10 @@ CSV columns:
 - Optional: `label`, `color`, `sourceLabel`, `targetLabel`, `sourceColor`, `targetColor`
 
 Note: external CSV/JSON file paths are supported in CLI renders; the editor currently supports inline sources only.
+
+### Data Mapping
+
+Use `data use` + `map ... as sankey` to normalize incoming data. Required fields are `source`/`target`/`value`. You can also map `from`/`to` instead of `source`/`target`. Optional fields include `label`, `color`, `nodes`, `links`, and `nodeId` when your data is nested under `nodes`/`links`.
 
 ## Data Format
 

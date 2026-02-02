@@ -43,6 +43,8 @@ diagram "Sales Metrics" {
 }
 ```
 
+For structured chart data (like Sankey), use `data use` + `map ... as ...` to normalize fields before rendering. See [Data-Driven Diagrams](/reference/data-driven) and [Sankey Diagrams](/guide/sankey-diagrams).
+
 ## Pie Charts ⭐
 
 Pie charts visualize proportional data as colored slices. Supports custom labels, colors, legends, and titles.

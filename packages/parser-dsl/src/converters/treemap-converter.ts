@@ -74,7 +74,46 @@ export function convertTreemapProfile(
   };
 
   for (const statement of profile.statements) {
-    if (Langium.isThemeDeclaration(statement)) {
+    if (Langium.isDataSourceDeclaration(statement)) {
+      if (!treemapProfile.dataSources) {
+        treemapProfile.dataSources = [];
+      }
+      treemapProfile.dataSources.push({
+        format: statement.format.replace(/^"|"$/g, ''),
+        key: unescapeString(statement.key),
+        source: statement.source.replace(/^"|"$/g, ''),
+        options: statement.options?.reduce<Record<string, string | number | boolean>>(
+          (acc, opt) => {
+            let value: string | number | boolean = opt.value;
+            if (typeof value === 'string') {
+              const unquoted = value.replace(/^"|"$/g, '');
+              if (unquoted === 'true') value = true;
+              else if (unquoted === 'false') value = false;
+              else value = unquoted;
+            }
+            acc[opt.name] = value;
+            return acc;
+          },
+          {}
+        ),
+      });
+    } else if (Langium.isDataUseStatement(statement)) {
+      treemapProfile.dataUse = unescapeString(statement.source);
+    } else if (Langium.isDataMapStatement(statement)) {
+      if (!treemapProfile.dataMaps) {
+        treemapProfile.dataMaps = [];
+      }
+      const fields: Record<string, string> = {};
+      for (const prop of statement.properties) {
+        const key = prop.key.replace(/:$/, '');
+        fields[key] = prop.value.replace(/^"|"$/g, '');
+      }
+      treemapProfile.dataMaps.push({
+        source: unescapeString(statement.source),
+        target: statement.target,
+        fields,
+      });
+    } else if (Langium.isThemeDeclaration(statement)) {
       treemapProfile.theme = statement.value;
     } else if (Langium.isTreemapLayoutStatement(statement)) {
       treemapProfile.layout = statement.layout as TreemapProfile['layout'];
