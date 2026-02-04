@@ -43,7 +43,7 @@ describe('Constants and Enums', () => {
 
     it('should have 17 profile types', () => {
       const values = Object.values(ProfileType);
-      expect(values).toHaveLength(17);
+      expect(values).toHaveLength(18);
     });
   });
 
