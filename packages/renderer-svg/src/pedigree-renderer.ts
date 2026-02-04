@@ -98,6 +98,10 @@ function getPairKey(left: string, right: string): string {
   return [left, right].sort().join('::');
 }
 
+function getParentsKey(parents: string[]): string {
+  return [...parents].sort().join('::');
+}
+
 export function renderPedigree(
   profile: PedigreeProfile,
   options: PedigreeRenderOptions = {}
@@ -105,6 +109,45 @@ export function renderPedigree(
   const warnings: string[] = [];
   const theme = getDiagramTheme(options.theme);
   const measureText = createTextMeasurer();
+
+  const sizeById = new Map<string, { width: number; height: number }>();
+  for (const person of profile.people) {
+    const nameMetrics = measureText(person.name, {
+      fontSize: DEFAULTS.nameFontSize,
+    });
+    const lifeSpan = formatLifeSpan(person);
+    const detailMetrics = lifeSpan
+      ? measureText(lifeSpan, { fontSize: DEFAULTS.detailFontSize })
+      : { width: 0 };
+    const contentWidth = Math.max(nameMetrics.width, detailMetrics.width);
+    const lines = lifeSpan ? 2 : 1;
+    const height =
+      lines * DEFAULTS.nameFontSize * DEFAULTS.lineHeight +
+      DEFAULTS.paddingY * 2 +
+      (lifeSpan ? DEFAULTS.detailFontSize * 0.2 : 0);
+    const width = contentWidth + DEFAULTS.paddingX * 2;
+    sizeById.set(person.id, { width, height });
+  }
+
+  const spouseChildClusters = new Map<string, string[]>();
+  for (const parentage of profile.parentages) {
+    if (parentage.parents.length !== 2) continue;
+    const key = getPairKey(parentage.parents[0], parentage.parents[1]);
+    if (!spouseChildClusters.has(key)) spouseChildClusters.set(key, []);
+    spouseChildClusters.get(key)?.push(parentage.child);
+  }
+  const spouseClusterWidth = new Map<string, number>();
+  for (const [key, children] of spouseChildClusters.entries()) {
+    const uniqueChildren = Array.from(new Set(children));
+    if (uniqueChildren.length === 0) continue;
+    const width =
+      uniqueChildren.reduce((sum, id) => {
+        const size = sizeById.get(id);
+        return sum + (size?.width ?? 0);
+      }, 0) +
+      DEFAULTS.colGap * Math.max(0, uniqueChildren.length - 1);
+    spouseClusterWidth.set(key, width);
+  }
 
   const generationMap = computeGenerations(
     profile.people,
@@ -176,20 +219,9 @@ export function renderPedigree(
   for (const [, people] of orderedRows) {
     let rowHeight = 0;
     const rowSizes = people.map((person) => {
-      const nameMetrics = measureText(person.name, {
-        fontSize: DEFAULTS.nameFontSize,
-      });
-      const lifeSpan = formatLifeSpan(person);
-      const detailMetrics = lifeSpan
-        ? measureText(lifeSpan, { fontSize: DEFAULTS.detailFontSize })
-        : { width: 0 };
-      const contentWidth = Math.max(nameMetrics.width, detailMetrics.width);
-      const lines = lifeSpan ? 2 : 1;
-      const height =
-        lines * DEFAULTS.nameFontSize * DEFAULTS.lineHeight +
-        DEFAULTS.paddingY * 2 +
-        (lifeSpan ? DEFAULTS.detailFontSize * 0.2 : 0);
-      const width = contentWidth + DEFAULTS.paddingX * 2;
+      const size = sizeById.get(person.id);
+      const width = size?.width ?? 0;
+      const height = size?.height ?? 0;
       rowHeight = Math.max(rowHeight, height);
       const parentage = parentageByChild.get(person.id);
       let desiredCenter: number | null = null;
@@ -222,6 +254,26 @@ export function renderPedigree(
     const rowIds = new Set(people.map((person) => person.id));
     const groupedIds: string[][] = [];
     const used = new Set<string>();
+
+    const siblingGroups = new Map<string, string[]>();
+    for (const parentage of profile.parentages) {
+      if (!rowIds.has(parentage.child)) continue;
+      const key = getParentsKey(parentage.parents);
+      if (!siblingGroups.has(key)) siblingGroups.set(key, []);
+      siblingGroups.get(key)?.push(parentage.child);
+    }
+
+    for (const group of siblingGroups.values()) {
+      const unique = Array.from(new Set(group));
+      if (unique.length === 0) continue;
+      unique.sort((a, b) => {
+        const aPerson = peopleById.get(a);
+        const bPerson = peopleById.get(b);
+        return (aPerson?.name ?? a).localeCompare(bPerson?.name ?? b);
+      });
+      groupedIds.push(unique);
+      unique.forEach((id) => used.add(id));
+    }
 
     for (const spouse of profile.spouses) {
       if (!rowIds.has(spouse.left) || !rowIds.has(spouse.right)) continue;
@@ -286,9 +338,19 @@ export function renderPedigree(
           if (aCenter !== bCenter) return aCenter - bCenter;
           return a.person.name.localeCompare(b.person.name);
         });
-      const groupWidth =
+      const baseGroupWidth =
         sizes.reduce((sum, size) => sum + size.width, 0) +
         DEFAULTS.colGap * Math.max(0, sizes.length - 1);
+      let groupWidth = baseGroupWidth;
+      let pairSpan = false;
+      if (group.length === 2) {
+        const pairKey = getPairKey(group[0], group[1]);
+        const clusterWidth = spouseClusterWidth.get(pairKey);
+        if (clusterWidth && clusterWidth > baseGroupWidth) {
+          groupWidth = clusterWidth;
+          pairSpan = true;
+        }
+      }
       const desiredCenters = sizes
         .map((size) => size.desiredCenter)
         .filter((val): val is number => typeof val === 'number');
@@ -305,6 +367,7 @@ export function renderPedigree(
         groupCenter,
         preferredStart,
         start: preferredStart,
+        pairSpan,
       };
     });
 
@@ -338,17 +401,41 @@ export function renderPedigree(
     xCursor = DEFAULTS.margin;
     for (const groupLayout of groupLayouts) {
       let memberX = Math.max(groupLayout.start, xCursor);
-      for (const { person, width, height } of groupLayout.sizes) {
-        positioned.push({
-          person,
-          x: memberX,
+      if (groupLayout.pairSpan && groupLayout.sizes.length === 2) {
+        const [left, right] = groupLayout.sizes;
+        const leftX = memberX;
+        const rightX = memberX + groupLayout.groupWidth - right.width;
+        const leftPlaced = {
+          person: left.person,
+          x: leftX,
           y: yCursor,
-          width,
-          height,
-        });
-        const placed = positioned[positioned.length - 1];
-        positionedById.set(person.id, placed);
-        memberX += width + DEFAULTS.colGap;
+          width: left.width,
+          height: left.height,
+        };
+        const rightPlaced = {
+          person: right.person,
+          x: rightX,
+          y: yCursor,
+          width: right.width,
+          height: right.height,
+        };
+        positioned.push(leftPlaced, rightPlaced);
+        positionedById.set(left.person.id, leftPlaced);
+        positionedById.set(right.person.id, rightPlaced);
+        memberX = Math.max(leftX + left.width, rightX + right.width) + DEFAULTS.colGap;
+      } else {
+        for (const { person, width, height } of groupLayout.sizes) {
+          positioned.push({
+            person,
+            x: memberX,
+            y: yCursor,
+            width,
+            height,
+          });
+          const placed = positioned[positioned.length - 1];
+          positionedById.set(person.id, placed);
+          memberX += width + DEFAULTS.colGap;
+        }
       }
       xCursor = Math.max(xCursor, memberX);
     }

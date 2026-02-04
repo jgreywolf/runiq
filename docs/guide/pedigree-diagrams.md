@@ -55,4 +55,6 @@ families {
 ## Notes
 
 - You can add multiple families for the same person (e.g., second spouse).
+- Large sibling groups can cause relationship lines to cross; we plan to improve ordering and routing heuristics in a future update.
 - Dates are stored as strings (ISO-8601 recommended).
+- Future additions include theme support and per-person or per-family color overrides.
