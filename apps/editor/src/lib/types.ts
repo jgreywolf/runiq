@@ -14,5 +14,6 @@ export enum ProfileName {
 	railroad = 'railroad',
 	kanban = 'kanban',
 	gitgraph = 'gitgraph',
-	treemap = 'treemap'
+	treemap = 'treemap',
+	pedigree = 'pedigree'
 }

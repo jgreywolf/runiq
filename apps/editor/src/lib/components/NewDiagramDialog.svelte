@@ -99,6 +99,24 @@
 				</div>
 			</button>
 
+			<!-- Pedigree Diagram Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.pedigree)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-200"
+					>
+						<Icon icon="tabler:binary-tree-2" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Pedigree</h3>
+						<p class="text-sm text-neutral-600">Family trees, lineage, adoption</p>
+					</div>
+				</div>
+			</button>
+
 			<!-- Railroad Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.railroad)}

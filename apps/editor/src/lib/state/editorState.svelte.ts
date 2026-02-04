@@ -56,7 +56,7 @@ export interface EditorState {
 
 /**
  * Detect profile type from current code
- * Official profiles: diagram, sequence, wardley, electrical, digital, control, pneumatic, hydraulic, hvac, glyphset, timeline, railroad, kanban, gitgraph, treemap
+ * Official profiles: diagram, sequence, wardley, electrical, digital, control, pneumatic, hydraulic, hvac, glyphset, timeline, railroad, kanban, gitgraph, treemap, pedigree
  */
 export function detectProfile(code: string): ProfileName {
 	const trimmed = code.trim().toLowerCase();
@@ -69,6 +69,7 @@ export function detectProfile(code: string): ProfileName {
 	if (trimmed.startsWith('wardley')) return ProfileName.wardley;
 	if (trimmed.startsWith('sequence')) return ProfileName.sequence;
 	if (trimmed.startsWith('timeline')) return ProfileName.timeline;
+	if (trimmed.startsWith('pedigree')) return ProfileName.pedigree;
 	if (trimmed.startsWith('glyphset')) return ProfileName.glyphset;
 	if (trimmed.startsWith('kanban')) return ProfileName.kanban;
 	if (trimmed.startsWith('gitgraph')) return ProfileName.gitgraph;

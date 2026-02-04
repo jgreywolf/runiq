@@ -64,7 +64,8 @@ export type Profile =
   | TimelineProfile
   | KanbanProfile
   | GitGraphProfile
-  | TreemapProfile;
+  | TreemapProfile
+  | PedigreeProfile;
 
 /**
  * Electrical/Analog circuit profile
@@ -779,4 +780,38 @@ export interface TreemapNode {
   value?: number;
   color?: string;
   children?: TreemapNode[];
+}
+
+// ============================================================================
+// Pedigree Profile Types
+// ============================================================================
+
+export interface PedigreeProfile {
+  type: 'pedigree';
+  name: string;
+  people: PedigreePerson[];
+  spouses: PedigreeSpouse[];
+  parentages: PedigreeParentage[];
+}
+
+export type PedigreeSex = 'male' | 'female' | 'unknown';
+
+export interface PedigreePerson {
+  id: string;
+  name: string;
+  dob?: string;
+  dod?: string;
+  sex?: PedigreeSex;
+}
+
+export interface PedigreeSpouse {
+  left: string;
+  right: string;
+  date?: string;
+}
+
+export interface PedigreeParentage {
+  parents: string[];
+  child: string;
+  type: 'biological' | 'adopted' | 'step';
 }

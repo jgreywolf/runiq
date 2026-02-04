@@ -13,7 +13,6 @@ export default defineConfig({
     'src/shapes/network/index.ts',
     'src/shapes/quantum/index.ts',
     'src/shapes/uml/index.ts',
-    'src/shapes/pedigree/index.ts',
     'src/shapes/c4/index.ts',
     'src/shapes/bpmn/index.ts',
     'src/shapes/aws/index.ts',

@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile;
+    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile | PedigreeProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -1116,6 +1116,53 @@ TreemapColorProperty:
 
 TreemapLabelProperty:
     'label:' label=STRING;
+
+// ============================================================================
+// Pedigree Profile - Family trees and relationships
+// ============================================================================
+
+PedigreeProfile:
+    'pedigree' name=STRING '{'
+        peopleBlock=PedigreePeopleBlock?
+        familiesBlock=PedigreeFamiliesBlock?
+    '}';
+
+PedigreePeopleBlock:
+    'people' '{' people+=PedigreePersonDecl* '}';
+
+PedigreePersonDecl:
+    id=ProfileIdentifier name=STRING properties+=PedigreePersonProperty*;
+
+PedigreePersonProperty:
+    PedigreePersonDobProperty
+    | PedigreePersonDodProperty
+    | PedigreePersonSexProperty;
+
+PedigreePersonDobProperty:
+    'dob:' dob=STRING;
+
+PedigreePersonDodProperty:
+    'dod:' dod=STRING;
+
+PedigreePersonSexProperty:
+    'sex:' sex=PedigreeSexValue;
+
+PedigreeSexValue returns string:
+    'male' | 'female' | 'unknown';
+
+PedigreeFamiliesBlock:
+    'families' '{' families+=PedigreeFamilyDecl* '}';
+
+PedigreeFamilyDecl:
+    parents+=ProfileIdentifier ('+' parents+=ProfileIdentifier)?
+    ('date:' date=STRING)?
+    ARROW children+=PedigreeChildRef (',' children+=PedigreeChildRef)*;
+
+PedigreeChildRef:
+    id=ProfileIdentifier modifier=PedigreeChildModifier?;
+
+PedigreeChildModifier returns string:
+    'adopt' | 'step';
 
 // ============================================================================
 // GlyphSet Profile - SmartArt-style diagram templates

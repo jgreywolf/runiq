@@ -269,19 +269,16 @@ Design pneumatic and hydraulic circuits following ISO 1219-1 standards.
 - **Visual Examples**: Office AHU, rooftop unit
 - Applications: Commercial buildings, campuses, data centers
 
-<!-- ## Medical & Genetics
+## Medical & Genetics
 
-Professional pedigree charts following medical standards.
+Family tree diagrams with spouses, parentage, and adoption support.
 
-### [Pedigree Charts](/examples/pedigree)
+### [Pedigree Diagrams](/examples/pedigree-diagrams)
 
-- Male (square), female (circle), unknown sex (diamond) symbols
-- Affected (black fill), carrier (half-fill), normal (white) individuals
-- Deceased notation (diagonal line)
-- Marriage relationships (horizontal line, no arrow)
-- Consanguineous marriages (double line)
-- Three-generation families, autosomal inheritance patterns
-- **Visual Examples**: Genetic trait inheritance, consanguinity -->
+- People with name, DOB, DOD, and sex markers
+- Spouse relationships (optional date)
+- Parentage and adoption connections
+- Multi-generation family layouts
 
 ## Strategy & Planning
 
@@ -484,10 +481,10 @@ Visualize events and milestones over time.
     <p>Air handling and duct layouts (ASHRAE)</p>
   </a>
 
-  <!-- <a href="/examples/pedigree" class="example-card">
-    <h3>🧬 Pedigree Charts</h3>
-    <p>Medical family trees</p>
-  </a> -->
+  <a href="/examples/pedigree-diagrams" class="example-card">
+    <h3>🧬 Pedigree Diagrams</h3>
+    <p>Family trees and genealogy</p>
+  </a>
 
   <a href="/examples/wardley-maps" class="example-card">
     <h3>📊 Wardley Maps</h3>

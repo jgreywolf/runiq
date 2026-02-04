@@ -135,9 +135,6 @@ interface Style {
   opacity?: number;
   textColor?: string; // Alternative to fill for text
   color?: string; // Generic color
-  affected?: boolean; // Pedigree charts
-  carrier?: boolean;
-  deceased?: boolean;
   tagFill?: string;
   extensions?: Record<string, string | number | boolean>;
 }
@@ -631,7 +628,6 @@ function nodeToAst(node: Node, styleName: string): NodeAst {
 ---
 
 **Next Steps**: Try converting an existing DSL diagram to JSON using `@runiq/io-json`, then experiment with programmatic generation using the template examples above.
-
 
 
 

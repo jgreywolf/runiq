@@ -1,7 +1,6 @@
 import { basicShapeIcons } from './toolboxIcons/basicShapeIcons';
 import { flowchartShapeIcons } from './toolboxIcons/flowchartShapeIcons';
 import { logicGateShapeIcons } from './toolboxIcons/logicGateShapeIcons';
-// import { pedigreeShapeIcons } from './toolboxIcons/pedigreeShapeIcons';
 import { specialShapeIcons } from './toolboxIcons/specialShapeIcons';
 import { umlShapeIcons } from './toolboxIcons/umlShapeIcons';
 import { c4ShapeIcons } from './toolboxIcons/c4ShapeIcons';
@@ -57,7 +56,6 @@ export const shapeCategories: ShapeCategory[] = [
 	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
-	//...pedigreeShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
@@ -131,6 +129,8 @@ export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCatego
 			return glyphsets;
 		case ProfileName.railroad:
 			return railroadShapes;
+		case ProfileName.pedigree:
+			return [];
 		default:
 			return [];
 	}

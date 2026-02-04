@@ -181,6 +181,24 @@ describe('langium-parser', () => {
 
       expect(result.document?.profiles[0]?.type).toBe(ProfileType.CONTROL);
     });
+
+    it('should route pedigree profile correctly', () => {
+      const dsl = `
+        pedigree "Family" {
+          people {
+            p1 "Alex" dob:"1970-01-01" sex:male
+            c1 "Casey" dob:"2000-01-01" sex:female
+          }
+
+          families {
+            p1 -> c1
+          }
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.document?.profiles[0]?.type).toBe(ProfileType.PEDIGREE);
+    });
   });
 
   describe('parse() - Multi-Profile Documents', () => {

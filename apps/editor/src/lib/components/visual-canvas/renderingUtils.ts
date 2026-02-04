@@ -10,7 +10,8 @@ import {
 	renderTimeline,
 	renderKanban,
 	renderGitGraph,
-	renderTreemap
+	renderTreemap,
+	renderPedigree
 } from '@runiq/renderer-svg';
 import { renderDigital, renderSchematic, renderPID } from '@runiq/renderer-schematic';
 
@@ -1034,6 +1035,8 @@ export async function renderDiagram(
 			result.svg = renderGitGraph(profile as any).svg;
 		} else if (profileType === 'treemap') {
 			result.svg = renderTreemap(profile as any).svg;
+		} else if (profileType === 'pedigree') {
+			result.svg = renderPedigree(profile as any).svg;
 		} else if (
 			profileType === 'electrical' ||
 			profileType === 'pneumatic' ||
