@@ -7,11 +7,6 @@ export function renderDefs(): string {
   defs +=
     '.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }';
   defs += ']]></style>';
-  defs +=
-    '<pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse">';
-  defs += '<rect x="0" y="0" width="20" height="40" fill="#000"/>';
-  defs += '<rect x="20" y="0" width="20" height="40" fill="#fff"/>';
-  defs += '</pattern>';
   defs += '</defs>';
   return defs;
 }

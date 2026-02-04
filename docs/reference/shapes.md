@@ -445,45 +445,6 @@ diagram "Use Case Diagram" {
 }
 ```
 
-<!-- ### 12. Pedigree Shapes (3 shapes)
-
-**Profile:** `diagram` (default)
-
-Medical/genetic family tree symbols following standard pedigree notation:
-
-| Shape            | Syntax             | Description                      |
-| ---------------- | ------------------ | -------------------------------- |
-| Pedigree Male    | `@pedigreeMale`    | Male individual (square)         |
-| Pedigree Female  | `@pedigreeFemale`  | Female individual (circle)       |
-| Pedigree Unknown | `@pedigreeUnknown` | Unknown sex individual (diamond) |
-
-**Special Properties:**
-
-- `affected:true` - Black fill (has genetic condition)
-- `carrier:true` - Half-fill pattern (carries one copy)
-- `deceased:true` - Diagonal line overlay
-
-**Example:**
-
-```runiq
-diagram "Family History" {
-  direction TB
-
-  shape father as @pedigreeMale label: "Father" carrier: true
-  shape mother as @pedigreeFemale label: "Mother" carrier: true
-  shape son as @pedigreeMale label: "Son" affected: true
-  shape daughter as @pedigreeFemale label: "Daughter"
-
-  father -> mother arrowType: none
-  father -> son
-  mother -> daughter
-}
-```
-
-::: tip Pedigree Charts
-See the [Pedigree Charts Guide](../guide/pedigree-charts.md) for comprehensive documentation on creating medical family trees with inheritance patterns.
-::: -->
-
 ### 13. C4 Architecture Shapes (4 shapes)
 
 **Profile:** `diagram` (default)
@@ -653,7 +614,6 @@ Complete listing organized by category:
 | Network            | 7     | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
-| Pedigree           | 3     | Medical family trees, genetics                 |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
 | BPMN               | 7     | Business process modeling                      |
 | AWS                | 6     | Amazon Web Services infrastructure             |
@@ -661,7 +621,7 @@ Complete listing organized by category:
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 224 diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 220+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 
@@ -708,4 +668,3 @@ When in doubt:
 - **@cyl** for databases
 - **@doc** for documents
   :::
-

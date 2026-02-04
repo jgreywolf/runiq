@@ -25,6 +25,7 @@ export enum ProfileType {
   KANBAN = 'kanban',
   GITGRAPH = 'gitgraph',
   TREEMAP = 'treemap',
+  PEDIGREE = 'pedigree',
 }
 
 /**

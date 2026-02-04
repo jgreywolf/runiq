@@ -11,6 +11,7 @@ export { convertGitGraphProfile } from './gitgraph-converter.js';
 export { convertHvacProfile } from './hvac-converter.js';
 export { convertHydraulicProfile } from './hydraulic-converter.js';
 export { convertKanbanProfile } from './kanban-converter.js';
+export { convertPedigreeProfile } from './pedigree-converter.js';
 export { convertPIDProfile } from './pid-converter.js';
 export { convertPneumaticProfile } from './pneumatic-converter.js';
 export { convertRailroadProfile } from './railroad-converter.js';

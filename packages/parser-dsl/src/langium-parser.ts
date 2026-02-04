@@ -10,6 +10,7 @@ import {
   convertHvacProfile,
   convertHydraulicProfile,
   convertKanbanProfile,
+  convertPedigreeProfile,
   convertPIDProfile,
   convertPneumaticProfile,
   convertRailroadProfile,
@@ -171,6 +172,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertGitGraphProfile(profile));
     } else if (Langium.isTreemapProfile(profile)) {
       runiqDoc.profiles.push(convertTreemapProfile(profile));
+    } else if (Langium.isPedigreeProfile(profile)) {
+      runiqDoc.profiles.push(convertPedigreeProfile(profile));
     } else if (isGlyphSetProfile(profile)) {
       // Expand glyphset to diagram profile
       const expandedDiagram = expandGlyphSet(profile);

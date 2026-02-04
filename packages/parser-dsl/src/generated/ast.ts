@@ -98,6 +98,7 @@ export type RuniqKeywordNames =
     | "activity"
     | "activityFinal"
     | "actor"
+    | "adopt"
     | "affected:"
     | "aggregation"
     | "agitator"
@@ -267,6 +268,8 @@ export type RuniqKeywordNames =
     | "distillationColumn"
     | "distribution:"
     | "doActivity:"
+    | "dob:"
+    | "dod:"
     | "done"
     | "dotted"
     | "double"
@@ -307,9 +310,11 @@ export type RuniqKeywordNames =
     | "extensionPoints:"
     | "f"
     | "false"
+    | "families"
     | "fan"
     | "fbd"
     | "feedforward"
+    | "female"
     | "field"
     | "fill-available"
     | "fillColor:"
@@ -465,6 +470,7 @@ export type RuniqKeywordNames =
     | "lost"
     | "low"
     | "m"
+    | "male"
     | "manual"
     | "map"
     | "map:"
@@ -562,6 +568,8 @@ export type RuniqKeywordNames =
     | "partial"
     | "participant"
     | "participants:"
+    | "pedigree"
+    | "people"
     | "period"
     | "person"
     | "personnel_protection"
@@ -658,6 +666,7 @@ export type RuniqKeywordNames =
     | "series"
     | "setpoint:"
     | "settings"
+    | "sex:"
     | "sfc"
     | "shadow:"
     | "shape"
@@ -772,6 +781,7 @@ export type RuniqKeywordNames =
     | "type:"
     | "unit:"
     | "units"
+    | "unknown"
     | "use"
     | "useContainers"
     | "utility"
@@ -4253,6 +4263,177 @@ export function isPartValueProperty(item: unknown): item is PartValueProperty {
     return reflection.isInstance(item, PartValueProperty.$type);
 }
 
+export type PedigreeChildModifier = 'adopt' | 'step';
+
+export function isPedigreeChildModifier(item: unknown): item is PedigreeChildModifier {
+    return item === 'adopt' || item === 'step';
+}
+
+export interface PedigreeChildRef extends langium.AstNode {
+    readonly $container: PedigreeFamilyDecl;
+    readonly $type: 'PedigreeChildRef';
+    id: ProfileIdentifier;
+    modifier?: PedigreeChildModifier;
+}
+
+export const PedigreeChildRef = {
+    $type: 'PedigreeChildRef',
+    id: 'id',
+    modifier: 'modifier'
+} as const;
+
+export function isPedigreeChildRef(item: unknown): item is PedigreeChildRef {
+    return reflection.isInstance(item, PedigreeChildRef.$type);
+}
+
+export interface PedigreeFamiliesBlock extends langium.AstNode {
+    readonly $container: PedigreeProfile;
+    readonly $type: 'PedigreeFamiliesBlock';
+    families: Array<PedigreeFamilyDecl>;
+}
+
+export const PedigreeFamiliesBlock = {
+    $type: 'PedigreeFamiliesBlock',
+    families: 'families'
+} as const;
+
+export function isPedigreeFamiliesBlock(item: unknown): item is PedigreeFamiliesBlock {
+    return reflection.isInstance(item, PedigreeFamiliesBlock.$type);
+}
+
+export interface PedigreeFamilyDecl extends langium.AstNode {
+    readonly $container: PedigreeFamiliesBlock;
+    readonly $type: 'PedigreeFamilyDecl';
+    children: Array<PedigreeChildRef>;
+    date?: string;
+    parents: Array<ProfileIdentifier>;
+}
+
+export const PedigreeFamilyDecl = {
+    $type: 'PedigreeFamilyDecl',
+    children: 'children',
+    date: 'date',
+    parents: 'parents'
+} as const;
+
+export function isPedigreeFamilyDecl(item: unknown): item is PedigreeFamilyDecl {
+    return reflection.isInstance(item, PedigreeFamilyDecl.$type);
+}
+
+export interface PedigreePeopleBlock extends langium.AstNode {
+    readonly $container: PedigreeProfile;
+    readonly $type: 'PedigreePeopleBlock';
+    people: Array<PedigreePersonDecl>;
+}
+
+export const PedigreePeopleBlock = {
+    $type: 'PedigreePeopleBlock',
+    people: 'people'
+} as const;
+
+export function isPedigreePeopleBlock(item: unknown): item is PedigreePeopleBlock {
+    return reflection.isInstance(item, PedigreePeopleBlock.$type);
+}
+
+export interface PedigreePersonDecl extends langium.AstNode {
+    readonly $container: PedigreePeopleBlock;
+    readonly $type: 'PedigreePersonDecl';
+    id: ProfileIdentifier;
+    name: string;
+    properties: Array<PedigreePersonProperty>;
+}
+
+export const PedigreePersonDecl = {
+    $type: 'PedigreePersonDecl',
+    id: 'id',
+    name: 'name',
+    properties: 'properties'
+} as const;
+
+export function isPedigreePersonDecl(item: unknown): item is PedigreePersonDecl {
+    return reflection.isInstance(item, PedigreePersonDecl.$type);
+}
+
+export interface PedigreePersonDobProperty extends langium.AstNode {
+    readonly $container: PedigreePersonDecl;
+    readonly $type: 'PedigreePersonDobProperty';
+    dob: string;
+}
+
+export const PedigreePersonDobProperty = {
+    $type: 'PedigreePersonDobProperty',
+    dob: 'dob'
+} as const;
+
+export function isPedigreePersonDobProperty(item: unknown): item is PedigreePersonDobProperty {
+    return reflection.isInstance(item, PedigreePersonDobProperty.$type);
+}
+
+export interface PedigreePersonDodProperty extends langium.AstNode {
+    readonly $container: PedigreePersonDecl;
+    readonly $type: 'PedigreePersonDodProperty';
+    dod: string;
+}
+
+export const PedigreePersonDodProperty = {
+    $type: 'PedigreePersonDodProperty',
+    dod: 'dod'
+} as const;
+
+export function isPedigreePersonDodProperty(item: unknown): item is PedigreePersonDodProperty {
+    return reflection.isInstance(item, PedigreePersonDodProperty.$type);
+}
+
+export type PedigreePersonProperty = PedigreePersonDobProperty | PedigreePersonDodProperty | PedigreePersonSexProperty;
+
+export const PedigreePersonProperty = {
+    $type: 'PedigreePersonProperty'
+} as const;
+
+export function isPedigreePersonProperty(item: unknown): item is PedigreePersonProperty {
+    return reflection.isInstance(item, PedigreePersonProperty.$type);
+}
+
+export interface PedigreePersonSexProperty extends langium.AstNode {
+    readonly $container: PedigreePersonDecl;
+    readonly $type: 'PedigreePersonSexProperty';
+    sex: PedigreeSexValue;
+}
+
+export const PedigreePersonSexProperty = {
+    $type: 'PedigreePersonSexProperty',
+    sex: 'sex'
+} as const;
+
+export function isPedigreePersonSexProperty(item: unknown): item is PedigreePersonSexProperty {
+    return reflection.isInstance(item, PedigreePersonSexProperty.$type);
+}
+
+export interface PedigreeProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'PedigreeProfile';
+    familiesBlock?: PedigreeFamiliesBlock;
+    name: string;
+    peopleBlock?: PedigreePeopleBlock;
+}
+
+export const PedigreeProfile = {
+    $type: 'PedigreeProfile',
+    familiesBlock: 'familiesBlock',
+    name: 'name',
+    peopleBlock: 'peopleBlock'
+} as const;
+
+export function isPedigreeProfile(item: unknown): item is PedigreeProfile {
+    return reflection.isInstance(item, PedigreeProfile.$type);
+}
+
+export type PedigreeSexValue = 'female' | 'male' | 'unknown';
+
+export function isPedigreeSexValue(item: unknown): item is PedigreeSexValue {
+    return item === 'male' || item === 'female' || item === 'unknown';
+}
+
 export interface PIDAccuracyProperty extends langium.AstNode {
     readonly $container: PIDInstrumentStatement;
     readonly $type: 'PIDAccuracyProperty';
@@ -4887,7 +5068,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
+export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PedigreeProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -7371,6 +7552,16 @@ export type RuniqAstType = {
     PartStatement: PartStatement
     PartTypeProperty: PartTypeProperty
     PartValueProperty: PartValueProperty
+    PedigreeChildRef: PedigreeChildRef
+    PedigreeFamiliesBlock: PedigreeFamiliesBlock
+    PedigreeFamilyDecl: PedigreeFamilyDecl
+    PedigreePeopleBlock: PedigreePeopleBlock
+    PedigreePersonDecl: PedigreePersonDecl
+    PedigreePersonDobProperty: PedigreePersonDobProperty
+    PedigreePersonDodProperty: PedigreePersonDodProperty
+    PedigreePersonProperty: PedigreePersonProperty
+    PedigreePersonSexProperty: PedigreePersonSexProperty
+    PedigreeProfile: PedigreeProfile
     PneumaticProfile: PneumaticProfile
     PneumaticStatement: PneumaticStatement
     PortConnection: PortConnection
@@ -10056,6 +10247,119 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [PartProperty.$type]
+        },
+        PedigreeChildRef: {
+            name: PedigreeChildRef.$type,
+            properties: {
+                id: {
+                    name: PedigreeChildRef.id
+                },
+                modifier: {
+                    name: PedigreeChildRef.modifier
+                }
+            },
+            superTypes: []
+        },
+        PedigreeFamiliesBlock: {
+            name: PedigreeFamiliesBlock.$type,
+            properties: {
+                families: {
+                    name: PedigreeFamiliesBlock.families,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreeFamilyDecl: {
+            name: PedigreeFamilyDecl.$type,
+            properties: {
+                children: {
+                    name: PedigreeFamilyDecl.children,
+                    defaultValue: []
+                },
+                date: {
+                    name: PedigreeFamilyDecl.date
+                },
+                parents: {
+                    name: PedigreeFamilyDecl.parents,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreePeopleBlock: {
+            name: PedigreePeopleBlock.$type,
+            properties: {
+                people: {
+                    name: PedigreePeopleBlock.people,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreePersonDecl: {
+            name: PedigreePersonDecl.$type,
+            properties: {
+                id: {
+                    name: PedigreePersonDecl.id
+                },
+                name: {
+                    name: PedigreePersonDecl.name
+                },
+                properties: {
+                    name: PedigreePersonDecl.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreePersonDobProperty: {
+            name: PedigreePersonDobProperty.$type,
+            properties: {
+                dob: {
+                    name: PedigreePersonDobProperty.dob
+                }
+            },
+            superTypes: [PedigreePersonProperty.$type]
+        },
+        PedigreePersonDodProperty: {
+            name: PedigreePersonDodProperty.$type,
+            properties: {
+                dod: {
+                    name: PedigreePersonDodProperty.dod
+                }
+            },
+            superTypes: [PedigreePersonProperty.$type]
+        },
+        PedigreePersonProperty: {
+            name: PedigreePersonProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PedigreePersonSexProperty: {
+            name: PedigreePersonSexProperty.$type,
+            properties: {
+                sex: {
+                    name: PedigreePersonSexProperty.sex
+                }
+            },
+            superTypes: [PedigreePersonProperty.$type]
+        },
+        PedigreeProfile: {
+            name: PedigreeProfile.$type,
+            properties: {
+                familiesBlock: {
+                    name: PedigreeProfile.familiesBlock
+                },
+                name: {
+                    name: PedigreeProfile.name
+                },
+                peopleBlock: {
+                    name: PedigreeProfile.peopleBlock
+                }
+            },
+            superTypes: [Profile.$type]
         },
         PneumaticProfile: {
             name: PneumaticProfile.$type,

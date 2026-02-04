@@ -14,7 +14,7 @@ import { kanbanSampleDiagrams } from './toolboxSamples/kanbanSampleDiagrams';
 import { logicGateSampleDiagrams } from './toolboxSamples/logicGateSampleDiagrams';
 import { mindmapSampleDiagrams } from './toolboxSamples/mindmapSampleDiagrams';
 import { networkSampleDiagrams } from './toolboxSamples/networkSampleDiagrams';
-//import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
+import { pedigreeSampleDiagrams } from './toolboxSamples/pedigreeSampleDiagrams';
 import { pidSampleDiagrams } from './toolboxSamples/pidSampleDiagrams';
 import { pneumaticSampleDiagrams } from './toolboxSamples/pneumaticSampleDiagrams';
 import { quantumSampleDiagrams } from './toolboxSamples/quantumSampleDiagrams';
@@ -54,9 +54,9 @@ export const sampleDiagrams: SampleCategory[] = [
 	...timelineSampleDiagrams,
 	...mindmapSampleDiagrams,
 	...networkSampleDiagrams,
+	...pedigreeSampleDiagrams,
 	...c4SampleDiagrams,
 	...controlSampleDiagrams,
-	//...pedigreeSampleDiagrams,
 	...chartSampleDiagrams,
 	...quantumSampleDiagrams,
 	...electricalSampleDiagrams,

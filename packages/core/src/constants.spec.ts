@@ -38,6 +38,7 @@ describe('Constants and Enums', () => {
       expect(ProfileType.KANBAN).toBe('kanban');
       expect(ProfileType.GITGRAPH).toBe('gitgraph');
       expect(ProfileType.TREEMAP).toBe('treemap');
+      expect(ProfileType.PEDIGREE).toBe('pedigree');
     });
 
     it('should have 17 profile types', () => {

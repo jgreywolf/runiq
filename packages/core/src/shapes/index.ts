@@ -14,7 +14,6 @@ import * as flowchart from './flowchart/index.js';
 import * as glyphsets from './glyphsets/index.js';
 import * as kinematic from './kinematic/index.js';
 import * as network from './network/index.js';
-import * as pedigree from './pedigree/index.js';
 import * as quantum from './quantum/index.js';
 import * as rectVariants from './rect-variants/index.js';
 import * as special from './special/index.js';
@@ -316,12 +315,6 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.terminateShape);
 }
 
-export function registerPedigreeShapes(): void {
-  shapeRegistry.register(pedigree.pedigreeMaleShape);
-  shapeRegistry.register(pedigree.pedigreeFemaleShape);
-  shapeRegistry.register(pedigree.pedigreeUnknownShape);
-}
-
 export function registerC4Shapes(): void {
   shapeRegistry.register(c4.c4Person);
   shapeRegistry.register(c4.c4System);
@@ -389,7 +382,6 @@ export function registerDefaultShapes(): void {
   registerNetworkShapes();
   registerQuantumShapes();
   registerUMLShapes();
-  registerPedigreeShapes();
   registerC4Shapes();
   registerBPMNShapes();
   registerAWSShapes();
@@ -414,7 +406,6 @@ export * from './erd/index.js';
 export * from './flowchart/index.js';
 export * from './kinematic/index.js';
 export * from './network/index.js';
-export * from './pedigree/index.js';
 export * from './quantum/index.js';
 export * from './rect-variants/index.js';
 export * from './special/index.js';

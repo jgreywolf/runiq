@@ -53,31 +53,6 @@ describe('renderDefs', () => {
     });
   });
 
-  describe('Patterns', () => {
-    it('should define pedigree half-fill pattern', () => {
-      const result = renderDefs();
-
-      expect(result).toContain('<pattern');
-      expect(result).toContain('id="pedigree-half-fill"');
-      expect(result).toContain('width="40"');
-      expect(result).toContain('height="40"');
-      expect(result).toContain('patternUnits="userSpaceOnUse"');
-      expect(result).toContain('</pattern>');
-    });
-
-    it('should include black and white rectangles in pattern', () => {
-      const result = renderDefs();
-
-      // Black rectangle (left half)
-      expect(result).toContain('<rect x="0" y="0" width="20" height="40"');
-      expect(result).toContain('fill="#000"');
-
-      // White rectangle (right half)
-      expect(result).toContain('<rect x="20" y="0" width="20" height="40"');
-      expect(result).toContain('fill="#fff"');
-    });
-  });
-
   describe('Output Format', () => {
     it('should return a non-empty string', () => {
       const result = renderDefs();
@@ -97,8 +72,6 @@ describe('renderDefs', () => {
       const containerLabelStyle = result.indexOf('.runiq-container-label');
       const cdataEnd = result.indexOf(']]>');
       const styleEnd = result.indexOf('</style>');
-      const patternStart = result.indexOf('<pattern');
-      const patternEnd = result.indexOf('</pattern>');
       const defsEnd = result.indexOf('</defs>');
 
       // Verify order
@@ -109,9 +82,7 @@ describe('renderDefs', () => {
       expect(edgeTextStyle).toBeLessThan(containerLabelStyle);
       expect(containerLabelStyle).toBeLessThan(cdataEnd);
       expect(cdataEnd).toBeLessThan(styleEnd);
-      expect(styleEnd).toBeLessThan(patternStart);
-      expect(patternStart).toBeLessThan(patternEnd);
-      expect(patternEnd).toBeLessThan(defsEnd);
+      expect(styleEnd).toBeLessThan(defsEnd);
     });
   });
 });
