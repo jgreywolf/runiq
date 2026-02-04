@@ -24,7 +24,7 @@ describe('Documentation Validation', () => {
     // TODO: Consider automating this in the future by parsing the shapes directory
     it('should have exactly 262 shapes registered', () => {
       const allShapes = shapeRegistry.list();
-      expect(allShapes.length).toBe(262);
+      expect(allShapes.length).toBe(287);
     });
 
     it('should have all shape IDs unique', () => {
@@ -132,7 +132,7 @@ describe('Documentation Validation', () => {
     it('should have shape count documentation match actual count', () => {
       // This test catches regressions where shape count in docs drifts from reality
       const actualCount = shapeRegistry.list().length;
-      expect(actualCount).toBe(262);
+      expect(actualCount).toBe(287);
 
       // If this test fails, update:
       // - docs/reference/shapes.md: "248 shapes"
