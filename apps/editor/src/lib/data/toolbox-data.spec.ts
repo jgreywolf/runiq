@@ -86,7 +86,12 @@ describe('Toolbox Data Structure', () => {
 			'hvac',
 			'railroad',
 			'pid',
-			'glyphset'
+			'glyphset',
+			'timeline',
+			'kanban',
+			'gitgraph',
+			'treemap',
+			'pedigree'
 		];
 
 		shapeCategories.forEach((category) => {
