@@ -269,22 +269,8 @@ export function renderEdge(
     edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
   }
 
-  // Calculate midpoint for labels
-  // For edges with few points (straight lines), use geometric midpoint
-  // For edges with many points (orthogonal routing), use middle point
-  let midPoint: { x: number; y: number };
-
-  if (points.length === 2) {
-    // Straight line: calculate geometric midpoint between start and end
-    midPoint = {
-      x: (points[0].x + points[1].x) / 2,
-      y: (points[0].y + points[1].y) / 2,
-    };
-  } else {
-    // Multiple points: use middle point from routing
-    const midIndex = Math.floor(points.length / 2);
-    midPoint = points[midIndex];
-  }
+  // Calculate midpoint for labels along the routed path length
+  const midPoint = getEdgeLabelPoint(points);
 
   // Stereotype text (rendered above the line in guillemets)
   if ((edgeAst as any).stereotype) {
@@ -395,4 +381,42 @@ export function renderEdge(
   }
 
   return edgeMarkup;
+}
+
+function getEdgeLabelPoint(
+  points: { x: number; y: number }[]
+): { x: number; y: number } {
+  if (points.length === 2) {
+    return {
+      x: (points[0].x + points[1].x) / 2,
+      y: (points[0].y + points[1].y) / 2,
+    };
+  }
+
+  const segmentLengths: number[] = [];
+  let total = 0;
+  for (let i = 1; i < points.length; i++) {
+    const dx = points[i].x - points[i - 1].x;
+    const dy = points[i].y - points[i - 1].y;
+    const length = Math.sqrt(dx * dx + dy * dy);
+    segmentLengths.push(length);
+    total += length;
+  }
+
+  const target = total / 2;
+  let walked = 0;
+  for (let i = 1; i < points.length; i++) {
+    const segmentLength = segmentLengths[i - 1];
+    if (walked + segmentLength >= target) {
+      const remaining = target - walked;
+      const t = segmentLength > 0 ? remaining / segmentLength : 0;
+      return {
+        x: points[i - 1].x + (points[i].x - points[i - 1].x) * t,
+        y: points[i - 1].y + (points[i].y - points[i - 1].y) * t,
+      };
+    }
+    walked += segmentLength;
+  }
+
+  return points[Math.floor(points.length / 2)];
 }
