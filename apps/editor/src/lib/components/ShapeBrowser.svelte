@@ -87,10 +87,14 @@
 			{#each filteredCategories as category (category.id)}
 				<Accordion.Item value={category.id} class="border-none">
 					<Accordion.Trigger
-						class="flex w-full items-center justify-between rounded px-2 py-2 text-sm font-medium hover:bg-neutral-100"
+						class="flex w-full items-center gap-2 rounded px-2 py-2 text-sm font-medium hover:bg-neutral-100"
 					>
-						<span>{category.label}</span>
-						<span class="text-xs text-gray-500">({category.shapes.length})</span>
+						<div class="flex min-w-0 flex-1 items-center gap-2">
+							<span class="min-w-0 flex-1 truncate">{category.label}</span>
+							<span class="w-10 text-right text-xs text-gray-500 tabular-nums"
+								>({category.shapes.length})</span
+							>
+						</div>
 					</Accordion.Trigger>
 					<Accordion.Content class="pb-2">
 						<div

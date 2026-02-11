@@ -429,6 +429,7 @@ export type RuniqKeywordNames =
     | "knockoutDrum"
     | "label"
     | "label:"
+    | "labelColors:"
     | "labelPosition:"
     | "labels:"
     | "ladder"
@@ -3556,6 +3557,21 @@ export function isKanbanWipProperty(item: unknown): item is KanbanWipProperty {
     return reflection.isInstance(item, KanbanWipProperty.$type);
 }
 
+export interface LabelColorsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'LabelColorsProperty';
+    value: StringArray;
+}
+
+export const LabelColorsProperty = {
+    $type: 'LabelColorsProperty',
+    value: 'value'
+} as const;
+
+export function isLabelColorsProperty(item: unknown): item is LabelColorsProperty {
+    return reflection.isInstance(item, LabelColorsProperty.$type);
+}
+
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
 
 export function isLabelPositionValue(item: unknown): item is LabelPositionValue {
@@ -4032,7 +4048,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InputPinsProperty | IntersectionsProperty | LabelColorsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -6073,7 +6089,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | KanbanTagsProperty | LabelsProperty | OutputPinsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | KanbanTagsProperty | LabelColorsProperty | LabelsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -7477,6 +7493,7 @@ export type RuniqAstType = {
     KanbanTagsProperty: KanbanTagsProperty
     KanbanTextColorProperty: KanbanTextColorProperty
     KanbanWipProperty: KanbanWipProperty
+    LabelColorsProperty: LabelColorsProperty
     LabelProperty: LabelProperty
     LabelsProperty: LabelsProperty
     LegendPositionProperty: LegendPositionProperty
@@ -9516,6 +9533,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [KanbanColumnProperty.$type]
+        },
+        LabelColorsProperty: {
+            name: LabelColorsProperty.$type,
+            properties: {
+                value: {
+                    name: LabelColorsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         LabelProperty: {
             name: LabelProperty.$type,

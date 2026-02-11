@@ -74,6 +74,16 @@ shape stack as @venn
 - **3-circle**: `[AB, AC, BC, ABC]` (4 intersections)
 - **4-circle**: `[AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD]` (11 intersections)
 
+Intersection label styling is not configurable in the DSL yet. (It will be supported via the data panel JSON format.)
+
+```runiq
+shape styled as @venn
+  label:"Overlap Styling"
+  data:[60, 40, 30]
+  labels:["A", "B", "C"]
+  intersections:["A+B", "A+C", "B+C", "All"]
+```
+
 ### 3. Custom Styling
 
 Full control over colors, stroke, and labels:
@@ -84,6 +94,7 @@ shape colors as @venn
   data:[100, 100, 100]
   labels:["Red", "Blue", "Yellow"]
   colors:["#ff0000", "#0000ff", "#ffff00"]
+  labelColors:["#7f1d1d", "#1e3a8a", "#78350f"]
   strokeColor:"#000"
   strokeWidth:3
   fontSize:16

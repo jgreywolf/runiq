@@ -1291,8 +1291,9 @@ ShapeIdentifier returns string:
     | ShowValuesProperty
     | LegendPositionProperty
     | StackedProperty
-    | ColorsProperty
-    | IntersectionsProperty
+  | ColorsProperty
+  | LabelColorsProperty
+  | IntersectionsProperty
     | FlipAxesProperty
     | TitleProperty
     | XLabelProperty
@@ -1374,6 +1375,9 @@ StackedProperty:
 
 ColorsProperty:
     'colors:' value=StringArray;
+
+LabelColorsProperty:
+    'labelColors:' value=StringArray;
 
 IntersectionsProperty:
     'intersections:' value=StringArray;

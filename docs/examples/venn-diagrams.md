@@ -123,6 +123,34 @@ diagram "Platform Support" {
 }
 ```
 
+### Example 8: Intersection Labels (4-Circle)
+
+```runiq
+diagram "Platform Overlap Details" {
+  shape platforms as @venn
+    label:"Platform Overlap"
+    data:[350, 300, 400, 320]
+    labels:["Web", "Mobile", "Desktop", "Cloud"]
+    colors:["#4299e1", "#48bb78", "#ed8936", "#9f7aea"]
+    intersections:[
+      "Web+Mobile",
+      "Web+Desktop",
+      "Web+Cloud",
+      "Mobile+Desktop",
+      "Mobile+Cloud",
+      "Desktop+Cloud",
+      "Web+Mobile+Desktop",
+      "Web+Mobile+Cloud",
+      "Web+Desktop+Cloud",
+      "Mobile+Desktop+Cloud",
+      "All Platforms"
+    ]
+}
+```
+
+Intersection order for 4 circles:
+`[AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD]`.
+
 ### Example 8: Technology Domains
 
 ```runiq
