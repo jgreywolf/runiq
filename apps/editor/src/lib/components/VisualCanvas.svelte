@@ -9,8 +9,17 @@
 	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
 	import { SelectionState } from './visual-canvas/SelectionState.svelte';
 	import { ViewportState } from './visual-canvas/ViewportState.svelte';
-	import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
+	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
+	import { createDebouncedRunner, runRenderCycle } from './visual-canvas/renderController';
+	import {
+		collectSelectedIds,
+		collectSelectedIdSet,
+		extractSelectedElementStyles,
+		mapStyleProperty,
+		mergeWarnings,
+		updateWarningVisibility
+	} from './visual-canvas/viewModel';
 	import {
 		handleEdit,
 		handleDelete,
@@ -76,29 +85,17 @@
 
 	$effect(() => {
 		const warningCount = warningDetails.length + combinedWarnings.length;
-
-		if (warningCount === 0) {
-			showWarnings = false;
-		} else if (warningCount > lastWarningCount) {
-			showWarnings = true;
-		}
-
-		lastWarningCount = warningCount;
+		const next = updateWarningVisibility(showWarnings, lastWarningCount, warningCount);
+		showWarnings = next.showWarnings;
+		lastWarningCount = next.lastWarningCount;
 	});
 
 	$effect(() => {
-		const detailMessages = new Set(warningDetails.map((warning) => warning.message));
-		const merged = [...diagramState.warnings, ...editorState.lintWarnings];
-		const unique: string[] = [];
-
-		for (const warning of merged) {
-			if (!warning || detailMessages.has(warning) || unique.includes(warning)) {
-				continue;
-			}
-			unique.push(warning);
-		}
-
-		combinedWarnings = unique;
+		combinedWarnings = mergeWarnings(
+			warningDetails,
+			diagramState.warnings,
+			editorState.lintWarnings
+		);
 	});
 
 	// Effect to attach interactive handlers when SVG output changes
@@ -128,8 +125,55 @@
 	let lastCode = '';
 	let lastDataContent = '';
 
-	// Debounce timer
-	let debounceTimer: ReturnType<typeof setTimeout>;
+	const debouncedRender = createDebouncedRunner(300, (dslCode: string) => {
+		void runRenderCycle({
+			dslCode,
+			dataContent: editorState.dataContent,
+			layoutEngine: editorState.layoutEngine,
+			renderDiagram: renderDiagramUtil,
+			onEmpty: () => {
+				svgOutput = '';
+				diagramState.clearErrors();
+				diagramState.clearWarnings();
+				warningDetails = [];
+				parseTime = 0;
+				renderTime = 0;
+				handleParse(true, []);
+			},
+			onStart: () => {
+				isRendering = true;
+				diagramState.clearErrors();
+				diagramState.clearWarnings();
+			},
+			onSuccess: (result) => {
+				svgOutput = result.svg;
+				diagramState.setErrors(result.errors);
+				diagramState.setWarnings(result.warnings);
+				warningDetails = result.warningDetails ?? [];
+				parseTime = result.parseTime;
+				renderTime = result.renderTime;
+
+				if (result.nodeLocations) {
+					nodeLocations = result.nodeLocations;
+				}
+
+				if (result.profile) {
+					diagramState.setProfile(result.profile);
+				}
+
+				handleParse(result.success, result.errors);
+			},
+			onError: (errorMsg) => {
+				diagramState.setErrors([errorMsg]);
+				warningDetails = [];
+				svgOutput = '';
+				handleParse(false, diagramState.errors);
+			},
+			onComplete: () => {
+				isRendering = false;
+			}
+		});
+	});
 
 	// Watch for code or data changes with debounce
 	$effect(() => {
@@ -140,235 +184,56 @@
 		if (currentCode !== lastCode || currentDataContent !== lastDataContent) {
 			lastCode = currentCode;
 			lastDataContent = currentDataContent;
-			clearTimeout(debounceTimer);
-			debounceTimer = setTimeout(() => {
-				renderDiagram(currentCode);
-			}, 300);
+			debouncedRender.schedule(currentCode);
 		}
 
 		// Cleanup function to clear timeout on unmount or re-run
 		return () => {
-			clearTimeout(debounceTimer);
+			debouncedRender.cancel();
 		};
 	});
 
-	async function renderDiagram(dslCode: string) {
-		if (!dslCode.trim()) {
-			svgOutput = '';
-			diagramState.clearErrors();
-			diagramState.clearWarnings();
-			warningDetails = [];
-			parseTime = 0;
-			renderTime = 0;
-			handleParse(true, []);
-			return;
+	const {
+		handleCanvasClick,
+		handleCanvasKeyDown,
+		handleEditKeyPress,
+		handleMouseDown,
+		handleMouseMove,
+		handleMouseUp,
+		handleWheel,
+		handleDragOver,
+		handleDrop
+	} = createCanvasEventHandlers({
+		selection,
+		viewport,
+		interactionManager,
+		getSvgContainer: () => svgContainer,
+		handleDelete,
+		handleEdit,
+		handleInsertShape
+	});
+
+	function handleOpenStylePanel() {
+		const elementId = selection.selectedNodeId || selection.selectedEdgeId;
+		const styles = extractSelectedElementStyles(diagramState.profile as any, elementId);
+		if (Object.keys(styles).length > 0) {
+			styleState.setStyles(styles);
 		}
+		styleState.toggle();
+	}
 
-		isRendering = true;
-		diagramState.clearErrors();
-		diagramState.clearWarnings();
-
-		try {
-			const result = await renderDiagramUtil(
-				dslCode,
-				editorState.dataContent,
-				editorState.layoutEngine
-			);
-
-			svgOutput = result.svg;
-			diagramState.setErrors(result.errors);
-			diagramState.setWarnings(result.warnings);
-			warningDetails = result.warningDetails ?? [];
-			parseTime = result.parseTime;
-			renderTime = result.renderTime;
-
-			if (result.nodeLocations) {
-				nodeLocations = result.nodeLocations;
-			}
-
-			if (result.profile) {
-				diagramState.setProfile(result.profile);
-			}
-
-			isRendering = false;
-			handleParse(result.success, result.errors);
-		} catch (error) {
-			const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-			diagramState.setErrors([errorMsg]);
-			warningDetails = [];
-			svgOutput = '';
-			isRendering = false;
-			handleParse(false, diagramState.errors);
+	function handleStyleChange(property: string, value: string | number) {
+		styleState.setStyle(property, value);
+		const dslProperty = mapStyleProperty(property);
+		for (const targetId of collectSelectedIds(selection)) {
+			handleEdit(targetId, dslProperty, value);
 		}
 	}
 
-	// Handle canvas click (deselect)
-	function handleCanvasClick(event: MouseEvent) {
-		// Only deselect if clicking on the canvas itself, not on an element
-		if (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'svg') {
-			// If we're in multi-select mode (have multiple items selected), only clear if NOT holding Ctrl
-			if (selection.hasMultiSelection && (event.ctrlKey || event.metaKey)) {
-				// Don't clear multi-selection when Ctrl+clicking empty space
-				return;
-			}
-
-			interactionManager.clearSelection();
-		}
-	}
-
-	// Handle keyboard events for the canvas
-	function handleCanvasKeyDown(event: KeyboardEvent) {
-		// Don't intercept if we're editing text
-		if (selection.editingNodeId || selection.editingEdgeId) return;
-
-		if (event.key === 'Delete' || event.key === 'Backspace') {
-			// Delete selected elements (single or multi)
-			if (selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0) {
-				// Delete all multi-selected items
-				selection.selectedNodeIds.forEach((nodeId) => {
-					handleDelete(nodeId, null);
-				});
-				selection.selectedEdgeIds.forEach((edgeId) => {
-					handleDelete(null, edgeId);
-				});
-				interactionManager.clearSelection();
-				event.preventDefault();
-			} else if (selection.selectedNodeId || selection.selectedEdgeId) {
-				// Delete single selected item
-				handleDelete(selection.selectedNodeId, selection.selectedEdgeId);
-				interactionManager.clearSelection();
-				event.preventDefault();
-			}
-		} else if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
-			// Copy selected elements
-			clipboardManager.copy(
-				svgContainer,
-				selection.selectedNodeId,
-				selection.selectedEdgeId,
-				selection.selectedNodeIds,
-				selection.selectedEdgeIds
-			);
-			event.preventDefault();
-		} else if ((event.ctrlKey || event.metaKey) && event.key === 'v') {
-			// Paste clipboard contents
-			clipboardManager.paste(handleInsertShape);
-			event.preventDefault();
-		} else if ((event.ctrlKey || event.metaKey) && event.key === 'x') {
-			// Cut selected elements
-			clipboardManager.cut(
-				svgContainer,
-				selection.selectedNodeId,
-				selection.selectedEdgeId,
-				selection.selectedNodeIds,
-				selection.selectedEdgeIds
-			);
-			interactionManager.clearSelection();
-			event.preventDefault();
-		} else if ((event.ctrlKey || event.metaKey) && event.key === 'a') {
-			// Select all elements
-			selection.selectAll(svgContainer);
-			event.preventDefault();
-		}
-	}
-
-	// Handle edit input key press
-	function handleEditKeyPress(event: KeyboardEvent) {
-		if (event.key === 'Enter') {
-			// Save the edit
-			if (selection.editingNodeId) {
-				handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
-			} else if (selection.editingEdgeId) {
-				// For edges, we don't have location info yet (could be added later)
-				handleEdit(selection.editingEdgeId, 'edgeLabel', selection.editingLabel);
-			}
-			selection.cancelLabelEdit();
-		} else if (event.key === 'Escape') {
-			// Cancel the edit
-			selection.cancelLabelEdit();
-		}
-	}
-
-	// Pan controls and lasso selection
-	function handleMouseDown(e: MouseEvent) {
-		// Don't start panning/lasso if we're editing
-		if (selection.editingNodeId || selection.editingEdgeId) return;
-
-		// Don't start lasso/pan if clicking on an element (let the element click handler deal with it)
-		const target = e.target as HTMLElement;
-		if (target.closest('[data-node-id], [data-edge-id]')) {
-			return;
-		}
-
-		if (e.button === 0) {
-			if (!svgContainer) return;
-			const rect = svgContainer.getBoundingClientRect();
-			const clientX = e.clientX - rect.left;
-			const clientY = e.clientY - rect.top;
-
-			// Ctrl+Drag for lasso selection (pending until drag threshold)
-			if (e.ctrlKey || e.metaKey) {
-				selection.startLasso(clientX, clientY);
-			} else {
-				// Regular panning
-				viewport.startPan(e.clientX, e.clientY);
-			}
-		}
-	}
-
-	function handleMouseMove(e: MouseEvent) {
-		if (!svgContainer) return;
-
-		const rect = svgContainer.getBoundingClientRect();
-		viewport.updateMousePosition(e.clientX, e.clientY, rect);
-
-		if (selection.isLassoPending || selection.isLassoActive) {
-			selection.updateLasso(viewport.mouseX, viewport.mouseY);
-		} else if (viewport.isPanning) {
-			// Handle canvas panning
-			viewport.updatePan(e.clientX, e.clientY);
-		}
-	}
-
-	function handleMouseUp(e: MouseEvent) {
-		if (!svgContainer) return;
-
-		if (selection.isLassoActive) {
-			// Complete lasso selection
-			selection.completeLasso(
-				svgContainer,
-				viewport.scale,
-				viewport.translateX,
-				viewport.translateY
-			);
-		}
-		selection.cancelLasso();
-		viewport.endPan();
-	}
-
-	function handleWheel(e: WheelEvent) {
-		e.preventDefault();
-		const delta = e.deltaY > 0 ? 0.9 : 1.1;
-		viewport.zoom(delta);
-	}
-
-	// Drag-and-drop handlers for shapes from toolbox
-	function handleDragOver(e: DragEvent) {
-		e.preventDefault();
-		if (e.dataTransfer) {
-			e.dataTransfer.dropEffect = 'copy';
-		}
-	}
-
-	function handleDrop(e: DragEvent) {
-		e.preventDefault();
-
-		if (!e.dataTransfer) return;
-
-		const shapeCode = e.dataTransfer.getData('application/x-runiq-shape');
-		if (!shapeCode) return;
-
-		// Insert the shape code
-		handleInsertShape(shapeCode);
+	function handleResetSelectedStyles() {
+		const selectedIds = collectSelectedIds(selection);
+		handleResetStyles(selectedIds);
+		styleState.setStyles({});
 	}
 
 	// onMount(() => {
@@ -617,30 +482,7 @@
 		{#if selection.selectedNodeId || selection.selectedEdgeId}
 			<div class="floating-toolbar">
 				<button
-					onclick={() => {
-						// Extract current styles from selected element and update styleState
-						const elementId = selection.selectedNodeId || selection.selectedEdgeId;
-						const profile = diagramState.profile as any;
-						if (elementId && profile) {
-							const element =
-								profile.nodes?.find((n: any) => n.id === elementId) ||
-								profile.edges?.find(
-									(e: any) => e.id === elementId || `${e.from}-${e.to}` === elementId
-								);
-							if (element?.properties) {
-								styleState.setStyles({
-									fill: element.properties.fillColor,
-									stroke: element.properties.strokeColor,
-									strokeWidth: element.properties.strokeWidth || 1,
-									opacity: element.properties.opacity || 1,
-									fontSize: element.properties.textSize,
-									fontFamily: element.properties.fontFamily,
-									color: element.properties.textColor
-								});
-							}
-						}
-						styleState.toggle();
-					}}
+					onclick={handleOpenStylePanel}
 					class="toolbar-button"
 					title="Edit Style (colors, fonts, effects)"
 				>
@@ -672,65 +514,17 @@
 				onkeydown={handleEditKeyPress}
 				class="edit-input"
 				style="left: {selection.editInputPosition.x}px; top: {selection.editInputPosition.y}px;"
-				autofocus
 			/>
 		{/if}
 
 		{#if styleState.isVisible}
 			<StylePanel
-				selectedIds={(() => {
-					const ids = new Set<string>();
-					if (selection.selectedNodeId) ids.add(selection.selectedNodeId);
-					if (selection.selectedEdgeId) ids.add(selection.selectedEdgeId);
-					selection.selectedNodeIds.forEach((id) => ids.add(id));
-					selection.selectedEdgeIds.forEach((id) => ids.add(id));
-					return ids;
-				})()}
+				selectedIds={collectSelectedIdSet(selection)}
 				currentStyles={styleState.currentStyles}
 				hasMixedValues={styleState.hasMixedValues}
 				onClose={() => styleState.hide()}
-				onStyleChange={(property, value) => {
-					// Update styleState
-					styleState.setStyle(property, value);
-
-					// Map StylePanel property names to DSL property names
-					const propertyMap: Record<string, string> = {
-						fill: 'fillColor',
-						stroke: 'strokeColor',
-						strokeWidth: 'strokeWidth',
-						fontSize: 'fontSize',
-						fontFamily: 'fontFamily',
-						fontWeight: 'fontWeight',
-						opacity: 'opacity'
-					};
-
-					const dslProperty = propertyMap[property] || property;
-
-					// Apply to all selected elements
-					const selectedIds = [
-						...(selection.selectedNodeId ? [selection.selectedNodeId] : []),
-						...(selection.selectedEdgeId ? [selection.selectedEdgeId] : []),
-						...Array.from(selection.selectedNodeIds),
-						...Array.from(selection.selectedEdgeIds)
-					];
-
-					selectedIds.forEach((targetId) => {
-						handleEdit(targetId, dslProperty, value);
-					});
-				}}
-				onResetStyles={() => {
-					// Get all selected element IDs
-					const selectedIds = [
-						...(selection.selectedNodeId ? [selection.selectedNodeId] : []),
-						...(selection.selectedEdgeId ? [selection.selectedEdgeId] : []),
-						...Array.from(selection.selectedNodeIds),
-						...Array.from(selection.selectedEdgeIds)
-					];
-
-					// Call centralized action
-					handleResetStyles(selectedIds); // Clear styleState
-					styleState.setStyles({});
-				}}
+				onStyleChange={handleStyleChange}
+				onResetStyles={handleResetSelectedStyles}
 			/>
 		{/if}
 
