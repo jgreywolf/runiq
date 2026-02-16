@@ -49,7 +49,7 @@
 	<div class="style-panel">
 		<div class="panel-header">
 			<div class="header-content">
-				<Icon icon="lucide:palette" class="header-icon" />
+				<Icon icon="lucide:palette" />
 				<h3 class="header-title">
 					Style Properties
 					{#if isMultiSelect}
@@ -58,21 +58,21 @@
 				</h3>
 			</div>
 			<button class="close-btn" onclick={onClose} aria-label="Close style panel" title="Close">
-				<Icon icon="lucide:x" class="icon" />
+				<Icon icon="lucide:x" />
 			</button>
 		</div>
 
 		<div class="panel-body">
 			{#if hasMixedValues}
 				<div class="mixed-values-notice">
-					<Icon icon="lucide:info" class="notice-icon" />
+					<Icon icon="lucide:info" />
 					<span>Multiple values selected. Changes will apply to all.</span>
 				</div>
 			{/if}
 
 			<!-- Fill Color -->
 			<div class="style-field">
-				<label class="field-label">Fill Color</label>
+				<div class="field-label">Fill Color</div>
 				<div class="field-input-group">
 					<button
 						type="button"
@@ -97,7 +97,7 @@
 
 			<!-- Stroke Color -->
 			<div class="style-field">
-				<label class="field-label">Stroke Color</label>
+				<div class="field-label">Stroke Color</div>
 				<div class="field-input-group">
 					<button
 						type="button"
@@ -195,7 +195,7 @@
 		{#if onResetStyles}
 			<div class="panel-footer">
 				<button class="reset-btn" onclick={onResetStyles} title="Remove custom styles">
-					<Icon icon="lucide:rotate-ccw" class="icon" />
+					<Icon icon="lucide:rotate-ccw" />
 					<span>Reset to Theme</span>
 				</button>
 			</div>
@@ -242,12 +242,6 @@
 		gap: 0.5rem;
 	}
 
-	.header-icon {
-		width: 1.25rem;
-		height: 1.25rem;
-		color: hsl(var(--primary));
-	}
-
 	.header-title {
 		font-size: 0.875rem;
 		font-weight: 600;
@@ -280,11 +274,6 @@
 		color: hsl(var(--accent-foreground));
 	}
 
-	.icon {
-		width: 1rem;
-		height: 1rem;
-	}
-
 	.panel-body {
 		padding: 1rem;
 		overflow-y: auto;
@@ -301,12 +290,6 @@
 		border-radius: 0.375rem;
 		font-size: 0.75rem;
 		color: hsl(var(--muted-foreground));
-	}
-
-	.notice-icon {
-		width: 1rem;
-		height: 1rem;
-		flex-shrink: 0;
 	}
 
 	.style-field {
@@ -463,11 +446,6 @@
 
 	.reset-btn:active {
 		transform: scale(0.98);
-	}
-
-	.reset-btn .icon {
-		width: 1rem;
-		height: 1rem;
 	}
 
 	@media (max-width: 640px) {

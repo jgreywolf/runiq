@@ -64,6 +64,7 @@ export default defineConfig({
             { text: 'What is Runiq?', link: '/guide/what-is-runiq' },
             { text: 'Getting Started', link: '/guide/getting-started' },
             { text: 'Quick Start', link: '/guide/quick-start' },
+            { text: 'Editor Guide', link: '/guide/editor' },
             { text: 'Profiles', link: '/guide/profiles' },
           ],
         },
@@ -239,6 +240,36 @@ export default defineConfig({
       await shiki.loadLanguage({
         ...runiqGrammar,
         id: 'runiq',
+      });
+
+      // Load custom SPICE grammar
+      const spiceGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/spice.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...spiceGrammar,
+        name: 'spice',
+        id: 'spice',
+      });
+
+      // Load custom Langium grammar
+      const langiumGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/langium.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...langiumGrammar,
+        name: 'langium',
+        id: 'langium',
+      });
+
+      // Load custom Simulink MDL grammar
+      const mdlGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/mdl.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...mdlGrammar,
+        name: 'mdl',
+        id: 'mdl',
       });
     },
   },

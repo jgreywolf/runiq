@@ -8,66 +8,29 @@
 	import DataEditor from '$lib/components/DataEditor.svelte';
 	import EmptyPreview from '$lib/components/EmptyPreview.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
-	import { registerDefaultShapes, layoutRegistry, iconRegistry } from '@runiq/core';
-	import { ElkLayoutEngine } from '@runiq/layout-base';
-	import { brandIcons } from '@runiq/icons-brand';
-	import { fontAwesome } from '@runiq/icons-fontawesome';
-	import { iconify } from '@runiq/icons-iconify';
 	import VisualCanvas from '$lib/components/VisualCanvas.svelte';
-	import {
-		editorState,
-		editorRefs,
-		autoSave,
-		initializeEditor,
-		handleCodeChange,
-		handleEditorErrors,
-		handleDataChange,
-		handleDataErrors,
-		handleParse,
-		handleInsertShape,
-		handleReplaceGlyphset,
-		handleInsertSample,
-		handleNewDiagram,
-		handleExport,
-		handleKeyDown
-	} from '$lib/state/editorState.svelte';
+	import { autoSave, editorRefs, editorState, handleKeyDown, handleReplaceGlyphset } from '$lib/state/editorState.svelte';
+	import { bootstrapEditor } from '$lib/state/editorBootstrap';
+	import { DEFAULT_PANEL_SIZES, loadPanelSizes, savePanelSizes } from '$lib/state/panelLayout.svelte';
 	import GlyphsetConversionDialog from '$lib/components/GlyphsetConversionDialog.svelte';
 	import {
 		glyphsetConversionDialogState,
 		closeGlyphsetConversionDialog
 	} from '$lib/state/glyphsetConversionDialog.svelte';
 
-	// Register providers
-	registerDefaultShapes();
-	layoutRegistry.register(new ElkLayoutEngine());
-	iconRegistry.register(brandIcons);
-	iconRegistry.register(fontAwesome);
-	iconRegistry.register(iconify);
-
-	// Initialize editor state
-	initializeEditor();
+	// One-time app bootstrapping (registries + state init)
+	bootstrapEditor();
 
 	// Local panel state
-	const panelSizes = $state({ toolbox: 20, editor: 40, preview: 40 });
+	const panelSizes = $state({ ...DEFAULT_PANEL_SIZES });
 
 	// Load and save panel sizes
 	onMount(() => {
-		const saved = localStorage.getItem('runiq-panel-sizes');
-		if (saved) {
-			try {
-				const sizes = JSON.parse(saved);
-				panelSizes.toolbox = sizes.toolbox || 20;
-				panelSizes.editor = sizes.editor || 40;
-				panelSizes.preview = sizes.preview || 40;
-			} catch (e) {
-				console.warn('Failed to load panel sizes:', e);
-			}
-		}
+		const sizes = loadPanelSizes();
+		panelSizes.toolbox = sizes.toolbox;
+		panelSizes.editor = sizes.editor;
+		panelSizes.preview = sizes.preview;
 	});
-
-	function savePanelSizes() {
-		localStorage.setItem('runiq-panel-sizes', JSON.stringify(panelSizes));
-	}
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -92,7 +55,7 @@
 				maxSize={40}
 				onResize={(size) => {
 					panelSizes.toolbox = size;
-					savePanelSizes();
+					savePanelSizes(panelSizes);
 				}}
 			>
 				<Toolbox />
@@ -109,7 +72,7 @@
 					maxSize={60}
 					onResize={(size) => {
 						panelSizes.editor = size;
-						savePanelSizes();
+						savePanelSizes(panelSizes);
 					}}
 				>
 					<div class="flex h-full flex-col bg-white">
@@ -148,7 +111,7 @@
 				minSize={30}
 				onResize={(size) => {
 					panelSizes.preview = size;
-					savePanelSizes();
+					savePanelSizes(panelSizes);
 				}}
 			>
 				<div class="flex h-full flex-col border-l border-neutral-300 bg-neutral-50">

@@ -42,12 +42,14 @@ diagram "Customer Channels" {
 ### Example 3: Product Usage
 
 ```runiq
-diagram "Product Adoption" {
+diagram\
+"Product Adoption" {
   shape products as @venn
     label:"Product Usage"
     data:[500, 350]
     labels:["Product A", "Product B"]
     colors:["#2b6cb0", "#2f855a"]
+    labelColors:["#1e3a8a", "#14532d"]
     intersections:["Both Products"]
     fontSize: 15
     strokeWidth: 2.5
@@ -68,6 +70,21 @@ diagram "Programming Languages" {
     labels:["JavaScript", "Python", "Go"]
     colors:["#f0db4f", "#306998", "#00add8"]
     intersections:["JS+Py", "JS+Go", "Py+Go", "All Three"]
+}
+```
+
+### Example 4b: Theme-Aware Colors
+
+Omit `colors` to use the active theme palette:
+
+```runiq
+diagram "Theme Palette" {
+  theme runiq
+  shape features as @venn
+    label:"Adoption"
+    data:[65, 45]
+    labels:["Core", "Plus"]
+    intersections:["Shared"]
 }
 ```
 
@@ -122,6 +139,34 @@ diagram "Platform Support" {
     colors:["#4299e1", "#48bb78", "#ed8936", "#9f7aea"]
 }
 ```
+
+### Example 8: Intersection Labels (4-Circle)
+
+```runiq
+diagram "Platform Overlap Details" {
+  shape platforms as @venn
+    label:"Platform Overlap"
+    data:[350, 300, 400, 320]
+    labels:["Web", "Mobile", "Desktop", "Cloud"]
+    colors:["#4299e1", "#48bb78", "#ed8936", "#9f7aea"]
+    intersections:[
+      "Web+Mobile",
+      "Web+Desktop",
+      "Web+Cloud",
+      "Mobile+Desktop",
+      "Mobile+Cloud",
+      "Desktop+Cloud",
+      "Web+Mobile+Desktop",
+      "Web+Mobile+Cloud",
+      "Web+Desktop+Cloud",
+      "Mobile+Desktop+Cloud",
+      "All Platforms"
+    ]
+}
+```
+
+Intersection order for 4 circles:
+`[AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD]`.
 
 ### Example 8: Technology Domains
 

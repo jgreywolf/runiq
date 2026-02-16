@@ -144,7 +144,7 @@ export function renderNode(
       ? { ...nodeAst, data: { ...nodeAst.data } }
       : { ...nodeAst, data: {} };
 
-  if (theme && nodeAst.shape === 'sankeyChart') {
+  if (theme && (nodeAst.shape === 'sankeyChart' || nodeAst.shape === 'venn')) {
     (renderNodeAst.data as any).themePalette = theme.nodeColors;
   }
 

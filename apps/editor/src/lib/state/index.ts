@@ -7,7 +7,35 @@
 export { DiagramState, diagramState } from './diagramState.svelte';
 export { StyleState, styleState } from './styleState.svelte';
 export { CanvasState, canvasState } from './canvasState.svelte';
-export { editorState } from './editorState.svelte';
+export {
+	autoSave,
+	detectProfile,
+	editorRefs,
+	editorState,
+	handleCodeChange,
+	handleConvertWithTransform,
+	handleDataChange,
+	handleDataErrors,
+	handleDelete,
+	handleEdit,
+	handleEditorErrors,
+	handleEditorWarnings,
+	handleExport,
+	handleInsertEdge,
+	handleInsertSample,
+	handleInsertShape,
+	handleKeyDown,
+	handleNewDiagram,
+	handleParse,
+	handleRedo,
+	handleReplaceGlyphset,
+	handleResetStyles,
+	handleThemeChange,
+	handleUndo,
+	history,
+	initializeEditor,
+	updateCode
+} from './editorState.svelte';
 
 // Types
 export type {

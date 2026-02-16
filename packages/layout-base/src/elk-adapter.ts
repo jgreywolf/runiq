@@ -718,7 +718,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const uniqueEdges = Array.from(edgeMap.values());
 
     // Snap edge endpoints to shape anchor points for better visual accuracy
-    this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText);
+    this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText, direction);
 
     // Simplify edges to straight lines for radial/mindmap layouts
     this.simplifyRadialEdges(diagram, uniqueEdges);
@@ -769,7 +769,8 @@ export class ElkLayoutEngine implements LayoutEngine {
     diagram: DiagramAst,
     edges: RoutedEdge[],
     nodes: PositionedNode[],
-    measureText: ReturnType<typeof createTextMeasurer>
+    measureText: ReturnType<typeof createTextMeasurer>,
+    direction: string
   ): void {
     for (const edge of edges) {
       if (!edge.points || edge.points.length < 2) continue;
@@ -814,7 +815,13 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const firstPoint = edge.points[0];
-        startAnchor = this.findNearestAnchor(firstPoint, anchors, fromNode);
+        startAnchor = this.findPreferredAnchor(
+          anchors,
+          fromNode,
+          toNode,
+          firstPoint,
+          direction
+        );
         if (startAnchor) {
           newStartPoint = {
             x: fromNode.x + startAnchor.x,
@@ -853,6 +860,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           fromNode,
           toNode
         );
+        this.simplifySideBranchEdge(edge, startAnchor, endAnchor, direction);
       }
     }
   }
@@ -937,7 +945,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     newStartPoint: { x: number; y: number } | null,
     newEndPoint: { x: number; y: number } | null,
     startAnchor: { x: number; y: number; name?: string } | null,
-    _endAnchor: { x: number; y: number; name?: string } | null,
+    endAnchor: { x: number; y: number; name?: string } | null,
     _fromNode: PositionedNode,
     _toNode: PositionedNode
   ): void {
@@ -960,8 +968,34 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
       if (newEndPoint) {
         edge.points[edge.points.length - 1] = newEndPoint;
-        // TODO: Could also fix the last segment to arrive orthogonally at the end anchor
+        if (endAnchor?.name) {
+          const endDir = this.getAnchorDirection(endAnchor.name);
+          const lastIndex = edge.points.length - 1;
+          const prevIndex = lastIndex - 1;
+          if (prevIndex >= 0) {
+            if (endDir === Orientation.HORIZONTAL) {
+              edge.points[prevIndex] = {
+                x: edge.points[prevIndex].x,
+                y: newEndPoint.y,
+              };
+            } else if (endDir === Orientation.VERTICAL) {
+              edge.points[prevIndex] = {
+                x: newEndPoint.x,
+                y: edge.points[prevIndex].y,
+              };
+            }
+          }
+        }
       }
+      this.ensureOrthogonalPath(edge);
+      if (startAnchor?.name && newStartPoint) {
+        this.nudgeEndpointOutward(edge, 'start', startAnchor.name, 12);
+      }
+      if (endAnchor?.name && newEndPoint) {
+        this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+        this.alignEndSegmentToAnchor(edge, endAnchor.name);
+      }
+      this.ensureOrthogonalPath(edge);
       return;
     }
 
@@ -1014,6 +1048,15 @@ export class ElkLayoutEngine implements LayoutEngine {
         ];
       }
     }
+    this.ensureOrthogonalPath(edge);
+    if (startAnchor?.name && newStartPoint) {
+      this.nudgeEndpointOutward(edge, 'start', startAnchor.name, 12);
+    }
+    if (endAnchor?.name && newEndPoint) {
+      this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+      this.alignEndSegmentToAnchor(edge, endAnchor.name);
+    }
+    this.ensureOrthogonalPath(edge);
   }
 
   /**
@@ -1032,6 +1075,220 @@ export class ElkLayoutEngine implements LayoutEngine {
     }
     return null;
   }
+
+  /**
+   * Ensure the edge path is strictly orthogonal by inserting bend points
+   * anywhere a diagonal segment exists.
+   */
+  private ensureOrthogonalPath(edge: RoutedEdge): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const normalized: { x: number; y: number }[] = [edge.points[0]];
+
+    for (let i = 1; i < edge.points.length; i++) {
+      const prev = normalized[normalized.length - 1];
+      const current = edge.points[i];
+
+      if (prev.x !== current.x && prev.y !== current.y) {
+        const dx = Math.abs(current.x - prev.x);
+        const dy = Math.abs(current.y - prev.y);
+        if (dx >= dy) {
+          normalized.push({ x: current.x, y: prev.y });
+        } else {
+          normalized.push({ x: prev.x, y: current.y });
+        }
+      }
+
+      normalized.push(current);
+    }
+
+    edge.points = normalized;
+  }
+
+  /**
+   * Simplify side-branch edges in vertical layouts to avoid x-axis oscillation.
+   */
+  private simplifySideBranchEdge(
+    edge: RoutedEdge,
+    startAnchor: { x: number; y: number; name?: string } | null,
+    endAnchor: { x: number; y: number; name?: string } | null,
+    direction: string
+  ): void {
+    if (!startAnchor?.name || edge.points.length < 4) return;
+    if (direction !== 'DOWN' && direction !== 'UP') return;
+
+    const anchorName = startAnchor.name.toLowerCase();
+    if (anchorName !== 'left' && anchorName !== 'right') return;
+
+    const uniqueX = new Set(edge.points.map((p) => p.x));
+    if (uniqueX.size <= 2) return;
+
+    const start = edge.points[0];
+    const end = edge.points[edge.points.length - 1];
+    const offset = anchorName === 'left' ? -12 : 12;
+    const midX = start.x + offset;
+
+    edge.points = [
+      start,
+      { x: midX, y: start.y },
+      { x: midX, y: end.y },
+      end,
+    ];
+
+    this.ensureOrthogonalPath(edge);
+    if (endAnchor?.name) {
+      this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+      this.ensureOrthogonalPath(edge);
+    }
+  }
+
+  /**
+   * Ensure the first/last segment steps outward from the node
+   * so paths don't jog inward before routing.
+   */
+  private nudgeEndpointOutward(
+    edge: RoutedEdge,
+    which: 'start' | 'end',
+    anchorName: string,
+    offset: number
+  ): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const name = anchorName.toLowerCase();
+    if (which === 'start') {
+      const start = edge.points[0];
+      const next = edge.points[1];
+      if (name === 'left') {
+        const targetX = start.x - offset;
+        if (next.x > targetX) {
+          edge.points[1] = { x: targetX, y: next.y };
+        }
+      } else if (name === 'right') {
+        const targetX = start.x + offset;
+        if (next.x < targetX) {
+          edge.points[1] = { x: targetX, y: next.y };
+        }
+      } else if (name === 'top') {
+        const targetY = start.y - offset;
+        if (next.y > targetY) {
+          edge.points[1] = { x: next.x, y: targetY };
+        }
+      } else if (name === 'bottom') {
+        const targetY = start.y + offset;
+        if (next.y < targetY) {
+          edge.points[1] = { x: next.x, y: targetY };
+        }
+      }
+    } else {
+      const lastIndex = edge.points.length - 1;
+      const end = edge.points[lastIndex];
+      const prev = edge.points[lastIndex - 1];
+      if (name === 'left') {
+        const targetX = end.x - offset;
+        if (prev.x < targetX) {
+          edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
+        }
+      } else if (name === 'right') {
+        const targetX = end.x + offset;
+        if (prev.x > targetX) {
+          edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
+        }
+      } else if (name === 'top') {
+        const targetY = end.y - offset;
+        if (prev.y < targetY) {
+          edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
+        }
+      } else if (name === 'bottom') {
+        const targetY = end.y + offset;
+        if (prev.y > targetY) {
+          edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
+        }
+      }
+    }
+  }
+
+  /**
+   * Align the final segment with the anchor direction so arrowheads point correctly.
+   */
+  private alignEndSegmentToAnchor(
+    edge: RoutedEdge,
+    anchorName: string
+  ): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const name = anchorName.toLowerCase();
+    const lastIndex = edge.points.length - 1;
+    const end = edge.points[lastIndex];
+    const prev = edge.points[lastIndex - 1];
+
+    if (name === 'top' || name === 'bottom') {
+      // Force vertical entry.
+      edge.points[lastIndex - 1] = { x: end.x, y: prev.y };
+    } else if (name === 'left' || name === 'right') {
+      // Force horizontal entry.
+      edge.points[lastIndex - 1] = { x: prev.x, y: end.y };
+    }
+  }
+
+  /**
+   * Prefer left/right anchors for side-branching in vertical layouts
+   * and top/bottom anchors for side-branching in horizontal layouts.
+   * Falls back to nearest anchor when no strong directional preference exists.
+   */
+  private findPreferredAnchor(
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    fromNode: PositionedNode,
+    toNode: PositionedNode,
+    fallbackPoint: { x: number; y: number },
+    direction: string
+  ): { x: number; y: number; name?: string } | null {
+    if (anchors.length === 0) return null;
+
+    const fromCenter = {
+      x: fromNode.x + fromNode.width / 2,
+      y: fromNode.y + fromNode.height / 2,
+    };
+    const toCenter = {
+      x: toNode.x + toNode.width / 2,
+      y: toNode.y + toNode.height / 2,
+    };
+
+    const dx = toCenter.x - fromCenter.x;
+    const dy = toCenter.y - fromCenter.y;
+
+    const verticalLayout = direction === 'DOWN' || direction === 'UP';
+    const horizontalLayout = direction === 'RIGHT' || direction === 'LEFT';
+
+    const thresholdX = fromNode.width * 0.35;
+    const thresholdY = fromNode.height * 0.35;
+
+    let desired: string | null = null;
+    if (verticalLayout) {
+      if (Math.abs(dx) > thresholdX) {
+        desired = dx >= 0 ? 'right' : 'left';
+      } else {
+        desired = dy >= 0 ? 'bottom' : 'top';
+      }
+    } else if (horizontalLayout) {
+      if (Math.abs(dy) > thresholdY) {
+        desired = dy >= 0 ? 'bottom' : 'top';
+      } else {
+        desired = dx >= 0 ? 'right' : 'left';
+      }
+    }
+
+    if (desired) {
+      const preferred = anchors.find(
+        (anchor) => anchor.name?.toLowerCase() === desired
+      );
+      if (preferred) {
+        return preferred;
+      }
+    }
+
+    return this.findNearestAnchor(fallbackPoint, anchors, fromNode);
+  }
+
 
   /**
    * Calculate positions for sibling containers based on orientation
