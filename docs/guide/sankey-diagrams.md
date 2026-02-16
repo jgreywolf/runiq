@@ -79,6 +79,7 @@ diagram "Energy Flow" {
 ```
 
 CSV columns:
+
 - Required: `source`, `target`, `value`
 - Optional: `label`, `color`, `sourceLabel`, `targetLabel`, `sourceColor`, `targetColor`
 
@@ -185,8 +186,20 @@ diagram "Colored Flows" {
       { "id": "C", "label": "Mixed", "color": "#9b59b6" }
     ],
     "links": [
-      { "source": "A", "target": "C", "value": 60, "color": "#e74c3c", "label": "Hot" },
-      { "source": "B", "target": "C", "value": 40, "color": "#3498db", "label": "Cold" }
+      {
+        "source": "A",
+        "target": "C",
+        "value": 60,
+        "color": "#e74c3c",
+        "label": "Hot"
+      },
+      {
+        "source": "B",
+        "target": "C",
+        "value": 40,
+        "color": "#3498db",
+        "label": "Cold"
+      }
     ]
   }
 }
@@ -221,29 +234,30 @@ You can specify custom dimensions in your data:
 
 You can tune spacing and labeling with optional properties on the data object:
 
-  ```json
-  {
-    "energy": {
-      "nodeWidth": 24,
-      "nodePadding": 24,
-      "flowOpacity": 0.35,
-      "showLinkValues": true,
-      "paletteByLayer": true,
-      "palette": ["#0ea5e9", "#22c55e", "#f59e0b", "#a855f7"],
-      "linkLabelColor": "#1f2937",
-      "valueColor": "#6b7280",
-      "nodes": [...],
-      "links": [...]
-    }
+```json
+{
+  "energy": {
+    "nodeWidth": 24,
+    "nodePadding": 24,
+    "flowOpacity": 0.35,
+    "showLinkValues": true,
+    "paletteByLayer": true,
+    "palette": ["#0ea5e9", "#22c55e", "#f59e0b", "#a855f7"],
+    "linkLabelColor": "#1f2937",
+    "valueColor": "#6b7280",
+    "nodes": [...],
+    "links": [...]
+  }
 }
 ```
 
 Notes:
-  - `nodeWidth` and `nodePadding` adjust column spacing and vertical separation.
-  - `showLinkValues` renders numeric values on each link.
-  - `paletteByLayer` auto-assigns node/link colors by layer using the active theme palette.
-  - `palette` overrides the theme palette when `paletteByLayer` is enabled.
-  - `linkLabelColor` and `valueColor` override label text colors.
+
+- `nodeWidth` and `nodePadding` adjust column spacing and vertical separation.
+- `showLinkValues` renders numeric values on each link.
+- `paletteByLayer` auto-assigns node/link colors by layer using the active theme palette.
+- `palette` overrides the theme palette when `paletteByLayer` is enabled.
+- `linkLabelColor` and `valueColor` override label text colors.
 
 ## Use Cases
 
@@ -839,16 +853,16 @@ interface SankeyData {
   nodes: SankeyNode[];
   links: SankeyLink[];
   width?: number; // Chart width (default: 800)
-    height?: number; // Chart height (default: 600)
-    nodeWidth?: number; // Node thickness (default: 20)
-    nodePadding?: number; // Vertical spacing between nodes (default: 20)
-    flowOpacity?: number; // Link opacity (default: 0.4)
-    showLinkValues?: boolean; // Render values on links
-    paletteByLayer?: boolean; // Use theme palette colors by layer
-    palette?: string[]; // Optional palette override for layer colors
-    linkLabelColor?: string; // Flow label color override
-    valueColor?: string; // Node value label color override
-  }
+  height?: number; // Chart height (default: 600)
+  nodeWidth?: number; // Node thickness (default: 20)
+  nodePadding?: number; // Vertical spacing between nodes (default: 20)
+  flowOpacity?: number; // Link opacity (default: 0.4)
+  showLinkValues?: boolean; // Render values on links
+  paletteByLayer?: boolean; // Use theme palette colors by layer
+  palette?: string[]; // Optional palette override for layer colors
+  linkLabelColor?: string; // Flow label color override
+  valueColor?: string; // Node value label color override
+}
 ```
 
 ## Comparison with Other Tools

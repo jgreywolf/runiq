@@ -1,0 +1,42 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Simulink MDL",
+  "scopeName": "source.mdl",
+  "patterns": [
+    {
+      "name": "comment.line.hash.mdl",
+      "match": "^\\s*#.*$"
+    },
+    {
+      "name": "string.quoted.double.mdl",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.mdl",
+          "match": "\\\\."
+        }
+      ]
+    },
+    {
+      "name": "keyword.control.structure.mdl",
+      "match": "\\b(Model|System|Block|Line|Branch|Annotation|Object)\\b"
+    },
+    {
+      "name": "support.type.property.mdl",
+      "match": "\\b(Name|Version|BlockType|Position|SID|SrcBlock|SrcPort|DstBlock|DstPort|Numerator|Denominator|Gain|Inputs|Port|InitialCondition|Location|SavedCharacterEncoding)\\b"
+    },
+    {
+      "name": "constant.numeric.mdl",
+      "match": "\\b[+-]?(?:\\d+\\.\\d*|\\d*\\.\\d+|\\d+)\\b"
+    },
+    {
+      "name": "punctuation.section.block.begin.mdl",
+      "match": "\\{"
+    },
+    {
+      "name": "punctuation.section.block.end.mdl",
+      "match": "\\}"
+    }
+  ]
+}
