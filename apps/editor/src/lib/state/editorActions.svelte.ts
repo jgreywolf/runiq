@@ -110,7 +110,8 @@ export function handleEdit(
 			'fontSize',
 			'textColor',
 			'shadow',
-			'routing'
+			'routing',
+			'icon'
 		].includes(property)
 	) {
 		newCode = DSL.editStyleProperty(editorState.code, nodeOrEdgeId, property, value);
@@ -129,10 +130,25 @@ export function handleInsertShape(shapeCode: string) {
 	if (newCode !== editorState.code) {
 		editorState.shapeCounter++;
 		updateCode(newCode);
-	} else if (editorRefs.code) {
-		// Replace 'id' with 'id{counter}' only when it's a standalone word boundary
-		editorRefs.code.insertAtCursor(shapeCode.replace(/\bid\b/g, `id${editorState.shapeCounter++}`));
 	}
+}
+
+/**
+ * Handle inserting a shape and immediately connecting it from an existing node.
+ */
+export function handleInsertShapeAndEdge(
+	shapeCode: string,
+	fromNodeId: string,
+	toNodeId: string
+) {
+	let newCode = DSL.insertShape(editorState.code, shapeCode, editorState.shapeCounter);
+	if (newCode === editorState.code) {
+		return;
+	}
+
+	editorState.shapeCounter++;
+	newCode = DSL.insertEdge(newCode, fromNodeId, toNodeId);
+	updateCode(newCode);
 }
 
 /**

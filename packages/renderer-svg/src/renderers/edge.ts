@@ -9,6 +9,7 @@ export function renderEdge(
   warnings: string[],
   theme?: DiagramTheme
 ): string {
+  const parallelOffset = getParallelEdgeOffset(routed, diagram);
   // Use edgeIndex if available to handle multiple edges between same nodes
   const edgeAst =
     routed.edgeIndex !== undefined
@@ -22,7 +23,10 @@ export function renderEdge(
     return '';
   }
 
-  const points = routed.points;
+  const points =
+    parallelOffset === 0
+      ? routed.points
+      : applyParallelOffsetToPoints(routed.points, parallelOffset);
   if (points.length < 2) {
     warnings.push(
       `Edge ${routed.from} -> ${routed.to} has insufficient points`
@@ -61,8 +65,10 @@ export function renderEdge(
   const start = points[0];
   let pathData = `M ${start.x} ${start.y}`;
 
-  // If we have exactly 3 points, treat the middle one as a Bezier control point
-  if (points.length === 3) {
+  // If we have exactly 3 points, only treat as a Bezier when it is not an
+  // orthogonal elbow. Orthogonal elbows must stay polyline so arrowheads
+  // follow the final segment direction into the target anchor.
+  if (points.length === 3 && !isOrthogonalElbow(points)) {
     const control = points[1];
     const end = points[2];
     pathData += ` Q ${control.x} ${control.y} ${end.x} ${end.y}`;
@@ -87,10 +93,12 @@ export function renderEdge(
   const edgeType = (edgeAst as any).edgeType; // UML relationship type
   const isBidirectional = !!(edgeAst as any).bidirectional;
   const navigability = (edgeAst as any).navigability; // UML navigability direction
-  const arrowId = `arrow-${edgeType || arrowType}-${routed.from}-${routed.to}`;
-  const arrowIdStart = `arrow-start-${edgeType || arrowType}-${routed.from}-${routed.to}`;
-  const navArrowId = `nav-arrow-${routed.from}-${routed.to}`;
-  const navArrowIdStart = `nav-arrow-start-${routed.from}-${routed.to}`;
+  const edgeSuffix =
+    routed.edgeIndex !== undefined ? `-${routed.edgeIndex}` : '';
+  const arrowId = `arrow-${edgeType || arrowType}-${routed.from}-${routed.to}${edgeSuffix}`;
+  const arrowIdStart = `arrow-start-${edgeType || arrowType}-${routed.from}-${routed.to}${edgeSuffix}`;
+  const navArrowId = `nav-arrow-${routed.from}-${routed.to}${edgeSuffix}`;
+  const navArrowIdStart = `nav-arrow-start-${routed.from}-${routed.to}${edgeSuffix}`;
 
   // Define arrow marker based on type
   // For UML relationships, use edgeType to determine marker
@@ -419,4 +427,52 @@ function getEdgeLabelPoint(
   }
 
   return points[Math.floor(points.length / 2)];
+}
+
+function isOrthogonalElbow(points: { x: number; y: number }[]): boolean {
+  if (points.length !== 3) return false;
+  const [p0, p1, p2] = points;
+  const firstOrthogonal = p0.x === p1.x || p0.y === p1.y;
+  const secondOrthogonal = p1.x === p2.x || p1.y === p2.y;
+  return firstOrthogonal && secondOrthogonal;
+}
+
+function getParallelEdgeOffset(routed: RoutedEdge, diagram: DiagramAst): number {
+  const matching = diagram.edges
+    .map((edge, index) => ({ edge, index }))
+    .filter(({ edge }) => edge.from === routed.from && edge.to === routed.to);
+
+  if (matching.length <= 1) return 0;
+
+  const currentIndex =
+    routed.edgeIndex !== undefined
+      ? matching.findIndex(({ index }) => index === routed.edgeIndex)
+      : 0;
+  if (currentIndex < 0) return 0;
+
+  const spread = 12;
+  const centeredRank = currentIndex - (matching.length - 1) / 2;
+  return centeredRank * spread;
+}
+
+function applyParallelOffsetToPoints(
+  points: { x: number; y: number }[],
+  offset: number
+): { x: number; y: number }[] {
+  if (points.length < 2 || offset === 0) return points;
+
+  const start = points[0];
+  const end = points[points.length - 1];
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const length = Math.sqrt(dx * dx + dy * dy);
+  if (length === 0) return points;
+
+  const nx = -dy / length;
+  const ny = dx / length;
+
+  return points.map((point) => ({
+    x: point.x + nx * offset,
+    y: point.y + ny * offset,
+  }));
 }

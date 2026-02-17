@@ -25,10 +25,14 @@
 		handleDelete,
 		handleResetStyles,
 		handleInsertShape,
+		handleInsertEdge,
+		handleInsertShapeAndEdge,
 		editorRefs,
 		handleParse
 	} from '$lib/state/editorState.svelte';
 	import { editorState } from '$lib/state/editorState.svelte';
+	import { canvasState } from '$lib/state';
+	import { ProfileName } from '$lib/types';
 
 	let diagramDataId = 'runiq-diagram';
 
@@ -40,6 +44,8 @@
 	let lastWarningCount = $state(0);
 	let warningDetails = $state<WarningDetail[]>([]);
 	let combinedWarnings = $state<string[]>([]);
+	let connectPreviewStart = $state<{ x: number; y: number } | null>(null);
+	let connectPreviewEnd = $state<{ x: number; y: number } | null>(null);
 
 	// DOM element references
 	let editInputElement = $state<HTMLInputElement | null>(null);
@@ -96,6 +102,37 @@
 			diagramState.warnings,
 			editorState.lintWarnings
 		);
+	});
+
+	$effect(() => {
+		if (diagramState.errors.length > 0 && canvasState.mode !== 'select') {
+			canvasState.mode = 'select';
+		}
+	});
+
+	$effect(() => {
+		if (canvasState.mode !== 'connect') {
+			connectPreviewStart = null;
+			connectPreviewEnd = null;
+		}
+	});
+
+	$effect(() => {
+		if (canvasState.mode === 'connect') {
+			const hasActiveSelection =
+				selection.selectedNodeId !== null ||
+				selection.selectedEdgeId !== null ||
+				selection.selectedNodeIds.size > 0 ||
+				selection.selectedEdgeIds.size > 0;
+			const shouldHideStyle = styleState.isVisible;
+			if (!hasActiveSelection && !shouldHideStyle) return;
+
+			queueMicrotask(() => {
+				selection.clearSelection();
+				selection.updateVisualSelection(svgContainer);
+				if (shouldHideStyle) styleState.hide();
+			});
+		}
 	});
 
 	// Effect to attach interactive handlers when SVG output changes
@@ -208,12 +245,28 @@
 		viewport,
 		interactionManager,
 		getSvgContainer: () => svgContainer,
+		getProfileName: () => editorState.profileName,
+		getMode: () => canvasState.mode,
 		handleDelete,
 		handleEdit,
-		handleInsertShape
+		handleInsertShape,
+		handleInsertEdge,
+		handleInsertShapeAndEdge,
+		getNextShapeId: () => `id${editorState.shapeCounter}`,
+		onConnectPreviewStart: (point) => {
+			connectPreviewStart = point;
+		},
+		onConnectPreviewMove: (point) => {
+			connectPreviewEnd = point;
+		},
+		onConnectPreviewEnd: () => {
+			connectPreviewStart = null;
+			connectPreviewEnd = null;
+		}
 	});
 
 	function handleOpenStylePanel() {
+		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
 		const elementId = selection.selectedNodeId || selection.selectedEdgeId;
 		const styles = extractSelectedElementStyles(diagramState.profile as any, elementId);
 		if (Object.keys(styles).length > 0) {
@@ -223,6 +276,7 @@
 	}
 
 	function handleStyleChange(property: string, value: string | number) {
+		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
 		styleState.setStyle(property, value);
 		const dslProperty = mapStyleProperty(property);
 		for (const targetId of collectSelectedIds(selection)) {
@@ -474,12 +528,14 @@
 		tabindex="0"
 		style="cursor: {viewport.isPanning
 			? 'grabbing'
+			: editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'
+				? 'crosshair'
 			: selection.editingNodeId || selection.editingEdgeId
 				? 'default'
 				: 'grab'}; outline: none;"
 	>
 		<!-- Floating Toolbar at Top Center -->
-		{#if selection.selectedNodeId || selection.selectedEdgeId}
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && (selection.selectedNodeId || selection.selectedEdgeId)}
 			<div class="floating-toolbar">
 				<button
 					onclick={handleOpenStylePanel}
@@ -505,6 +561,18 @@
 			></div>
 		{/if}
 
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect' && connectPreviewStart && connectPreviewEnd}
+			<svg class="connect-preview-overlay" aria-hidden="true">
+				<line
+					class="connect-preview-line"
+					x1={connectPreviewStart.x}
+					y1={connectPreviewStart.y}
+					x2={connectPreviewEnd.x}
+					y2={connectPreviewEnd.y}
+				/>
+			</svg>
+		{/if}
+
 		<!-- Label Edit Input -->
 		{#if (selection.editingNodeId || selection.editingEdgeId) && selection.editInputPosition}
 			<input
@@ -517,7 +585,7 @@
 			/>
 		{/if}
 
-		{#if styleState.isVisible}
+		{#if styleState.isVisible && editorState.profileName === ProfileName.diagram && canvasState.mode === 'select'}
 			<StylePanel
 				selectedIds={collectSelectedIdSet(selection)}
 				currentStyles={styleState.currentStyles}

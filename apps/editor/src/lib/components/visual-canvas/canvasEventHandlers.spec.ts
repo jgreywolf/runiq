@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createCanvasEventHandlers } from './canvasEventHandlers';
+import { ProfileName } from '$lib/types';
 
 function createSelectionStub() {
 	return {
@@ -42,6 +43,27 @@ function createViewportStub() {
 	} as any;
 }
 
+function createBaseDeps(overrides: Record<string, unknown> = {}) {
+	return {
+		selection: createSelectionStub(),
+		viewport: createViewportStub(),
+		interactionManager: { clearSelection: vi.fn() } as any,
+		getSvgContainer: () => null,
+		getProfileName: () => ProfileName.diagram,
+		getMode: () => 'select' as const,
+		handleDelete: vi.fn(),
+		handleEdit: vi.fn(),
+		handleInsertShape: vi.fn(),
+		handleInsertEdge: vi.fn(),
+		handleInsertShapeAndEdge: vi.fn(),
+		getNextShapeId: () => 'id1',
+		onConnectPreviewStart: vi.fn(),
+		onConnectPreviewMove: vi.fn(),
+		onConnectPreviewEnd: vi.fn(),
+		...overrides
+	} as any;
+}
+
 describe('canvasEventHandlers', () => {
 	it('deletes all multi-selected elements on Delete key', () => {
 		const selection = createSelectionStub();
@@ -51,13 +73,12 @@ describe('canvasEventHandlers', () => {
 		const interactionManager = { clearSelection: vi.fn() } as any;
 
 		const handlers = createCanvasEventHandlers({
-			selection,
-			viewport: createViewportStub(),
-			interactionManager,
-			getSvgContainer: () => null,
-			handleDelete,
-			handleEdit: vi.fn(),
-			handleInsertShape: vi.fn()
+			...createBaseDeps({
+				selection,
+				viewport: createViewportStub(),
+				interactionManager,
+				handleDelete
+			})
 		});
 
 		const event = { key: 'Delete', preventDefault: vi.fn() } as any;
@@ -79,13 +100,11 @@ describe('canvasEventHandlers', () => {
 		} as any;
 
 		const handlers = createCanvasEventHandlers({
-			selection,
-			viewport,
-			interactionManager: { clearSelection: vi.fn() } as any,
-			getSvgContainer: () => svgContainer,
-			handleDelete: vi.fn(),
-			handleEdit: vi.fn(),
-			handleInsertShape: vi.fn()
+			...createBaseDeps({
+				selection,
+				viewport,
+				getSvgContainer: () => svgContainer
+			})
 		});
 
 		const event = {
@@ -105,13 +124,9 @@ describe('canvasEventHandlers', () => {
 	it('inserts dropped shape code from drag data', () => {
 		const handleInsertShape = vi.fn();
 		const handlers = createCanvasEventHandlers({
-			selection: createSelectionStub(),
-			viewport: createViewportStub(),
-			interactionManager: { clearSelection: vi.fn() } as any,
-			getSvgContainer: () => null,
-			handleDelete: vi.fn(),
-			handleEdit: vi.fn(),
-			handleInsertShape
+			...createBaseDeps({
+				handleInsertShape
+			})
 		});
 
 		const event = {
@@ -123,5 +138,35 @@ describe('canvasEventHandlers', () => {
 
 		handlers.handleDrop(event);
 		expect(handleInsertShape).toHaveBeenCalledWith('shape x as @rect');
+	});
+
+	it('in connect mode links two nodes on mouse up', () => {
+		const svgContainer = {
+			querySelector: vi.fn(() => ({ classList: { add: vi.fn(), remove: vi.fn() } }))
+		} as any;
+		const handleInsertEdge = vi.fn();
+
+		const handlers = createCanvasEventHandlers(
+			createBaseDeps({
+				getMode: () => 'connect',
+				getSvgContainer: () => svgContainer,
+				handleInsertEdge
+			})
+		);
+
+		handlers.handleMouseDown({
+			button: 0,
+			target: {
+				closest: () => ({ getAttribute: () => 'a' })
+			}
+		} as any);
+
+		handlers.handleMouseUp({
+			target: {
+				closest: () => ({ getAttribute: () => 'b' })
+			}
+		} as any);
+
+		expect(handleInsertEdge).toHaveBeenCalledWith('a', 'b');
 	});
 });

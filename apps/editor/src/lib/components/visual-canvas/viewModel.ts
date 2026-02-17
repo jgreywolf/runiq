@@ -62,7 +62,8 @@ export function mapStyleProperty(property: string): string {
 		fontSize: 'fontSize',
 		fontFamily: 'fontFamily',
 		fontWeight: 'fontWeight',
-		opacity: 'opacity'
+		opacity: 'opacity',
+		icon: 'icon'
 	};
 
 	return propertyMap[property] || property;
@@ -84,6 +85,7 @@ export function extractSelectedElementStyles(profile: any, elementId: string | n
 		opacity: element.properties.opacity || 1,
 		fontSize: element.properties.textSize,
 		fontFamily: element.properties.fontFamily,
-		color: element.properties.textColor
+		color: element.properties.textColor,
+		icon: element.icon ? `${element.icon.provider}/${element.icon.name}` : ''
 	};
 }

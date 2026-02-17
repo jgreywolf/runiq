@@ -1,9 +1,16 @@
 <script lang="ts">
 	import type { EditorMode } from '$lib/types/editor';
 	import Icon from '@iconify/svelte';
-	import { editorRefs, editorState, updateCode } from '$lib/state/editorState.svelte';
+	import {
+		editorRefs,
+		editorState,
+		handleInsertShape,
+		updateCode
+	} from '$lib/state/editorState.svelte';
 	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 	import { canvasState } from '$lib/state';
+	import { ProfileName } from '$lib/types';
+	import { containerTemplateShapeIcons } from '$lib/data/toolboxIcons/containerTemplateShapeIcons';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -13,24 +20,91 @@
 	let { svgContainer, svgOutput }: Props = $props();
 
 	let showThemeFlyout = $state(false);
+	let showShapeFlyout = $state(false);
+	let showContainerFlyout = $state(false);
+	let showImageFlyout = $state(false);
 	const availableThemes = getAvailableBaseThemes();
+
+	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
+
+	const quickShapes = [
+		{ label: 'Rectangle', code: 'shape id as @rectangle label:"New Node"' },
+		{ label: 'Rounded', code: 'shape id as @roundedRectangle label:"New Node"' },
+		{ label: 'Circle', code: 'shape id as @circle label:"New Node"' },
+		{ label: 'Decision', code: 'shape id as @rhombus label:"Decision"' }
+	];
+
+	const containerSnippets = [
+		{
+			label: 'Basic Container',
+			code: 'container "New Container" {\n    shape id as @rectangle label:"Node"\n  }'
+		},
+		...containerTemplateShapeIcons[0].shapes.slice(0, 2).map((shape) => ({
+			label: shape.label,
+			code: shape.code.trim()
+		}))
+	];
 
 	// Mode handlers
 	function handleModeChange(newMode: EditorMode) {
+		if (!isDiagramProfile) return;
 		canvasState.mode = newMode;
 	}
 
 	function handleAddShape() {
-		// TODO: Open shape picker flyout
-		console.log('Add shape clicked');
+		if (!isDiagramProfile) return;
+		showShapeFlyout = !showShapeFlyout;
+		showContainerFlyout = false;
+		showImageFlyout = false;
+		showThemeFlyout = false;
 	}
 
 	function handleAddContainer() {
-		// TODO: Open container picker flyout
-		console.log('Add container clicked');
+		if (!isDiagramProfile) return;
+		showContainerFlyout = !showContainerFlyout;
+		showShapeFlyout = false;
+		showImageFlyout = false;
+		showThemeFlyout = false;
+	}
+
+	function handleAddImage() {
+		if (!isDiagramProfile) return;
+		showImageFlyout = !showImageFlyout;
+		showShapeFlyout = false;
+		showContainerFlyout = false;
+		showThemeFlyout = false;
+	}
+
+	function handleAddText() {
+		if (!isDiagramProfile) return;
+		handleInsertShape('shape id as @textBlock label:"Edit text" textAlign:left');
+		canvasState.mode = 'select';
+	}
+
+	function insertQuickShape(code: string) {
+		handleInsertShape(code);
+		showShapeFlyout = false;
+	}
+
+	function insertQuickContainer(code: string) {
+		handleInsertShape(code);
+		showContainerFlyout = false;
+	}
+
+	function insertImageShape(src: string) {
+		const safeSrc = src.trim();
+		if (!safeSrc) return;
+		const normalizedSrc = safeSrc.replace(/"/g, '\\"');
+		handleInsertShape(
+			`shape id as @image label:"Image" data:[{ src:"${normalizedSrc}" }]`
+		);
+		showImageFlyout = false;
 	}
 
 	function handleChangeTheme() {
+		showShapeFlyout = false;
+		showContainerFlyout = false;
+		showImageFlyout = false;
 		showThemeFlyout = !showThemeFlyout;
 	}
 
@@ -106,6 +180,8 @@
 
 		editorRefs.viewport.fitToScreen(svgWidth, svgHeight, containerWidth, containerHeight);
 	}
+
+	let imageUrlInput = $state('https://images.unsplash.com/photo-1461749280684-dccba630e2f6');
 </script>
 
 <div class="toolbar-wrapper">
@@ -118,6 +194,7 @@
 				onclick={() => handleModeChange('select')}
 				title="Select Mode (V)"
 				aria-label="Select Mode (V)"
+				disabled={!isDiagramProfile}
 			>
 				<Icon icon="lucide:pointer" class="icon" />
 			</button>
@@ -128,6 +205,7 @@
 				onclick={() => handleModeChange('connect')}
 				title="Connect Mode (C)"
 				aria-label="Connect Mode (C)"
+				disabled={!isDiagramProfile}
 			>
 				<Icon icon="lucide:git-branch" class="icon" />
 			</button>
@@ -137,7 +215,13 @@
 
 		<!-- Shape Tools -->
 		<div class="toolbar-section">
-			<button class="toolbar-btn" onclick={handleAddShape} title="Add Shape" aria-label="Add Shape">
+			<button
+				class="toolbar-btn"
+				onclick={handleAddShape}
+				title="Add Shape"
+				aria-label="Add Shape"
+				disabled={!isDiagramProfile}
+			>
 				<Icon icon="lucide:square-plus" class="icon" />
 			</button>
 
@@ -146,8 +230,29 @@
 				onclick={handleAddContainer}
 				title="Add Container"
 				aria-label="Add Container"
+				disabled={!isDiagramProfile}
 			>
 				<Icon icon="lucide:box" class="icon" />
+			</button>
+
+			<button
+				class="toolbar-btn"
+				onclick={handleAddImage}
+				title="Add Image"
+				aria-label="Add Image"
+				disabled={!isDiagramProfile}
+			>
+				<Icon icon="lucide:image-plus" class="icon" />
+			</button>
+
+			<button
+				class="toolbar-btn"
+				onclick={handleAddText}
+				title="Add Text"
+				aria-label="Add Text"
+				disabled={!isDiagramProfile}
+			>
+				<Icon icon="lucide:text-cursor-input" class="icon" />
 			</button>
 		</div>
 
@@ -239,6 +344,57 @@
 					<span class="text-xs">{theme.name}</span>
 				</button>
 			{/each}
+		</div>
+	{/if}
+
+	{#if showShapeFlyout}
+		<div class="theme-flyout">
+			<div class="mb-1 px-2 py-1">
+				<h3 class="text-xs font-semibold text-neutral-700">Quick Shapes</h3>
+			</div>
+			{#each quickShapes as shape}
+				<button
+					onclick={() => insertQuickShape(shape.code)}
+					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
+				>
+					<span class="text-xs">{shape.label}</span>
+				</button>
+			{/each}
+		</div>
+	{/if}
+
+	{#if showContainerFlyout}
+		<div class="theme-flyout">
+			<div class="mb-1 px-2 py-1">
+				<h3 class="text-xs font-semibold text-neutral-700">Containers</h3>
+			</div>
+			{#each containerSnippets as container}
+				<button
+					onclick={() => insertQuickContainer(container.code)}
+					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
+				>
+					<span class="text-xs">{container.label}</span>
+				</button>
+			{/each}
+		</div>
+	{/if}
+
+	{#if showImageFlyout}
+		<div class="theme-flyout">
+			<div class="mb-1 px-2 py-1">
+				<h3 class="text-xs font-semibold text-neutral-700">Insert Image</h3>
+			</div>
+			<input
+				class="rounded border border-neutral-300 px-2 py-1 text-xs"
+				bind:value={imageUrlInput}
+				placeholder="https://..."
+			/>
+			<button
+				onclick={() => insertImageShape(imageUrlInput)}
+				class="mt-1 rounded bg-neutral-900 px-2 py-1.5 text-xs text-white hover:bg-neutral-700"
+			>
+				Add Image Node
+			</button>
 		</div>
 	{/if}
 </div>

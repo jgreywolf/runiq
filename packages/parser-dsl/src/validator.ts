@@ -1,9 +1,13 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
 import type {
+  ContainerBlock,
+  DiagramProfile,
+  GroupBlock,
   RuniqAstType,
   ShapeDeclaration,
   EdgeDeclaration,
 } from './generated/ast.js';
+import { isShapeDeclaration } from './generated/ast.js';
 import type { RuniqServices } from './langium-module.js';
 import { ValidationRegistry as LangiumValidationRegistry } from 'langium';
 import { shapeRegistry } from '@runiq/core';
@@ -53,6 +57,34 @@ export class RuniqValidator {
           property: 'id',
         }
       );
+    }
+
+    // Warn on duplicate shape IDs within the same statement block.
+    // Only warn on later occurrences to avoid duplicate diagnostics for the first declaration.
+    const container = shape.$container as
+      | DiagramProfile
+      | ContainerBlock
+      | GroupBlock
+      | undefined;
+    const statements = container?.statements;
+    if (statements) {
+      const currentIndex = statements.indexOf(shape as any);
+      const hasPriorDuplicate = statements.some((statement, index) => {
+        if (index >= currentIndex || !isShapeDeclaration(statement)) {
+          return false;
+        }
+        return statement.id === shape.id;
+      });
+      if (hasPriorDuplicate) {
+        accept(
+          'warning',
+          `Shape ID "${shape.id}" is reused in this scope. This can cause ambiguous edge targeting.`,
+          {
+            node: shape,
+            property: 'id',
+          }
+        );
+      }
     }
 
     // Validate shape type using the shape registry

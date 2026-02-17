@@ -9,6 +9,8 @@ import {
 import { SelectionState } from '$lib/components/visual-canvas/SelectionState.svelte';
 import { ViewportState } from '$lib/components/visual-canvas/ViewportState.svelte';
 import { canvasState } from '$lib/state';
+import { editorState } from '$lib/state/editorState.svelte';
+import { ProfileName } from '$lib/types';
 import { SvelteSet } from 'svelte/reactivity';
 
 /**
@@ -99,6 +101,7 @@ export class InteractionManager {
 	 * Build MouseHandlerContext from current state
 	 */
 	private buildContext(): MouseHandlerContext {
+		const interactionsEnabled = editorState.profileName === ProfileName.diagram;
 		return {
 			svgContainer: this.svgContainerRef,
 			scale: this.viewport.scale,
@@ -116,7 +119,9 @@ export class InteractionManager {
 			lassoStartX: this.selection.lassoStartX,
 			lassoStartY: this.selection.lassoStartY,
 			lassoEndX: this.selection.lassoEndX,
-			lassoEndY: this.selection.lassoEndY
+			lassoEndY: this.selection.lassoEndY,
+			interactionsEnabled,
+			interactionMode: canvasState.mode
 		};
 	}
 

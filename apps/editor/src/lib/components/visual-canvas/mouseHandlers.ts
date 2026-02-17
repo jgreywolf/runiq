@@ -18,6 +18,8 @@ export interface MouseHandlerContext {
 	lassoStartY: number;
 	lassoEndX: number;
 	lassoEndY: number;
+	interactionsEnabled: boolean;
+	interactionMode: 'select' | 'connect';
 }
 
 export interface MouseHandlerCallbacks {
@@ -37,6 +39,8 @@ const chartShapes = new Set([
 ]);
 
 export function handleElementMouseEnter(event: Event, context: MouseHandlerContext): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	const target = event.currentTarget as SVGElement;
 
 	const nodeId = target.getAttribute('data-node-id');
@@ -55,6 +59,8 @@ export function handleElementMouseEnter(event: Event, context: MouseHandlerConte
 }
 
 export function handleElementMouseLeave(event: Event, context: MouseHandlerContext): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	const target = event.currentTarget as SVGElement;
 
 	const shapeId = target.getAttribute('data-node-shape');
@@ -73,6 +79,8 @@ export function handleElementClick(
 	context: MouseHandlerContext,
 	callbacks: MouseHandlerCallbacks
 ): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	event.stopPropagation();
 	const target = event.currentTarget as SVGElement;
 	const nodeId = target.getAttribute('data-node-id');
@@ -138,6 +146,8 @@ export function handleElementDoubleClick(
 	context: MouseHandlerContext,
 	callbacks: MouseHandlerCallbacks
 ): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	event.stopPropagation();
 	const target = event.currentTarget as SVGElement;
 	const nodeId = target.getAttribute('data-node-id');

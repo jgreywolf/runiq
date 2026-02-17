@@ -4,6 +4,7 @@
  */
 
 export interface ProfileBlockInfo {
+	startLineIndex: number;
 	insertLineIndex: number;
 	indentation: string;
 }
@@ -29,6 +30,7 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 	];
 
 	let insertLineIndex = -1;
+	let startLineIndex = -1;
 	let indentation = '  ';
 	let inProfileBlock = false;
 	let braceDepth = 0;
@@ -42,6 +44,7 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 
 		if (isProfileStart && trimmed.endsWith('{')) {
 			inProfileBlock = true;
+			startLineIndex = i;
 			braceDepth = 1;
 			const match = line.match(/^(\s*)/);
 			profileStartIndent = match ? match[1] : '';
@@ -59,7 +62,36 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 
 	if (insertLineIndex === -1) return null;
 
-	return { insertLineIndex, indentation };
+	return { startLineIndex, insertLineIndex, indentation };
+}
+
+function isShapeDeclarationLine(trimmedLine: string): boolean {
+	return /^shape\s+\S+/.test(trimmedLine);
+}
+
+function isEdgeDeclarationLine(trimmedLine: string): boolean {
+	return /^\S+\s+(-[^>]*->|->)\s+\S+/.test(trimmedLine);
+}
+
+function findFirstEdgeLineIndex(lines: string[], blockInfo: ProfileBlockInfo): number {
+	for (let i = blockInfo.startLineIndex + 1; i < blockInfo.insertLineIndex; i++) {
+		if (isEdgeDeclarationLine(lines[i].trim())) return i;
+	}
+	return -1;
+}
+
+function findLastEdgeLineIndex(lines: string[], blockInfo: ProfileBlockInfo): number {
+	for (let i = blockInfo.insertLineIndex - 1; i > blockInfo.startLineIndex; i--) {
+		if (isEdgeDeclarationLine(lines[i].trim())) return i;
+	}
+	return -1;
+}
+
+function findLastShapeLineIndex(lines: string[], blockInfo: ProfileBlockInfo): number {
+	for (let i = blockInfo.insertLineIndex - 1; i > blockInfo.startLineIndex; i--) {
+		if (isShapeDeclarationLine(lines[i].trim())) return i;
+	}
+	return -1;
 }
 
 /**
@@ -192,6 +224,8 @@ export function editStyleProperty(
 			);
 		} else if (property === 'routing') {
 			updatedLine = line.replace(new RegExp(`${property}:\\s*\\w+`), `${property}:${value}`);
+		} else if (property === 'icon') {
+			updatedLine = line.replace(new RegExp(`${property}:\\s*[^\\s]+`), `${property}:${value}`);
 		} else {
 			updatedLine = line.replace(new RegExp(`${property}:\\s*"[^"]*"`), `${property}:"${value}"`);
 		}
@@ -199,6 +233,8 @@ export function editStyleProperty(
 		if (property === 'fontSize' || property === 'strokeWidth' || property === 'shadow') {
 			updatedLine = line.trim() + ` ${property}:${value}`;
 		} else if (property === 'routing') {
+			updatedLine = line.trim() + ` ${property}:${value}`;
+		} else if (property === 'icon') {
 			updatedLine = line.trim() + ` ${property}:${value}`;
 		} else {
 			updatedLine = line.trim() + ` ${property}:"${value}"`;
@@ -215,13 +251,22 @@ export function editStyleProperty(
 export function insertShape(code: string, shapeCode: string, shapeCounter: number): string {
 	// Replace 'id' with 'id{counter}' only when it's a standalone word boundary
 	// This prevents replacing 'id' in words like 'pyramid' -> 'pyramid9'
-	const uniqueCode = shapeCode.replace(/\bid\b/g, `id${shapeCounter}`);
+	const uniqueCode = shapeCode.replace(/\bid\b/g, `id${shapeCounter}`).trim();
 	const blockInfo = findProfileBlock(code);
 
 	if (!blockInfo) return code;
 
 	const lines = code.split('\n');
-	lines.splice(blockInfo.insertLineIndex, 0, `${blockInfo.indentation}${uniqueCode}`);
+	const snippetLines = uniqueCode
+		.split('\n')
+		.map((line) => line.trimEnd())
+		.filter((line) => line.trim().length > 0)
+		.map((line) => `${blockInfo.indentation}${line}`);
+	if (snippetLines.length === 0) return code;
+
+	const firstEdgeIndex = findFirstEdgeLineIndex(lines, blockInfo);
+	const shapeInsertIndex = firstEdgeIndex >= 0 ? firstEdgeIndex : blockInfo.insertLineIndex;
+	lines.splice(shapeInsertIndex, 0, ...snippetLines);
 	return lines.join('\n');
 }
 
@@ -229,13 +274,21 @@ export function insertShape(code: string, shapeCode: string, shapeCounter: numbe
  * Insert an edge into the DSL
  */
 export function insertEdge(code: string, fromNodeId: string, toNodeId: string): string {
-	const edgeCode = `${fromNodeId} -> ${toNodeId}`;
+	const edgeCode = `${fromNodeId} -> ${toNodeId}`.trim();
 	const blockInfo = findProfileBlock(code);
 
 	if (!blockInfo) return code;
 
 	const lines = code.split('\n');
-	lines.splice(blockInfo.insertLineIndex, 0, `${blockInfo.indentation}${edgeCode}`);
+	const lastEdgeIndex = findLastEdgeLineIndex(lines, blockInfo);
+	const edgeInsertIndex =
+		lastEdgeIndex >= 0
+			? lastEdgeIndex + 1
+			: (() => {
+					const lastShapeIndex = findLastShapeLineIndex(lines, blockInfo);
+					return lastShapeIndex >= 0 ? lastShapeIndex + 1 : blockInfo.insertLineIndex;
+				})();
+	lines.splice(edgeInsertIndex, 0, `${blockInfo.indentation}${edgeCode}`);
 	return lines.join('\n');
 }
 

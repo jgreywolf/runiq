@@ -709,21 +709,13 @@ export class ElkLayoutEngine implements LayoutEngine {
       height: maxY + 20,
     };
 
-    // Remove duplicate edges (keep only the last occurrence of each from->to pair)
-    const edgeMap = new Map<string, RoutedEdge>();
-    for (const edge of edges) {
-      const key = `${edge.from}->${edge.to}`;
-      edgeMap.set(key, edge);
-    }
-    const uniqueEdges = Array.from(edgeMap.values());
-
     // Snap edge endpoints to shape anchor points for better visual accuracy
-    this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText, direction);
+    this.snapEdgesToAnchors(diagram, edges, nodes, measureText, direction);
 
     // Simplify edges to straight lines for radial/mindmap layouts
-    this.simplifyRadialEdges(diagram, uniqueEdges);
+    this.simplifyRadialEdges(diagram, edges);
 
-    return { nodes, edges: uniqueEdges, size, containers };
+    return { nodes, edges, size, containers };
   }
 
   /**
@@ -840,7 +832,13 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const lastPoint = edge.points[edge.points.length - 1];
-        endAnchor = this.findNearestAnchor(lastPoint, anchors, toNode);
+        endAnchor = this.findPreferredTargetAnchor(
+          anchors,
+          fromNode,
+          toNode,
+          lastPoint,
+          direction
+        );
         if (endAnchor) {
           newEndPoint = {
             x: toNode.x + endAnchor.x,
@@ -1064,16 +1062,33 @@ export class ElkLayoutEngine implements LayoutEngine {
    * Returns 'horizontal' for left/right anchors, 'vertical' for top/bottom anchors.
    */
   private getAnchorDirection(anchorName?: string): Orientation | null {
-    if (!anchorName) return null;
+    const side = this.normalizeAnchorSide(anchorName);
+    if (!side) return null;
 
-    const name = anchorName.toLowerCase();
-    if (name === 'left' || name === 'right') {
+    if (side === 'left' || side === 'right') {
       return Orientation.HORIZONTAL;
     }
-    if (name === 'top' || name === 'bottom') {
+    if (side === 'top' || side === 'bottom') {
       return Orientation.VERTICAL;
     }
     return null;
+  }
+
+  private normalizeAnchorSide(
+    anchorName?: string
+  ): 'left' | 'right' | 'top' | 'bottom' | null {
+    if (!anchorName) return null;
+
+    const name = anchorName.toLowerCase();
+    if (name === 'left' || name === 'west') return 'left';
+    if (name === 'right' || name === 'east') return 'right';
+    if (name === 'top' || name === 'north') return 'top';
+    if (name === 'bottom' || name === 'south') return 'bottom';
+    return null;
+  }
+
+  private anchorMatches(anchorName: string | undefined, desired: string): boolean {
+    return this.normalizeAnchorSide(anchorName) === desired;
   }
 
   /**
@@ -1117,15 +1132,15 @@ export class ElkLayoutEngine implements LayoutEngine {
     if (!startAnchor?.name || edge.points.length < 4) return;
     if (direction !== 'DOWN' && direction !== 'UP') return;
 
-    const anchorName = startAnchor.name.toLowerCase();
-    if (anchorName !== 'left' && anchorName !== 'right') return;
+    const anchorSide = this.normalizeAnchorSide(startAnchor.name);
+    if (anchorSide !== 'left' && anchorSide !== 'right') return;
 
     const uniqueX = new Set(edge.points.map((p) => p.x));
     if (uniqueX.size <= 2) return;
 
     const start = edge.points[0];
     const end = edge.points[edge.points.length - 1];
-    const offset = anchorName === 'left' ? -12 : 12;
+    const offset = anchorSide === 'left' ? -12 : 12;
     const midX = start.x + offset;
 
     edge.points = [
@@ -1138,6 +1153,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     this.ensureOrthogonalPath(edge);
     if (endAnchor?.name) {
       this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+      this.alignEndSegmentToAnchor(edge, endAnchor.name);
       this.ensureOrthogonalPath(edge);
     }
   }
@@ -1154,26 +1170,27 @@ export class ElkLayoutEngine implements LayoutEngine {
   ): void {
     if (!edge.points || edge.points.length < 2) return;
 
-    const name = anchorName.toLowerCase();
+    const side = this.normalizeAnchorSide(anchorName);
+    if (!side) return;
     if (which === 'start') {
       const start = edge.points[0];
       const next = edge.points[1];
-      if (name === 'left') {
+      if (side === 'left') {
         const targetX = start.x - offset;
         if (next.x > targetX) {
           edge.points[1] = { x: targetX, y: next.y };
         }
-      } else if (name === 'right') {
+      } else if (side === 'right') {
         const targetX = start.x + offset;
         if (next.x < targetX) {
           edge.points[1] = { x: targetX, y: next.y };
         }
-      } else if (name === 'top') {
+      } else if (side === 'top') {
         const targetY = start.y - offset;
         if (next.y > targetY) {
           edge.points[1] = { x: next.x, y: targetY };
         }
-      } else if (name === 'bottom') {
+      } else if (side === 'bottom') {
         const targetY = start.y + offset;
         if (next.y < targetY) {
           edge.points[1] = { x: next.x, y: targetY };
@@ -1183,24 +1200,28 @@ export class ElkLayoutEngine implements LayoutEngine {
       const lastIndex = edge.points.length - 1;
       const end = edge.points[lastIndex];
       const prev = edge.points[lastIndex - 1];
-      if (name === 'left') {
+      if (side === 'left') {
         const targetX = end.x - offset;
-        if (prev.x < targetX) {
+        // Only correct when approaching from the wrong side (inside/right of target).
+        if (prev.x > end.x) {
           edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
         }
-      } else if (name === 'right') {
+      } else if (side === 'right') {
         const targetX = end.x + offset;
-        if (prev.x > targetX) {
+        // Only correct when approaching from the wrong side (inside/left of target).
+        if (prev.x < end.x) {
           edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
         }
-      } else if (name === 'top') {
+      } else if (side === 'top') {
         const targetY = end.y - offset;
-        if (prev.y < targetY) {
+        // Only correct when approaching from the wrong side (inside/below target).
+        if (prev.y > end.y) {
           edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
         }
-      } else if (name === 'bottom') {
+      } else if (side === 'bottom') {
         const targetY = end.y + offset;
-        if (prev.y > targetY) {
+        // Only correct when approaching from the wrong side (inside/above target).
+        if (prev.y < end.y) {
           edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
         }
       }
@@ -1216,17 +1237,32 @@ export class ElkLayoutEngine implements LayoutEngine {
   ): void {
     if (!edge.points || edge.points.length < 2) return;
 
-    const name = anchorName.toLowerCase();
+    const side = this.normalizeAnchorSide(anchorName);
+    if (!side) return;
     const lastIndex = edge.points.length - 1;
     const end = edge.points[lastIndex];
     const prev = edge.points[lastIndex - 1];
+    const minStub = 10;
 
-    if (name === 'top' || name === 'bottom') {
-      // Force vertical entry.
-      edge.points[lastIndex - 1] = { x: end.x, y: prev.y };
-    } else if (name === 'left' || name === 'right') {
-      // Force horizontal entry.
-      edge.points[lastIndex - 1] = { x: prev.x, y: end.y };
+    if (side === 'top' || side === 'bottom') {
+      // Force vertical entry with a non-zero terminal segment so marker orientation
+      // follows the intended direction into the anchor.
+      let y = prev.y;
+      if (side === 'top') {
+        y = Math.min(y, end.y - minStub);
+      } else {
+        y = Math.max(y, end.y + minStub);
+      }
+      edge.points[lastIndex - 1] = { x: end.x, y };
+    } else if (side === 'left' || side === 'right') {
+      // Force horizontal entry with a non-zero terminal segment.
+      let x = prev.x;
+      if (side === 'left') {
+        x = Math.min(x, end.x - minStub);
+      } else {
+        x = Math.max(x, end.x + minStub);
+      }
+      edge.points[lastIndex - 1] = { x, y: end.y };
     }
   }
 
@@ -1278,8 +1314,8 @@ export class ElkLayoutEngine implements LayoutEngine {
     }
 
     if (desired) {
-      const preferred = anchors.find(
-        (anchor) => anchor.name?.toLowerCase() === desired
+      const preferred = anchors.find((anchor) =>
+        this.anchorMatches(anchor.name, desired)
       );
       if (preferred) {
         return preferred;
@@ -1287,6 +1323,72 @@ export class ElkLayoutEngine implements LayoutEngine {
     }
 
     return this.findNearestAnchor(fallbackPoint, anchors, fromNode);
+  }
+
+  /**
+   * Choose a target anchor with stronger preference for the primary flow axis.
+   * For vertical layouts (DOWN/UP), prefer top/bottom entry on the target.
+   * For horizontal layouts (RIGHT/LEFT), prefer left/right entry on the target.
+   * Falls back to directional side entry and then nearest anchor.
+   */
+  private findPreferredTargetAnchor(
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    fromNode: PositionedNode,
+    toNode: PositionedNode,
+    fallbackPoint: { x: number; y: number },
+    direction: string
+  ): { x: number; y: number; name?: string } | null {
+    if (anchors.length === 0) return null;
+
+    const fromCenter = {
+      x: fromNode.x + fromNode.width / 2,
+      y: fromNode.y + fromNode.height / 2,
+    };
+    const toCenter = {
+      x: toNode.x + toNode.width / 2,
+      y: toNode.y + toNode.height / 2,
+    };
+
+    const dx = toCenter.x - fromCenter.x;
+    const dy = toCenter.y - fromCenter.y;
+
+    const verticalLayout = direction === 'DOWN' || direction === 'UP';
+    const horizontalLayout = direction === 'RIGHT' || direction === 'LEFT';
+    const thresholdX = toNode.width * 0.35;
+    const thresholdY = toNode.height * 0.35;
+
+    let desiredPrimary: string | null = null;
+    let desiredSecondary: string | null = null;
+
+    if (verticalLayout) {
+      desiredPrimary = dy >= 0 ? 'top' : 'bottom';
+      desiredSecondary = dx >= 0 ? 'left' : 'right';
+      if (Math.abs(dy) < thresholdY) {
+        desiredPrimary = null;
+      }
+    } else if (horizontalLayout) {
+      desiredPrimary = dx >= 0 ? 'left' : 'right';
+      desiredSecondary = dy >= 0 ? 'top' : 'bottom';
+      if (Math.abs(dx) < thresholdX) {
+        desiredPrimary = null;
+      }
+    }
+
+    if (desiredPrimary) {
+      const primary = anchors.find((anchor) =>
+        this.anchorMatches(anchor.name, desiredPrimary)
+      );
+      if (primary) return primary;
+    }
+
+    if (desiredSecondary) {
+      const secondary = anchors.find((anchor) =>
+        this.anchorMatches(anchor.name, desiredSecondary)
+      );
+      if (secondary) return secondary;
+    }
+
+    return this.findNearestAnchor(fallbackPoint, anchors, toNode);
   }
 
 
@@ -1685,7 +1787,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     edges: RoutedEdge[],
     direction: string
   ): void {
-    for (const edge of diagram.edges) {
+    for (const [edgeIndex, edge] of diagram.edges.entries()) {
       // Extract node IDs from potentially member-level references
       const fromNodeId = this.extractNodeId(edge.from);
       const toNodeId = this.extractNodeId(edge.to);
@@ -1703,7 +1805,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (isCrossContainer) {
         // Find the existing edge that was extracted (it will have wrong routing)
         const existingEdgeIndex = edges.findIndex(
-          (e) => e.from === edge.from && e.to === edge.to
+          (e) => e.from === edge.from && e.to === edge.to && e.edgeIndex === edgeIndex
         );
 
         // Find actual node positions
@@ -1731,6 +1833,7 @@ export class ElkLayoutEngine implements LayoutEngine {
               from: edge.from,
               to: edge.to,
               points: newPoints,
+              edgeIndex,
             };
           } else {
             // Edge wasn't extracted (Issue #10), add it manually
@@ -1738,6 +1841,7 @@ export class ElkLayoutEngine implements LayoutEngine {
               from: edge.from,
               to: edge.to,
               points: newPoints,
+              edgeIndex,
             });
           }
         }

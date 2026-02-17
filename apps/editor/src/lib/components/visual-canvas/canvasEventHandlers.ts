@@ -2,12 +2,16 @@ import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
 import type { InteractionManager } from '$lib/utils/interactionManager.svelte';
 import type { SelectionState } from './SelectionState.svelte';
 import type { ViewportState } from './ViewportState.svelte';
+import type { EditorMode } from '$lib/types/editor';
+import { ProfileName } from '$lib/types';
 
 interface CanvasEventHandlerDeps {
 	selection: SelectionState;
 	viewport: ViewportState;
 	interactionManager: InteractionManager;
 	getSvgContainer: () => HTMLDivElement | null;
+	getProfileName: () => ProfileName | null;
+	getMode: () => EditorMode;
 	handleDelete: (nodeId: string | null, edgeId: string | null) => void;
 	handleEdit: (
 		nodeOrEdgeId: string,
@@ -15,6 +19,12 @@ interface CanvasEventHandlerDeps {
 		value: string | number | boolean | { x: number; y: number }
 	) => void;
 	handleInsertShape: (shapeCode: string) => void;
+	handleInsertEdge: (fromNodeId: string, toNodeId: string) => void;
+	handleInsertShapeAndEdge: (shapeCode: string, fromNodeId: string, toNodeId: string) => void;
+	getNextShapeId: () => string;
+	onConnectPreviewStart: (point: { x: number; y: number }) => void;
+	onConnectPreviewMove: (point: { x: number; y: number }) => void;
+	onConnectPreviewEnd: () => void;
 }
 
 export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
@@ -23,12 +33,76 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		viewport,
 		interactionManager,
 		getSvgContainer,
+		getProfileName,
+		getMode,
 		handleDelete,
 		handleEdit,
-		handleInsertShape
+		handleInsertShape,
+		handleInsertEdge,
+		handleInsertShapeAndEdge,
+		getNextShapeId,
+		onConnectPreviewStart,
+		onConnectPreviewMove,
+		onConnectPreviewEnd
 	} = deps;
+	let connectStartNodeId: string | null = null;
+
+	const isDiagramProfile = () => getProfileName() === ProfileName.diagram;
+	const isSelectMode = () => getMode() === 'select';
+	const isConnectMode = () => getMode() === 'connect';
+
+	function getNodeIdFromEventTarget(target: EventTarget | null): string | null {
+		const maybeElement = target as unknown as Element | null;
+		if (!maybeElement || typeof maybeElement.closest !== 'function') return null;
+		const element = maybeElement.closest('[data-node-id]');
+		return element?.getAttribute('data-node-id') ?? null;
+	}
+
+	function clearConnectStartHighlight() {
+		const svgContainer = getSvgContainer();
+		if (!svgContainer || !connectStartNodeId) return;
+		svgContainer
+			.querySelector(`[data-node-id="${connectStartNodeId}"]`)
+			?.classList.remove('runiq-edge-start');
+		connectStartNodeId = null;
+		onConnectPreviewEnd();
+	}
+
+	function getContainerCoordinates(event: MouseEvent): { x: number; y: number } | null {
+		const svgContainer = getSvgContainer();
+		if (!svgContainer) return null;
+		const rect = svgContainer.getBoundingClientRect();
+		return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+	}
+
+	function getNodeCenterInContainer(nodeId: string): { x: number; y: number } | null {
+		const svgContainer = getSvgContainer();
+		if (!svgContainer) return null;
+		const nodeElement = svgContainer.querySelector(`[data-node-id="${nodeId}"]`) as SVGGraphicsElement | null;
+		if (!nodeElement || typeof nodeElement.getBoundingClientRect !== 'function') return null;
+		const nodeRect = nodeElement.getBoundingClientRect();
+		const containerRect = svgContainer.getBoundingClientRect();
+		return {
+			x: nodeRect.left - containerRect.left + nodeRect.width / 2,
+			y: nodeRect.top - containerRect.top + nodeRect.height / 2
+		};
+	}
+
+	function getSvgCoordinates(event: MouseEvent): { x: number; y: number } | null {
+		const svgContainer = getSvgContainer();
+		if (!svgContainer) return null;
+		const svg = svgContainer.querySelector('svg');
+		if (!svg) return null;
+		const rect = svg.getBoundingClientRect();
+		const viewBox = svg.viewBox?.baseVal;
+		if (!viewBox || rect.width === 0 || rect.height === 0) return null;
+		const x = ((event.clientX - rect.left) / rect.width) * viewBox.width + viewBox.x;
+		const y = ((event.clientY - rect.top) / rect.height) * viewBox.height + viewBox.y;
+		return { x: Math.round(x), y: Math.round(y) };
+	}
 
 	function handleCanvasClick(event: MouseEvent) {
+		if (!isDiagramProfile() || !isSelectMode()) return;
 		// Only deselect if clicking on the canvas itself, not on an element
 		if (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'svg') {
 			// If we're in multi-select mode (have multiple items selected), only clear if NOT holding Ctrl
@@ -40,6 +114,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleCanvasKeyDown(event: KeyboardEvent) {
+		if (!isDiagramProfile()) return;
 		// Don't intercept if we're editing text
 		if (selection.editingNodeId || selection.editingEdgeId) return;
 
@@ -87,6 +162,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleEditKeyPress(event: KeyboardEvent) {
+		if (!isDiagramProfile() || !isSelectMode()) return;
 		if (event.key === 'Enter') {
 			if (selection.editingNodeId) {
 				handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
@@ -100,7 +176,29 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleMouseDown(e: MouseEvent) {
+		if (!isDiagramProfile()) return;
 		if (selection.editingNodeId || selection.editingEdgeId) return;
+
+		if (isConnectMode()) {
+			if (e.button !== 0) return;
+			const nodeId = getNodeIdFromEventTarget(e.target);
+			if (!nodeId) {
+				clearConnectStartHighlight();
+				return;
+			}
+
+			clearConnectStartHighlight();
+			connectStartNodeId = nodeId;
+			getSvgContainer()
+				?.querySelector(`[data-node-id="${nodeId}"]`)
+				?.classList.add('runiq-edge-start');
+			const start = getNodeCenterInContainer(nodeId);
+			if (start) {
+				onConnectPreviewStart(start);
+				onConnectPreviewMove(start);
+			}
+			return;
+		}
 
 		const target = e.target as HTMLElement;
 		if (target.closest('[data-node-id], [data-edge-id]')) return;
@@ -127,6 +225,11 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		const rect = svgContainer.getBoundingClientRect();
 		viewport.updateMousePosition(e.clientX, e.clientY, rect);
 
+		if (isConnectMode() && connectStartNodeId) {
+			const mouse = getContainerCoordinates(e);
+			if (mouse) onConnectPreviewMove(mouse);
+		}
+
 		if (selection.isLassoPending || selection.isLassoActive) {
 			selection.updateLasso(viewport.mouseX, viewport.mouseY);
 		} else if (viewport.isPanning) {
@@ -135,6 +238,13 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleMouseUp() {
+		if (!isDiagramProfile()) return;
+
+		if (isConnectMode()) {
+			onConnectPreviewEnd();
+			return;
+		}
+
 		const svgContainer = getSvgContainer();
 		if (!svgContainer) return;
 
@@ -154,6 +264,34 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		e.preventDefault();
 		const delta = e.deltaY > 0 ? 0.9 : 1.1;
 		viewport.zoom(delta);
+	}
+
+	function handleMouseUpWithEvent(e: MouseEvent) {
+		if (!isDiagramProfile() || !isConnectMode()) {
+			handleMouseUp();
+			return;
+		}
+		if (!connectStartNodeId) return;
+		if (selection.editingNodeId || selection.editingEdgeId) return;
+
+		const targetNodeId = getNodeIdFromEventTarget(e.target);
+
+		if (targetNodeId && targetNodeId !== connectStartNodeId) {
+			handleInsertEdge(connectStartNodeId, targetNodeId);
+			clearConnectStartHighlight();
+			return;
+		}
+
+		if (!targetNodeId) {
+			const position = getSvgCoordinates(e);
+			const newNodeId = getNextShapeId();
+			const shapeCode = position
+				? `shape ${newNodeId} as @rectangle label:"New Node" position:(${position.x},${position.y})`
+				: `shape ${newNodeId} as @rectangle label:"New Node"`;
+			handleInsertShapeAndEdge(shapeCode, connectStartNodeId, newNodeId);
+		}
+
+		clearConnectStartHighlight();
 	}
 
 	function handleDragOver(e: DragEvent) {
@@ -178,7 +316,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		handleEditKeyPress,
 		handleMouseDown,
 		handleMouseMove,
-		handleMouseUp,
+		handleMouseUp: handleMouseUpWithEvent,
 		handleWheel,
 		handleDragOver,
 		handleDrop

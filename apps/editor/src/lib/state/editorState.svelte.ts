@@ -23,6 +23,7 @@ export {
 	handleInsertEdge,
 	handleInsertSample,
 	handleInsertShape,
+	handleInsertShapeAndEdge,
 	handleKeyDown,
 	handleNewDiagram,
 	handleParse,

@@ -156,6 +156,41 @@ describe('renderEdge', () => {
       expect(result).toBe('');
       expect(warnings).toContain('Edge node1 -> node2 has insufficient points');
     });
+
+    it('offsets parallel edges between the same nodes', () => {
+      const edges: EdgeDeclaration[] = [
+        { from: 'node1', to: 'node2' },
+        { from: 'node1', to: 'node2' },
+      ];
+      const diagram = createMinimalDiagram(edges);
+
+      const routed0: RoutedEdge = {
+        from: 'node1',
+        to: 'node2',
+        edgeIndex: 0,
+        points: [
+          { x: 100, y: 200 },
+          { x: 300, y: 200 },
+        ],
+      };
+      const routed1: RoutedEdge = {
+        from: 'node1',
+        to: 'node2',
+        edgeIndex: 1,
+        points: [
+          { x: 100, y: 200 },
+          { x: 300, y: 200 },
+        ],
+      };
+
+      const result0 = renderEdge(routed0, diagram, false, warnings);
+      const result1 = renderEdge(routed1, diagram, false, warnings);
+
+      expect(result0).toContain('M 100 194');
+      expect(result1).toContain('M 100 206');
+      expect(result0).toContain('data-edge-id="node1-node2-0"');
+      expect(result1).toContain('data-edge-id="node1-node2-1"');
+    });
   });
 
   describe('Edge Styling', () => {
