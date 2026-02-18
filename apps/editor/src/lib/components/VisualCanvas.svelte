@@ -21,6 +21,15 @@
 		updateWarningVisibility
 	} from './visual-canvas/viewModel';
 	import {
+		findNonOverlappingPreviewPoint,
+		getQuickConnectBehaviorFromModifiers,
+		offsetPointInDirection,
+		selectDirectionalTarget,
+		type CanvasNodeBox,
+		type QuickConnectBehavior,
+		type QuickConnectDirection
+	} from './visual-canvas/quickConnect';
+	import {
 		handleEdit,
 		handleDelete,
 		handleResetStyles,
@@ -46,6 +55,19 @@
 	let combinedWarnings = $state<string[]>([]);
 	let connectPreviewStart = $state<{ x: number; y: number } | null>(null);
 	let connectPreviewEnd = $state<{ x: number; y: number } | null>(null);
+	type QuickConnectHandle = {
+		direction: QuickConnectDirection;
+		x: number;
+		y: number;
+	};
+	let quickConnectNodeId = $state<string | null>(null);
+	let quickConnectHandles = $state<QuickConnectHandle[]>([]);
+	let quickConnectActiveDirection = $state<QuickConnectDirection | null>(null);
+	let quickConnectPreviewStart = $state<{ x: number; y: number } | null>(null);
+	let quickConnectPreviewEnd = $state<{ x: number; y: number } | null>(null);
+	let quickConnectTargetNodeId = $state<string | null>(null);
+	let quickConnectNewNodePosition = $state<{ x: number; y: number } | null>(null);
+	let quickConnectBehaviorHint = $state<QuickConnectBehavior>('auto');
 
 	// DOM element references
 	let editInputElement = $state<HTMLInputElement | null>(null);
@@ -114,6 +136,7 @@
 		if (canvasState.mode !== 'connect') {
 			connectPreviewStart = null;
 			connectPreviewEnd = null;
+			resetQuickConnect();
 		}
 	});
 
@@ -148,6 +171,254 @@
 
 	function getDiagramSvg() {
 		return document.querySelector<SVGSVGElement>(`[data-id="${diagramDataId}"]`);
+	}
+
+	function resetQuickConnect() {
+		quickConnectNodeId = null;
+		quickConnectHandles = [];
+		quickConnectActiveDirection = null;
+		quickConnectPreviewStart = null;
+		quickConnectPreviewEnd = null;
+		quickConnectTargetNodeId = null;
+		quickConnectNewNodePosition = null;
+		quickConnectBehaviorHint = 'auto';
+	}
+
+	function getContainerPointFromClient(clientX: number, clientY: number): { x: number; y: number } | null {
+		if (!svgContainer) return null;
+		const rect = svgContainer.getBoundingClientRect();
+		return { x: clientX - rect.left, y: clientY - rect.top };
+	}
+
+	function containerPointToSvgPoint(point: { x: number; y: number }): { x: number; y: number } | null {
+		if (!svgContainer) return null;
+		const svg = svgContainer.querySelector('svg');
+		if (!svg) return null;
+		const rect = svg.getBoundingClientRect();
+		const viewBox = svg.viewBox?.baseVal;
+		if (!viewBox || rect.width === 0 || rect.height === 0) return null;
+		return {
+			x: Math.round((point.x / rect.width) * viewBox.width + viewBox.x),
+			y: Math.round((point.y / rect.height) * viewBox.height + viewBox.y)
+		};
+	}
+
+	const QUICK_CONNECT_NODE_HITBOX_PADDING = 24;
+	const QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH = 112;
+	const QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT = 44;
+	const QUICK_CONNECT_NEW_NODE_STEP = 96;
+	const QUICK_CONNECT_NEW_NODE_MAX_STEPS = 8;
+
+	function listCanvasNodeBoxes(): CanvasNodeBox[] {
+		if (!svgContainer) return [];
+		const containerRect = svgContainer.getBoundingClientRect();
+		const nodes = Array.from(svgContainer.querySelectorAll('[data-node-id]')) as SVGGraphicsElement[];
+		return nodes
+			.map((nodeEl) => {
+				const id = nodeEl.getAttribute('data-node-id');
+				if (!id) return null;
+				const rect = nodeEl.getBoundingClientRect();
+				const left = rect.left - containerRect.left;
+				const top = rect.top - containerRect.top;
+				const right = left + rect.width;
+				const bottom = top + rect.height;
+				return {
+					id,
+					left,
+					right,
+					top,
+					bottom,
+					centerX: left + rect.width / 2,
+					centerY: top + rect.height / 2
+				};
+			})
+			.filter((node): node is CanvasNodeBox => node !== null);
+	}
+
+	function getNodeIdAtContainerPoint(
+		point: { x: number; y: number },
+		padding = QUICK_CONNECT_NODE_HITBOX_PADDING
+	): string | null {
+		const boxes = listCanvasNodeBoxes();
+		const candidates = boxes
+			.filter(
+				(box) =>
+					point.x >= box.left - padding &&
+					point.x <= box.right + padding &&
+					point.y >= box.top - padding &&
+					point.y <= box.bottom + padding
+			)
+			.sort((a, b) => {
+				const da = Math.abs(point.x - a.centerX) + Math.abs(point.y - a.centerY);
+				const db = Math.abs(point.x - b.centerX) + Math.abs(point.y - b.centerY);
+				return da - db;
+			});
+		return candidates[0]?.id ?? null;
+	}
+
+	function getQuickConnectHandles(nodeId: string): QuickConnectHandle[] {
+		const node = listCanvasNodeBoxes().find((candidate) => candidate.id === nodeId);
+		if (!node) return [];
+		return [
+			{ direction: 'top', x: node.centerX, y: node.top - 12 },
+			{ direction: 'right', x: node.right + 12, y: node.centerY },
+			{ direction: 'bottom', x: node.centerX, y: node.bottom + 12 },
+			{ direction: 'left', x: node.left - 12, y: node.centerY }
+		];
+	}
+
+	function getConnectedTargets(sourceNodeId: string): Set<string> {
+		const profile = diagramState.profile as any;
+		const edges = Array.isArray(profile?.edges) ? profile.edges : [];
+		const targets = new Set<string>();
+		for (const edge of edges) {
+			if (edge?.from === sourceNodeId && typeof edge?.to === 'string') {
+				targets.add(edge.to);
+			}
+		}
+		return targets;
+	}
+
+	function getPreviewEndpointForDirection(
+		sourceNodeId: string,
+		direction: QuickConnectDirection,
+		behavior: QuickConnectBehavior
+	): { point: { x: number; y: number }; targetNodeId: string | null } | null {
+		const nodeBoxes = listCanvasNodeBoxes();
+		const connectedTargets = getConnectedTargets(sourceNodeId);
+		return selectDirectionalTarget({
+			sourceNodeId,
+			direction,
+			nodeBoxes,
+			connectedTargets,
+			behavior
+		});
+	}
+
+	function activateQuickConnect(
+		nodeId: string,
+		direction: QuickConnectDirection,
+		behavior: QuickConnectBehavior = 'auto'
+	) {
+		const sourceHandle = quickConnectHandles.find((handle) => handle.direction === direction);
+		if (!sourceHandle) return;
+		quickConnectActiveDirection = direction;
+		quickConnectPreviewStart = { x: sourceHandle.x, y: sourceHandle.y };
+		const targetPreview =
+			behavior === 'new' ? null : getPreviewEndpointForDirection(nodeId, direction, behavior);
+		if (targetPreview && behavior !== 'new') {
+			quickConnectTargetNodeId = targetPreview.targetNodeId;
+			quickConnectPreviewEnd = targetPreview.point;
+			quickConnectNewNodePosition = null;
+			return;
+		}
+
+		const distance = 170;
+		const end = offsetPointInDirection(
+			{ x: sourceHandle.x, y: sourceHandle.y },
+			direction,
+			distance
+		);
+		const nonOverlappingEnd = findNonOverlappingPreviewPoint({
+			initialPoint: end,
+			direction,
+			sourceNodeId: nodeId,
+			nodeBoxes: listCanvasNodeBoxes(),
+			previewWidth: QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH,
+			previewHeight: QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT,
+			stepDistance: QUICK_CONNECT_NEW_NODE_STEP,
+			maxSteps: QUICK_CONNECT_NEW_NODE_MAX_STEPS
+		});
+		quickConnectTargetNodeId = null;
+		quickConnectPreviewEnd = nonOverlappingEnd;
+		quickConnectNewNodePosition = containerPointToSvgPoint(nonOverlappingEnd);
+	}
+
+	function runQuickConnect(
+		nodeId: string,
+		direction: QuickConnectDirection,
+		behavior: QuickConnectBehavior = 'auto'
+	) {
+		activateQuickConnect(nodeId, direction, behavior);
+		if (!quickConnectPreviewStart || !quickConnectPreviewEnd) return;
+
+		if (quickConnectTargetNodeId) {
+			handleInsertEdge(nodeId, quickConnectTargetNodeId);
+			resetQuickConnect();
+			return;
+		}
+		if (behavior === 'existing') {
+			resetQuickConnect();
+			return;
+		}
+
+		const newNodeId = `id${editorState.shapeCounter}`;
+		const svgPoint = quickConnectNewNodePosition ?? containerPointToSvgPoint(quickConnectPreviewEnd);
+		const shapeCode = svgPoint
+			? `shape ${newNodeId} as @rectangle label:"New Node" position:(${svgPoint.x},${svgPoint.y})`
+			: `shape ${newNodeId} as @rectangle label:"New Node"`;
+		handleInsertShapeAndEdge(shapeCode, nodeId, newNodeId);
+		resetQuickConnect();
+	}
+
+	function updateQuickConnectFromMouseEvent(event: MouseEvent) {
+		const canShow =
+			editorState.profileName === ProfileName.diagram &&
+			canvasState.mode === 'connect' &&
+			connectPreviewStart === null;
+		if (!canShow) {
+			resetQuickConnect();
+			return;
+		}
+
+		const target = event.target as Element | null;
+		if (!target) {
+			resetQuickConnect();
+			return;
+		}
+
+		// Keep current quick-connect state while interacting with handle UI.
+		if (target.closest('.quick-connect-layer')) {
+			return;
+		}
+
+		let nodeId: string | null = target.closest('[data-node-id]')?.getAttribute('data-node-id') ?? null;
+		if (!nodeId && svgContainer) {
+			const containerRect = svgContainer.getBoundingClientRect();
+			const point = {
+				x: event.clientX - containerRect.left,
+				y: event.clientY - containerRect.top
+			};
+			nodeId = getNodeIdAtContainerPoint(point);
+		}
+		if (!nodeId) {
+			resetQuickConnect();
+			return;
+		}
+
+		if (quickConnectNodeId !== nodeId) {
+			quickConnectNodeId = nodeId;
+			quickConnectHandles = getQuickConnectHandles(nodeId);
+			quickConnectActiveDirection = null;
+			quickConnectPreviewStart = null;
+			quickConnectPreviewEnd = null;
+			quickConnectTargetNodeId = null;
+			quickConnectNewNodePosition = null;
+		}
+	}
+
+	function handleCanvasMouseMove(event: MouseEvent) {
+		if (editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') {
+			quickConnectBehaviorHint = getQuickConnectBehaviorFromModifiers(event);
+		}
+		updateQuickConnectFromMouseEvent(event);
+		handleMouseMove(event);
+	}
+
+	function handleCanvasMouseLeave(event: MouseEvent) {
+		quickConnectBehaviorHint = 'auto';
+		resetQuickConnect();
+		handleMouseUp(event);
 	}
 
 	// Export functions for parent component access
@@ -232,7 +503,7 @@
 
 	const {
 		handleCanvasClick,
-		handleCanvasKeyDown,
+		handleCanvasKeyDown: handleCanvasKeyDownBase,
 		handleEditKeyPress,
 		handleMouseDown,
 		handleMouseMove,
@@ -264,6 +535,19 @@
 			connectPreviewEnd = null;
 		}
 	});
+
+	function handleCanvasKeyDown(event: KeyboardEvent) {
+		if (editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') {
+			quickConnectBehaviorHint = getQuickConnectBehaviorFromModifiers(event);
+		}
+		handleCanvasKeyDownBase(event);
+	}
+
+	function handleCanvasKeyUp(event: KeyboardEvent) {
+		if (editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') {
+			quickConnectBehaviorHint = getQuickConnectBehaviorFromModifiers(event);
+		}
+	}
 
 	function handleOpenStylePanel() {
 		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
@@ -391,6 +675,21 @@
 				</span>
 			{/if}
 
+			{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'}
+				<Badge
+					variant="outline"
+					class="gap-1 border-blue-300 bg-blue-50 text-blue-700"
+					data-testid="connect-mode-hint"
+				>
+					Connect: {quickConnectBehaviorHint === 'auto'
+						? 'Auto'
+						: quickConnectBehaviorHint === 'new'
+							? 'New'
+							: 'Existing'}
+					<span class="text-[10px] text-blue-500">(Alt New / Shift Existing)</span>
+				</Badge>
+			{/if}
+
 			{#if selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0}
 				<Badge variant="outline" class="gap-1 border-purple-300 bg-purple-50 text-purple-700">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -514,17 +813,18 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 	<div
-		class="relative flex-1 overflow-hidden bg-neutral-50"
+		class="relative flex-1 overflow-hidden bg-white"
 		bind:this={svgContainer}
 		onmousedown={handleMouseDown}
-		onmousemove={handleMouseMove}
+		onmousemove={handleCanvasMouseMove}
 		onmouseup={handleMouseUp}
-		onmouseleave={handleMouseUp}
+		onmouseleave={handleCanvasMouseLeave}
 		onwheel={handleWheel}
 		onclick={handleCanvasClick}
 		ondragover={handleDragOver}
 		ondrop={handleDrop}
 		onkeydown={handleCanvasKeyDown}
+		onkeyup={handleCanvasKeyUp}
 		tabindex="0"
 		style="cursor: {viewport.isPanning
 			? 'grabbing'
@@ -570,6 +870,67 @@
 					x2={connectPreviewEnd.x}
 					y2={connectPreviewEnd.y}
 				/>
+			</svg>
+		{/if}
+
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect' && !connectPreviewStart && quickConnectNodeId && quickConnectHandles.length > 0}
+			<div class="quick-connect-layer" aria-hidden="true">
+				{#each quickConnectHandles as handle}
+					<button
+						type="button"
+						class="quick-connect-handle"
+						class:is-active={quickConnectActiveDirection === handle.direction}
+						style="left: {handle.x}px; top: {handle.y}px;"
+						title={`Quick connect ${handle.direction} (Alt: force new, Shift: force existing)`}
+						onmouseenter={(event) =>
+							activateQuickConnect(
+								quickConnectNodeId as string,
+								handle.direction,
+								getQuickConnectBehaviorFromModifiers(event)
+							)}
+						onmouseleave={() => {
+							quickConnectActiveDirection = null;
+							quickConnectPreviewStart = null;
+							quickConnectPreviewEnd = null;
+							quickConnectTargetNodeId = null;
+							quickConnectNewNodePosition = null;
+						}}
+						onclick={(event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							runQuickConnect(
+								quickConnectNodeId as string,
+								handle.direction,
+								getQuickConnectBehaviorFromModifiers(event)
+							);
+						}}
+					>
+						<span class={`quick-connect-arrow quick-connect-arrow-${handle.direction}`}></span>
+					</button>
+				{/each}
+			</div>
+		{/if}
+
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect' && quickConnectPreviewStart && quickConnectPreviewEnd}
+			<svg class="connect-preview-overlay" aria-hidden="true">
+				<line
+					class="quick-connect-preview-line"
+					x1={quickConnectPreviewStart.x}
+					y1={quickConnectPreviewStart.y}
+					x2={quickConnectPreviewEnd.x}
+					y2={quickConnectPreviewEnd.y}
+				/>
+				{#if !quickConnectTargetNodeId}
+					<rect
+						class="quick-connect-new-node-preview"
+						x={quickConnectPreviewEnd.x - QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH / 2}
+						y={quickConnectPreviewEnd.y - QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT / 2}
+						width={QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH}
+						height={QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT}
+						rx="6"
+						ry="6"
+					/>
+				{/if}
 			</svg>
 		{/if}
 
@@ -629,7 +990,7 @@
 				class="absolute inset-0 flex items-center justify-center transition-transform"
 				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})"
 			>
-				<div class="rounded-lg border border-neutral-300 bg-white p-4 shadow-sm">
+				<div class="rounded-lg bg-transparent p-4">
 					{@html svgOutput}
 				</div>
 			</div>
