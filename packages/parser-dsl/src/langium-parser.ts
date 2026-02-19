@@ -56,6 +56,187 @@ export interface WarningDetail {
 const services = createRuniqServices(EmptyFileSystem);
 const parser = services.Runiq.parser.LangiumParser;
 
+const SHAPE_PROPERTY_KEYS = new Set<string>([
+  'label',
+  'style',
+  'fillColor',
+  'strokeColor',
+  'strokeWidth',
+  'fontSize',
+  'fontFamily',
+  'textAlign',
+  'fontWeight',
+  'opacity',
+  'borderRadius',
+  'icon',
+  'iconColor',
+  'iconSize',
+  'link',
+  'tooltip',
+  'data',
+  'source',
+  'showLegend',
+  'showValues',
+  'legendPosition',
+  'stacked',
+  'colors',
+  'labels',
+  'intersections',
+  'title',
+  'xLabel',
+  'yLabel',
+  'position',
+  'routing',
+  'textColor',
+  'shadow',
+  'shape',
+  'type',
+  'value',
+  'format',
+  'name',
+  'id'
+]);
+
+function levenshteinDistance(a: string, b: string): number {
+  if (a === b) return 0;
+  const rows = a.length + 1;
+  const cols = b.length + 1;
+  const dp: number[][] = Array.from({ length: rows }, () =>
+    Array.from({ length: cols }, () => 0)
+  );
+
+  for (let i = 0; i < rows; i++) dp[i][0] = i;
+  for (let j = 0; j < cols; j++) dp[0][j] = j;
+
+  for (let i = 1; i < rows; i++) {
+    for (let j = 1; j < cols; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1,
+        dp[i][j - 1] + 1,
+        dp[i - 1][j - 1] + cost
+      );
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function getClosestPropertySuggestion(candidate: string): string | undefined {
+  let best: { key: string; dist: number } | undefined;
+  for (const key of SHAPE_PROPERTY_KEYS) {
+    const dist = levenshteinDistance(candidate, key);
+    if (!best || dist < best.dist) best = { key, dist };
+  }
+  if (!best) return undefined;
+  return best.dist <= 3 ? best.key : undefined;
+}
+
+function findPropertyCandidate(lineText: string): string | undefined {
+  const matches = [...lineText.matchAll(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g)];
+  if (matches.length === 0) return undefined;
+  return matches[matches.length - 1]?.[1];
+}
+
+function buildFriendlyParserMessage(
+  err: any,
+  text: string,
+  resolvedLine?: number
+): string | undefined {
+  const token = err.token as any;
+  const tokenImage = token?.image;
+  const message = String(err.message ?? '');
+  if (tokenImage !== ':' && !message.includes("but found: ':'")) return undefined;
+  if (!resolvedLine || resolvedLine < 1) return undefined;
+
+  const lines = text.split(/\r?\n/);
+  const lineText = lines[resolvedLine - 1] ?? '';
+  if (!/\bshape\s+\S+/.test(lineText)) return undefined;
+
+  const candidate = findPropertyCandidate(lineText);
+  if (!candidate) return undefined;
+  if (SHAPE_PROPERTY_KEYS.has(candidate)) return undefined;
+
+  const suggestion = getClosestPropertySuggestion(candidate);
+  return suggestion
+    ? `Unknown property "${candidate}". Did you mean "${suggestion}"?`
+    : `Unknown property "${candidate}".`;
+}
+
+function hasUnbalancedDoubleQuotes(lineText: string): boolean {
+  const quoteCount = (lineText.match(/"/g) ?? []).length;
+  return quoteCount % 2 === 1;
+}
+
+function appendHint(baseMessage: string, hint: string): string {
+  return `${baseMessage} Hint: ${hint}`;
+}
+
+function buildGenericParserHint(
+  err: any,
+  text: string,
+  resolvedLine?: number
+): string | undefined {
+  const message = String(err.message ?? '');
+  const lineText =
+    resolvedLine && resolvedLine > 0
+      ? text.split(/\r?\n/)[resolvedLine - 1] ?? ''
+      : '';
+
+  if (
+    message.includes("Expecting token of type ':'") ||
+    message.includes("Expecting token of type ':' but found")
+  ) {
+    return appendHint(
+      message,
+      'Missing ":" between attribute name and value (example: label:"My Label").'
+    );
+  }
+
+  const expectsString =
+    message.includes("Expecting token of type 'STRING'") ||
+    message.includes('[STRING]');
+  const foundStringToken =
+    message.includes("but found: '\"") || message.includes('but found: \'"');
+
+  // Common typo: property followed by quoted value without colon, e.g. label "Text"
+  const likelyMissingColonBeforeString =
+    !!lineText &&
+    /\b[a-zA-Z_][a-zA-Z0-9_]*\s*"[^"]*"/.test(lineText) &&
+    !/\b[a-zA-Z_][a-zA-Z0-9_]*\s*:\s*"[^"]*"/.test(lineText);
+  if ((expectsString || foundStringToken) && likelyMissingColonBeforeString) {
+    return appendHint(
+      message,
+      'Missing ":" between attribute name and value (example: label:"My Label").'
+    );
+  }
+
+  if (expectsString) {
+    if (lineText && hasUnbalancedDoubleQuotes(lineText)) {
+      return appendHint(
+        message,
+        'Missing closing quote (").'
+      );
+    }
+    return appendHint(
+      message,
+      'String values must be in double quotes (example: label:"My Label").'
+    );
+  }
+
+  return undefined;
+}
+
+function buildFriendlyLexerMessage(err: any, text: string): string {
+  const raw = String(err.message ?? 'Lexer error');
+  const line = typeof err.line === 'number' ? err.line : undefined;
+  const lineText = line ? text.split(/\r?\n/)[line - 1] ?? '' : '';
+
+  if (lineText && hasUnbalancedDoubleQuotes(lineText)) {
+    return appendHint(raw, 'Possible missing closing quote (").');
+  }
+  return raw;
+}
+
 /**
  * Parse Runiq DSL text into RuniqDocument or DiagramAst (legacy)
  * @param text - The Runiq DSL source code
@@ -77,18 +258,40 @@ export function parse(text: string): ParseResult {
         err.line !== undefined && err.column !== undefined
           ? ` at line ${err.line}, column ${err.column}`
           : '';
-      errors.push(`Lexer error${location}: ${err.message}`);
+      errors.push(`Lexer error${location}: ${buildFriendlyLexerMessage(err, text)}`);
     });
 
     parseResult.parserErrors.forEach((err) => {
-      const token = err.token;
+      const token = err.token as any;
+      const previousToken = (err as any).previousToken as any;
+      let line: number | undefined = token?.startLine;
+      let column: number | undefined = token?.startColumn;
+
+      // Common case: parser reports at first token of next line when the previous
+      // line is malformed (missing delimiter/property termination).
+      const canPreferPreviousLine =
+        previousToken &&
+        typeof previousToken.endLine === 'number' &&
+        typeof token?.startLine === 'number' &&
+        token.startLine > previousToken.endLine &&
+        typeof token.startColumn === 'number' &&
+        token.startColumn <= 3;
+
+      if (canPreferPreviousLine) {
+        line = previousToken.endLine;
+        column =
+          typeof previousToken.endColumn === 'number'
+            ? previousToken.endColumn
+            : previousToken.startColumn;
+      }
+
       const location =
-        token &&
-        token.startLine !== undefined &&
-        token.startColumn !== undefined
-          ? ` at line ${token.startLine}, column ${token.startColumn}`
+        line !== undefined && column !== undefined
+          ? ` at line ${line}, column ${column}`
           : '';
-      errors.push(`Parser error${location}: ${err.message}`);
+      const friendly = buildFriendlyParserMessage(err, text, line);
+      const genericHint = buildGenericParserHint(err, text, line);
+      errors.push(`Parser error${location}: ${friendly ?? genericHint ?? err.message}`);
     });
 
     return { success: false, errors, warnings: [], warningDetails: [] };

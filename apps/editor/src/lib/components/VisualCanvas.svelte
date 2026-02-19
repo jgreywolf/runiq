@@ -454,7 +454,9 @@
 				diagramState.clearWarnings();
 			},
 			onSuccess: (result) => {
-				svgOutput = result.svg;
+				if (result.svg && result.svg.trim().length > 0) {
+					svgOutput = result.svg;
+				}
 				diagramState.setErrors(result.errors);
 				diagramState.setWarnings(result.warnings);
 				warningDetails = result.warningDetails ?? [];
@@ -463,6 +465,9 @@
 
 				if (result.nodeLocations) {
 					nodeLocations = result.nodeLocations;
+					diagramState.setNodeLocations(result.nodeLocations);
+				} else {
+					diagramState.clearNodeLocations();
 				}
 
 				if (result.profile) {
@@ -474,7 +479,6 @@
 			onError: (errorMsg) => {
 				diagramState.setErrors([errorMsg]);
 				warningDetails = [];
-				svgOutput = '';
 				handleParse(false, diagramState.errors);
 			},
 			onComplete: () => {
@@ -957,10 +961,22 @@
 			/>
 		{/if}
 
+		{#if svgOutput}
+			<!-- SVG Preview with Pan/Zoom -->
+			<div
+				class="absolute inset-0 flex items-center justify-center transition-transform"
+				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})"
+			>
+				<div class="rounded-lg bg-transparent p-4">
+					{@html svgOutput}
+				</div>
+			</div>
+		{/if}
+
 		{#if diagramState.errors.length > 0}
 			<!-- Error Overlay -->
-			<div class="absolute inset-0 flex items-center justify-center p-8">
-				<div class="max-w-2xl rounded-lg border-2 border-error bg-white p-6 shadow-lg">
+			<div class="absolute inset-0 flex items-center justify-center bg-black/5 p-8">
+				<div class="max-w-2xl rounded-lg border-2 border-error bg-white/95 p-6 shadow-lg backdrop-blur-sm">
 					<div class="mb-4 flex items-center gap-2 text-error">
 						<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
@@ -972,6 +988,9 @@
 						</svg>
 						<h3 class="text-lg font-semibold">Parsing Errors</h3>
 					</div>
+					{#if svgOutput}
+						<p class="mb-3 text-xs text-neutral-600">Showing last valid render.</p>
+					{/if}
 					<div class="space-y-2">
 						{#each diagramState.errors as error}
 							<div class="rounded bg-error/10 px-3 py-2 font-mono text-sm text-error">
@@ -980,21 +999,11 @@
 						{/each}
 					</div>
 					<p class="mt-4 text-sm text-neutral-600">
-						Fix the errors in the code editor to see the preview.
+						Fix the errors in the code editor to update the preview.
 					</p>
 				</div>
 			</div>
-		{:else if svgOutput}
-			<!-- SVG Preview with Pan/Zoom -->
-			<div
-				class="absolute inset-0 flex items-center justify-center transition-transform"
-				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})"
-			>
-				<div class="rounded-lg bg-transparent p-4">
-					{@html svgOutput}
-				</div>
-			</div>
-		{:else}
+		{:else if !svgOutput}
 			<!-- Empty State -->
 			<div class="absolute inset-0 flex items-center justify-center p-8 text-center">
 				<div class="max-w-md">

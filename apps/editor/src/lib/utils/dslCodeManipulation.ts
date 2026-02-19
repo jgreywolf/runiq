@@ -9,6 +9,67 @@ export interface ProfileBlockInfo {
 	indentation: string;
 }
 
+export interface LocationHint {
+	startLine: number;
+	startColumn?: number;
+	endLine?: number;
+	endColumn?: number;
+}
+
+function escapeRegExp(value: string): string {
+	return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function collectDeclaredShapeIds(code: string): Set<string> {
+	const ids = new Set<string>();
+	const lines = code.split('\n');
+	for (const line of lines) {
+		const match = line.match(/^\s*shape\s+([^\s]+)\s+as\s+/);
+		if (match?.[1]) ids.add(match[1]);
+	}
+	return ids;
+}
+
+function nextUniqueId(baseId: string, usedIds: Set<string>, startAt = 2): string {
+	if (!usedIds.has(baseId)) return baseId;
+
+	const numericSuffixMatch = baseId.match(/^(.*?)(\d+)$/);
+	if (numericSuffixMatch) {
+		const prefix = numericSuffixMatch[1];
+		let n = Number(numericSuffixMatch[2]);
+		while (usedIds.has(`${prefix}${n}`)) n++;
+		return `${prefix}${n}`;
+	}
+
+	let n = startAt;
+	while (usedIds.has(`${baseId}${n}`)) n++;
+	return `${baseId}${n}`;
+}
+
+function resolveLineIndexFromLocation(
+	lines: string[],
+	location: LocationHint | undefined,
+	matcher: (line: string) => boolean
+): number {
+	if (!location) return -1;
+
+	const startIndex = Math.max(0, location.startLine - 1);
+	if (startIndex < lines.length && matcher(lines[startIndex])) {
+		return startIndex;
+	}
+
+	// In case locations are slightly stale after recent edits, scan nearby lines first.
+	const radius = 4;
+	for (let offset = 1; offset <= radius; offset++) {
+		const above = startIndex - offset;
+		const below = startIndex + offset;
+		if (above >= 0 && matcher(lines[above])) return above;
+		if (below < lines.length && matcher(lines[below])) return below;
+	}
+
+	return -1;
+}
+
 /**
  * Find the profile/diagram block in the code for inserting new elements
  */
@@ -101,7 +162,8 @@ export function editLabel(
 	code: string,
 	nodeOrEdgeId: string,
 	value: string,
-	isEdge: boolean
+	isEdge: boolean,
+	location?: LocationHint
 ): string {
 	const lines = code.split('\n');
 	let lineIndex = -1;
@@ -112,17 +174,21 @@ export function editLabel(
 
 		const fromNode = edgeParts[0];
 		const toNode = edgeParts[1];
+		const edgeRegex = new RegExp(
+			`^\\s*${escapeRegExp(fromNode)}\\s+(-[^>]*->|->)\\s+${escapeRegExp(toNode)}(?:\\s|$)`
+		);
+		lineIndex = resolveLineIndexFromLocation(lines, location, (line) => edgeRegex.test(line));
 
-		for (let i = 0; i < lines.length; i++) {
-			const edgeRegex = new RegExp(`^\\s*${fromNode}\\s+(-\\w*->|->)\\s+${toNode}(?:\\s|$)`);
+		for (let i = 0; i < lines.length && lineIndex === -1; i++) {
 			if (edgeRegex.test(lines[i])) {
 				lineIndex = i;
 				break;
 			}
 		}
 	} else {
-		for (let i = 0; i < lines.length; i++) {
-			const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeOrEdgeId}(?:\\s|$)`);
+		const shapeRegex = new RegExp(`^\\s*shape\\s+${escapeRegExp(nodeOrEdgeId)}(?:\\s|$)`);
+		lineIndex = resolveLineIndexFromLocation(lines, location, (line) => shapeRegex.test(line));
+		for (let i = 0; i < lines.length && lineIndex === -1; i++) {
 			if (shapeRegex.test(lines[i])) {
 				lineIndex = i;
 				break;
@@ -145,12 +211,19 @@ export function editLabel(
 /**
  * Edit a node position in the DSL
  */
-export function editPosition(code: string, nodeId: string, x: number, y: number): string {
+export function editPosition(
+	code: string,
+	nodeId: string,
+	x: number,
+	y: number,
+	location?: LocationHint
+): string {
 	const lines = code.split('\n');
 	let lineIndex = -1;
+	const shapeRegex = new RegExp(`^\\s*shape\\s+${escapeRegExp(nodeId)}(?:\\s|$)`);
+	lineIndex = resolveLineIndexFromLocation(lines, location, (line) => shapeRegex.test(line));
 
-	for (let i = 0; i < lines.length; i++) {
-		const shapeRegex = new RegExp(`^\\s*shape\\s+${nodeId}(?:\\s|$)`);
+	for (let i = 0; i < lines.length && lineIndex === -1; i++) {
 		if (shapeRegex.test(lines[i])) {
 			lineIndex = i;
 			break;
@@ -176,14 +249,16 @@ export function editStyleProperty(
 	code: string,
 	elementId: string,
 	property: string,
-	value: any
+	value: any,
+	location?: LocationHint
 ): string {
 	const lines = code.split('\n');
 	let lineIndex = -1;
+	const shapeRegex = new RegExp(`^\\s*shape\\s+${escapeRegExp(elementId)}(?:\\s|$)`);
 
 	// Try as shape first
-	for (let i = 0; i < lines.length; i++) {
-		const shapeRegex = new RegExp(`^\\s*shape\\s+${elementId}(?:\\s|$)`);
+	lineIndex = resolveLineIndexFromLocation(lines, location, (line) => shapeRegex.test(line));
+	for (let i = 0; i < lines.length && lineIndex === -1; i++) {
 		if (shapeRegex.test(lines[i])) {
 			lineIndex = i;
 			break;
@@ -196,9 +271,12 @@ export function editStyleProperty(
 		if (edgeParts.length >= 2) {
 			const fromNode = edgeParts[0];
 			const toNode = edgeParts[1];
+			const edgeRegex = new RegExp(
+				`^\\s*${escapeRegExp(fromNode)}\\s+(-[^>]*->|->)\\s+${escapeRegExp(toNode)}(?:\\s|$)`
+			);
+			lineIndex = resolveLineIndexFromLocation(lines, location, (line) => edgeRegex.test(line));
 
-			for (let i = 0; i < lines.length; i++) {
-				const edgeRegex = new RegExp(`^\\s*${fromNode}\\s+(-\\w*->|->)\\s+${toNode}(?:\\s|$)`);
+			for (let i = 0; i < lines.length && lineIndex === -1; i++) {
 				if (edgeRegex.test(lines[i])) {
 					lineIndex = i;
 					break;
@@ -251,7 +329,17 @@ export function editStyleProperty(
 export function insertShape(code: string, shapeCode: string, shapeCounter: number): string {
 	// Replace 'id' with 'id{counter}' only when it's a standalone word boundary
 	// This prevents replacing 'id' in words like 'pyramid' -> 'pyramid9'
-	const uniqueCode = shapeCode.replace(/\bid\b/g, `id${shapeCounter}`).trim();
+	let uniqueCode = shapeCode.replace(/\bid\b/g, `id${shapeCounter}`).trim();
+	const existingIds = collectDeclaredShapeIds(code);
+	const shapeDeclMatch = uniqueCode.match(/^\s*shape\s+([^\s]+)\s+as\s+/m);
+	if (shapeDeclMatch?.[1]) {
+		const currentId = shapeDeclMatch[1];
+		const resolvedId = nextUniqueId(currentId, existingIds, shapeCounter);
+		if (resolvedId !== currentId) {
+			const idRegex = new RegExp(`\\b${escapeRegExp(currentId)}\\b`, 'g');
+			uniqueCode = uniqueCode.replace(idRegex, resolvedId);
+		}
+	}
 	const blockInfo = findProfileBlock(code);
 
 	if (!blockInfo) return code;
@@ -268,6 +356,15 @@ export function insertShape(code: string, shapeCode: string, shapeCounter: numbe
 	const shapeInsertIndex = firstEdgeIndex >= 0 ? firstEdgeIndex : blockInfo.insertLineIndex;
 	lines.splice(shapeInsertIndex, 0, ...snippetLines);
 	return lines.join('\n');
+}
+
+export function getInsertedShapeId(previousCode: string, newCode: string): string | null {
+	const before = collectDeclaredShapeIds(previousCode);
+	const after = collectDeclaredShapeIds(newCode);
+	for (const id of after) {
+		if (!before.has(id)) return id;
+	}
+	return null;
 }
 
 /**

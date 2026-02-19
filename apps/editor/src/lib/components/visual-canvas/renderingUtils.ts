@@ -73,6 +73,7 @@ export async function renderDiagram(
 				typeof w === 'string' ? w : w.message || String(w)
 			);
 		}
+		result.nodeLocations = parseResult.nodeLocations;
 
 		if (parseResult.warningDetails && parseResult.warningDetails.length > 0) {
 			result.warningDetails = parseResult.warningDetails;

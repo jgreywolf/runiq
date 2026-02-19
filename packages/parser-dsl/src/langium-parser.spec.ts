@@ -87,6 +87,62 @@ describe('langium-parser', () => {
       expect(result.errors.some((e) => e.includes('line'))).toBe(true);
     });
 
+    it('should prefer previous line when parser error token is on the following line', () => {
+      const dsl = `diagram "Test" {\n  shape a as @rectangle strokeColor:\n  shape b as @rectangle\n}`;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(false);
+      expect(result.errors.some((e) => e.includes('line 2'))).toBe(true);
+    });
+
+    it('should provide friendly unknown property message for shape typos', () => {
+      const dsl = `diagram "Test" {\n  shape NodeA as @rectangle label:"Node A" fillColr:"#00ff00"\n}`;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(false);
+      expect(
+        result.errors.some((e) =>
+          e.includes('Unknown property "fillColr". Did you mean "fillColor"?')
+        )
+      ).toBe(true);
+    });
+
+    it('should include hint for missing colon between attribute and value', () => {
+      const dsl = `diagram "Test" {\n  shape NodeA as @rectangle label "Node A"\n}`;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(false);
+      expect(
+        result.errors.some((e) =>
+          e.includes('Hint: Missing ":" between attribute name and value')
+        )
+      ).toBe(true);
+    });
+
+    it('should include hint for missing colon when no space before quote', () => {
+      const dsl = `diagram "Test" {\n  shape NodeA as @rectangle label"Node A"\n}`;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(false);
+      expect(
+        result.errors.some((e) =>
+          e.includes('Hint: Missing ":" between attribute name and value')
+        )
+      ).toBe(true);
+    });
+
+    it('should include hint for missing closing quote', () => {
+      const dsl = `diagram "Test" {\n  shape NodeA as @rectangle label:"Node A\n}`;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(false);
+      expect(
+        result.errors.some((e) =>
+          e.includes('missing closing quote') || e.includes('Missing closing quote')
+        )
+      ).toBe(true);
+    });
+
     it('should handle empty input', () => {
       const dsl = '';
       const result = parse(dsl);
@@ -342,6 +398,24 @@ describe('langium-parser', () => {
       expect(result.nodeLocations).toBeDefined();
       // Node locations should include A, B, C, D
       expect(result.nodeLocations!.size).toBeGreaterThan(0);
+    });
+
+    it('should include shape declaration location by node id', () => {
+      const dsl = `diagram "Test" {\n  shape nodeA as @rectangle label:"A"\n  nodeA -> nodeB\n}`;
+      const result = parse(dsl);
+
+      expect(result.nodeLocations?.has('nodeA')).toBe(true);
+      const loc = result.nodeLocations?.get('nodeA');
+      expect(loc?.startLine).toBe(2);
+    });
+
+    it('should include edge declaration location by edge key', () => {
+      const dsl = `diagram "Test" {\n  a -> b\n}`;
+      const result = parse(dsl);
+
+      expect(result.nodeLocations?.has('a-b')).toBe(true);
+      const edgeLoc = result.nodeLocations?.get('a-b');
+      expect(edgeLoc?.startLine).toBe(2);
     });
   });
 

@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { insertEdge, insertShape } from './dslCodeManipulation';
+import {
+	editLabel,
+	editStyleProperty,
+	getInsertedShapeId,
+	insertEdge,
+	insertShape
+} from './dslCodeManipulation';
 
 describe('dslCodeManipulation.insertShape', () => {
 	it('inserts shape before closing brace of diagram block', () => {
@@ -8,6 +14,12 @@ describe('dslCodeManipulation.insertShape', () => {
 
 		expect(updated).toContain('shape id2 as @circle label:"New"');
 		expect(updated.indexOf('shape id2 as @circle label:"New"')).toBeLessThan(updated.lastIndexOf('}'));
+	});
+
+	it('avoids duplicate ids when inserting a shape', () => {
+		const code = `diagram "Example" {\n  shape id2 as @rectangle label:"A"\n}`;
+		const updated = insertShape(code, 'shape id as @circle label:"New"', 2);
+		expect(updated).toContain('shape id3 as @circle label:"New"');
 	});
 
 	it('inserts multiline snippets fully within the profile block with indentation', () => {
@@ -35,5 +47,25 @@ describe('dslCodeManipulation.insertEdge', () => {
 		const updated = insertEdge(code, 'b', 'a');
 
 		expect(updated).toContain('\n  a -> b\n  b -> a\n}');
+	});
+});
+
+describe('dslCodeManipulation location-aware edits', () => {
+	it('edits shape label using location hint', () => {
+		const code = `diagram "Example" {\n  shape n1 as @rectangle label:"Old"\n}`;
+		const updated = editLabel(code, 'n1', 'New', false, { startLine: 2 });
+		expect(updated).toContain('shape n1 as @rectangle label:"New"');
+	});
+
+	it('edits edge style using edge location hint', () => {
+		const code = `diagram "Example" {\n  a -> b\n}`;
+		const updated = editStyleProperty(code, 'a-b', 'routing', 'orthogonal', { startLine: 2 });
+		expect(updated).toContain('a -> b routing:orthogonal');
+	});
+
+	it('detects inserted shape id from code diff', () => {
+		const before = `diagram "Example" {\n  shape a as @rectangle\n}`;
+		const after = `diagram "Example" {\n  shape a as @rectangle\n  shape id9 as @rectangle\n}`;
+		expect(getInsertedShapeId(before, after)).toBe('id9');
 	});
 });

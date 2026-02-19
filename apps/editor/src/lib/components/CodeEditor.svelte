@@ -67,7 +67,7 @@
 					from,
 					to,
 					severity,
-					message: diagnostic.message,
+					message: enrichDiagnosticMessage(diagnostic.message, text, diagnostic.range.start.line),
 					actions: actions.length > 0 ? actions : undefined
 				});
 			}
@@ -76,6 +76,54 @@
 		}
 
 		return diagnostics;
+	}
+
+	function hasUnbalancedDoubleQuotes(lineText: string): boolean {
+		const quoteCount = (lineText.match(/"/g) ?? []).length;
+		return quoteCount % 2 === 1;
+	}
+
+	function appendHint(baseMessage: string, hint: string): string {
+		if (baseMessage.includes('Hint:')) return baseMessage;
+		return `${baseMessage} Hint: ${hint}`;
+	}
+
+	function enrichDiagnosticMessage(
+		message: string,
+		fullText: string,
+		startLineZeroBased?: number
+	): string {
+		const lineIndex = typeof startLineZeroBased === 'number' ? startLineZeroBased : -1;
+		const lineText =
+			lineIndex >= 0 ? (fullText.split(/\r?\n/)[lineIndex] ?? '') : '';
+
+		const likelyMissingColonBeforeString =
+			!!lineText &&
+			/\b[a-zA-Z_][a-zA-Z0-9_]*\s*"[^"]*"/.test(lineText) &&
+			!/\b[a-zA-Z_][a-zA-Z0-9_]*\s*:\s*"[^"]*"/.test(lineText);
+
+		const foundStringToken =
+			message.includes("but found: '\"") || message.includes('but found: \'"');
+		if (likelyMissingColonBeforeString && foundStringToken) {
+			return appendHint(
+				message,
+				'Missing ":" between attribute name and value (example: label:"My Label").'
+			);
+		}
+
+		const expectsString =
+			message.includes("Expecting token of type 'STRING'") || message.includes('[STRING]');
+		if (expectsString) {
+			if (lineText && hasUnbalancedDoubleQuotes(lineText)) {
+				return appendHint(message, 'Missing closing quote (").');
+			}
+			return appendHint(
+				message,
+				'String values must be in double quotes (example: label:"My Label").'
+			);
+		}
+
+		return message;
 	}
 
 	// Convert LSP position to CodeMirror offset

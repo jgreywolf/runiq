@@ -2,9 +2,10 @@ import { getTemplate } from '$lib/data/diagram-templates';
 import { openGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
 import { ProfileName } from '$lib/types';
 import { exportAsPng, exportAsSvg } from '../utils/diagramExport';
-import * as DSL from '../utils/dslCodeManipulation';
 import { convertGlyphset } from '../utils/glyphsetConversion';
 import { autoSave, editorRefs, editorState, history } from './editorCore.svelte';
+import { diagramState } from './diagramState.svelte';
+import { applyDraftOperation, type DraftOperation } from './draftOperations';
 import { detectProfile } from './profileDetection';
 
 /**
@@ -92,30 +93,18 @@ export function handleEdit(
 	property: string,
 	value: string | number | boolean | { x: number; y: number }
 ) {
-	let newCode = editorState.code;
-
-	if (property === 'label') {
-		newCode = DSL.editLabel(editorState.code, nodeOrEdgeId, String(value), false);
-	} else if (property === 'edgeLabel') {
-		newCode = DSL.editLabel(editorState.code, nodeOrEdgeId, String(value), true);
-	} else if (property === 'position') {
-		if (typeof value === 'object' && 'x' in value && 'y' in value) {
-			newCode = DSL.editPosition(editorState.code, nodeOrEdgeId, value.x, value.y);
-		}
-	} else if (
-		[
-			'fillColor',
-			'strokeColor',
-			'strokeWidth',
-			'fontSize',
-			'textColor',
-			'shadow',
-			'routing',
-			'icon'
-		].includes(property)
-	) {
-		newCode = DSL.editStyleProperty(editorState.code, nodeOrEdgeId, property, value);
-	}
+	const op: DraftOperation = {
+		type: 'edit',
+		targetId: nodeOrEdgeId,
+		property,
+		value
+	};
+	const { newCode } = applyDraftOperation(
+		editorState.code,
+		editorState.shapeCounter,
+		op,
+		diagramState.nodeLocations
+	);
 
 	if (newCode !== editorState.code) {
 		updateCode(newCode);
@@ -126,9 +115,16 @@ export function handleEdit(
  * Handle shape insertion from toolbox
  */
 export function handleInsertShape(shapeCode: string) {
-	const newCode = DSL.insertShape(editorState.code, shapeCode, editorState.shapeCounter);
+	const { newCode, shapeCounterDelta } = applyDraftOperation(
+		editorState.code,
+		editorState.shapeCounter,
+		{
+			type: 'insert-shape',
+			shapeCode
+		}
+	);
 	if (newCode !== editorState.code) {
-		editorState.shapeCounter++;
+		editorState.shapeCounter += shapeCounterDelta;
 		updateCode(newCode);
 	}
 }
@@ -141,13 +137,21 @@ export function handleInsertShapeAndEdge(
 	fromNodeId: string,
 	toNodeId: string
 ) {
-	let newCode = DSL.insertShape(editorState.code, shapeCode, editorState.shapeCounter);
+	const { newCode, shapeCounterDelta } = applyDraftOperation(
+		editorState.code,
+		editorState.shapeCounter,
+		{
+			type: 'insert-shape-and-edge',
+			shapeCode,
+			fromNodeId,
+			toNodeId
+		}
+	);
 	if (newCode === editorState.code) {
 		return;
 	}
 
-	editorState.shapeCounter++;
-	newCode = DSL.insertEdge(newCode, fromNodeId, toNodeId);
+	editorState.shapeCounter += shapeCounterDelta;
 	updateCode(newCode);
 }
 
@@ -214,7 +218,11 @@ export function handleConvertWithTransform(fromType: string, targetGlyphsetType:
  * Handle edge insertion from visual canvas
  */
 export function handleInsertEdge(fromNodeId: string, toNodeId: string) {
-	const newCode = DSL.insertEdge(editorState.code, fromNodeId, toNodeId);
+	const { newCode } = applyDraftOperation(editorState.code, editorState.shapeCounter, {
+		type: 'insert-edge',
+		fromNodeId,
+		toNodeId
+	});
 	if (newCode !== editorState.code) {
 		updateCode(newCode);
 	} else if (editorRefs.code) {
@@ -263,7 +271,11 @@ export function handleKeyDown(event: KeyboardEvent) {
  * Handle element deletion
  */
 export function handleDelete(nodeId: string | null, edgeId: string | null) {
-	const newCode = DSL.deleteElement(editorState.code, nodeId, edgeId);
+	const { newCode } = applyDraftOperation(editorState.code, editorState.shapeCounter, {
+		type: 'delete',
+		nodeId,
+		edgeId
+	});
 	if (newCode !== editorState.code) {
 		updateCode(newCode);
 	}
@@ -273,7 +285,10 @@ export function handleDelete(nodeId: string | null, edgeId: string | null) {
  * Handle resetting styles
  */
 export function handleResetStyles(elementIds: string[]) {
-	const newCode = DSL.resetStyles(editorState.code, elementIds);
+	const { newCode } = applyDraftOperation(editorState.code, editorState.shapeCounter, {
+		type: 'reset-styles',
+		elementIds
+	});
 	updateCode(newCode);
 }
 
