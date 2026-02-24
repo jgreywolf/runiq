@@ -36,6 +36,41 @@ export interface RenderResult {
 	profile?: any;
 }
 
+function appendHint(message: string, hint: string): string {
+	if (message.includes('Hint:')) return message;
+	return `${message} Hint: ${hint}`;
+}
+
+function getLineText(text: string, lineOneBased: number): string {
+	const lines = text.split(/\r?\n/);
+	return lines[lineOneBased - 1] ?? '';
+}
+
+function enrichCanvasParseError(message: string, sourceText: string): string {
+	const lineMatch = message.match(/line\s+(\d+),\s*column\s+\d+/i);
+	const lineOneBased = lineMatch ? Number(lineMatch[1]) : undefined;
+	const lineText =
+		lineOneBased && Number.isFinite(lineOneBased) && lineOneBased > 0
+			? getLineText(sourceText, lineOneBased)
+			: '';
+
+	const likelyMissingColonBeforeString =
+		!!lineText &&
+		/\b[a-zA-Z_][a-zA-Z0-9_]*\s*"[^"]*"/.test(lineText) &&
+		!/\b[a-zA-Z_][a-zA-Z0-9_]*\s*:\s*"[^"]*"/.test(lineText);
+
+	const arrowExpectation = message.includes('[ARROW]') || message.includes('[LABELED_ARROW]');
+	const foundQuotedString = /but found:\s*'"[^']*'/.test(message);
+	if (likelyMissingColonBeforeString && (arrowExpectation || foundQuotedString)) {
+		return appendHint(
+			message,
+			'Missing ":" between attribute name and value (example: label:"My Label").'
+		);
+	}
+
+	return message;
+}
+
 export async function renderDiagram(
 	code: string,
 	dataContent: string,
@@ -63,7 +98,10 @@ export async function renderDiagram(
 
 		if (parseResult.errors && parseResult.errors.length > 0) {
 			result.errors = parseResult.errors.map((e: any) =>
-				typeof e === 'string' ? e : e.message || String(e)
+				enrichCanvasParseError(
+					typeof e === 'string' ? e : e.message || String(e),
+					codeWithData
+				)
 			);
 			return result;
 		}
@@ -227,6 +265,9 @@ export function updateElementStyles(
 		strokeColor?: string;
 		strokeWidth?: string;
 		textColor?: string;
+		fill?: string;
+		stroke?: string;
+		color?: string;
 		routing?: string;
 	}
 ): void {
@@ -259,12 +300,16 @@ export function updateElementStyles(
 	const mainElement = element.querySelector('rect, circle, ellipse, polygon, path, line, text');
 	if (!mainElement) return;
 
-	if (styles.fillColor) mainElement.setAttribute('fill', styles.fillColor);
-	if (styles.strokeColor) mainElement.setAttribute('stroke', styles.strokeColor);
+	const fill = styles.fillColor ?? styles.fill;
+	const stroke = styles.strokeColor ?? styles.stroke;
+	const textColor = styles.textColor ?? styles.color;
+
+	if (fill) mainElement.setAttribute('fill', fill);
+	if (stroke) mainElement.setAttribute('stroke', stroke);
 	if (styles.strokeWidth) mainElement.setAttribute('stroke-width', styles.strokeWidth);
 
-	if (styles.textColor) {
+	if (textColor) {
 		const textElements = element.querySelectorAll('text');
-		textElements.forEach((text) => text.setAttribute('fill', styles.textColor!));
+		textElements.forEach((text) => text.setAttribute('fill', textColor));
 	}
 }

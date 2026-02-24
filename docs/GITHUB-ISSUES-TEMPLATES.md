@@ -609,7 +609,7 @@ diagram pid "Distillation Column"
 
 **Total: 3-4 days**
 
-````
+`````
 
 ---
 
@@ -688,21 +688,6 @@ diagram pid "Distillation Column"
 - [ ] Multi-layer protocol stacking
 - [ ] Bit numbering (0-31, etc.)
 
----
-
-## 🎯 Feature: GitGraph
-
-**Effort:** 3-5 days
-**Complexity:** Medium
-
-### Requirements
-- [x] Timeline layout
-- [x] Branch visualization
-- [x] Commit nodes
-- [x] Merge indicators
-- [x] Tag labels
-- [x] Branch labels
-````
 
 ---
 
@@ -723,8 +708,8 @@ Add support for C4 model (Context, Container, Component, Code) architecture diag
 
 ### Implementation Requirements
 
-**Effort:** 1-2 weeks  
-**Priority:** High (Software architecture standard)  
+**Effort:** 1-2 weeks
+**Priority:** High (Software architecture standard)
 **Complexity:** High (needs hierarchical containers)
 
 #### Phase 1: Hierarchical Containers (1 week)
@@ -775,7 +760,7 @@ diagram c4Component "API Container"
   LoginController -> SecurityComponent
   LoginController -> EmailComponent
 ```
-````
+`````
 
 #### Phase 4: Examples & Tests (2 days)
 

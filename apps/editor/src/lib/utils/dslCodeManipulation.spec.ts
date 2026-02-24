@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
 	editLabel,
 	editStyleProperty,
+	resetStyles,
 	getInsertedShapeId,
 	insertEdge,
 	insertShape
@@ -61,6 +62,20 @@ describe('dslCodeManipulation location-aware edits', () => {
 		const code = `diagram "Example" {\n  a -> b\n}`;
 		const updated = editStyleProperty(code, 'a-b', 'routing', 'orthogonal', { startLine: 2 });
 		expect(updated).toContain('a -> b routing:orthogonal');
+	});
+
+	it('writes edge lineStyle as quoted string', () => {
+		const code = `diagram "Example" {\n  a -> b\n}`;
+		const updated = editStyleProperty(code, 'a-b', 'lineStyle', 'dashed', { startLine: 2 });
+		expect(updated).toContain('a -> b lineStyle:"dashed"');
+	});
+
+	it('resetStyles removes inline lineStyle', () => {
+		const code = `diagram "Example" {\n  a -> b lineStyle:"dashed" strokeColor:"#ff0000"\n}`;
+		const updated = resetStyles(code, ['a-b']);
+		expect(updated).toContain('a -> b');
+		expect(updated).not.toContain('lineStyle:');
+		expect(updated).not.toContain('strokeColor:');
 	});
 
 	it('detects inserted shape id from code diff', () => {

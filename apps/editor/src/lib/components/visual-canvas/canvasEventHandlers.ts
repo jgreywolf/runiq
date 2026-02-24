@@ -51,6 +51,16 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	const isSelectMode = () => getMode() === 'select';
 	const isConnectMode = () => getMode() === 'connect';
 
+	function isTypingTarget(target: EventTarget | null): boolean {
+		const el = target as HTMLElement | null;
+		if (!el) return false;
+		const tag = el.tagName?.toLowerCase();
+		if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+		if ((el as HTMLElement).isContentEditable) return true;
+		if (typeof el.closest === 'function' && el.closest('[contenteditable="true"]')) return true;
+		return false;
+	}
+
 	function getNodeIdFromEventTarget(target: EventTarget | null): string | null {
 		const maybeElement = target as unknown as Element | null;
 		if (!maybeElement || typeof maybeElement.closest !== 'function') return null;
@@ -103,9 +113,13 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 
 	function handleCanvasClick(event: MouseEvent) {
 		if (!isDiagramProfile() || !isSelectMode()) return;
-		// Only deselect if clicking on the canvas itself, not on an element
-		if (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'svg') {
-			// If we're in multi-select mode (have multiple items selected), only clear if NOT holding Ctrl
+		const target = event.target as HTMLElement | null;
+		if (!target) return;
+		if (target.closest('.floating-toolbar, .element-flyout-panel, .style-create-overlay, .style-create-dialog')) {
+			return;
+		}
+		// Deselect when clicking anywhere in canvas that is not a node/edge
+		if (!target.closest('[data-node-id], [data-edge-id]')) {
 			if (selection.hasMultiSelection && (event.ctrlKey || event.metaKey)) {
 				return;
 			}
@@ -115,10 +129,11 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 
 	function handleCanvasKeyDown(event: KeyboardEvent) {
 		if (!isDiagramProfile()) return;
+		if (isTypingTarget(event.target)) return;
 		// Don't intercept if we're editing text
 		if (selection.editingNodeId || selection.editingEdgeId) return;
 
-		if (event.key === 'Delete' || event.key === 'Backspace') {
+		if (event.key === 'Delete') {
 			if (selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0) {
 				selection.selectedNodeIds.forEach((nodeId) => {
 					handleDelete(nodeId, null);

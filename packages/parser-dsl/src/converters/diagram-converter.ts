@@ -78,7 +78,18 @@ function processDialogStatement(
       const key = prop.key.endsWith(':') ? prop.key.slice(0, -1) : prop.key;
 
       if (key === 'lineStyle') {
-        // Store strokeDasharray in extensions for custom properties
+        // Keep explicit lineStyle for edge/node style refs
+        (style as any).lineStyle = value;
+        // Also store dasharray for shape renderers that read strokeDasharray
+        (style as any).strokeDasharray =
+          value === 'dashed'
+            ? '5,5'
+            : value === 'dotted'
+              ? '2,2'
+              : value === 'solid'
+                ? 'none'
+                : value;
+        // Store strokeDasharray in extensions for compatibility
         if (!style.extensions) {
           style.extensions = {};
         }
@@ -276,7 +287,9 @@ function processNodeProperties(
     } else if (Langium.isTooltipProperty(prop)) {
       node.tooltip = prop.text.replace(/^"|"$/g, '');
     } else if (Langium.isDataProperty(prop)) {
-      node.data = convertDataProperty(prop);
+      // Preserve previously parsed inline properties (e.g. fillColor/strokeColor)
+      // while allowing explicit data fields to override key collisions.
+      node.data = { ...(node.data || {}), ...convertDataProperty(prop) };
     } else if (Langium.isDataSourceRefProperty(prop)) {
       node.dataSource = unescapeString(prop.source);
     } else if (Langium.isShowLegendProperty(prop)) {

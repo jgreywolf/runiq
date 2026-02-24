@@ -107,7 +107,7 @@ export function handleEdit(
 	);
 
 	if (newCode !== editorState.code) {
-		updateCode(newCode);
+		updateCode(newCode, true);
 	}
 }
 
@@ -125,7 +125,7 @@ export function handleInsertShape(shapeCode: string) {
 	);
 	if (newCode !== editorState.code) {
 		editorState.shapeCounter += shapeCounterDelta;
-		updateCode(newCode);
+		updateCode(newCode, true);
 	}
 }
 
@@ -152,7 +152,7 @@ export function handleInsertShapeAndEdge(
 	}
 
 	editorState.shapeCounter += shapeCounterDelta;
-	updateCode(newCode);
+	updateCode(newCode, true);
 }
 
 /**
@@ -224,7 +224,7 @@ export function handleInsertEdge(fromNodeId: string, toNodeId: string) {
 		toNodeId
 	});
 	if (newCode !== editorState.code) {
-		updateCode(newCode);
+		updateCode(newCode, true);
 	} else if (editorRefs.code) {
 		editorRefs.code.insertAtCursor(`${fromNodeId} -> ${toNodeId}`);
 	}
@@ -277,7 +277,7 @@ export function handleDelete(nodeId: string | null, edgeId: string | null) {
 		edgeId
 	});
 	if (newCode !== editorState.code) {
-		updateCode(newCode);
+		updateCode(newCode, true);
 	}
 }
 
@@ -289,14 +289,14 @@ export function handleResetStyles(elementIds: string[]) {
 		type: 'reset-styles',
 		elementIds
 	});
-	updateCode(newCode);
+	updateCode(newCode, true);
 }
 
 /**
  * Handle theme change
  */
 export function handleThemeChange(newCode: string) {
-	updateCode(newCode);
+	updateCode(newCode, true);
 	editorState.isDirty = true;
 }
 

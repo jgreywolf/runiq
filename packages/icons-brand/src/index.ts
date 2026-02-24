@@ -148,3 +148,7 @@ export class BrandIconProvider implements IconProvider {
 }
 
 export const brandIcons = new BrandIconProvider();
+
+export function listBrandIconNames(): string[] {
+  return Array.from(new Set([...Object.keys(iconMap), ...Object.keys(iconifyFallbacks)])).sort();
+}

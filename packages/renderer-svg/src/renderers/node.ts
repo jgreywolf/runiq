@@ -17,6 +17,45 @@ import { renderLabelWithIcons } from './label-with-icons.js';
 const DARK_TEXT = '#0f172a';
 const LIGHT_TEXT = '#ffffff';
 
+function normalizeStyleAliases(style: Record<string, unknown>): void {
+  if (style.fill === undefined && style.fillColor !== undefined) {
+    style.fill = style.fillColor;
+  }
+  if (style.stroke === undefined && style.strokeColor !== undefined) {
+    style.stroke = style.strokeColor;
+  }
+  if (style.color === undefined && style.textColor !== undefined) {
+    style.color = style.textColor;
+  }
+  const extensions = style.extensions as Record<string, unknown> | undefined;
+  if (style.strokeDasharray === undefined && extensions?.strokeDasharray !== undefined) {
+    style.strokeDasharray = extensions.strokeDasharray;
+  }
+}
+
+function mapLineStyleToDasharray(lineStyle: unknown): string | undefined {
+  if (typeof lineStyle !== 'string') return undefined;
+  if (lineStyle === 'dashed') return '5,5';
+  if (lineStyle === 'dotted') return '2,2';
+  if (lineStyle === 'solid') return 'none';
+  return lineStyle;
+}
+
+function applyStrokeDasharrayToNodeMarkup(markup: string, dasharray: string): string {
+  if (!dasharray || dasharray === 'none') {
+    return markup.replace(/\s+stroke-dasharray="[^"]*"/g, '');
+  }
+  return markup.replace(
+    /<(rect|circle|ellipse|polygon|path|line|polyline)\b([^>]*?)(\/?)>/g,
+    (full, tag, attrs, selfClose) => {
+      if (!/\bstroke=/.test(attrs)) return full;
+      if (/\bstroke-dasharray=/.test(attrs)) return full;
+      const trailing = selfClose ? ' />' : '>';
+      return `<${tag}${attrs} stroke-dasharray="${dasharray}"${trailing}`;
+    }
+  );
+}
+
 function resolveTextColor(fill: string | undefined, fallback: string): string {
   if (!fill) {
     return fallback;
@@ -63,7 +102,13 @@ export function renderNode(
     return renderFallbackNode(positioned, nodeAst);
   }
 
-  const style: any = nodeAst.style ? diagram.styles?.[nodeAst.style] || {} : {};
+  const style: any = nodeAst.style
+    ? { ...(diagram.styles?.[nodeAst.style] || {}) }
+    : {};
+  normalizeStyleAliases(style);
+  if ((style as any).strokeDasharray === undefined && (style as any).lineStyle !== undefined) {
+    (style as any).strokeDasharray = mapLineStyleToDasharray((style as any).lineStyle);
+  }
 
   // Apply theme colors as defaults if theme is provided and no explicit colors
   if (theme) {
@@ -91,11 +136,24 @@ export function renderNode(
     if ((nodeAst.data as any).fillColor !== undefined) {
       (style as any).fill = (nodeAst.data as any).fillColor;
     }
+    if ((nodeAst.data as any).fill !== undefined) {
+      (style as any).fill = (nodeAst.data as any).fill;
+    }
     if ((nodeAst.data as any).textColor !== undefined) {
+      (style as any).textColor = (nodeAst.data as any).textColor;
       (style as any).color = (nodeAst.data as any).textColor;
+    }
+    if ((nodeAst.data as any).color !== undefined) {
+      (style as any).color = (nodeAst.data as any).color;
+      if ((style as any).textColor === undefined) {
+        (style as any).textColor = (nodeAst.data as any).color;
+      }
     }
     if ((nodeAst.data as any).strokeColor !== undefined) {
       (style as any).stroke = (nodeAst.data as any).strokeColor;
+    }
+    if ((nodeAst.data as any).stroke !== undefined) {
+      (style as any).stroke = (nodeAst.data as any).stroke;
     }
     if ((nodeAst.data as any).strokeWidth !== undefined) {
       (style as any).strokeWidth = (nodeAst.data as any).strokeWidth;
@@ -152,6 +210,9 @@ export function renderNode(
     { node: renderNodeAst as any, style, measureText, renderLabel },
     { x: positioned.x, y: positioned.y }
   );
+  if (typeof (style as any).strokeDasharray === 'string') {
+    nodeMarkup = applyStrokeDasharrayToNodeMarkup(nodeMarkup, (style as any).strokeDasharray);
+  }
 
   // Add icon if present
   if ((nodeAst as any).icon) {

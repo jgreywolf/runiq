@@ -9,7 +9,7 @@
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic, Action } from '@codemirror/lint';
 	import { autocompletion, type CompletionContext } from '@codemirror/autocomplete';
-	import { createRuniqServices } from '@runiq/parser-dsl';
+	import { createRuniqServices, enrichDiagnosticMessage } from '@runiq/parser-dsl';
 	import { EmptyFileSystem, URI } from 'langium';
 	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
 	import { handleCodeChange, handleEditorErrors, handleEditorWarnings } from '$lib/state/editorState.svelte';
@@ -45,6 +45,47 @@
 			// Build the document (resolve cross-references, etc.)
 			await sharedServices.workspace.DocumentBuilder.build([langiumDoc], {});
 
+			// Include parser/lexer diagnostics (these are often clearer for syntax issues)
+			for (const lexerError of langiumDoc.parseResult.lexerErrors ?? []) {
+				const line = Math.max(1, lexerError.line ?? 1);
+				const column = Math.max(1, lexerError.column ?? 1);
+				const from = offsetAtOneBased(doc, line, column);
+				const to = Math.min(from + 1, doc.length);
+
+				diagnostics.push({
+					from,
+					to,
+					severity: 'error',
+					message: enrichDiagnosticMessage(lexerError.message, {
+						text,
+						lineOneBased: line
+					})
+				});
+			}
+
+			for (const parserError of langiumDoc.parseResult.parserErrors ?? []) {
+				const token = (parserError as any).token as
+					| { startLine?: number; startColumn?: number; endLine?: number; endColumn?: number; image?: string }
+					| undefined;
+				const line = Math.max(1, token?.startLine ?? 1);
+				const column = Math.max(1, token?.startColumn ?? 1);
+				const from = offsetAtOneBased(doc, line, column);
+				const endLine = Math.max(line, token?.endLine ?? line);
+				const endColumn = Math.max(column + 1, token?.endColumn ?? column + 1);
+				const to = Math.max(from + 1, offsetAtOneBased(doc, endLine, endColumn));
+
+				diagnostics.push({
+					from,
+					to,
+					severity: 'error',
+					message: enrichDiagnosticMessage(parserError.message, {
+						text,
+						lineOneBased: line,
+						tokenImage: token?.image
+					})
+				});
+			}
+
 			// Get validation diagnostics
 			const validationDiagnostics =
 				await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
@@ -67,7 +108,10 @@
 					from,
 					to,
 					severity,
-					message: enrichDiagnosticMessage(diagnostic.message, text, diagnostic.range.start.line),
+					message: enrichDiagnosticMessage(diagnostic.message, {
+						text,
+						lineOneBased: diagnostic.range.start.line + 1
+					}),
 					actions: actions.length > 0 ? actions : undefined
 				});
 			}
@@ -78,58 +122,17 @@
 		return diagnostics;
 	}
 
-	function hasUnbalancedDoubleQuotes(lineText: string): boolean {
-		const quoteCount = (lineText.match(/"/g) ?? []).length;
-		return quoteCount % 2 === 1;
-	}
-
-	function appendHint(baseMessage: string, hint: string): string {
-		if (baseMessage.includes('Hint:')) return baseMessage;
-		return `${baseMessage} Hint: ${hint}`;
-	}
-
-	function enrichDiagnosticMessage(
-		message: string,
-		fullText: string,
-		startLineZeroBased?: number
-	): string {
-		const lineIndex = typeof startLineZeroBased === 'number' ? startLineZeroBased : -1;
-		const lineText =
-			lineIndex >= 0 ? (fullText.split(/\r?\n/)[lineIndex] ?? '') : '';
-
-		const likelyMissingColonBeforeString =
-			!!lineText &&
-			/\b[a-zA-Z_][a-zA-Z0-9_]*\s*"[^"]*"/.test(lineText) &&
-			!/\b[a-zA-Z_][a-zA-Z0-9_]*\s*:\s*"[^"]*"/.test(lineText);
-
-		const foundStringToken =
-			message.includes("but found: '\"") || message.includes('but found: \'"');
-		if (likelyMissingColonBeforeString && foundStringToken) {
-			return appendHint(
-				message,
-				'Missing ":" between attribute name and value (example: label:"My Label").'
-			);
-		}
-
-		const expectsString =
-			message.includes("Expecting token of type 'STRING'") || message.includes('[STRING]');
-		if (expectsString) {
-			if (lineText && hasUnbalancedDoubleQuotes(lineText)) {
-				return appendHint(message, 'Missing closing quote (").');
-			}
-			return appendHint(
-				message,
-				'String values must be in double quotes (example: label:"My Label").'
-			);
-		}
-
-		return message;
-	}
-
 	// Convert LSP position to CodeMirror offset
 	function offsetAt(doc: any, position: { line: number; character: number }): number {
 		const line = doc.line(position.line + 1); // LSP lines are 0-based, CodeMirror is 1-based
 		return line.from + position.character;
+	}
+
+	function offsetAtOneBased(doc: any, lineOneBased: number, columnOneBased: number): number {
+		const clampedLine = Math.max(1, Math.min(lineOneBased, doc.lines));
+		const lineInfo = doc.line(clampedLine);
+		const clampedCol = Math.max(1, Math.min(columnOneBased, lineInfo.length + 1));
+		return lineInfo.from + clampedCol - 1;
 	}
 
 	// Extract quick-fix actions from diagnostic messages

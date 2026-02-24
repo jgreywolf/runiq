@@ -34,12 +34,22 @@ export function renderEdge(
     return '';
   }
 
-  const style = edgeAst.style ? diagram.styles?.[edgeAst.style] || {} : {};
+  const style = edgeAst.style
+    ? { ...(diagram.styles?.[edgeAst.style] || {}) }
+    : {};
+  const styleExtensions = (style as any).extensions as
+    | Record<string, unknown>
+    | undefined;
+  const styleStroke =
+    (style as any).stroke ?? (style as any).strokeColor ?? (style as any).color;
   // Inline properties override style properties
   // Check routed edge data first (set by layout algorithms), then edgeAst data, then style, then theme, then default
   const defaultStroke = theme?.edgeColor || '#333';
   const stroke =
-    (edgeAst as any).strokeColor || (style as any).stroke || defaultStroke;
+    (edgeAst as any).strokeColor ||
+    (edgeAst as any).color ||
+    styleStroke ||
+    defaultStroke;
   const strokeWidth =
     (routed as any).data?.strokeWidth ||
     (edgeAst.data as any)?.strokeWidth ||
@@ -48,7 +58,8 @@ export function renderEdge(
     1;
 
   // Determine line style
-  const lineStyle = (edgeAst as any).lineStyle || LineStyle.SOLID;
+  const styleLineStyle = (style as any).lineStyle as string | undefined;
+  const lineStyle = (edgeAst as any).lineStyle || styleLineStyle || LineStyle.SOLID;
   let strokeDasharray = '';
   let isDoubleLine = false;
 
@@ -59,6 +70,15 @@ export function renderEdge(
   } else if (lineStyle === LineStyle.DOUBLE) {
     // Double line for consanguineous marriages
     isDoubleLine = true;
+  } else {
+    const styleDasharray =
+      (style as any).strokeDasharray ??
+      (typeof styleExtensions?.strokeDasharray === 'string'
+        ? styleExtensions.strokeDasharray
+        : undefined);
+    if (typeof styleDasharray === 'string' && styleDasharray !== 'none') {
+      strokeDasharray = ` stroke-dasharray="${styleDasharray}"`;
+    }
   }
 
   // Create path

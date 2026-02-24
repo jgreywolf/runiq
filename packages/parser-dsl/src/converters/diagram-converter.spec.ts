@@ -90,6 +90,35 @@ describe('diagram-converter', () => {
       expect(result.diagram?.nodes[0].id).toBe('myNode');
       expect(result.diagram?.nodes[1].id).toBe('myNode2');
     });
+
+    it('should preserve inline style attributes when data property is also present', () => {
+      const dsl = `diagram "Test" {
+        shape N as @rect label: "Node" fillColor: "#00ff00" strokeColor: "#000000" data:[10]
+      }`;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      expect(result.diagram?.nodes).toHaveLength(1);
+      expect(result.diagram?.nodes[0].data).toBeDefined();
+      expect((result.diagram?.nodes[0].data as any).fillColor).toBe('#00ff00');
+      expect((result.diagram?.nodes[0].data as any).strokeColor).toBe('#000000');
+      expect(Array.isArray((result.diagram?.nodes[0].data as any).values)).toBe(true);
+      expect((result.diagram?.nodes[0].data as any).values[0]).toBe(10);
+    });
+
+    it('should preserve style lineStyle for style references', () => {
+      const dsl = `diagram "Test" {
+        style dashedStyle lineStyle: "dashed" strokeColor: "#333333"
+        shape A as @rect style: dashedStyle
+      }`;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      const styles = (result.diagram as any)?.styles;
+      expect(styles).toBeDefined();
+      expect(styles?.dashedStyle?.lineStyle).toBe('dashed');
+      expect(styles?.dashedStyle?.strokeDasharray).toBe('5,5');
+    });
   });
 
   describe('Edge Declarations', () => {

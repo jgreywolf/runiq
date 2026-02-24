@@ -1,47 +1,75 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
-	import { type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
 	import { Badge } from '$lib/components/ui/badge';
-	import Icon from '@iconify/svelte';
-	import EditorToolbar from './Editor/EditorToolbar.svelte';
-	import StylePanel from './Editor/StylePanel.svelte';
-	import { diagramState, styleState } from '$lib/state';
-	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
-	import { SelectionState } from './visual-canvas/SelectionState.svelte';
-	import { ViewportState } from './visual-canvas/ViewportState.svelte';
+	import * as Popover from '$lib/components/ui/popover';
+	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
+	import { canvasState, diagramState } from '$lib/state';
+	import {
+		editorRefs,
+		editorState,
+		handleDelete,
+		handleEdit,
+		handleInsertEdge,
+		handleInsertShape,
+		handleInsertShapeAndEdge,
+		handleParse,
+		handleResetStyles,
+		updateCode
+	} from '$lib/state/editorState.svelte';
+	import { ProfileName } from '$lib/types';
+	import {
+		deleteStyleDeclaration,
+		insertStyleDeclaration,
+		parseStyleDeclarations,
+		updateStyleDeclaration
+	} from '$lib/utils/dslCodeManipulation';
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
+	import Icon from '@iconify/svelte';
+	import { listBrandIconNames } from '@runiq/icons-brand';
+	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
+	import { type WarningDetail } from '@runiq/parser-dsl';
+	import { onMount, tick } from 'svelte';
+	import EditorToolbar from './Editor/EditorToolbar.svelte';
 	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
-	import { createDebouncedRunner, runRenderCycle } from './visual-canvas/renderController';
+	import { createCanvasDebugLogger } from './visual-canvas/debug';
 	import {
-		collectSelectedIds,
-		collectSelectedIdSet,
-		extractSelectedElementStyles,
-		mapStyleProperty,
-		mergeWarnings,
-		updateWarningVisibility
-	} from './visual-canvas/viewModel';
+		computeElementToolbarPosition,
+		constrainToolbarPosition
+	} from './visual-canvas/elementToolbarPosition';
 	import {
-		findNonOverlappingPreviewPoint,
+		closeAllPanels as closePanelState,
+		createBorderDraftFromStyles,
+		createFillDraftFromStyles,
+		createInitialPanelOpen,
+		createStyleDraftFromExisting,
+		createStylePropertiesFromDraft,
+		createTextDraftFromStyles,
+		filterStyleDeclarations,
+		getFilteredIconTokens as getFilteredIconTokensFromState,
+		type ElementPanelKey
+	} from './visual-canvas/elementToolbarState';
+	import {
 		getQuickConnectBehaviorFromModifiers,
-		offsetPointInDirection,
-		selectDirectionalTarget,
-		type CanvasNodeBox,
 		type QuickConnectBehavior,
 		type QuickConnectDirection
 	} from './visual-canvas/quickConnect';
 	import {
-		handleEdit,
-		handleDelete,
-		handleResetStyles,
-		handleInsertShape,
-		handleInsertEdge,
-		handleInsertShapeAndEdge,
-		editorRefs,
-		handleParse
-	} from '$lib/state/editorState.svelte';
-	import { editorState } from '$lib/state/editorState.svelte';
-	import { canvasState } from '$lib/state';
-	import { ProfileName } from '$lib/types';
+		QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT,
+		QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH,
+		computeNonOverlappingNewNodePreviewEnd,
+		getNodeIdAtContainerPoint,
+		getPreviewEndpointForDirection,
+		getQuickConnectHandles as getRuntimeQuickConnectHandles,
+		type QuickConnectHandle
+	} from './visual-canvas/quickConnectRuntime';
+	import { createDebouncedRunner, runRenderCycle } from './visual-canvas/renderController';
+	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
+	import { SelectionState } from './visual-canvas/SelectionState.svelte';
+	import {
+		extractSelectedElementStyles,
+		mergeWarnings,
+		updateWarningVisibility
+	} from './visual-canvas/viewModel';
+	import { ViewportState } from './visual-canvas/ViewportState.svelte';
 
 	let diagramDataId = 'runiq-diagram';
 
@@ -55,11 +83,6 @@
 	let combinedWarnings = $state<string[]>([]);
 	let connectPreviewStart = $state<{ x: number; y: number } | null>(null);
 	let connectPreviewEnd = $state<{ x: number; y: number } | null>(null);
-	type QuickConnectHandle = {
-		direction: QuickConnectDirection;
-		x: number;
-		y: number;
-	};
 	let quickConnectNodeId = $state<string | null>(null);
 	let quickConnectHandles = $state<QuickConnectHandle[]>([]);
 	let quickConnectActiveDirection = $state<QuickConnectDirection | null>(null);
@@ -68,18 +91,62 @@
 	let quickConnectTargetNodeId = $state<string | null>(null);
 	let quickConnectNewNodePosition = $state<{ x: number; y: number } | null>(null);
 	let quickConnectBehaviorHint = $state<QuickConnectBehavior>('auto');
+	let iconInputValue = $state('');
+	let iconSearchQuery = $state('');
+	let panelOpen = $state<Record<ElementPanelKey, boolean>>(createInitialPanelOpen());
+	let elementToolbarPosition = $state<{ x: number; y: number } | null>(null);
+
+	let borderDraft = $state({
+		strokeColor: '#48677e',
+		strokeWidth: 2,
+		lineStyle: 'solid' as 'solid' | 'dashed' | 'dotted' | 'none'
+	});
+	let fillDraft = $state({ fillColor: '#ffffff' });
+	let textDraft = $state({ textColor: '#1f2937', fontSize: 14, fontFamily: 'sans-serif' });
+	let styleSearchQuery = $state('');
+	let showCreateStyleDialog = $state(false);
+	let editingStyleName = $state<string | null>(null);
+	let newStyleName = $state('');
+	let newStyleDraft = $state({
+		fillColor: '',
+		strokeColor: '',
+		strokeWidth: 2,
+		textColor: '',
+		fontSize: 14,
+		fontFamily: '',
+		lineStyle: 'solid'
+	});
+
+	const canvasDebug = createCanvasDebugLogger();
+	const debugCanvas = canvasDebug.log;
+
+	const availableIconTokens = [
+		...listBrandIconNames().map((name) => `brand/${name.replace(/-/g, '_')}`),
+		...listIconifyIconNamesForDsl().map((name) => `iconify/${name}`)
+	];
+	const diagramShapeCategories = getShapeCategoryByProfile(ProfileName.diagram).map((category) => ({
+		label: category.label,
+		shapes: category.shapes.map((shape) => ({ id: shape.id, label: shape.label }))
+	}));
+	const borderStyleChoices = [
+		{ id: 'solid', label: 'Solid', icon: 'lucide:minus' },
+		{ id: 'dashed', label: 'Dashed', icon: 'lucide:ellipsis' },
+		{ id: 'dotted', label: 'Dotted', icon: 'lucide:grip-horizontal' },
+		{ id: 'none', label: 'None', icon: 'lucide:slash' }
+	] as const;
+
+	function getFilteredIconTokens(): string[] {
+		return getFilteredIconTokensFromState(availableIconTokens, iconSearchQuery);
+	}
 
 	// DOM element references
 	let editInputElement = $state<HTMLInputElement | null>(null);
 	let svgContainer = $state<HTMLDivElement | null>(null);
+	let floatingToolbarElement = $state<HTMLDivElement | null>(null);
 
 	// Selection state managed by SelectionState class
 	// Synced with centralized editorState for consistency
-	const selection = new SelectionState({
-		onSelectionChange: (nodeId, edgeId) => {
-			// Selection changes are now handled internally
-		}
-	});
+	const selection = new SelectionState();
 
 	// Viewport state managed by ViewportState class
 	const viewport = new ViewportState({
@@ -92,9 +159,6 @@
 
 	// Interaction manager for coordinating mouse events and handlers
 	const interactionManager = new InteractionManager(selection, viewport);
-
-	// Node locations from parser (for code highlighting)
-	let nodeLocations = $state<Map<string, NodeLocation>>(new Map());
 
 	// Effect to select all text when editing starts
 	$effect(() => {
@@ -114,20 +178,36 @@
 	$effect(() => {
 		const warningCount = warningDetails.length + combinedWarnings.length;
 		const next = updateWarningVisibility(showWarnings, lastWarningCount, warningCount);
-		showWarnings = next.showWarnings;
-		lastWarningCount = next.lastWarningCount;
+		if (showWarnings !== next.showWarnings) {
+			showWarnings = next.showWarnings;
+		}
+		if (lastWarningCount !== next.lastWarningCount) {
+			lastWarningCount = next.lastWarningCount;
+		}
+		debugCanvas('effect:warning-visibility', { warningCount, showWarnings });
 	});
 
 	$effect(() => {
-		combinedWarnings = mergeWarnings(
+		const nextWarnings = mergeWarnings(
 			warningDetails,
 			diagramState.warnings,
 			editorState.lintWarnings
 		);
+		const changed =
+			combinedWarnings.length !== nextWarnings.length ||
+			combinedWarnings.some((warning, index) => warning !== nextWarnings[index]);
+		if (changed) {
+			combinedWarnings = nextWarnings;
+		}
+		debugCanvas('effect:merge-warnings', { merged: combinedWarnings.length });
 	});
 
 	$effect(() => {
 		if (diagramState.errors.length > 0 && canvasState.mode !== 'select') {
+			debugCanvas('effect:force-select-mode-on-errors', {
+				errorCount: diagramState.errors.length,
+				mode: canvasState.mode
+			});
 			canvasState.mode = 'select';
 		}
 	});
@@ -137,6 +217,80 @@
 			connectPreviewStart = null;
 			connectPreviewEnd = null;
 			resetQuickConnect();
+			debugCanvas('effect:exit-connect-mode');
+		}
+	});
+
+	$effect(() => {
+		const hasPrimarySelection = !!(selection.selectedNodeId || selection.selectedEdgeId);
+		if (
+			!hasPrimarySelection ||
+			editorState.profileName !== ProfileName.diagram ||
+			canvasState.mode !== 'select'
+		) {
+			closeAllPanels();
+			if (elementToolbarPosition !== null) {
+				elementToolbarPosition = null;
+			}
+			debugCanvas('effect:clear-panel-no-selection', {
+				hasPrimarySelection,
+				profile: editorState.profileName,
+				mode: canvasState.mode
+			});
+		}
+	});
+
+	function getSelectedElementId(): string | null {
+		return selection.selectedNodeId || selection.selectedEdgeId;
+	}
+
+	function updateElementToolbarPosition() {
+		const nextPosition = computeElementToolbarPosition(
+			svgContainer,
+			selection.selectedNodeId,
+			selection.selectedEdgeId
+		);
+		if (!nextPosition) {
+			elementToolbarPosition = null;
+			debugCanvas('update-toolbar-position:none');
+			return;
+		}
+		elementToolbarPosition = nextPosition;
+		debugCanvas('update-toolbar-position:set', elementToolbarPosition);
+	}
+
+	function constrainToolbarToCanvasBounds() {
+		if (!svgContainer || !floatingToolbarElement || !elementToolbarPosition) return;
+		const containerRect = svgContainer.getBoundingClientRect();
+		const toolbarRect = floatingToolbarElement.getBoundingClientRect();
+		const clamped = constrainToolbarPosition(elementToolbarPosition, containerRect, toolbarRect);
+
+		const positionChanged =
+			Math.abs((elementToolbarPosition?.x ?? 0) - clamped.x) > 0.5 ||
+			Math.abs((elementToolbarPosition?.y ?? 0) - clamped.y) > 0.5;
+		if (positionChanged) {
+			elementToolbarPosition = clamped;
+		}
+
+		debugCanvas('constrain-toolbar', {
+			position: elementToolbarPosition
+		});
+	}
+
+	$effect(() => {
+		if (
+			editorState.profileName === ProfileName.diagram &&
+			canvasState.mode === 'select' &&
+			(selection.selectedNodeId || selection.selectedEdgeId)
+		) {
+			debugCanvas('effect:recompute-toolbar-position', {
+				node: selection.selectedNodeId,
+				edge: selection.selectedEdgeId
+			});
+			tick().then(() => {
+				updateElementToolbarPosition();
+				tick().then(() => constrainToolbarToCanvasBounds());
+			});
 		}
 	});
 
@@ -147,13 +301,11 @@
 				selection.selectedEdgeId !== null ||
 				selection.selectedNodeIds.size > 0 ||
 				selection.selectedEdgeIds.size > 0;
-			const shouldHideStyle = styleState.isVisible;
-			if (!hasActiveSelection && !shouldHideStyle) return;
+			if (!hasActiveSelection) return;
 
 			queueMicrotask(() => {
 				selection.clearSelection();
 				selection.updateVisualSelection(svgContainer);
-				if (shouldHideStyle) styleState.hide();
 			});
 		}
 	});
@@ -184,13 +336,16 @@
 		quickConnectBehaviorHint = 'auto';
 	}
 
-	function getContainerPointFromClient(clientX: number, clientY: number): { x: number; y: number } | null {
-		if (!svgContainer) return null;
-		const rect = svgContainer.getBoundingClientRect();
-		return { x: clientX - rect.left, y: clientY - rect.top };
-	}
+	// function getContainerPointFromClient(clientX: number, clientY: number): { x: number; y: number } | null {
+	// 	if (!svgContainer) return null;
+	// 	const rect = svgContainer.getBoundingClientRect();
+	// 	return { x: clientX - rect.left, y: clientY - rect.top };
+	// }
 
-	function containerPointToSvgPoint(point: { x: number; y: number }): { x: number; y: number } | null {
+	function containerPointToSvgPoint(point: {
+		x: number;
+		y: number;
+	}): { x: number; y: number } | null {
 		if (!svgContainer) return null;
 		const svg = svgContainer.querySelector('svg');
 		if (!svg) return null;
@@ -203,98 +358,6 @@
 		};
 	}
 
-	const QUICK_CONNECT_NODE_HITBOX_PADDING = 24;
-	const QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH = 112;
-	const QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT = 44;
-	const QUICK_CONNECT_NEW_NODE_STEP = 96;
-	const QUICK_CONNECT_NEW_NODE_MAX_STEPS = 8;
-
-	function listCanvasNodeBoxes(): CanvasNodeBox[] {
-		if (!svgContainer) return [];
-		const containerRect = svgContainer.getBoundingClientRect();
-		const nodes = Array.from(svgContainer.querySelectorAll('[data-node-id]')) as SVGGraphicsElement[];
-		return nodes
-			.map((nodeEl) => {
-				const id = nodeEl.getAttribute('data-node-id');
-				if (!id) return null;
-				const rect = nodeEl.getBoundingClientRect();
-				const left = rect.left - containerRect.left;
-				const top = rect.top - containerRect.top;
-				const right = left + rect.width;
-				const bottom = top + rect.height;
-				return {
-					id,
-					left,
-					right,
-					top,
-					bottom,
-					centerX: left + rect.width / 2,
-					centerY: top + rect.height / 2
-				};
-			})
-			.filter((node): node is CanvasNodeBox => node !== null);
-	}
-
-	function getNodeIdAtContainerPoint(
-		point: { x: number; y: number },
-		padding = QUICK_CONNECT_NODE_HITBOX_PADDING
-	): string | null {
-		const boxes = listCanvasNodeBoxes();
-		const candidates = boxes
-			.filter(
-				(box) =>
-					point.x >= box.left - padding &&
-					point.x <= box.right + padding &&
-					point.y >= box.top - padding &&
-					point.y <= box.bottom + padding
-			)
-			.sort((a, b) => {
-				const da = Math.abs(point.x - a.centerX) + Math.abs(point.y - a.centerY);
-				const db = Math.abs(point.x - b.centerX) + Math.abs(point.y - b.centerY);
-				return da - db;
-			});
-		return candidates[0]?.id ?? null;
-	}
-
-	function getQuickConnectHandles(nodeId: string): QuickConnectHandle[] {
-		const node = listCanvasNodeBoxes().find((candidate) => candidate.id === nodeId);
-		if (!node) return [];
-		return [
-			{ direction: 'top', x: node.centerX, y: node.top - 12 },
-			{ direction: 'right', x: node.right + 12, y: node.centerY },
-			{ direction: 'bottom', x: node.centerX, y: node.bottom + 12 },
-			{ direction: 'left', x: node.left - 12, y: node.centerY }
-		];
-	}
-
-	function getConnectedTargets(sourceNodeId: string): Set<string> {
-		const profile = diagramState.profile as any;
-		const edges = Array.isArray(profile?.edges) ? profile.edges : [];
-		const targets = new Set<string>();
-		for (const edge of edges) {
-			if (edge?.from === sourceNodeId && typeof edge?.to === 'string') {
-				targets.add(edge.to);
-			}
-		}
-		return targets;
-	}
-
-	function getPreviewEndpointForDirection(
-		sourceNodeId: string,
-		direction: QuickConnectDirection,
-		behavior: QuickConnectBehavior
-	): { point: { x: number; y: number }; targetNodeId: string | null } | null {
-		const nodeBoxes = listCanvasNodeBoxes();
-		const connectedTargets = getConnectedTargets(sourceNodeId);
-		return selectDirectionalTarget({
-			sourceNodeId,
-			direction,
-			nodeBoxes,
-			connectedTargets,
-			behavior
-		});
-	}
-
 	function activateQuickConnect(
 		nodeId: string,
 		direction: QuickConnectDirection,
@@ -305,7 +368,15 @@
 		quickConnectActiveDirection = direction;
 		quickConnectPreviewStart = { x: sourceHandle.x, y: sourceHandle.y };
 		const targetPreview =
-			behavior === 'new' ? null : getPreviewEndpointForDirection(nodeId, direction, behavior);
+			behavior === 'new'
+				? null
+				: getPreviewEndpointForDirection(
+						svgContainer,
+						diagramState.profile as any,
+						nodeId,
+						direction,
+						behavior
+					);
 		if (targetPreview && behavior !== 'new') {
 			quickConnectTargetNodeId = targetPreview.targetNodeId;
 			quickConnectPreviewEnd = targetPreview.point;
@@ -313,22 +384,12 @@
 			return;
 		}
 
-		const distance = 170;
-		const end = offsetPointInDirection(
+		const nonOverlappingEnd = computeNonOverlappingNewNodePreviewEnd(
+			svgContainer,
 			{ x: sourceHandle.x, y: sourceHandle.y },
 			direction,
-			distance
+			nodeId
 		);
-		const nonOverlappingEnd = findNonOverlappingPreviewPoint({
-			initialPoint: end,
-			direction,
-			sourceNodeId: nodeId,
-			nodeBoxes: listCanvasNodeBoxes(),
-			previewWidth: QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH,
-			previewHeight: QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT,
-			stepDistance: QUICK_CONNECT_NEW_NODE_STEP,
-			maxSteps: QUICK_CONNECT_NEW_NODE_MAX_STEPS
-		});
 		quickConnectTargetNodeId = null;
 		quickConnectPreviewEnd = nonOverlappingEnd;
 		quickConnectNewNodePosition = containerPointToSvgPoint(nonOverlappingEnd);
@@ -353,7 +414,8 @@
 		}
 
 		const newNodeId = `id${editorState.shapeCounter}`;
-		const svgPoint = quickConnectNewNodePosition ?? containerPointToSvgPoint(quickConnectPreviewEnd);
+		const svgPoint =
+			quickConnectNewNodePosition ?? containerPointToSvgPoint(quickConnectPreviewEnd);
 		const shapeCode = svgPoint
 			? `shape ${newNodeId} as @rectangle label:"New Node" position:(${svgPoint.x},${svgPoint.y})`
 			: `shape ${newNodeId} as @rectangle label:"New Node"`;
@@ -382,14 +444,15 @@
 			return;
 		}
 
-		let nodeId: string | null = target.closest('[data-node-id]')?.getAttribute('data-node-id') ?? null;
+		let nodeId: string | null =
+			target.closest('[data-node-id]')?.getAttribute('data-node-id') ?? null;
 		if (!nodeId && svgContainer) {
 			const containerRect = svgContainer.getBoundingClientRect();
 			const point = {
 				x: event.clientX - containerRect.left,
 				y: event.clientY - containerRect.top
 			};
-			nodeId = getNodeIdAtContainerPoint(point);
+			nodeId = getNodeIdAtContainerPoint(svgContainer, point);
 		}
 		if (!nodeId) {
 			resetQuickConnect();
@@ -398,7 +461,7 @@
 
 		if (quickConnectNodeId !== nodeId) {
 			quickConnectNodeId = nodeId;
-			quickConnectHandles = getQuickConnectHandles(nodeId);
+			quickConnectHandles = getRuntimeQuickConnectHandles(svgContainer, nodeId);
 			quickConnectActiveDirection = null;
 			quickConnectPreviewStart = null;
 			quickConnectPreviewEnd = null;
@@ -464,7 +527,6 @@
 				renderTime = result.renderTime;
 
 				if (result.nodeLocations) {
-					nodeLocations = result.nodeLocations;
 					diagramState.setNodeLocations(result.nodeLocations);
 				} else {
 					diagramState.clearNodeLocations();
@@ -553,36 +615,195 @@
 		}
 	}
 
-	function handleOpenStylePanel() {
+	// TODO: label edit on double click of element
+	function handleStartLabelEdit() {
 		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
-		const elementId = selection.selectedNodeId || selection.selectedEdgeId;
-		const styles = extractSelectedElementStyles(diagramState.profile as any, elementId);
-		if (Object.keys(styles).length > 0) {
-			styleState.setStyles(styles);
-		}
-		styleState.toggle();
+		const nodeId = selection.selectedNodeId;
+		const edgeId = selection.selectedEdgeId;
+		if (!nodeId && !edgeId) return;
+		interactionManager.startLabelEdit(nodeId, edgeId);
 	}
 
-	function handleStyleChange(property: string, value: string | number) {
+	function handleApplyIcon() {
 		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
-		styleState.setStyle(property, value);
-		const dslProperty = mapStyleProperty(property);
-		for (const targetId of collectSelectedIds(selection)) {
-			handleEdit(targetId, dslProperty, value);
+		const selectedNodeId = selection.selectedNodeId;
+		if (!selectedNodeId) return;
+		const iconValue = iconInputValue.trim();
+		if (!iconValue) return;
+		handleEdit(selectedNodeId, 'icon', iconValue);
+		closeAllPanels();
+	}
+
+	function handleClearIcon() {
+		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
+		const selectedNodeId = selection.selectedNodeId;
+		if (!selectedNodeId) return;
+		handleEdit(selectedNodeId, 'icon', '');
+		iconInputValue = '';
+		iconSearchQuery = '';
+		closeAllPanels();
+	}
+
+	function handleSelectIconToken(token: string) {
+		iconInputValue = token;
+		handleApplyIcon();
+	}
+
+	function closeAllPanels(except?: ElementPanelKey) {
+		closePanelState(panelOpen, except);
+	}
+
+	function onPanelOpenChange(panel: ElementPanelKey, open: boolean) {
+		debugCanvas('panel-open-change', { panel, open });
+		if (open) {
+			closeAllPanels(panel);
+			if (panel === 'border') openBorderPanel();
+			else if (panel === 'fill') openFillPanel();
+			else if (panel === 'text') openTextPanel();
+			else if (panel === 'icon' && selection.selectedNodeId) {
+				const styles = extractSelectedElementStyles(
+					diagramState.profile as any,
+					selection.selectedNodeId
+				);
+				iconInputValue =
+					typeof styles.icon === 'string' && styles.icon !== 'mixed' ? String(styles.icon) : '';
+				iconSearchQuery = iconInputValue;
+			}
 		}
+		panelOpen[panel] = open;
 	}
 
-	function handleResetSelectedStyles() {
-		const selectedIds = collectSelectedIds(selection);
-		handleResetStyles(selectedIds);
-		styleState.setStyles({});
+	function handleDeleteFromToolbar() {
+		handleDelete(selection.selectedNodeId, selection.selectedEdgeId);
+		selection.clearSelection();
+		closeAllPanels();
 	}
 
-	// onMount(() => {
-	// 	if (editorState.code) {
-	// 		renderDiagram(editorState.code);
-	// 	}
-	// });
+	function handleApplyShape(shapeId: string) {
+		const selectedNodeId = selection.selectedNodeId;
+		if (!selectedNodeId) return;
+		handleEdit(selectedNodeId, 'shapeType', shapeId);
+		closeAllPanels();
+	}
+
+	function openBorderPanel() {
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
+		borderDraft = createBorderDraftFromStyles(styles);
+	}
+
+	function applyBorderDraft() {
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		handleEdit(selectedId, 'strokeColor', borderDraft.strokeColor);
+		handleEdit(selectedId, 'strokeWidth', Math.max(0, Number(borderDraft.strokeWidth) || 0));
+		if (selection.selectedEdgeId) {
+			handleEdit(
+				selectedId,
+				'lineStyle',
+				borderDraft.lineStyle === 'none' ? 'solid' : borderDraft.lineStyle
+			);
+		}
+		if (borderDraft.lineStyle === 'none') {
+			handleEdit(selectedId, 'strokeWidth', 0);
+		}
+		closeAllPanels();
+	}
+
+	function openFillPanel() {
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
+		fillDraft = createFillDraftFromStyles(styles);
+	}
+
+	function applyFillDraft() {
+		if (!selection.selectedNodeId) return;
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		handleEdit(selectedId, 'fillColor', fillDraft.fillColor);
+		closeAllPanels();
+	}
+
+	function openTextPanel() {
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
+		textDraft = createTextDraftFromStyles(styles);
+	}
+
+	function applyTextDraft() {
+		if (!selection.selectedNodeId) return;
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		handleEdit(selectedId, 'textColor', textDraft.textColor);
+		handleEdit(selectedId, 'fontSize', Math.max(8, Number(textDraft.fontSize) || 14));
+		handleEdit(selectedId, 'fontFamily', textDraft.fontFamily || 'sans-serif');
+		closeAllPanels();
+	}
+
+	function resetTextDraftToTheme() {
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		handleResetStyles([selectedId]);
+		closeAllPanels();
+	}
+
+	function getStyleDeclarations() {
+		return parseStyleDeclarations(editorState.code);
+	}
+
+	function getFilteredStyleDeclarations() {
+		return filterStyleDeclarations(getStyleDeclarations(), styleSearchQuery);
+	}
+
+	function applyStyleRef(styleName: string) {
+		const selectedNodeId = selection.selectedNodeId;
+		if (!selectedNodeId) return;
+		// Ensure style ref is the active source of truth by clearing inline style props first.
+		handleResetStyles([selectedNodeId]);
+		handleEdit(selectedNodeId, 'style', styleName);
+		closeAllPanels();
+	}
+
+	function resetStyleRefToTheme() {
+		const selectedNodeId = selection.selectedNodeId;
+		if (!selectedNodeId) return;
+		handleEdit(selectedNodeId, 'style', '');
+		closeAllPanels();
+	}
+
+	function openCreateStyleDialog(existing?: { name: string; properties: Record<string, string> }) {
+		editingStyleName = existing?.name ?? null;
+		newStyleName = existing?.name ?? '';
+		newStyleDraft = createStyleDraftFromExisting(existing);
+		showCreateStyleDialog = true;
+	}
+
+	function saveStyleDeclarationAndApply() {
+		const selectedNodeId = selection.selectedNodeId;
+		if (!selectedNodeId) return;
+		const styleName = newStyleName.trim();
+		if (!styleName) return;
+
+		const properties = createStylePropertiesFromDraft(newStyleDraft);
+
+		let nextCode = editorState.code;
+		if (editingStyleName) {
+			nextCode = updateStyleDeclaration(nextCode, editingStyleName, properties);
+		} else {
+			nextCode = insertStyleDeclaration(nextCode, styleName, properties);
+		}
+		updateCode(nextCode, true);
+		handleEdit(selectedNodeId, 'style', styleName);
+		showCreateStyleDialog = false;
+		closeAllPanels();
+	}
+
+	function removeStyleDeclaration(styleName: string) {
+		updateCode(deleteStyleDeclaration(editorState.code, styleName), true);
+	}
 
 	onMount(() => {
 		// Register VisualCanvas with editorRefs
@@ -591,9 +812,26 @@
 			getSvg
 		};
 
+		const handleGlobalPointerDown = (event: PointerEvent) => {
+			if (!selection.hasSelection) return;
+			const target = event.target as Node | null;
+			if (!target) return;
+
+			const insideToolbar = !!floatingToolbarElement?.contains(target);
+			const insidePopover = target instanceof Element && !!target.closest('[data-slot="popover-content"]');
+			if (insideToolbar || insidePopover) return;
+
+			selection.clearSelection();
+			selection.updateVisualSelection(svgContainer);
+			closeAllPanels();
+		};
+
+		document.addEventListener('pointerdown', handleGlobalPointerDown, true);
+
 		return () => {
 			// Cleanup on unmount
 			editorRefs.preview = null;
+			document.removeEventListener('pointerdown', handleGlobalPointerDown, true);
 		};
 	});
 </script>
@@ -654,9 +892,7 @@
 						</svg>
 						{warningDetails.length + combinedWarnings.length}
 						Warning
-						{warningDetails.length + combinedWarnings.length === 1
-							? ''
-							: 's'}
+						{warningDetails.length + combinedWarnings.length === 1 ? '' : 's'}
 					</Badge>
 				</button>
 			{:else if svgOutput}
@@ -764,10 +1000,7 @@
 											editorState.showCodeEditor = true;
 											editorState.activeTab = 'syntax';
 											tick().then(() => {
-												editorRefs.code?.jumpTo(
-													warning.range.startLine,
-													warning.range.startColumn
-												);
+												editorRefs.code?.jumpTo(warning.range.startLine, warning.range.startColumn);
 											});
 										}}
 									>
@@ -834,20 +1067,301 @@
 			? 'grabbing'
 			: editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'
 				? 'crosshair'
-			: selection.editingNodeId || selection.editingEdgeId
-				? 'default'
-				: 'grab'}; outline: none;"
+				: selection.editingNodeId || selection.editingEdgeId
+					? 'default'
+					: 'grab'}; outline: none;"
 	>
 		<!-- Floating Toolbar at Top Center -->
-		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && (selection.selectedNodeId || selection.selectedEdgeId)}
-			<div class="floating-toolbar">
-				<button
-					onclick={handleOpenStylePanel}
-					class="toolbar-button"
-					title="Edit Style (colors, fonts, effects)"
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<Popover.Root
+					open={panelOpen.changeShape}
+					onOpenChange={(open) => onPanelOpenChange('changeShape', open)}
 				>
-					<Icon icon="lucide:palette" class="size-4" />
-					<span>Style</span>
+					<Popover.Trigger
+						class={`toolbar-button ${panelOpen.changeShape ? 'is-active' : ''}`}
+						title="Change Shape"
+						disabled={!selection.selectedNodeId}
+					>
+						<Icon icon="lucide:shapes" class="size-4" />
+						<span>Change Shape</span>
+					</Popover.Trigger>
+					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
+						<div class="flyout-title">Change Shape</div>
+						{#each diagramShapeCategories as category}
+							<div class="shape-picker-group">
+								<div class="shape-picker-group-title">{category.label}</div>
+								<div class="shape-picker-grid">
+									{#each category.shapes as shape}
+										<button
+											type="button"
+											class="shape-picker-item"
+											onclick={() => handleApplyShape(shape.id)}
+										>
+											<span class="shape-picker-label">{shape.label}</span>
+										</button>
+									{/each}
+								</div>
+							</div>
+						{/each}
+					</Popover.Content>
+				</Popover.Root>
+				<Popover.Root
+					open={panelOpen.styles}
+					onOpenChange={(open) => onPanelOpenChange('styles', open)}
+				>
+					<Popover.Trigger
+						class={`toolbar-button ${panelOpen.styles ? 'is-active' : ''}`}
+						title="Apply Style"
+						disabled={!selection.selectedNodeId}
+					>
+						<Icon icon="lucide:swatch-book" class="size-4" />
+						<span>Styles</span>
+					</Popover.Trigger>
+					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
+						<div class="flyout-title">Styles</div>
+						<input
+							class="icon-flyout-input"
+							type="text"
+							bind:value={styleSearchQuery}
+							placeholder="Search styles..."
+						/>
+						<div class="icon-results-list">
+							{#each getFilteredStyleDeclarations() as styleDecl}
+								<div class="style-row">
+									<button
+										type="button"
+										class="style-apply-btn"
+										onclick={() => applyStyleRef(styleDecl.name)}
+									>
+										<span class="font-semibold">{styleDecl.name}</span>
+										<span class="style-preview">
+											<span
+												class="style-preview-chip"
+												style={`background:${styleDecl.properties.fillColor || '#f3f4f6'}; border-color:${styleDecl.properties.strokeColor || '#d1d5db'};`}
+											></span>
+											<span
+												>{styleDecl.properties.fillColor || 'theme'} / {styleDecl.properties
+													.strokeColor || 'theme'}</span
+											>
+										</span>
+									</button>
+									<button
+										type="button"
+										class="toolbar-button toolbar-button-sm"
+										onclick={() => openCreateStyleDialog(styleDecl)}
+									>
+										Edit
+									</button>
+									<button
+										type="button"
+										class="toolbar-button toolbar-button-sm"
+										onclick={() => removeStyleDeclaration(styleDecl.name)}
+									>
+										Delete
+									</button>
+								</div>
+							{/each}
+						</div>
+						<div class="icon-flyout-actions">
+							<button class="toolbar-button toolbar-button-sm" onclick={resetStyleRefToTheme}>
+								Reset to Theme
+							</button>
+							<button
+								class="toolbar-button toolbar-button-sm"
+								onclick={() => openCreateStyleDialog()}
+							>
+								Create New
+							</button>
+						</div>
+					</Popover.Content>
+				</Popover.Root>
+				<div class="toolbar-divider-vertical"></div>
+				<Popover.Root
+					open={panelOpen.border}
+					onOpenChange={(open) => onPanelOpenChange('border', open)}
+				>
+					<Popover.Trigger
+						class={`toolbar-button ${panelOpen.border ? 'is-active' : ''}`}
+						title="Border/Stroke"
+					>
+						<Icon icon="lucide:square-dashed-bottom-code" class="size-4" />
+						<span>Border</span>
+					</Popover.Trigger>
+					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
+						<div class="flyout-title">Border / Stroke</div>
+						<div class="icon-flyout-label">Color</div>
+						<input class="icon-flyout-input" type="color" bind:value={borderDraft.strokeColor} />
+						<div class="icon-flyout-label">Width</div>
+						<input
+							class="icon-flyout-input"
+							type="number"
+							min="0"
+							step="0.5"
+							bind:value={borderDraft.strokeWidth}
+						/>
+						<div class="border-style-buttons">
+							{#each borderStyleChoices as choice}
+								<button
+									type="button"
+									class="toolbar-button toolbar-button-sm"
+									class:is-active={borderDraft.lineStyle === choice.id}
+									onclick={() => (borderDraft.lineStyle = choice.id)}
+								>
+									<Icon icon={choice.icon} class="size-4" />
+									<span>{choice.label}</span>
+								</button>
+							{/each}
+						</div>
+						<div class="icon-flyout-actions">
+							<button class="toolbar-button toolbar-button-sm" onclick={() => closeAllPanels()}>
+								Cancel
+							</button>
+							<button class="toolbar-button toolbar-button-sm" onclick={applyBorderDraft}>
+								Apply
+							</button>
+						</div>
+					</Popover.Content>
+				</Popover.Root>
+				<Popover.Root
+					open={panelOpen.fill}
+					onOpenChange={(open) => onPanelOpenChange('fill', open)}
+				>
+					<Popover.Trigger
+						class={`toolbar-button ${panelOpen.fill ? 'is-active' : ''}`}
+						title="Fill Color"
+					>
+						<Icon icon="lucide:paintbucket" class="size-4" />
+						<span>Fill</span>
+					</Popover.Trigger>
+					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
+						<div class="flyout-title">Fill Color</div>
+						{#if !selection.selectedNodeId}
+							<div class="icon-result-empty">Fill is available for nodes only.</div>
+						{/if}
+						<input class="icon-flyout-input" type="color" bind:value={fillDraft.fillColor} />
+						<div class="icon-flyout-actions">
+							<button class="toolbar-button toolbar-button-sm" onclick={() => closeAllPanels()}>
+								Cancel
+							</button>
+							<button class="toolbar-button toolbar-button-sm" onclick={applyFillDraft}>
+								Apply
+							</button>
+						</div>
+					</Popover.Content>
+				</Popover.Root>
+				<Popover.Root
+					open={panelOpen.text}
+					onOpenChange={(open) => onPanelOpenChange('text', open)}
+				>
+					<Popover.Trigger
+						class={`toolbar-button ${panelOpen.text ? 'is-active' : ''}`}
+						title="Text Styling"
+					>
+						<Icon icon="lucide:type" class="size-4" />
+						<span>Text</span>
+					</Popover.Trigger>
+					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
+						<div class="flyout-title">Text</div>
+						<div class="icon-flyout-label">Color</div>
+						<input class="icon-flyout-input" type="color" bind:value={textDraft.textColor} />
+						<div class="icon-flyout-label">Size</div>
+						<input
+							class="icon-flyout-input"
+							type="number"
+							min="8"
+							step="1"
+							bind:value={textDraft.fontSize}
+						/>
+						<div class="icon-flyout-label">Font Family</div>
+						<input
+							class="icon-flyout-input"
+							type="text"
+							bind:value={textDraft.fontFamily}
+							placeholder="sans-serif"
+						/>
+						<div class="icon-flyout-actions">
+							<button class="toolbar-button toolbar-button-sm" onclick={resetTextDraftToTheme}>
+								Reset
+							</button>
+							<button class="toolbar-button toolbar-button-sm" onclick={() => closeAllPanels()}>
+								Cancel
+							</button>
+							<button class="toolbar-button toolbar-button-sm" onclick={applyTextDraft}>
+								Apply
+							</button>
+						</div>
+					</Popover.Content>
+				</Popover.Root>
+				<Popover.Root
+					open={panelOpen.icon}
+					onOpenChange={(open) => onPanelOpenChange('icon', open)}
+				>
+					<Popover.Trigger
+						class={`toolbar-button ${panelOpen.icon ? 'is-active' : ''}`}
+						title="Icon"
+						disabled={!selection.selectedNodeId}
+					>
+						<Icon icon="lucide:badge-plus" class="size-4" />
+						<span>Icon</span>
+					</Popover.Trigger>
+					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
+						<div class="flyout-title">Icon</div>
+						<label class="icon-flyout-label" for="node-icon-input">Search icons</label>
+						<input
+							id="node-icon-input"
+							class="icon-flyout-input"
+							type="text"
+							bind:value={iconSearchQuery}
+							placeholder="Search (e.g. aws, database, github)"
+						/>
+						<div class="icon-token-preview">
+							<span class="icon-token-preview-label">Selected</span>
+							<input
+								class="icon-flyout-input"
+								type="text"
+								bind:value={iconInputValue}
+								placeholder="brand/github_actions"
+								onkeydown={(event) => {
+									if (event.key === 'Enter') handleApplyIcon();
+								}}
+							/>
+						</div>
+						<div class="icon-results-list" role="listbox" aria-label="Available icons">
+							{#each getFilteredIconTokens() as token}
+								<button
+									type="button"
+									class="icon-result-item"
+									onclick={() => handleSelectIconToken(token)}
+								>
+									<code>{token}</code>
+								</button>
+							{/each}
+							{#if getFilteredIconTokens().length === 0}
+								<div class="icon-result-empty">No icons match your search.</div>
+							{/if}
+						</div>
+						<div class="icon-flyout-actions">
+							<button class="toolbar-button toolbar-button-sm" onclick={handleApplyIcon}>
+								Apply
+							</button>
+							<button class="toolbar-button toolbar-button-sm" onclick={handleClearIcon}>
+								Clear
+							</button>
+						</div>
+					</Popover.Content>
+				</Popover.Root>
+				<div class="toolbar-divider-vertical"></div>
+				<button
+					onclick={handleDeleteFromToolbar}
+					class="toolbar-button toolbar-button-danger"
+					title="Delete element"
+				>
+					<Icon icon="lucide:trash-2" class="size-4" />
 				</button>
 			</div>
 		{/if}
@@ -950,15 +1464,92 @@
 			/>
 		{/if}
 
-		{#if styleState.isVisible && editorState.profileName === ProfileName.diagram && canvasState.mode === 'select'}
-			<StylePanel
-				selectedIds={collectSelectedIdSet(selection)}
-				currentStyles={styleState.currentStyles}
-				hasMixedValues={styleState.hasMixedValues}
-				onClose={() => styleState.hide()}
-				onStyleChange={handleStyleChange}
-				onResetStyles={handleResetSelectedStyles}
-			/>
+		{#if showCreateStyleDialog}
+			<div class="style-create-overlay">
+				<div class="style-create-dialog">
+					<h3 class="flyout-title mb-2">{editingStyleName ? 'Edit Style' : 'Create Style'}</h3>
+					<label class="icon-flyout-label" for="style-name-input">Style Name</label>
+					<input
+						id="style-name-input"
+						class="icon-flyout-input"
+						type="text"
+						bind:value={newStyleName}
+						placeholder="myStyle"
+					/>
+					<div class="style-create-grid">
+						<div>
+							<label class="icon-flyout-label" for="style-fill-input">Fill</label>
+							<input
+								id="style-fill-input"
+								class="icon-flyout-input"
+								type="color"
+								bind:value={newStyleDraft.fillColor}
+							/>
+						</div>
+						<div>
+							<label class="icon-flyout-label" for="style-stroke-input">Stroke</label>
+							<input
+								id="style-stroke-input"
+								class="icon-flyout-input"
+								type="color"
+								bind:value={newStyleDraft.strokeColor}
+							/>
+						</div>
+						<div>
+							<label class="icon-flyout-label" for="style-stroke-width-input">Stroke Width</label>
+							<input
+								id="style-stroke-width-input"
+								class="icon-flyout-input"
+								type="number"
+								min="0"
+								step="0.5"
+								bind:value={newStyleDraft.strokeWidth}
+							/>
+						</div>
+						<div>
+							<label class="icon-flyout-label" for="style-text-color-input">Text Color</label>
+							<input
+								id="style-text-color-input"
+								class="icon-flyout-input"
+								type="color"
+								bind:value={newStyleDraft.textColor}
+							/>
+						</div>
+						<div>
+							<label class="icon-flyout-label" for="style-font-size-input">Font Size</label>
+							<input
+								id="style-font-size-input"
+								class="icon-flyout-input"
+								type="number"
+								min="8"
+								step="1"
+								bind:value={newStyleDraft.fontSize}
+							/>
+						</div>
+						<div>
+							<label class="icon-flyout-label" for="style-font-family-input">Font Family</label>
+							<input
+								id="style-font-family-input"
+								class="icon-flyout-input"
+								type="text"
+								bind:value={newStyleDraft.fontFamily}
+								placeholder="sans-serif"
+							/>
+						</div>
+					</div>
+					<div class="icon-flyout-actions">
+						<button
+							class="toolbar-button toolbar-button-sm"
+							onclick={() => (showCreateStyleDialog = false)}
+						>
+							Cancel
+						</button>
+						<button class="toolbar-button toolbar-button-sm" onclick={saveStyleDeclarationAndApply}>
+							Save
+						</button>
+					</div>
+				</div>
+			</div>
 		{/if}
 
 		{#if svgOutput}
@@ -976,7 +1567,9 @@
 		{#if diagramState.errors.length > 0}
 			<!-- Error Overlay -->
 			<div class="absolute inset-0 flex items-center justify-center bg-black/5 p-8">
-				<div class="max-w-2xl rounded-lg border-2 border-error bg-white/95 p-6 shadow-lg backdrop-blur-sm">
+				<div
+					class="max-w-2xl rounded-lg border-2 border-error bg-white/95 p-6 shadow-lg backdrop-blur-sm"
+				>
 					<div class="mb-4 flex items-center gap-2 text-error">
 						<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path

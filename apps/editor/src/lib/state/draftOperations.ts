@@ -62,6 +62,8 @@ export function applyDraftOperation(
 				}
 			} else if (
 				[
+					'shapeType',
+					'style',
 					'fillColor',
 					'strokeColor',
 					'strokeWidth',
@@ -69,16 +71,26 @@ export function applyDraftOperation(
 					'textColor',
 					'shadow',
 					'routing',
+					'lineStyle',
 					'icon'
 				].includes(property)
 			) {
-				newCode = DSL.editStyleProperty(
-					code,
-					targetId,
-					property,
-					value,
-					resolveLocation(targetId, targetId.includes('-'))
-				);
+				if (property === 'shapeType') {
+					newCode = DSL.editShapeType(
+						code,
+						targetId,
+						String(value),
+						resolveLocation(targetId, false)
+					);
+				} else {
+					newCode = DSL.editStyleProperty(
+						code,
+						targetId,
+						property,
+						value,
+						resolveLocation(targetId, targetId.includes('-'))
+					);
+				}
 			}
 
 			return { newCode, shapeCounterDelta: 0 };
