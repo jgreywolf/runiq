@@ -3,6 +3,8 @@
  * Special Unicode text icons for electrical, digital, hydraulic, pneumatic, and sequence diagram shapes
  */
 
+import { repairMojibake } from './encoding';
+
 const TEXT_ICON_MAP: Record<string, string> = {
 	// Electrical/Digital components
 	resistor: '─∿─',
@@ -228,6 +230,7 @@ export function hasTextIcon(shapeId: string): boolean {
 export function getTextIcon(shapeId: string, size: number): string | null {
 	const icon = TEXT_ICON_MAP[shapeId];
 	if (!icon) return null;
+	const displayIcon = repairMojibake(icon);
 
 	return `
 		<svg 
@@ -244,7 +247,7 @@ export function getTextIcon(shapeId: string, size: number): string | null {
 				font-family="monospace" 
 				font-size="32" 
 				fill="#334155"
-			>${icon}</text>
+			>${displayIcon}</text>
 		</svg>
 	`;
 }

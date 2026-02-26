@@ -7,7 +7,7 @@
 		handleInsertShape,
 		updateCode
 	} from '$lib/state/editorState.svelte';
-	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
+import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 	import { canvasState } from '$lib/state';
 	import { ProfileName } from '$lib/types';
 	import { containerTemplateShapeIcons } from '$lib/data/toolboxIcons/containerTemplateShapeIcons';
@@ -24,6 +24,15 @@
 	let showContainerFlyout = $state(false);
 	let showImageFlyout = $state(false);
 	const availableThemes = getAvailableBaseThemes();
+	const themeOptions = availableThemes.map((themeId) => {
+		const theme = getBaseTheme(themeId);
+		return {
+			id: themeId,
+			name: theme.name,
+			description: theme.description,
+			primaryColor: theme.primaryColor
+		};
+	});
 
 	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
 
@@ -51,28 +60,26 @@
 		canvasState.mode = newMode;
 	}
 
+	function setFlyoutOpen(flyout: 'theme' | 'shape' | 'container' | 'image' | null) {
+		showThemeFlyout = flyout === 'theme';
+		showShapeFlyout = flyout === 'shape';
+		showContainerFlyout = flyout === 'container';
+		showImageFlyout = flyout === 'image';
+	}
+
 	function handleAddShape() {
 		if (!isDiagramProfile) return;
-		showShapeFlyout = !showShapeFlyout;
-		showContainerFlyout = false;
-		showImageFlyout = false;
-		showThemeFlyout = false;
+		setFlyoutOpen(showShapeFlyout ? null : 'shape');
 	}
 
 	function handleAddContainer() {
 		if (!isDiagramProfile) return;
-		showContainerFlyout = !showContainerFlyout;
-		showShapeFlyout = false;
-		showImageFlyout = false;
-		showThemeFlyout = false;
+		setFlyoutOpen(showContainerFlyout ? null : 'container');
 	}
 
 	function handleAddImage() {
 		if (!isDiagramProfile) return;
-		showImageFlyout = !showImageFlyout;
-		showShapeFlyout = false;
-		showContainerFlyout = false;
-		showThemeFlyout = false;
+		setFlyoutOpen(showImageFlyout ? null : 'image');
 	}
 
 	function handleAddText() {
@@ -83,12 +90,12 @@
 
 	function insertQuickShape(code: string) {
 		handleInsertShape(code);
-		showShapeFlyout = false;
+		setFlyoutOpen(null);
 	}
 
 	function insertQuickContainer(code: string) {
 		handleInsertShape(code);
-		showContainerFlyout = false;
+		setFlyoutOpen(null);
 	}
 
 	function insertImageShape(src: string) {
@@ -98,14 +105,11 @@
 		handleInsertShape(
 			`shape id as @image label:"Image" data:[{ src:"${normalizedSrc}" }]`
 		);
-		showImageFlyout = false;
+		setFlyoutOpen(null);
 	}
 
 	function handleChangeTheme() {
-		showShapeFlyout = false;
-		showContainerFlyout = false;
-		showImageFlyout = false;
-		showThemeFlyout = !showThemeFlyout;
+		setFlyoutOpen(showThemeFlyout ? null : 'theme');
 	}
 
 	function applyTheme(themeId: string) {
@@ -128,7 +132,7 @@
 		// Pass true to add to history so theme changes can be undone
 		updateCode(newCode, true);
 
-		showThemeFlyout = false;
+		setFlyoutOpen(null);
 	}
 
 	// Zoom handlers
@@ -330,10 +334,9 @@
 			<div class="mb-1 px-2 py-1">
 				<h3 class="text-xs font-semibold text-neutral-700">Select Theme</h3>
 			</div>
-			{#each availableThemes as themeId}
-				{@const theme = getBaseTheme(themeId)}
+			{#each themeOptions as theme}
 				<button
-					onclick={() => applyTheme(themeId)}
+					onclick={() => applyTheme(theme.id)}
 					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
 					title={theme.description}
 				>

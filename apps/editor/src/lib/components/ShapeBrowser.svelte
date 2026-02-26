@@ -10,6 +10,7 @@
 	import { ProfileName } from '$lib/types';
 	import Icon from '@iconify/svelte';
 	import ShapeIcon from './ShapeIcon.svelte';
+	import { getShapeIconDebugInfo } from './icons/iconProvider';
 
 	const categories = $derived(
 		editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []
@@ -17,6 +18,7 @@
 
 	let searchQuery = $state('');
 	let expandedCategories = $state<string[]>([]);
+	let showIconDiagnostics = $state(false);
 
 	// Filter shapes based on search query
 	let filteredCategories = $derived.by(() => {
@@ -38,6 +40,34 @@
 
 	// Count total shapes
 	let totalShapes = $derived(filteredCategories.reduce((sum, cat) => sum + cat.shapes.length, 0));
+
+	let iconDiagnostics = $derived.by(() => {
+		if (!import.meta.env.DEV || !editorState.profileName) {
+			return { total: 0, placeholderCount: 0, bySource: [] as Array<[string, number]> };
+		}
+
+		const counts = new Map<string, number>();
+		let total = 0;
+		let placeholderCount = 0;
+
+		for (const category of filteredCategories) {
+			for (const shape of category.shapes) {
+				total += 1;
+				const info = getShapeIconDebugInfo({
+					shapeId: shape.id,
+					profileName: editorState.profileName,
+					size: 24
+				});
+				counts.set(info.source, (counts.get(info.source) ?? 0) + 1);
+				if (info.source.startsWith('placeholder')) {
+					placeholderCount += 1;
+				}
+			}
+		}
+
+		const bySource = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+		return { total, placeholderCount, bySource };
+	});
 
 	// Auto-expand all categories when searching
 	$effect(() => {
@@ -79,6 +109,26 @@
 				{totalShapes === 1 ? 'shape' : 'shapes'} found
 			</div>
 		{/if}
+		{#if import.meta.env.DEV}
+			<div class="mt-2">
+				<button
+					type="button"
+					class="rounded border border-neutral-300 px-2 py-1 text-xs hover:bg-neutral-100"
+					onclick={() => (showIconDiagnostics = !showIconDiagnostics)}
+				>
+					{showIconDiagnostics ? 'Hide' : 'Show'} icon diagnostics
+				</button>
+			</div>
+			{#if showIconDiagnostics}
+				<div class="mt-2 rounded border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-900">
+					<div>Total: {iconDiagnostics.total}</div>
+					<div>Placeholders: {iconDiagnostics.placeholderCount}</div>
+					{#each iconDiagnostics.bySource as [source, count]}
+						<div>{source}: {count}</div>
+					{/each}
+				</div>
+			{/if}
+		{/if}
 	</div>
 
 	<!-- Shape categories -->
@@ -115,6 +165,15 @@
 										class="max-w-xs bg-slate-900 text-white shadow-lg pointer-events-none"
 									>
 										<p class="text-xs">{shape.label}</p>
+										{#if import.meta.env.DEV}
+											<p class="mt-1 text-[10px] opacity-80">
+												{getShapeIconDebugInfo({
+													shapeId: shape.id,
+													profileName: editorState.profileName,
+													size: 24
+												}).source}
+											</p>
+										{/if}
 									</Tooltip.Content>
 								</Tooltip.Root>
 							{/each}

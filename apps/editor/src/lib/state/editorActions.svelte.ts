@@ -305,8 +305,6 @@ export function handleThemeChange(newCode: string) {
  */
 export function handleInsertSample(sampleCode: string, sampleData?: string) {
 	updateCode(sampleCode);
-	editorState.code = sampleCode;
-	editorState.profileName = detectProfile(sampleCode);
 
 	if (sampleData && editorRefs.data) {
 		editorRefs.data.setValue(sampleData);
@@ -326,7 +324,6 @@ export function handleInsertSample(sampleCode: string, sampleData?: string) {
 export function handleNewDiagram(type: ProfileName) {
 	const template = getTemplate(type);
 	updateCode(template.content);
-	editorState.code = template.content;
 	editorState.profileName = type;
 	editorState.diagramName = template.name;
 	editorState.isDirty = false;

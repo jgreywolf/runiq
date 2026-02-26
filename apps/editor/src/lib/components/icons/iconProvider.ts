@@ -17,18 +17,79 @@ interface IconRequest {
 	size?: number;
 }
 
+const iconCache = new Map<string, string | null>();
+const iconSourceCache = new Map<string, string>();
+
+function cacheKey(request: IconRequest): string {
+	return `${request.profileName ?? 'none'}::${request.shapeId}::${request.size ?? 48}`;
+}
+
+export function __clearIconCache(): void {
+	iconCache.clear();
+	iconSourceCache.clear();
+}
+
+export function __getIconCacheSize(): number {
+	return iconCache.size;
+}
+
+interface IconResolution {
+	svg: string | null;
+	source: string;
+}
+
+export interface IconDebugInfo {
+	source: string;
+	fromCache: boolean;
+	hasIcon: boolean;
+}
+
+export function getShapeIconDebugInfo(request: IconRequest): IconDebugInfo {
+	const key = cacheKey(request);
+	const cached = iconCache.get(key);
+	if (cached !== undefined) {
+		return {
+			source: iconSourceCache.get(key) ?? 'unknown',
+			fromCache: true,
+			hasIcon: cached !== null
+		};
+	}
+
+	const resolution = resolveIcon(request);
+	iconCache.set(key, resolution.svg);
+	iconSourceCache.set(key, resolution.source);
+	return {
+		source: resolution.source,
+		fromCache: false,
+		hasIcon: resolution.svg !== null
+	};
+}
+
 /**
  * Get icon SVG content for a shape based on profile context
  * Returns null if no icon can be generated
  */
 export function getShapeIconSvg(request: IconRequest): string | null {
+	const key = cacheKey(request);
+	const cached = iconCache.get(key);
+	if (cached !== undefined) {
+		return cached;
+	}
+
+	const resolution = resolveIcon(request);
+	iconCache.set(key, resolution.svg);
+	iconSourceCache.set(key, resolution.source);
+	return resolution.svg;
+}
+
+function resolveIcon(request: IconRequest): IconResolution {
 	const { shapeId, profileName, size = 48 } = request;
 
-	// Profile-specific routing
 	switch (profileName) {
-		case ProfileName.glyphset:
-			return getGlyphsetIcon(shapeId, size);
-
+		case ProfileName.glyphset: {
+			const glyphsetIcon = getGlyphsetIcon(shapeId, size);
+			return { svg: glyphsetIcon, source: glyphsetIcon ? 'glyphset' : 'placeholder-glyphset' };
+		}
 		case ProfileName.diagram:
 		case ProfileName.sequence:
 		case ProfileName.electrical:
@@ -37,13 +98,12 @@ export function getShapeIconSvg(request: IconRequest): string | null {
 		case ProfileName.hydraulic:
 		case ProfileName.hvac:
 			return getDiagramProfileIcon(shapeId, size);
-		case ProfileName.railroad:
-			return getRailroadSnippetIcon(shapeId, size);
-
+		case ProfileName.railroad: {
+			const railroadIcon = getRailroadSnippetIcon(shapeId, size);
+			return { svg: railroadIcon, source: railroadIcon ? 'railroad' : 'placeholder-railroad' };
+		}
 		default:
-			// Fallback: try all sources
-			//return getGlyphsetIcon(shapeId, size) || getDiagramProfileIcon(shapeId, size) || null;
-			return generatePlaceholderIcon(shapeId, size);
+			return { svg: generatePlaceholderIcon(shapeId, size), source: 'placeholder-default' };
 	}
 }
 
@@ -60,26 +120,26 @@ function getGlyphsetIcon(shapeId: string, size: number): string | null {
 /**
  * Get diagram profile icon (diagram, sequence, electrical, pneumatic, hydraulic, hvac)
  */
-function getDiagramProfileIcon(shapeId: string, size: number): string | null {
+function getDiagramProfileIcon(shapeId: string, size: number): IconResolution {
 	// Check for entry/exit point special icons
 	const entryExitIcon = getEntryExitIcon(shapeId, size);
 	if (entryExitIcon) {
-		return entryExitIcon;
+		return { svg: entryExitIcon, source: 'entry-exit' };
 	}
 
 	// Check for text-based icons (electrical, hydraulic, pneumatic, sequence)
 	if (hasTextIcon(shapeId)) {
-		return getTextIcon(shapeId, size);
+		return { svg: getTextIcon(shapeId, size), source: 'text-icon' };
 	}
 
 	// Check diagram special icons
 	if (isDiagramSpecialIcon(shapeId)) {
-		return getDiagramShapeIcon(shapeId, size);
+		return { svg: getDiagramShapeIcon(shapeId, size), source: 'diagram-special' };
 	}
 
 	// Check BPMN icons
 	if (isBpmnEvent(shapeId) || isBpmnGateway(shapeId)) {
-		return getBpmnShapeIcon(shapeId, size);
+		return { svg: getBpmnShapeIcon(shapeId, size), source: 'bpmn' };
 	}
 
 	// Try to render from shape registry
@@ -89,7 +149,7 @@ function getDiagramProfileIcon(shapeId: string, size: number): string | null {
 /**
  * Render a shape from the registry
  */
-function renderShapeFromRegistry(shapeId: string, size: number): string | null {
+function renderShapeFromRegistry(shapeId: string, size: number): IconResolution {
 	// Map some toolbox IDs to registry IDs
 	const shapeIdMap: Record<string, string> = {
 		paperTape: 'flag',
@@ -114,14 +174,14 @@ function renderShapeFromRegistry(shapeId: string, size: number): string | null {
 	];
 
 	if (snippetShapes.includes(shapeId)) {
-		return generatePlaceholderIcon(shapeId, size);
+		return { svg: generatePlaceholderIcon(shapeId, size), source: 'placeholder-snippet' };
 	}
 
 	const actualShapeId = shapeIdMap[shapeId] || shapeId;
 	const shape = shapeRegistry.get(actualShapeId);
 
 	if (!shape) {
-		return generatePlaceholderIcon(shapeId, size);
+		return { svg: generatePlaceholderIcon(shapeId, size), source: 'placeholder-missing-shape' };
 	}
 
 	// Create mock context for rendering
@@ -133,7 +193,9 @@ function renderShapeFromRegistry(shapeId: string, size: number): string | null {
 	const isChartShape = ['pieChart', 'barChart', 'pyramid'].includes(shapeId);
 	const displaySize = isChartShape ? size * 3 : size;
 
-	return `
+	return {
+		source: 'shape-registry',
+		svg: `
 		<svg 
 			width="${displaySize}" 
 			height="${displaySize}" 
@@ -143,7 +205,8 @@ function renderShapeFromRegistry(shapeId: string, size: number): string | null {
 		>
 			${shapeContent}
 		</svg>
-	`;
+	`
+	};
 }
 
 /**

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Badge } from '$lib/components/ui/badge';
-	import * as Popover from '$lib/components/ui/popover';
 	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
 	import { canvasState, diagramState } from '$lib/state';
 	import {
@@ -23,14 +21,18 @@
 		updateStyleDeclaration
 	} from '$lib/utils/dslCodeManipulation';
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
-	import Icon from '@iconify/svelte';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
 	import { type WarningDetail } from '@runiq/parser-dsl';
 	import { onMount, tick } from 'svelte';
 	import EditorToolbar from './Editor/EditorToolbar.svelte';
+	import CanvasInteractionLayer from './visual-canvas/CanvasInteractionLayer.svelte';
+	import CanvasStateOverlay from './visual-canvas/CanvasStateOverlay.svelte';
+	import CanvasStatusBar from './visual-canvas/CanvasStatusBar.svelte';
 	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
 	import { createCanvasDebugLogger } from './visual-canvas/debug';
+	import ElementToolbar from './visual-canvas/ElementToolbar.svelte';
+	import QuickConnectOverlay from './visual-canvas/QuickConnectOverlay.svelte';
 	import {
 		computeElementToolbarPosition,
 		constrainToolbarPosition
@@ -53,8 +55,6 @@
 		type QuickConnectDirection
 	} from './visual-canvas/quickConnect';
 	import {
-		QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT,
-		QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH,
 		computeNonOverlappingNewNodePreviewEnd,
 		getNodeIdAtContainerPoint,
 		getPreviewEndpointForDirection,
@@ -135,12 +135,11 @@
 		{ id: 'none', label: 'None', icon: 'lucide:slash' }
 	] as const;
 
-	function getFilteredIconTokens(): string[] {
-		return getFilteredIconTokensFromState(availableIconTokens, iconSearchQuery);
-	}
+	const filteredIconTokens = $derived(
+		getFilteredIconTokensFromState(availableIconTokens, iconSearchQuery)
+	);
 
 	// DOM element references
-	let editInputElement = $state<HTMLInputElement | null>(null);
 	let svgContainer = $state<HTMLDivElement | null>(null);
 	let floatingToolbarElement = $state<HTMLDivElement | null>(null);
 
@@ -615,15 +614,6 @@
 		}
 	}
 
-	// TODO: label edit on double click of element
-	function handleStartLabelEdit() {
-		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
-		const nodeId = selection.selectedNodeId;
-		const edgeId = selection.selectedEdgeId;
-		if (!nodeId && !edgeId) return;
-		interactionManager.startLabelEdit(nodeId, edgeId);
-	}
-
 	function handleApplyIcon() {
 		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
 		const selectedNodeId = selection.selectedNodeId;
@@ -754,9 +744,9 @@
 		return parseStyleDeclarations(editorState.code);
 	}
 
-	function getFilteredStyleDeclarations() {
-		return filterStyleDeclarations(getStyleDeclarations(), styleSearchQuery);
-	}
+	const filteredStyleDeclarations = $derived(
+		filterStyleDeclarations(getStyleDeclarations(), styleSearchQuery)
+	);
 
 	function applyStyleRef(styleName: string) {
 		const selectedNodeId = selection.selectedNodeId;
@@ -801,8 +791,20 @@
 		closeAllPanels();
 	}
 
+	function closeCreateStyleDialog() {
+		showCreateStyleDialog = false;
+	}
+
 	function removeStyleDeclaration(styleName: string) {
 		updateCode(deleteStyleDeclaration(editorState.code, styleName), true);
+	}
+
+	function handleJumpToWarning(warning: WarningDetail) {
+		editorState.showCodeEditor = true;
+		editorState.activeTab = 'syntax';
+		tick().then(() => {
+			editorRefs.code?.jumpTo(warning.range.startLine, warning.range.startColumn);
+		});
 	}
 
 	onMount(() => {
@@ -837,211 +839,28 @@
 </script>
 
 <div class="flex h-full flex-col">
-	<!-- Header -->
-	<div class="flex items-center justify-between border-b border-runiq-200 bg-runiq-50 px-4 py-2">
-		<!-- Status -->
-		<div class="flex items-center gap-2">
-			{#if isRendering}
-				<Badge variant="secondary" class="gap-1">
-					<svg class="h-3 w-3 animate-spin" viewBox="0 0 24 24">
-						<circle
-							class="opacity-25"
-							cx="12"
-							cy="12"
-							r="10"
-							stroke="currentColor"
-							stroke-width="4"
-							fill="none"
-						></circle>
-						<path
-							class="opacity-75"
-							fill="currentColor"
-							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-						></path>
-					</svg>
-					Rendering...
-				</Badge>
-			{:else if diagramState.errors.length > 0}
-				<Badge variant="destructive" class="gap-1">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-					{diagramState.errors.length} Error{diagramState.errors.length === 1 ? '' : 's'}
-				</Badge>
-			{:else if warningDetails.length + combinedWarnings.length > 0}
-				<button
-					type="button"
-					class="focus:outline-none"
-					onclick={() => {
-						showWarnings = !showWarnings;
-					}}
-				>
-					<Badge variant="outline" class="gap-1 border-warning text-warning">
-						<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-							/>
-						</svg>
-						{warningDetails.length + combinedWarnings.length}
-						Warning
-						{warningDetails.length + combinedWarnings.length === 1 ? '' : 's'}
-					</Badge>
-				</button>
-			{:else if svgOutput}
-				<Badge variant="default" class="gap-1 bg-success text-white">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M5 13l4 4L19 7"
-						/>
-					</svg>
-					Ready
-				</Badge>
-			{/if}
-
-			{#if parseTime > 0 && renderTime > 0}
-				<span class="text-xs text-neutral-500">
-					Parse: {parseTime}ms · Render: {renderTime}ms
-				</span>
-			{/if}
-
-			{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'}
-				<Badge
-					variant="outline"
-					class="gap-1 border-blue-300 bg-blue-50 text-blue-700"
-					data-testid="connect-mode-hint"
-				>
-					Connect: {quickConnectBehaviorHint === 'auto'
-						? 'Auto'
-						: quickConnectBehaviorHint === 'new'
-							? 'New'
-							: 'Existing'}
-					<span class="text-[10px] text-blue-500">(Alt New / Shift Existing)</span>
-				</Badge>
-			{/if}
-
-			{#if selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0}
-				<Badge variant="outline" class="gap-1 border-purple-300 bg-purple-50 text-purple-700">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						/>
-					</svg>
-					Multi-Select: {selection.selectedNodeIds.size + selection.selectedEdgeIds.size} items
-				</Badge>
-			{:else if selection.selectedNodeId}
-				<Badge variant="outline" class="gap-1">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-						/>
-					</svg>
-					Selected: {selection.selectedNodeId}
-				</Badge>
-			{:else if selection.selectedEdgeId}
-				<Badge variant="outline" class="gap-1">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					Selected: {selection.selectedEdgeId}
-				</Badge>
-			{/if}
-
-			<!-- Multi-select help hint -->
-			{#if !selection.selectedNodeId && !selection.selectedEdgeId && selection.selectedNodeIds.size === 0 && selection.selectedEdgeIds.size === 0}
-				<span class="text-xs text-neutral-400 italic">
-					Tip: Ctrl+Click to multi-select, Ctrl+Drag for lasso
-				</span>
-			{/if}
-		</div>
-
-		<!-- Zoom Level Display -->
-		<div class="flex items-center gap-1">
-			<span class="min-w-[60px] text-center text-xs text-neutral-600">
-				{viewport.zoomPercentage}%
-			</span>
-		</div>
-	</div>
-
-	{#if (warningDetails.length > 0 || combinedWarnings.length > 0) && showWarnings}
-		<div class="border-b border-warning/40 bg-warning/10 px-4 py-2">
-			<div class="flex items-start justify-between gap-3">
-				<div>
-					<div class="text-sm font-semibold text-warning">Warnings</div>
-					{#if warningDetails.length > 0}
-						<ul class="mt-1 space-y-2 text-sm text-neutral-700">
-							{#each warningDetails as warning}
-								<li>
-									<button
-										type="button"
-										class="flex w-full items-start gap-2 rounded px-2 py-1 text-left hover:bg-warning/20"
-										onclick={() => {
-											editorState.showCodeEditor = true;
-											editorState.activeTab = 'syntax';
-											tick().then(() => {
-												editorRefs.code?.jumpTo(warning.range.startLine, warning.range.startColumn);
-											});
-										}}
-									>
-										<span class="mt-0.5 h-1.5 w-1.5 rounded-full bg-warning"></span>
-										<span class="flex-1">
-											<span class="block">{warning.message}</span>
-											<span class="text-xs text-neutral-500">
-												Line {warning.range.startLine}, Col {warning.range.startColumn}
-											</span>
-										</span>
-									</button>
-								</li>
-							{/each}
-						</ul>
-					{/if}
-					{#if combinedWarnings.length > 0}
-						<ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-neutral-700">
-							{#each combinedWarnings as warning}
-								<li>{warning}</li>
-							{/each}
-						</ul>
-					{/if}
-				</div>
-				<button
-					type="button"
-					class="rounded p-1 text-warning hover:bg-warning/20"
-					aria-label="Dismiss warnings"
-					onclick={() => {
-						showWarnings = false;
-					}}
-				>
-					<Icon icon="lucide:x" class="size-4" />
-				</button>
-			</div>
-		</div>
-	{/if}
-
+	<CanvasStatusBar
+		{isRendering}
+		errorCount={diagramState.errors.length}
+		hasSvgOutput={!!svgOutput}
+		{parseTime}
+		{renderTime}
+		isConnectMode={editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'}
+		connectModeHint={quickConnectBehaviorHint}
+		selectedNodeId={selection.selectedNodeId}
+		selectedEdgeId={selection.selectedEdgeId}
+		selectedNodeCount={selection.selectedNodeIds.size}
+		selectedEdgeCount={selection.selectedEdgeIds.size}
+		zoomPercentage={viewport.zoomPercentage}
+		{warningDetails}
+		{combinedWarnings}
+		bind:showWarnings
+		onJumpToWarning={handleJumpToWarning}
+	/>
 	<!-- Floating Toolbar -->
 	<div
 		class="absolute left-4 z-10 flex gap-2"
-		style="top: {showWarnings && diagramState.warnings.length > 0 ? '120px' : '66px'};"
+		style="top: {showWarnings && warningDetails.length + combinedWarnings.length > 0 ? '120px' : '66px'};"
 	>
 		<EditorToolbar {svgContainer} {svgOutput} />
 	</div>
@@ -1078,547 +897,84 @@
 				class="floating-toolbar"
 				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
 			>
-				<Popover.Root
-					open={panelOpen.changeShape}
-					onOpenChange={(open) => onPanelOpenChange('changeShape', open)}
-				>
-					<Popover.Trigger
-						class={`toolbar-button ${panelOpen.changeShape ? 'is-active' : ''}`}
-						title="Change Shape"
-						disabled={!selection.selectedNodeId}
-					>
-						<Icon icon="lucide:shapes" class="size-4" />
-						<span>Change Shape</span>
-					</Popover.Trigger>
-					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
-						<div class="flyout-title">Change Shape</div>
-						{#each diagramShapeCategories as category}
-							<div class="shape-picker-group">
-								<div class="shape-picker-group-title">{category.label}</div>
-								<div class="shape-picker-grid">
-									{#each category.shapes as shape}
-										<button
-											type="button"
-											class="shape-picker-item"
-											onclick={() => handleApplyShape(shape.id)}
-										>
-											<span class="shape-picker-label">{shape.label}</span>
-										</button>
-									{/each}
-								</div>
-							</div>
-						{/each}
-					</Popover.Content>
-				</Popover.Root>
-				<Popover.Root
-					open={panelOpen.styles}
-					onOpenChange={(open) => onPanelOpenChange('styles', open)}
-				>
-					<Popover.Trigger
-						class={`toolbar-button ${panelOpen.styles ? 'is-active' : ''}`}
-						title="Apply Style"
-						disabled={!selection.selectedNodeId}
-					>
-						<Icon icon="lucide:swatch-book" class="size-4" />
-						<span>Styles</span>
-					</Popover.Trigger>
-					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
-						<div class="flyout-title">Styles</div>
-						<input
-							class="icon-flyout-input"
-							type="text"
-							bind:value={styleSearchQuery}
-							placeholder="Search styles..."
-						/>
-						<div class="icon-results-list">
-							{#each getFilteredStyleDeclarations() as styleDecl}
-								<div class="style-row">
-									<button
-										type="button"
-										class="style-apply-btn"
-										onclick={() => applyStyleRef(styleDecl.name)}
-									>
-										<span class="font-semibold">{styleDecl.name}</span>
-										<span class="style-preview">
-											<span
-												class="style-preview-chip"
-												style={`background:${styleDecl.properties.fillColor || '#f3f4f6'}; border-color:${styleDecl.properties.strokeColor || '#d1d5db'};`}
-											></span>
-											<span
-												>{styleDecl.properties.fillColor || 'theme'} / {styleDecl.properties
-													.strokeColor || 'theme'}</span
-											>
-										</span>
-									</button>
-									<button
-										type="button"
-										class="toolbar-button toolbar-button-sm"
-										onclick={() => openCreateStyleDialog(styleDecl)}
-									>
-										Edit
-									</button>
-									<button
-										type="button"
-										class="toolbar-button toolbar-button-sm"
-										onclick={() => removeStyleDeclaration(styleDecl.name)}
-									>
-										Delete
-									</button>
-								</div>
-							{/each}
-						</div>
-						<div class="icon-flyout-actions">
-							<button class="toolbar-button toolbar-button-sm" onclick={resetStyleRefToTheme}>
-								Reset to Theme
-							</button>
-							<button
-								class="toolbar-button toolbar-button-sm"
-								onclick={() => openCreateStyleDialog()}
-							>
-								Create New
-							</button>
-						</div>
-					</Popover.Content>
-				</Popover.Root>
-				<div class="toolbar-divider-vertical"></div>
-				<Popover.Root
-					open={panelOpen.border}
-					onOpenChange={(open) => onPanelOpenChange('border', open)}
-				>
-					<Popover.Trigger
-						class={`toolbar-button ${panelOpen.border ? 'is-active' : ''}`}
-						title="Border/Stroke"
-					>
-						<Icon icon="lucide:square-dashed-bottom-code" class="size-4" />
-						<span>Border</span>
-					</Popover.Trigger>
-					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
-						<div class="flyout-title">Border / Stroke</div>
-						<div class="icon-flyout-label">Color</div>
-						<input class="icon-flyout-input" type="color" bind:value={borderDraft.strokeColor} />
-						<div class="icon-flyout-label">Width</div>
-						<input
-							class="icon-flyout-input"
-							type="number"
-							min="0"
-							step="0.5"
-							bind:value={borderDraft.strokeWidth}
-						/>
-						<div class="border-style-buttons">
-							{#each borderStyleChoices as choice}
-								<button
-									type="button"
-									class="toolbar-button toolbar-button-sm"
-									class:is-active={borderDraft.lineStyle === choice.id}
-									onclick={() => (borderDraft.lineStyle = choice.id)}
-								>
-									<Icon icon={choice.icon} class="size-4" />
-									<span>{choice.label}</span>
-								</button>
-							{/each}
-						</div>
-						<div class="icon-flyout-actions">
-							<button class="toolbar-button toolbar-button-sm" onclick={() => closeAllPanels()}>
-								Cancel
-							</button>
-							<button class="toolbar-button toolbar-button-sm" onclick={applyBorderDraft}>
-								Apply
-							</button>
-						</div>
-					</Popover.Content>
-				</Popover.Root>
-				<Popover.Root
-					open={panelOpen.fill}
-					onOpenChange={(open) => onPanelOpenChange('fill', open)}
-				>
-					<Popover.Trigger
-						class={`toolbar-button ${panelOpen.fill ? 'is-active' : ''}`}
-						title="Fill Color"
-					>
-						<Icon icon="lucide:paintbucket" class="size-4" />
-						<span>Fill</span>
-					</Popover.Trigger>
-					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
-						<div class="flyout-title">Fill Color</div>
-						{#if !selection.selectedNodeId}
-							<div class="icon-result-empty">Fill is available for nodes only.</div>
-						{/if}
-						<input class="icon-flyout-input" type="color" bind:value={fillDraft.fillColor} />
-						<div class="icon-flyout-actions">
-							<button class="toolbar-button toolbar-button-sm" onclick={() => closeAllPanels()}>
-								Cancel
-							</button>
-							<button class="toolbar-button toolbar-button-sm" onclick={applyFillDraft}>
-								Apply
-							</button>
-						</div>
-					</Popover.Content>
-				</Popover.Root>
-				<Popover.Root
-					open={panelOpen.text}
-					onOpenChange={(open) => onPanelOpenChange('text', open)}
-				>
-					<Popover.Trigger
-						class={`toolbar-button ${panelOpen.text ? 'is-active' : ''}`}
-						title="Text Styling"
-					>
-						<Icon icon="lucide:type" class="size-4" />
-						<span>Text</span>
-					</Popover.Trigger>
-					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
-						<div class="flyout-title">Text</div>
-						<div class="icon-flyout-label">Color</div>
-						<input class="icon-flyout-input" type="color" bind:value={textDraft.textColor} />
-						<div class="icon-flyout-label">Size</div>
-						<input
-							class="icon-flyout-input"
-							type="number"
-							min="8"
-							step="1"
-							bind:value={textDraft.fontSize}
-						/>
-						<div class="icon-flyout-label">Font Family</div>
-						<input
-							class="icon-flyout-input"
-							type="text"
-							bind:value={textDraft.fontFamily}
-							placeholder="sans-serif"
-						/>
-						<div class="icon-flyout-actions">
-							<button class="toolbar-button toolbar-button-sm" onclick={resetTextDraftToTheme}>
-								Reset
-							</button>
-							<button class="toolbar-button toolbar-button-sm" onclick={() => closeAllPanels()}>
-								Cancel
-							</button>
-							<button class="toolbar-button toolbar-button-sm" onclick={applyTextDraft}>
-								Apply
-							</button>
-						</div>
-					</Popover.Content>
-				</Popover.Root>
-				<Popover.Root
-					open={panelOpen.icon}
-					onOpenChange={(open) => onPanelOpenChange('icon', open)}
-				>
-					<Popover.Trigger
-						class={`toolbar-button ${panelOpen.icon ? 'is-active' : ''}`}
-						title="Icon"
-						disabled={!selection.selectedNodeId}
-					>
-						<Icon icon="lucide:badge-plus" class="size-4" />
-						<span>Icon</span>
-					</Popover.Trigger>
-					<Popover.Content class="element-flyout-panel" align="start" sideOffset={8}>
-						<div class="flyout-title">Icon</div>
-						<label class="icon-flyout-label" for="node-icon-input">Search icons</label>
-						<input
-							id="node-icon-input"
-							class="icon-flyout-input"
-							type="text"
-							bind:value={iconSearchQuery}
-							placeholder="Search (e.g. aws, database, github)"
-						/>
-						<div class="icon-token-preview">
-							<span class="icon-token-preview-label">Selected</span>
-							<input
-								class="icon-flyout-input"
-								type="text"
-								bind:value={iconInputValue}
-								placeholder="brand/github_actions"
-								onkeydown={(event) => {
-									if (event.key === 'Enter') handleApplyIcon();
-								}}
-							/>
-						</div>
-						<div class="icon-results-list" role="listbox" aria-label="Available icons">
-							{#each getFilteredIconTokens() as token}
-								<button
-									type="button"
-									class="icon-result-item"
-									onclick={() => handleSelectIconToken(token)}
-								>
-									<code>{token}</code>
-								</button>
-							{/each}
-							{#if getFilteredIconTokens().length === 0}
-								<div class="icon-result-empty">No icons match your search.</div>
-							{/if}
-						</div>
-						<div class="icon-flyout-actions">
-							<button class="toolbar-button toolbar-button-sm" onclick={handleApplyIcon}>
-								Apply
-							</button>
-							<button class="toolbar-button toolbar-button-sm" onclick={handleClearIcon}>
-								Clear
-							</button>
-						</div>
-					</Popover.Content>
-				</Popover.Root>
-				<div class="toolbar-divider-vertical"></div>
-				<button
-					onclick={handleDeleteFromToolbar}
-					class="toolbar-button toolbar-button-danger"
-					title="Delete element"
-				>
-					<Icon icon="lucide:trash-2" class="size-4" />
-				</button>
-			</div>
-		{/if}
-
-		<!-- Lasso Selection Rectangle -->
-		{#if selection.isLassoActive}
-			<div
-				class="lasso-rectangle"
-				style="left: {Math.min(selection.lassoStartX, selection.lassoEndX)}px; top: {Math.min(
-					selection.lassoStartY,
-					selection.lassoEndY
-				)}px; width: {Math.abs(selection.lassoEndX - selection.lassoStartX)}px; height: {Math.abs(
-					selection.lassoEndY - selection.lassoStartY
-				)}px;"
-			></div>
-		{/if}
-
-		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect' && connectPreviewStart && connectPreviewEnd}
-			<svg class="connect-preview-overlay" aria-hidden="true">
-				<line
-					class="connect-preview-line"
-					x1={connectPreviewStart.x}
-					y1={connectPreviewStart.y}
-					x2={connectPreviewEnd.x}
-					y2={connectPreviewEnd.y}
+				<ElementToolbar
+					selectedNodeId={selection.selectedNodeId}
+					{panelOpen}
+					{diagramShapeCategories}
+					{borderStyleChoices}
+					{filteredStyleDeclarations}
+					{filteredIconTokens}
+					bind:showCreateStyleDialog
+					{editingStyleName}
+					bind:newStyleName
+					bind:newStyleDraft
+					{onPanelOpenChange}
+					onApplyShape={handleApplyShape}
+					onApplyStyleRef={applyStyleRef}
+					onOpenCreateStyleDialog={openCreateStyleDialog}
+					onRemoveStyleDeclaration={removeStyleDeclaration}
+					onResetStyleRefToTheme={resetStyleRefToTheme}
+					onCloseAllPanels={closeAllPanels}
+					onApplyBorderDraft={applyBorderDraft}
+					onApplyFillDraft={applyFillDraft}
+					onResetTextDraftToTheme={resetTextDraftToTheme}
+					onApplyTextDraft={applyTextDraft}
+					onSelectIconToken={handleSelectIconToken}
+					onApplyIcon={handleApplyIcon}
+					onClearIcon={handleClearIcon}
+					onDelete={handleDeleteFromToolbar}
+					onCloseCreateStyleDialog={closeCreateStyleDialog}
+					onSaveStyleDeclarationAndApply={saveStyleDeclarationAndApply}
+					bind:borderDraft
+					bind:fillDraft
+					bind:textDraft
+					bind:styleSearchQuery
+					bind:iconSearchQuery
+					bind:iconInputValue
 				/>
-			</svg>
-		{/if}
-
-		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect' && !connectPreviewStart && quickConnectNodeId && quickConnectHandles.length > 0}
-			<div class="quick-connect-layer" aria-hidden="true">
-				{#each quickConnectHandles as handle}
-					<button
-						type="button"
-						class="quick-connect-handle"
-						class:is-active={quickConnectActiveDirection === handle.direction}
-						style="left: {handle.x}px; top: {handle.y}px;"
-						title={`Quick connect ${handle.direction} (Alt: force new, Shift: force existing)`}
-						onmouseenter={(event) =>
-							activateQuickConnect(
-								quickConnectNodeId as string,
-								handle.direction,
-								getQuickConnectBehaviorFromModifiers(event)
-							)}
-						onmouseleave={() => {
-							quickConnectActiveDirection = null;
-							quickConnectPreviewStart = null;
-							quickConnectPreviewEnd = null;
-							quickConnectTargetNodeId = null;
-							quickConnectNewNodePosition = null;
-						}}
-						onclick={(event) => {
-							event.preventDefault();
-							event.stopPropagation();
-							runQuickConnect(
-								quickConnectNodeId as string,
-								handle.direction,
-								getQuickConnectBehaviorFromModifiers(event)
-							);
-						}}
-					>
-						<span class={`quick-connect-arrow quick-connect-arrow-${handle.direction}`}></span>
-					</button>
-				{/each}
 			</div>
 		{/if}
 
-		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect' && quickConnectPreviewStart && quickConnectPreviewEnd}
-			<svg class="connect-preview-overlay" aria-hidden="true">
-				<line
-					class="quick-connect-preview-line"
-					x1={quickConnectPreviewStart.x}
-					y1={quickConnectPreviewStart.y}
-					x2={quickConnectPreviewEnd.x}
-					y2={quickConnectPreviewEnd.y}
-				/>
-				{#if !quickConnectTargetNodeId}
-					<rect
-						class="quick-connect-new-node-preview"
-						x={quickConnectPreviewEnd.x - QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH / 2}
-						y={quickConnectPreviewEnd.y - QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT / 2}
-						width={QUICK_CONNECT_NEW_NODE_PREVIEW_WIDTH}
-						height={QUICK_CONNECT_NEW_NODE_PREVIEW_HEIGHT}
-						rx="6"
-						ry="6"
-					/>
-				{/if}
-			</svg>
-		{/if}
+		<CanvasInteractionLayer
+			isLassoActive={selection.isLassoActive}
+			lassoStartX={selection.lassoStartX}
+			lassoStartY={selection.lassoStartY}
+			lassoEndX={selection.lassoEndX}
+			lassoEndY={selection.lassoEndY}
+			editingNodeId={selection.editingNodeId}
+			editingEdgeId={selection.editingEdgeId}
+			editInputPosition={selection.editInputPosition}
+			bind:editingLabel={selection.editingLabel}
+			{svgOutput}
+			translateX={viewport.translateX}
+			translateY={viewport.translateY}
+			scale={viewport.scale}
+			onEditKeyPress={handleEditKeyPress}
+		/>
 
-		<!-- Label Edit Input -->
-		{#if (selection.editingNodeId || selection.editingEdgeId) && selection.editInputPosition}
-			<input
-				type="text"
-				bind:this={editInputElement}
-				bind:value={selection.editingLabel}
-				onkeydown={handleEditKeyPress}
-				class="edit-input"
-				style="left: {selection.editInputPosition.x}px; top: {selection.editInputPosition.y}px;"
-			/>
-		{/if}
+		<QuickConnectOverlay
+			isDiagramConnectMode={editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'}
+			{connectPreviewStart}
+			{connectPreviewEnd}
+			{quickConnectNodeId}
+			{quickConnectHandles}
+			{quickConnectActiveDirection}
+			{quickConnectPreviewStart}
+			{quickConnectPreviewEnd}
+			{quickConnectTargetNodeId}
+			onActivateHandle={activateQuickConnect}
+			onLeaveHandle={() => {
+				quickConnectActiveDirection = null;
+				quickConnectPreviewStart = null;
+				quickConnectPreviewEnd = null;
+				quickConnectTargetNodeId = null;
+				quickConnectNewNodePosition = null;
+			}}
+			onRunHandle={runQuickConnect}
+			getBehaviorFromModifiers={getQuickConnectBehaviorFromModifiers}
+		/>
 
-		{#if showCreateStyleDialog}
-			<div class="style-create-overlay">
-				<div class="style-create-dialog">
-					<h3 class="flyout-title mb-2">{editingStyleName ? 'Edit Style' : 'Create Style'}</h3>
-					<label class="icon-flyout-label" for="style-name-input">Style Name</label>
-					<input
-						id="style-name-input"
-						class="icon-flyout-input"
-						type="text"
-						bind:value={newStyleName}
-						placeholder="myStyle"
-					/>
-					<div class="style-create-grid">
-						<div>
-							<label class="icon-flyout-label" for="style-fill-input">Fill</label>
-							<input
-								id="style-fill-input"
-								class="icon-flyout-input"
-								type="color"
-								bind:value={newStyleDraft.fillColor}
-							/>
-						</div>
-						<div>
-							<label class="icon-flyout-label" for="style-stroke-input">Stroke</label>
-							<input
-								id="style-stroke-input"
-								class="icon-flyout-input"
-								type="color"
-								bind:value={newStyleDraft.strokeColor}
-							/>
-						</div>
-						<div>
-							<label class="icon-flyout-label" for="style-stroke-width-input">Stroke Width</label>
-							<input
-								id="style-stroke-width-input"
-								class="icon-flyout-input"
-								type="number"
-								min="0"
-								step="0.5"
-								bind:value={newStyleDraft.strokeWidth}
-							/>
-						</div>
-						<div>
-							<label class="icon-flyout-label" for="style-text-color-input">Text Color</label>
-							<input
-								id="style-text-color-input"
-								class="icon-flyout-input"
-								type="color"
-								bind:value={newStyleDraft.textColor}
-							/>
-						</div>
-						<div>
-							<label class="icon-flyout-label" for="style-font-size-input">Font Size</label>
-							<input
-								id="style-font-size-input"
-								class="icon-flyout-input"
-								type="number"
-								min="8"
-								step="1"
-								bind:value={newStyleDraft.fontSize}
-							/>
-						</div>
-						<div>
-							<label class="icon-flyout-label" for="style-font-family-input">Font Family</label>
-							<input
-								id="style-font-family-input"
-								class="icon-flyout-input"
-								type="text"
-								bind:value={newStyleDraft.fontFamily}
-								placeholder="sans-serif"
-							/>
-						</div>
-					</div>
-					<div class="icon-flyout-actions">
-						<button
-							class="toolbar-button toolbar-button-sm"
-							onclick={() => (showCreateStyleDialog = false)}
-						>
-							Cancel
-						</button>
-						<button class="toolbar-button toolbar-button-sm" onclick={saveStyleDeclarationAndApply}>
-							Save
-						</button>
-					</div>
-				</div>
-			</div>
-		{/if}
-
-		{#if svgOutput}
-			<!-- SVG Preview with Pan/Zoom -->
-			<div
-				class="absolute inset-0 flex items-center justify-center transition-transform"
-				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})"
-			>
-				<div class="rounded-lg bg-transparent p-4">
-					{@html svgOutput}
-				</div>
-			</div>
-		{/if}
-
-		{#if diagramState.errors.length > 0}
-			<!-- Error Overlay -->
-			<div class="absolute inset-0 flex items-center justify-center bg-black/5 p-8">
-				<div
-					class="max-w-2xl rounded-lg border-2 border-error bg-white/95 p-6 shadow-lg backdrop-blur-sm"
-				>
-					<div class="mb-4 flex items-center gap-2 text-error">
-						<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-						<h3 class="text-lg font-semibold">Parsing Errors</h3>
-					</div>
-					{#if svgOutput}
-						<p class="mb-3 text-xs text-neutral-600">Showing last valid render.</p>
-					{/if}
-					<div class="space-y-2">
-						{#each diagramState.errors as error}
-							<div class="rounded bg-error/10 px-3 py-2 font-mono text-sm text-error">
-								{error}
-							</div>
-						{/each}
-					</div>
-					<p class="mt-4 text-sm text-neutral-600">
-						Fix the errors in the code editor to update the preview.
-					</p>
-				</div>
-			</div>
-		{:else if !svgOutput}
-			<!-- Empty State -->
-			<div class="absolute inset-0 flex items-center justify-center p-8 text-center">
-				<div class="max-w-md">
-					<svg
-						class="mx-auto mb-4 h-16 w-16 text-neutral-300"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="1.5"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						/>
-					</svg>
-					<h3 class="mb-2 text-lg font-medium text-neutral-700">No Diagram</h3>
-					<p class="text-sm text-neutral-500">
-						Start typing in the code editor to see your diagram here.
-					</p>
-				</div>
-			</div>
-		{/if}
+		<CanvasStateOverlay errors={diagramState.errors} hasSvgOutput={!!svgOutput} />
 	</div>
 </div>
+

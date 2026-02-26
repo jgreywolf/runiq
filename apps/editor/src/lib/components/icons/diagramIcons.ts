@@ -1,3 +1,5 @@
+import { repairMojibake } from './encoding';
+
 /**
  * Diagram Profile Shape Icons
  * SVG icon definitions for diagram profile shapes
@@ -23,6 +25,7 @@ export function isDiagramSpecialIcon(shapeId: string): boolean {
 export function getDiagramShapeIcon(shapeId: string, size: number): string | null {
 	const icon = diagramShapeIcons[shapeId];
 	if (!icon) return null;
+	const displayIcon = repairMojibake(icon);
 
-	return `<svg width="${size}" height="${size}" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="display: block;"><text x="20" y="28" text-anchor="middle" font-size="24">${icon}</text></svg>`;
+	return `<svg width="${size}" height="${size}" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="display: block;"><text x="20" y="28" text-anchor="middle" font-size="24">${displayIcon}</text></svg>`;
 }
