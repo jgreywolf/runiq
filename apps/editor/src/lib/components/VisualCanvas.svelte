@@ -39,13 +39,15 @@
 		type ElementPanelKey
 	} from './visual-canvas/elementToolbarState';
 import {
-	applyStyleRefToNode,
-		buildDeleteStyleDeclarationCode,
-		buildStyleDeclarationCode,
-		clearStyleRefFromNode,
-		createStyleDialogState,
 	getFilteredStyleDeclarations
 } from './visual-canvas/elementStyleActions';
+import {
+	applyStyleRefForSelection,
+	clearStyleRefForSelection,
+	openCreateStyleDialogWorkflow,
+	removeStyleDeclarationWorkflow,
+	saveStyleDeclarationAndApplyWorkflow
+} from './visual-canvas/elementStyleWorkflow';
 import {
 	applyBorderDraftForSelected,
 		applyFillDraftForSelected,
@@ -744,25 +746,27 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	);
 
 	function applyStyleRef(styleName: string) {
-		const selectedNodeId = selection.selectedNodeId;
-		if (!selectedNodeId) return;
-		applyStyleRefToNode(selectedNodeId, styleName, handleResetStyles, (id, property, value) =>
-			handleEdit(id, property, value)
-		);
+		const applied = applyStyleRefForSelection({
+			selectedNodeId: selection.selectedNodeId,
+			styleName,
+			resetStyles: handleResetStyles,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
 		closeAllPanels();
 	}
 
 	function resetStyleRefToTheme() {
-		const selectedNodeId = selection.selectedNodeId;
-		if (!selectedNodeId) return;
-		clearStyleRefFromNode(selectedNodeId, (id, property, value) =>
-			handleEdit(id, property, value)
-		);
+		const cleared = clearStyleRefForSelection({
+			selectedNodeId: selection.selectedNodeId,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!cleared) return;
 		closeAllPanels();
 	}
 
 	function openCreateStyleDialog(existing?: { name: string; properties: Record<string, string> }) {
-		const next = createStyleDialogState(existing);
+		const next = openCreateStyleDialogWorkflow(existing);
 		editingStyleName = next.editingStyleName;
 		newStyleName = next.newStyleName;
 		newStyleDraft = next.newStyleDraft;
@@ -770,17 +774,16 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	}
 
 	function saveStyleDeclarationAndApply() {
-		const selectedNodeId = selection.selectedNodeId;
-		if (!selectedNodeId) return;
-		const next = buildStyleDeclarationCode(editorState.code, {
+		const saved = saveStyleDeclarationAndApplyWorkflow({
+			selectedNodeId: selection.selectedNodeId,
+			code: editorState.code,
 			editingStyleName,
 			newStyleName,
-			newStyleDraft
+			newStyleDraft,
+			updateCode,
+			edit: (id, property, value) => handleEdit(id, property, value)
 		});
-		if (!next) return;
-		const { nextCode, styleName } = next;
-		updateCode(nextCode, true);
-		handleEdit(selectedNodeId, 'style', styleName);
+		if (!saved) return;
 		showCreateStyleDialog = false;
 		closeAllPanels();
 	}
@@ -790,7 +793,11 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	}
 
 	function removeStyleDeclaration(styleName: string) {
-		updateCode(buildDeleteStyleDeclarationCode(editorState.code, styleName), true);
+		removeStyleDeclarationWorkflow({
+			code: editorState.code,
+			styleName,
+			updateCode
+		});
 	}
 
 	function handleJumpToWarning(warning: WarningDetail) {
