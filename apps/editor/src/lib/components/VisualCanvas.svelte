@@ -62,6 +62,7 @@ import {
 	deleteSelectionFromToolbar,
 	handlePanelOpenChange as handlePanelOpenChangeOrchestrated
 } from './visual-canvas/elementToolbarOrchestrator';
+import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolbarDismiss';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
@@ -807,19 +808,17 @@ import {
 			getSvg
 		};
 
-		const handleGlobalPointerDown = (event: PointerEvent) => {
-			if (!selection.hasSelection) return;
-			const target = event.target as Node | null;
-			if (!target) return;
-
-			const insideToolbar = !!floatingToolbarElement?.contains(target);
-			const insidePopover = target instanceof Element && !!target.closest('[data-slot="popover-content"]');
-			if (insideToolbar || insidePopover) return;
-
-			selection.clearSelection();
-			selection.updateVisualSelection(svgContainer);
-			closeAllPanels();
-		};
+		const handleGlobalPointerDown = createGlobalPointerDismissHandler({
+			hasSelection: () => selection.hasSelection,
+			isInsideToolbar: (target) => !!floatingToolbarElement?.contains(target),
+			isInsidePopover: (target) =>
+				target instanceof Element && !!target.closest('[data-slot="popover-content"]'),
+			onDismiss: () => {
+				selection.clearSelection();
+				selection.updateVisualSelection(svgContainer);
+				closeAllPanels();
+			}
+		});
 
 		document.addEventListener('pointerdown', handleGlobalPointerDown, true);
 
