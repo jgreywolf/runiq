@@ -14,12 +14,6 @@
 		updateCode
 	} from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
-	import {
-		deleteStyleDeclaration,
-		insertStyleDeclaration,
-		parseStyleDeclarations,
-		updateStyleDeclaration
-	} from '$lib/utils/dslCodeManipulation';
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
@@ -32,6 +26,15 @@
 	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
 	import { createCanvasDebugLogger } from './visual-canvas/debug';
 	import ElementToolbar from './visual-canvas/ElementToolbar.svelte';
+	import {
+		applyBorderDraftEdits,
+		applyFillDraftEdit,
+		applyIconEdit,
+		applyTextDraftEdits,
+		getBorderDraft,
+		getFillDraft,
+		getTextDraft
+	} from './visual-canvas/elementToolbarCommands';
 	import QuickConnectOverlay from './visual-canvas/QuickConnectOverlay.svelte';
 	import {
 		computeElementToolbarPosition,
@@ -39,16 +42,19 @@
 	} from './visual-canvas/elementToolbarPosition';
 	import {
 		closeAllPanels as closePanelState,
-		createBorderDraftFromStyles,
 		createFillDraftFromStyles,
 		createInitialPanelOpen,
-		createStyleDraftFromExisting,
-		createStylePropertiesFromDraft,
-		createTextDraftFromStyles,
-		filterStyleDeclarations,
 		getFilteredIconTokens as getFilteredIconTokensFromState,
 		type ElementPanelKey
 	} from './visual-canvas/elementToolbarState';
+	import {
+		applyStyleRefToNode,
+		buildDeleteStyleDeclarationCode,
+		buildStyleDeclarationCode,
+		clearStyleRefFromNode,
+		createStyleDialogState,
+		getFilteredStyleDeclarations
+	} from './visual-canvas/elementStyleActions';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
@@ -61,7 +67,12 @@
 		getQuickConnectHandles as getRuntimeQuickConnectHandles,
 		type QuickConnectHandle
 	} from './visual-canvas/quickConnectRuntime';
-	import { createDebouncedRunner, runRenderCycle } from './visual-canvas/renderController';
+	import {
+		buildPositionedRectangleShapeCode,
+		containerPointToSvgPoint,
+		shouldShowQuickConnect
+	} from './visual-canvas/quickConnectUtils';
+	import { createCanvasRenderRuntime } from './visual-canvas/renderRuntime';
 	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
 	import { SelectionState } from './visual-canvas/SelectionState.svelte';
 	import {
@@ -341,22 +352,6 @@
 	// 	return { x: clientX - rect.left, y: clientY - rect.top };
 	// }
 
-	function containerPointToSvgPoint(point: {
-		x: number;
-		y: number;
-	}): { x: number; y: number } | null {
-		if (!svgContainer) return null;
-		const svg = svgContainer.querySelector('svg');
-		if (!svg) return null;
-		const rect = svg.getBoundingClientRect();
-		const viewBox = svg.viewBox?.baseVal;
-		if (!viewBox || rect.width === 0 || rect.height === 0) return null;
-		return {
-			x: Math.round((point.x / rect.width) * viewBox.width + viewBox.x),
-			y: Math.round((point.y / rect.height) * viewBox.height + viewBox.y)
-		};
-	}
-
 	function activateQuickConnect(
 		nodeId: string,
 		direction: QuickConnectDirection,
@@ -391,7 +386,7 @@
 		);
 		quickConnectTargetNodeId = null;
 		quickConnectPreviewEnd = nonOverlappingEnd;
-		quickConnectNewNodePosition = containerPointToSvgPoint(nonOverlappingEnd);
+		quickConnectNewNodePosition = containerPointToSvgPoint(svgContainer, nonOverlappingEnd);
 	}
 
 	function runQuickConnect(
@@ -414,19 +409,14 @@
 
 		const newNodeId = `id${editorState.shapeCounter}`;
 		const svgPoint =
-			quickConnectNewNodePosition ?? containerPointToSvgPoint(quickConnectPreviewEnd);
-		const shapeCode = svgPoint
-			? `shape ${newNodeId} as @rectangle label:"New Node" position:(${svgPoint.x},${svgPoint.y})`
-			: `shape ${newNodeId} as @rectangle label:"New Node"`;
+			quickConnectNewNodePosition ?? containerPointToSvgPoint(svgContainer, quickConnectPreviewEnd);
+		const shapeCode = buildPositionedRectangleShapeCode(newNodeId, svgPoint);
 		handleInsertShapeAndEdge(shapeCode, nodeId, newNodeId);
 		resetQuickConnect();
 	}
 
 	function updateQuickConnectFromMouseEvent(event: MouseEvent) {
-		const canShow =
-			editorState.profileName === ProfileName.diagram &&
-			canvasState.mode === 'connect' &&
-			connectPreviewStart === null;
+		const canShow = shouldShowQuickConnect(editorState.profileName, canvasState.mode, connectPreviewStart);
 		if (!canShow) {
 			resetQuickConnect();
 			return;
@@ -492,60 +482,54 @@
 		return svgOutput;
 	}
 
-	let lastCode = '';
-	let lastDataContent = '';
-
-	const debouncedRender = createDebouncedRunner(300, (dslCode: string) => {
-		void runRenderCycle({
-			dslCode,
-			dataContent: editorState.dataContent,
-			layoutEngine: editorState.layoutEngine,
-			renderDiagram: renderDiagramUtil,
-			onEmpty: () => {
-				svgOutput = '';
-				diagramState.clearErrors();
-				diagramState.clearWarnings();
-				warningDetails = [];
-				parseTime = 0;
-				renderTime = 0;
-				handleParse(true, []);
-			},
-			onStart: () => {
-				isRendering = true;
-				diagramState.clearErrors();
-				diagramState.clearWarnings();
-			},
-			onSuccess: (result) => {
-				if (result.svg && result.svg.trim().length > 0) {
-					svgOutput = result.svg;
-				}
-				diagramState.setErrors(result.errors);
-				diagramState.setWarnings(result.warnings);
-				warningDetails = result.warningDetails ?? [];
-				parseTime = result.parseTime;
-				renderTime = result.renderTime;
-
-				if (result.nodeLocations) {
-					diagramState.setNodeLocations(result.nodeLocations);
-				} else {
-					diagramState.clearNodeLocations();
-				}
-
-				if (result.profile) {
-					diagramState.setProfile(result.profile);
-				}
-
-				handleParse(result.success, result.errors);
-			},
-			onError: (errorMsg) => {
-				diagramState.setErrors([errorMsg]);
-				warningDetails = [];
-				handleParse(false, diagramState.errors);
-			},
-			onComplete: () => {
-				isRendering = false;
+	const renderRuntime = createCanvasRenderRuntime({
+		getDataContent: () => editorState.dataContent,
+		getLayoutEngine: () => editorState.layoutEngine,
+		renderDiagram: renderDiagramUtil,
+		onEmpty: () => {
+			svgOutput = '';
+			diagramState.clearErrors();
+			diagramState.clearWarnings();
+			warningDetails = [];
+			parseTime = 0;
+			renderTime = 0;
+			handleParse(true, []);
+		},
+		onStart: () => {
+			isRendering = true;
+			diagramState.clearErrors();
+			diagramState.clearWarnings();
+		},
+		onSuccess: (result) => {
+			if (result.svg && result.svg.trim().length > 0) {
+				svgOutput = result.svg;
 			}
-		});
+			diagramState.setErrors(result.errors);
+			diagramState.setWarnings(result.warnings);
+			warningDetails = result.warningDetails ?? [];
+			parseTime = result.parseTime;
+			renderTime = result.renderTime;
+
+			if (result.nodeLocations) {
+				diagramState.setNodeLocations(result.nodeLocations);
+			} else {
+				diagramState.clearNodeLocations();
+			}
+
+			if (result.profile) {
+				diagramState.setProfile(result.profile);
+			}
+
+			handleParse(result.success, result.errors);
+		},
+		onError: (errorMsg) => {
+			diagramState.setErrors([errorMsg]);
+			warningDetails = [];
+			handleParse(false, diagramState.errors);
+		},
+		onComplete: () => {
+			isRendering = false;
+		}
 	});
 
 	// Watch for code or data changes with debounce
@@ -554,15 +538,11 @@
 		const currentCode = editorState.code;
 		const currentDataContent = editorState.dataContent;
 
-		if (currentCode !== lastCode || currentDataContent !== lastDataContent) {
-			lastCode = currentCode;
-			lastDataContent = currentDataContent;
-			debouncedRender.schedule(currentCode);
-		}
+		renderRuntime.updateInputs(currentCode, currentDataContent);
 
 		// Cleanup function to clear timeout on unmount or re-run
 		return () => {
-			debouncedRender.cancel();
+			renderRuntime.cancel();
 		};
 	});
 
@@ -620,7 +600,9 @@
 		if (!selectedNodeId) return;
 		const iconValue = iconInputValue.trim();
 		if (!iconValue) return;
-		handleEdit(selectedNodeId, 'icon', iconValue);
+		applyIconEdit(selectedNodeId, iconValue, (id, property, value) =>
+			handleEdit(id, property, value)
+		);
 		closeAllPanels();
 	}
 
@@ -628,7 +610,7 @@
 		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
 		const selectedNodeId = selection.selectedNodeId;
 		if (!selectedNodeId) return;
-		handleEdit(selectedNodeId, 'icon', '');
+		applyIconEdit(selectedNodeId, '', (id, property, value) => handleEdit(id, property, value));
 		iconInputValue = '';
 		iconSearchQuery = '';
 		closeAllPanels();
@@ -680,24 +662,15 @@
 		const selectedId = getSelectedElementId();
 		if (!selectedId) return;
 		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
-		borderDraft = createBorderDraftFromStyles(styles);
+		borderDraft = getBorderDraft(styles as Record<string, unknown>);
 	}
 
 	function applyBorderDraft() {
 		const selectedId = getSelectedElementId();
 		if (!selectedId) return;
-		handleEdit(selectedId, 'strokeColor', borderDraft.strokeColor);
-		handleEdit(selectedId, 'strokeWidth', Math.max(0, Number(borderDraft.strokeWidth) || 0));
-		if (selection.selectedEdgeId) {
-			handleEdit(
-				selectedId,
-				'lineStyle',
-				borderDraft.lineStyle === 'none' ? 'solid' : borderDraft.lineStyle
-			);
-		}
-		if (borderDraft.lineStyle === 'none') {
-			handleEdit(selectedId, 'strokeWidth', 0);
-		}
+		applyBorderDraftEdits(selectedId, borderDraft, !!selection.selectedEdgeId, (id, property, value) =>
+			handleEdit(id, property, value)
+		);
 		closeAllPanels();
 	}
 
@@ -705,14 +678,14 @@
 		const selectedId = getSelectedElementId();
 		if (!selectedId) return;
 		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
-		fillDraft = createFillDraftFromStyles(styles);
+		fillDraft = getFillDraft(styles as Record<string, unknown>);
 	}
 
 	function applyFillDraft() {
 		if (!selection.selectedNodeId) return;
 		const selectedId = getSelectedElementId();
 		if (!selectedId) return;
-		handleEdit(selectedId, 'fillColor', fillDraft.fillColor);
+		applyFillDraftEdit(selectedId, fillDraft, (id, property, value) => handleEdit(id, property, value));
 		closeAllPanels();
 	}
 
@@ -720,16 +693,14 @@
 		const selectedId = getSelectedElementId();
 		if (!selectedId) return;
 		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
-		textDraft = createTextDraftFromStyles(styles);
+		textDraft = getTextDraft(styles as Record<string, unknown>);
 	}
 
 	function applyTextDraft() {
 		if (!selection.selectedNodeId) return;
 		const selectedId = getSelectedElementId();
 		if (!selectedId) return;
-		handleEdit(selectedId, 'textColor', textDraft.textColor);
-		handleEdit(selectedId, 'fontSize', Math.max(8, Number(textDraft.fontSize) || 14));
-		handleEdit(selectedId, 'fontFamily', textDraft.fontFamily || 'sans-serif');
+		applyTextDraftEdits(selectedId, textDraft, (id, property, value) => handleEdit(id, property, value));
 		closeAllPanels();
 	}
 
@@ -740,51 +711,46 @@
 		closeAllPanels();
 	}
 
-	function getStyleDeclarations() {
-		return parseStyleDeclarations(editorState.code);
-	}
-
 	const filteredStyleDeclarations = $derived(
-		filterStyleDeclarations(getStyleDeclarations(), styleSearchQuery)
+		getFilteredStyleDeclarations(editorState.code, styleSearchQuery)
 	);
 
 	function applyStyleRef(styleName: string) {
 		const selectedNodeId = selection.selectedNodeId;
 		if (!selectedNodeId) return;
-		// Ensure style ref is the active source of truth by clearing inline style props first.
-		handleResetStyles([selectedNodeId]);
-		handleEdit(selectedNodeId, 'style', styleName);
+		applyStyleRefToNode(selectedNodeId, styleName, handleResetStyles, (id, property, value) =>
+			handleEdit(id, property, value)
+		);
 		closeAllPanels();
 	}
 
 	function resetStyleRefToTheme() {
 		const selectedNodeId = selection.selectedNodeId;
 		if (!selectedNodeId) return;
-		handleEdit(selectedNodeId, 'style', '');
+		clearStyleRefFromNode(selectedNodeId, (id, property, value) =>
+			handleEdit(id, property, value)
+		);
 		closeAllPanels();
 	}
 
 	function openCreateStyleDialog(existing?: { name: string; properties: Record<string, string> }) {
-		editingStyleName = existing?.name ?? null;
-		newStyleName = existing?.name ?? '';
-		newStyleDraft = createStyleDraftFromExisting(existing);
-		showCreateStyleDialog = true;
+		const next = createStyleDialogState(existing);
+		editingStyleName = next.editingStyleName;
+		newStyleName = next.newStyleName;
+		newStyleDraft = next.newStyleDraft;
+		showCreateStyleDialog = next.showCreateStyleDialog;
 	}
 
 	function saveStyleDeclarationAndApply() {
 		const selectedNodeId = selection.selectedNodeId;
 		if (!selectedNodeId) return;
-		const styleName = newStyleName.trim();
-		if (!styleName) return;
-
-		const properties = createStylePropertiesFromDraft(newStyleDraft);
-
-		let nextCode = editorState.code;
-		if (editingStyleName) {
-			nextCode = updateStyleDeclaration(nextCode, editingStyleName, properties);
-		} else {
-			nextCode = insertStyleDeclaration(nextCode, styleName, properties);
-		}
+		const next = buildStyleDeclarationCode(editorState.code, {
+			editingStyleName,
+			newStyleName,
+			newStyleDraft
+		});
+		if (!next) return;
+		const { nextCode, styleName } = next;
 		updateCode(nextCode, true);
 		handleEdit(selectedNodeId, 'style', styleName);
 		showCreateStyleDialog = false;
@@ -796,7 +762,7 @@
 	}
 
 	function removeStyleDeclaration(styleName: string) {
-		updateCode(deleteStyleDeclaration(editorState.code, styleName), true);
+		updateCode(buildDeleteStyleDeclarationCode(editorState.code, styleName), true);
 	}
 
 	function handleJumpToWarning(warning: WarningDetail) {

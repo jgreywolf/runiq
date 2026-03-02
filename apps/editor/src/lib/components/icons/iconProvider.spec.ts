@@ -68,6 +68,18 @@ describe('iconProvider', () => {
 		expect(svg).toContain('font-family="monospace"');
 	});
 
+	it('normalizes registry icon output to requested size', () => {
+		const svg = getShapeIconSvg({
+			shapeId: 'pieChart',
+			profileName: ProfileName.diagram,
+			size: 24
+		});
+
+		expect(svg).toContain('width="24"');
+		expect(svg).toContain('height="24"');
+		expect(svg).not.toContain('width="72"');
+	});
+
 	it('memoizes icon generation by request key', () => {
 		expect(__getIconCacheSize()).toBe(0);
 

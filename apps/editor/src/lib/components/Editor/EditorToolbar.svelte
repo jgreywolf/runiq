@@ -7,10 +7,11 @@
 		handleInsertShape,
 		updateCode
 	} from '$lib/state/editorState.svelte';
-import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
+	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 	import { canvasState } from '$lib/state';
 	import { ProfileName } from '$lib/types';
 	import { containerTemplateShapeIcons } from '$lib/data/toolboxIcons/containerTemplateShapeIcons';
+	import { applyThemeToDsl, extractSvgDimensions } from './editorToolbarActions';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -113,25 +114,9 @@ import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 	}
 
 	function applyTheme(themeId: string) {
-		// Get current code from editorState
 		const code = editorState.code || '';
-		const lines = code.split('\n');
-
-		if (lines.length === 0) return;
-
-		// Check if second line already has a theme
-		if (lines.length > 1 && lines[1].trim().startsWith('theme ')) {
-			lines[1] = `  theme ${themeId}`;
-		} else {
-			lines.splice(1, 0, `  theme ${themeId}`);
-		}
-
-		const newCode = lines.join('\n');
-
-		// Update the code using centralized updateCode function
-		// Pass true to add to history so theme changes can be undone
+		const newCode = applyThemeToDsl(code, themeId);
 		updateCode(newCode, true);
-
 		setFlyoutOpen(null);
 	}
 
@@ -155,26 +140,8 @@ import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 		editorRefs.viewport.translateX = 0;
 		editorRefs.viewport.translateY = 0;
 
-		const parser = new DOMParser();
-		const svgDoc = parser.parseFromString(svgOutput, 'image/svg+xml');
-		const svgElement = svgDoc.querySelector('svg');
-
-		if (!svgElement) return;
-
-		let svgWidth = 0;
-		let svgHeight = 0;
-
-		const viewBox = svgElement.getAttribute('viewBox');
-		if (viewBox) {
-			const [, , width, height] = viewBox.split(' ').map(Number);
-			svgWidth = width;
-			svgHeight = height;
-		} else {
-			svgWidth = parseFloat(svgElement.getAttribute('width') || '0');
-			svgHeight = parseFloat(svgElement.getAttribute('height') || '0');
-		}
-
-		if (svgWidth === 0 || svgHeight === 0) {
+		const dimensions = extractSvgDimensions(svgOutput);
+		if (!dimensions) {
 			editorRefs.viewport.scale = 0.9;
 			return;
 		}
@@ -182,7 +149,7 @@ import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 		const containerWidth = svgContainer.clientWidth;
 		const containerHeight = svgContainer.clientHeight;
 
-		editorRefs.viewport.fitToScreen(svgWidth, svgHeight, containerWidth, containerHeight);
+		editorRefs.viewport.fitToScreen(dimensions.width, dimensions.height, containerWidth, containerHeight);
 	}
 
 	let imageUrlInput = $state('https://images.unsplash.com/photo-1461749280684-dccba630e2f6');

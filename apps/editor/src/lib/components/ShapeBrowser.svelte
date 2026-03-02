@@ -10,7 +10,13 @@
 	import { ProfileName } from '$lib/types';
 	import Icon from '@iconify/svelte';
 	import ShapeIcon from './ShapeIcon.svelte';
-	import { getShapeIconDebugInfo } from './icons/iconProvider';
+	import { buildShapeIconMetadata } from './icons/shapeIconMetadata';
+	import {
+		countShapes,
+		filterShapeCategories,
+		getExpandedCategoryIds,
+		getShapeItemLabelPlural
+	} from './shapeBrowserHelpers';
 
 	const categories = $derived(
 		editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []
@@ -21,58 +27,31 @@
 	let showIconDiagnostics = $state(false);
 
 	// Filter shapes based on search query
-	let filteredCategories = $derived.by(() => {
-		if (!searchQuery.trim()) {
-			return categories;
-		}
-
-		const query = searchQuery.toLowerCase();
-		return categories
-			.map((category) => ({
-				...category,
-				shapes: category.shapes.filter(
-					(shape) =>
-						shape.id.toLowerCase().includes(query) || shape.label.toLowerCase().includes(query)
-				)
-			}))
-			.filter((category) => category.shapes.length > 0);
-	});
+	let filteredCategories = $derived(filterShapeCategories(categories, searchQuery));
 
 	// Count total shapes
-	let totalShapes = $derived(filteredCategories.reduce((sum, cat) => sum + cat.shapes.length, 0));
+	let totalShapes = $derived(countShapes(filteredCategories));
+
+	let iconMetadata = $derived(
+		buildShapeIconMetadata(filteredCategories, editorState.profileName ?? null, 24)
+	);
 
 	let iconDiagnostics = $derived.by(() => {
-		if (!import.meta.env.DEV || !editorState.profileName) {
+		if (!import.meta.env.DEV) {
 			return { total: 0, placeholderCount: 0, bySource: [] as Array<[string, number]> };
 		}
-
-		const counts = new Map<string, number>();
-		let total = 0;
-		let placeholderCount = 0;
-
-		for (const category of filteredCategories) {
-			for (const shape of category.shapes) {
-				total += 1;
-				const info = getShapeIconDebugInfo({
-					shapeId: shape.id,
-					profileName: editorState.profileName,
-					size: 24
-				});
-				counts.set(info.source, (counts.get(info.source) ?? 0) + 1);
-				if (info.source.startsWith('placeholder')) {
-					placeholderCount += 1;
-				}
-			}
-		}
-
-		const bySource = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-		return { total, placeholderCount, bySource };
+		return {
+			total: iconMetadata.total,
+			placeholderCount: iconMetadata.placeholderCount,
+			bySource: iconMetadata.bySource
+		};
 	});
 
 	// Auto-expand all categories when searching
 	$effect(() => {
-		if (searchQuery.trim()) {
-			expandedCategories = filteredCategories.map((cat) => cat.id);
+		const nextExpanded = getExpandedCategoryIds(filteredCategories, searchQuery);
+		if (nextExpanded.length > 0) {
+			expandedCategories = nextExpanded;
 		}
 	});
 
@@ -86,9 +65,7 @@
 	}
 
 	// Determine search placeholder text
-	const itemLabelPlural = $derived(
-		editorState.profileName === ProfileName.glyphset ? 'glyphsets' : 'shapes'
-	);
+	const itemLabelPlural = $derived(getShapeItemLabelPlural(editorState.profileName));
 </script>
 
 <div class="flex h-full flex-col">
@@ -166,13 +143,9 @@
 									>
 										<p class="text-xs">{shape.label}</p>
 										{#if import.meta.env.DEV}
-											<p class="mt-1 text-[10px] opacity-80">
-												{getShapeIconDebugInfo({
-													shapeId: shape.id,
-													profileName: editorState.profileName,
-													size: 24
-												}).source}
-											</p>
+											<p class="mt-1 text-[10px] opacity-80"
+												>{iconMetadata.byShapeId.get(shape.id)?.source ?? 'unknown'}</p
+											>
 										{/if}
 									</Tooltip.Content>
 								</Tooltip.Root>

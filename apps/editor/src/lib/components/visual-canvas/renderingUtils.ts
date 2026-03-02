@@ -1,19 +1,5 @@
 // SVG rendering utilities for the visual canvas
-
-import { layoutRegistry } from '@runiq/core';
 import { parse, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
-import { renderDigital, renderPID, renderSchematic } from '@runiq/renderer-schematic';
-import {
-	renderGitGraph,
-	renderKanban,
-	renderPedigree,
-	renderRailroadDiagram,
-	renderSequenceDiagram,
-	renderSvg,
-	renderTimeline,
-	renderTreemap,
-	renderWardleyMap
-} from '@runiq/renderer-svg';
 import {
 	applyDataSourcesToCharts,
 	applyDataSourcesToDiagram,
@@ -23,6 +9,7 @@ import {
 	injectDataIntoCode,
 	parseCsvToObjects
 } from './dataMappings';
+import { getProfileTypeForCanvas, renderProfileSvg } from './profileRenderers';
 
 export interface RenderResult {
 	success: boolean;
@@ -126,7 +113,7 @@ export async function renderDiagram(
 			return result;
 		}
 
-		const profileType = 'type' in profile ? profile.type : 'diagram';
+		const profileType = getProfileTypeForCanvas(profile);
 		const diagramProfile = profile as any;
 
 		if (profileType === 'diagram') {
@@ -166,51 +153,7 @@ export async function renderDiagram(
 			}
 		}
 
-		if (profileType === 'wardley') {
-			result.svg = renderWardleyMap(diagramProfile).svg;
-		} else if (profileType === 'sequence') {
-			result.svg = renderSequenceDiagram(diagramProfile).svg;
-		} else if (profileType === 'timeline') {
-			result.svg = renderTimeline(diagramProfile).svg;
-		} else if (profileType === 'kanban') {
-			result.svg = renderKanban(diagramProfile).svg;
-		} else if (profileType === 'gitgraph') {
-			result.svg = renderGitGraph(diagramProfile).svg;
-		} else if (profileType === 'treemap') {
-			result.svg = renderTreemap(diagramProfile).svg;
-		} else if (profileType === 'pedigree') {
-			result.svg = renderPedigree(diagramProfile).svg;
-		} else if (
-			profileType === 'electrical' ||
-			profileType === 'pneumatic' ||
-			profileType === 'hydraulic' ||
-			profileType === 'hvac' ||
-			profileType === 'control'
-		) {
-			result.svg = renderSchematic(diagramProfile).svg;
-		} else if (profileType === 'pid') {
-			result.svg = renderPID(diagramProfile).svg;
-		} else if (profileType === 'railroad') {
-			result.svg = renderRailroadDiagram(diagramProfile).svg;
-		} else if (profileType === 'digital') {
-			result.svg = renderDigital(diagramProfile, {
-				gridSize: 50,
-				routing: 'orthogonal',
-				showNetLabels: true,
-				showValues: false,
-				showReferences: true
-			}).svg;
-		} else {
-			const layoutAlgorithm = layoutRegistry.get(layoutEngine || 'elk');
-			if (!layoutAlgorithm) {
-				result.errors = [`Layout engine "${layoutEngine}" not found`];
-				return result;
-			}
-
-			const laidOutProfile = await layoutAlgorithm.layout(diagramProfile);
-			const renderResult = renderSvg(diagramProfile, laidOutProfile);
-			result.svg = renderResult.svg;
-		}
+		result.svg = await renderProfileSvg(diagramProfile, layoutEngine);
 
 		result.renderTime = Math.round(performance.now() - renderStart);
 		result.success = !result.errors.length && !!result.svg;
