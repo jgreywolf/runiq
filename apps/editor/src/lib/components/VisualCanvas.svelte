@@ -46,8 +46,8 @@ import {
 		createStyleDialogState,
 	getFilteredStyleDeclarations
 } from './visual-canvas/elementStyleActions';
-	import {
-		applyBorderDraftForSelected,
+import {
+	applyBorderDraftForSelected,
 		applyFillDraftForSelected,
 		applyIconToSelectedNode,
 		applyTextDraftForSelected,
@@ -57,6 +57,11 @@ import {
 	openIconPanelDraft,
 	openTextPanelDraft
 } from './visual-canvas/elementPanelActions';
+import {
+	applyShapeToSelection,
+	deleteSelectionFromToolbar,
+	handlePanelOpenChange as handlePanelOpenChangeOrchestrated
+} from './visual-canvas/elementToolbarOrchestrator';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
@@ -624,36 +629,42 @@ import {
 
 	function onPanelOpenChange(panel: ElementPanelKey, open: boolean) {
 		debugCanvas('panel-open-change', { panel, open });
-		if (open) {
-			closeAllPanels(panel);
-			if (panel === 'border') openBorderPanel();
-			else if (panel === 'fill') openFillPanel();
-			else if (panel === 'text') openTextPanel();
-			else if (panel === 'icon') {
-				const draft = openIconPanelDraft(
+		const iconDraft = handlePanelOpenChangeOrchestrated({
+			panel,
+			open,
+			panelOpen,
+			closeAllPanels,
+			onOpenBorderPanel: openBorderPanel,
+			onOpenFillPanel: openFillPanel,
+			onOpenTextPanel: openTextPanel,
+			getIconDraft: () =>
+				openIconPanelDraft(
 					selection.selectedNodeId,
 					diagramState.profile as any,
 					extractSelectedElementStyles
-				);
-				if (draft) {
-					iconInputValue = draft.iconInputValue;
-					iconSearchQuery = draft.iconSearchQuery;
-				}
-			}
+				)
+		});
+		if (iconDraft) {
+			iconInputValue = iconDraft.iconInputValue;
+			iconSearchQuery = iconDraft.iconSearchQuery;
 		}
-		panelOpen[panel] = open;
 	}
 
 	function handleDeleteFromToolbar() {
-		handleDelete(selection.selectedNodeId, selection.selectedEdgeId);
-		selection.clearSelection();
-		closeAllPanels();
+		deleteSelectionFromToolbar({
+			selectedNodeId: selection.selectedNodeId,
+			selectedEdgeId: selection.selectedEdgeId,
+			deleteFn: handleDelete,
+			clearSelection: () => selection.clearSelection(),
+			closeAllPanels: () => closeAllPanels()
+		});
 	}
 
 	function handleApplyShape(shapeId: string) {
-		const selectedNodeId = selection.selectedNodeId;
-		if (!selectedNodeId) return;
-		handleEdit(selectedNodeId, 'shapeType', shapeId);
+		const applied = applyShapeToSelection(selection.selectedNodeId, shapeId, (id, property, value) =>
+			handleEdit(id, property, value)
+		);
+		if (!applied) return;
 		closeAllPanels();
 	}
 
