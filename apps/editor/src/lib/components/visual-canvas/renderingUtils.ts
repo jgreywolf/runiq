@@ -5,11 +5,10 @@ import {
 	applyDataSourcesToDiagram,
 	applyDataSourcesToTimeline,
 	applyDataSourcesToTreemap,
-	buildSankeyDataFromRows,
-	injectDataIntoCode,
-	parseCsvToObjects
+	injectDataIntoCode
 } from './dataMappings';
 import { getProfileTypeForCanvas, renderProfileSvg } from './profileRenderers';
+import { applySankeyDataFromContent } from './sankeyDataBinding';
 
 export interface RenderResult {
 	success: boolean;
@@ -126,31 +125,7 @@ export async function renderDiagram(
 		}
 
 		if (profileType === 'diagram' && dataContent) {
-			try {
-				const data = JSON.parse(dataContent);
-				if (Array.isArray(diagramProfile.nodes)) {
-					for (const node of diagramProfile.nodes) {
-						if (node.shape !== 'sankeyChart') continue;
-						if (data[node.id]) {
-							node.data = data[node.id];
-						} else {
-							const dataKeys = Object.keys(data);
-							if (dataKeys.length > 0) {
-								node.data = data[dataKeys[0]];
-							}
-						}
-					}
-				}
-			} catch {
-				const rows = parseCsvToObjects(dataContent, {}, result.warnings, 'data panel');
-				if (rows && Array.isArray(diagramProfile.nodes)) {
-					for (const node of diagramProfile.nodes) {
-						if (node.shape !== 'sankeyChart') continue;
-						const sankeyData = buildSankeyDataFromRows(rows, result.warnings, 'data panel');
-						if (sankeyData) node.data = sankeyData;
-					}
-				}
-			}
+			applySankeyDataFromContent(diagramProfile, dataContent, result.warnings);
 		}
 
 		result.svg = await renderProfileSvg(diagramProfile, layoutEngine);

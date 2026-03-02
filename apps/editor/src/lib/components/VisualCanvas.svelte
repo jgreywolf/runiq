@@ -26,15 +26,6 @@
 	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
 	import { createCanvasDebugLogger } from './visual-canvas/debug';
 	import ElementToolbar from './visual-canvas/ElementToolbar.svelte';
-	import {
-		applyBorderDraftEdits,
-		applyFillDraftEdit,
-		applyIconEdit,
-		applyTextDraftEdits,
-		getBorderDraft,
-		getFillDraft,
-		getTextDraft
-	} from './visual-canvas/elementToolbarCommands';
 	import QuickConnectOverlay from './visual-canvas/QuickConnectOverlay.svelte';
 	import {
 		computeElementToolbarPosition,
@@ -47,31 +38,39 @@
 		getFilteredIconTokens as getFilteredIconTokensFromState,
 		type ElementPanelKey
 	} from './visual-canvas/elementToolbarState';
-	import {
-		applyStyleRefToNode,
+import {
+	applyStyleRefToNode,
 		buildDeleteStyleDeclarationCode,
 		buildStyleDeclarationCode,
 		clearStyleRefFromNode,
 		createStyleDialogState,
-		getFilteredStyleDeclarations
-	} from './visual-canvas/elementStyleActions';
+	getFilteredStyleDeclarations
+} from './visual-canvas/elementStyleActions';
+	import {
+		applyBorderDraftForSelected,
+		applyFillDraftForSelected,
+		applyIconToSelectedNode,
+		applyTextDraftForSelected,
+		clearIconOnSelectedNode,
+		openBorderPanelDraft,
+		openFillPanelDraft,
+	openIconPanelDraft,
+	openTextPanelDraft
+} from './visual-canvas/elementPanelActions';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
 		type QuickConnectDirection
 	} from './visual-canvas/quickConnect';
 	import {
-		computeNonOverlappingNewNodePreviewEnd,
-		getNodeIdAtContainerPoint,
-		getPreviewEndpointForDirection,
-		getQuickConnectHandles as getRuntimeQuickConnectHandles,
 		type QuickConnectHandle
 	} from './visual-canvas/quickConnectRuntime';
 	import {
-		buildPositionedRectangleShapeCode,
-		containerPointToSvgPoint,
-		shouldShowQuickConnect
-	} from './visual-canvas/quickConnectUtils';
+		activateQuickConnectPreview,
+		resetQuickConnectState,
+		runQuickConnect as runQuickConnectAction,
+		updateQuickConnectFromMouseEvent as updateQuickConnectFromMouseEventAction
+	} from './visual-canvas/quickConnectActions';
 	import { createCanvasRenderRuntime } from './visual-canvas/renderRuntime';
 	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
 	import { SelectionState } from './visual-canvas/SelectionState.svelte';
@@ -336,6 +335,15 @@
 	}
 
 	function resetQuickConnect() {
+		resetQuickConnectState({
+			quickConnectNodeId,
+			quickConnectHandles,
+			quickConnectActiveDirection,
+			quickConnectPreviewStart,
+			quickConnectPreviewEnd,
+			quickConnectTargetNodeId,
+			quickConnectNewNodePosition
+		});
 		quickConnectNodeId = null;
 		quickConnectHandles = [];
 		quickConnectActiveDirection = null;
@@ -357,36 +365,28 @@
 		direction: QuickConnectDirection,
 		behavior: QuickConnectBehavior = 'auto'
 	) {
-		const sourceHandle = quickConnectHandles.find((handle) => handle.direction === direction);
-		if (!sourceHandle) return;
-		quickConnectActiveDirection = direction;
-		quickConnectPreviewStart = { x: sourceHandle.x, y: sourceHandle.y };
-		const targetPreview =
-			behavior === 'new'
-				? null
-				: getPreviewEndpointForDirection(
-						svgContainer,
-						diagramState.profile as any,
-						nodeId,
-						direction,
-						behavior
-					);
-		if (targetPreview && behavior !== 'new') {
-			quickConnectTargetNodeId = targetPreview.targetNodeId;
-			quickConnectPreviewEnd = targetPreview.point;
-			quickConnectNewNodePosition = null;
-			return;
-		}
-
-		const nonOverlappingEnd = computeNonOverlappingNewNodePreviewEnd(
+		const state = {
+			quickConnectNodeId,
+			quickConnectHandles,
+			quickConnectActiveDirection,
+			quickConnectPreviewStart,
+			quickConnectPreviewEnd,
+			quickConnectTargetNodeId,
+			quickConnectNewNodePosition
+		};
+		activateQuickConnectPreview({
+			state,
 			svgContainer,
-			{ x: sourceHandle.x, y: sourceHandle.y },
+			profile: diagramState.profile as any,
+			nodeId,
 			direction,
-			nodeId
-		);
-		quickConnectTargetNodeId = null;
-		quickConnectPreviewEnd = nonOverlappingEnd;
-		quickConnectNewNodePosition = containerPointToSvgPoint(svgContainer, nonOverlappingEnd);
+			behavior
+		});
+		quickConnectActiveDirection = state.quickConnectActiveDirection;
+		quickConnectPreviewStart = state.quickConnectPreviewStart;
+		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
+		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
+		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
 	}
 
 	function runQuickConnect(
@@ -394,69 +394,63 @@
 		direction: QuickConnectDirection,
 		behavior: QuickConnectBehavior = 'auto'
 	) {
-		activateQuickConnect(nodeId, direction, behavior);
-		if (!quickConnectPreviewStart || !quickConnectPreviewEnd) return;
-
-		if (quickConnectTargetNodeId) {
-			handleInsertEdge(nodeId, quickConnectTargetNodeId);
-			resetQuickConnect();
-			return;
+		const state = {
+			quickConnectNodeId,
+			quickConnectHandles,
+			quickConnectActiveDirection,
+			quickConnectPreviewStart,
+			quickConnectPreviewEnd,
+			quickConnectTargetNodeId,
+			quickConnectNewNodePosition
+		};
+		runQuickConnectAction({
+			state,
+			svgContainer,
+			profile: diagramState.profile as any,
+			nodeId,
+			direction,
+			behavior,
+			newNodeId: `id${editorState.shapeCounter}`,
+			onInsertEdge: handleInsertEdge,
+			onInsertShapeAndEdge: handleInsertShapeAndEdge
+		});
+		quickConnectNodeId = state.quickConnectNodeId;
+		quickConnectHandles = state.quickConnectHandles;
+		quickConnectActiveDirection = state.quickConnectActiveDirection;
+		quickConnectPreviewStart = state.quickConnectPreviewStart;
+		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
+		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
+		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
+		if (state.quickConnectNodeId === null) {
+			quickConnectBehaviorHint = 'auto';
 		}
-		if (behavior === 'existing') {
-			resetQuickConnect();
-			return;
-		}
-
-		const newNodeId = `id${editorState.shapeCounter}`;
-		const svgPoint =
-			quickConnectNewNodePosition ?? containerPointToSvgPoint(svgContainer, quickConnectPreviewEnd);
-		const shapeCode = buildPositionedRectangleShapeCode(newNodeId, svgPoint);
-		handleInsertShapeAndEdge(shapeCode, nodeId, newNodeId);
-		resetQuickConnect();
 	}
 
 	function updateQuickConnectFromMouseEvent(event: MouseEvent) {
-		const canShow = shouldShowQuickConnect(editorState.profileName, canvasState.mode, connectPreviewStart);
-		if (!canShow) {
-			resetQuickConnect();
-			return;
-		}
-
-		const target = event.target as Element | null;
-		if (!target) {
-			resetQuickConnect();
-			return;
-		}
-
-		// Keep current quick-connect state while interacting with handle UI.
-		if (target.closest('.quick-connect-layer')) {
-			return;
-		}
-
-		let nodeId: string | null =
-			target.closest('[data-node-id]')?.getAttribute('data-node-id') ?? null;
-		if (!nodeId && svgContainer) {
-			const containerRect = svgContainer.getBoundingClientRect();
-			const point = {
-				x: event.clientX - containerRect.left,
-				y: event.clientY - containerRect.top
-			};
-			nodeId = getNodeIdAtContainerPoint(svgContainer, point);
-		}
-		if (!nodeId) {
-			resetQuickConnect();
-			return;
-		}
-
-		if (quickConnectNodeId !== nodeId) {
-			quickConnectNodeId = nodeId;
-			quickConnectHandles = getRuntimeQuickConnectHandles(svgContainer, nodeId);
-			quickConnectActiveDirection = null;
-			quickConnectPreviewStart = null;
-			quickConnectPreviewEnd = null;
-			quickConnectTargetNodeId = null;
-			quickConnectNewNodePosition = null;
-		}
+		const state = {
+			quickConnectNodeId,
+			quickConnectHandles,
+			quickConnectActiveDirection,
+			quickConnectPreviewStart,
+			quickConnectPreviewEnd,
+			quickConnectTargetNodeId,
+			quickConnectNewNodePosition
+		};
+		updateQuickConnectFromMouseEventAction({
+			state,
+			event,
+			profileName: editorState.profileName,
+			mode: canvasState.mode,
+			connectPreviewStart,
+			svgContainer
+		});
+		quickConnectNodeId = state.quickConnectNodeId;
+		quickConnectHandles = state.quickConnectHandles;
+		quickConnectActiveDirection = state.quickConnectActiveDirection;
+		quickConnectPreviewStart = state.quickConnectPreviewStart;
+		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
+		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
+		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
 	}
 
 	function handleCanvasMouseMove(event: MouseEvent) {
@@ -595,24 +589,27 @@
 	}
 
 	function handleApplyIcon() {
-		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
-		const selectedNodeId = selection.selectedNodeId;
-		if (!selectedNodeId) return;
-		const iconValue = iconInputValue.trim();
-		if (!iconValue) return;
-		applyIconEdit(selectedNodeId, iconValue, (id, property, value) =>
-			handleEdit(id, property, value)
-		);
+		const applied = applyIconToSelectedNode({
+			profileName: editorState.profileName,
+			mode: canvasState.mode,
+			selectedNodeId: selection.selectedNodeId,
+			iconInputValue,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
 		closeAllPanels();
 	}
 
 	function handleClearIcon() {
-		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
-		const selectedNodeId = selection.selectedNodeId;
-		if (!selectedNodeId) return;
-		applyIconEdit(selectedNodeId, '', (id, property, value) => handleEdit(id, property, value));
-		iconInputValue = '';
-		iconSearchQuery = '';
+		const cleared = clearIconOnSelectedNode({
+			profileName: editorState.profileName,
+			mode: canvasState.mode,
+			selectedNodeId: selection.selectedNodeId,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!cleared.cleared) return;
+		iconInputValue = cleared.iconInputValue;
+		iconSearchQuery = cleared.iconSearchQuery;
 		closeAllPanels();
 	}
 
@@ -632,14 +629,16 @@
 			if (panel === 'border') openBorderPanel();
 			else if (panel === 'fill') openFillPanel();
 			else if (panel === 'text') openTextPanel();
-			else if (panel === 'icon' && selection.selectedNodeId) {
-				const styles = extractSelectedElementStyles(
+			else if (panel === 'icon') {
+				const draft = openIconPanelDraft(
+					selection.selectedNodeId,
 					diagramState.profile as any,
-					selection.selectedNodeId
+					extractSelectedElementStyles
 				);
-				iconInputValue =
-					typeof styles.icon === 'string' && styles.icon !== 'mixed' ? String(styles.icon) : '';
-				iconSearchQuery = iconInputValue;
+				if (draft) {
+					iconInputValue = draft.iconInputValue;
+					iconSearchQuery = draft.iconSearchQuery;
+				}
 			}
 		}
 		panelOpen[panel] = open;
@@ -659,48 +658,65 @@
 	}
 
 	function openBorderPanel() {
-		const selectedId = getSelectedElementId();
-		if (!selectedId) return;
-		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
-		borderDraft = getBorderDraft(styles as Record<string, unknown>);
+		const draft = openBorderPanelDraft(
+			getSelectedElementId(),
+			diagramState.profile as any,
+			extractSelectedElementStyles
+		);
+		if (!draft) return;
+		borderDraft = draft;
 	}
 
 	function applyBorderDraft() {
-		const selectedId = getSelectedElementId();
-		if (!selectedId) return;
-		applyBorderDraftEdits(selectedId, borderDraft, !!selection.selectedEdgeId, (id, property, value) =>
-			handleEdit(id, property, value)
-		);
+		const applied = applyBorderDraftForSelected({
+			selectedId: getSelectedElementId(),
+			isEdge: !!selection.selectedEdgeId,
+			draft: borderDraft,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
 		closeAllPanels();
 	}
 
 	function openFillPanel() {
-		const selectedId = getSelectedElementId();
-		if (!selectedId) return;
-		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
-		fillDraft = getFillDraft(styles as Record<string, unknown>);
+		const draft = openFillPanelDraft(
+			getSelectedElementId(),
+			diagramState.profile as any,
+			extractSelectedElementStyles
+		);
+		if (!draft) return;
+		fillDraft = draft;
 	}
 
 	function applyFillDraft() {
-		if (!selection.selectedNodeId) return;
-		const selectedId = getSelectedElementId();
-		if (!selectedId) return;
-		applyFillDraftEdit(selectedId, fillDraft, (id, property, value) => handleEdit(id, property, value));
+		const applied = applyFillDraftForSelected({
+			selectedId: getSelectedElementId(),
+			selectedNodeId: selection.selectedNodeId,
+			draft: fillDraft,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
 		closeAllPanels();
 	}
 
 	function openTextPanel() {
-		const selectedId = getSelectedElementId();
-		if (!selectedId) return;
-		const styles = extractSelectedElementStyles(diagramState.profile as any, selectedId);
-		textDraft = getTextDraft(styles as Record<string, unknown>);
+		const draft = openTextPanelDraft(
+			getSelectedElementId(),
+			diagramState.profile as any,
+			extractSelectedElementStyles
+		);
+		if (!draft) return;
+		textDraft = draft;
 	}
 
 	function applyTextDraft() {
-		if (!selection.selectedNodeId) return;
-		const selectedId = getSelectedElementId();
-		if (!selectedId) return;
-		applyTextDraftEdits(selectedId, textDraft, (id, property, value) => handleEdit(id, property, value));
+		const applied = applyTextDraftForSelected({
+			selectedId: getSelectedElementId(),
+			selectedNodeId: selection.selectedNodeId,
+			draft: textDraft,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
 		closeAllPanels();
 	}
 
