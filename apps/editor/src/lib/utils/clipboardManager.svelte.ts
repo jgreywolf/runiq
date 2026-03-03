@@ -6,7 +6,18 @@ import { handleDelete, handleInsertShape } from '../state/editorState.svelte';
  * Uses Svelte 5 runes for reactive state management
  */
 class ClipboardManager {
-	private clipboard = $state<ClipboardItem[]>([]);
+	private clipboards = $state<Record<string, ClipboardItem[]>>({ canvas: [], default: [] });
+
+	private ensureScope(scope: string): void {
+		if (!this.clipboards[scope]) {
+			this.clipboards = { ...this.clipboards, [scope]: [] };
+		}
+	}
+
+	private getScopeClipboard(scope: string): ClipboardItem[] {
+		this.ensureScope(scope);
+		return this.clipboards[scope];
+	}
 
 	/**
 	 * Copy selected elements to clipboard
@@ -16,21 +27,23 @@ class ClipboardManager {
 		selectedNodeId: string | null,
 		selectedEdgeId: string | null,
 		selectedNodeIds: Set<string>,
-		selectedEdgeIds: Set<string>
+		selectedEdgeIds: Set<string>,
+		scope: string = 'default'
 	): void {
 		if (!svgContainer) return;
 
 		const svgElement = svgContainer.querySelector('svg');
 		if (!svgElement) return;
 
-		this.clipboard = [];
+		this.ensureScope(scope);
+		this.clipboards[scope] = [];
 
 		// Copy multi-selected items
 		if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
 			selectedNodeIds.forEach((nodeId) => {
 				const element = svgElement.querySelector(`[data-node-id="${nodeId}"]`);
 				if (element) {
-					this.clipboard.push({
+					this.clipboards[scope].push({
 						type: 'node',
 						id: nodeId,
 						data: extractElementData(element, 'node')
@@ -41,7 +54,7 @@ class ClipboardManager {
 			selectedEdgeIds.forEach((edgeId) => {
 				const element = svgElement.querySelector(`[data-edge-id="${edgeId}"]`);
 				if (element) {
-					this.clipboard.push({
+					this.clipboards[scope].push({
 						type: 'edge',
 						id: edgeId,
 						data: extractElementData(element, 'edge')
@@ -53,7 +66,7 @@ class ClipboardManager {
 		else if (selectedNodeId) {
 			const element = svgElement.querySelector(`[data-node-id="${selectedNodeId}"]`);
 			if (element) {
-				this.clipboard.push({
+				this.clipboards[scope].push({
 					type: 'node',
 					id: selectedNodeId,
 					data: extractElementData(element, 'node')
@@ -62,7 +75,7 @@ class ClipboardManager {
 		} else if (selectedEdgeId) {
 			const element = svgElement.querySelector(`[data-edge-id="${selectedEdgeId}"]`);
 			if (element) {
-				this.clipboard.push({
+				this.clipboards[scope].push({
 					type: 'edge',
 					id: selectedEdgeId,
 					data: extractElementData(element, 'edge')
@@ -80,10 +93,11 @@ class ClipboardManager {
 		selectedEdgeId: string | null,
 		selectedNodeIds: Set<string>,
 		selectedEdgeIds: Set<string>,
-		ondelete?: (nodeId: string | null, edgeId: string | null) => void
+		ondelete?: (nodeId: string | null, edgeId: string | null) => void,
+		scope: string = 'default'
 	): void {
 		// First copy to clipboard
-		this.copy(svgContainer, selectedNodeId, selectedEdgeId, selectedNodeIds, selectedEdgeIds);
+		this.copy(svgContainer, selectedNodeId, selectedEdgeId, selectedNodeIds, selectedEdgeIds, scope);
 
 		// Then delete the elements
 		const deleteElement = (nodeId: string | null, edgeId: string | null) => {
@@ -106,11 +120,12 @@ class ClipboardManager {
 	/**
 	 * Paste clipboard contents with new IDs
 	 */
-	paste(oninsertshape?: (shapeCode: string) => void): void {
-		if (this.clipboard.length === 0) return;
+	paste(oninsertshape?: (shapeCode: string) => void, scope: string = 'default'): void {
+		const clipboard = this.getScopeClipboard(scope);
+		if (clipboard.length === 0) return;
 
 		// Generate DSL code for pasted elements with new IDs
-		this.clipboard.forEach((item, index) => {
+		clipboard.forEach((item, index) => {
 			const newId = `${item.id}_copy_${Date.now()}_${index}`;
 			const shapeCode = generateShapeCode(item, newId);
 			if (shapeCode) {
@@ -124,21 +139,30 @@ class ClipboardManager {
 	 * Check if clipboard has content
 	 */
 	get hasContent(): boolean {
-		return this.clipboard.length > 0;
+		return this.hasContentInScope('default');
+	}
+
+	hasContentInScope(scope: string = 'default'): boolean {
+		return this.getScopeClipboard(scope).length > 0;
 	}
 
 	/**
 	 * Get clipboard size
 	 */
 	get size(): number {
-		return this.clipboard.length;
+		return this.sizeInScope('default');
+	}
+
+	sizeInScope(scope: string = 'default'): number {
+		return this.getScopeClipboard(scope).length;
 	}
 
 	/**
 	 * Clear clipboard
 	 */
-	clear(): void {
-		this.clipboard = [];
+	clear(scope: string = 'default'): void {
+		this.ensureScope(scope);
+		this.clipboards[scope] = [];
 	}
 }
 

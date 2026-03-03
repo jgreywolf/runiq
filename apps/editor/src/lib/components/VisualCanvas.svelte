@@ -286,6 +286,13 @@ import {
 		}
 	});
 
+	$effect(() => {
+		if (selection.editingNodeId || selection.editingEdgeId) {
+			closeAllPanels();
+			elementToolbarPosition = null;
+		}
+	});
+
 	function getSelectedElementId(): string | null {
 		return selection.selectedNodeId || selection.selectedEdgeId;
 	}
@@ -624,7 +631,8 @@ import {
 			elementContextMenu.nodeId,
 			elementContextMenu.edgeId,
 			new Set<string>(),
-			new Set<string>()
+			new Set<string>(),
+			'canvas'
 		);
 		closeElementContextMenu();
 	}
@@ -638,6 +646,8 @@ import {
 			new Set<string>(),
 			new Set<string>(),
 			(nodeId, edgeId) => handleDelete(nodeId, edgeId)
+			,
+			'canvas'
 		);
 		selection.clearSelection();
 		selection.updateVisualSelection(svgContainer);
@@ -645,7 +655,7 @@ import {
 	}
 
 	function handlePasteElementFromContext() {
-		clipboardManager.paste(handleInsertShape);
+		clipboardManager.paste(handleInsertShape, 'canvas');
 		closeElementContextMenu();
 	}
 
@@ -766,7 +776,7 @@ import {
 	}
 
 	function handleContextPaste() {
-		clipboardManager.paste();
+		clipboardManager.paste(undefined, 'canvas');
 		closeCanvasContextMenu();
 	}
 
@@ -866,6 +876,19 @@ import {
 			quickConnectBehaviorHint = getQuickConnectBehaviorFromModifiers(event);
 		}
 		handleCanvasKeyDownBase(event);
+	}
+
+	function handleEditBlur() {
+		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
+		if (selection.editingNodeId) {
+			handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
+			selection.cancelLabelEdit();
+			return;
+		}
+		if (selection.editingEdgeId) {
+			handleEdit(selection.editingEdgeId, 'edgeLabel', selection.editingLabel);
+			selection.cancelLabelEdit();
+		}
 	}
 
 	function handleCanvasKeyUp(event: KeyboardEvent) {
@@ -1182,7 +1205,7 @@ import {
 					: 'grab'}; outline: none;"
 	>
 		<!-- Floating Toolbar at Top Center -->
-		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition}
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition}
 			<div
 				bind:this={floatingToolbarElement}
 				class="floating-toolbar"
@@ -1241,6 +1264,7 @@ import {
 			translateY={viewport.translateY}
 			scale={viewport.scale}
 			onEditKeyPress={handleEditKeyPress}
+			onEditBlur={handleEditBlur}
 		/>
 
 		<QuickConnectOverlay
@@ -1281,7 +1305,7 @@ import {
 		<button onclick={handleContextAddContainer}>Add Container</button>
 		<button onclick={handleContextAddImage}>Add Image</button>
 		<button onclick={handleContextAddText}>Add Text</button>
-		<button onclick={handleContextPaste} disabled={!clipboardManager.hasContent}>Paste</button>
+		<button onclick={handleContextPaste} disabled={!clipboardManager.hasContentInScope('canvas')}>Paste</button>
 	</div>
 {/if}
 
@@ -1292,7 +1316,7 @@ import {
 	>
 		<button onclick={handleCopyElementFromContext}>Copy</button>
 		<button onclick={handleCutElementFromContext}>Cut</button>
-		<button onclick={handlePasteElementFromContext} disabled={!clipboardManager.hasContent}>Paste</button>
+		<button onclick={handlePasteElementFromContext} disabled={!clipboardManager.hasContentInScope('canvas')}>Paste</button>
 		<div class="separator"></div>
 		<button onclick={handleCopyStyleFromContext}>Copy Style</button>
 		<button onclick={handlePasteStyleFromContext} disabled={!styleClipboard}>Paste Style</button>

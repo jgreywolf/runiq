@@ -19,6 +19,7 @@
 		translateY: number;
 		scale: number;
 		onEditKeyPress: (event: KeyboardEvent) => void;
+		onEditBlur: () => void;
 	}
 
 	let {
@@ -35,7 +36,8 @@
 		translateX,
 		translateY,
 		scale,
-		onEditKeyPress
+		onEditKeyPress,
+		onEditBlur
 	}: Props = $props();
 </script>
 
@@ -53,6 +55,7 @@
 		type="text"
 		bind:value={editingLabel}
 		onkeydown={onEditKeyPress}
+		onblur={onEditBlur}
 		class="edit-input"
 		style="left: {editInputPosition.x}px; top: {editInputPosition.y}px;"
 	/>
@@ -68,4 +71,3 @@
 		</div>
 	</div>
 {/if}
-

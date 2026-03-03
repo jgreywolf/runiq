@@ -154,11 +154,12 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				selection.selectedNodeId,
 				selection.selectedEdgeId,
 				selection.selectedNodeIds,
-				selection.selectedEdgeIds
+				selection.selectedEdgeIds,
+				'canvas'
 			);
 			event.preventDefault();
 		} else if ((event.ctrlKey || event.metaKey) && event.key === 'v') {
-			clipboardManager.paste(handleInsertShape);
+			clipboardManager.paste(handleInsertShape, 'canvas');
 			event.preventDefault();
 		} else if ((event.ctrlKey || event.metaKey) && event.key === 'x') {
 			clipboardManager.cut(
@@ -166,7 +167,9 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				selection.selectedNodeId,
 				selection.selectedEdgeId,
 				selection.selectedNodeIds,
-				selection.selectedEdgeIds
+				selection.selectedEdgeIds,
+				undefined,
+				'canvas'
 			);
 			interactionManager.clearSelection();
 			event.preventDefault();

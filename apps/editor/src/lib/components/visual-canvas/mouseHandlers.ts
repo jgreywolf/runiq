@@ -139,6 +139,16 @@ export function handleElementClick(
 		target.classList.add('runiq-selected');
 		if (callbacks.onselect) callbacks.onselect(null, edgeId);
 	}
+
+	// Fallback for environments where native dblclick may be missed after inline edits.
+	// MouseEvent.detail === 2 indicates the second click of a double-click sequence.
+	if (mouseEvent.detail >= 2) {
+		if (nodeId) {
+			callbacks.startLabelEdit(nodeId, null);
+		} else if (edgeId) {
+			callbacks.startLabelEdit(null, edgeId);
+		}
+	}
 }
 
 export function handleElementDoubleClick(
