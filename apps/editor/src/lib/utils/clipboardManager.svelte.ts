@@ -86,18 +86,20 @@ class ClipboardManager {
 		this.copy(svgContainer, selectedNodeId, selectedEdgeId, selectedNodeIds, selectedEdgeIds);
 
 		// Then delete the elements
+		const deleteElement = (nodeId: string | null, edgeId: string | null) => {
+			if (ondelete) ondelete(nodeId, edgeId);
+			else handleDelete(nodeId, edgeId);
+		};
+
 		if (selectedNodeIds.size > 0 || selectedEdgeIds.size > 0) {
 			selectedNodeIds.forEach((nodeId) => {
-				handleDelete(nodeId, null);
-				if (ondelete) ondelete(nodeId, null);
+				deleteElement(nodeId, null);
 			});
 			selectedEdgeIds.forEach((edgeId) => {
-				handleDelete(null, edgeId);
-				if (ondelete) ondelete(null, edgeId);
+				deleteElement(null, edgeId);
 			});
 		} else if (selectedNodeId || selectedEdgeId) {
-			handleDelete(selectedNodeId, selectedEdgeId);
-			if (ondelete) ondelete(selectedNodeId, selectedEdgeId);
+			deleteElement(selectedNodeId, selectedEdgeId);
 		}
 	}
 
@@ -112,11 +114,8 @@ class ClipboardManager {
 			const newId = `${item.id}_copy_${Date.now()}_${index}`;
 			const shapeCode = generateShapeCode(item, newId);
 			if (shapeCode) {
-				handleInsertShape(shapeCode);
-				// Also call callback for backward compatibility
-				if (oninsertshape) {
-					oninsertshape(shapeCode);
-				}
+				if (oninsertshape) oninsertshape(shapeCode);
+				else handleInsertShape(shapeCode);
 			}
 		});
 	}

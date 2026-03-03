@@ -617,6 +617,38 @@ import {
 		closeElementContextMenu();
 	}
 
+	function handleCopyElementFromContext() {
+		if (!elementContextMenu) return;
+		clipboardManager.copy(
+			svgContainer,
+			elementContextMenu.nodeId,
+			elementContextMenu.edgeId,
+			new Set<string>(),
+			new Set<string>()
+		);
+		closeElementContextMenu();
+	}
+
+	function handleCutElementFromContext() {
+		if (!elementContextMenu) return;
+		clipboardManager.cut(
+			svgContainer,
+			elementContextMenu.nodeId,
+			elementContextMenu.edgeId,
+			new Set<string>(),
+			new Set<string>(),
+			(nodeId, edgeId) => handleDelete(nodeId, edgeId)
+		);
+		selection.clearSelection();
+		selection.updateVisualSelection(svgContainer);
+		closeElementContextMenu();
+	}
+
+	function handlePasteElementFromContext() {
+		clipboardManager.paste(handleInsertShape);
+		closeElementContextMenu();
+	}
+
 	function handlePasteStyleFromContext() {
 		if (!elementContextMenu || !styleClipboard) return;
 		const { nodeId, edgeId } = elementContextMenu;
@@ -1258,6 +1290,10 @@ import {
 		class="canvas-context-menu"
 		style="left: {elementContextMenu.x}px; top: {elementContextMenu.y}px;"
 	>
+		<button onclick={handleCopyElementFromContext}>Copy</button>
+		<button onclick={handleCutElementFromContext}>Cut</button>
+		<button onclick={handlePasteElementFromContext} disabled={!clipboardManager.hasContent}>Paste</button>
+		<div class="separator"></div>
 		<button onclick={handleCopyStyleFromContext}>Copy Style</button>
 		<button onclick={handlePasteStyleFromContext} disabled={!styleClipboard}>Paste Style</button>
 		<div class="separator"></div>
