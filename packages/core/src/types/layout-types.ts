@@ -5,10 +5,12 @@
 
 import type { Direction } from '../constants.js';
 import type { DiagramAst } from './diagram-types.js';
+import type { LayoutAlgorithm } from '../constants.js';
 
 export interface LayoutOptions {
   direction?: Direction;
   spacing?: number;
+  algorithm?: LayoutAlgorithm;
 }
 
 export interface PositionedNode {

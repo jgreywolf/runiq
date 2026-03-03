@@ -5,6 +5,7 @@
 
 import { SvelteSet } from 'svelte/reactivity';
 import type { EditorMode, SelectionState, ViewportState, BoundingBox } from '../types/editor';
+import { editorSettings } from './editorSettings.svelte';
 
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 10;
@@ -14,7 +15,7 @@ const MAX_ZOOM = 10;
  */
 export class CanvasState {
 	// Editor mode (select, pan, connect)
-	mode = $state<EditorMode>('select');
+	mode = $state<EditorMode>(editorSettings.defaultCanvasMode);
 
 	// Selection state
 	selection = $state<SelectionState>({

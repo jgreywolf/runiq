@@ -1,6 +1,11 @@
-import { getPrimaryKeyword } from '../glyphsetConversion';
+import { getGlyphsetKeywords } from '../glyphsetConversion';
 import { createParseError, parseGlyphsetDeclaration, replaceGlyphsetType } from './parsing';
 import type { ConversionResult } from './types';
+
+function getPrimaryKeyword(glyphsetType: string): string {
+	const keywords = getGlyphsetKeywords(glyphsetType as any);
+	return keywords[0] ?? 'item';
+}
 
 /**
  * Expand a flat list glyphset to labeledHierarchy by designating first item as root

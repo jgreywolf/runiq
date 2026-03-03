@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
+import { ProfileName } from '$lib/types';
 import {
 	activateQuickConnectPreview,
 	resetQuickConnectState,
@@ -114,7 +115,7 @@ describe('quickConnectActions', () => {
 		updateQuickConnectFromMouseEvent({
 			state,
 			event,
-			profileName: 'diagram',
+			profileName: ProfileName.diagram,
 			mode: 'connect',
 			connectPreviewStart: null,
 			svgContainer: null

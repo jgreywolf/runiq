@@ -29,6 +29,8 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
   - Icon (node only, searchable icon picker)
 - Export directly to `SVG` and `PNG`.
 - Auto-save your DSL in browser storage and restore it on reload.
+- Open **Settings** to configure autosave behavior, default layout strategy, canvas mode, and default diagram theme.
+  - Layout strategy options are shown only for profiles that support automatic layout selection.
 - Undo/redo code changes from the app-level key handler (`Ctrl/Cmd+Z`, `Ctrl/Cmd+Y`, `Ctrl/Cmd+Shift+Z`).
 
 ## What The Editor Cannot Do Yet
@@ -38,7 +40,6 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
 - Multi-file project management. The editor currently works as a single-document session.
 - Real-time collaboration or shared cursors.
 - In-editor export to all backend formats (SPICE, Verilog, LaTeX, Simulink). Use CLI/packages for those.
-- Complete settings/preferences UI. The settings action is currently a placeholder.
 - Uniform toolbox behavior across every profile. Some profiles are sample-driven for faster starts.
 
 ## Recommended Workflow

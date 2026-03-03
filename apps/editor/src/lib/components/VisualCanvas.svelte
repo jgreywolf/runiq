@@ -15,6 +15,7 @@
 	} from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
+	import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
 	import { type DiagramProfile, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
@@ -114,6 +115,15 @@ import {
 	let lastWarningCount = $state(0);
 	let warningDetails = $state<WarningDetail[]>([]);
 	let combinedWarnings = $state<string[]>([]);
+	let canvasContextMenu = $state<{ x: number; y: number } | null>(null);
+	let elementContextMenu = $state<
+		{ x: number; y: number; nodeId: string | null; edgeId: string | null } | null
+	>(null);
+	let styleClipboard = $state<{
+		kind: 'node' | 'edge';
+		styleRef?: string;
+		properties: Record<string, string | number | boolean>;
+	} | null>(null);
 	let connectPreviewStart = $state<{ x: number; y: number } | null>(null);
 	let connectPreviewEnd = $state<{ x: number; y: number } | null>(null);
 	let quickConnectNodeId = $state<string | null>(null);
@@ -378,16 +388,45 @@ import {
 	}
 
 	function writeQuickConnectState(state: ReturnType<typeof readQuickConnectState>) {
-		quickConnectNodeId = state.quickConnectNodeId;
-		quickConnectHandles = state.quickConnectHandles;
-		quickConnectActiveDirection = state.quickConnectActiveDirection;
-		quickConnectPreviewStart = state.quickConnectPreviewStart;
-		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
-		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
-		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
+		if (quickConnectNodeId !== state.quickConnectNodeId) {
+			quickConnectNodeId = state.quickConnectNodeId;
+		}
+		if (quickConnectHandles !== state.quickConnectHandles) {
+			quickConnectHandles = state.quickConnectHandles;
+		}
+		if (quickConnectActiveDirection !== state.quickConnectActiveDirection) {
+			quickConnectActiveDirection = state.quickConnectActiveDirection;
+		}
+		if (quickConnectPreviewStart !== state.quickConnectPreviewStart) {
+			quickConnectPreviewStart = state.quickConnectPreviewStart;
+		}
+		if (quickConnectPreviewEnd !== state.quickConnectPreviewEnd) {
+			quickConnectPreviewEnd = state.quickConnectPreviewEnd;
+		}
+		if (quickConnectTargetNodeId !== state.quickConnectTargetNodeId) {
+			quickConnectTargetNodeId = state.quickConnectTargetNodeId;
+		}
+		if (quickConnectNewNodePosition !== state.quickConnectNewNodePosition) {
+			quickConnectNewNodePosition = state.quickConnectNewNodePosition;
+		}
 	}
 
 	function resetQuickConnect() {
+		const alreadyReset =
+			quickConnectNodeId === null &&
+			quickConnectHandles.length === 0 &&
+			quickConnectActiveDirection === null &&
+			quickConnectPreviewStart === null &&
+			quickConnectPreviewEnd === null &&
+			quickConnectTargetNodeId === null &&
+			quickConnectNewNodePosition === null;
+		if (alreadyReset) {
+			if (quickConnectBehaviorHint !== 'auto') {
+				quickConnectBehaviorHint = 'auto';
+			}
+			return;
+		}
+
 		withQuickConnectState(
 			{
 				read: readQuickConnectState,
@@ -492,6 +531,213 @@ import {
 		handleMouseUp(event);
 	}
 
+	function closeCanvasContextMenu() {
+		canvasContextMenu = null;
+	}
+
+	function closeElementContextMenu() {
+		elementContextMenu = null;
+	}
+
+	function escapeDslString(value: string): string {
+		return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+	}
+
+	function getSelectedNodeProfile(nodeId: string | null): any | null {
+		if (!nodeId) return null;
+		return (diagramState.profile as any)?.nodes?.find((n: any) => n.id === nodeId) ?? null;
+	}
+
+	function getSelectedEdgeProfile(edgeId: string | null): any | null {
+		if (!edgeId) return null;
+		const profile = diagramState.profile as any;
+		return (
+			profile?.edges?.find((e: any) => e.id === edgeId) ??
+			profile?.edges?.find((e: any) => `${e.from}-${e.to}` === edgeId) ??
+			null
+		);
+	}
+
+	function setSelectionFromContextMenu(nodeId: string | null, edgeId: string | null) {
+		selection.clearSelection();
+		if (nodeId) {
+			selection.selectNode(nodeId);
+		} else if (edgeId) {
+			selection.selectEdge(edgeId);
+		}
+		selection.updateVisualSelection(svgContainer);
+	}
+
+	function handleCopyStyleFromContext() {
+		if (!elementContextMenu) return;
+		const { nodeId, edgeId } = elementContextMenu;
+		if (nodeId) {
+			const node = getSelectedNodeProfile(nodeId);
+			if (!node) return;
+			const data = node.data || {};
+			const properties: Record<string, string | number | boolean> = {};
+			const fillColor = data.fillColor ?? data.fill;
+			const strokeColor = data.strokeColor ?? data.stroke;
+			const textColor = data.textColor ?? data.color;
+			if (fillColor !== undefined) properties.fillColor = String(fillColor);
+			if (strokeColor !== undefined) properties.strokeColor = String(strokeColor);
+			if (data.strokeWidth !== undefined) properties.strokeWidth = Number(data.strokeWidth);
+			if (textColor !== undefined) properties.textColor = String(textColor);
+			if (data.fontSize !== undefined) properties.fontSize = Number(data.fontSize);
+			if (data.fontFamily !== undefined) properties.fontFamily = String(data.fontFamily);
+			if (data.lineStyle !== undefined) properties.lineStyle = String(data.lineStyle);
+			if (typeof node.icon === 'string') {
+				properties.icon = node.icon;
+			} else if (node.icon?.provider && node.icon?.name) {
+				properties.icon = `${node.icon.provider}/${node.icon.name}`;
+			}
+			styleClipboard = {
+				kind: 'node',
+				styleRef: typeof node.style === 'string' ? node.style : undefined,
+				properties
+			};
+		} else if (edgeId) {
+			const edge = getSelectedEdgeProfile(edgeId);
+			if (!edge) return;
+			const data = edge.data || {};
+			const properties: Record<string, string | number | boolean> = {};
+			const strokeColor = data.strokeColor ?? data.stroke ?? edge.strokeColor ?? edge.color;
+			if (strokeColor !== undefined) properties.strokeColor = String(strokeColor);
+			if (data.strokeWidth !== undefined || edge.strokeWidth !== undefined) {
+				properties.strokeWidth = Number(data.strokeWidth ?? edge.strokeWidth);
+			}
+			if (edge.lineStyle !== undefined) properties.lineStyle = String(edge.lineStyle);
+			if (edge.routing !== undefined) properties.routing = String(edge.routing);
+			styleClipboard = {
+				kind: 'edge',
+				styleRef: typeof edge.style === 'string' ? edge.style : undefined,
+				properties
+			};
+		}
+		closeElementContextMenu();
+	}
+
+	function handlePasteStyleFromContext() {
+		if (!elementContextMenu || !styleClipboard) return;
+		const { nodeId, edgeId } = elementContextMenu;
+		const targetId = nodeId || edgeId;
+		if (!targetId) return;
+		if (nodeId && styleClipboard.styleRef) {
+			handleEdit(targetId, 'style', styleClipboard.styleRef);
+		}
+		for (const [property, value] of Object.entries(styleClipboard.properties)) {
+			handleEdit(targetId, property, value);
+		}
+		closeElementContextMenu();
+	}
+
+	function handleDuplicateFromContext() {
+		if (!elementContextMenu) return;
+		const { nodeId, edgeId } = elementContextMenu;
+
+		if (nodeId) {
+			const node = getSelectedNodeProfile(nodeId);
+			if (!node) return;
+			const nextId = `id${editorState.shapeCounter}`;
+			const shapeId = node.shape || 'rectangle';
+			const nextLabel = node.label ? `${node.label} Copy` : 'New Node';
+			const escapedLabel = escapeDslString(nextLabel);
+			const shapeCode = `shape ${nextId} as @${shapeId} label:"${escapedLabel}"`;
+			handleInsertShape(shapeCode);
+			if (typeof node.style === 'string' && node.style.length > 0) {
+				handleEdit(nextId, 'style', node.style);
+			}
+			const inlineData = node.data || {};
+			const candidateProperties = [
+				'fillColor',
+				'strokeColor',
+				'strokeWidth',
+				'textColor',
+				'fontSize',
+				'fontFamily',
+				'lineStyle'
+			] as const;
+			for (const property of candidateProperties) {
+				if (inlineData[property] !== undefined) {
+					handleEdit(nextId, property, inlineData[property]);
+				}
+			}
+			if (node.icon?.provider && node.icon?.name) {
+				handleEdit(nextId, 'icon', `${node.icon.provider}/${node.icon.name}`);
+			}
+		} else if (edgeId) {
+			const edge = getSelectedEdgeProfile(edgeId);
+			if (!edge?.from || !edge?.to) return;
+			handleInsertEdge(edge.from, edge.to);
+		}
+
+		closeElementContextMenu();
+	}
+
+	function handleDeleteFromContext() {
+		if (!elementContextMenu) return;
+		handleDelete(elementContextMenu.nodeId, elementContextMenu.edgeId);
+		selection.clearSelection();
+		selection.updateVisualSelection(svgContainer);
+		closeElementContextMenu();
+	}
+
+	function handleCanvasContextMenu(event: MouseEvent) {
+		if (editorState.profileName !== ProfileName.diagram) return;
+		const target = event.target as HTMLElement | null;
+		if (!target) return;
+		const nodeElement = target.closest('[data-node-id]') as HTMLElement | null;
+		const edgeElement = target.closest('[data-edge-id]') as HTMLElement | null;
+		if (nodeElement || edgeElement) {
+			event.preventDefault();
+			const nodeId = nodeElement?.getAttribute('data-node-id') ?? null;
+			const edgeId = edgeElement?.getAttribute('data-edge-id') ?? null;
+			setSelectionFromContextMenu(nodeId, edgeId);
+			canvasContextMenu = null;
+			elementContextMenu = { x: event.clientX, y: event.clientY, nodeId, edgeId };
+			return;
+		}
+		if (target.closest('[data-container-id]')) return;
+		event.preventDefault();
+		elementContextMenu = null;
+		canvasContextMenu = { x: event.clientX, y: event.clientY };
+	}
+
+	function handleContextSetMode(mode: 'select' | 'connect') {
+		canvasState.mode = mode;
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddShape() {
+		handleInsertShape('shape id as @rectangle label:"New Node"');
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddContainer() {
+		handleInsertShape(
+			'container "New Container" {\n  shape id as @rectangle label:"Node"\n}'
+		);
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddImage() {
+		handleInsertShape(
+			'shape id as @image label:"Image" data:[{ src:"https://images.unsplash.com/photo-1461749280684-dccba630e2f6" }]'
+		);
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddText() {
+		handleInsertShape('shape id as @textBlock label:"Edit text" textAlign:left');
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleContextPaste() {
+		clipboardManager.paste();
+		closeCanvasContextMenu();
+	}
+
 	// Export functions for parent component access
 	export function hasValidDiagram(): boolean {
 		return svgOutput.trim() !== '' && diagramState.errors.length === 0;
@@ -519,6 +765,7 @@ import {
 	const renderRuntime = createCanvasRenderRuntime({
 		getDataContent: () => editorState.dataContent,
 		getLayoutEngine: () => editorState.layoutEngine,
+		getLayoutStrategy: () => editorState.layoutStrategy,
 		renderDiagram: renderDiagramUtil,
 		onEmpty: () => applyRenderEmptyState(renderStateCallbacks),
 		onStart: () => {
@@ -828,12 +1075,23 @@ import {
 			}
 		});
 
+		const handleGlobalContextMenuDismiss = (event: PointerEvent) => {
+			const hasAnyMenu = !!canvasContextMenu || !!elementContextMenu;
+			if (!hasAnyMenu) return;
+			const target = event.target as HTMLElement | null;
+			if (target?.closest('.canvas-context-menu')) return;
+			closeCanvasContextMenu();
+			closeElementContextMenu();
+		};
+
 		document.addEventListener('pointerdown', handleGlobalPointerDown, true);
+		document.addEventListener('pointerdown', handleGlobalContextMenuDismiss, true);
 
 		return () => {
 			// Cleanup on unmount
 			editorRefs.preview = null;
 			document.removeEventListener('pointerdown', handleGlobalPointerDown, true);
+			document.removeEventListener('pointerdown', handleGlobalContextMenuDismiss, true);
 		};
 	});
 </script>
@@ -877,6 +1135,7 @@ import {
 		onmouseleave={handleCanvasMouseLeave}
 		onwheel={handleWheel}
 		onclick={handleCanvasClick}
+		oncontextmenu={handleCanvasContextMenu}
 		ondragover={handleDragOver}
 		ondrop={handleDrop}
 		onkeydown={handleCanvasKeyDown}
@@ -977,4 +1236,80 @@ import {
 		<CanvasStateOverlay errors={diagramState.errors} hasSvgOutput={!!svgOutput} />
 	</div>
 </div>
+
+{#if canvasContextMenu}
+	<div
+		class="canvas-context-menu"
+		style="left: {canvasContextMenu.x}px; top: {canvasContextMenu.y}px;"
+	>
+		<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+		<button onclick={() => handleContextSetMode('connect')}>Connect Mode</button>
+		<div class="separator"></div>
+		<button onclick={handleContextAddShape}>Add Shape</button>
+		<button onclick={handleContextAddContainer}>Add Container</button>
+		<button onclick={handleContextAddImage}>Add Image</button>
+		<button onclick={handleContextAddText}>Add Text</button>
+		<button onclick={handleContextPaste} disabled={!clipboardManager.hasContent}>Paste</button>
+	</div>
+{/if}
+
+{#if elementContextMenu}
+	<div
+		class="canvas-context-menu"
+		style="left: {elementContextMenu.x}px; top: {elementContextMenu.y}px;"
+	>
+		<button onclick={handleCopyStyleFromContext}>Copy Style</button>
+		<button onclick={handlePasteStyleFromContext} disabled={!styleClipboard}>Paste Style</button>
+		<div class="separator"></div>
+		<button onclick={handleDuplicateFromContext}>Duplicate</button>
+		<button class="danger" onclick={handleDeleteFromContext}>Delete</button>
+	</div>
+{/if}
+
+<style>
+	.canvas-context-menu {
+		position: fixed;
+		z-index: 1200;
+		min-width: 180px;
+		background: #fff;
+		border: 1px solid #d4d4d8;
+		border-radius: 8px;
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1);
+		padding: 6px;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.canvas-context-menu button {
+		text-align: left;
+		background: transparent;
+		border: 0;
+		border-radius: 6px;
+		padding: 7px 8px;
+		font-size: 12px;
+		color: #1f2937;
+	}
+
+	.canvas-context-menu button:hover:enabled {
+		background: #f3f4f6;
+	}
+
+	.canvas-context-menu button:disabled {
+		color: #9ca3af;
+		cursor: not-allowed;
+	}
+
+	.canvas-context-menu button.danger {
+		color: #b91c1c;
+	}
+
+	.canvas-context-menu .separator {
+		height: 1px;
+		background: #e5e7eb;
+		margin: 4px 2px;
+	}
+</style>
 

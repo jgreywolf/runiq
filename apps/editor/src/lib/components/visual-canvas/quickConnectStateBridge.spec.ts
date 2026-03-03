@@ -36,4 +36,24 @@ describe('quickConnectStateBridge', () => {
 		expect(backingState.quickConnectNodeId).toBe('n2');
 		expect(backingState.quickConnectTargetNodeId).toBe('n3');
 	});
+
+	it('does not write when action produces no state changes', () => {
+		let backingState = createState();
+		let writeCount = 0;
+
+		const result = withQuickConnectState(
+			{
+				read: () => ({ ...backingState }),
+				write: (next) => {
+					writeCount += 1;
+					backingState = next;
+				}
+			},
+			() => 'noop'
+		);
+
+		expect(result).toBe('noop');
+		expect(writeCount).toBe(0);
+		expect(backingState.quickConnectNodeId).toBe('n1');
+	});
 });

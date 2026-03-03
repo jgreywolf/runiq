@@ -3,13 +3,15 @@ import type { RenderResult } from './renderingUtils';
 type RenderDiagramFn = (
 	code: string,
 	dataContent: string,
-	layoutEngine: string
+	layoutEngine: string,
+	layoutStrategy: string
 ) => Promise<RenderResult>;
 
 interface RenderLifecycleOptions {
 	dslCode: string;
 	dataContent: string;
 	layoutEngine: string;
+	layoutStrategy: string;
 	renderDiagram: RenderDiagramFn;
 	onEmpty: () => void;
 	onStart: () => void;
@@ -23,6 +25,7 @@ export async function runRenderCycle(options: RenderLifecycleOptions): Promise<v
 		dslCode,
 		dataContent,
 		layoutEngine,
+		layoutStrategy,
 		renderDiagram,
 		onEmpty,
 		onStart,
@@ -40,7 +43,7 @@ export async function runRenderCycle(options: RenderLifecycleOptions): Promise<v
 	onStart();
 
 	try {
-		const result = await renderDiagram(dslCode, dataContent, layoutEngine);
+		const result = await renderDiagram(dslCode, dataContent, layoutEngine, layoutStrategy);
 		onSuccess(result);
 	} catch (error) {
 		const message = error instanceof Error ? error.message : 'Unknown error';

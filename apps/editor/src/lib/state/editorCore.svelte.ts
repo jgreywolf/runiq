@@ -2,6 +2,7 @@ import { ProfileName } from '$lib/types';
 import { AutoSaveManager } from '../utils/autoSave.svelte';
 import { HistoryManager } from '../utils/historyManager.svelte';
 import { detectProfile } from './profileDetection';
+import { editorSettings } from './editorSettings.svelte';
 
 export interface EditorRefs {
 	code: {
@@ -37,6 +38,7 @@ export interface EditorState {
 	isDirty: boolean;
 	activeTab: string;
 	layoutEngine: string;
+	layoutStrategy: import('./editorSettings.svelte').LayoutStrategyId;
 	shapeCounter: number;
 	showCodeEditor: boolean;
 	profileName: ProfileName | null;
@@ -44,6 +46,7 @@ export interface EditorState {
 
 // Auto-save and history managers (initialize early to restore state)
 export const autoSave = new AutoSaveManager();
+autoSave.setDelay(editorSettings.autosaveDelayMs);
 const { code: restoredCode, lastSaved: restoredLastSaved } = autoSave.restore();
 export const history = new HistoryManager(restoredCode);
 
@@ -60,7 +63,8 @@ export const editorState = $state<EditorState>({
 	diagramName: 'New Diagram',
 	isDirty: false,
 	activeTab: 'syntax',
-	layoutEngine: 'elk',
+	layoutEngine: editorSettings.defaultLayoutEngine,
+	layoutStrategy: editorSettings.getDefaultLayoutStrategyForProfile(detectProfile(restoredCode)),
 	shapeCounter: 1,
 	showCodeEditor: true,
 	profileName: detectProfile(restoredCode)

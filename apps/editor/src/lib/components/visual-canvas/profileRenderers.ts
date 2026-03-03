@@ -11,12 +11,35 @@ import {
 	renderTreemap,
 	renderWardleyMap
 } from '@runiq/renderer-svg';
+import { LayoutAlgorithm } from '@runiq/core';
 
 function getProfileType(profile: any): string {
 	return 'type' in profile ? profile.type : 'diagram';
 }
 
-export async function renderProfileSvg(profile: any, layoutEngine: string): Promise<string> {
+function mapLayoutStrategyToAlgorithm(layoutStrategy: string | undefined): string {
+	switch (layoutStrategy) {
+		case 'force':
+			return LayoutAlgorithm.FORCE;
+		case 'adaptive':
+			return LayoutAlgorithm.STRESS;
+		case 'tree':
+			return LayoutAlgorithm.MRTREE;
+		case 'radial':
+			return LayoutAlgorithm.RADIAL;
+		case 'circular':
+			return LayoutAlgorithm.CIRCULAR;
+		case 'hierarchical':
+		default:
+			return LayoutAlgorithm.LAYERED;
+	}
+}
+
+export async function renderProfileSvg(
+	profile: any,
+	layoutEngine: string,
+	layoutStrategy = 'hierarchical'
+): Promise<string> {
 	const profileType = getProfileType(profile);
 
 	if (profileType === 'wardley') return renderWardleyMap(profile).svg;
@@ -51,7 +74,9 @@ export async function renderProfileSvg(profile: any, layoutEngine: string): Prom
 	if (!layoutAlgorithm) {
 		throw new Error(`Layout engine "${layoutEngine}" not found`);
 	}
-	const laidOutProfile = await layoutAlgorithm.layout(profile);
+	const laidOutProfile = await layoutAlgorithm.layout(profile, {
+		algorithm: mapLayoutStrategyToAlgorithm(layoutStrategy)
+	} as any);
 	return renderSvg(profile, laidOutProfile).svg;
 }
 

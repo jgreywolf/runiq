@@ -22,7 +22,7 @@ describe('elementToolbarDismiss', () => {
 			isInsidePopover: () => false,
 			onDismiss
 		});
-		handler({ target: {} as Node } as PointerEvent);
+		handler({ target: {} as Node } as unknown as PointerEvent);
 		expect(onDismiss).toHaveBeenCalledTimes(1);
 	});
 
@@ -34,7 +34,7 @@ describe('elementToolbarDismiss', () => {
 			isInsidePopover: () => false,
 			onDismiss
 		});
-		handler({ target: {} as Node } as PointerEvent);
+		handler({ target: {} as Node } as unknown as PointerEvent);
 		expect(onDismiss).not.toHaveBeenCalled();
 	});
 });

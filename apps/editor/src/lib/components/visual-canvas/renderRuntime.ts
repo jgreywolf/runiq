@@ -1,10 +1,10 @@
 import { createDebouncedRunner, runRenderCycle } from './renderController';
-import type { RenderDiagramResult } from './renderingUtils';
+import type { RenderResult } from './renderingUtils';
 
 interface RenderRuntimeCallbacks {
 	onEmpty: () => void;
 	onStart: () => void;
-	onSuccess: (result: RenderDiagramResult) => void;
+	onSuccess: (result: RenderResult) => void;
 	onError: (errorMessage: string) => void;
 	onComplete: () => void;
 }
@@ -12,11 +12,13 @@ interface RenderRuntimeCallbacks {
 interface RenderRuntimeOptions extends RenderRuntimeCallbacks {
 	getDataContent: () => string;
 	getLayoutEngine: () => string;
+	getLayoutStrategy: () => string;
 	renderDiagram: (
 		dslCode: string,
-		dataContent?: string,
-		layoutEngine?: string
-	) => Promise<RenderDiagramResult>;
+		dataContent: string,
+		layoutEngine: string,
+		layoutStrategy?: string
+	) => Promise<RenderResult>;
 	debounceMs?: number;
 }
 
@@ -34,6 +36,7 @@ export function createCanvasRenderRuntime(options: RenderRuntimeOptions): Canvas
 			dslCode,
 			dataContent: options.getDataContent(),
 			layoutEngine: options.getLayoutEngine(),
+			layoutStrategy: options.getLayoutStrategy(),
 			renderDiagram: options.renderDiagram,
 			onEmpty: options.onEmpty,
 			onStart: options.onStart,

@@ -11,15 +11,18 @@ export function resolveDiagramProfileIcon(shapeId: string, size: number): IconRe
 	}
 
 	if (hasTextIcon(shapeId)) {
-		return { svg: getTextIcon(shapeId, size), source: 'text-icon' };
+		const svg = getTextIcon(shapeId, size);
+		if (svg) return { svg, source: 'text-icon' };
 	}
 
 	if (isDiagramSpecialIcon(shapeId)) {
-		return { svg: getDiagramShapeIcon(shapeId, size), source: 'diagram-special' };
+		const svg = getDiagramShapeIcon(shapeId, size);
+		if (svg) return { svg, source: 'diagram-special' };
 	}
 
 	if (isBpmnEvent(shapeId) || isBpmnGateway(shapeId)) {
-		return { svg: getBpmnShapeIcon(shapeId, size), source: 'bpmn' };
+		const svg = getBpmnShapeIcon(shapeId, size);
+		if (svg) return { svg, source: 'bpmn' };
 	}
 
 	return resolveRegistryIcon(shapeId, size);

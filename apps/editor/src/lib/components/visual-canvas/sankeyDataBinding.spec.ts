@@ -3,7 +3,7 @@ import { applySankeyDataFromContent } from './sankeyDataBinding';
 
 describe('sankeyDataBinding', () => {
 	it('applies JSON data using matching node id', () => {
-		const profile = {
+		const profile: any = {
 			nodes: [{ id: 'flow1', shape: 'sankeyChart' }]
 		};
 		const warnings: string[] = [];
@@ -18,7 +18,7 @@ describe('sankeyDataBinding', () => {
 	});
 
 	it('falls back to first JSON key when node id is not present', () => {
-		const profile = {
+		const profile: any = {
 			nodes: [{ id: 'flow2', shape: 'sankeyChart' }]
 		};
 		const warnings: string[] = [];
@@ -33,7 +33,7 @@ describe('sankeyDataBinding', () => {
 	});
 
 	it('parses CSV and assigns sankey data', () => {
-		const profile = {
+		const profile: any = {
 			nodes: [{ id: 'flow3', shape: 'sankeyChart' }]
 		};
 		const warnings: string[] = [];

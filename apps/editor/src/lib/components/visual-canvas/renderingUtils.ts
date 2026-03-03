@@ -60,7 +60,8 @@ function enrichCanvasParseError(message: string, sourceText: string): string {
 export async function renderDiagram(
 	code: string,
 	dataContent: string,
-	layoutEngine: string
+	layoutEngine: string,
+	layoutStrategy = 'hierarchical'
 ): Promise<RenderResult> {
 	const result: RenderResult = {
 		svg: '',
@@ -128,7 +129,7 @@ export async function renderDiagram(
 			applySankeyDataFromContent(diagramProfile, dataContent, result.warnings);
 		}
 
-		result.svg = await renderProfileSvg(diagramProfile, layoutEngine);
+		result.svg = await renderProfileSvg(diagramProfile, layoutEngine, layoutStrategy);
 
 		result.renderTime = Math.round(performance.now() - renderStart);
 		result.success = !result.errors.length && !!result.svg;

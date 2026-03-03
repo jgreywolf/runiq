@@ -7,8 +7,8 @@ export function hasPrimarySelection(selectedNodeId: string | null, selectedEdgeI
 export function shouldClearElementToolbar(params: {
 	selectedNodeId: string | null;
 	selectedEdgeId: string | null;
-	profileName: string;
-	mode: string;
+	profileName: ProfileName | null;
+	mode: 'select' | 'connect';
 }): boolean {
 	return (
 		!hasPrimarySelection(params.selectedNodeId, params.selectedEdgeId) ||
@@ -20,8 +20,8 @@ export function shouldClearElementToolbar(params: {
 export function shouldRepositionElementToolbar(params: {
 	selectedNodeId: string | null;
 	selectedEdgeId: string | null;
-	profileName: string;
-	mode: string;
+	profileName: ProfileName | null;
+	mode: 'select' | 'connect';
 }): boolean {
 	return (
 		params.profileName === ProfileName.diagram &&

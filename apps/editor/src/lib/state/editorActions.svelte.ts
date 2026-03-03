@@ -7,6 +7,7 @@ import { autoSave, editorRefs, editorState, history } from './editorCore.svelte'
 import { diagramState } from './diagramState.svelte';
 import { applyDraftOperation, type DraftOperation } from './draftOperations';
 import { detectProfile } from './profileDetection';
+import { editorSettings } from './editorSettings.svelte';
 
 /**
  * Update code in the editor
@@ -36,7 +37,9 @@ export function updateCode(newCode: string, addToHistory: boolean = false) {
  */
 export function handleCodeChange(newCode: string, addToHistory: boolean = true) {
 	editorState.code = newCode;
-	editorState.profileName = detectProfile(newCode);
+	const detectedProfile = detectProfile(newCode);
+	editorState.profileName = detectedProfile;
+	editorState.layoutStrategy = editorSettings.getDefaultLayoutStrategyForProfile(detectedProfile);
 	editorState.isDirty = true;
 
 	// Add to history for user typing (not for undo/redo or programmatic changes)
@@ -44,9 +47,11 @@ export function handleCodeChange(newCode: string, addToHistory: boolean = true) 
 		history.push(newCode);
 	}
 
-	autoSave.schedule(editorState.code, () => {
-		editorState.isDirty = false;
-	});
+	if (editorSettings.autosaveEnabled) {
+		autoSave.schedule(editorState.code, () => {
+			editorState.isDirty = false;
+		});
+	}
 }
 
 /**
@@ -325,6 +330,7 @@ export function handleNewDiagram(type: ProfileName) {
 	const template = getTemplate(type);
 	updateCode(template.content);
 	editorState.profileName = type;
+	editorState.layoutStrategy = editorSettings.getDefaultLayoutStrategyForProfile(type);
 	editorState.diagramName = template.name;
 	editorState.isDirty = false;
 	history.reset(template.content);

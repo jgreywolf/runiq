@@ -1,7 +1,7 @@
 import type { WarningDetail } from '@runiq/parser-dsl';
 import type { NodeLocation } from '@runiq/parser-dsl';
 import type { DiagramProfile } from '@runiq/parser-dsl';
-import type { RenderDiagramResult } from './renderingUtils';
+import type { RenderResult } from './renderingUtils';
 import { mergeWarnings, updateWarningVisibility } from './viewModel';
 
 export interface WarningUiState {
@@ -73,7 +73,7 @@ export function applyRenderEmptyState(callbacks: RenderStateCallbacks): void {
 }
 
 export function applyRenderSuccessState(
-	result: RenderDiagramResult,
+	result: RenderResult,
 	callbacks: RenderStateCallbacks
 ): void {
 	if (result.svg && result.svg.trim().length > 0) {

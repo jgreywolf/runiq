@@ -250,6 +250,9 @@ export class ElkLayoutEngine implements LayoutEngine {
     const hasContainers = diagram.containers && diagram.containers.length > 0;
     const baseSpacing = hasContainers ? 150 : 100; // Extra spacing for container diagrams
     const spacing = opts.spacing || baseSpacing;
+    const selectedAlgorithm =
+      (opts as LayoutOptions & { algorithm?: string }).algorithm ||
+      LayoutAlgorithm.LAYERED;
 
     // Detect if this is a use case diagram (actors + use cases in containers or ellipses)
     // Only apply BOX algorithm if there are no containers (flat layout)
@@ -281,7 +284,7 @@ export class ElkLayoutEngine implements LayoutEngine {
               'elk.box.packingMode': 'GROUP_DEC', // Group nodes and pack efficiently
             }
           : {
-              'elk.algorithm': LayoutAlgorithm.LAYERED,
+              'elk.algorithm': selectedAlgorithm,
               'elk.direction': direction,
               'elk.spacing.nodeNode': spacing.toString(),
               'elk.layered.spacing.nodeNodeBetweenLayers': (

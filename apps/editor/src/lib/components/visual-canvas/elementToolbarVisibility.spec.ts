@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { ProfileName } from '$lib/types';
 import {
 	hasAnySelection,
 	hasPrimarySelection,
@@ -37,7 +38,7 @@ describe('elementToolbarVisibility', () => {
 			shouldClearElementToolbar({
 				selectedNodeId: 'n1',
 				selectedEdgeId: null,
-				profileName: 'diagram',
+				profileName: ProfileName.diagram,
 				mode: 'select'
 			})
 		).toBe(false);
@@ -45,7 +46,7 @@ describe('elementToolbarVisibility', () => {
 			shouldClearElementToolbar({
 				selectedNodeId: 'n1',
 				selectedEdgeId: null,
-				profileName: 'timeline',
+				profileName: ProfileName.timeline,
 				mode: 'select'
 			})
 		).toBe(true);
@@ -53,7 +54,7 @@ describe('elementToolbarVisibility', () => {
 			shouldClearElementToolbar({
 				selectedNodeId: 'n1',
 				selectedEdgeId: null,
-				profileName: 'diagram',
+				profileName: ProfileName.diagram,
 				mode: 'connect'
 			})
 		).toBe(true);
@@ -61,7 +62,7 @@ describe('elementToolbarVisibility', () => {
 			shouldClearElementToolbar({
 				selectedNodeId: null,
 				selectedEdgeId: null,
-				profileName: 'diagram',
+				profileName: ProfileName.diagram,
 				mode: 'select'
 			})
 		).toBe(true);
@@ -72,7 +73,7 @@ describe('elementToolbarVisibility', () => {
 			shouldRepositionElementToolbar({
 				selectedNodeId: 'n1',
 				selectedEdgeId: null,
-				profileName: 'diagram',
+				profileName: ProfileName.diagram,
 				mode: 'select'
 			})
 		).toBe(true);
@@ -80,7 +81,7 @@ describe('elementToolbarVisibility', () => {
 			shouldRepositionElementToolbar({
 				selectedNodeId: null,
 				selectedEdgeId: null,
-				profileName: 'diagram',
+				profileName: ProfileName.diagram,
 				mode: 'select'
 			})
 		).toBe(false);
@@ -88,7 +89,7 @@ describe('elementToolbarVisibility', () => {
 			shouldRepositionElementToolbar({
 				selectedNodeId: 'n1',
 				selectedEdgeId: null,
-				profileName: 'diagram',
+				profileName: ProfileName.diagram,
 				mode: 'connect'
 			})
 		).toBe(false);

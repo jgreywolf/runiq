@@ -22,12 +22,18 @@ export interface MockContext {
 	measureText: (text: string, style: any) => { width: number; height: number };
 }
 
+type MockContextOverrides = {
+	node?: Partial<MockContext['node']>;
+	style?: Partial<MockContext['style']>;
+	measureText?: MockContext['measureText'];
+};
+
 /**
  * Create a minimal render context for a shape
  */
 export function createMockContext(shapeId: string): MockContext {
 	// Helper to create base context with common properties
-	const createBaseContext = (overrides: Partial<MockContext> = {}): MockContext => ({
+	const createBaseContext = (overrides: MockContextOverrides = {}): MockContext => ({
 		node: { id: '', label: '', shape: '', ...overrides.node },
 		style: {
 			padding: 2,
@@ -48,7 +54,7 @@ export function createMockContext(shapeId: string): MockContext {
 	});
 
 	// Shape-specific configurations
-	const shapeConfigs: Record<string, Partial<MockContext>> = {
+	const shapeConfigs: Record<string, MockContextOverrides> = {
 		// Special data-driven shapes
 		class: {
 			node: {
