@@ -17,7 +17,7 @@
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
-	import { type WarningDetail } from '@runiq/parser-dsl';
+	import { type DiagramProfile, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
 	import { onMount, tick } from 'svelte';
 	import EditorToolbar from './Editor/EditorToolbar.svelte';
 	import CanvasInteractionLayer from './visual-canvas/CanvasInteractionLayer.svelte';
@@ -65,6 +65,12 @@ import {
 	handlePanelOpenChange as handlePanelOpenChangeOrchestrated
 } from './visual-canvas/elementToolbarOrchestrator';
 import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolbarDismiss';
+import {
+	hasAnySelection,
+	hasPrimarySelection,
+	shouldClearElementToolbar,
+	shouldRepositionElementToolbar
+} from './visual-canvas/elementToolbarVisibility';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
@@ -73,21 +79,30 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	import {
 		type QuickConnectHandle
 	} from './visual-canvas/quickConnectRuntime';
-	import {
+import {
 		activateQuickConnectPreview,
 		resetQuickConnectState,
 		runQuickConnect as runQuickConnectAction,
 		updateQuickConnectFromMouseEvent as updateQuickConnectFromMouseEventAction
 	} from './visual-canvas/quickConnectActions';
+	import { withQuickConnectState } from './visual-canvas/quickConnectStateBridge';
 	import { createCanvasRenderRuntime } from './visual-canvas/renderRuntime';
 	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
 	import { SelectionState } from './visual-canvas/SelectionState.svelte';
 	import {
 		extractSelectedElementStyles,
-		mergeWarnings,
-		updateWarningVisibility
 	} from './visual-canvas/viewModel';
 	import { ViewportState } from './visual-canvas/ViewportState.svelte';
+	import {
+		applyRenderEmptyState,
+		applyRenderErrorState,
+		applyRenderSuccessState,
+		computeWarningUiState,
+		getFloatingToolbarTop,
+		jumpToWarningLocation,
+		type RenderStateCallbacks,
+		shouldForceSelectMode
+	} from './visual-canvas/warningStatusOrchestration';
 
 	let diagramDataId = 'runiq-diagram';
 
@@ -156,6 +171,9 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	const filteredIconTokens = $derived(
 		getFilteredIconTokensFromState(availableIconTokens, iconSearchQuery)
 	);
+	const floatingToolbarTop = $derived(
+		getFloatingToolbarTop(showWarnings, warningDetails.length, combinedWarnings.length)
+	);
 
 	// DOM element references
 	let svgContainer = $state<HTMLDivElement | null>(null);
@@ -193,34 +211,30 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	});
 
 	$effect(() => {
-		const warningCount = warningDetails.length + combinedWarnings.length;
-		const next = updateWarningVisibility(showWarnings, lastWarningCount, warningCount);
+		const next = computeWarningUiState({
+			warningDetails,
+			diagramWarnings: diagramState.warnings,
+			lintWarnings: editorState.lintWarnings,
+			currentShowWarnings: showWarnings,
+			lastWarningCount
+		});
+		const warningsChanged =
+			combinedWarnings.length !== next.combinedWarnings.length ||
+			combinedWarnings.some((warning, index) => warning !== next.combinedWarnings[index]);
+		if (warningsChanged) {
+			combinedWarnings = next.combinedWarnings;
+		}
 		if (showWarnings !== next.showWarnings) {
 			showWarnings = next.showWarnings;
 		}
 		if (lastWarningCount !== next.lastWarningCount) {
 			lastWarningCount = next.lastWarningCount;
 		}
-		debugCanvas('effect:warning-visibility', { warningCount, showWarnings });
-	});
-
-	$effect(() => {
-		const nextWarnings = mergeWarnings(
-			warningDetails,
-			diagramState.warnings,
-			editorState.lintWarnings
-		);
-		const changed =
-			combinedWarnings.length !== nextWarnings.length ||
-			combinedWarnings.some((warning, index) => warning !== nextWarnings[index]);
-		if (changed) {
-			combinedWarnings = nextWarnings;
-		}
 		debugCanvas('effect:merge-warnings', { merged: combinedWarnings.length });
 	});
 
 	$effect(() => {
-		if (diagramState.errors.length > 0 && canvasState.mode !== 'select') {
+		if (shouldForceSelectMode(diagramState.errors.length, canvasState.mode)) {
 			debugCanvas('effect:force-select-mode-on-errors', {
 				errorCount: diagramState.errors.length,
 				mode: canvasState.mode
@@ -239,18 +253,23 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	});
 
 	$effect(() => {
-		const hasPrimarySelection = !!(selection.selectedNodeId || selection.selectedEdgeId);
 		if (
-			!hasPrimarySelection ||
-			editorState.profileName !== ProfileName.diagram ||
-			canvasState.mode !== 'select'
+			shouldClearElementToolbar({
+				selectedNodeId: selection.selectedNodeId,
+				selectedEdgeId: selection.selectedEdgeId,
+				profileName: editorState.profileName,
+				mode: canvasState.mode
+			})
 		) {
 			closeAllPanels();
 			if (elementToolbarPosition !== null) {
 				elementToolbarPosition = null;
 			}
 			debugCanvas('effect:clear-panel-no-selection', {
-				hasPrimarySelection,
+				hasPrimarySelection: hasPrimarySelection(
+					selection.selectedNodeId,
+					selection.selectedEdgeId
+				),
 				profile: editorState.profileName,
 				mode: canvasState.mode
 			});
@@ -296,9 +315,12 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 
 	$effect(() => {
 		if (
-			editorState.profileName === ProfileName.diagram &&
-			canvasState.mode === 'select' &&
-			(selection.selectedNodeId || selection.selectedEdgeId)
+			shouldRepositionElementToolbar({
+				selectedNodeId: selection.selectedNodeId,
+				selectedEdgeId: selection.selectedEdgeId,
+				profileName: editorState.profileName,
+				mode: canvasState.mode
+			})
 		) {
 			debugCanvas('effect:recompute-toolbar-position', {
 				node: selection.selectedNodeId,
@@ -313,11 +335,12 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 
 	$effect(() => {
 		if (canvasState.mode === 'connect') {
-			const hasActiveSelection =
-				selection.selectedNodeId !== null ||
-				selection.selectedEdgeId !== null ||
-				selection.selectedNodeIds.size > 0 ||
-				selection.selectedEdgeIds.size > 0;
+			const hasActiveSelection = hasAnySelection({
+				selectedNodeId: selection.selectedNodeId,
+				selectedEdgeId: selection.selectedEdgeId,
+				selectedNodeIdsSize: selection.selectedNodeIds.size,
+				selectedEdgeIdsSize: selection.selectedEdgeIds.size
+			});
 			if (!hasActiveSelection) return;
 
 			queueMicrotask(() => {
@@ -342,8 +365,8 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 		return document.querySelector<SVGSVGElement>(`[data-id="${diagramDataId}"]`);
 	}
 
-	function resetQuickConnect() {
-		resetQuickConnectState({
+	function readQuickConnectState() {
+		return {
 			quickConnectNodeId,
 			quickConnectHandles,
 			quickConnectActiveDirection,
@@ -351,14 +374,29 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 			quickConnectPreviewEnd,
 			quickConnectTargetNodeId,
 			quickConnectNewNodePosition
-		});
-		quickConnectNodeId = null;
-		quickConnectHandles = [];
-		quickConnectActiveDirection = null;
-		quickConnectPreviewStart = null;
-		quickConnectPreviewEnd = null;
-		quickConnectTargetNodeId = null;
-		quickConnectNewNodePosition = null;
+		};
+	}
+
+	function writeQuickConnectState(state: ReturnType<typeof readQuickConnectState>) {
+		quickConnectNodeId = state.quickConnectNodeId;
+		quickConnectHandles = state.quickConnectHandles;
+		quickConnectActiveDirection = state.quickConnectActiveDirection;
+		quickConnectPreviewStart = state.quickConnectPreviewStart;
+		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
+		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
+		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
+	}
+
+	function resetQuickConnect() {
+		withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				resetQuickConnectState(state);
+			}
+		);
 		quickConnectBehaviorHint = 'auto';
 	}
 
@@ -373,28 +411,22 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 		direction: QuickConnectDirection,
 		behavior: QuickConnectBehavior = 'auto'
 	) {
-		const state = {
-			quickConnectNodeId,
-			quickConnectHandles,
-			quickConnectActiveDirection,
-			quickConnectPreviewStart,
-			quickConnectPreviewEnd,
-			quickConnectTargetNodeId,
-			quickConnectNewNodePosition
-		};
-		activateQuickConnectPreview({
-			state,
-			svgContainer,
-			profile: diagramState.profile as any,
-			nodeId,
-			direction,
-			behavior
-		});
-		quickConnectActiveDirection = state.quickConnectActiveDirection;
-		quickConnectPreviewStart = state.quickConnectPreviewStart;
-		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
-		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
-		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
+		withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				activateQuickConnectPreview({
+					state,
+					svgContainer,
+					profile: diagramState.profile as any,
+					nodeId,
+					direction,
+					behavior
+				});
+			}
+		);
 	}
 
 	function runQuickConnect(
@@ -402,63 +434,48 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 		direction: QuickConnectDirection,
 		behavior: QuickConnectBehavior = 'auto'
 	) {
-		const state = {
-			quickConnectNodeId,
-			quickConnectHandles,
-			quickConnectActiveDirection,
-			quickConnectPreviewStart,
-			quickConnectPreviewEnd,
-			quickConnectTargetNodeId,
-			quickConnectNewNodePosition
-		};
-		runQuickConnectAction({
-			state,
-			svgContainer,
-			profile: diagramState.profile as any,
-			nodeId,
-			direction,
-			behavior,
-			newNodeId: `id${editorState.shapeCounter}`,
-			onInsertEdge: handleInsertEdge,
-			onInsertShapeAndEdge: handleInsertShapeAndEdge
-		});
-		quickConnectNodeId = state.quickConnectNodeId;
-		quickConnectHandles = state.quickConnectHandles;
-		quickConnectActiveDirection = state.quickConnectActiveDirection;
-		quickConnectPreviewStart = state.quickConnectPreviewStart;
-		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
-		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
-		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
-		if (state.quickConnectNodeId === null) {
+		const finalState = withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				runQuickConnectAction({
+					state,
+					svgContainer,
+					profile: diagramState.profile as any,
+					nodeId,
+					direction,
+					behavior,
+					newNodeId: `id${editorState.shapeCounter}`,
+					onInsertEdge: handleInsertEdge,
+					onInsertShapeAndEdge: handleInsertShapeAndEdge
+				});
+				return state;
+			}
+		);
+		if (finalState.quickConnectNodeId === null) {
 			quickConnectBehaviorHint = 'auto';
 		}
 	}
 
 	function updateQuickConnectFromMouseEvent(event: MouseEvent) {
-		const state = {
-			quickConnectNodeId,
-			quickConnectHandles,
-			quickConnectActiveDirection,
-			quickConnectPreviewStart,
-			quickConnectPreviewEnd,
-			quickConnectTargetNodeId,
-			quickConnectNewNodePosition
-		};
-		updateQuickConnectFromMouseEventAction({
-			state,
-			event,
-			profileName: editorState.profileName,
-			mode: canvasState.mode,
-			connectPreviewStart,
-			svgContainer
-		});
-		quickConnectNodeId = state.quickConnectNodeId;
-		quickConnectHandles = state.quickConnectHandles;
-		quickConnectActiveDirection = state.quickConnectActiveDirection;
-		quickConnectPreviewStart = state.quickConnectPreviewStart;
-		quickConnectPreviewEnd = state.quickConnectPreviewEnd;
-		quickConnectTargetNodeId = state.quickConnectTargetNodeId;
-		quickConnectNewNodePosition = state.quickConnectNewNodePosition;
+		withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				updateQuickConnectFromMouseEventAction({
+					state,
+					event,
+					profileName: editorState.profileName,
+					mode: canvasState.mode,
+					connectPreviewStart,
+					svgContainer
+				});
+			}
+		);
 	}
 
 	function handleCanvasMouseMove(event: MouseEvent) {
@@ -484,51 +501,33 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 		return svgOutput;
 	}
 
+	const renderStateCallbacks: RenderStateCallbacks = {
+		setSvgOutput: (value: string) => (svgOutput = value),
+		clearErrors: () => diagramState.clearErrors(),
+		clearWarnings: () => diagramState.clearWarnings(),
+		setErrors: (errors: string[]) => diagramState.setErrors(errors),
+		setWarnings: (warnings: string[]) => diagramState.setWarnings(warnings),
+		setWarningDetails: (details: WarningDetail[]) => (warningDetails = details),
+		setParseTime: (value: number) => (parseTime = value),
+		setRenderTime: (value: number) => (renderTime = value),
+		setNodeLocations: (locations: Map<string, NodeLocation>) => diagramState.setNodeLocations(locations),
+		clearNodeLocations: () => diagramState.clearNodeLocations(),
+		setProfile: (profile: DiagramProfile) => diagramState.setProfile(profile),
+		handleParse
+	};
+
 	const renderRuntime = createCanvasRenderRuntime({
 		getDataContent: () => editorState.dataContent,
 		getLayoutEngine: () => editorState.layoutEngine,
 		renderDiagram: renderDiagramUtil,
-		onEmpty: () => {
-			svgOutput = '';
-			diagramState.clearErrors();
-			diagramState.clearWarnings();
-			warningDetails = [];
-			parseTime = 0;
-			renderTime = 0;
-			handleParse(true, []);
-		},
+		onEmpty: () => applyRenderEmptyState(renderStateCallbacks),
 		onStart: () => {
 			isRendering = true;
 			diagramState.clearErrors();
 			diagramState.clearWarnings();
 		},
-		onSuccess: (result) => {
-			if (result.svg && result.svg.trim().length > 0) {
-				svgOutput = result.svg;
-			}
-			diagramState.setErrors(result.errors);
-			diagramState.setWarnings(result.warnings);
-			warningDetails = result.warningDetails ?? [];
-			parseTime = result.parseTime;
-			renderTime = result.renderTime;
-
-			if (result.nodeLocations) {
-				diagramState.setNodeLocations(result.nodeLocations);
-			} else {
-				diagramState.clearNodeLocations();
-			}
-
-			if (result.profile) {
-				diagramState.setProfile(result.profile);
-			}
-
-			handleParse(result.success, result.errors);
-		},
-		onError: (errorMsg) => {
-			diagramState.setErrors([errorMsg]);
-			warningDetails = [];
-			handleParse(false, diagramState.errors);
-		},
+		onSuccess: (result) => applyRenderSuccessState(result, renderStateCallbacks),
+		onError: (errorMsg) => applyRenderErrorState(errorMsg, renderStateCallbacks),
 		onComplete: () => {
 			isRendering = false;
 		}
@@ -801,10 +800,12 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	}
 
 	function handleJumpToWarning(warning: WarningDetail) {
-		editorState.showCodeEditor = true;
-		editorState.activeTab = 'syntax';
-		tick().then(() => {
-			editorRefs.code?.jumpTo(warning.range.startLine, warning.range.startColumn);
+		void jumpToWarningLocation({
+			warning,
+			setShowCodeEditor: (value) => (editorState.showCodeEditor = value),
+			setActiveTab: (tab) => (editorState.activeTab = tab),
+			jumpTo: (line, column) => editorRefs.code?.jumpTo(line, column),
+			tick
 		});
 	}
 
@@ -859,7 +860,7 @@ import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolba
 	<!-- Floating Toolbar -->
 	<div
 		class="absolute left-4 z-10 flex gap-2"
-		style="top: {showWarnings && warningDetails.length + combinedWarnings.length > 0 ? '120px' : '66px'};"
+		style="top: {floatingToolbarTop};"
 	>
 		<EditorToolbar {svgContainer} {svgOutput} />
 	</div>
