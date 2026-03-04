@@ -10,8 +10,8 @@ import { SelectionState } from '$lib/components/visual-canvas/SelectionState.sve
 import { ViewportState } from '$lib/components/visual-canvas/ViewportState.svelte';
 import { canvasState } from '$lib/state';
 import { editorState } from '$lib/state/editorState.svelte';
-import { ProfileName } from '$lib/types';
 import { SvelteSet } from 'svelte/reactivity';
+import { supportsCanvasSelection } from '$lib/components/visual-canvas/interactiveProfiles';
 
 /**
  * InteractionManager - Manages interactive event handlers and element interactions
@@ -101,7 +101,7 @@ export class InteractionManager {
 	 * Build MouseHandlerContext from current state
 	 */
 	private buildContext(): MouseHandlerContext {
-		const interactionsEnabled = editorState.profileName === ProfileName.diagram;
+		const interactionsEnabled = supportsCanvasSelection(editorState.profileName);
 		return {
 			svgContainer: this.svgContainerRef,
 			scale: this.viewport.scale,

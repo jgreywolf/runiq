@@ -18,6 +18,7 @@
 	import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
+	import { getAvailableBaseThemes } from '@runiq/core';
 	import { type DiagramProfile, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
 	import { onMount, tick } from 'svelte';
 	import EditorToolbar from './Editor/EditorToolbar.svelte';
@@ -104,6 +105,7 @@ import {
 		type RenderStateCallbacks,
 		shouldForceSelectMode
 	} from './visual-canvas/warningStatusOrchestration';
+	import { applyThemeToDsl } from './Editor/editorToolbarActions';
 
 	let diagramDataId = 'runiq-diagram';
 
@@ -167,6 +169,7 @@ import {
 		...listBrandIconNames().map((name) => `brand/${name.replace(/-/g, '_')}`),
 		...listIconifyIconNamesForDsl().map((name) => `iconify/${name}`)
 	];
+	const availableThemes = getAvailableBaseThemes();
 	const diagramShapeCategories = getShapeCategoryByProfile(ProfileName.diagram).map((category) => ({
 		label: category.label,
 		shapes: category.shapes.map((shape) => ({ id: shape.id, label: shape.label }))
@@ -780,6 +783,12 @@ import {
 		closeCanvasContextMenu();
 	}
 
+	function handleContextApplyTheme(themeId: string) {
+		const nextCode = applyThemeToDsl(editorState.code || '', themeId);
+		updateCode(nextCode, true);
+		closeCanvasContextMenu();
+	}
+
 	// Export functions for parent component access
 	export function hasValidDiagram(): boolean {
 		return svgOutput.trim() !== '' && diagramState.errors.length === 0;
@@ -1306,6 +1315,11 @@ import {
 		<button onclick={handleContextAddImage}>Add Image</button>
 		<button onclick={handleContextAddText}>Add Text</button>
 		<button onclick={handleContextPaste} disabled={!clipboardManager.hasContentInScope('canvas')}>Paste</button>
+		<div class="separator"></div>
+		<div class="section-label">Theme</div>
+		{#each availableThemes as themeId}
+			<button onclick={() => handleContextApplyTheme(themeId)}>{themeId}</button>
+		{/each}
 	</div>
 {/if}
 
@@ -1370,6 +1384,15 @@ import {
 		height: 1px;
 		background: #e5e7eb;
 		margin: 4px 2px;
+	}
+
+	.canvas-context-menu .section-label {
+		padding: 4px 8px 2px;
+		font-size: 11px;
+		font-weight: 600;
+		color: #6b7280;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
 	}
 </style>
 

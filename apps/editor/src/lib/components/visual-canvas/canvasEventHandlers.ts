@@ -4,6 +4,7 @@ import type { SelectionState } from './SelectionState.svelte';
 import type { ViewportState } from './ViewportState.svelte';
 import type { EditorMode } from '$lib/types/editor';
 import { ProfileName } from '$lib/types';
+import { supportsCanvasSelection } from './interactiveProfiles';
 
 interface CanvasEventHandlerDeps {
 	selection: SelectionState;
@@ -48,6 +49,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	let connectStartNodeId: string | null = null;
 
 	const isDiagramProfile = () => getProfileName() === ProfileName.diagram;
+	const isInteractiveProfile = () => supportsCanvasSelection(getProfileName());
 	const isSelectMode = () => getMode() === 'select';
 	const isConnectMode = () => getMode() === 'connect';
 
@@ -112,7 +114,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleCanvasClick(event: MouseEvent) {
-		if (!isDiagramProfile() || !isSelectMode()) return;
+		if (!isInteractiveProfile() || !isSelectMode()) return;
 		const target = event.target as HTMLElement | null;
 		if (!target) return;
 		if (target.closest('.floating-toolbar, .element-flyout-panel, .style-create-overlay, .style-create-dialog')) {
@@ -128,7 +130,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleCanvasKeyDown(event: KeyboardEvent) {
-		if (!isDiagramProfile()) return;
+		if (!isInteractiveProfile()) return;
 		if (isTypingTarget(event.target)) return;
 		// Don't intercept if we're editing text
 		if (selection.editingNodeId || selection.editingEdgeId) return;
@@ -180,7 +182,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleEditKeyPress(event: KeyboardEvent) {
-		if (!isDiagramProfile() || !isSelectMode()) return;
+		if (!isInteractiveProfile() || !isSelectMode()) return;
 		if (event.key === 'Enter') {
 			if (selection.editingNodeId) {
 				handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
@@ -194,7 +196,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleMouseDown(e: MouseEvent) {
-		if (!isDiagramProfile()) return;
+		if (!isInteractiveProfile()) return;
 		if (selection.editingNodeId || selection.editingEdgeId) return;
 
 		if (isConnectMode()) {
@@ -256,7 +258,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleMouseUp() {
-		if (!isDiagramProfile()) return;
+		if (!isInteractiveProfile()) return;
 
 		if (isConnectMode()) {
 			onConnectPreviewEnd();
@@ -285,7 +287,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleMouseUpWithEvent(e: MouseEvent) {
-		if (!isDiagramProfile() || !isConnectMode()) {
+		if (!isInteractiveProfile() || !isConnectMode()) {
 			handleMouseUp();
 			return;
 		}
