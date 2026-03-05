@@ -1,0 +1,93 @@
+// UML Activity Diagram: Data Pipeline with Error Handling
+// Demonstrates flowFinal for error paths and activityFinal for successful completion
+// Shows how error flows terminate independently without stopping the whole activity
+
+diagram "Data Processing Pipeline" {
+  direction TB
+
+  // Start and final success
+  shape start as @initialState
+  shape pipelineSuccess as @activityFinal
+
+  // Flow termination points (errors)
+  shape validationError as @flowFinal
+  shape transformError as @flowFinal
+  shape uploadError as @flowFinal
+
+  // Activities
+  shape receiveData as @activity label:"Receive Raw Data"
+  shape validateSchema as @activity label:"Validate Schema"
+  shape transformData as @activity label:"Transform Data"
+  shape enrichData as @activity label:"Enrich with Metadata"
+  shape uploadToStorage as @activity label:"Upload to Storage"
+  shape updateIndex as @activity label:"Update Search Index"
+  shape sendNotification as @activity label:"Send Success Notification"
+
+  // Decision points
+  shape validCheck as @choice
+  shape transformCheck as @choice
+  shape uploadCheck as @choice
+
+  // Fork for parallel enrichment and validation
+  shape enrichFork as @fork
+  shape enrichJoin as @join
+
+  // Object nodes
+  shape rawData as @objectNode label:"Raw Data"
+  shape validatedData as @objectNode label:"Validated Data"
+  shape transformedData as @objectNode label:"Transformed Data"
+  shape enrichedData as @objectNode label:"Enriched Data"
+
+  // Data store
+  shape dataLake as @dataStore label:"Data Lake"
+
+  // Pipeline starts
+  start -> receiveData flowType:"control"
+  receiveData -> rawData flowType:"object"
+
+  // Validation stage
+  rawData -> validateSchema flowType:"object"
+  validateSchema -> validCheck flowType:"control"
+
+  // Validation failed - terminate this flow
+  validCheck -> validationError flowType:"control"
+
+  // Validation passed - continue
+  validCheck -> validatedData flowType:"object"
+
+  // Transform stage
+  validatedData -> transformData flowType:"object"
+  transformData -> transformCheck flowType:"control"
+
+  // Transform failed - terminate this flow
+  transformCheck -> transformError flowType:"control"
+
+  // Transform success - continue to enrichment
+  transformCheck -> transformedData flowType:"object"
+
+  // Parallel enrichment
+  transformedData -> enrichFork flowType:"control"
+
+  enrichFork -> enrichData flowType:"control"
+  enrichFork -> updateIndex flowType:"control"
+
+  enrichData -> enrichedData flowType:"object"
+
+  // Join enrichment paths
+  enrichedData -> enrichJoin flowType:"control"
+  updateIndex -> enrichJoin flowType:"control"
+
+  // Upload to storage
+  enrichJoin -> uploadToStorage flowType:"control"
+  uploadToStorage -> uploadCheck flowType:"control"
+
+  // Upload failed - terminate this flow
+  uploadCheck -> uploadError flowType:"control"
+
+  // Upload success - store and complete
+  uploadCheck -> dataLake flowType:"object"
+  dataLake -> sendNotification flowType:"control"
+
+  // Pipeline completes successfully (entire activity terminates)
+  sendNotification -> pipelineSuccess flowType:"control"
+}

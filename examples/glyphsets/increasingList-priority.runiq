@@ -1,0 +1,10 @@
+// Increasing List - Priority Levels (Circle)
+glyphset increasingList "Priority Levels" {
+    theme "forest"
+item "Minor"
+  item "Moderate"
+  item "Important"
+  item "Critical"
+  
+  shape "circle"
+}

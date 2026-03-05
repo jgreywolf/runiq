@@ -1,0 +1,57 @@
+diagram "Online Banking - Advanced Relationships" {
+  
+  // Primary actors
+  shape customer as @actor label:"Customer"
+  shape admin as @actor label:"Bank Administrator"
+  
+  // Secondary actor (external system)
+  shape paymentGateway as @actor label:"Payment Gateway"
+  
+  // System boundary
+  container banking "Online Banking System" {
+    // Main use cases
+    shape login as @ellipseWide label:"Login to Account"
+    shape viewBalance as @ellipseWide label:"View Balance"
+    shape transfer as @ellipseWide label:"Transfer Money"
+    shape deposit as @ellipseWide label:"Deposit Funds"
+    shape withdraw as @ellipseWide label:"Withdraw Funds"
+    
+    // Included use cases (shared functionality)
+    shape authenticate as @ellipseWide label:"Authenticate User"
+    shape validateAccount as @ellipseWide label:"Validate Account"
+    shape logTransaction as @ellipseWide label:"Log Transaction"
+    
+    // Extension use cases (optional features)
+    shape sendNotification as @ellipseWide label:"Send Email Notification"
+    shape printReceipt as @ellipseWide label:"Print Receipt"
+  }
+  
+  // Customer associations (standard solid arrows)
+  customer -> login
+  customer -> viewBalance
+  customer -> transfer
+  customer -> deposit
+  customer -> withdraw
+  
+  // Admin associations
+  admin -> viewBalance
+  admin -> logTransaction
+  
+  // <<include>> relationships (dashed arrow, open head)
+  // Required dependencies - base use case ALWAYS includes the included use case
+  login -include-> authenticate lineStyle:"dashed" arrowType:open
+  transfer -include-> authenticate lineStyle:"dashed" arrowType:open
+  transfer -include-> validateAccount lineStyle:"dashed" arrowType:open
+  transfer -include-> logTransaction lineStyle:"dashed" arrowType:open
+  deposit -include-> logTransaction lineStyle:"dashed" arrowType:open
+  withdraw -include-> logTransaction lineStyle:"dashed" arrowType:open
+  
+  // <<extend>> relationships (dashed arrow, open head) 
+  // Optional extensions - extending use case adds behavior to base use case
+  sendNotification -extend_on_success-> transfer lineStyle:"dashed" arrowType:open
+  sendNotification -extend-> deposit lineStyle:"dashed" arrowType:open
+  printReceipt -extend_optional-> withdraw lineStyle:"dashed" arrowType:open
+  
+  // External system interaction (standard association)
+  transfer -processes-> paymentGateway
+}

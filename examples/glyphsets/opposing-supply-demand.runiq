@@ -1,0 +1,8 @@
+// Opposing Glyphset Example: Supply vs Demand
+// Use case: Economic forces in opposition
+
+glyphset opposing "professional" {
+    theme "forest"
+item "Supply"
+  item "Demand"
+}

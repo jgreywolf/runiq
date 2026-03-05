@@ -1,6 +1,6 @@
 # GitHub Issues Templates for Unimplemented Diagram Types
 
-**Date:** October 17, 2025  
+**Date:** February 8, 2026  
 **Purpose:** Ready-to-use GitHub issue templates for all 46 unimplemented diagram types  
 **Status:** Ready for bulk issue creation
 
@@ -27,373 +27,20 @@
 
 ---
 
-## TIER 1: QUICK WINS (1-3 days each)
-
-### Issue 1: Enable Mindmap Support (ELK Radial Layout)
-
-````markdown
-## 🎯 Feature: Mindmap Diagram Support
-
-### Description
-
-Enable mindmap/mind map diagrams by activating ELK's radial layout algorithm. This is a **configuration-only change** requiring minimal implementation effort.
-
-### Current Status
-
-- ✅ ELK radial algorithm already available in layout engine
-- ✅ All necessary shapes exist (rounded rectangles, circles)
-- ❌ Radial layout not exposed in DSL/API
-
-### Implementation Requirements
-
-**Effort:** Hours (not days!)  
-**Priority:** High (immediate win)  
-**Complexity:** Very Low
-
-#### Phase 1: Enable Radial Layout (2 hours)
-
-- [ ] Add `radial` option to layout algorithm enum
-- [ ] Expose radial configuration in ELK adapter
-- [ ] Test with existing shapes
-- [ ] 5-8 tests for radial layout
-
-#### Phase 2: DSL Syntax (1 hour)
-
-```runiq
-diagram mindmap "Project Planning"
-  layout: radial
-  node Root { shape: rounded, label: "Project" }
-  node Branch1 { shape: rounded, label: "Research" }
-  node Branch2 { shape: rounded, label: "Design" }
-  edge Root -> Branch1
-  edge Root -> Branch2
-```
-````
-
-#### Phase 3: Documentation (1 hour)
-
-- [ ] Add mindmap example to examples/
-- [ ] Document radial layout in docs/guide/
-- [ ] Update README with mindmap support
-
-### Testing Requirements
-
-- [ ] Radial layout algorithm activation
-- [ ] Center node positioning
-- [ ] Branch distribution (360° layout)
-- [ ] Multi-level hierarchy
-- [ ] Edge routing in radial space
-
-### Acceptance Criteria
-
-- [ ] `layout: radial` syntax works in DSL
-- [ ] ELK radial algorithm produces circular layout
-- [ ] At least 2 example mindmaps created
-- [ ] Documentation updated
-- [ ] 5+ tests passing
-
-### References
-
-- ELK Radial Layout: https://www.eclipse.org/elk/reference/algorithms/org-eclipse-elk-radial.html
-- Current layout implementation: `packages/layout-base/src/elk-adapter.ts`
-
-### Estimated Effort
-
-**Total: 4 hours** (configuration + docs + tests)
-
-````
-
----
-
-### Issue 2: Enable Circular Flow Diagrams (ELK Radial)
-
-```markdown
-## 🎯 Feature: Circular Flow Diagram Support
-
-### Description
-Enable circular flow diagrams by activating ELK's radial layout with directional flow indicators.
-
-### Current Status
-- ✅ ELK radial algorithm available
-- ✅ Arrow shapes and edge rendering exist
-- ❌ Circular layout not exposed
-
-### Implementation Requirements
-
-**Effort:** Hours
-**Priority:** Medium
-**Complexity:** Very Low
-
-#### Phase 1: Radial Layout (same as Mindmap - 2 hours)
-- [ ] Enable radial layout option
-- [ ] Configure for circular node arrangement
-- [ ] Add circular edge routing
-
-#### Phase 2: Flow Indicators (2 hours)
-- [ ] Add curved arrow rendering for circular flows
-- [ ] Add flow direction indicators
-- [ ] Support both clockwise/counter-clockwise
-
-#### Phase 3: Examples (2 hours)
-```runiq
-diagram circular-flow "Circular Economy"
-  layout: radial
-  node Production { shape: rounded }
-  node Consumption { shape: rounded }
-  node Recycling { shape: rounded }
-  edge Production -> Consumption
-  edge Consumption -> Recycling
-  edge Recycling -> Production
-````
-
-### Testing Requirements
-
-- [ ] Circular node arrangement
-- [ ] Curved edge routing
-- [ ] Flow direction consistency
-- [ ] Multiple nodes (3-12 nodes)
-
-### Acceptance Criteria
-
-- [ ] Nodes arranged in circle
-- [ ] Edges follow circular path
-- [ ] Flow direction clear
-- [ ] 2+ example diagrams
-- [ ] 5+ tests passing
-
-### Estimated Effort
-
-**Total: 6 hours** (radial + flow indicators + examples)
-
-````
-
----
-
-### Issue 3: Enable Graph Theory / Network Analysis
-
-```markdown
-## 🎯 Feature: Graph Theory & Network Analysis Support
-
-### Description
-Enable graph theory visualizations by activating ELK's force-directed layout and adding graph metrics display.
-
-### Current Status
-- ✅ ELK force algorithm available
-- ✅ Node and edge shapes exist
-- ❌ Force layout not exposed
-- ❌ Graph metrics not calculated/displayed
-
-### Implementation Requirements
-
-**Effort:** 1-2 days
-**Priority:** Medium
-**Complexity:** Low
-
-#### Phase 1: Force-Directed Layout (4 hours)
-- [ ] Expose ELK force algorithm in layout options
-- [ ] Configure force parameters (attraction, repulsion)
-- [ ] Test with various graph sizes
-
-#### Phase 2: Graph Metrics (4 hours)
-- [ ] Add node degree calculation
-- [ ] Add edge weight support
-- [ ] Add centrality indicators (optional)
-- [ ] Display metrics as node/edge labels
-
-#### Phase 3: DSL Syntax (2 hours)
-```runiq
-diagram graph "Social Network"
-  layout: force
-  node A { shape: circle }
-  node B { shape: circle }
-  node C { shape: circle }
-  edge A -> B { weight: 5 }
-  edge B -> C { weight: 3 }
-  edge C -> A { weight: 2 }
-````
-
-### Testing Requirements
-
-- [ ] Force algorithm activation
-- [ ] Node repulsion/attraction
-- [ ] Edge weight rendering
-- [ ] Stable layout convergence
-- [ ] Various graph sizes (5, 10, 20, 50 nodes)
-
-### Acceptance Criteria
-
-- [ ] `layout: force` works
-- [ ] Nodes distributed evenly
-- [ ] Connected components grouped
-- [ ] Edge weights displayed
-- [ ] 2+ example graphs
-- [ ] 8+ tests passing
-
-### Estimated Effort
-
-**Total: 10-12 hours** (1.5 days)
-
-````
-
----
-
-### Issue 4: Pneumatic/Hydraulic Circuit Diagrams
-
-```markdown
-## 🎯 Feature: Pneumatic & Hydraulic Circuit Diagrams
-
-### Description
-Add support for pneumatic and hydraulic circuit diagrams using ISO 1219 standard symbols. **Reuses 95% of electrical circuit architecture!**
-
-### Current Status
-- ✅ Electrical circuit profile exists (node-edge-net model)
-- ✅ Orthogonal routing implemented
-- ✅ Schematic renderer working
-- ❌ Pneumatic/hydraulic symbol library missing
-
-### Implementation Requirements
-
-**Effort:** 2-3 days
-**Priority:** High (Industrial value $$$$)
-**Complexity:** Low (architecture reuse!)
-
-#### Phase 1: Symbol Library (1 day)
-**Pneumatic Symbols (12 symbols):**
-- [ ] Single-acting cylinder
-- [ ] Double-acting cylinder
-- [ ] 3/2-way valve
-- [ ] 5/2-way valve
-- [ ] Air source
-- [ ] Pressure regulator
-- [ ] Filter
-- [ ] Lubricator
-- [ ] Flow control valve
-- [ ] Check valve
-- [ ] Exhaust
-- [ ] Pressure gauge
-
-**Hydraulic Symbols (13 symbols):**
-- [ ] Hydraulic pump (fixed displacement)
-- [ ] Hydraulic pump (variable displacement)
-- [ ] Hydraulic motor
-- [ ] Hydraulic cylinder
-- [ ] Directional control valve (4/3)
-- [ ] Pressure relief valve
-- [ ] Pressure reducing valve
-- [ ] Flow control valve
-- [ ] Check valve
-- [ ] Filter
-- [ ] Reservoir/tank
-- [ ] Accumulator
-- [ ] Pressure gauge
-
-#### Phase 2: Profile Type (4 hours)
-```typescript
-interface PneumaticProfile {
-  type: 'pneumatic' | 'hydraulic';
-  name: string;
-  nets: NetAst[];  // Air/fluid lines
-  parts: PartAst[]; // Valves, cylinders, etc.
-  params?: {
-    pressure?: string;  // "6 bar", "100 psi"
-    flow?: string;      // "10 L/min"
-  };
-}
-````
-
-#### Phase 3: Renderer Integration (4 hours)
-
-- [ ] Add pneumatic symbols to schematic renderer
-- [ ] ISO 1219-1 compliance (pneumatic)
-- [ ] ISO 1219-2 compliance (hydraulic)
-- [ ] Reuse orthogonal routing from electrical
-
-#### Phase 4: Examples (4 hours)
-
-- [ ] Pick-and-place pneumatic circuit
-- [ ] Press control hydraulic circuit
-- [ ] Robot gripper pneumatic
-- [ ] Dual cylinder control
-- [ ] README with circuit explanations
-
-#### Phase 5: Tests (4 hours)
-
-- [ ] Symbol rendering (25 tests)
-- [ ] Net/part parsing (10 tests)
-- [ ] Circuit validation (5 tests)
-- [ ] Export format (optional)
-
-### DSL Syntax Example
-
-```runiq
-circuit pneumatic "Dual Cylinder Control"
-  pressure: "6 bar"
-
-  part V1 type:VALVE_52 label:"Valve 1"
-  part C1 type:CYL_DA label:"Cylinder 1"
-  part V2 type:VALVE_52 label:"Valve 2"
-  part C2 type:CYL_DA label:"Cylinder 2"
-  part FRL type:FRL_UNIT label:"Filter-Regulator-Lubricator"
-
-  net P  # Pressure supply
-  net A1 # Cylinder 1 extend
-  net B1 # Cylinder 1 retract
-  net EXHAUST
-
-  connect FRL.out -> V1.P
-  connect V1.A -> C1.A
-  connect V1.B -> C1.B
-```
-
-### Testing Requirements
-
-- [ ] All 25 symbols render correctly
-- [ ] Orthogonal routing works
-- [ ] Junction dots at intersections
-- [ ] Pressure/flow parameters display
-- [ ] Circuit validation
-
-### Acceptance Criteria
-
-- [ ] 25 pneumatic/hydraulic symbols implemented
-- [ ] ISO 1219 standard compliance
-- [ ] Reuses electrical schematic renderer
-- [ ] 4+ example circuits
-- [ ] 40+ tests passing
-- [ ] Documentation guide created
-
-### Industry Standards
-
-- ISO 1219-1:2012 (Pneumatic symbols)
-- ISO 1219-2:2012 (Hydraulic symbols)
-- DIN ISO 1219 (German standard)
-
-### Market Comparison
-
-- FluidSim (Festo): $500+ license
-- Automation Studio (Famic): $2000+ license
-- **Runiq: Open source!** 🎉
-
-### Estimated Effort
-
-**Total: 2-3 days** (symbol library + integration + tests)
-
-````
-
----
-
 ### Issue 5: Kinematic Diagrams (Robotics/Mechanisms)
 
-```markdown
+````markdown
 ## 🎯 Feature: Kinematic Diagram Support
 
 ### Description
+
 Add kinematic diagram support for robotics and mechanism design. Shows motion relationships and linkages using topological (not geometric) approach.
 
 ### Current Status
-- ✅ Node-edge model fits perfectly
-- ✅ Layout algorithms available
-- ❌ Kinematic-specific shapes missing
+
+- [x] Node-edge model fits perfectly
+- [x] Layout algorithms available
+- [x] Kinematic-specific shapes available
 
 ### Implementation Requirements
 
@@ -402,33 +49,38 @@ Add kinematic diagram support for robotics and mechanism design. Shows motion re
 **Complexity:** Low-Medium
 
 #### Phase 1: Joint Shapes (1 day)
+
 **20-25 Symbols:**
-- [ ] Revolute joint (pin/hinge)
-- [ ] Prismatic joint (slider)
-- [ ] Spherical joint (ball)
-- [ ] Universal joint
-- [ ] Fixed joint
-- [ ] Cylindrical joint
-- [ ] Planar joint
+
+- [x] Revolute joint (pin/hinge)
+- [x] Prismatic joint (slider)
+- [x] Spherical joint (ball)
+- [x] Universal joint
+- [x] Fixed joint
+- [x] Cylindrical joint
+- [x] Planar joint
 
 #### Phase 2: Link Shapes (4 hours)
-- [ ] Binary link (2 connections)
-- [ ] Ternary link (3 connections)
-- [ ] Quaternary link (4 connections)
-- [ ] Ground/fixed link
+
+- [x] Binary link (2 connections)
+- [x] Ternary link (3 connections)
+- [x] Quaternary link (4 connections)
+- [x] Ground/fixed link
 
 #### Phase 3: Actuators & End Effectors (4 hours)
-- [ ] Linear actuator
-- [ ] Rotary motor
-- [ ] Gripper (parallel jaw)
-- [ ] Gripper (angular)
-- [ ] Tool mount
-- [ ] Spring
-- [ ] Damper
-- [ ] Cam
-- [ ] Gear
+
+- [x] Linear actuator
+- [x] Rotary motor
+- [x] Gripper (parallel jaw)
+- [x] Gripper (angular)
+- [x] Tool mount
+- [x] Spring
+- [x] Damper
+- [x] Cam
+- [x] Gear
 
 #### Phase 4: DSL Syntax (2 hours)
+
 ```runiq
 diagram kinematic "4-Bar Linkage"
   node Ground { type: fixed-link }
@@ -442,15 +94,16 @@ diagram kinematic "4-Bar Linkage"
   joint J4 { type: revolute } connects Link3, Ground
 
   actuator Motor at J1
+```
 ````
 
 #### Phase 5: Examples (4 hours)
 
-- [ ] 4-bar linkage
-- [ ] Crank-slider mechanism
-- [ ] Robot arm (3-DOF)
-- [ ] Walking mechanism
-- [ ] Gripper mechanism
+- [x] 4-bar linkage
+- [x] Crank-slider mechanism
+- [x] Robot arm (3-DOF)
+- [x] Walking mechanism
+- [x] Gripper mechanism
 
 ### Testing Requirements
 
@@ -462,11 +115,11 @@ diagram kinematic "4-Bar Linkage"
 
 ### Acceptance Criteria
 
-- [ ] 25 kinematic symbols
-- [ ] Joint-link connections
-- [ ] 5+ example mechanisms
+- [x] 25 kinematic symbols
+- [x] Joint-link connections
+- [x] 5+ example mechanisms
 - [ ] 30+ tests passing
-- [ ] Documentation with robotics applications
+- [x] Documentation with robotics applications
 
 ### Export Options (Future)
 
@@ -485,15 +138,17 @@ diagram kinematic "4-Bar Linkage"
 ### Issue 6: Control System Diagrams (Ladder Logic/FBD)
 
 ```markdown
-## 🎯 Feature: PLC Control System Diagrams (Ladder Logic & Function Block)
+## Feature: PLC Control System Diagrams (Ladder Logic & Function Block)
 
 ### Description
-Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuses electrical circuit architecture!**
+Add support for PLC programming diagrams following IEC 61131-3 standard. Reuses schematic renderer infrastructure.
 
 ### Current Status
-- ✅ Node-edge model perfect fit
-- ✅ Schematic renderer available
-- ❌ IEC 61131-3 symbol library missing
+- [x] Control profile added (ladder/FBD variants)
+- [x] Schematic renderer wiring via parts + nets
+- [x] Basic IEC ladder symbols (NO/NC contacts, coil, set/reset, TON)
+- [x] Documentation updated for control profile (legacy control system block diagrams retired)
+- [ ] Expanded IEC 61131-3 symbol library (timers, counters, compare, math)
 
 ### Implementation Requirements
 
@@ -501,16 +156,14 @@ Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuse
 **Priority:** High (Factory automation, SCADA)
 **Complexity:** Low (architecture reuse)
 
-#### Phase 1: Ladder Logic Symbols (1 day)
+#### Phase 1: Ladder Logic Symbols
 **30-40 Symbols:**
-- [ ] Normally Open (NO) contact
-- [ ] Normally Closed (NC) contact
-- [ ] Output coil
-- [ ] Latch coil (Set)
-- [ ] Unlatch coil (Reset)
-- [ ] Positive transition (rising edge)
-- [ ] Negative transition (falling edge)
-- [ ] Timer On-Delay (TON)
+- [x] Normally Open (NO) contact
+- [x] Normally Closed (NC) contact
+- [x] Output coil
+- [x] Latch coil (Set)
+- [x] Unlatch coil (Reset)
+- [x] Timer On-Delay (TON)
 - [ ] Timer Off-Delay (TOF)
 - [ ] Timer Pulse (TP)
 - [ ] Counter Up (CTU)
@@ -520,7 +173,7 @@ Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuse
 - [ ] Math operations (+, -, *, /)
 - [ ] Move (MOV)
 
-#### Phase 2: Function Block Symbols (4 hours)
+#### Phase 2: Function Block Symbols
 - [ ] AND block
 - [ ] OR block
 - [ ] NOT block
@@ -531,38 +184,34 @@ Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuse
 - [ ] Scale function
 - [ ] Limit function
 
-#### Phase 3: Profile Type (2 hours)
+#### Phase 3: Profile Type
 ```typescript
 interface ControlProfile {
   type: 'control';
   variant: 'ladder' | 'fbd' | 'sfc';
   name: string;
-  nets: NetAst[];  // Power rails, signal lines
-  parts: PartAst[]; // Contacts, coils, blocks
-  rungs?: RungAst[]; // Ladder-specific
+  nets: NetAst[];
+  parts: PartAst[];
 }
-````
-
-#### Phase 4: DSL Syntax (2 hours)
-
-```runiq
-control ladder "Motor Start-Stop"
-  rung 1 {
-    contact Start type:NO address:I0.0
-    contact Stop type:NC address:I0.1
-    contact Motor_Running type:NO address:Q0.0
-    coil Motor_Relay address:Q0.0
-  }
-
-  rung 2 {
-    contact Motor_Running type:NO address:Q0.0
-    coil Motor_Output address:Q0.1
-  }
 ```
 
-#### Phase 5: Examples (4 hours)
+#### Phase 4: DSL Syntax
 
-- [ ] Start-Stop motor control
+```runiq
+control "Motor Start-Stop" {
+  variant ladder
+  net L1, L2, M1, M2
+
+  part Start type:NO_CONTACT pins:(L1,M1) doc:"Start PB"
+  part Stop type:NC_CONTACT pins:(M1,M2) doc:"Stop PB"
+  part Motor type:COIL pins:(M2,L2) doc:"Motor coil"
+}
+```
+
+#### Phase 5: Examples
+
+- [x] Start-Stop motor control
+- [x] Timer enable
 - [ ] Traffic light sequence
 - [ ] Conveyor belt control
 - [ ] Tank filling with timers
@@ -570,7 +219,7 @@ control ladder "Motor Start-Stop"
 
 ### Testing Requirements
 
-- [ ] All ladder symbols render
+- [x] Core ladder symbols render
 - [ ] Rung layout (horizontal)
 - [ ] Power rail rendering
 - [ ] Contact/coil connections
@@ -580,7 +229,7 @@ control ladder "Motor Start-Stop"
 
 - [ ] 40+ ladder/FBD symbols
 - [ ] IEC 61131-3 compliance
-- [ ] 5+ example programs
+- [x] 2+ example programs
 - [ ] 40+ tests passing
 - [ ] Export to Structured Text (future)
 
@@ -592,8 +241,7 @@ control ladder "Motor Start-Stop"
 ### Estimated Effort
 
 **Total: 2-3 days** (symbols + ladder layout + tests)
-
-````
+```
 
 ---
 
@@ -613,25 +261,25 @@ Add support for HVAC (Heating, Ventilation, Air Conditioning) system diagrams fo
 
 #### Phase 1: HVAC Equipment Symbols (1 day)
 **25-35 Symbols:**
-- [ ] Air Handling Unit (AHU)
-- [ ] Fan (supply, return, exhaust)
-- [ ] Filter
-- [ ] Heating coil
-- [ ] Cooling coil
-- [ ] Humidifier
-- [ ] Dehumidifier
-- [ ] VAV box (Variable Air Volume)
-- [ ] Diffuser (supply, return)
-- [ ] Damper (motorized, manual, fire)
-- [ ] Ductwork (supply, return, exhaust)
-- [ ] Thermostat
-- [ ] Temperature sensor
-- [ ] Pressure sensor
-- [ ] Chiller
-- [ ] Boiler
-- [ ] Cooling tower
-- [ ] Pump
-- [ ] Heat exchanger
+- [x] Air Handling Unit (AHU)
+- [x] Fan (supply, return, exhaust)
+- [x] Filter
+- [x] Heating coil
+- [x] Cooling coil
+- [x] Humidifier
+- [x] Dehumidifier
+- [x] VAV box (Variable Air Volume)
+- [x] Diffuser (supply, return)
+- [x] Damper (motorized, manual, fire)
+- [x] Ductwork (supply, return, exhaust)
+- [x] Thermostat
+- [x] Temperature sensor
+- [x] Pressure sensor
+- [x] Chiller
+- [x] Boiler
+- [x] Cooling tower
+- [x] Pump
+- [x] Heat exchanger
 
 #### Phase 2: DSL Syntax (4 hours)
 ```runiq
@@ -650,116 +298,31 @@ diagram hvac "Office HVAC System"
 
 #### Phase 3: Examples (4 hours)
 
-- [ ] Simple office HVAC
-- [ ] Multi-zone system
-- [ ] Rooftop unit (RTU)
-- [ ] Chilled water system
-- [ ] Heat pump system
+- [x] Simple office HVAC
+- [x] Multi-zone system
+- [x] Rooftop unit (RTU)
+- [x] Chilled water system
+- [x] Heat pump system
 
 ### Testing Requirements
 
-- [ ] All HVAC symbols render
-- [ ] Duct routing
-- [ ] Airflow direction indicators
-- [ ] Equipment labels (CFM, BTU, tonnage)
+- [x] All HVAC symbols render
+- [x] Duct routing
+- [x] Airflow direction indicators
+- [x] Equipment labels (CFM, BTU, tonnage)
+- [x] Equipment metadata labels (flow, capacity, pressure)
 
 ### Acceptance Criteria
 
-- [ ] 30+ HVAC symbols
-- [ ] ASHRAE standard compliance
-- [ ] 5+ example systems
-- [ ] 35+ tests passing
+- [x] 30+ HVAC symbols
+- [ ] ASHRAE standard compliance (partial)
+- [x] 5+ example systems
+- [x] 35+ tests passing
 
 ### Standards
 
 - ASHRAE symbols
 - ISO 10628 (Process diagrams)
-
-### Estimated Effort
-
-**Total: 2-3 days**
-
-````
-
----
-
-### Issue 8: Template Library (SmartArt Alternative)
-
-```markdown
-## 🎯 Feature: Diagram Template Library
-
-### Description
-Create a library of 10-15 preset diagram templates as an alternative to PowerPoint SmartArt. Makes diagram creation easier for common patterns.
-
-### Implementation Requirements
-
-**Effort:** 2-3 days
-**Priority:** High (Ease of use)
-**Complexity:** Medium
-
-#### Phase 1: Template System (1 day)
-- [ ] Template definition format
-- [ ] Template parser/expander
-- [ ] Template parameter substitution
-- [ ] Template validation
-
-#### Phase 2: Common Templates (1 day)
-**15 Templates:**
-1. Horizontal Process (linear steps)
-2. Vertical Process (top-to-bottom)
-3. Cycle (circular process)
-4. Pyramid (3-4 levels)
-5. Hierarchy (org chart style)
-6. Matrix (2x2, 3x3)
-7. Venn Diagram (2-3 circles)
-8. Timeline (horizontal events)
-9. Funnel (sales/conversion)
-10. Comparison (side-by-side)
-11. List (bullet points with icons)
-12. Radial (center-out structure)
-13. Chevron (overlapping arrows)
-14. Stack (layered components)
-15. Target (concentric circles)
-
-#### Phase 3: DSL Syntax (4 hours)
-```runiq
-diagram process "Project Phases" template:horizontal-process
-  step "Research"
-  step "Design"
-  step "Develop"
-  step "Test"
-  step "Deploy"
-
-# Expands to:
-diagram flowchart "Project Phases" direction:LR
-  node s1 as @rounded label:"Research"
-  node s2 as @rounded label:"Design"
-  node s3 as @rounded label:"Develop"
-  node s4 as @rounded label:"Test"
-  node s5 as @rounded label:"Deploy"
-  edge s1 -> s2 -> s3 -> s4 -> s5
-````
-
-#### Phase 4: Documentation (4 hours)
-
-- [ ] Template gallery with previews
-- [ ] Usage examples for each template
-- [ ] Customization guide
-- [ ] Migration guide from SmartArt
-
-### Testing Requirements
-
-- [ ] Template parsing
-- [ ] Parameter substitution
-- [ ] Each template generates valid diagram
-- [ ] Style customization works
-
-### Acceptance Criteria
-
-- [ ] 15 templates implemented
-- [ ] Template syntax works
-- [ ] Gallery documentation
-- [ ] 25+ tests passing
 
 ### Estimated Effort
 
@@ -791,27 +354,14 @@ diagram flowchart "Project Phases" direction:LR
 **Complexity:** Low
 
 ### Requirements
-- [ ] Pie slice shapes
-- [ ] Data-to-angle conversion
-- [ ] Percentage labels
-- [ ] Legend support
+- [x] Pie slice shapes
+- [x] Data-to-angle conversion
+- [x] Percentage labels
+- [x] Legend support
 - [ ] Donut chart variant
 
 ---
 
-## 🎯 Feature: Timeline Diagrams
-
-**Effort:** 1-2 days
-**Complexity:** Low
-
-### Requirements
-- [ ] Horizontal time axis
-- [ ] Event markers
-- [ ] Date/time labels
-- [ ] Era/period backgrounds
-- [ ] Milestone indicators
-
----
 
 ## 🎯 Feature: Quadrant Chart (2x2 Matrix)
 
@@ -923,6 +473,9 @@ diagram timing "Door Controller"
 ### Description
 Add support for Piping & Instrumentation Diagrams (P&ID) following ISA-5.1 standard. **Extremely high industry value!**
 
+### Current Status
+- [x] P&ID profile implemented with equipment, instrumentation, lines, and control loops
+
 ### Implementation Requirements
 
 **Effort:** 3-4 days
@@ -933,57 +486,58 @@ Add support for Piping & Instrumentation Diagrams (P&ID) following ISA-5.1 stand
 **40-60 Symbols:**
 
 **Vessels & Tanks:**
-- [ ] Pressure vessel (vertical/horizontal)
-- [ ] Storage tank
-- [ ] Reactor
-- [ ] Separator (horizontal/vertical)
-- [ ] Knockout drum
-- [ ] Flash drum
+- [x] Pressure vessel (vertical/horizontal)
+- [x] Storage tank
+- [x] Reactor
+- [x] Separator (horizontal/vertical)
+- [x] Knockout drum
+- [x] Flash drum
 
 **Rotating Equipment:**
-- [ ] Centrifugal pump
-- [ ] Positive displacement pump
-- [ ] Compressor (centrifugal/reciprocating)
-- [ ] Fan/blower
-- [ ] Turbine
+- [x] Centrifugal pump
+- [x] Positive displacement pump
+- [x] Compressor (centrifugal/reciprocating)
+- [x] Fan/blower
+- [x] Turbine
 
 **Heat Transfer:**
-- [ ] Shell & tube heat exchanger
-- [ ] Plate heat exchanger
-- [ ] Air cooler
-- [ ] Fired heater/furnace
-- [ ] Condenser
-- [ ] Reboiler
+- [x] Shell & tube heat exchanger
+- [x] Plate heat exchanger
+- [x] Air cooler
+- [x] Fired heater/furnace
+- [x] Condenser
+- [x] Reboiler
 
 **Valves (20+ types):**
-- [ ] Gate valve
-- [ ] Globe valve
-- [ ] Ball valve
-- [ ] Butterfly valve
-- [ ] Check valve
-- [ ] Control valve
-- [ ] Safety relief valve
+- [x] Gate valve
+- [x] Globe valve
+- [x] Ball valve
+- [x] Butterfly valve
+- [x] Check valve
+- [x] Control valve
+- [x] Safety relief valve
 - [ ] Pressure reducing valve
-- [ ] Three-way valve
-- [ ] Plug valve
+- [x] Three-way valve
+- [x] Plug valve
 
 **Instrumentation:**
-- [ ] Pressure transmitter (PT)
-- [ ] Temperature transmitter (TT)
-- [ ] Flow transmitter (FT)
-- [ ] Level transmitter (LT)
-- [ ] Analyzer (AT)
+- [x] Pressure transmitter (PT)
+- [x] Temperature transmitter (TT)
+- [x] Flow transmitter (FT)
+- [x] Level transmitter (LT)
+- [x] Analyzer (AT)
 - [ ] Control valve with positioner
-- [ ] Pressure indicator (PI)
-- [ ] Temperature indicator (TI)
+- [x] Pressure indicator (PI)
+- [x] Temperature indicator (TI)
 
 #### Phase 2: Line Types (4 hours)
-- [ ] Process piping (thick solid)
-- [ ] Instrument signal (thin dashed)
-- [ ] Electrical signal
+- [x] Process piping (thick solid)
+- [x] Instrument signal (thin dashed)
+- [x] Electrical signal
 - [ ] Pneumatic signal
 - [ ] Hydraulic signal
 - [ ] Software/data link
+- [x] Utility lines (steam, cooling water, etc.)
 
 #### Phase 3: Tag Numbering (4 hours)
 ```typescript
@@ -1018,25 +572,25 @@ diagram pid "Distillation Column"
 
 #### Phase 5: Examples (4 hours)
 
-- [ ] Simple heat exchanger loop
-- [ ] Distillation column
-- [ ] Pump with instrumentation
+- [x] Simple heat exchanger loop
+- [x] Distillation column
+- [x] Pump with instrumentation
 - [ ] Tank farm
-- [ ] Chemical reactor system
+- [x] Chemical reactor system
 
 ### Testing Requirements
 
-- [ ] All 60 symbols render correctly
+- [x] All 60 symbols render correctly
 - [ ] ISA-5.1 tag compliance
-- [ ] Line type differentiation
-- [ ] Instrument connection logic
+- [x] Line type differentiation
+- [x] Instrument connection logic
 
 ### Acceptance Criteria
 
-- [ ] 60+ P&ID symbols
+- [x] 60+ P&ID symbols
 - [ ] ISA-5.1 standard compliance
 - [ ] Tag numbering system
-- [ ] 5+ example P&IDs
+- [x] 5+ example P&IDs
 - [ ] 50+ tests passing
 
 ### Industry Standards
@@ -1100,10 +654,10 @@ diagram pid "Distillation Column"
 **Complexity:** Medium
 
 ### Requirements
-- [ ] Enable ELK rectpacking algorithm
-- [ ] Hierarchical nesting
-- [ ] Value-to-area mapping
-- [ ] Color scales
+- [x] Enable ELK rectpacking algorithm
+- [x] Hierarchical nesting
+- [x] Value-to-area mapping
+- [x] Color scales
 - [ ] Hover labels
 
 ---
@@ -1114,10 +668,10 @@ diagram pid "Distillation Column"
 **Complexity:** Medium
 
 ### Requirements
-- [ ] Column layout
-- [ ] Card shapes
-- [ ] WIP limits per column
-- [ ] Swimlanes (optional)
+- [x] Column layout
+- [x] Card shapes
+- [x] WIP limits per column
+- [x] Swimlanes (optional)
 - [ ] Card priority indicators
 
 ---
@@ -1142,12 +696,12 @@ diagram pid "Distillation Column"
 **Complexity:** Medium
 
 ### Requirements
-- [ ] Timeline layout
-- [ ] Branch visualization
-- [ ] Commit nodes
-- [ ] Merge indicators
-- [ ] Tag labels
-- [ ] Branch labels
+- [x] Timeline layout
+- [x] Branch visualization
+- [x] Commit nodes
+- [x] Merge indicators
+- [x] Tag labels
+- [x] Branch labels
 ````
 
 ---
@@ -1163,6 +717,10 @@ diagram pid "Distillation Column"
 
 Add support for C4 model (Context, Container, Component, Code) architecture diagrams with hierarchical containers.
 
+### Current Status
+
+- [x] C4 shapes, examples, and docs are in place
+
 ### Implementation Requirements
 
 **Effort:** 1-2 weeks  
@@ -1173,19 +731,19 @@ Add support for C4 model (Context, Container, Component, Code) architecture diag
 
 **This is the critical architecture enhancement!**
 
-- [ ] Add container/subgraph support to AST
-- [ ] Nested container parsing in DSL
-- [ ] ELK hierarchical layout
-- [ ] Container rendering with z-index
-- [ ] Cross-container edge routing
+- [x] Add container/subgraph support to AST
+- [x] Nested container parsing in DSL
+- [x] ELK hierarchical layout
+- [x] Container rendering with z-index
+- [x] Cross-container edge routing
 
 #### Phase 2: C4-Specific Shapes (2 days)
 
-- [ ] Person (external user)
-- [ ] Software System (high-level)
-- [ ] Container (app, database, etc.)
-- [ ] Component (code module)
-- [ ] Relationship arrows with technology labels
+- [x] Person (external user)
+- [x] Software System (high-level)
+- [x] Container (app, database, etc.)
+- [x] Component (code module)
+- [x] Relationship arrows with technology labels
 
 #### Phase 3: C4 Levels (2 days)
 
@@ -1200,7 +758,7 @@ diagram c4-context "Banking System"
   BankingSystem -> EmailSystem label:"Sends emails via"
 
 # Level 2: Container
-diagram c4-container "Banking System"
+diagram c4Container "Banking System"
   container WebApp type:web label:"Web Application"
   container API type:api label:"API"
   container DB type:database label:"Database"
@@ -1209,7 +767,7 @@ diagram c4-container "Banking System"
   API -> DB label:"Reads/Writes [SQL]"
 
 # Level 3: Component
-diagram c4-component "API Container"
+diagram c4Component "API Container"
   component LoginController
   component SecurityComponent
   component EmailComponent
@@ -1221,17 +779,17 @@ diagram c4-component "API Container"
 
 #### Phase 4: Examples & Tests (2 days)
 
-- [ ] System context example
-- [ ] Container diagram example
-- [ ] Component diagram example
+- [x] System context example
+- [x] Container diagram example
+- [x] Component diagram example
 - [ ] 40+ tests
 
 ### Acceptance Criteria
 
-- [ ] Hierarchical containers work
-- [ ] All 4 C4 levels supported
-- [ ] Technology labels on relationships
-- [ ] 3+ C4 examples
+- [x] Hierarchical containers work
+- [x] All 4 C4 levels supported
+- [x] Technology labels on relationships
+- [x] 3+ C4 examples
 - [ ] 40+ tests passing
 
 ### References
@@ -1255,6 +813,10 @@ diagram c4-component "API Container"
 ### Description
 Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateways.
 
+### Current Status
+- [x] Core BPMN shapes + pools implemented with examples
+- [ ] Full BPMN 2.0 coverage (subtypes, compliance, validation)
+
 ### Implementation Requirements
 
 **Effort:** 2-3 weeks
@@ -1265,13 +827,13 @@ Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateway
 **60+ Symbols:**
 
 **Events (20 types):**
-- [ ] Start event (plain, message, timer, conditional, signal)
-- [ ] End event (plain, message, terminate, error, cancel)
-- [ ] Intermediate event (message, timer, error, escalation)
+- [x] Start event (plain, message, timer, conditional, signal)
+- [x] End event (plain, message, terminate, error, cancel)
+- [x] Intermediate event (message, timer, error, escalation)
 - [ ] Boundary event (interrupting/non-interrupting)
 
 **Tasks:**
-- [ ] Task (generic)
+- [x] Task (generic)
 - [ ] User task
 - [ ] Service task
 - [ ] Script task
@@ -1281,14 +843,14 @@ Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateway
 - [ ] Receive task
 
 **Gateways:**
-- [ ] Exclusive gateway (XOR)
-- [ ] Parallel gateway (AND)
-- [ ] Inclusive gateway (OR)
-- [ ] Event-based gateway
-- [ ] Complex gateway
+- [x] Exclusive gateway (XOR)
+- [x] Parallel gateway (AND)
+- [x] Inclusive gateway (OR)
+- [x] Event-based gateway
+- [x] Complex gateway
 
 **Data:**
-- [ ] Data object
+- [x] Data object
 - [ ] Data store
 - [ ] Message flow
 
@@ -1297,7 +859,7 @@ Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateway
 - [ ] Group
 
 #### Phase 2: Pools & Lanes (4 days)
-- [ ] Pool container (organization)
+- [x] Pool container (organization)
 - [ ] Lane container (role/department)
 - [ ] Nested lanes
 - [ ] Message flows between pools
@@ -1343,10 +905,10 @@ diagram bpmn "Order Process"
 
 #### Phase 5: Examples & Tests (2 days)
 
-- [ ] Order fulfillment
-- [ ] Loan approval
-- [ ] Customer onboarding
-- [ ] Incident management
+- [x] Order fulfillment
+- [x] Loan approval
+- [x] Customer onboarding
+- [x] Incident management
 - [ ] 60+ tests
 
 ### Acceptance Criteria
@@ -1356,7 +918,7 @@ diagram bpmn "Order Process"
 - [ ] Message flows
 - [ ] BPMN 2.0 compliance
 - [ ] Export to BPMN XML (future)
-- [ ] 5+ example processes
+- [x] 5+ example processes
 - [ ] 60+ tests passing
 
 ### Industry Standards
@@ -1384,10 +946,10 @@ Due to length constraints, I'll provide abbreviated templates for the remaining 
 
 ```markdown
 ## 🎯 Feature: Sankey Diagram (1-2 weeks)
-- Flow-proportional edges
-- Variable-width rendering
-- Multi-stage flows
-- Energy/material flow visualization
+- [x] Flow-proportional edges
+- [x] Variable-width rendering
+- [x] Multi-stage flows
+- [x] Energy/material flow visualization
 
 ## 🎯 Feature: Roadmap Diagram (1-2 weeks)
 - Timeline + swimlanes
@@ -1396,10 +958,10 @@ Due to length constraints, I'll provide abbreviated templates for the remaining 
 - Milestone markers
 
 ## 🎯 Feature: Wardley Map (1-2 weeks)
-- 2D evolution/value axes
-- Component positioning
-- Value chain connections
-- Movement indicators
+- [x] 2D evolution/value axes
+- [x] Component positioning
+- [x] Value chain connections
+- [x] Movement indicators
 
 ## 🎯 Feature: Critical Path Analysis (1-2 weeks)
 - PERT/CPM layout
@@ -1430,71 +992,3 @@ Due to length constraints, I'll provide abbreviated templates for the remaining 
 - Expand/collapse indicators
 - Org chart alternative
 ````
-
----
-
-## TIER 4: SPECIALIZED / LOWER PRIORITY
-
-```markdown
-## 🎯 Feature: Radar Chart (1 week)
-
-## 🎯 Feature: Path Diagram / SEM (1-2 weeks)
-
-## 🎯 Feature: Threat Modeling (1 week)
-
-## 🎯 Feature: Event Modeling (1 week)
-
-## 🎯 Feature: Railroad Diagrams BNF (1-2 weeks)
-
-## 🎯 Feature: UPN Diagrams (1-2 weeks)
-
-## 🎯 Feature: Transit System Maps (1-2 weeks)
-
-## 🎯 Feature: N x M Matrix (2-3 days)
-
-## 🎯 Feature: Causal Loop Diagrams (1 week)
-
-## 🎯 Feature: Ishikawa Fishbone (3-4 days)
-```
-
----
-
-## Summary
-
-**Total Issues to Create: 46**
-
-### By Priority Tier:
-
-- **Tier 1 (Quick Wins):** 12 issues (1-3 days each)
-- **Tier 2 (Medium):** 14 issues (3-7 days each)
-- **Tier 3 (High Effort):** 17 issues (1-3 weeks each)
-- **Tier 4 (Specialized):** 3 issues (varies)
-
-### Recommended Batching:
-
-1. Create Tier 1 issues first (immediate impact)
-2. Add "quick-win" label
-3. Create Tier 2 next with "medium-effort" label
-4. Create Tier 3 with "high-effort" label
-5. Hold Tier 4 for future consideration
-
-### Suggested GitHub Labels:
-
-- `enhancement`
-- `diagram-type`
-- `quick-win`
-- `medium-effort`
-- `high-effort`
-- `engineering` (for P&ID, pneumatic, etc.)
-- `visualization` (for charts)
-- `architecture-change` (for C4, BPMN, etc.)
-- `good-first-issue` (for simpler ones)
-- `help-wanted`
-
----
-
-**Would you like me to:**
-
-1. Generate a script to bulk-create these issues via GitHub API?
-2. Create a CSV file for GitHub's issue import feature?
-3. Provide more detailed templates for specific diagram types?

@@ -1,0 +1,13 @@
+// Hub - Hub-and-spoke radial diagram
+// Shows central concept with connected peripheral elements
+
+glyphset hub "Platform Architecture" {
+  theme "cool" 
+  bidirectional false 
+  center "Core Platform"
+  spoke "Web Interface"
+  spoke "Mobile App"
+  spoke "API Gateway"
+  spoke "Analytics Engine"
+  spoke "Data Storage"
+}

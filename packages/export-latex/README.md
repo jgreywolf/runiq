@@ -1,6 +1,6 @@
 # @runiq/export-latex
 
-LaTeX/TikZ exporter for Runiq block diagrams
+LaTeX/TikZ exporter for Runiq Control system block diagrams
 
 ## Features
 

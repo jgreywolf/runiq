@@ -1,0 +1,67 @@
+// Activity Diagram: Parallel Software Development with Vertical Swimlanes
+// Demonstrates: Vertical swimlanes for side-by-side team comparison
+// Shows: Parallel development flows, synchronization points, integration
+
+diagram "Parallel Development - Frontend and Backend" {
+  direction TB
+  
+  // Frontend Team swimlane - vertical flow
+  container "Frontend Team" orientation: vertical fill: "#e3f2fd" padding: 20 {
+    shape fe1 as @initialState
+    shape fe2 as @activity label: "Design\nUI/UX"
+    shape fe3 as @activity label: "Implement\nComponents"
+    shape fe4 as @activity label: "Unit\nTests"
+    shape fe5 as @activity label: "Integration\nTest"
+    shape fe6 as @diamond
+    shape fe7 as @activity label: "Fix\nBugs"
+  }
+  
+  // Backend Team swimlane - vertical flow
+  container "Backend Team" orientation: vertical fill: "#fff3e0" padding: 20 {
+    shape be1 as @initialState
+    shape be2 as @activity label: "API\nDesign"
+    shape be3 as @activity label: "Implement\nEndpoints"
+    shape be4 as @activity label: "Unit\nTests"
+    shape be5 as @activity label: "Integration\nTest"
+    shape be6 as @diamond
+    shape be7 as @activity label: "Fix\nBugs"
+  }
+  
+  // DevOps swimlane - vertical flow
+  container "DevOps" orientation: vertical fill: "#e8f5e9" padding: 20 {
+    shape ops1 as @activity label: "Merge\nCode"
+    shape ops2 as @activity label: "Deploy\nStaging"
+    shape ops3 as @activity label: "Run E2E\nTests"
+    shape ops4 as @diamond
+    shape ops5 as @activity label: "Deploy\nProduction"
+    shape ops6 as @finalState
+  }
+  
+  // Frontend flow
+  fe1 -> fe2
+  fe2 -> fe3
+  fe3 -> fe4
+  fe4 -> fe5
+  fe5 -> fe6
+  fe6 -pass-> ops1
+  fe6 -fail-> fe7
+  fe7 -> fe3
+  
+  // Backend flow
+  be1 -> be2
+  be2 -> be3
+  be3 -> be4
+  be4 -> be5
+  be5 -> be6
+  be6 -pass-> ops1
+  be6 -fail-> be7
+  be7 -> be3
+  
+  // DevOps flow
+  ops1 -> ops2
+  ops2 -> ops3
+  ops3 -> ops4
+  ops4 -pass-> ops5
+  ops4 -fail-> fe7
+  ops5 -> ops6
+}

@@ -13,7 +13,7 @@ export interface LatexResult {
 const PX_TO_CM = 0.0254; // 1 pixel ≈ 0.0254 cm (at 100 DPI)
 
 /**
- * Convert a block diagram with layout to LaTeX/TikZ format
+ * Convert a Control system block diagram with layout to LaTeX/TikZ format
  */
 export function toLatex(
   diagram: DiagramAst,

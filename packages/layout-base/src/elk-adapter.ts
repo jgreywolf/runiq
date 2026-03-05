@@ -1,15 +1,24 @@
-import ELK, { ElkNode, ElkExtendedEdge } from 'elkjs/lib/elk.bundled.js';
 import type {
+  ContainerDeclaration,
   DiagramAst,
+  EdgeAst,
+  LaidOutDiagram,
   LayoutEngine,
   LayoutOptions,
-  LaidOutDiagram,
+  PositionedContainer,
   PositionedNode,
   RoutedEdge,
-  PositionedContainer,
-  ContainerDeclaration,
 } from '@runiq/core';
-import { shapeRegistry, createTextMeasurer } from '@runiq/core';
+import {
+  ArrowType,
+  createTextMeasurer,
+  LayoutAlgorithm,
+  LayoutDefaults,
+  Orientation,
+  shapeRegistry,
+} from '@runiq/core';
+import ELK, { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk.bundled.js';
+import { circularLayout } from './circular-layout.js';
 
 /**
  * ELK (Eclipse Layout Kernel) layout engine adapter for Runiq.
@@ -44,16 +53,64 @@ import { shapeRegistry, createTextMeasurer } from '@runiq/core';
  * - Container spanning (width/height across multiple grid cells)
  * - Mixed horizontal/vertical container arrangements
  */
+// Narrowed runtime API surface we use from ELK
+interface ElkApi {
+  layout(graph: ElkNode): Promise<ElkNode>;
+}
+
 export class ElkLayoutEngine implements LayoutEngine {
   id = 'elk';
   supportsManualPositions = true;
-  private elk: InstanceType<typeof ELK>;
+  private elk: ElkApi;
 
   constructor() {
     // Disable web workers for Node.js compatibility
-    this.elk = new ELK({
-      workerUrl: undefined,
-    });
+    // ELK bundler typings don't expose a constructable type under NodeNext; cast to a constructor
+    const ElkCtor = ELK as unknown as new (opts?: {
+      workerUrl?: string;
+    }) => ElkApi;
+    this.elk = new ElkCtor({ workerUrl: undefined });
+  }
+
+  /**
+   * Create standard ports for a node (north, south, east, west)
+   * These allow edge anchor constraints to work with ELK
+   */
+  private createNodePorts(nodeWidth: number, nodeHeight: number) {
+    return [
+      {
+        id: 'north',
+        x: nodeWidth / 2,
+        y: 0,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'NORTH' },
+      },
+      {
+        id: 'south',
+        x: nodeWidth / 2,
+        y: nodeHeight,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'SOUTH' },
+      },
+      {
+        id: 'east',
+        x: nodeWidth,
+        y: nodeHeight / 2,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'EAST' },
+      },
+      {
+        id: 'west',
+        x: 0,
+        y: nodeHeight / 2,
+        width: 1,
+        height: 1,
+        properties: { 'port.side': 'WEST' },
+      },
+    ];
   }
 
   /**
@@ -104,8 +161,17 @@ export class ElkLayoutEngine implements LayoutEngine {
    * e.g., "Order.customerId" -> "Order", "Customer" -> "Customer"
    */
   private extractNodeId(reference: string): string {
+    // Strip member access (e.g., "obj.field" -> "obj")
     const dotIndex = reference.indexOf('.');
-    return dotIndex > 0 ? reference.substring(0, dotIndex) : reference;
+    let id = dotIndex > 0 ? reference.substring(0, dotIndex) : reference;
+
+    // Strip edge index (e.g., "node#0" -> "node")
+    const hashIndex = id.indexOf('#');
+    if (hashIndex > 0) {
+      id = id.substring(0, hashIndex);
+    }
+
+    return id;
   }
 
   async layout(
@@ -122,9 +188,60 @@ export class ElkLayoutEngine implements LayoutEngine {
       };
     }
 
+    // Check if any container uses circular algorithm
+    const hasCircularContainer = diagram.containers?.some(
+      (c) => c.layoutOptions?.algorithm === LayoutAlgorithm.CIRCULAR
+    );
+
+    // If circular algorithm detected, delegate to custom circular layout
+    if (
+      hasCircularContainer &&
+      diagram.containers &&
+      diagram.containers.length === 1
+    ) {
+      // For single circular container, extract its contents and layout
+      const container = diagram.containers[0];
+      const containerId = container.id || `container-${Date.now()}`;
+
+      const containerDiagram: DiagramAst = {
+        astVersion: diagram.astVersion || '1.0',
+        title: diagram.title,
+        nodes: diagram.nodes.filter((n) => container.children.includes(n.id)),
+        edges: diagram.edges.filter((e) => {
+          const fromId = this.extractNodeId(e.from);
+          const toId = this.extractNodeId(e.to);
+          return (
+            container.children.includes(fromId) &&
+            container.children.includes(toId)
+          );
+        }),
+        styles: diagram.styles,
+        direction: diagram.direction,
+      };
+
+      const result = circularLayout(containerDiagram, {
+        spacing: container.layoutOptions?.spacing || opts.spacing,
+      });
+
+      // Wrap result in container
+      return {
+        ...result,
+        containers: [
+          {
+            id: containerId,
+            label: container.label,
+            x: 0,
+            y: 0,
+            width: result.size.width,
+            height: result.size.height,
+          },
+        ],
+      };
+    }
+
     const measureText = createTextMeasurer();
 
-    // Convert direction: TB/LR -> DOWN/RIGHT
+    // Convert direction TB/LR -> DOWN/RIGHT
     const direction = this.convertDirection(
       opts.direction || diagram.direction || 'TB'
     );
@@ -134,36 +251,64 @@ export class ElkLayoutEngine implements LayoutEngine {
     const baseSpacing = hasContainers ? 150 : 100; // Extra spacing for container diagrams
     const spacing = opts.spacing || baseSpacing;
 
-    // Detect if this is a pedigree chart
-    const isPedigreeChart = diagram.nodes.some(
-      (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
+    // Detect if this is a use case diagram (actors + use cases in containers or ellipses)
+    // Only apply BOX algorithm if there are no containers (flat layout)
+    const isUseCaseDiagram =
+      !hasContainers &&
+      diagram.nodes.some(
+        (n) =>
+          n.shape === 'actor' ||
+          n.shape === 'actor-circle' ||
+          n.shape === 'actor-rect' ||
+          n.shape === 'ellipse-wide'
+      );
+
+    // Check if any edges have anchor constraints - if so, we need to allow all port sides
+    const hasAnchorConstraints = diagram.edges.some(
+      (e: EdgeAst) => e.anchorFrom || e.anchorTo
     );
 
     // Build ELK graph structure with hierarchyHandling for containers
     const elkGraph: ElkNode = {
       id: 'root',
-      layoutOptions: isPedigreeChart
-        ? {
-            // For pedigree/family tree charts, use MrTree algorithm which is designed for trees
-            'elk.algorithm': 'mrtree',
-            'elk.direction': direction,
-            'elk.spacing.nodeNode': '80',
-            'elk.mrtree.searchOrder': 'DFS',
-            'elk.edgeRouting': 'POLYLINE',
-          }
-        : {
-            'elk.algorithm': 'layered',
-            'elk.direction': direction,
-            'elk.spacing.nodeNode': spacing.toString(),
-            'elk.layered.spacing.nodeNodeBetweenLayers': (
-              spacing * 1.5
-            ).toString(), // Extra layer spacing for containers
-            'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing (right-angle bends)
-            // Edge crossing minimization
-            'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-            'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
-            'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
-          },
+      layoutOptions: isUseCaseDiagram
+          ? {
+              // For use case diagrams, use BOX algorithm which is better for clustered layouts
+              // This prevents actors and use cases from bunching up
+              'elk.algorithm': 'box',
+              'elk.spacing.nodeNode': '150', // Increased spacing for better readability
+              'elk.edgeRouting': 'POLYLINE', // Use polyline routing for cleaner connections
+              'elk.box.packingMode': 'GROUP_DEC', // Group nodes and pack efficiently
+            }
+          : {
+              'elk.algorithm': LayoutAlgorithm.LAYERED,
+              'elk.direction': direction,
+              'elk.spacing.nodeNode': spacing.toString(),
+              'elk.layered.spacing.nodeNodeBetweenLayers': (
+                spacing * 1.5
+              ).toString(), // Extra layer spacing for containers
+              // Force pure orthogonal (right-angle) routing - no diagonals
+              'elk.edgeRouting': 'ORTHOGONAL',
+              'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
+              // IMPORTANT: Only restrict to north/south ports if no anchor constraints specified
+              // Otherwise, allow all port sides (north/south/east/west) for explicit anchor control
+              ...(hasAnchorConstraints
+                ? {}
+                : { 'elk.layered.northOrSouthPort': 'true' }),
+              // Port constraints - respect port sides when ports are specified
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
+              // Edge spacing to prevent overlap - increased for better separation
+              'elk.spacing.edgeEdge': '25', // Space between parallel edges
+              'elk.spacing.edgeNode': '35', // Space between edges and nodes
+              'elk.layered.spacing.edgeEdgeBetweenLayers': '25', // Space between edges crossing layers
+              'elk.layered.spacing.edgeNodeBetweenLayers': '35', // Space between edges and nodes across layers
+              // Edge crossing minimization
+              'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+              'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
+              'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
+              // Improve edge separation
+              'elk.layered.thoroughness': '10', // Higher value = better edge routing (1-100)
+            },
       children: [],
       edges: [],
     };
@@ -199,11 +344,15 @@ export class ElkLayoutEngine implements LayoutEngine {
       );
     }
 
-    // Calculate generations for pedigree charts (isPedigreeChart already declared above)
-    const nodeGenerations = new Map<string, number>();
-    const spousePairs = new Map<string, string>(); // Track spouse relationships
-    if (isPedigreeChart) {
-      this.calculatePedigreeGenerations(diagram, nodeGenerations, spousePairs);
+    // Determine which nodes need ports (nodes that have edges with anchor constraints)
+    const nodesNeedingPorts = new Set<string>();
+    for (const edge of diagram.edges) {
+      if (edge.anchorFrom || edge.anchorTo) {
+        const fromNodeId = this.extractNodeId(edge.from);
+        const toNodeId = this.extractNodeId(edge.to);
+        if (edge.anchorFrom) nodesNeedingPorts.add(fromNodeId);
+        if (edge.anchorTo) nodesNeedingPorts.add(toNodeId);
+      }
     }
 
     // Add standalone nodes (not in any container)
@@ -221,28 +370,33 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
 
+        // Add extra width for icons
+        const hasIcon = !!(node as any).icon;
+        const iconPadding = hasIcon ? 30 : 0; // Extra space for icon (16px icon + padding)
+
         if (!elkGraph.children) elkGraph.children = [];
 
         const elkNode: any = {
           id: node.id,
-          width: bounds.width,
+          width: bounds.width + iconPadding,
           height: bounds.height,
         };
 
-        // Apply layer constraint for pedigree charts
-        if (isPedigreeChart && nodeGenerations.has(node.id)) {
-          const generation = nodeGenerations.get(node.id)!;
+        // If node has manual position, set it (fixed algorithm will respect it)
+        if (node.position) {
+          elkNode.x = node.position.x;
+          elkNode.y = node.position.y;
+        }
 
-          // Get spouse if any - spouses should have same position priority
-          const spouse = spousePairs.get(node.id);
-          const basePosition = spouse && node.id < spouse ? 0 : spouse ? 1 : 0;
-
-          elkNode.layoutOptions = {
-            'elk.layered.layering.layer': generation,
-            'elk.layered.crossingMinimization.semiInteractive': 'true',
-            'elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
-            'elk.priority': (generation * 100 + basePosition).toString(),
-          };
+        // Add ports if this node has edges with anchor constraints
+        if (nodesNeedingPorts.has(node.id)) {
+          elkNode.ports = this.createNodePorts(
+            bounds.width + iconPadding,
+            bounds.height
+          );
+          // CRITICAL: Set port constraints on the node itself
+          elkNode.layoutOptions = elkNode.layoutOptions || {};
+          elkNode.layoutOptions['elk.portConstraints'] = 'FIXED_SIDE';
         }
 
         elkGraph.children.push(elkNode);
@@ -251,7 +405,8 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Add edges between standalone nodes and container placeholders
     // For layout purposes, edges to/from container nodes connect to the container placeholder
-    for (const edge of diagram.edges) {
+    for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+      const edge = diagram.edges[edgeIndex];
       // Extract node IDs from potentially member-level references
       // e.g., "Order.customerId" -> "Order"
       const fromNodeId = this.extractNodeId(edge.from);
@@ -260,6 +415,11 @@ export class ElkLayoutEngine implements LayoutEngine {
       const fromContainer = nodeContainerMap.get(fromNodeId);
       const toContainer = nodeContainerMap.get(toNodeId);
 
+      // Skip edges where BOTH nodes are inside containers (these will be handled in container layouts)
+      if (fromContainer && toContainer) {
+        continue;
+      }
+
       // Replace node IDs with container placeholder IDs if nodes are in containers
       const fromId = fromContainer
         ? `__container__${fromContainer}`
@@ -267,25 +427,101 @@ export class ElkLayoutEngine implements LayoutEngine {
       const toId = toContainer ? `__container__${toContainer}` : toNodeId;
 
       if (!elkGraph.edges) elkGraph.edges = [];
-      elkGraph.edges.push({
-        id: `${edge.from}->${edge.to}`, // Keep original IDs (including member refs) in the edge ID
+      const elkEdge: any = {
+        id: `${edge.from}->${edge.to}#${edgeIndex}`, // Include index to distinguish multiple edges between same nodes
         sources: [fromId],
         targets: [toId],
-      });
+      };
+
+      // Add port constraints if edge has anchor specifications
+      if (edge.anchorFrom && !fromContainer) {
+        // Only add sourcePort if not connecting to container (containers don't have ports)
+        elkEdge.sourcePort = edge.anchorFrom;
+      }
+      if (edge.anchorTo && !toContainer) {
+        // Only add targetPort if not connecting to container
+        elkEdge.targetPort = edge.anchorTo;
+      }
+
+      elkGraph.edges.push(elkEdge);
     }
 
-    // Run ELK layout algorithm (with container placeholders)
+    // PASS 1: Calculate actual container sizes by laying out their contents
+    // We do this BEFORE the top-level layout so ELK can position containers with accurate sizes
+    if (diagram.containers) {
+      await this.calculateContainerSizesRecursively(
+        diagram.containers,
+        diagram,
+        measureText,
+        containerPlaceholders,
+        spacing,
+        direction
+      );
+
+      // Update placeholder nodes in elkGraph with actual sizes from PASS 1
+      for (const elkNode of elkGraph.children || []) {
+        if (elkNode.id.startsWith('__container__')) {
+          const containerId = elkNode.id.replace('__container__', '');
+          const actualSize = containerPlaceholders.get(containerId);
+          if (actualSize) {
+            elkNode.width = actualSize.width;
+            elkNode.height = actualSize.height;
+          }
+        }
+      }
+    }
+
+    // Run ELK layout algorithm (with updated container sizes)
+    // Now ELK can position containers correctly without overlap
     const laidOut = await this.elk.layout(elkGraph);
 
-    // Extract container placeholder positions
+    // PASS 2: Extract container positions from ELK layout results
+    // ELK has positioned container placeholders correctly relative to standalone nodes
+    // respecting the top-level direction (TB, LR, etc.) and actual container sizes
+    const hasSwimlanes =
+      diagram.containers?.some(
+        (c: ContainerDeclaration) => c.layoutOptions?.orientation
+      ) ?? false;
+
     const containerPositions = new Map<string, { x: number; y: number }>();
-    for (const elkNode of laidOut.children || []) {
-      if (elkNode.id.startsWith('__container__')) {
-        const containerId = elkNode.id.replace('__container__', '');
-        containerPositions.set(containerId, {
-          x: elkNode.x || 0,
-          y: elkNode.y || 0,
-        });
+    if (diagram.containers) {
+      // Count standalone nodes (nodes not in any container)
+      const standaloneNodeCount = diagram.nodes.filter(
+        (n) => !nodeContainerMap.has(n.id)
+      ).length;
+
+      // For swimlanes OR vertical direction (TB/BT) WITHOUT standalone nodes, use manual arrangement
+      // ELK's layered algorithm doesn't respect document order for vertical layouts
+      // and tends to position containers based on edge connections rather than sequence
+      // However, if there are standalone nodes mixed with containers, we MUST use ELK positions
+      // to ensure proper spacing and avoid overlaps
+      const isVerticalDirection = direction === 'DOWN' || direction === 'UP';
+      const hasStandaloneNodes = standaloneNodeCount > 0;
+
+      if ((hasSwimlanes || isVerticalDirection) && !hasStandaloneNodes) {
+        const manualPositions = this.arrangeSiblingContainers(
+          diagram.containers,
+          spacing,
+          containerPlaceholders,
+          direction
+        );
+        for (const [id, pos] of manualPositions.entries()) {
+          containerPositions.set(id, pos);
+        }
+      } else {
+        // Use ELK layout positions when:
+        // - Horizontal direction (LR/RL), OR
+        // - There are standalone nodes mixed with containers (to ensure proper spacing)
+        // ELK handles spacing well and respects actual container sizes
+        for (const elkNode of laidOut.children || []) {
+          if (elkNode.id.startsWith('__container__')) {
+            const containerId = elkNode.id.replace('__container__', '');
+            containerPositions.set(containerId, {
+              x: elkNode.x || 0,
+              y: elkNode.y || 0,
+            });
+          }
+        }
       }
     }
 
@@ -301,11 +537,13 @@ export class ElkLayoutEngine implements LayoutEngine {
         measureText,
         nodeContainerMap,
         containerPositions,
+        containerPlaceholders,
         spacing,
         direction,
         nodes,
         edges,
-        containers
+        containers,
+        hasSwimlanes
       );
     }
 
@@ -324,109 +562,145 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     // Extract edge routing from top-level layout (ONLY edges between standalone nodes and cross-container edges)
     // Skip edges that are internal to containers - those were already extracted from container layouts
-    const topLevelEdges = (laidOut.edges || []).filter((elkEdge) => {
-      // Parse edge ID to get from/to
-      const edgeId = elkEdge.id || '';
-      const match = edgeId.match(/^(.+)->(.+)$/);
-      if (!match) return true; // Keep if we can't parse
+    const topLevelEdges = (laidOut.edges || []).filter(
+      (elkEdge: ElkExtendedEdge) => {
+        // Parse edge ID to get from/to
+        const edgeId = elkEdge.id || '';
+        const match = edgeId.match(/^(.+)->(.+)$/);
+        if (!match) return true; // Keep if we can't parse
 
-      const [, from, to] = match;
-      // Extract node IDs from potentially member-level references
-      const fromNodeId = this.extractNodeId(from);
-      const toNodeId = this.extractNodeId(to);
+        const [, from, to] = match;
+        // Extract node IDs from potentially member-level references
+        const fromNodeId = this.extractNodeId(from);
+        const toNodeId = this.extractNodeId(to);
 
-      const fromContainer = nodeContainerMap.get(fromNodeId);
-      const toContainer = nodeContainerMap.get(toNodeId);
+        const fromContainer = nodeContainerMap.get(fromNodeId);
+        const toContainer = nodeContainerMap.get(toNodeId);
 
-      // Skip if both nodes are in the SAME container (internal edge, already extracted)
-      const isInternalEdge =
-        fromContainer && toContainer && fromContainer === toContainer;
-      if (isInternalEdge) {
-        console.log(
-          `Skipping internal edge ${from} -> ${to} (already extracted from container ${fromContainer})`
-        );
+        // Skip if both nodes are in the SAME container (internal edge, already extracted)
+        const isInternalEdge =
+          fromContainer && toContainer && fromContainer === toContainer;
+        if (isInternalEdge) {
+          console.log(
+            `Skipping internal edge ${from} -> ${to} (already extracted from container ${fromContainer})`
+          );
+        }
+        return !isInternalEdge;
       }
-      return !isInternalEdge;
-    });
+    );
 
     this.extractEdges(topLevelEdges, nodes, edges);
 
     // Fix cross-container edges: Replace placeholder-based routing with actual node positions
-    for (const edge of diagram.edges) {
-      // Extract node IDs from potentially member-level references
-      const fromNodeId = this.extractNodeId(edge.from);
-      const toNodeId = this.extractNodeId(edge.to);
+    // NOTE: This must be called AFTER layoutContainersWithNodes so that all nodes (including
+    // those in containers) are in the nodes array
+    this.recalculateCrossContainerEdges(
+      diagram,
+      nodeContainerMap,
+      nodes,
+      edges,
+      direction
+    );
 
-      const fromContainer = nodeContainerMap.get(fromNodeId);
-      const toContainer = nodeContainerMap.get(toNodeId);
-
-      // Check if this edge crosses a container boundary
-      const isCrossContainer =
-        (fromContainer && !toContainer) || (!fromContainer && toContainer);
-
-      if (isCrossContainer) {
-        // Find the existing edge that was extracted (it will have wrong routing)
-        const existingEdgeIndex = edges.findIndex(
-          (e) => e.from === edge.from && e.to === edge.to
-        );
-
-        // Find actual node positions
-        const fromNode = nodes.find((n) => n.id === fromNodeId);
-        const toNode = nodes.find((n) => n.id === toNodeId);
-
-        if (fromNode && toNode) {
-          // Generate orthogonal (step) routing instead of straight lines
-          const fromCenterX = fromNode.x + fromNode.width / 2;
-          const fromCenterY = fromNode.y + fromNode.height / 2;
-          const toCenterX = toNode.x + toNode.width / 2;
-          const toCenterY = toNode.y + toNode.height / 2;
-
-          const newPoints = this.generateOrthogonalRouting(
-            fromCenterX,
-            fromCenterY,
-            toCenterX,
-            toCenterY,
-            direction
-          );
-
-          if (existingEdgeIndex >= 0) {
-            // Replace the edge with corrected routing
-            edges[existingEdgeIndex] = {
-              from: edge.from,
-              to: edge.to,
-              points: newPoints,
-            };
-            console.log(
-              `Fixed cross-container edge: ${edge.from} -> ${edge.to} (orthogonal routing, ${newPoints.length} points)`
-            );
-          } else {
-            // Edge wasn't extracted (Issue #10), add it manually
-            edges.push({
-              from: edge.from,
-              to: edge.to,
-              points: newPoints,
-            });
-          }
-        }
-      }
-    }
-
-    // Calculate overall diagram size
+    // Calculate overall diagram bounds (including negative space)
+    let minX = 0;
+    let minY = 0;
     let maxX = 0;
     let maxY = 0;
 
     for (const node of nodes) {
+      const nodeLeft = node.x;
       const nodeRight = node.x + node.width;
+      const nodeTop = node.y;
       const nodeBottom = node.y + node.height;
+
+      if (nodeLeft < minX) minX = nodeLeft;
       if (nodeRight > maxX) maxX = nodeRight;
+      if (nodeTop < minY) minY = nodeTop;
       if (nodeBottom > maxY) maxY = nodeBottom;
     }
 
     for (const container of containers) {
+      const containerLeft = container.x;
       const containerRight = container.x + container.width;
+      const containerTop = container.y;
       const containerBottom = container.y + container.height;
+
+      if (containerLeft < minX) minX = containerLeft;
       if (containerRight > maxX) maxX = containerRight;
+      if (containerTop < minY) minY = containerTop;
       if (containerBottom > maxY) maxY = containerBottom;
+    }
+
+    // Account for edge labels that may extend beyond nodes
+    for (const edge of edges) {
+      if (edge.points && edge.points.length > 0) {
+        // Find the midpoint of the edge (where label is typically placed)
+        const midIndex = Math.floor(edge.points.length / 2);
+        const midPoint = edge.points[midIndex];
+
+        // Find corresponding edge in diagram AST to get label
+        const edgeAst = diagram.edges.find(
+          (e) => e.from === edge.from && e.to === edge.to
+        );
+
+        if (edgeAst && (edgeAst as any).label) {
+          // Estimate label dimensions (average character width ~8px, height ~14px)
+          const labelText = (edgeAst as any).label as string;
+          const estimatedLabelWidth = labelText.length * 8;
+          const estimatedLabelHeight = 14;
+
+          // Edge labels are rendered centered on the edge with dominant-baseline="middle"
+          // (see edge.ts - labels at midPoint.y with vertical centering)
+          const labelCenterX = midPoint.x;
+          const labelCenterY = midPoint.y; // Centered on edge
+
+          // Calculate label bounding box
+          // With dominant-baseline="middle", the label extends equally above and below
+          const labelLeft = labelCenterX - estimatedLabelWidth / 2;
+          const labelRight = labelCenterX + estimatedLabelWidth / 2;
+          const labelTop = labelCenterY - estimatedLabelHeight / 2;
+          const labelBottom = labelCenterY + estimatedLabelHeight / 2;
+
+          // Extend bounds to include label
+          if (labelLeft < minX) minX = labelLeft;
+          if (labelRight > maxX) maxX = labelRight;
+          if (labelTop < minY) minY = labelTop;
+          if (labelBottom > maxY) maxY = labelBottom;
+        }
+      }
+    }
+
+    // If we have negative bounds, shift everything to start at 0
+    const offsetX = minX < 0 ? Math.abs(minX) : 0;
+    const offsetY = minY < 0 ? Math.abs(minY) : 0;
+
+    if (offsetX > 0 || offsetY > 0) {
+      // Shift all nodes
+      for (const node of nodes) {
+        node.x += offsetX;
+        node.y += offsetY;
+      }
+
+      // Shift all containers
+      for (const container of containers) {
+        container.x += offsetX;
+        container.y += offsetY;
+      }
+
+      // Shift all edge points
+      for (const edge of edges) {
+        if (edge.points) {
+          for (const point of edge.points) {
+            point.x += offsetX;
+            point.y += offsetY;
+          }
+        }
+      }
+
+      // Adjust max bounds
+      maxX += offsetX;
+      maxY += offsetY;
     }
 
     // Add padding
@@ -435,7 +709,21 @@ export class ElkLayoutEngine implements LayoutEngine {
       height: maxY + 20,
     };
 
-    return { nodes, edges, size, containers };
+    // Remove duplicate edges (keep only the last occurrence of each from->to pair)
+    const edgeMap = new Map<string, RoutedEdge>();
+    for (const edge of edges) {
+      const key = `${edge.from}->${edge.to}`;
+      edgeMap.set(key, edge);
+    }
+    const uniqueEdges = Array.from(edgeMap.values());
+
+    // Snap edge endpoints to shape anchor points for better visual accuracy
+    this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText, direction);
+
+    // Simplify edges to straight lines for radial/mindmap layouts
+    this.simplifyRadialEdges(diagram, uniqueEdges);
+
+    return { nodes, edges: uniqueEdges, size, containers };
   }
 
   /**
@@ -475,6 +763,989 @@ export class ElkLayoutEngine implements LayoutEngine {
   }
 
   /**
+   * Snap edge endpoints to shape anchor points for better visual accuracy
+   */
+  private snapEdgesToAnchors(
+    diagram: DiagramAst,
+    edges: RoutedEdge[],
+    nodes: PositionedNode[],
+    measureText: ReturnType<typeof createTextMeasurer>,
+    direction: string
+  ): void {
+    for (const edge of edges) {
+      if (!edge.points || edge.points.length < 2) continue;
+
+      // Get source and target node IDs
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      // Find the nodes
+      const fromNode = nodes.find((n) => n.id === fromNodeId);
+      const toNode = nodes.find((n) => n.id === toNodeId);
+
+      if (!fromNode || !toNode) continue;
+
+      // Get the diagram node definitions to access shape info
+      const fromNodeDef = diagram.nodes.find((n) => n.id === fromNodeId);
+      const toNodeDef = diagram.nodes.find((n) => n.id === toNodeId);
+
+      if (!fromNodeDef || !toNodeDef) continue;
+
+      // Get shape implementations
+      const fromShape = shapeRegistry.get(fromNodeDef.shape);
+      const toShape = shapeRegistry.get(toNodeDef.shape);
+
+      if (!fromShape || !toShape) continue;
+
+      // Get styles
+      const fromStyle = fromNodeDef.style
+        ? diagram.styles?.[fromNodeDef.style] || {}
+        : {};
+      const toStyle = toNodeDef.style
+        ? diagram.styles?.[toNodeDef.style] || {}
+        : {};
+
+      // Snap first point (source) to fromNode's anchor
+      let newStartPoint: { x: number; y: number } | null = null;
+      let startAnchor: { x: number; y: number; name?: string } | null = null;
+      if (fromShape.anchors) {
+        const anchors = fromShape.anchors({
+          node: fromNodeDef,
+          style: fromStyle,
+          measureText,
+        });
+        const firstPoint = edge.points[0];
+        startAnchor = this.findPreferredAnchor(
+          anchors,
+          fromNode,
+          toNode,
+          firstPoint,
+          direction
+        );
+        if (startAnchor) {
+          newStartPoint = {
+            x: fromNode.x + startAnchor.x,
+            y: fromNode.y + startAnchor.y,
+          };
+        }
+      }
+
+      // Snap last point (target) to toNode's anchor
+      let newEndPoint: { x: number; y: number } | null = null;
+      let endAnchor: { x: number; y: number; name?: string } | null = null;
+      if (toShape.anchors) {
+        const anchors = toShape.anchors({
+          node: toNodeDef,
+          style: toStyle,
+          measureText,
+        });
+        const lastPoint = edge.points[edge.points.length - 1];
+        endAnchor = this.findNearestAnchor(lastPoint, anchors, toNode);
+        if (endAnchor) {
+          newEndPoint = {
+            x: toNode.x + endAnchor.x,
+            y: toNode.y + endAnchor.y,
+          };
+        }
+      }
+
+      // Apply the anchor snapping with orthogonal waypoints if needed
+      if (newStartPoint || newEndPoint) {
+        this.applyAnchorSnapping(
+          edge,
+          newStartPoint,
+          newEndPoint,
+          startAnchor,
+          endAnchor,
+          fromNode,
+          toNode
+        );
+        this.simplifySideBranchEdge(edge, startAnchor, endAnchor, direction);
+      }
+    }
+  }
+
+  /**
+   * Simplify edges to straight lines for radial/mindmap layouts.
+   * Radial layouts look better with direct connections rather than orthogonal routing.
+   */
+  private simplifyRadialEdges(diagram: DiagramAst, edges: RoutedEdge[]): void {
+    // Check if any container uses radial algorithm
+    const hasRadialContainer = diagram.containers?.some(
+      (c) => c.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL
+    );
+
+    if (!hasRadialContainer) return;
+
+    // Build set of node IDs in radial containers
+    const radialNodeIds = new Set<string>();
+    if (diagram.containers) {
+      for (const container of diagram.containers) {
+        if (container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL) {
+          for (const childId of container.children) {
+            radialNodeIds.add(childId);
+          }
+        }
+      }
+    }
+
+    // Simplify edges between nodes in radial containers
+    for (const edge of edges) {
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      // Only simplify if both nodes are in radial containers
+      if (radialNodeIds.has(fromNodeId) && radialNodeIds.has(toNodeId)) {
+        // Keep only start and end points for straight line
+        if (edge.points.length > 2) {
+          const start = edge.points[0];
+          const end = edge.points[edge.points.length - 1];
+          edge.points = [start, end];
+        }
+      }
+    }
+  }
+
+  /**
+   * Find the nearest anchor point to a given position
+   */
+  private findNearestAnchor(
+    point: { x: number; y: number },
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    node: PositionedNode
+  ): { x: number; y: number; name?: string } | null {
+    if (anchors.length === 0) return null;
+
+    let nearestAnchor = anchors[0];
+    let minDistance = Number.MAX_VALUE;
+
+    for (const anchor of anchors) {
+      const anchorX = node.x + anchor.x;
+      const anchorY = node.y + anchor.y;
+      const distance = Math.sqrt(
+        Math.pow(point.x - anchorX, 2) + Math.pow(point.y - anchorY, 2)
+      );
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestAnchor = anchor;
+      }
+    }
+
+    return nearestAnchor;
+  }
+
+  /**
+   * Apply anchor snapping to an edge while maintaining orthogonal routing.
+   * If the edge only has 2 points (straight line), insert intermediate waypoints
+   * to create right-angle bends based on the anchor directions.
+   */
+  private applyAnchorSnapping(
+    edge: RoutedEdge,
+    newStartPoint: { x: number; y: number } | null,
+    newEndPoint: { x: number; y: number } | null,
+    startAnchor: { x: number; y: number; name?: string } | null,
+    endAnchor: { x: number; y: number; name?: string } | null,
+    _fromNode: PositionedNode,
+    _toNode: PositionedNode
+  ): void {
+    const oldStart = edge.points[0];
+    const oldEnd = edge.points[edge.points.length - 1];
+
+    // If edge has intermediate waypoints, update endpoints and fix first/last segments
+    if (edge.points.length > 2) {
+      if (newStartPoint && startAnchor?.name) {
+        edge.points[0] = newStartPoint;
+        // Fix the first segment to be orthogonal based on anchor direction
+        const startDir = this.getAnchorDirection(startAnchor.name);
+        if (startDir === Orientation.HORIZONTAL) {
+          // First segment should be horizontal
+          edge.points[1] = { x: edge.points[1].x, y: newStartPoint.y };
+        } else if (startDir === Orientation.VERTICAL) {
+          // First segment should be vertical
+          edge.points[1] = { x: newStartPoint.x, y: edge.points[1].y };
+        }
+      }
+      if (newEndPoint) {
+        edge.points[edge.points.length - 1] = newEndPoint;
+        if (endAnchor?.name) {
+          const endDir = this.getAnchorDirection(endAnchor.name);
+          const lastIndex = edge.points.length - 1;
+          const prevIndex = lastIndex - 1;
+          if (prevIndex >= 0) {
+            if (endDir === Orientation.HORIZONTAL) {
+              edge.points[prevIndex] = {
+                x: edge.points[prevIndex].x,
+                y: newEndPoint.y,
+              };
+            } else if (endDir === Orientation.VERTICAL) {
+              edge.points[prevIndex] = {
+                x: newEndPoint.x,
+                y: edge.points[prevIndex].y,
+              };
+            }
+          }
+        }
+      }
+      this.ensureOrthogonalPath(edge);
+      if (startAnchor?.name && newStartPoint) {
+        this.nudgeEndpointOutward(edge, 'start', startAnchor.name, 12);
+      }
+      if (endAnchor?.name && newEndPoint) {
+        this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+        this.alignEndSegmentToAnchor(edge, endAnchor.name);
+      }
+      this.ensureOrthogonalPath(edge);
+      return;
+    }
+
+    // Edge only has 2 points (straight line) - need to add orthogonal waypoints
+    const start = newStartPoint || oldStart;
+    const end = newEndPoint || oldEnd;
+
+    // Determine initial direction based on start anchor name
+    const startDirection = this.getAnchorDirection(startAnchor?.name);
+
+    // Create orthogonal routing based on anchor directions
+    if (startDirection === Orientation.HORIZONTAL) {
+      // Exit horizontally from start anchor
+      const midX = start.x + (end.x - start.x) * 0.5;
+      edge.points = [
+        start,
+        { x: midX, y: start.y }, // Horizontal segment
+        { x: midX, y: end.y }, // Vertical segment
+        end,
+      ];
+    } else if (startDirection === Orientation.VERTICAL) {
+      // Exit vertically from start anchor
+      const midY = start.y + (end.y - start.y) * 0.5;
+      edge.points = [
+        start,
+        { x: start.x, y: midY }, // Vertical segment
+        { x: end.x, y: midY }, // Horizontal segment
+        end,
+      ];
+    } else {
+      // No anchor info - fallback to distance-based logic
+      const dx = Math.abs(end.x - start.x);
+      const dy = Math.abs(end.y - start.y);
+
+      if (dx > dy) {
+        const midX = start.x + (end.x - start.x) * 0.5;
+        edge.points = [
+          start,
+          { x: midX, y: start.y },
+          { x: midX, y: end.y },
+          end,
+        ];
+      } else {
+        const midY = start.y + (end.y - start.y) * 0.5;
+        edge.points = [
+          start,
+          { x: start.x, y: midY },
+          { x: end.x, y: midY },
+          end,
+        ];
+      }
+    }
+    this.ensureOrthogonalPath(edge);
+    if (startAnchor?.name && newStartPoint) {
+      this.nudgeEndpointOutward(edge, 'start', startAnchor.name, 12);
+    }
+    if (endAnchor?.name && newEndPoint) {
+      this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+      this.alignEndSegmentToAnchor(edge, endAnchor.name);
+    }
+    this.ensureOrthogonalPath(edge);
+  }
+
+  /**
+   * Determine the direction an edge should leave from an anchor based on its name.
+   * Returns 'horizontal' for left/right anchors, 'vertical' for top/bottom anchors.
+   */
+  private getAnchorDirection(anchorName?: string): Orientation | null {
+    if (!anchorName) return null;
+
+    const name = anchorName.toLowerCase();
+    if (name === 'left' || name === 'right') {
+      return Orientation.HORIZONTAL;
+    }
+    if (name === 'top' || name === 'bottom') {
+      return Orientation.VERTICAL;
+    }
+    return null;
+  }
+
+  /**
+   * Ensure the edge path is strictly orthogonal by inserting bend points
+   * anywhere a diagonal segment exists.
+   */
+  private ensureOrthogonalPath(edge: RoutedEdge): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const normalized: { x: number; y: number }[] = [edge.points[0]];
+
+    for (let i = 1; i < edge.points.length; i++) {
+      const prev = normalized[normalized.length - 1];
+      const current = edge.points[i];
+
+      if (prev.x !== current.x && prev.y !== current.y) {
+        const dx = Math.abs(current.x - prev.x);
+        const dy = Math.abs(current.y - prev.y);
+        if (dx >= dy) {
+          normalized.push({ x: current.x, y: prev.y });
+        } else {
+          normalized.push({ x: prev.x, y: current.y });
+        }
+      }
+
+      normalized.push(current);
+    }
+
+    edge.points = normalized;
+  }
+
+  /**
+   * Simplify side-branch edges in vertical layouts to avoid x-axis oscillation.
+   */
+  private simplifySideBranchEdge(
+    edge: RoutedEdge,
+    startAnchor: { x: number; y: number; name?: string } | null,
+    endAnchor: { x: number; y: number; name?: string } | null,
+    direction: string
+  ): void {
+    if (!startAnchor?.name || edge.points.length < 4) return;
+    if (direction !== 'DOWN' && direction !== 'UP') return;
+
+    const anchorName = startAnchor.name.toLowerCase();
+    if (anchorName !== 'left' && anchorName !== 'right') return;
+
+    const uniqueX = new Set(edge.points.map((p) => p.x));
+    if (uniqueX.size <= 2) return;
+
+    const start = edge.points[0];
+    const end = edge.points[edge.points.length - 1];
+    const offset = anchorName === 'left' ? -12 : 12;
+    const midX = start.x + offset;
+
+    edge.points = [
+      start,
+      { x: midX, y: start.y },
+      { x: midX, y: end.y },
+      end,
+    ];
+
+    this.ensureOrthogonalPath(edge);
+    if (endAnchor?.name) {
+      this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+      this.ensureOrthogonalPath(edge);
+    }
+  }
+
+  /**
+   * Ensure the first/last segment steps outward from the node
+   * so paths don't jog inward before routing.
+   */
+  private nudgeEndpointOutward(
+    edge: RoutedEdge,
+    which: 'start' | 'end',
+    anchorName: string,
+    offset: number
+  ): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const name = anchorName.toLowerCase();
+    if (which === 'start') {
+      const start = edge.points[0];
+      const next = edge.points[1];
+      if (name === 'left') {
+        const targetX = start.x - offset;
+        if (next.x > targetX) {
+          edge.points[1] = { x: targetX, y: next.y };
+        }
+      } else if (name === 'right') {
+        const targetX = start.x + offset;
+        if (next.x < targetX) {
+          edge.points[1] = { x: targetX, y: next.y };
+        }
+      } else if (name === 'top') {
+        const targetY = start.y - offset;
+        if (next.y > targetY) {
+          edge.points[1] = { x: next.x, y: targetY };
+        }
+      } else if (name === 'bottom') {
+        const targetY = start.y + offset;
+        if (next.y < targetY) {
+          edge.points[1] = { x: next.x, y: targetY };
+        }
+      }
+    } else {
+      const lastIndex = edge.points.length - 1;
+      const end = edge.points[lastIndex];
+      const prev = edge.points[lastIndex - 1];
+      if (name === 'left') {
+        const targetX = end.x - offset;
+        if (prev.x < targetX) {
+          edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
+        }
+      } else if (name === 'right') {
+        const targetX = end.x + offset;
+        if (prev.x > targetX) {
+          edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
+        }
+      } else if (name === 'top') {
+        const targetY = end.y - offset;
+        if (prev.y < targetY) {
+          edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
+        }
+      } else if (name === 'bottom') {
+        const targetY = end.y + offset;
+        if (prev.y > targetY) {
+          edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
+        }
+      }
+    }
+  }
+
+  /**
+   * Align the final segment with the anchor direction so arrowheads point correctly.
+   */
+  private alignEndSegmentToAnchor(
+    edge: RoutedEdge,
+    anchorName: string
+  ): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const name = anchorName.toLowerCase();
+    const lastIndex = edge.points.length - 1;
+    const end = edge.points[lastIndex];
+    const prev = edge.points[lastIndex - 1];
+
+    if (name === 'top' || name === 'bottom') {
+      // Force vertical entry.
+      edge.points[lastIndex - 1] = { x: end.x, y: prev.y };
+    } else if (name === 'left' || name === 'right') {
+      // Force horizontal entry.
+      edge.points[lastIndex - 1] = { x: prev.x, y: end.y };
+    }
+  }
+
+  /**
+   * Prefer left/right anchors for side-branching in vertical layouts
+   * and top/bottom anchors for side-branching in horizontal layouts.
+   * Falls back to nearest anchor when no strong directional preference exists.
+   */
+  private findPreferredAnchor(
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    fromNode: PositionedNode,
+    toNode: PositionedNode,
+    fallbackPoint: { x: number; y: number },
+    direction: string
+  ): { x: number; y: number; name?: string } | null {
+    if (anchors.length === 0) return null;
+
+    const fromCenter = {
+      x: fromNode.x + fromNode.width / 2,
+      y: fromNode.y + fromNode.height / 2,
+    };
+    const toCenter = {
+      x: toNode.x + toNode.width / 2,
+      y: toNode.y + toNode.height / 2,
+    };
+
+    const dx = toCenter.x - fromCenter.x;
+    const dy = toCenter.y - fromCenter.y;
+
+    const verticalLayout = direction === 'DOWN' || direction === 'UP';
+    const horizontalLayout = direction === 'RIGHT' || direction === 'LEFT';
+
+    const thresholdX = fromNode.width * 0.35;
+    const thresholdY = fromNode.height * 0.35;
+
+    let desired: string | null = null;
+    if (verticalLayout) {
+      if (Math.abs(dx) > thresholdX) {
+        desired = dx >= 0 ? 'right' : 'left';
+      } else {
+        desired = dy >= 0 ? 'bottom' : 'top';
+      }
+    } else if (horizontalLayout) {
+      if (Math.abs(dy) > thresholdY) {
+        desired = dy >= 0 ? 'bottom' : 'top';
+      } else {
+        desired = dx >= 0 ? 'right' : 'left';
+      }
+    }
+
+    if (desired) {
+      const preferred = anchors.find(
+        (anchor) => anchor.name?.toLowerCase() === desired
+      );
+      if (preferred) {
+        return preferred;
+      }
+    }
+
+    return this.findNearestAnchor(fallbackPoint, anchors, fromNode);
+  }
+
+
+  /**
+   * Calculate positions for sibling containers based on orientation
+   * For swimlanes: Calculate initial positions with uniform dimensions
+   * For regular containers: Position sequentially based on direction
+   */
+  private arrangeSiblingContainers(
+    containers: ContainerDeclaration[],
+    spacing: number,
+    placeholders: Map<string, { width: number; height: number }>,
+    direction?: string
+  ): Map<string, { x: number; y: number }> {
+    const positions = new Map<string, { x: number; y: number }>();
+
+    // First pass: determine if we have swimlanes and calculate uniform dimensions
+    const hasHorizontalSwim = containers.some(
+      (c) => c.layoutOptions?.orientation === Orientation.HORIZONTAL
+    );
+    const hasVerticalSwim = containers.some(
+      (c) => c.layoutOptions?.orientation === Orientation.VERTICAL
+    );
+
+    let uniformWidth: number | undefined;
+    let uniformHeight: number | undefined;
+
+    // For horizontal swimlanes: all should have same width (widest one)
+    if (hasHorizontalSwim) {
+      let maxWidth = 0;
+      for (const container of containers) {
+        if (container.layoutOptions?.orientation === Orientation.HORIZONTAL) {
+          const placeholder = placeholders.get(container.id!);
+          const width = placeholder?.width || 400;
+          maxWidth = Math.max(maxWidth, width);
+        }
+      }
+      uniformWidth = maxWidth;
+    }
+
+    // For vertical swimlanes: all should have same height (tallest one)
+    if (hasVerticalSwim) {
+      let maxHeight = 0;
+      for (const container of containers) {
+        if (container.layoutOptions?.orientation === Orientation.VERTICAL) {
+          const placeholder = placeholders.get(container.id!);
+          const height = placeholder?.height || 300;
+          maxHeight = Math.max(maxHeight, height);
+        }
+      }
+      uniformHeight = maxHeight;
+    }
+
+    // Second pass: position containers
+    let currentX = 0;
+    let currentY = 0;
+
+    for (const container of containers) {
+      const placeholder = placeholders.get(container.id!);
+      const orientation = container.layoutOptions?.orientation;
+
+      // For swimlanes: use uniform dimensions and arrange spatially
+      // For regular containers: position at (0,0) initially - will be repositioned after layout
+      if (orientation) {
+        // This is a swimlane - use uniform dimensions
+        const width =
+          orientation === Orientation.HORIZONTAL && uniformWidth
+            ? uniformWidth
+            : placeholder?.width || 400;
+        const height =
+          orientation === Orientation.VERTICAL && uniformHeight
+            ? uniformHeight
+            : placeholder?.height || 300;
+
+        positions.set(container.id!, { x: currentX, y: currentY });
+        placeholders.set(container.id!, { width, height });
+
+        if (orientation === Orientation.HORIZONTAL) {
+          currentY += height + spacing;
+        } else {
+          currentX += width + spacing;
+        }
+      } else {
+        // Regular container - arrange based on direction
+        // After PASS 1 (calculateContainerSizesRecursively), placeholder contains REAL size from ELK layout
+        const width = placeholder?.width || 200;
+        const height = placeholder?.height || 150;
+
+        positions.set(container.id!, { x: currentX, y: currentY });
+
+        // Arrange containers based on direction
+        const isHorizontal = direction === 'RIGHT' || direction === 'LEFT';
+        if (isHorizontal) {
+          currentX += width + spacing;
+        } else {
+          // Vertical (DOWN/UP) or default
+          currentY += height + spacing;
+        }
+      }
+    }
+
+    return positions;
+  }
+
+  private arrangeBpmnLanes(
+    lanes: ContainerDeclaration[],
+    placeholders: Map<string, { width: number; height: number }>,
+    spacing: number
+  ): Map<string, { x: number; y: number }> {
+    const positions = new Map<string, { x: number; y: number }>();
+    let maxWidth = 0;
+
+    for (const lane of lanes) {
+      const placeholder = placeholders.get(lane.id!);
+      const width = placeholder?.width || 400;
+      maxWidth = Math.max(maxWidth, width);
+    }
+
+    let currentY = 0;
+    const laneGap = Math.max(10, Math.round(spacing * 0.1));
+    for (const lane of lanes) {
+      const placeholder = placeholders.get(lane.id!);
+      const height = placeholder?.height || 120;
+
+      positions.set(lane.id!, { x: 0, y: currentY });
+      placeholders.set(lane.id!, { width: maxWidth, height });
+      currentY += height + laneGap;
+    }
+
+    return positions;
+  }
+
+  /**
+   * Apply uniform dimensions to swimlanes after content layout
+   * All horizontal swimlanes get the same width (widest)
+   * All vertical swimlanes get the same height (tallest)
+   * Also recalculates positions to account for actual content sizes
+   * and adjusts child node/edge positions accordingly
+   */
+  private applyUniformSwimlaneDimensions(
+    containers: ContainerDeclaration[],
+    positionedContainers: PositionedContainer[],
+    nodes: PositionedNode[],
+    edges: RoutedEdge[],
+    direction: string,
+    nodeContainerMap: Map<string, string>
+  ): void {
+    // Find max dimensions for each orientation
+    let maxHorizontalWidth = 0;
+    let maxVerticalHeight = 0;
+
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const positioned = positionedContainers[i];
+      const orientation = container.layoutOptions?.orientation;
+
+      if (orientation === Orientation.HORIZONTAL) {
+        maxHorizontalWidth = Math.max(maxHorizontalWidth, positioned.width);
+      } else if (orientation === Orientation.VERTICAL) {
+        maxVerticalHeight = Math.max(maxVerticalHeight, positioned.height);
+      }
+    }
+
+    // Apply uniform dimensions and recalculate positions
+    let currentX = 0;
+    let currentY = 0;
+    const spacing = 80; // Default spacing between swimlanes
+
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const positioned = positionedContainers[i];
+      const orientation = container.layoutOptions?.orientation;
+
+      // Update position for sibling swimlanes (only at root level where x=0 or y=0)
+      if (orientation === Orientation.HORIZONTAL && positioned.x === 0) {
+        // Horizontal swimlanes: update Y position and track the delta
+        const oldY = positioned.y;
+        const newY = currentY;
+        const deltaY = newY - oldY;
+
+        positioned.y = newY;
+        positioned.width = maxHorizontalWidth;
+
+        // Adjust all nodes in this container
+        for (const node of nodes) {
+          // Check if node belongs to this container
+          if (container.children.includes(node.id)) {
+            node.y += deltaY;
+          }
+        }
+
+        // Adjust internal edge points (both nodes in this container)
+        for (const edge of edges) {
+          const fromNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.from)
+          );
+          const toNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.to)
+          );
+
+          if (fromNodeInContainer && toNodeInContainer) {
+            // Internal edge - adjust all points
+            for (const point of edge.points) {
+              point.y += deltaY;
+            }
+          }
+          // Cross-container edges will be recalculated after this function returns
+        }
+
+        currentY += positioned.height + spacing;
+      } else if (orientation === Orientation.VERTICAL && positioned.y === 0) {
+        // Vertical swimlanes: update X position and track the delta
+        const oldX = positioned.x;
+        const newX = currentX;
+        const deltaX = newX - oldX;
+
+        positioned.x = newX;
+        positioned.height = maxVerticalHeight;
+
+        // Adjust all nodes in this container
+        for (const node of nodes) {
+          if (container.children.includes(node.id)) {
+            node.x += deltaX;
+          }
+        }
+
+        // Adjust internal edge points (both nodes in this container)
+        for (const edge of edges) {
+          const fromNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.from)
+          );
+          const toNodeInContainer = container.children.includes(
+            this.extractNodeId(edge.to)
+          );
+
+          if (fromNodeInContainer && toNodeInContainer) {
+            // Internal edge - adjust all points
+            for (const point of edge.points) {
+              point.x += deltaX;
+            }
+          }
+          // Cross-container edges will be recalculated after all containers are positioned
+        }
+
+        currentX += positioned.width + spacing;
+      }
+    }
+
+    // Regenerate cross-container edge routing with updated node positions
+    this.regenerateCrossContainerEdgeRouting(
+      nodes,
+      edges,
+      direction,
+      nodeContainerMap
+    );
+  }
+
+  /**
+   * Apply uniform width to all BPMN pools so they span the full diagram width
+   * BPMN pools should all have the same width (like swimlanes in a pool)
+   */
+  private applyUniformBpmnPoolDimensions(
+    containers: ContainerDeclaration[],
+    positionedContainers: PositionedContainer[]
+  ): void {
+    // Find all BPMN pools and calculate max width
+    const bpmnPools: Array<{
+      container: ContainerDeclaration;
+      positioned: PositionedContainer;
+      index: number;
+    }> = [];
+    let maxWidth = 0;
+
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const positioned = positionedContainers[i];
+
+      if (container.shape === 'bpmnPool') {
+        bpmnPools.push({ container, positioned, index: i });
+        maxWidth = Math.max(maxWidth, positioned.width);
+      }
+    }
+
+    // If only one pool or no pools, no need to adjust
+    if (bpmnPools.length <= 1) {
+      return;
+    }
+
+    // Apply uniform width to all pools
+    for (const { positioned } of bpmnPools) {
+      // Only expand width, don't shrink (keep content from overflowing)
+      if (positioned.width < maxWidth) {
+        positioned.width = maxWidth;
+      }
+    }
+
+    // No need to adjust node positions - pools are horizontal containers
+    // and nodes are positioned absolutely within them
+  }
+
+  private stretchBpmnLanesInPools(
+    containers: ContainerDeclaration[],
+    positionedContainers: PositionedContainer[]
+  ): void {
+    const positionedById = new Map<string, PositionedContainer>();
+    for (const positioned of positionedContainers) {
+      positionedById.set(positioned.id, positioned);
+    }
+
+    for (const container of containers) {
+      if (container.shape !== 'bpmnPool') {
+        continue;
+      }
+
+      const positioned = positionedById.get(container.id || '');
+      if (!positioned?.containers || positioned.width <= 0) {
+        continue;
+      }
+
+      const basePadding =
+        container.containerStyle?.padding !== undefined
+          ? container.containerStyle.padding
+          : 30;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      const innerWidth = Math.max(
+        0,
+        positioned.width - paddingLeft - paddingRight
+      );
+
+      for (const lane of positioned.containers) {
+        lane.width = innerWidth;
+      }
+    }
+  }
+
+  /**
+   * Reposition regular (non-swimlane) containers to avoid overlap
+   * Stacks containers vertically based on their actual laid-out heights
+   */
+  /**
+   * Regenerate routing for cross-container edges after node positions change
+   */
+  private regenerateCrossContainerEdgeRouting(
+    nodes: PositionedNode[],
+    edges: RoutedEdge[],
+    direction: string,
+    nodeContainerMap: Map<string, string>
+  ): void {
+    // Use the provided nodeContainerMap which was built recursively
+    // (no need to rebuild - it already contains all nested containers)
+
+    // Regenerate routing for cross-container edges
+    for (const edge of edges) {
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      const fromContainer = nodeContainerMap.get(fromNodeId);
+      const toContainer = nodeContainerMap.get(toNodeId);
+
+      // Check if this is a cross-container edge
+      const isCrossContainer =
+        (fromContainer && toContainer && fromContainer !== toContainer) ||
+        (fromContainer && !toContainer) ||
+        (!fromContainer && toContainer);
+
+      if (isCrossContainer) {
+        const fromNode = nodes.find((n) => n.id === fromNodeId);
+        const toNode = nodes.find((n) => n.id === toNodeId);
+
+        if (fromNode && toNode) {
+          const fromCenterX = fromNode.x + fromNode.width / 2;
+          const fromCenterY = fromNode.y + fromNode.height / 2;
+          const toCenterX = toNode.x + toNode.width / 2;
+          const toCenterY = toNode.y + toNode.height / 2;
+
+          edge.points = this.generateOrthogonalRouting(
+            fromCenterX,
+            fromCenterY,
+            toCenterX,
+            toCenterY,
+            direction
+          );
+        }
+      }
+    }
+  }
+
+  /**
+   * Recalculate cross-container edge routing based on current node positions
+   */
+  private recalculateCrossContainerEdges(
+    diagram: DiagramAst,
+    nodeContainerMap: Map<string, string>,
+    nodes: PositionedNode[],
+    edges: RoutedEdge[],
+    direction: string
+  ): void {
+    for (const edge of diagram.edges) {
+      // Extract node IDs from potentially member-level references
+      const fromNodeId = this.extractNodeId(edge.from);
+      const toNodeId = this.extractNodeId(edge.to);
+
+      const fromContainer = nodeContainerMap.get(fromNodeId);
+      const toContainer = nodeContainerMap.get(toNodeId);
+
+      // Check if this edge crosses a container boundary
+      // Cross-container means: different containers OR one in container and one not
+      const isCrossContainer =
+        (fromContainer && !toContainer) ||
+        (!fromContainer && toContainer) ||
+        (fromContainer && toContainer && fromContainer !== toContainer);
+
+      if (isCrossContainer) {
+        // Find the existing edge that was extracted (it will have wrong routing)
+        const existingEdgeIndex = edges.findIndex(
+          (e) => e.from === edge.from && e.to === edge.to
+        );
+
+        // Find actual node positions
+        const fromNode = nodes.find((n) => n.id === fromNodeId);
+        const toNode = nodes.find((n) => n.id === toNodeId);
+
+        if (fromNode && toNode) {
+          // Generate orthogonal (step) routing instead of straight lines
+          const fromCenterX = fromNode.x + fromNode.width / 2;
+          const fromCenterY = fromNode.y + fromNode.height / 2;
+          const toCenterX = toNode.x + toNode.width / 2;
+          const toCenterY = toNode.y + toNode.height / 2;
+
+          const newPoints = this.generateOrthogonalRouting(
+            fromCenterX,
+            fromCenterY,
+            toCenterX,
+            toCenterY,
+            direction
+          );
+
+          if (existingEdgeIndex >= 0) {
+            // Replace the edge with corrected routing
+            edges[existingEdgeIndex] = {
+              from: edge.from,
+              to: edge.to,
+              points: newPoints,
+            };
+          } else {
+            // Edge wasn't extracted (Issue #10), add it manually
+            edges.push({
+              from: edge.from,
+              to: edge.to,
+              points: newPoints,
+            });
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * Add placeholder nodes for containers and layout their internal nodes
    */
   private addContainerPlaceholders(
@@ -492,15 +1763,17 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Calculate max width needed across all pools
       let maxWidth = 0;
       for (const pool of bpmnPools) {
-        const padding =
+        const basePadding =
           pool.containerStyle?.padding !== undefined
             ? pool.containerStyle.padding
-            : 30;
+            : LayoutDefaults.CONTAINER_PADDING;
+        const paddingLeft = pool.containerStyle?.paddingLeft ?? basePadding;
+        const paddingRight = pool.containerStyle?.paddingRight ?? basePadding;
         const childCount = pool.children.length;
         const avgNodeSize = 100;
         const estimatedWidth = Math.max(
           400, // Minimum width for pools
-          Math.sqrt(childCount) * avgNodeSize * 1.5 + padding * 2
+          Math.sqrt(childCount) * avgNodeSize * 1.5 + paddingLeft + paddingRight
         );
         maxWidth = Math.max(maxWidth, estimatedWidth);
       }
@@ -510,29 +1783,94 @@ export class ElkLayoutEngine implements LayoutEngine {
     for (const container of containers) {
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
       const containerSpacing =
-        container.layoutOptions?.spacing?.toString() || '50';
+        container.layoutOptions?.spacing?.toString() ??
+        LayoutDefaults.NODE_SPACING.toString();
 
-      // Determine layout direction based on container shape
-      // BPMN pools should flow horizontally (left to right)
+      // Determine layout direction based on container options or shape
+      // Priority: container.layoutOptions.direction > container.shape override > default
       let direction = 'DOWN'; // Default: vertical
-      if (container.shape === 'bpmnPool') {
-        direction = 'RIGHT'; // Horizontal flow for BPMN pools
+
+      if (container.layoutOptions?.direction) {
+        // Use explicit direction if specified
+        direction = this.mapDirectionToElk(container.layoutOptions.direction);
+      } else if (container.shape === 'bpmnPool') {
+        // BPMN pools default to horizontal flow
+        direction = 'RIGHT';
       }
+
+      // For radial/mindmap layouts, use straight lines instead of orthogonal routing
+      const isRadialLayout =
+        container.layoutOptions?.algorithm === LayoutAlgorithm.RADIAL;
 
       // Create a mini ELK graph for this container's contents
       const containerGraph: ElkNode = {
         id: `__container_internal__${container.id}`,
-        layoutOptions: {
-          'elk.algorithm': algorithm,
-          'elk.direction': direction,
-          'elk.spacing.nodeNode': containerSpacing,
-        },
+        layoutOptions: isRadialLayout
+          ? {
+              'elk.algorithm': algorithm,
+              'elk.direction': direction,
+              'elk.spacing.nodeNode': containerSpacing,
+              'elk.edgeRouting': 'ORTHOGONAL', // Use orthogonal routing (right-angles only, no diagonals)
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
+            }
+          : {
+              'elk.algorithm': algorithm,
+              'elk.direction': direction,
+              'elk.spacing.nodeNode': containerSpacing,
+              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
+            },
         children: [],
         edges: [],
       };
+
+      // For radial/mindmap layouts, calculate levels and apply level-based styling
+      if (isRadialLayout) {
+        // Create a sub-diagram with just this container's nodes and edges
+        const containerSubDiagram: DiagramAst = {
+          astVersion: diagram.astVersion || '1.0',
+          title: diagram.title,
+          nodes: diagram.nodes.filter((n) => container.children.includes(n.id)),
+          edges: diagram.edges.filter((e) => {
+            const fromNodeId = this.extractNodeId(e.from);
+            const toNodeId = this.extractNodeId(e.to);
+            return (
+              container.children.includes(fromNodeId) &&
+              container.children.includes(toNodeId)
+            );
+          }),
+          styles: diagram.styles,
+          direction: diagram.direction,
+        };
+
+        // Calculate mindmap levels
+        const nodeLevels = new Map<string, number>();
+        const rootNode = this.calculateMindmapLevels(
+          containerSubDiagram,
+          nodeLevels
+        );
+
+        // Apply level-based styling
+        if (rootNode) {
+          this.applyMindmapLevelStyling(containerSubDiagram, nodeLevels);
+        }
+      }
+
+      // Determine which container nodes need ports (nodes with anchor constraints)
+      const containerNodesNeedingPorts = new Set<string>();
+      for (const edge of diagram.edges) {
+        const fromNodeId = this.extractNodeId(edge.from);
+        const toNodeId = this.extractNodeId(edge.to);
+        if (
+          container.children.includes(fromNodeId) &&
+          container.children.includes(toNodeId)
+        ) {
+          if (edge.anchorFrom) containerNodesNeedingPorts.add(fromNodeId);
+          if (edge.anchorTo) containerNodesNeedingPorts.add(toNodeId);
+        }
+      }
 
       // Add child nodes to container graph
       for (const childId of container.children) {
@@ -544,16 +1882,31 @@ export class ElkLayoutEngine implements LayoutEngine {
           const style = node.style ? diagram.styles?.[node.style] || {} : {};
           const bounds = shapeImpl.bounds({ node, style, measureText });
 
-          containerGraph.children!.push({
+          const containerNode: any = {
             id: node.id,
             width: bounds.width,
             height: bounds.height,
-          });
+          };
+
+          // Add ports if this node has edges with anchor constraints
+          if (containerNodesNeedingPorts.has(node.id)) {
+            containerNode.ports = this.createNodePorts(
+              bounds.width,
+              bounds.height
+            );
+            // CRITICAL: Set port constraints on the node itself
+            containerNode.layoutOptions = {
+              'elk.portConstraints': 'FIXED_SIDE',
+            };
+          }
+
+          containerGraph.children!.push(containerNode);
         }
       }
 
       // Add edges within this container
-      for (const edge of diagram.edges) {
+      for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+        const edge = diagram.edges[edgeIndex];
         // Extract node IDs from potentially member-level references
         const fromNodeId = this.extractNodeId(edge.from);
         const toNodeId = this.extractNodeId(edge.to);
@@ -562,19 +1915,40 @@ export class ElkLayoutEngine implements LayoutEngine {
           container.children.includes(fromNodeId) &&
           container.children.includes(toNodeId)
         ) {
-          containerGraph.edges!.push({
-            id: `${edge.from}->${edge.to}`,
+          const containerEdge: any = {
+            id: `${edge.from}->${edge.to}#${edgeIndex}`,
             sources: [fromNodeId],
             targets: [toNodeId],
-          });
+          };
+
+          // Add port constraints if edge has anchor specifications
+          if (edge.anchorFrom) {
+            containerEdge.sourcePort = edge.anchorFrom;
+          }
+          if (edge.anchorTo) {
+            containerEdge.targetPort = edge.anchorTo;
+          }
+
+          containerGraph.edges!.push(containerEdge);
         }
       }
 
       // Calculate container size (placeholder dimensions)
-      const padding =
+      const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
+      const hasHeader = Boolean(container.label || container.header);
+      const labelOffset = hasHeader ? 24 : 0;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      const paddingRight =
+        container.containerStyle?.paddingRight ?? basePadding;
+      const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
+      const paddingTop =
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
+      const paddingBottom =
+        container.containerStyle?.paddingBottom ?? basePadding;
 
       // Estimate container size based on children
       const childCount = container.children.length;
@@ -587,13 +1961,13 @@ export class ElkLayoutEngine implements LayoutEngine {
       } else {
         estimatedWidth = Math.max(
           200,
-          Math.sqrt(childCount) * avgNodeSize + padding * 2
+          Math.sqrt(childCount) * avgNodeSize + paddingLeft + paddingRight
         );
       }
 
       const estimatedHeight = Math.max(
         150,
-        Math.sqrt(childCount) * avgNodeSize + padding * 2
+        Math.sqrt(childCount) * avgNodeSize + paddingTop + paddingBottom
       );
 
       // Add placeholder node representing this container
@@ -623,7 +1997,216 @@ export class ElkLayoutEngine implements LayoutEngine {
   }
 
   /**
-   * Layout nodes within containers and position everything
+   * PASS 1: Calculate actual container sizes by laying out contents
+   * This runs BEFORE positioning to get accurate dimensions
+   */
+  private async calculateContainerSizesRecursively(
+    containers: ContainerDeclaration[],
+    diagram: DiagramAst,
+    measureText: ReturnType<typeof createTextMeasurer>,
+    containerPlaceholders: Map<string, { width: number; height: number }>,
+    spacing: number,
+    direction: string
+  ): Promise<void> {
+    for (const container of containers) {
+      const basePadding =
+        container.containerStyle?.padding !== undefined
+          ? container.containerStyle.padding
+          : LayoutDefaults.CONTAINER_PADDING;
+      const hasHeader = Boolean(container.label || container.header);
+      const labelOffset = hasHeader ? 24 : 0;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      const paddingRight =
+        container.containerStyle?.paddingRight ?? basePadding;
+      const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
+      const paddingTop =
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
+      const paddingBottom =
+        container.containerStyle?.paddingBottom ?? basePadding;
+
+      // Step 1: Recursively calculate nested container sizes first (depth-first)
+      if (container.containers && container.containers.length > 0) {
+        await this.calculateContainerSizesRecursively(
+          container.containers,
+          diagram,
+          measureText,
+          containerPlaceholders,
+          spacing,
+          direction
+        );
+      }
+
+      // Step 2: Layout this container's direct children with ELK to get content size
+      const algorithm = this.mapAlgorithmToElk(
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
+      );
+
+      // Determine container direction: explicit option > shape override > parent direction
+      let containerDirection = direction;
+      if (container.layoutOptions?.direction) {
+        containerDirection = this.mapDirectionToElk(
+          container.layoutOptions.direction
+        );
+      } else if (container.shape === 'bpmnPool') {
+        containerDirection = 'RIGHT';
+      } else if (container.shape === 'bpmnLane') {
+        containerDirection = 'RIGHT';
+      }
+
+      const containerGraph: ElkNode = {
+        id: `container_${container.id}`,
+        layoutOptions: {
+          'elk.algorithm': algorithm,
+          'elk.direction': containerDirection,
+          'elk.spacing.nodeNode': spacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+          // Force pure orthogonal routing
+          'elk.edgeRouting': 'ORTHOGONAL',
+          'elk.layered.unnecessaryBendpoints': 'true',
+          'elk.layered.northOrSouthPort': 'true',
+          // Edge spacing to prevent overlap - increased for better separation
+          'elk.spacing.edgeEdge': '25',
+          'elk.spacing.edgeNode': '35',
+          'elk.layered.spacing.edgeEdgeBetweenLayers': '25',
+          'elk.layered.spacing.edgeNodeBetweenLayers': '35',
+          'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+          'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX',
+          'elk.layered.thoroughness': '10',
+        },
+        children: [],
+        edges: [],
+      };
+
+      // Add child nodes to graph
+      for (const childId of container.children) {
+        const node = diagram.nodes.find((n) => n.id === childId);
+        if (node) {
+          const shapeImpl = shapeRegistry.get(node.shape);
+          if (!shapeImpl) continue;
+
+          const style = node.style ? diagram.styles?.[node.style] || {} : {};
+          const bounds = shapeImpl.bounds({ node, style, measureText });
+
+          containerGraph.children!.push({
+            id: node.id,
+            width: bounds.width,
+            height: bounds.height,
+          });
+        }
+      }
+
+      // NOTE: We do NOT add placeholder nodes for nested containers in PASS 1
+      // because we manually position nested containers below direct children.
+      // Adding placeholders would cause ELK to lay out direct children differently
+      // in PASS 1 vs PASS 2, leading to incorrect container sizing.
+
+      // Add internal edges
+      for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+        const edge = diagram.edges[edgeIndex];
+        if (
+          container.children.includes(edge.from) &&
+          container.children.includes(edge.to)
+        ) {
+          containerGraph.edges!.push({
+            id: `${edge.from}->${edge.to}#${edgeIndex}`,
+            sources: [edge.from],
+            targets: [edge.to],
+          });
+        }
+      }
+
+      // Step 3: Layout with ELK to get actual content dimensions
+      let contentWidth = 200; // Minimum defaults
+      let contentHeight = 150;
+      let directChildrenHeight = 0; // Track height of direct child shapes
+
+      if (containerGraph.children!.length > 0) {
+        try {
+          const laidOutContainer = await this.elk.layout(containerGraph);
+          contentWidth =
+            (laidOutContainer.width || 0) + paddingLeft + paddingRight;
+          contentHeight =
+            (laidOutContainer.height || 0) + paddingTop + paddingBottom;
+
+          // Calculate the actual height used by direct child shapes (excluding placeholders)
+          for (const node of laidOutContainer.children || []) {
+            if (!node.id.startsWith('__nestedcontainer__')) {
+              const nodeBottom = (node.y || 0) + (node.height || 0);
+              directChildrenHeight = Math.max(directChildrenHeight, nodeBottom);
+            }
+          }
+        } catch (error) {
+          // Fall back to defaults if layout fails
+        }
+      }
+
+      // Step 4: If has nested containers, position them BELOW the direct child shapes
+      if (container.containers && container.containers.length > 0) {
+        // Start nested containers after the direct children, with spacing
+        const nestedStartY =
+          directChildrenHeight > 0 ? directChildrenHeight + spacing : 0;
+
+        // Arrange nested containers starting from nestedStartY
+        const tempPositions =
+          container.shape === 'bpmnPool'
+            ? this.arrangeBpmnLanes(
+                container.containers,
+                containerPlaceholders,
+                spacing
+              )
+            : this.arrangeSiblingContainers(
+                container.containers,
+                spacing,
+                containerPlaceholders
+              );
+
+        // Adjust Y positions to start after direct children
+        const adjustedPositions = new Map<string, { x: number; y: number }>();
+        for (const [id, pos] of tempPositions.entries()) {
+          adjustedPositions.set(id, {
+            x: pos.x,
+            y: pos.y + nestedStartY,
+          });
+        }
+
+        // Calculate extent of nested containers with adjusted positions
+        let maxRight = 0;
+        let maxBottom = nestedStartY; // Start from where nested containers begin
+
+        for (const nested of container.containers) {
+          const nestedSize = containerPlaceholders.get(nested.id!);
+          const nestedPos = adjustedPositions.get(nested.id!);
+
+          if (nestedSize && nestedPos) {
+            maxRight = Math.max(maxRight, nestedPos.x + nestedSize.width);
+            maxBottom = Math.max(maxBottom, nestedPos.y + nestedSize.height);
+          }
+        }
+
+        // Add padding on all sides
+        const nestedContainerWidth = paddingLeft + maxRight + paddingRight;
+        const nestedContainerHeight = paddingTop + maxBottom + paddingBottom;
+
+        // Use the larger of: content from direct children OR nested containers
+        contentWidth = Math.max(contentWidth, nestedContainerWidth);
+        contentHeight = Math.max(contentHeight, nestedContainerHeight);
+
+        // Store adjusted positions for later use (we'll need to pass this to PASS 2)
+        // For now, we'll recalculate in PASS 2
+      }
+
+      // Step 5: Store the calculated size in placeholders
+      containerPlaceholders.set(container.id!, {
+        width: contentWidth,
+        height: contentHeight,
+      });
+    }
+  }
+
+  /**
+   * PASS 2: Layout nodes within containers and position everything
+   * This runs AFTER size calculation, using accurate dimensions
    */
   private async layoutContainersWithNodes(
     containers: ContainerDeclaration[],
@@ -631,26 +2214,33 @@ export class ElkLayoutEngine implements LayoutEngine {
     measureText: ReturnType<typeof createTextMeasurer>,
     nodeContainerMap: Map<string, string>,
     containerPositions: Map<string, { x: number; y: number }>,
+    containerPlaceholders: Map<string, { width: number; height: number }>,
     spacing: number,
     direction: string,
     nodes: PositionedNode[],
     edges: RoutedEdge[],
-    result: PositionedContainer[]
+    result: PositionedContainer[],
+    hasSwimlanes: boolean
   ): Promise<void> {
-    console.log(
-      `layoutContainersWithNodes called with ${containers.length} containers`
-    );
+    // layout containers and contents
     for (const container of containers) {
-      console.log(
-        `Processing container: ${container.id}, children:`,
-        container.children
-      );
-      const padding =
+      // process one container
+      const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
           : 30;
+      const hasHeader = Boolean(container.label || container.header);
+      const labelOffset = hasHeader ? 24 : 0;
+      const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
+      //const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      const rawPaddingTop = container.containerStyle?.paddingTop ?? basePadding;
+      const paddingTop =
+        rawPaddingTop +
+        (container.containerStyle?.paddingTop ? 0 : labelOffset);
+      //const paddingBottom = container.containerStyle?.paddingBottom ?? basePadding;
 
       // Get container position from placeholder
+      // Note: This position is relative to the parent container's content area
       const containerPos = containerPositions.get(container.id!) || {
         x: 0,
         y: 0,
@@ -659,14 +2249,19 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Create mini ELK graph for container contents
       // Map Runiq algorithm to ELK algorithm ID
       const algorithm = this.mapAlgorithmToElk(
-        container.layoutOptions?.algorithm || 'layered'
+        container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
 
-      // Determine layout direction based on container shape
-      // BPMN pools should flow horizontally (left to right)
+      // Determine container direction: explicit option > shape override > parent direction
       let containerDirection = direction; // Default: use diagram direction
-      if (container.shape === 'bpmnPool') {
+      if (container.layoutOptions?.direction) {
+        containerDirection = this.mapDirectionToElk(
+          container.layoutOptions.direction
+        );
+      } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
+      } else if (container.shape === 'bpmnLane') {
+        containerDirection = 'RIGHT'; // Horizontal flow for BPMN lanes
       }
 
       const containerGraph: ElkNode = {
@@ -676,29 +2271,31 @@ export class ElkLayoutEngine implements LayoutEngine {
           'elk.direction': containerDirection, // Use container-specific direction
           'elk.spacing.nodeNode': spacing.toString(),
           'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
-          'elk.edgeRouting': 'ORTHOGONAL', // Use step/orthogonal routing for container edges
+          // Force pure orthogonal (right-angle) routing - no diagonals
+          'elk.edgeRouting': 'ORTHOGONAL',
+          // Orthogonal edge routing specific options
+          'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
+          'elk.layered.northOrSouthPort': 'true', // Use north/south ports for better orthogonal routing
+          // Edge spacing to prevent overlap - increased for better separation
+          'elk.spacing.edgeEdge': '25',
+          'elk.spacing.edgeNode': '35',
+          'elk.layered.spacing.edgeEdgeBetweenLayers': '25',
+          'elk.layered.spacing.edgeNodeBetweenLayers': '35',
           // Edge crossing minimization for container layouts
           'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
           'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX',
+          'elk.layered.thoroughness': '10', // Better edge routing
         },
         children: [],
         edges: [],
       };
 
       // Add child nodes
-      console.log(
-        `Container ${container.id}: Looking for ${container.children.length} children in diagram.nodes (total: ${diagram.nodes.length})`
-      );
-      console.log('Container children IDs:', container.children);
-      console.log(
-        'Diagram node IDs:',
-        diagram.nodes.map((n) => n.id)
-      );
+      // resolve child nodes in diagram
 
       for (const childId of container.children) {
         const node = diagram.nodes.find((n) => n.id === childId);
         if (node) {
-          console.log(`Found node ${childId} with shape ${node.shape}`);
           const shapeImpl = shapeRegistry.get(node.shape);
           if (!shapeImpl) {
             console.warn(`Shape not found: ${node.shape}`);
@@ -717,22 +2314,24 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
 
       // Add internal edges
-      for (const edge of diagram.edges) {
+      for (let edgeIndex = 0; edgeIndex < diagram.edges.length; edgeIndex++) {
+        const edge = diagram.edges[edgeIndex];
         if (
           container.children.includes(edge.from) &&
           container.children.includes(edge.to)
         ) {
           containerGraph.edges!.push({
-            id: `${edge.from}->${edge.to}`,
+            id: `${edge.from}->${edge.to}#${edgeIndex}`,
             sources: [edge.from],
             targets: [edge.to],
           });
         }
       }
 
-      // Layout container contents
-      let containerWidth = 200;
-      let containerHeight = 150;
+      // Use container size from PASS 1 (already calculated by calculateContainerSizesRecursively)
+      const placeholder = containerPlaceholders.get(container.id!);
+      const containerWidth = placeholder?.width || 200;
+      const containerHeight = placeholder?.height || 150;
 
       if (containerGraph.children!.length > 0) {
         try {
@@ -742,8 +2341,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           for (const elkNode of laidOutContainer.children || []) {
             const positionedNode = {
               id: elkNode.id,
-              x: containerPos.x + padding + (elkNode.x || 0),
-              y: containerPos.y + padding + (elkNode.y || 0),
+              x: containerPos.x + paddingLeft + (elkNode.x || 0),
+              y: containerPos.y + paddingTop + (elkNode.y || 0),
               width: elkNode.width || 0,
               height: elkNode.height || 0,
             };
@@ -752,32 +2351,25 @@ export class ElkLayoutEngine implements LayoutEngine {
 
           // Extract internal container edges (CRITICAL: edges between nodes inside container)
           // These need to be extracted from the container layout, not the top-level layout
-          console.log(
-            `Container ${container.id}: laidOutContainer.edges =`,
-            laidOutContainer.edges
-          );
+          // edges laid out within container
 
           const tempEdges: RoutedEdge[] = [];
           this.extractEdges(laidOutContainer.edges || [], nodes, tempEdges);
 
-          console.log(
-            `Before position adjustment, tempEdges for ${container.id}:`,
-            tempEdges
-          );
+          // adjust edge points relative to container
 
           // Adjust edge positions to be relative to container
           for (const edge of tempEdges) {
             for (const point of edge.points) {
-              point.x += containerPos.x + padding;
-              point.y += containerPos.y + padding;
+              point.x += containerPos.x + paddingLeft;
+              point.y += containerPos.y + paddingTop;
             }
           }
 
           edges.push(...tempEdges);
 
-          // Calculate container size from laid out content
-          containerWidth = (laidOutContainer.width || 0) + padding * 2;
-          containerHeight = (laidOutContainer.height || 0) + padding * 2;
+          // DON'T update placeholder - it was already calculated in PASS 1!
+          // We're using the pre-calculated size from calculateContainerSizesRecursively
         } catch (error) {
           // Fall back to default positioning if layout fails
         }
@@ -786,13 +2378,61 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Handle nested containers recursively
       const nestedContainers: PositionedContainer[] = [];
       if (container.containers) {
-        // For nested containers, adjust their positions relative to parent
+        // Calculate the height used by direct child shapes (if any)
+        let directChildrenHeight = 0;
+        if (containerGraph.children!.length > 0) {
+          try {
+            const laidOutContainer = await this.elk.layout(containerGraph);
+            for (const node of laidOutContainer.children || []) {
+              if (!node.id.startsWith('__nestedcontainer__')) {
+                const nodeBottom = (node.y || 0) + (node.height || 0);
+                directChildrenHeight = Math.max(
+                  directChildrenHeight,
+                  nodeBottom
+                );
+              }
+            }
+          } catch (error) {
+            // Ignore errors, will use default positioning
+          }
+        }
+
+        // Position nested containers BELOW direct child shapes
+        const nestedStartY =
+          directChildrenHeight > 0 ? directChildrenHeight + spacing : 0;
+
+        // Calculate positions for nested sibling containers (relative to this container's content area)
+        const tempPositions =
+          container.shape === 'bpmnPool'
+            ? this.arrangeBpmnLanes(
+                container.containers,
+                containerPlaceholders,
+                spacing
+              )
+            : this.arrangeSiblingContainers(
+                container.containers,
+                spacing,
+                containerPlaceholders
+              );
+
+        // Adjust positions to start after direct children
         const nestedPositions = new Map<string, { x: number; y: number }>();
-        for (const [id, pos] of containerPositions.entries()) {
-          // Adjust nested container positions to be relative to this container
+        for (const [id, pos] of tempPositions.entries()) {
           nestedPositions.set(id, {
-            x: pos.x - containerPos.x - padding,
-            y: pos.y - containerPos.y - padding,
+            x: pos.x,
+            y: pos.y + nestedStartY,
+          });
+        }
+
+        // Convert relative positions to absolute by adding parent container's position + padding
+        const absoluteNestedPositions = new Map<
+          string,
+          { x: number; y: number }
+        >();
+        for (const [id, pos] of nestedPositions.entries()) {
+          absoluteNestedPositions.set(id, {
+            x: containerPos.x + paddingLeft + pos.x,
+            y: containerPos.y + paddingTop + pos.y,
           });
         }
 
@@ -801,20 +2441,22 @@ export class ElkLayoutEngine implements LayoutEngine {
           diagram,
           measureText,
           nodeContainerMap,
-          nestedPositions,
+          absoluteNestedPositions, // Pass absolute positions
+          containerPlaceholders,
           spacing,
           direction,
           nodes,
           edges,
-          nestedContainers
+          nestedContainers,
+          hasSwimlanes
         );
 
-        // Adjust nested container positions back to absolute coordinates
-        for (const nested of nestedContainers) {
-          nested.x += containerPos.x + padding;
-          nested.y += containerPos.y + padding;
-        }
+        // No need to adjust positions after the fact - they're already absolute
       }
+
+      // Container size was already calculated in PASS 1 (calculateContainerSizesRecursively)
+      // Don't recalculate here - just use the pre-computed size from placeholders
+      // The PASS 1 calculation correctly handles nested container extents with relative positioning
 
       result.push({
         id: container.id || '',
@@ -825,6 +2467,43 @@ export class ElkLayoutEngine implements LayoutEngine {
         label: container.label,
         containers: nestedContainers.length > 0 ? nestedContainers : undefined,
       });
+    }
+
+    // Post-process containers based on their type
+    const hasSwim = containers.some((c) => c.layoutOptions?.orientation);
+    const hasBpmnPools = containers.some((c) => c.shape === 'bpmnPool');
+    const hasRegular = containers.some(
+      (c) => !c.layoutOptions?.orientation && c.shape !== 'bpmnPool'
+    );
+
+    if (hasSwim) {
+      // Apply uniform dimensions to swimlanes and adjust positions
+      this.applyUniformSwimlaneDimensions(
+        containers,
+        result,
+        nodes,
+        edges,
+        direction,
+        nodeContainerMap
+      );
+    }
+
+    if (hasBpmnPools) {
+      // Apply uniform width to BPMN pools
+      this.applyUniformBpmnPoolDimensions(containers, result);
+      this.stretchBpmnLanesInPools(containers, result);
+    }
+
+    if (hasRegular) {
+      // Regular containers are already properly positioned by arrangeSiblingContainers
+      // No need to reposition them - that would reset nested containers to y=0
+      // But we still need to regenerate cross-container edge routing
+      this.regenerateCrossContainerEdgeRouting(
+        nodes,
+        edges,
+        direction,
+        nodeContainerMap
+      );
     }
   }
 
@@ -844,7 +2523,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const padding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : LayoutDefaults.CONTAINER_PADDING;
 
       // Find all direct child nodes in this container
       const childNodes = nodes.filter(
@@ -924,7 +2603,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const padding =
       container.containerStyle?.padding !== undefined
         ? container.containerStyle.padding
-        : 30;
+        : LayoutDefaults.CONTAINER_PADDING;
 
     const elkContainer: ElkNode = {
       id: container.id || '',
@@ -1095,30 +2774,65 @@ export class ElkLayoutEngine implements LayoutEngine {
           });
         }
       } else {
-        // Fallback: straight line between node centers
+        // Fallback: orthogonal routing between node centers
         const fromNode = nodes.find((n) => n.id === elkEdge.sources[0]);
         const toNode = nodes.find((n) => n.id === elkEdge.targets[0]);
 
         if (fromNode && toNode) {
-          points.push(
-            {
-              x: fromNode.x + fromNode.width / 2,
-              y: fromNode.y + fromNode.height / 2,
-            },
-            { x: toNode.x + toNode.width / 2, y: toNode.y + toNode.height / 2 }
-          );
+          const fromX = fromNode.x + fromNode.width / 2;
+          const fromY = fromNode.y + fromNode.height / 2;
+          const toX = toNode.x + toNode.width / 2;
+          const toY = toNode.y + toNode.height / 2;
+
+          // Use orthogonal routing instead of straight diagonal line
+          // Determine direction based on relative positions
+          const isVerticalPreference =
+            Math.abs(toY - fromY) > Math.abs(toX - fromX);
+
+          if (isVerticalPreference) {
+            // Vertical-first routing: go vertical then horizontal
+            const midY = (fromY + toY) / 2;
+            points.push(
+              { x: fromX, y: fromY },
+              { x: fromX, y: midY },
+              { x: toX, y: midY },
+              { x: toX, y: toY }
+            );
+          } else {
+            // Horizontal-first routing: go horizontal then vertical
+            const midX = (fromX + toX) / 2;
+            points.push(
+              { x: fromX, y: fromY },
+              { x: midX, y: fromY },
+              { x: midX, y: toY },
+              { x: toX, y: toY }
+            );
+          }
         }
       }
 
-      // Extract original from/to from edge ID (format: "from->to")
+      // Extract original from/to from edge ID (format: "from->to#index")
       const edgeParts = elkEdge.id.split('->');
       const from = edgeParts[0];
-      const to = edgeParts[1] || elkEdge.targets[0];
+      const toPart = edgeParts[1] || elkEdge.targets[0];
+
+      // Parse edge index if present
+      const indexMatch = toPart.match(/^(.+)#(\d+)$/);
+      let to: string;
+      let edgeIndex: number | undefined;
+
+      if (indexMatch) {
+        to = indexMatch[1];
+        edgeIndex = parseInt(indexMatch[2], 10);
+      } else {
+        to = toPart;
+      }
 
       edges.push({
         from,
         to,
         points,
+        edgeIndex,
       });
     }
   }
@@ -1260,210 +2974,340 @@ export class ElkLayoutEngine implements LayoutEngine {
    */
   private mapAlgorithmToElk(algorithm: string): string {
     switch (algorithm) {
-      case 'layered':
+      case LayoutAlgorithm.LAYERED:
         return 'layered';
-      case 'force':
+      case LayoutAlgorithm.FORCE:
         return 'org.eclipse.elk.force';
-      case 'stress':
+      case LayoutAlgorithm.STRESS:
         return 'org.eclipse.elk.stress';
-      case 'radial':
+      case LayoutAlgorithm.RADIAL:
         return 'org.eclipse.elk.radial';
-      case 'mrtree':
+      case LayoutAlgorithm.MRTREE:
         return 'org.eclipse.elk.mrtree';
+      case LayoutAlgorithm.CIRCULAR:
+        return 'circular'; // Custom algorithm, handled separately
       default:
         return 'layered'; // Default fallback
     }
   }
 
+  private mapDirectionToElk(direction: string): string {
+    switch (direction.toUpperCase()) {
+      case 'TB':
+      case 'DOWN':
+        return 'DOWN';
+      case 'BT':
+      case 'UP':
+        return 'UP';
+      case 'LR':
+      case 'RIGHT':
+        return 'RIGHT';
+      case 'RL':
+      case 'LEFT':
+        return 'LEFT';
+      default:
+        return 'DOWN'; // Default fallback
+    }
+  }
+
   /**
-   * Calculate generation (layer) for each node in a pedigree chart.
-   * Uses BFS from root nodes (those with no incoming parent edges)
-   * to assign generation numbers that enforce hierarchical layering.
+   * Calculate mindmap levels using BFS from root node(s).
+   * Level 0 = root/central node (no incoming edges or explicitly marked)
+   * Level 1 = nodes directly connected to root
+   * Level 2 = nodes connected to level 1, etc.
+   *
+   * Stores level for each node in the provided Map.
    */
-  private calculatePedigreeGenerations(
+  private calculateMindmapLevels(
     diagram: DiagramAst,
-    nodeGenerations: Map<string, number>,
-    spousePairsOut?: Map<string, string>
-  ): void {
-    // Build adjacency lists for parent->child relationships
-    const children = new Map<string, Set<string>>();
-    const parents = new Map<string, Set<string>>();
+    nodeLevels: Map<string, number>
+  ): string | null {
+    // Build adjacency list (directed graph)
+    const outgoing = new Map<string, Set<string>>();
+    const incoming = new Map<string, Set<string>>();
 
     for (const node of diagram.nodes) {
-      children.set(node.id, new Set());
-      parents.set(node.id, new Set());
+      outgoing.set(node.id, new Set());
+      incoming.set(node.id, new Set());
     }
 
-    // Analyze edges to find parent-child relationships
-    // In pedigree charts, edges from both parents point to children
     for (const edge of diagram.edges) {
-      children.get(edge.from)?.add(edge.to);
-      parents.get(edge.to)?.add(edge.from);
+      outgoing.get(edge.from)?.add(edge.to);
+      incoming.get(edge.to)?.add(edge.from);
     }
 
-    // Find root nodes (generation 0) - nodes with no parents or only spouse edges
+    // Find root node(s) - nodes with no incoming edges
     const roots: string[] = [];
-    const spouseEdges = new Set<string>();
-    const spousePairs = new Set<string>(); // Track spouse relationships
-
-    // Detect spouse/marriage edges using multiple heuristics:
-    // 1. Bidirectional edges (explicit marriage notation)
-    for (const edge of diagram.edges) {
-      const hasReverseEdge = diagram.edges.some(
-        (e) => e.from === edge.to && e.to === edge.from
-      );
-      if (hasReverseEdge) {
-        spouseEdges.add(`${edge.from}-${edge.to}`);
-        spouseEdges.add(`${edge.to}-${edge.from}`);
-        const pairKey = [edge.from, edge.to].sort().join('-');
-        spousePairs.add(pairKey);
-      }
-    }
-
-    // 2. Co-parents: if two nodes both point to the same child(ren), they're likely spouses
-    const childToParents = new Map<string, Set<string>>();
-    for (const edge of diagram.edges) {
-      if (!childToParents.has(edge.to)) {
-        childToParents.set(edge.to, new Set());
-      }
-      childToParents.get(edge.to)!.add(edge.from);
-    }
-
-    // If two parents point to the same child, mark them as spouses
-    for (const [_child, parentSet] of childToParents.entries()) {
-      const parentList = Array.from(parentSet);
-      if (parentList.length === 2) {
-        const [p1, p2] = parentList;
-        // Check if both parents are pedigree shapes
-        const p1Node = diagram.nodes.find((n) => n.id === p1);
-        const p2Node = diagram.nodes.find((n) => n.id === p2);
-        if (
-          p1Node &&
-          p2Node &&
-          (p1Node.shape === 'pedigree-male' ||
-            p1Node.shape === 'pedigree-female') &&
-          (p2Node.shape === 'pedigree-male' ||
-            p2Node.shape === 'pedigree-female')
-        ) {
-          spouseEdges.add(`${p1}-${p2}`);
-          spouseEdges.add(`${p2}-${p1}`);
-          const pairKey = [p1, p2].sort().join('-');
-          spousePairs.add(pairKey);
-        }
-      }
-    }
-
-    // Populate output spouse pairs map if provided
-    if (spousePairsOut) {
-      for (const pairKey of spousePairs) {
-        const [p1, p2] = pairKey.split('-');
-        spousePairsOut.set(p1, p2);
-        spousePairsOut.set(p2, p1);
-      }
-    }
-
-    // Build spouse relationship map
-    const spouseMap = new Map<string, string[]>();
-    for (const pairKey of spousePairs) {
-      const [p1, p2] = pairKey.split('-');
-      if (!spouseMap.has(p1)) spouseMap.set(p1, []);
-      if (!spouseMap.has(p2)) spouseMap.set(p2, []);
-      spouseMap.get(p1)!.push(p2);
-      spouseMap.get(p2)!.push(p1);
-    }
-
-    // Identify roots: nodes with no non-spouse parents
-    // Key insight: A node is a root ONLY if:
-    // 1. It has no real parents, AND
-    // 2. Its spouse (if any) ALSO has no real parents
-    // This prevents spouses who "married in" from being roots
-    const processedRoots = new Set<string>();
-
     for (const node of diagram.nodes) {
-      if (processedRoots.has(node.id)) continue;
-
-      const nodeParents = parents.get(node.id)!;
-      const realParents = Array.from(nodeParents).filter((p) => {
-        return !spouseEdges.has(`${p}-${node.id}`);
-      });
-
-      const nodeChildren = children.get(node.id)!;
-      const nonSpouseChildren = Array.from(nodeChildren).filter((c) => {
-        return !spouseEdges.has(`${node.id}-${c}`);
-      });
-
-      // This node is a potential root if it has no real parents and has descendants
-      if (realParents.length === 0 && nonSpouseChildren.length > 0) {
-        // Check if this node has a spouse
-        const spouses = spouseMap.get(node.id) || [];
-
-        if (spouses.length > 0) {
-          // Check if ANY spouse has real parents
-          let anySpouseHasParents = false;
-          for (const spouseId of spouses) {
-            const spouseParents = parents.get(spouseId)!;
-            const spouseRealParents = Array.from(spouseParents).filter((p) => {
-              return !spouseEdges.has(`${p}-${spouseId}`);
-            });
-            if (spouseRealParents.length > 0) {
-              anySpouseHasParents = true;
-              break;
-            }
-          }
-
-          // Only add as root if NO spouse has real parents
-          if (!anySpouseHasParents) {
-            roots.push(node.id);
-            nodeGenerations.set(node.id, 0);
-            processedRoots.add(node.id);
-          }
-        } else {
-          // No spouse - single root
-          roots.push(node.id);
-          nodeGenerations.set(node.id, 0);
-          processedRoots.add(node.id);
-        }
+      const incomingEdges = incoming.get(node.id);
+      if (!incomingEdges || incomingEdges.size === 0) {
+        roots.push(node.id);
       }
     }
 
-    // Process all nodes using BFS, handling spouses and children
-    const queue: string[] = [...roots];
+    // If no clear root (cyclic graph), use first circle node, or first node
+    let rootNode: string | null = null;
+    if (roots.length === 0) {
+      // Look for circle shape as central node
+      const circleNode = diagram.nodes.find(
+        (n) => n.shape === 'circle' || n.shape === 'circ'
+      );
+      rootNode = circleNode ? circleNode.id : diagram.nodes[0]?.id || null;
+    } else if (roots.length === 1) {
+      rootNode = roots[0];
+    } else {
+      // Multiple roots - prefer circle shape, otherwise first root
+      const circleRoot = roots.find((id) => {
+        const node = diagram.nodes.find((n) => n.id === id);
+        return node?.shape === 'circle' || node?.shape === 'circ';
+      });
+      rootNode = circleRoot || roots[0];
+    }
+
+    if (!rootNode) return null;
+
+    // BFS to calculate levels
+    const queue: Array<{ nodeId: string; level: number }> = [
+      { nodeId: rootNode, level: 0 },
+    ];
     const visited = new Set<string>();
 
-    // Mark roots as visited
-    for (const root of roots) {
-      visited.add(root);
-    }
-
     while (queue.length > 0) {
-      const nodeId = queue.shift()!;
-      const currentGen = nodeGenerations.get(nodeId) || 0;
+      const { nodeId, level } = queue.shift()!;
 
-      // Process all edges from this node
-      const nodeChildren = children.get(nodeId)!;
-      for (const childId of nodeChildren) {
-        if (spouseEdges.has(`${nodeId}-${childId}`)) {
-          // Spouse edge - same generation
-          const existingGen = nodeGenerations.get(childId);
-          if (existingGen === undefined || existingGen !== currentGen) {
-            nodeGenerations.set(childId, currentGen);
-          }
-          if (!visited.has(childId)) {
-            visited.add(childId);
-            queue.push(childId);
-          }
-        } else {
-          // Parent-child edge - next generation
-          const childGen = currentGen + 1;
-          const existingGen = nodeGenerations.get(childId);
-          if (existingGen === undefined || childGen < existingGen) {
-            nodeGenerations.set(childId, childGen);
-          }
-          if (!visited.has(childId)) {
-            visited.add(childId);
-            queue.push(childId);
+      if (visited.has(nodeId)) continue;
+      visited.add(nodeId);
+
+      nodeLevels.set(nodeId, level);
+
+      // Add all outgoing neighbors to queue with level + 1
+      const neighbors = outgoing.get(nodeId);
+      if (neighbors) {
+        for (const neighborId of neighbors) {
+          if (!visited.has(neighborId)) {
+            queue.push({ nodeId: neighborId, level: level + 1 });
           }
         }
+      }
+    }
+
+    return rootNode;
+  }
+
+  /**
+   * Apply level-based styling to nodes in a mindmap/radial diagram.
+   * Different levels get different visual treatments to show hierarchy.
+   * Includes automatic color theming for visual clarity.
+   */
+  private applyMindmapLevelStyling(
+    diagram: DiagramAst,
+    nodeLevels: Map<string, number>
+  ): void {
+    // Level-based style defaults with colors
+    const levelStyles = [
+      // Level 0 (root/central) - white with purple accent
+      {
+        fontSize: 16,
+        strokeWidth: 3,
+        padding: 16,
+        fillColor: '#ffffff',
+        strokeColor: '#8b5cf6',
+      },
+      // Level 1 (main branches) - vibrant colors cycling through palette
+      {
+        fontSize: 14,
+        strokeWidth: 2,
+        padding: 14,
+        // Will be assigned from color palette per branch
+      },
+      // Level 2 (sub-branches) - lighter tints of level 1 colors
+      {
+        fontSize: 12,
+        strokeWidth: 1,
+        padding: 12,
+        // Will be assigned based on parent's color
+      },
+      // Level 3+ (detail branches) - even lighter tints
+      {
+        fontSize: 11,
+        strokeWidth: 1,
+        padding: 10,
+        // Will be assigned based on parent's color
+      },
+    ];
+
+    // Color palette for level 1 branches (vibrant, distinct colors)
+    const level1ColorPalette = [
+      { fill: '#3b82f6', stroke: '#2563eb' }, // Blue
+      { fill: '#10b981', stroke: '#059669' }, // Green
+      { fill: '#f59e0b', stroke: '#d97706' }, // Amber
+      { fill: '#ec4899', stroke: '#db2777' }, // Pink
+      { fill: '#8b5cf6', stroke: '#7c3aed' }, // Purple
+      { fill: '#06b6d4', stroke: '#0891b2' }, // Cyan
+      { fill: '#ef4444', stroke: '#dc2626' }, // Red
+      { fill: '#84cc16', stroke: '#65a30d' }, // Lime
+    ];
+
+    // Map to track parent colors for inheritance
+    const nodeColors = new Map<string, { fill: string; stroke: string }>();
+
+    // Track which level 1 color index to use next
+    let level1ColorIndex = 0;
+
+    // First pass: assign colors to level 0 and level 1 nodes
+    for (const node of diagram.nodes) {
+      const level = nodeLevels.get(node.id);
+      if (level === undefined || level > 1) continue;
+
+      if (!node.data) node.data = {};
+
+      if (level === 0) {
+        // Central node - white with purple accent
+        if (node.data.fillColor === undefined) {
+          node.data.fillColor = levelStyles[0].fillColor;
+        }
+        if (node.data.strokeColor === undefined) {
+          node.data.strokeColor = levelStyles[0].strokeColor;
+        }
+        nodeColors.set(node.id, {
+          fill: node.data.fillColor as string,
+          stroke: node.data.strokeColor as string,
+        });
+      } else if (level === 1) {
+        // Main branch - assign from color palette
+        if (
+          node.data.fillColor === undefined &&
+          node.data.strokeColor === undefined
+        ) {
+          const colorPair =
+            level1ColorPalette[level1ColorIndex % level1ColorPalette.length];
+          node.data.fillColor = colorPair.fill;
+          node.data.strokeColor = colorPair.stroke;
+          nodeColors.set(node.id, colorPair);
+          level1ColorIndex++;
+        } else {
+          // Store explicitly set colors
+          nodeColors.set(node.id, {
+            fill: (node.data.fillColor as string) || '#3b82f6',
+            stroke: (node.data.strokeColor as string) || '#2563eb',
+          });
+        }
+      }
+    }
+
+    // Build parent map to inherit colors for level 2+
+    const nodeParent = new Map<string, string>();
+    for (const edge of diagram.edges) {
+      const fromLevel = nodeLevels.get(edge.from);
+      const toLevel = nodeLevels.get(edge.to);
+      if (
+        fromLevel !== undefined &&
+        toLevel !== undefined &&
+        toLevel > fromLevel
+      ) {
+        nodeParent.set(edge.to, edge.from);
+      }
+    }
+
+    // Helper to lighten a color
+    const lightenColor = (hex: string, percent: number): string => {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const r = Math.min(
+        255,
+        Math.floor((num >> 16) + (255 - (num >> 16)) * percent)
+      );
+      const g = Math.min(
+        255,
+        Math.floor(
+          ((num >> 8) & 0x00ff) + (255 - ((num >> 8) & 0x00ff)) * percent
+        )
+      );
+      const b = Math.min(
+        255,
+        Math.floor((num & 0x0000ff) + (255 - (num & 0x0000ff)) * percent)
+      );
+      return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+    };
+
+    // Second pass: assign colors to level 2+ nodes based on parent
+    for (const node of diagram.nodes) {
+      const level = nodeLevels.get(node.id);
+      if (level === undefined || level <= 1) continue;
+
+      if (!node.data) node.data = {};
+
+      // Get style for this level (use level 3+ style for all levels >= 3)
+      const styleIndex = Math.min(level, levelStyles.length - 1);
+      const levelStyle = levelStyles[styleIndex];
+
+      // Apply base styling (fontSize, strokeWidth)
+      if (node.data.fontSize === undefined) {
+        node.data.fontSize = levelStyle.fontSize;
+      }
+      if (node.data.strokeWidth === undefined) {
+        node.data.strokeWidth = levelStyle.strokeWidth;
+      }
+
+      // Inherit and lighten color from parent if not explicitly set
+      if (
+        node.data.fillColor === undefined ||
+        node.data.strokeColor === undefined
+      ) {
+        const parentId = nodeParent.get(node.id);
+        const parentColor = parentId ? nodeColors.get(parentId) : null;
+
+        if (parentColor) {
+          // Lighten based on level depth
+          const lightenAmount = level === 2 ? 0.6 : 0.8;
+          const lightFill = lightenColor(parentColor.fill, lightenAmount);
+          const lightStroke = lightenColor(
+            parentColor.stroke,
+            lightenAmount * 0.5
+          );
+
+          if (node.data.fillColor === undefined) {
+            node.data.fillColor = lightFill;
+          }
+          if (node.data.strokeColor === undefined) {
+            node.data.strokeColor = lightStroke;
+          }
+
+          nodeColors.set(node.id, {
+            fill: node.data.fillColor as string,
+            stroke: node.data.strokeColor as string,
+          });
+        }
+      }
+
+      // Store level for potential renderer use
+      node.data.mindmapLevel = level;
+    }
+
+    // Third pass: ensure all level 0 and 1 nodes have mindmapLevel stored
+    for (const node of diagram.nodes) {
+      const level = nodeLevels.get(node.id);
+      if (level !== undefined && level <= 1) {
+        if (!node.data) node.data = {};
+        node.data.mindmapLevel = level;
+      }
+    }
+
+    // Fourth pass: apply thick edge styling for mindmap connections
+    // Edges should be visually prominent in mindmaps
+    // Mindmaps traditionally don't show arrows - just connecting lines
+    for (const edge of diagram.edges) {
+      // Only style if not already explicitly styled
+      if (edge.strokeWidth === undefined) {
+        // Apply thick stroke for mindmap edges (default is 1)
+        edge.strokeWidth = 2.5;
+      }
+      if (edge.strokeColor === undefined) {
+        // Use a neutral gray that works with all branch colors
+        edge.strokeColor = '#6b7280';
+      }
+      if (edge.arrowType === undefined) {
+        // Mindmaps traditionally don't use arrows
+        edge.arrowType = ArrowType.NONE;
       }
     }
   }

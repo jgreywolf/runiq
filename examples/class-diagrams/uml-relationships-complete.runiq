@@ -2,7 +2,7 @@
 // Demonstrates all Phase 1 features: multiplicity, aggregation, composition, roles
 
 diagram "University System" {
-  direction: TB
+  direction TB
   
   // Core entities
   shape University as @class label:"University"

@@ -1,4 +1,10 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import {
+  renderLegend as renderChartLegend,
+  renderChartTitle,
+  type LegendItem,
+} from '../utils/render-chart-labels.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Default color palette for pie chart slices
@@ -34,18 +40,39 @@ interface DataItem {
 /**
  * Normalize data from various formats to consistent {label, value} format
  */
-function normalizeData(data: any): DataItem[] {
-  if (!data || !data.values || !Array.isArray(data.values)) {
+function normalizeData(data: unknown, customLabels?: string[]): DataItem[] {
+  // Format 1: Simple array of numbers [30, 20, 50]
+  if (Array.isArray(data)) {
+    return data
+      .map((value: unknown, i: number) => ({
+        label: customLabels?.[i] || `Slice ${i + 1}`,
+        value: typeof value === 'number' ? value : 0,
+      }))
+      .filter((item: DataItem) => item.value > 0);
+  }
+
+  // Format 2: Object with values array
+  if (
+    !data ||
+    typeof data !== 'object' ||
+    !('values' in data) ||
+    !Array.isArray(data.values)
+  ) {
     return [];
   }
 
-  return data.values
-    .map((item: any, i: number) => {
+  return (data.values as unknown[])
+    .map((item: unknown, i: number) => {
       if (typeof item === 'number') {
-        return { label: `Slice ${i + 1}`, value: item };
+        return { label: customLabels?.[i] || `Slice ${i + 1}`, value: item };
       }
-      if (typeof item === 'object' && 'value' in item) {
-        return { label: item.label || `Slice ${i + 1}`, value: item.value };
+      if (typeof item === 'object' && item !== null && 'value' in item) {
+        const objItem = item as { label?: string; value: unknown };
+        const value = typeof objItem.value === 'number' ? objItem.value : 0;
+        return {
+          label: objItem.label || customLabels?.[i] || `Slice ${i + 1}`,
+          value,
+        };
       }
       return null;
     })
@@ -194,25 +221,23 @@ function renderLegend(
   startY: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ROW_HEIGHT = 20;
-  const LABEL_OFFSET = 18;
+  const items: LegendItem[] = slices.map((slice, i) => {
+    const percentage = Math.round(slice.percentage * 10) / 10;
+    const percentageStr =
+      percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
+    return {
+      label: slice.label,
+      color: getSliceColor(i, customColors),
+      value: `${percentageStr}%`,
+    };
+  });
 
-  return slices
-    .map((slice, i) => {
-      const y = startY + i * ROW_HEIGHT;
-      const color = getSliceColor(i, customColors);
-      // Round percentage, remove decimal if .0
-      const percentage = Math.round(slice.percentage * 10) / 10;
-      const percentageStr =
-        percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
-
-      return `<g>
-      <rect x="${startX}" y="${y}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${startX + LABEL_OFFSET}" y="${y + 10}" font-size="11" fill="#333">${slice.label} (${percentageStr}%)</text>
-    </g>`;
-    })
-    .join('\n    ');
+  return renderChartLegend({
+    items,
+    x: startX,
+    y: startY,
+    orientation: 'vertical',
+  });
 }
 
 /**
@@ -225,40 +250,18 @@ function renderLegendHorizontal(
   maxWidth: number,
   customColors?: string[]
 ): string {
-  const SWATCH_SIZE = 12;
-  const ITEM_SPACING = 15; // Space between items
-  const LABEL_OFFSET = 18; // Space between swatch and text
+  const items: LegendItem[] = slices.map((slice, i) => ({
+    label: slice.label, // Just label for horizontal (values on slices)
+    color: getSliceColor(i, customColors),
+  }));
 
-  let currentX = 0; // Start at 0, will be offset by x when rendering
-  let currentY = 0; // Start at 0, will be offset by y when rendering
-  const items: string[] = [];
-
-  slices.forEach((slice, i) => {
-    const color = getSliceColor(i, customColors);
-    const labelText = slice.label; // Just the label, no percentage (values are on slices)
-
-    // Estimate text width more accurately (roughly 5.5px per character for 11px font)
-    const estimatedTextWidth = labelText.length * 5.5;
-    const itemWidth = SWATCH_SIZE + LABEL_OFFSET + estimatedTextWidth;
-
-    // Wrap to next row if needed (and not first item)
-    if (currentX > 0 && currentX + itemWidth > maxWidth) {
-      currentY += 20;
-      currentX = 0;
-    }
-
-    const actualX = x + currentX;
-    const actualY = y + currentY;
-
-    items.push(`<g>
-      <rect x="${actualX}" y="${actualY}" width="${SWATCH_SIZE}" height="${SWATCH_SIZE}" fill="${color}" stroke="#333" stroke-width="1" />
-      <text x="${actualX + LABEL_OFFSET}" y="${actualY + 10}" font-size="11" fill="#333">${labelText}</text>
-    </g>`);
-
-    currentX += itemWidth + ITEM_SPACING;
+  return renderChartLegend({
+    items,
+    x,
+    y,
+    orientation: 'horizontal',
+    maxWidth,
   });
-
-  return items.join('\n    ');
 }
 
 /**
@@ -290,7 +293,9 @@ function renderSliceLabels(
         parseInt(color.slice(5, 7), 16) * 0.114;
       const textColor = brightness > 128 ? '#333' : '#fff';
 
-      return `<text x="${x}" y="${y + 4}" text-anchor="middle" font-size="12" font-weight="bold" fill="${textColor}">${slice.value}</text>`;
+      const labelStyle = { fontSize: 12, fontWeight: 'bold', color: textColor };
+      const labelCtx = { style: labelStyle } as any;
+      return renderShapeLabel(labelCtx, slice.value.toString(), x, y + 4);
     })
     .join('\n    ');
 }
@@ -298,9 +303,19 @@ function renderSliceLabels(
 /**
  * Render title text above the pie chart
  */
-function renderTitle(title: string, cx: number, cy: number): string {
-  const titleY = cy - 110; // Position above chart
-  return `<text x="${cx}" y="${titleY}" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">${title}</text>`;
+function renderTitle(
+  title: string,
+  x: number,
+  y: number,
+  ctx: ShapeRenderContext
+): string {
+  return renderChartTitle({
+    ctx,
+    title,
+    position: { x, y },
+    width: 0, // Centered on x directly
+    yOffset: 15,
+  });
 }
 
 /**
@@ -311,6 +326,7 @@ export const pieChart: ShapeDefinition = {
 
   bounds(ctx: ShapeRenderContext): { width: number; height: number } {
     const size = 250;
+    const titleHeight = ctx.node.label ? 30 : 0; // Add space for title if present
     // Show legend by default unless explicitly set to false
     const showLegend = ctx.node.data?.showLegend !== false;
 
@@ -324,20 +340,23 @@ export const pieChart: ShapeDefinition = {
       switch (legendPosition) {
         case 'top':
         case 'bottom':
-          return { width: size, height: size + horizontalLegendHeight + 10 };
+          return {
+            width: size,
+            height: size + horizontalLegendHeight + titleHeight + 10,
+          };
         case 'left':
         case 'top-left':
         case 'bottom-left':
-          return { width: size + legendWidth + 10, height: size };
+          return { width: size + legendWidth + 10, height: size + titleHeight };
         case 'right':
         case 'top-right':
         case 'bottom-right':
         default:
-          return { width: size + legendWidth + 10, height: size };
+          return { width: size + legendWidth + 10, height: size + titleHeight };
       }
     }
 
-    return { width: size, height: size };
+    return { width: size, height: size + titleHeight };
   },
 
   anchors(_ctx: ShapeRenderContext) {
@@ -353,13 +372,15 @@ export const pieChart: ShapeDefinition = {
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
     const size = 250;
+    const title = ctx.node.label; // Title from node label only
+    const titleHeight = title ? 30 : 0; // Space for title
     const legendPosition =
       (ctx.node.data?.legendPosition as LegendPosition) || 'bottom-right';
     const showLegend = ctx.node.data?.showLegend !== false;
 
-    // Adjust pie chart position based on legend position
+    // Adjust pie chart position based on legend position and title
     let pieX = position.x;
-    let pieY = position.y;
+    let pieY = position.y + titleHeight; // Push down for title
 
     if (showLegend) {
       const legendWidth = 150;
@@ -367,7 +388,7 @@ export const pieChart: ShapeDefinition = {
 
       switch (legendPosition) {
         case 'top':
-          pieY = position.y + horizontalLegendHeight + 10;
+          pieY = position.y + titleHeight + horizontalLegendHeight + 10;
           break;
         case 'left':
         case 'top-left':
@@ -381,18 +402,20 @@ export const pieChart: ShapeDefinition = {
     const cy = pieY + size / 2;
     const radius = size / 2 - 10; // Leave margin for stroke
 
-    // Normalize and calculate slices
-    const data = normalizeData(ctx.node.data);
-    const slices = calculateSlices(data);
-
-    // Get custom colors if provided
+    // Get custom labels and colors if provided
+    const customLabels = Array.isArray(ctx.node.data?.labels)
+      ? (ctx.node.data.labels as string[])
+      : undefined;
     const customColors = Array.isArray(ctx.node.data?.colors)
       ? (ctx.node.data.colors as string[])
       : undefined;
 
-    // Get title if provided
-    const title = ctx.node.data?.title;
-    const titleElement = title ? renderTitle(title as string, cx, cy) : '';
+    // Normalize and calculate slices
+    const data = normalizeData(ctx.node.data, customLabels);
+    const slices = calculateSlices(data);
+
+    // Render title element (already defined at top of function)
+    const titleElement = title ? renderTitle(title, cx, position.y, ctx) : '';
 
     // Render slices
     const paths = renderSlices(slices, cx, cy, radius, ctx, customColors);

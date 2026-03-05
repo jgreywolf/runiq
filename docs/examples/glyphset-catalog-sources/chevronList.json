@@ -1,0 +1,20 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "chevronList",
+      "shape": "chevronList",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ],
+        "direction": "TB"
+      }
+    }
+  ],
+  "edges": []
+}

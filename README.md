@@ -6,16 +6,20 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-1098%2B-brightgreen.svg)](./packages)
 
-**🚀 Status**: Phase 1 Complete - Core types, **75 shapes**, ELK layout, hierarchical containers!  
+**🚀 Status**: Phase 1 Complete - Core types, **233 shapes**, ELK layout, hierarchical containers!  
+**⚡ NEW**: UML 2.5 Class Relationships - Multiplicity, Aggregation/Composition diamonds, Role names! 💎  
 **⚡ NEW**: C4 Architecture diagrams - System Context, Containers, Components with official color palette! 🏗️  
 **⚡ NEW**: UML Class Diagrams with generics, member-level edges, and design patterns! 🎨  
 **⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
-**⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️  
-**⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬  
+**⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️
+
+**⚡ NEW**: Pedigree diagrams for family trees - people, spouses, and parentage (including adoption). 🧬  
+
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
-**⚡ NEW**: UML relationships - stereotypes (<<include>>, <<extend>>), line styles, arrow types!  
-**⚡ NEW**: Block diagram support for control systems & signal processing!  
-**⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!
+**⚡ NEW**: UML relationships - stereotypes (`<<include>>`, `<<extend>>`), line styles, arrow types!  
+**⚡ NEW**: Control system support for control systems & signal processing!  
+**⚡ NEW**: LaTeX & Simulink export for control systems and academic papers!  
+**⚡ NEW**: P&ID (Piping & Instrumentation Diagrams) following ISA-5.1 standards! 🏭
 
 ## ✨ Features
 
@@ -24,7 +28,7 @@
 - **Two inputs, one AST**: Human-friendly DSL and 1:1 JSON format
 - **Pure SVG output**: No HTML hacks, embed-safe for PowerPoint/Keynote/Google Slides
 - **Pluggable system**: Extensible shapes, icons, layout engines, and themes
-- **SvelteKit editor**: Monaco code editor with real-time preview
+- **SvelteKit editor**: CodeMirror code editor with real-time preview
 - **Standards compliant**: SVG 1.1/2.0 friendly with accessibility support
 
 ### C4 Architecture Diagrams (NEW! 🎉)
@@ -48,21 +52,31 @@
 - **Member-level edges**: Revolutionary syntax for FK relationships: `Order.customerId -> Customer.id`
 - **Method signatures**: Full parameter lists with types and return values
 - **Abstract methods**: Rendered in italic with `abstract:true` flag
-- **Static members**: Support for static fields and methods
+- **Static members**: Support for static fields and methods (underlined in output)
+- **Derived attributes**: `/` prefix for calculated fields
 - **Default values**: Show field initialization values
 - **Design patterns**: 6 comprehensive examples (inheritance, interfaces, generics, factory, observer, domain models)
 - **Database modeling**: Perfect for entity-relationship diagrams with FK connections
 
-### UML Relationships
+### UML Relationships (ENHANCED! 🎉)
 
-- **Stereotypes**: <<include>>, <<extend>>, <<uses>>, <<implements>>, custom stereotypes
+- **Stereotypes**: `<<include>>`, `<<extend>>`, `<<uses>>`, `<<implements>>`, custom stereotypes
 - **Line styles**: Solid, dashed, dotted for different relationship types
 - **Arrow types**:
   - Standard (filled) - associations
   - Hollow (open triangle) - generalization/inheritance
   - Open (V-shaped) - dependencies
   - None - undirected relationships
+- **UML 2.5 Compliant Relationships**:
+  - **Multiplicity/Cardinality**: `0..1`, `1`, `1..*`, `0..*`, `*`, `1..5` on both ends
+  - **Aggregation**: Hollow diamond (◇) for shared ownership (has-a relationship)
+  - **Composition**: Filled diamond (◆) for strong ownership (lifecycle dependency)
+  - **Role Names**: Labels at source and target ends of associations
+  - **Edge Types**: association, aggregation, composition, dependency, generalization, realization
+  - **Navigability**: Directional indicators (parsing complete, rendering pending)
+  - **Constraints**: `{ordered}`, `{unique}`, `{readonly}` (parsing complete, rendering pending)
 - **Complete UML support**: Use case, class, sequence diagrams with proper notation
+- **564 tests passing**: Comprehensive test coverage for all relationship features
 
 ### Electrical & Digital Circuits (NEW! 🎉)
 
@@ -74,14 +88,14 @@
 - **Complete workflow**: Design → Simulate → Visualize from single source
 - **Version control friendly**: Track circuit changes like code
 
-### Block Diagrams & Control Systems (NEW! 🎉)
+### Control System Diagrams (NEW! 🎉)
 
 - **Control system blocks**: Transfer functions, gain blocks, integrators, differentiators
 - **Signal operations**: Summing junctions (+), multiply (×), divide (÷), compare
 - **Standard notation**: Laplace domain (s), time delays (e^-sT), saturation blocks
 - **Feedback loops**: Model closed-loop control systems with feedback paths
 - **Engineering applications**: PID controllers, state-space models, signal processing
-- **5 example diagrams**: Ready-to-use templates in `examples/block-diagrams/`
+- **5 example diagrams**: Ready-to-use templates in `examples/control-diagrams/`
 
 ### Mindmap Diagrams (NEW! 🎉)
 
@@ -95,16 +109,11 @@
 - **Flexible spacing**: Control node distance for clarity
 - **4 example diagrams**: Simple brainstorming, project planning, learning roadmap, business strategy
 
-### Pedigree Charts (NEW! 🎉)
+### Pedigree Diagrams (NEW! 🎉)
 
-- **Medical genetics notation**: Standard symbols for genealogy and clinical genetics
-- **Gender-specific shapes**: Male (square), female (circle), unknown sex (diamond)
-- **Genetic status markers**: Affected (black fill), carrier (half-fill), normal (white)
-- **Vital status**: Deceased individuals with diagonal line overlay
-- **Relationship types**: Marriage (horizontal line, no arrow), consanguinity (double line)
-- **Property-based syntax**: Inline `affected:true`, `carrier:true`, `deceased:true`
-- **Standards compliant**: Follows medical/genetics pedigree conventions
-- **5 example diagrams**: Inheritance patterns, consanguinity, multi-generation families
+- **Family trees**: People, spouse relationships, and parentage
+- **Adoption support**: Distinguish adopted connections
+- **Metadata fields**: Name, date of birth, date of death, sex markers
 
 ### Quantum Circuits (NEW! 🎉)
 
@@ -125,6 +134,20 @@
 - **Security visualization**: Firewalls, DMZs, security zones
 - **Cloud integration**: Multi-cloud and hybrid architectures
 - **Enterprise ready**: Data centers, campus networks, branch offices
+
+### P&ID Diagrams (NEW! 🎉)
+
+- **ISA-5.1 compliant**: Industry-standard Piping & Instrumentation Diagrams
+- **64 equipment types**: Vessels, pumps, compressors, heat exchangers, valves, safety equipment
+- **27+ instrument types**: Transmitters, controllers, indicators, alarms following tag notation
+- **Complete tag notation**: FT-101, TIC-201, PAH-903 - standard ISA-5.1 naming
+- **Line types**: Process (solid), utility (blue), signal (dashed), electrical (dotted)
+- **Control loops**: Flow, temperature, pressure, level, composition, pH, speed control
+- **Safety systems**: PSVs, rupture disks, alarm systems (high/low/high-high/low-low)
+- **Material specifications**: 12 materials (CS, SS316, Hastelloy, PTFE, etc.)
+- **Pressure ratings**: ANSI (150#-2500#) and PN (PN10-PN40) classes
+- **Pipe schedules**: SCH10-SCH160, STD, XS, XXS
+- **5 example diagrams**: Tank/pump, heat exchanger, distillation, reactor safety, compressor
 
 ## 🚀 Quick Start
 
@@ -156,6 +179,7 @@ pnpm dev
 | [`@runiq/parser-dsl`](./packages/parser-dsl)               | Langium-based DSL parser           | 114 ✅ |
 | [`@runiq/layout-base`](./packages/layout-base)             | ELK layout engine adapter          | 40 ✅  |
 | [`@runiq/renderer-svg`](./packages/renderer-svg)           | SVG rendering engine               | 30 ✅  |
+| [`@runiq/web`](./packages/web)                             | Browser SDK (parse→layout→render)  | 2 ✅   |
 | [`@runiq/io-json`](./packages/io-json)                     | JSON import/export                 | 28 ✅  |
 | [`@runiq/icons-fontawesome`](./packages/icons-fontawesome) | Font Awesome icon provider         | -      |
 | [`@runiq/cli`](./packages/cli)                             | Command-line interface             | -      |
@@ -168,7 +192,7 @@ pnpm dev
 | [`@runiq/export-verilog`](./packages/export-verilog)         | Verilog HDL generator (digital)      | 15 ✅ |
 | [`@runiq/renderer-schematic`](./packages/renderer-schematic) | IEEE-standard schematic SVG renderer | 46 ✅ |
 
-### Block Diagram Export Packages (NEW! 🎉)
+### Control system Diagram Export Packages (NEW! 🎉)
 
 | Package                                                | Description                                  | Tests |
 | ------------------------------------------------------ | -------------------------------------------- | ----- |
@@ -181,21 +205,41 @@ pnpm dev
 | ------------------------------- | -------------------- |
 | [`runiq-editor`](./apps/editor) | SvelteKit web editor |
 
+### Use in web apps (npm)
+
+Install the browser SDK and render diagrams directly in your app:
+
+```bash
+pnpm add @runiq/web
+```
+
+```ts
+import { renderRuniqToSvg } from '@runiq/web';
+
+const text = `diagram "My Diagram" {\n  shape A as @rectangle label:"Hello"\n  shape B as @rectangle label:"World"\n  A -link-> B\n}`;
+const { svg } = await renderRuniqToSvg(text);
+```
+
+CLI usage:
+
+```bash
+pnpm add -g @runiq/cli
+runiq render input.runiq > out.svg
+```
+
 ## Parser Technology
 
 Runiq uses **[Langium](https://langium.org/)** for parsing - a modern TypeScript language engineering framework with:
 
-✅ **Built-in LSP support** - Ready for VS Code extensions and Monaco editor  
+✅ **Built-in LSP support** - Ready for VS Code extensions and CodeMirror editor  
 ✅ **Auto-generated typed AST** - TypeScript types derived from grammar  
 ✅ **Declarative grammar** - Clean `.langium` syntax  
 ✅ **Production-proven** - Used by Mermaid.js for new diagrams  
 ✅ **Active maintenance** - Regular updates from TypeFox/Eclipse
 
-See [docs/langium-migration.md](./docs/langium-migration.md) for migration details.
-
 ## Apps
 
-- `editor` - SvelteKit editor with Monaco
+- `editor` - SvelteKit editor with CodeMirror
 - `playground` - Simple demo
 
 ## Example DSL
@@ -203,25 +247,26 @@ See [docs/langium-migration.md](./docs/langium-migration.md) for migration detai
 ### Software Diagram - Basic Flowchart
 
 ```runiq
-diagram "Auth Flow" direction: LR
+diagram "Auth Flow"
+direction LR
 
-style default fill:#f7f7ff stroke:#444 font:Inter fontSize:14
-style decision fill:#fff7e6 stroke:#aa7700
+style default fill:#f7f7ff strokeColor:#444 font:Inter fontSize:14
+style decision fill:#fff7e6 strokeColor:#aa7700
 
 shape User     as @actor   label:"Visitor" icon:fa/user
 shape Landing  as @rounded label:"Landing Page"
 shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hex     label:"Welcome"
+shape Welcome  as @hexagon     label:"Welcome"
 
 User -> Landing : visits
 Landing -> Check
-Check[yes] -> Welcome
+Check -yes-> Welcome
 Check[no]  -> Pricing : reads
 ```
 
 **Output:**
 
-![Auth Flow Diagram](./examples/auth-flow.svg)
+![Auth Flow Diagram](./docs/public/examples/auth-flow.svg)
 
 [See full example →](./examples/auth-flow.runiq)
 
@@ -277,12 +322,12 @@ digital "Half Adder" {
 
 ```runiq
 diagram "Banking System - Context"
-direction: TB
+direction TB
 
-shape customer as @c4-person label:"Customer"
-shape bankingSystem as @c4-system label:"Internet Banking\\nSystem"
-shape emailSystem as @c4-system label:"Email System"
-shape mainframe as @c4-system label:"Mainframe\\nBanking System"
+shape customer as @c4Person label:"Customer"
+shape bankingSystem as @c4System label:"Internet Banking\\nSystem"
+shape emailSystem as @c4System label:"Email System"
+shape mainframe as @c4System label:"Mainframe\\nBanking System"
 
 customer -Uses-> bankingSystem
 bankingSystem -Sends emails-> emailSystem
@@ -301,22 +346,24 @@ bankingSystem -Uses-> mainframe
 ### With Containers
 
 ```runiq
-diagram "Microservices" direction: LR
+diagram "Microservices" {
+  direction LR
 
-container backend "Backend Services"
-  backgroundColor: "#f3e5f5"
-  borderColor: "#7b1fa2"
-  borderWidth: 3 {
-  shape auth as @hex label: "Auth Service"
-  shape api as @hex label: "API Gateway"
-  shape users as @hex label: "User Service"
+  container backend "Backend Services"
+    fillColor: "#f3e5f5"
+    strokeColor: "#7b1fa2"
+    strokeWidth: 3 {
+    shape auth as @hexagon label: "Auth Service"
+    shape api as @hexagon label: "API Gateway"
+    shape users as @hexagon label: "User Service"
 
-  api -> auth
-  api -> users
+    api -> auth
+    api -> users
+  }
+
+  shape web as @rounded label: "Web UI"
+  web -> api : HTTPS
 }
-
-shape web as @rounded label: "Web UI"
-web -> api : HTTPS
 ```
 
 _SVG output coming soon - see [examples/microservices.runiq](./examples/microservices.runiq)_
@@ -347,11 +394,11 @@ Customer -> Withdraw
 Customer -> Deposit
 Staff -> CheckBalance
 
-# <<include>> - Required dependency (dashed, open arrow)
+# `<<include>>` - Required dependency (dashed, open arrow)
 Withdraw -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
 Deposit -> Authenticate stereotype: "include" lineStyle: dashed arrowType: open
 
-# <<extend>> - Optional extension (dashed, open arrow)
+# `<<extend>>` - Optional extension (dashed, open arrow)
 PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open
 ```
 
@@ -361,7 +408,7 @@ PrintReceipt -> Withdraw stereotype: "extend" lineStyle: dashed arrowType: open
 - ⭕ **Use case ovals** - Horizontal ellipses for system functionality
 - 📦 **System boundaries** - Dotted rectangles grouping related use cases
 - 🔗 **Associations** - Connections showing actor-use case relationships
-- 📋 **Stereotypes** - <<include>>, <<extend>> with proper UML notation
+- 📋 **Stereotypes** - `<<include>>`, `<<extend>>` with proper UML notation
 
 _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq](./examples/use-case-diagram/banking-advanced.runiq)_
 
@@ -376,7 +423,7 @@ _SVG output coming soon - see [examples/use-case-diagram/banking-advanced.runiq]
 
 ```runiq
 diagram "Domain Model" {
-  direction: TB
+  direction TB
 
   // Customer entity
   shape Customer as @class label:"Customer"
@@ -421,6 +468,54 @@ diagram "Domain Model" {
 - Design patterns (Factory, Observer)
 - Domain models with foreign keys
 
+### P&ID - Process Flow with Control (NEW! 🎉)
+
+```runiq
+pid "Simple Process Flow" {
+  // Equipment
+  equipment T-101 type:storageTank volume:1000 unit:L material:CS rating:150#
+  equipment P-101 type:pumpCentrifugal flowRate:50 unit:m³/h material:CS
+  equipment FCV-101 type:valveControl rating:150#
+
+  // Instruments (ISA-5.1 notation)
+  instrument FT-101 type:flowTransmitter range:(0,100) unit:m³/h loop:101 location:field
+  instrument FIC-101 type:flowIndicatorController range:(0,100) unit:m³/h loop:101 location:panel
+
+  // Process Lines
+  line process from:T-101.outlet to:P-101.inlet size:3 unit:in schedule:SCH40 material:CS
+  line process from:P-101.discharge to:FCV-101.inlet size:2 unit:in schedule:SCH40 material:CS
+
+  // Signal Lines
+  line signal from:FT-101 to:FIC-101
+  line signal from:FIC-101 to:FCV-101
+
+  // Control Loop
+  loop 101 controlled_variable:flow setpoint:40 unit:m³/h controller:FIC-101 mode:auto
+
+  // Process Specifications
+  fluid organic
+  pressure 6 bar operating
+  flowRate 50 m³/h
+}
+```
+
+**This generates:**
+
+- 🏭 **ISA-5.1 compliant symbols** - Standard P&ID equipment and instrument notation
+- 🏷️ **Tag notation** - FT-101, FIC-101 following ISA standards
+- 📏 **Engineering specs** - Material (CS, SS316), ratings (150#, 300#), schedules (SCH40, SCH80)
+- 🔄 **Control loops** - Flow, temperature, pressure, level control with setpoints
+- 📊 **Line types** - Process (solid), utility (blue), signal (dashed), electrical (dotted)
+- 🛡️ **Safety systems** - PSVs, rupture disks, alarm systems (high/low/high-high/low-low)
+
+[See all P&ID examples →](./examples/pid/)
+
+- Simple tank and pump system
+- Heat exchanger with temperature control
+- Distillation column with multiple loops
+- Reactor with comprehensive safety systems
+- Two-stage compressor with anti-surge control
+
 ## 🎯 Current Status (October 2025)
 
 ### ✅ Completed
@@ -429,7 +524,7 @@ diagram "Domain Model" {
 
 - [x] **61 shapes implemented** (52 flowchart/diagram + 9 block diagram shapes! 🎉)
   - Flowchart: Actors, circles, data/documents, data I/O, storage, process, specialized, annotations
-  - Block Diagrams: Transfer functions, gain, integrator, differentiator, delay, saturation, junctions
+  - Control system Diagrams: Transfer functions, gain, integrator, differentiator, delay, saturation, junctions
 - [x] **UML Class Diagrams** - Complete! 🎉
   - 3-compartment rendering (name, attributes, methods)
   - Generic type support (single, multiple, nested, bounded)
@@ -443,9 +538,10 @@ diagram "Domain Model" {
 - [x] **SVG renderer functional** - Standards-compliant output
 - [x] **Hierarchical containers - Complete! 🎉**
   - Full DSL syntax support for containers with styling and layout options
-  - Nested containers (parser + renderer complete, layout 90%)
+  - Nested containers with **two-pass layout algorithm** ✅
+  - Deep nesting support (3+ levels) with automatic sizing ✅
   - Cross-container edges fully supported
-  - 148 container-related tests (95% passing)
+  - 148 container-related tests (100% passing)
   - [See Container Documentation →](./docs/containers.md)
 
 **Electrical Circuits (NEW!):**
@@ -473,14 +569,13 @@ diagram "Domain Model" {
 - [x] **Hierarchical Containers** - ALL PHASES COMPLETE! 🎉
 - [x] **UML Relationships** - Stereotypes, line styles, arrow types complete
 - [x] **Use Case Diagrams** - Actors, use cases, system boundaries
-- [x] **Block Diagrams** - Control systems with LaTeX/Simulink export
-- [ ] **Pedigree Charts** - NEXT UP! Family trees for genealogy & genetics
+- [x] **Control system Diagrams** - Control systems with LaTeX/Simulink export
+- [x] **Pedigree Diagrams** - Family trees with spouse/parentage relationships
 
 **Research & Planning:**
 
 See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) for analysis of:
 
-- ✅ Pedigree charts (genealogy, medical genetics) - **READY TO IMPLEMENT**
 - Quantum circuit diagrams (quantum computing education)
 - Network topology diagrams (IT infrastructure)
 - UML timing diagrams (embedded systems, protocols)
@@ -489,17 +584,8 @@ See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) f
 
 **High Priority - Specialized Diagrams:**
 
-1. **Pedigree Charts** (IN PROGRESS) - Family trees, medical genetics, genealogy
-2. **Network Topology** (NEXT) - IT infrastructure, cloud architecture
-3. **Quantum Circuits** (FUTURE) - Quantum computing, quantum algorithms
-4. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocol timing
-
-**High Priority - Layout & Rendering:**
-
-1. **Alternative Layout Algorithms** - Enable ELK's force/radial/stress for all diagram types
-2. **Data-Driven Rendering** - Charts with actual data values (pie, bar, XY)
-3. **Swim Lanes/Zones** - BPMN lane partitioning with role-based organization
-4. **Time-Based Layouts** - Gantt charts, project timelines, roadmaps
+1. **Network Topology** (NEXT) - IT infrastructure, cloud architecture
+2. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocol timing
 
 **Medium Priority - Electrical/Digital:**
 
@@ -508,18 +594,6 @@ See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) f
 3. **Component Rotation** - 90°/180°/270° orientation for circuits
 4. **Digital Simulation** - Integrate with Icarus Verilog or similar tools
 5. **PCB Export** - KiCad footprint mapping for PCB design
-
-## 📚 Documentation
-
-- [Layout Research & ELK Migration](./docs/layout-research-2025.md)
-- [Diagram Type Support Analysis](./docs/diagram-type-support.md) - 45 diagram types evaluated
-- [New Diagram Types Research](./docs/new-diagram-types-research.md) - 🆕 Feasibility analysis for pedigree, quantum, network, timing, SmartArt
-- [Hierarchical Containers Design](./docs/hierarchical-containers-design.md) - Complete Phase 1-5 plan
-- [Containers Guide](./docs/containers.md) - Complete container usage documentation
-- [Use Case Diagram Guide](./examples/use-case-diagram/README.md) - UML use case documentation
-- [Block Diagram Examples](./examples/block-diagrams/README.md) - Control systems guide
-- [Dagre to ELK Migration](./docs/dagre-to-elk-migration.md)
-- [Langium Migration Guide](./docs/langium-migration.md)
 
 ## 🧪 Testing
 
@@ -568,20 +642,32 @@ Contributions are welcome! This project follows **Test-Driven Development (TDD)*
 
 See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for detailed development guidelines.
 
-## 📊 Shape Library (57 Total)
+## 📊 Shape Library (233 Total)
 
-| Category        | Count | Shapes                                                                                          |
-| --------------- | ----- | ----------------------------------------------------------------------------------------------- |
-| **Actors**      | 8     | actor, actor-circle, actor-rect, person, group, role, agent, system-actor                       |
-| **Circles**     | 10    | circle (5 sizes), dashed, dotted, thick, ellipse (wide/tall)                                    |
-| **UML**         | 2     | ellipse-wide (use cases), system-boundary (system container)                                    |
-| **Data & Docs** | 7     | document, document-multiple, stored-data, tape, card, note, paper                               |
-| **Data I/O**    | 6     | data, input, output, manual-input, display, stored-data                                         |
-| **Storage**     | 6     | database, cylinder, internal-storage, magnetic-disk, magnetic-tape, direct-access               |
-| **Process**     | 9     | process, rect, subroutine, predefined, preparation, manual, manual-operation, loop-limit, merge |
-| **Specialized** | 3     | cloud, delay, off-page-connector                                                                |
-| **Annotations** | 3     | annotation-left, annotation-right, comment                                                      |
-| **Pedigree**    | 3     | pedigree-male (square), pedigree-female (circle), pedigree-unknown (diamond)                    |
+Runiq provides **248 professional shapes** across 18 categories in the core registry (diagram + glyphset shapes; see the Shape Reference for the diagram profile catalog):
+
+| Category          | Count | Description                                                   |
+| ----------------- | ----- | ------------------------------------------------------------- |
+| **Basic**         | 22    | Geometric shapes (rectangles, circles, polygons)              |
+| **Flowchart**     | 14    | ISO 5807 flowchart symbols                                    |
+| **Storage**       | 7     | Database, cylinder, disk storage                              |
+| **Rect Variants** | 7     | Specialized rectangles (framed, tagged, notched)              |
+| **Control**       | 10    | Transfer functions, gain, integrator, summing junctions       |
+| **Special**       | 7     | Text blocks, braces, lightning, hourglass                     |
+| **Charts**        | 7     | Pie, bar, line, radar, venn, sankey                           |
+| **Glyphsets**     | 57    | SmartArt-style templates (pyramid, matrix, cycle, org charts) |
+| **Network**       | 7     | Server, router, switch, firewall, cloud                       |
+| **Quantum**       | 12    | Quantum gates (X, Y, Z, H, S, T, CNOT, SWAP)                  |
+| **UML**           | 52    | Class, state, activity, sequence, component diagrams          |
+| **C4**            | 4     | C4 architecture (person, system, container, component)        |
+| **BPMN**          | 6     | Business process modeling notation                            |
+| **AWS**           | 6     | AWS service shapes (EC2, S3, Lambda, RDS, VPC, API Gateway)   |
+| **ERD**           | 6     | Entity-relationship diagram shapes                            |
+| **Data Flow**     | 6     | DFD shapes (external entity, process, data store)             |
+
+See [Shape Reference](/docs/reference/shapes.md) for complete catalog with examples.
+
+Schematic profiles use a separate symbol registry (36 electrical/digital symbols).
 
 ## 🎨 Supported Diagram Types
 
@@ -609,14 +695,11 @@ See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for d
 | ✅     | Digital logic       | Grammar ready, Verilog export coming soon |
 | 🟡     | Mixed-signal        | Analog + digital in same circuit (future) |
 
-### Medical & Genetics (NEW!)
+### Pedigree Diagrams (NEW!)
 
-| Status | Type            | Notes                                          |
-| ------ | --------------- | ---------------------------------------------- |
-| ✅     | Pedigree charts | Male/female/unknown shapes, genetic markers 🎉 |
-| ✅     | Inheritance     | Affected, carrier, normal status               |
-| ✅     | Relationships   | Marriage, consanguinity (double line)          |
-| ✅     | Vital status    | Deceased marker (diagonal line)                |
+| Status | Type              | Notes                                                  |
+| ------ | ----------------- | ------------------------------------------------------ |
+| ✅     | Pedigree diagrams | Family trees with spouses, parentage, and adoption     |
 
 ## 🚀 What Makes Runiq Unique?
 

@@ -1,4 +1,4 @@
-diagram "AWS VPC Architecture"
+diagram "AWS VPC Architecture" {
 
 # VPC as a container with AWS resources inside
 container vpc1 "Production VPC" as @awsVpc {
@@ -15,9 +15,10 @@ container vpc1 "Production VPC" as @awsVpc {
 
 # API Gateway outside VPC
 shape api as @awsApiGateway label:"Public API"
-api -> shape ec2_1 label:"HTTP"
-api -> shape ec2_2 label:"HTTP"
+api -> ec2_1 label:"HTTP"
+api -> ec2_2 label:"HTTP"
 
 # Lambda function
 shape lambda as @awsLambda label:"ProcessData"
-lambda -> shape rds label:"Write"
+lambda -> rds label:"Write"
+}

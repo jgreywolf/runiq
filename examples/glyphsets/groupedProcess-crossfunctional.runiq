@@ -1,0 +1,19 @@
+// Grouped Process - Parallel Streams Converging
+glyphset groupedProcess "Cross-Functional Project" {
+    theme "forest"
+group "Design Team" {
+    item "User Research"
+    item "UI Design"
+  }
+  group "Engineering" {
+    item "Architecture"
+    item "Backend API"
+    item "Frontend"
+  }
+  group "QA" {
+    item "Test Strategy"
+    item "Automation"
+  }
+  
+  mergePoint "Product Launch"
+}

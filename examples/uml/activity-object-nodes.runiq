@@ -1,0 +1,46 @@
+diagram "UML Activity Diagram - Object Nodes" {
+  direction TB
+
+  # Activity nodes
+  shape init as @initialState
+  shape readInput as @activity label: "Read User Input"
+  shape validateData as @activity label: "Validate Data"
+  shape processOrder as @activity label: "Process Order"
+  shape saveToDb as @activity label: "Save to Database"
+  shape sendConfirmation as @activity label: "Send Confirmation"
+  shape final as @activityFinal
+
+  # Object nodes - data flowing through activities
+  shape userInput as @objectNode label: "User Input"
+  shape validatedData as @objectNode label: "Validated Data"
+  shape orderData as @objectNode label: "Order Data"
+  
+  # Central buffer - temporary storage
+  shape orderQueue as @centralBuffer label: "Order Queue"
+  
+  # Data store - persistent storage
+  shape database as @dataStore label: "Order Database"
+  shape customerDb as @dataStore label: "Customer DB"
+
+  # Control flow
+  init -> readInput
+  readInput -> validateData
+  validateData -> processOrder
+  processOrder -> saveToDb
+  saveToDb -> sendConfirmation
+  sendConfirmation -> final
+
+  # Object flows (data flows between activities and object nodes)
+  readInput -> userInput label: "«output»"
+  userInput -> validateData label: "«input»"
+  
+  validateData -> validatedData label: "«output»"
+  validatedData -> processOrder label: "«input»"
+  
+  processOrder -> orderData label: "«output»"
+  orderData -> orderQueue label: "enqueue"
+  orderQueue -> saveToDb label: "dequeue"
+  
+  saveToDb -> database label: "store"
+  customerDb -> processOrder label: "read"
+}

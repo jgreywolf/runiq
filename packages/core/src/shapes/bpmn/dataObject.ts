@@ -1,4 +1,9 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * BPMN Data Object shape - represents information or data used in a process.
@@ -21,25 +26,18 @@ export const bpmnDataObjectShape: ShapeDefinition = {
   },
 
   anchors(ctx: ShapeRenderContext) {
-    const bounds = this.bounds(ctx);
-    const halfWidth = bounds.width / 2;
-    const halfHeight = bounds.height / 2;
-
-    return [
-      { x: halfWidth, y: 0, name: 'top' },
-      { x: bounds.width, y: halfHeight, name: 'right' },
-      { x: halfWidth, y: bounds.height, name: 'bottom' },
-      { x: 0, y: halfHeight, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1.5;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
 
     const foldSize = 12; // Size of the folded corner
 
@@ -62,7 +60,7 @@ export const bpmnDataObjectShape: ShapeDefinition = {
     const label = ctx.node.label || '';
     const textX = x + bounds.width / 2;
     const textY = y + bounds.height / 2 + (ctx.style.fontSize || 14) / 3;
-    svg += `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily || 'Arial'}" font-size="${ctx.style.fontSize || 14}" fill="#000000">${label}</text>`;
+    svg += renderShapeLabel(ctx, label, textX, textY);
 
     return svg;
   },

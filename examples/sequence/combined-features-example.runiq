@@ -1,0 +1,52 @@
+// Combined Features Example
+// Demonstrates gates, duration constraints, and interaction use together
+
+sequence "Microservices Request Processing" {
+  participant "Mobile App" as actor
+  participant "API Gateway" as boundary
+  participant "Auth Service" as control
+  participant "Product Service" as control
+  participant "Recommendation Engine" as control
+  participant "Redis Cache" as database
+
+  note "Complex flow with SLAs, modular sub-sequences, and gate-based routing" position:over participants:("API Gateway")
+
+  // Initial request
+  message from:"Mobile App" to:"API Gateway" label:"GET /products?user=123" type:sync
+  message from:"API Gateway" to:"Auth Service" label:"validateJWT(token)" type:sync
+
+  // Authentication with gates and ref to another sequence
+  fragment ref "JWT Validation" from:1 to:2 ref:"JWTValidationSequence" gates:["jwtIn", "validOut", "invalidOut"]
+
+  // Cache check
+  message from:"API Gateway" to:"Redis Cache" label:"get(products:123)" type:sync
+  message from:"Redis Cache" to:"API Gateway" label:"cache miss" type:return
+
+  // Parallel service calls with gates
+  message from:"API Gateway" to:"Product Service" label:"getProducts(user:123)" type:async
+  message from:"API Gateway" to:"Recommendation Engine" label:"getRecommendations(user:123)" type:async
+  message from:"Product Service" to:"API Gateway" label:"product list" type:return
+  message from:"Recommendation Engine" to:"API Gateway" label:"recommendations" type:return
+  
+  fragment par "Fetch Data" from:5 to:8 gates:["parallelIn", "productGate", "recoGate", "mergeGate"]
+
+  // Cache update
+  message from:"API Gateway" to:"Redis Cache" label:"set(products:123, data)" type:async
+
+  // Response
+  message from:"API Gateway" to:"Mobile App" label:"200 OK with products" type:return
+
+  note "Gates (routing), duration constraints (SLAs), and ref (modularity) work together seamlessly" position:right participants:("API Gateway")
+
+  // SLA for authentication (critical for UX)
+  durationConstraint from:1 to:2 constraint:"< 50ms"
+
+  // Duration constraint for cache check
+  durationConstraint from:3 to:4 constraint:"< 10ms"
+
+  // Duration constraint for parallel processing
+  durationConstraint from:5 to:8 constraint:"< 200ms"
+
+  // Overall end-to-end SLA with all features
+  durationConstraint from:0 to:10 constraint:"< 300ms P95 SLA"
+}

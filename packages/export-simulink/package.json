@@ -1,7 +1,7 @@
 {
   "name": "@runiq/export-simulink",
   "version": "0.1.0",
-  "description": "Simulink MDL exporter for Runiq block diagrams",
+  "description": "Simulink MDL exporter for Runiq Control system block diagrams",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

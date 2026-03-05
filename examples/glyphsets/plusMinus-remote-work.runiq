@@ -1,0 +1,13 @@
+// Plus/Minus Glyphset Example: Remote Work
+//
+// Compare advantages and disadvantages of remote work.
+// Demonstrates unbalanced comparison (3 pros, 2 cons).
+
+glyphset plusMinus "Remote Work Analysis" {
+  theme "forest"
+  item "Flexibility"
+  item "No Commute"
+  item "Lower Costs"
+  item "Isolation"
+  item "Communication Challenges"
+}

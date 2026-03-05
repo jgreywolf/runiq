@@ -1,0 +1,14 @@
+// Plus/Minus Glyphset Example: Technology Adoption
+//
+// Decision analysis for adopting new technology.
+// Demonstrates larger comparison (3 pros, 3 cons).
+
+glyphset plusMinus "New Technology Adoption" {
+    theme "forest"
+item "Innovation"
+  item "Competitive Edge"
+  item "Efficiency Gains"
+  item "Learning Curve"
+  item "Implementation Cost"
+  item "Technical Debt"
+}

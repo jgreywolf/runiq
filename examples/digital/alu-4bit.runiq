@@ -1,12 +1,5 @@
 digital "ALU4bit" {
-  module ALU4bit {
-    input [3:0] a
-    input [3:0] b
-    input [1:0] op
-    output [3:0] result
-    output zero
-    output carry
-  }
+  module ALU4bit ports:(a[3:0], b[3:0], opcode[1:0], out[3:0], zero, carry)
   
   # Operation codes:
   # 00 = ADD
@@ -14,48 +7,30 @@ digital "ALU4bit" {
   # 10 = AND
   # 11 = OR
   
-  net a[3:0], b[3:0], op[1:0]
-  net result[3:0], zero, carry
+  net a[3:0], b[3:0], opcode[1:0]
+  net out[3:0], zero, carry
   net add_result[3:0], sub_result[3:0]
   net and_result[3:0], or_result[3:0]
   
   # Adder instance
-  instance ADDER of:Adder4bit {
-    port a -> a
-    port b -> b
-    port sum -> add_result
-    port carry_out -> carry
-  }
+  inst ADDER of:Adder4bit map:(a:a, b:b, sum:add_result, carry_out:carry)
   
   # Subtractor instance
-  instance SUBTRACTOR of:Subtractor4bit {
-    port a -> a
-    port b -> b
-    port diff -> sub_result
-  }
+  inst SUBTRACTOR of:Subtractor4bit map:(a:a, b:b, diff:sub_result)
   
   # AND gate array
-  instance AND_OP of:ANDArray4bit {
-    port a -> a
-    port b -> b
-    port y -> and_result
-  }
+  inst AND_OP of:ANDArray4bit map:(a:a, b:b, y:and_result)
   
   # OR gate array
-  instance OR_OP of:ORArray4bit {
-    port a -> a
-    port b -> b
-    port y -> or_result
-  }
+  inst OR_OP of:ORArray4bit map:(a:a, b:b, y:or_result)
   
   # Result multiplexer
-  instance MUX of:Mux4to1 {
-    param WIDTH = 4
-    port sel -> op
-    port in0 -> add_result
-    port in1 -> sub_result
-    port in2 -> and_result
-    port in3 -> or_result
-    port out -> result
-  }
+  inst MUX of:Mux4to1 params:(WIDTH:4) map:(
+    sel:opcode,
+    in0:add_result,
+    in1:sub_result,
+    in2:and_result,
+    in3:or_result,
+    out:out
+  )
 }

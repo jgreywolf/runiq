@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Framed circle - Circle with outer frame
@@ -43,10 +45,8 @@ export const framedCircleShape: ShapeDefinition = {
     const cy = y + bounds.height / 2;
     const outerR = bounds.width / 2;
     const innerR = outerR - 5; // 5px frame spacing
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+    const label = ctx.node.label || ctx.node.id;
 
     return `
       <circle cx="${cx}" cy="${cy}" r="${outerR}"
@@ -54,10 +54,7 @@ export const framedCircleShape: ShapeDefinition = {
       <circle cx="${cx}" cy="${cy}" r="${innerR}"
               fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy)}
     `;
   },
 };

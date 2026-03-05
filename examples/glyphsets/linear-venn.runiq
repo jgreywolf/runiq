@@ -1,0 +1,11 @@
+// Linear Venn - Horizontal overlapping circles
+// Shows progressive relationship between sets
+
+glyphset linearVenn "Service Offerings" {
+  theme "colorful"
+  circle "Consulting"
+  circle "Development"
+  circle "Support"
+  circle "Training"
+  overlap 0.4
+}

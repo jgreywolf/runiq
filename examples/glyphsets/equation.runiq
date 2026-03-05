@@ -1,0 +1,11 @@
+// Equation - A + B = C relationship formula
+// Shows mathematical or logical relationships between concepts
+
+glyphset equation "Innovation Formula" {
+  theme "professional"
+  operator "+"
+  input "Creativity"
+  input "Technology"
+  input "Market Insight"
+  output "Breakthrough Product"
+}

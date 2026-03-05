@@ -13,15 +13,17 @@ import {
   mkdirSync,
 } from 'fs';
 import { join, dirname, basename, extname } from 'path';
-import { parseRuniqDSL } from '@runiq/parser-dsl';
-import { layoutDiagram } from '@runiq/layout-base';
-import { renderSVG } from '@runiq/renderer-svg';
 import { fileURLToPath } from 'url';
+
+// Import from built packages using relative paths
+import { parse } from '../packages/parser-dsl/dist/index.js';
+import { ElkLayoutEngine } from '../packages/layout-base/dist/index.js';
+import { renderSvg } from '../packages/renderer-svg/dist/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const EXAMPLES_DIR = join(__dirname, 'examples');
+const EXAMPLES_DIR = join(__dirname, '..', 'examples');
 const SKIP_DIRS = ['output', 'electrical', 'digital', 'verilog-output']; // Skip circuit examples (they have their own renderers)
 
 function findRuniqFiles(dir, files = []) {
@@ -52,30 +54,36 @@ async function generateSVG(runiqPath) {
     const dslContent = readFileSync(runiqPath, 'utf-8');
 
     // Parse DSL
-    const parseResult = await parseRuniqDSL(dslContent);
+    const parseResult = await parse(dslContent);
 
-    if (parseResult.errors && parseResult.errors.length > 0) {
-      console.error(`  ❌ Parse errors:`);
-      parseResult.errors.forEach((err) => console.error(`     ${err.message}`));
+    if (!parseResult.success) {
+      console.error(`  ❌ Parse failed`);
+      if (parseResult.errors && parseResult.errors.length > 0) {
+        parseResult.errors.forEach((err) => {
+          const msg = err?.message || err?.toString() || 'Unknown error';
+          console.error(`     ${msg}`);
+        });
+      }
       return false;
     }
 
-    if (!parseResult.ast) {
-      console.error(`  ❌ No AST generated`);
+    if (!parseResult.document) {
+      console.error(`  ❌ No diagram generated`);
       return false;
     }
 
     // Layout
-    const laidOut = await layoutDiagram(parseResult.ast, {
-      direction: parseResult.ast.direction || 'TB',
+    const layoutEngine = new ElkLayoutEngine();
+    const laidOut = await layoutEngine.layout(parseResult.document, {
+      direction: parseResult.document.direction || 'TB',
       spacing: 80,
     });
 
     // Render SVG
-    const svg = renderSVG(laidOut, {
-      title: parseResult.ast.title || 'Diagram',
-      padding: 20,
+    const result = renderSvg(laidOut, {
+      title: parseResult.document.title || 'Diagram',
     });
+    const svg = result.svg;
 
     // Write SVG file
     const svgPath = runiqPath.replace('.runiq', '.svg');

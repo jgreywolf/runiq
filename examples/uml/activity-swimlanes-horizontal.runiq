@@ -1,0 +1,45 @@
+// Activity Diagram: Cross-Functional Purchase Order Process with Horizontal Swimlanes
+// Demonstrates: Multiple horizontal swimlanes (customer, sales, warehouse)
+// Shows: Cross-container edges, decision points, and end-to-end process flow
+
+diagram "Purchase Order Process" {
+  direction LR
+  
+  // Customer swimlane - horizontal flow
+  container "Customer" orientation: horizontal fill: "#e3f2fd" padding: 20 {
+    shape c1 as @initialState
+    shape c2 as @activity label: "Submit\nOrder"
+    shape c3 as @diamond
+    shape c4 as @activity label: "Receive\nGoods"
+    shape c5 as @finalState
+  }
+  
+  // Sales Department swimlane - horizontal flow
+  container "Sales Department" orientation: horizontal fill: "#fff3e0" padding: 20 {
+    shape s1 as @activity label: "Review\nOrder"
+    shape s2 as @activity label: "Check\nInventory"
+    shape s3 as @activity label: "Approve\nOrder"
+    shape s4 as @activity label: "Generate\nInvoice"
+  }
+  
+  // Warehouse swimlane - horizontal flow
+  container "Warehouse" orientation: horizontal fill: "#e8f5e9" padding: 20 {
+    shape w1 as @activity label: "Pick\nItems"
+    shape w2 as @activity label: "Pack\nOrder"
+    shape w3 as @activity label: "Ship\nGoods"
+  }
+  
+  // Process flow across swimlanes
+  c1 -> c2
+  c2 -> s1
+  s1 -> s2
+  s2 -> s3
+  s3 -> c3
+  c3 -yes-> s4
+  s4 -> w1
+  w1 -> w2
+  w2 -> w3
+  w3 -> c4
+  c4 -> c5
+  c3 -no-> c5
+}

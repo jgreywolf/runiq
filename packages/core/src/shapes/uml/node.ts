@@ -1,4 +1,5 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Helper function to darken a color
@@ -67,10 +68,9 @@ export const nodeShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const backgroundColor =
-      (ctx.node.data?.backgroundColor as string) || '#e8f5e9';
-    const borderColor = (ctx.node.data?.borderColor as string) || '#388e3c';
-    const borderWidth = (ctx.node.data?.borderWidth as number) || 2;
+    const fillColor = (ctx.node.data?.fillColor as string) || '#e8f5e9';
+    const strokeColor = (ctx.node.data?.strokeColor as string) || '#388e3c';
+    const strokeWidth = (ctx.node.data?.strokeWidth as number) || 2;
 
     const depthOffset = 16; // 3D depth
     const mainWidth = bounds.width - depthOffset;
@@ -104,24 +104,34 @@ export const nodeShape: ShapeDefinition = {
 		`.trim();
 
     // Calculate darker colors for 3D effect
-    const darkerBg = darkenColor(backgroundColor, 0.85);
-    const darkestBg = darkenColor(backgroundColor, 0.7);
+    const darkerBg = darkenColor(fillColor, 0.85);
+    const darkestBg = darkenColor(fillColor, 0.7);
 
-    const front = `<path d="${frontPath}" fill="${backgroundColor}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
-    const top = `<path d="${topPath}" fill="${darkerBg}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
-    const right = `<path d="${rightPath}" fill="${darkestBg}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
+    const front = `<path d="${frontPath}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
+    const top = `<path d="${topPath}" fill="${darkerBg}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
+    const right = `<path d="${rightPath}" fill="${darkestBg}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
 
     // Stereotype text (top of front face)
     const fontSize = ctx.style.fontSize || 14;
     const stereotypeX = x + mainWidth / 2;
     const stereotypeY = y + depthOffset + fontSize + 8;
-    const stereotype = `<text x="${stereotypeX}" y="${stereotypeY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize - 2}" fill="#666666">«device»</text>`;
+    const stereotypeStyle = {
+      ...ctx.style,
+      fontSize: fontSize - 2,
+      color: '#666666',
+    };
+    const stereotype = renderShapeLabel(
+      { ...ctx, style: stereotypeStyle },
+      '«device»',
+      stereotypeX,
+      stereotypeY
+    );
 
     // Label text (center of front face)
     const label = ctx.node.label || '';
     const textX = x + mainWidth / 2;
     const textY = y + depthOffset + mainHeight / 2 + fontSize / 3 + 6;
-    const text = `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize}" fill="#000000">${label}</text>`;
+    const text = renderShapeLabel(ctx, label, textX, textY);
 
     return `${top}${right}${front}${stereotype}${text}`;
   },

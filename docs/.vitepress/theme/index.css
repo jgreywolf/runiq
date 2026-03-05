@@ -1,0 +1,15 @@
+/* Runiq Docs Theme overrides using brand colors */
+:root {
+  --vp-c-brand-1: #5a819e; /* primary */
+  --vp-c-brand-2: #48677e; /* hover */
+  --vp-c-brand-3: #364d5f; /* active */
+}
+
+.VPHome .VPHomeHero .image {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.VPNavBar .title .logo {
+  border-radius: 50%;
+}

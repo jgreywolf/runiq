@@ -1,0 +1,11 @@
+// Puzzle Glyphset Example: Problem Solving
+//
+// Shows steps in problem-solving process.
+// Demonstrates 3-piece puzzle pattern (horizontal layout).
+
+glyphset puzzle "Problem Solving Process" {
+    theme "forest"
+item "Identify Problem"
+  item "Analyze Options"
+  item "Implement Solution"
+}

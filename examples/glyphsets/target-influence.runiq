@@ -1,0 +1,9 @@
+// Target Diagram - Influence Zones
+// Shows direct to minimal influence areas
+
+glyphset target "Influence Mapping" {
+    theme "forest"
+circle "Direct Influence"
+  circle "Moderate Influence"
+  circle "Minimal Influence"
+}

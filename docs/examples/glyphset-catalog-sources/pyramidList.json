@@ -1,0 +1,40 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "pyramidList",
+      "shape": "pyramidList",
+      "label": "",
+      "data": {
+        "levels": [
+          {
+            "label": "Level 1",
+            "value": 1,
+            "items": [
+              "Item A",
+              "Item B"
+            ]
+          },
+          {
+            "label": "Level 2",
+            "value": 2,
+            "items": [
+              "Item C",
+              "Item D"
+            ]
+          },
+          {
+            "label": "Level 3",
+            "value": 3,
+            "items": [
+              "Item E"
+            ]
+          }
+        ],
+        "theme": "professional"
+      }
+    }
+  ],
+  "edges": []
+}

@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Activity shape
@@ -10,25 +15,39 @@ export const activityShape: ShapeDefinition = {
 
   bounds(ctx) {
     const padding = ctx.style.padding || 12;
+    const fontSize = ctx.style.fontSize || 14;
     const nameSize = ctx.measureText(ctx.node.label || '', ctx.style);
 
-    const width = nameSize.width + padding * 2;
+    // Calculate pin label sizes if present
+    const inputPins = ctx.node.inputPins || [];
+    const outputPins = ctx.node.outputPins || [];
+
+    let maxPinWidth = 0;
+    let pinHeight = 0;
+
+    if (inputPins.length > 0 || outputPins.length > 0) {
+      pinHeight = fontSize - 2; // Smaller font for pins
+      const allPins = [...inputPins, ...outputPins];
+      for (const pin of allPins) {
+        const pinSize = ctx.measureText(pin, {
+          ...ctx.style,
+          fontSize: pinHeight,
+        });
+        maxPinWidth = Math.max(maxPinWidth, pinSize.width);
+      }
+    }
+
+    const width = Math.max(
+      nameSize.width + padding * 2,
+      maxPinWidth + padding * 2
+    );
     const height = nameSize.height + padding * 2;
 
     return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -37,23 +56,76 @@ export const activityShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
+    const fontSize = ctx.style.fontSize || 14;
+    const fontFamily = ctx.style.font || 'Arial';
     const cornerRadius = 10;
+
+    const inputPins = ctx.node.inputPins || [];
+    const outputPins = ctx.node.outputPins || [];
+    const pinSize = 10; // Small square for pin
+    const pinFontSize = fontSize - 2;
 
     let svg = `<g class="activity-shape">`;
 
-    // Rounded rectangle
+    // Rounded rectangle (main shape)
     svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" `;
     svg += `rx="${cornerRadius}" ry="${cornerRadius}" `;
     svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
+    // Input pins (left side, small squares)
+    const inputSpacing = h / (inputPins.length + 1);
+    inputPins.forEach((pin, i) => {
+      const pinY = y + inputSpacing * (i + 1) - pinSize / 2;
+      const pinX = x - pinSize / 2;
+
+      // Pin square
+      svg += `<rect x="${pinX}" y="${pinY}" width="${pinSize}" height="${pinSize}" `;
+      svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+      // Pin label (left of the pin)
+      const pinLabelStyle = { fontSize: pinFontSize, color: stroke };
+      svg += renderShapeLabel(
+        { style: pinLabelStyle } as any,
+        pin,
+        pinX - 4,
+        pinY + pinSize / 2 + 3,
+        'end'
+      );
+    });
+
+    // Output pins (right side, small squares)
+    const outputSpacing = h / (outputPins.length + 1);
+    outputPins.forEach((pin, i) => {
+      const pinY = y + outputSpacing * (i + 1) - pinSize / 2;
+      const pinX = x + w - pinSize / 2;
+
+      // Pin square
+      svg += `<rect x="${pinX}" y="${pinY}" width="${pinSize}" height="${pinSize}" `;
+      svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+      // Pin label (right of the pin)
+      const pinLabelStyle = { fontSize: pinFontSize, color: stroke };
+      svg += renderShapeLabel(
+        { style: pinLabelStyle } as any,
+        pin,
+        pinX + pinSize + 4,
+        pinY + pinSize / 2 + 3,
+        'start'
+      );
+    });
+
     // Activity name (centered)
-    svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || '',
+      x + w / 2,
+      y + h / 2
+    );
 
     svg += `</g>`;
     return svg;

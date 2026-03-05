@@ -2,7 +2,7 @@
  * Validation utilities for hierarchical containers
  */
 
-import type { ContainerDeclaration, DiagramAst } from './types.js';
+import type { ContainerDeclaration, DiagramAst } from './types/index.js';
 
 export interface ValidationResult {
   valid: boolean;

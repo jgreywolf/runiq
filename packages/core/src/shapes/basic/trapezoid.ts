@@ -1,4 +1,7 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+import { createPolygonPath } from '../utils/svg-path-builder.js';
 
 /**
  * Trapezoid (Base Down) - Priority operations
@@ -33,28 +36,22 @@ export const trapezoidShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const inset = bounds.width * 0.2; // 20% inset at top
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+    const label = ctx.node.label || ctx.node.id;
 
     // Trapezoid with narrower top
-    const points = [
-      `${x + inset},${y}`, // top left
-      `${x + bounds.width - inset},${y}`, // top right
-      `${x + bounds.width},${y + bounds.height}`, // bottom right
-      `${x},${y + bounds.height}`, // bottom left
-    ].join(' ');
+    const path = createPolygonPath([
+      { x: x + inset, y }, // top left
+      { x: x + bounds.width - inset, y }, // top right
+      { x: x + bounds.width, y: y + bounds.height }, // bottom right
+      { x, y: y + bounds.height }, // bottom left
+    ]);
 
     return `
-      <polygon points="${points}" 
+      <path d="${path}" 
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };
@@ -92,28 +89,22 @@ export const flippedTrapezoidShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const inset = bounds.width * 0.2; // 20% inset at bottom
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+    const label = ctx.node.label || ctx.node.id;
 
     // Inverted trapezoid with narrower bottom
-    const points = [
-      `${x},${y}`, // top left
-      `${x + bounds.width},${y}`, // top right
-      `${x + bounds.width - inset},${y + bounds.height}`, // bottom right
-      `${x + inset},${y + bounds.height}`, // bottom left
-    ].join(' ');
+    const path = createPolygonPath([
+      { x, y }, // top left
+      { x: x + bounds.width, y }, // top right
+      { x: x + bounds.width - inset, y: y + bounds.height }, // bottom right
+      { x: x + inset, y: y + bounds.height }, // bottom left
+    ]);
 
     return `
-      <polygon points="${points}" 
+      <path d="${path}" 
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };

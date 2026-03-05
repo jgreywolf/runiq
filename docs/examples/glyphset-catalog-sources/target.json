@@ -1,0 +1,34 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "target",
+      "shape": "target",
+      "label": "",
+      "data": {
+        "circles": [
+          {
+            "label": "Alpha",
+            "level": 0,
+            "size": 80,
+            "color": "#546E7A"
+          },
+          {
+            "label": "Beta",
+            "level": 1,
+            "size": 140,
+            "color": "#607D8B"
+          },
+          {
+            "label": "Gamma",
+            "level": 2,
+            "size": 200,
+            "color": "#78909C"
+          }
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

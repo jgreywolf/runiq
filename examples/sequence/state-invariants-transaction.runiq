@@ -1,0 +1,34 @@
+// UML 2.5 State Invariants Example - Bank Transaction
+// Demonstrates state invariants for financial transaction integrity
+
+sequence "Bank Transfer with Invariants" {
+  participant "Customer" as actor
+  participant "Banking App" as boundary
+  participant "Transfer Service" as control
+  participant "Account A" as database
+  participant "Account B" as database
+
+  // Customer initiates transfer
+  message from:"Customer" to:"Banking App" label:"Transfer $500 to Account B" type:sync
+  
+  // Start transaction - both accounts must exist and be valid
+  message from:"Banking App" to:"Transfer Service" label:"initiateTransfer(A, B, $500)" type:sync stateInvariant:"accountA.exists && accountB.exists && accountA.active && accountB.active"
+  
+  // Check source account balance
+  message from:"Transfer Service" to:"Account A" label:"getBalance()" type:sync
+  message from:"Account A" to:"Transfer Service" label:"balance: $1000" type:return stateInvariant:"accountA.balance >= 500"
+  
+  // Debit source account - balance must be sufficient before debit
+  message from:"Transfer Service" to:"Account A" label:"debit($500)" type:sync stateInvariant:"accountA.balance >= transferAmount"
+  message from:"Account A" to:"Transfer Service" label:"debited successfully" type:return stateInvariant:"accountA.balance >= 0"
+  
+  // Credit destination account - source must be debited first
+  message from:"Transfer Service" to:"Account B" label:"credit($500)" type:sync stateInvariant:"accountA.debited && !accountB.credited"
+  message from:"Account B" to:"Transfer Service" label:"credited successfully" type:return stateInvariant:"accountB.balance >= 0"
+  
+  // Confirm transaction - both operations must succeed
+  message from:"Transfer Service" to:"Banking App" label:"transfer complete" type:return stateInvariant:"accountA.debited && accountB.credited && accountA.balance >= 0 && accountB.balance >= 0"
+  message from:"Banking App" to:"Customer" label:"Transfer successful" type:return stateInvariant:"transaction.complete && balancesValid"
+  
+  note "State invariants ensure account balances never go negative and transactions are atomic" position:right participants:("Transfer Service")
+}

@@ -1,16 +1,20 @@
-import type { ShapeDefinition } from '@runiq/core';
+import type { ShapeDefinition } from '../../types/index.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { calculateDiamondAnchors, extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 export const rhombusShape: ShapeDefinition = {
   id: 'rhombus',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
+    return calculateSimpleBounds(ctx, {
+      widthPaddingMultiplier: 3,
+      minWidth: 80,
+      minHeight: 60,
+    });
+  },
 
-    // Diamond shape needs extra space
-    return {
-      width: Math.max(textSize.width + padding * 3, 80),
-      height: Math.max(textSize.height + padding * 2, 60),
-    };
+  anchors(ctx) {
+    return calculateDiamondAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -18,10 +22,7 @@ export const rhombusShape: ShapeDefinition = {
     const { x, y } = position;
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
 
     // Diamond points
     const points = [
@@ -31,14 +32,13 @@ export const rhombusShape: ShapeDefinition = {
       `${x},${cy}`, // left
     ].join(' ');
 
+    const label = ctx.node.label || ctx.node.id;
+
     return `
-      <polygon points="${points}" 
+      <polygon points="${points}"
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy)}
     `;
   },
 };

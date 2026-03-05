@@ -1,6 +1,6 @@
 # @runiq/export-simulink
 
-Simulink MDL exporter for Runiq block diagrams
+Simulink MDL exporter for Runiq Control system block diagrams
 
 ## Features
 

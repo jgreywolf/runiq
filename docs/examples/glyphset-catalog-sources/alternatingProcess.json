@@ -1,0 +1,18 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "alternatingProcess",
+      "shape": "alternatingProcess",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

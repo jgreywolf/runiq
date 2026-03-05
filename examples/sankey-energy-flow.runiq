@@ -1,0 +1,6 @@
+diagram "Energy Flow Sankey" {
+  datasource "json" key:energyData from:"data/sankey-energy.json"
+  
+  shape energy as @sankeyChart from:energyData label:"Energy Distribution 2024"
+}
+}

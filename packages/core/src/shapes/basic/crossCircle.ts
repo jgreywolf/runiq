@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Cross circle (X inside) - Circle with X for cancellation or rejection
@@ -42,10 +44,8 @@ export const crossCircleShape: ShapeDefinition = {
     const cx = x + bounds.width / 2;
     const cy = y + bounds.height / 2;
     const r = bounds.width / 2;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+    const label = ctx.node.label || ctx.node.id;
 
     // Calculate diagonal line positions (X marks the spot)
     const crossInset = r * 0.3; // X doesn't touch edge
@@ -63,10 +63,7 @@ export const crossCircleShape: ShapeDefinition = {
       <line x1="${x2}" y1="${y1}" x2="${x1}" y2="${y2}"
             stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, cx, cy)}
     `;
   },
 };

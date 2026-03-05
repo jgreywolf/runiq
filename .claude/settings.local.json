@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test:*)",
+      "Bash(npm run langium:generate:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm install)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm test:*)",
+      "Bash(node dist/index.js:*)",
+      "Bash(node:*)",
+      "Bash(pnpm langium:generate:*)",
+      "Bash(pnpm run langium:generate:*)",
+      "Bash(pnpm run build:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

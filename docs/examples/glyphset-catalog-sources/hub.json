@@ -1,0 +1,25 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "hub",
+      "shape": "hub",
+      "label": "",
+      "data": {
+        "center": "Hub",
+        "spokes": [
+          "Spoke 1",
+          "Spoke 2",
+          "Spoke 3"
+        ],
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C"
+        ],
+        "bidirectional": true
+      }
+    }
+  ],
+  "edges": []
+}

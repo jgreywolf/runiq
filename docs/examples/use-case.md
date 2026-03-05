@@ -9,46 +9,45 @@ A classic use case diagram showing a bank customer interacting with an ATM.
 ### DSL Code
 
 ```runiq
-diagram: use-case
-title: "Simple ATM Example"
+diagram "Simple ATM Example" {
+  shape user as @actor label: "Bank Customer"
 
-# Actor
-actor User "Bank Customer"
+  container "ATM System" as @systemBoundary {
+    shape withdraw as @ellipseWide label: "Withdraw Cash"
+    shape checkBalance as @ellipseWide label: "Check Balance"
+    shape printReceipt as @ellipseWide label: "Print Receipt"
+  }
 
-# System
-system-boundary ATM "ATM System" {
-  ellipse-wide Withdraw "Withdraw Cash"
-  ellipse-wide CheckBalance "Check Balance"
-  ellipse-wide PrintReceipt "Print Receipt"
+  user -> withdraw
+  user -> checkBalance
+  withdraw -> printReceipt label: "optional"
 }
-
-# Relationships
-User -> Withdraw
-User -> CheckBalance
-Withdraw -> PrintReceipt "optional"
 ```
+
+### Generated SVG
+
+![Simple ATM Use Case](/examples/use-case-simple.svg)
 
 ### Key Concepts
 
 **Actors**: Represent users or external systems
 
-- Use `actor <ID> "<Label>"` syntax
+- Use a `shape <id> as @actor label: "<Label>"` declaration
 - Rendered as stick figures
 
 **System Boundaries**: Container for use cases
 
-- `system-boundary <ID> "<Label>" { ... }`
-- Groups related functionality
+- Use a `container "<Label>" as @systemBoundary { ... }` block
+- Place use case shapes inside the container
 
 **Use Cases**: System functionality
 
-- `ellipse-wide <ID> "<Label>"`
-- Oval shapes for actions
+- Use a `shape <id> as @ellipseWide label: "<Label>"` declaration
 
 **Relationships**: Connections between actors and use cases
 
-- Simple: `Actor -> UseCase`
-- Labeled: `UseCase1 -> UseCase2 "stereotype"`
+- Simple: `actorId -> useCaseId`
+- Labeled: `useCase1 -> useCase2 label: "..."`
 
 ## Banking System with Stereotypes
 
@@ -57,76 +56,67 @@ Advanced example showing UML stereotypes for include/extend relationships.
 ### DSL Code
 
 ```runiq
-diagram: use-case
-title: "Advanced Banking System"
+diagram "Advanced Banking System" {
+  shape customer as @actor label: "Bank Customer"
+  shape admin as @actor label: "System Admin"
+  shape backOffice as @actor label: "Back Office"
 
-# Actors
-actor Customer "Bank Customer"
-actor Admin "System Admin"
-actor BackOffice "Back Office"
+  container "Online Banking" as @systemBoundary {
+    shape login as @ellipseWide label: "Login"
+    shape viewAccount as @ellipseWide label: "View Account"
+    shape transfer as @ellipseWide label: "Transfer Money"
+    shape payBills as @ellipseWide label: "Pay Bills"
 
-# System boundary
-system-boundary Banking "Online Banking" {
-  # Core use cases
-  ellipse Login "Login"
-  ellipse ViewAccount "View Account"
-  ellipse Transfer "Transfer Money"
-  ellipse PayBills "Pay Bills"
+    shape twoFactor as @ellipseWide label: "Two-Factor Auth"
+    shape validateAccount as @ellipseWide label: "Validate Account"
+    shape sendNotification as @ellipseWide label: "Send Notification"
+    shape auditLog as @ellipseWide label: "Audit Log"
+  }
 
-  # Extended use cases
-  ellipse TwoFactor "Two-Factor Auth"
-  ellipse ValidateAccount "Validate Account"
-  ellipse SendNotification "Send Notification"
-  ellipse AuditLog "Audit Log"
+  customer -> login
+  customer -> viewAccount
+  customer -> transfer
+  customer -> payBills
+
+  admin -> auditLog
+  backOffice -> validateAccount
+
+  login -> twoFactor label: "<<include>>" lineStyle: "dashed" arrowType: open
+  transfer -> validateAccount label: "<<include>>" lineStyle: "dashed" arrowType: open
+  payBills -> validateAccount label: "<<include>>" lineStyle: "dashed" arrowType: open
+
+  sendNotification -> transfer label: "<<extend>>" lineStyle: "dashed" arrowType: open
+  sendNotification -> payBills label: "<<extend>>" lineStyle: "dashed" arrowType: open
 }
-
-# Actor relationships
-Customer -> Login
-Customer -> ViewAccount
-Customer -> Transfer
-Customer -> PayBills
-
-Admin -> AuditLog
-BackOffice -> ValidateAccount
-
-# Include relationships (mandatory)
-edge Login -> TwoFactor stereotype: "<<include>>" lineStyle: dashed arrowType: open
-edge Transfer -> ValidateAccount stereotype: "<<include>>" lineStyle: dashed arrowType: open
-edge PayBills -> ValidateAccount stereotype: "<<include>>" lineStyle: dashed arrowType: open
-
-# Extend relationships (optional)
-edge SendNotification -> Transfer stereotype: "<<extend>>" lineStyle: dashed arrowType: open
-edge SendNotification -> PayBills stereotype: "<<extend>>" lineStyle: dashed arrowType: open
 ```
 
 ### UML Stereotypes
 
-**<<include>>**: Mandatory behavior
+`<<include>>`: Mandatory behavior
 
 - The base use case **requires** the included use case
 - Example: Login requires Two-Factor Auth
-- Use `stereotype: "<<include>>"` with `lineStyle: dashed`
+- Use `label: "<<include>>"` with `lineStyle: "dashed"`
 
-**<<extend>>**: Optional behavior
+`<<extend>>`: Optional behavior
 
 - The base use case **may** use the extending use case
 - Example: Transfer may trigger SendNotification
-- Use `stereotype: "<<extend>>"` with `lineStyle: dashed`
+- Use `label: "<<extend>>"` with `lineStyle: "dashed"`
 
 ### Line Styles
 
 ```runiq
-# Solid line (default)
-Actor -> UseCase
+diagram "Line Styles" {
+  shape actorNode as @actor label: "Actor"
+  shape useCase1 as @ellipseWide label: "Use Case 1"
+  shape useCase2 as @ellipseWide label: "Use Case 2"
 
-# Dashed line (for stereotypes)
-edge UseCase1 -> UseCase2 stereotype: "<<include>>" lineStyle: dashed arrowType: open
-
-# Dotted line
-edge UseCase1 -> UseCase2 lineStyle: dotted
-
-# Custom colors
-edge UseCase1 -> UseCase2 strokeColor: "#4caf50" lineStyle: dashed
+  actorNode -> useCase1
+  useCase1 -> useCase2 label: "<<include>>" lineStyle: "dashed" arrowType: open
+  useCase2 -> useCase1 lineStyle: "dotted"
+  useCase1 -> useCase2 strokeColor: "#4caf50" lineStyle: "dashed"
+}
 ```
 
 ## E-Commerce System
@@ -136,79 +126,63 @@ A more complex example with multiple actors and relationships.
 ### DSL Code
 
 ```runiq
-diagram: use-case
-title: "E-Commerce Platform"
+diagram "E-Commerce Platform" {
+  shape visitor as @actor label: "Guest User"
+  shape customer as @actor label: "Registered User"
+  shape seller as @actor label: "Product Seller"
+  shape admin as @actor label: "Administrator"
 
-# Actors
-actor Visitor "Guest User"
-actor Customer "Registered User"
-actor Seller "Product Seller"
-actor Admin "Administrator"
+  container "E-Commerce System" as @systemBoundary {
+    shape browse as @ellipseWide label: "Browse Products"
+    shape search as @ellipseWide label: "Search Products"
+    shape viewDetails as @ellipseWide label: "View Product Details"
 
-# System boundary
-system-boundary Shop "E-Commerce System" {
-  # Guest capabilities
-  ellipse Browse "Browse Products"
-  ellipse Search "Search Products"
-  ellipse ViewDetails "View Product Details"
+    shape register as @ellipseWide label: "Register Account"
+    shape login as @ellipseWide label: "Login"
+    shape addCart as @ellipseWide label: "Add to Cart"
+    shape checkout as @ellipseWide label: "Checkout"
+    shape payment as @ellipseWide label: "Process Payment"
+    shape trackOrder as @ellipseWide label: "Track Order"
 
-  # Customer capabilities
-  ellipse Register "Register Account"
-  ellipse Login "Login"
-  ellipse AddCart "Add to Cart"
-  ellipse Checkout "Checkout"
-  ellipse Payment "Process Payment"
-  ellipse TrackOrder "Track Order"
+    shape listProduct as @ellipseWide label: "List Product"
+    shape manageInventory as @ellipseWide label: "Manage Inventory"
+    shape viewSales as @ellipseWide label: "View Sales"
 
-  # Seller capabilities
-  ellipse ListProduct "List Product"
-  ellipse ManageInventory "Manage Inventory"
-  ellipse ViewSales "View Sales"
+    shape manageUsers as @ellipseWide label: "Manage Users"
+    shape viewAnalytics as @ellipseWide label: "View Analytics"
+  }
 
-  # Admin capabilities
-  ellipse ManageUsers "Manage Users"
-  ellipse ViewAnalytics "View Analytics"
+  visitor -> browse
+  visitor -> search
+  visitor -> viewDetails
+  visitor -> register
+
+  customer -> login
+  customer -> addCart
+  customer -> checkout
+  customer -> trackOrder
+
+  seller -> listProduct
+  seller -> manageInventory
+  seller -> viewSales
+
+  admin -> manageUsers
+  admin -> viewAnalytics
+
+  checkout -> payment label: "<<include>>" lineStyle: "dashed" arrowType: open
+  listProduct -> manageInventory label: "<<include>>" lineStyle: "dashed" arrowType: open
 }
-
-# Guest interactions
-Visitor -> Browse
-Visitor -> Search
-Visitor -> ViewDetails
-Visitor -> Register
-
-# Customer interactions (inherits Guest + more)
-Customer -> Login
-Customer -> AddCart
-Customer -> Checkout
-Customer -> TrackOrder
-
-# Seller interactions
-Seller -> ListProduct
-Seller -> ManageInventory
-Seller -> ViewSales
-
-# Admin interactions
-Admin -> ManageUsers
-Admin -> ViewAnalytics
-
-# Include relationships
-edge Checkout -> Payment stereotype: "<<include>>" lineStyle: dashed arrowType: open
-edge ListProduct -> ManageInventory stereotype: "<<include>>" lineStyle: dashed arrowType: open
 ```
 
 ## Actor Styles
 
-Runiq provides **8 actor shapes** for different visualizations:
+Use the built-in `@actor` shape for stick-figure actors:
 
 ```runiq
-actor User1 as @actor              # Classic stick figure
-actor User2 as @box-actor          # Simplified box
-actor User3 as @circle-actor       # Circle head with body
-actor User4 as @rounded-actor      # Rounded corners
-actor User5 as @square-actor       # Square body
-actor User6 as @tall-actor         # Tall proportions
-actor User7 as @wide-actor         # Wide proportions
-actor User8 as @custom-actor       # Configurable
+diagram "Actors" {
+  shape user as @actor label: "User"
+  shape admin as @actor label: "Admin"
+}
 ```
 
 ## Best Practices
@@ -222,10 +196,10 @@ actor User8 as @custom-actor       # Configurable
 
 ::: tip Stereotypes
 
-- **<<include>>**: When behavior is always required
+- **`<<include>>`**: When behavior is always required
   - Login → Two-Factor Auth
   - Checkout → Process Payment
-- **<<extend>>**: When behavior is optional
+- **`<<extend>>`**: When behavior is optional
   - Transfer → Send Notification
   - Purchase → Apply Coupon
     :::
@@ -243,8 +217,8 @@ actor User8 as @custom-actor       # Configurable
 - [ ] Define system boundary (what's inside your system)
 - [ ] List all use cases (system functionality)
 - [ ] Connect actors to their use cases
-- [ ] Add <<include>> for mandatory shared behavior
-- [ ] Add <<extend>> for optional enhancements
+- [ ] Add `<<include>>` for mandatory shared behavior
+- [ ] Add `<<extend>>` for optional enhancements
 - [ ] Use meaningful labels for all elements
 - [ ] Group related use cases logically
 

@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Card (punched card) - Rectangle with one corner cut
@@ -34,10 +36,8 @@ export const cardShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
     const cutSize = 12;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+    const label = ctx.node.label || ctx.node.id;
 
     // Rectangle with top-left corner cut
     const points = [
@@ -51,11 +51,7 @@ export const cardShape: ShapeDefinition = {
     return `
       <polygon points="${points}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + w / 2}" y="${y + h / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + w / 2, y + h / 2)}
     `;
   },
 };

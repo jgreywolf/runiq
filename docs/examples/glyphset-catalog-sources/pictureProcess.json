@@ -1,0 +1,30 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "pictureProcess",
+      "shape": "pictureProcess",
+      "label": "Picture Process",
+      "data": {
+        "items": [
+          {
+            "image": "Alpha",
+            "label": "item 1"
+          },
+          {
+            "image": "Beta",
+            "label": "item 2"
+          },
+          {
+            "image": "Gamma",
+            "label": "item 3"
+          }
+        ],
+        "theme": "professional",
+        "direction": "horizontal"
+      }
+    }
+  ],
+  "edges": [],
+  "direction": "TB"
+}

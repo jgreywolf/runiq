@@ -1,0 +1,13 @@
+// Converging Glyphset Example: Decision Factors
+//
+// Multiple factors or criteria converging to inform a decision.
+// Demonstrates 5-source converging pattern (maximum).
+
+glyphset converging "Investment Decision Factors" {
+  theme "forest"
+  item "Market Analysis"
+  item "Financial Data"
+  item "Risk Assessment"
+  item "Industry Trends"
+  item "Expert Opinions"
+}

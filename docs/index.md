@@ -4,10 +4,10 @@ layout: home
 hero:
   name: Runiq
   text: Diagram DSL with JSON Twin
-  tagline: Create beautiful, standards-compliant diagrams with plain text. Two inputs, one AST, pure SVG output.
+  tagline: Create beautiful, standards-compliant diagrams with plain text. Two inputs, one AST, pure SVG output. Live demo - Render Runiq DSL to SVG in your browser.
   image:
-    src: /logo.svg
-    alt: Runiq
+    src: /images/runiq.banner.png
+    alt: Runiq Banner
   actions:
     - theme: brand
       text: Get Started
@@ -17,7 +17,9 @@ hero:
       link: /examples/
     - theme: alt
       text: Try Online
-      link: /playground
+      link: https://editor.runiq.org
+      target: _blank
+      rel: noopener noreferrer
 
 features:
   - icon: 📝
@@ -29,16 +31,20 @@ features:
     details: Standards-compliant SVG with no HTML hacks. Embed-safe for PowerPoint, Keynote, Google Slides.
 
   - icon: 🔧
-    title: 54 Shapes Across 9 Categories
-    details: From flowcharts to UML diagrams, electrical circuits to block diagrams.
+    title: 192 Shapes Across 18 Categories
+    details: From flowcharts to UML diagrams, quantum circuits to control logic diagrams, BPMN to AWS infrastructure.
+
+  - icon: ✨
+    title: 61 Smart Art Glyphsets
+    details: Quick diagram templates like MS PowerPoint SmartArt. Process flows, org charts, matrices, timelines - ready to use with 9 professional themes.
 
   - icon: 🏗️
     title: Hierarchical Containers
     details: Build complex architectures with nested containers. Perfect for C4, BPMN, and microservices diagrams.
 
   - icon: 🔗
-    title: UML Relationships
-    details: Stereotypes (<<include>>, <<extend>>), line styles (solid, dashed, dotted), arrow types (standard, hollow, open).
+    title: UML 2.5 Relationships
+    details: Multiplicity, role names, aggregation (◇) and composition (◆) diamonds. Stereotypes, line styles, arrow types. Full class diagram support.
 
   - icon: ⚡
     title: Professional Layouts
@@ -49,31 +55,35 @@ features:
     details: SPICE netlist and Verilog HDL export. IEEE-standard schematic rendering.
 
   - icon: 📊
-    title: Block Diagrams
-    details: Control systems with transfer functions. Export to LaTeX/TikZ and Simulink.
+    title: Control Logic Diagrams
+    details: Ladder and function block logic with schematic rendering.
 
   - icon: 🧪
-    title: 705+ Tests Passing
+    title: 1111+ Tests Passing
     details: Comprehensive test coverage with TDD approach. Production-ready quality.
 ---
 
 ## Quick Example
 
 ```runiq
-diagram "Auth Flow" direction: LR
+diagram "Auth Flow" {
+  direction LR
 
-style default fill:#f7f7ff stroke:#444
-style decision fill:#fff7e6 stroke:#aa7700
+  style default fillColor: "#f7f7ff" strokeColor: "#444" font: "Inter" fontSize: 14
+  style decision fillColor: "#fff7e6" strokeColor: "#aa7700"
+  style link strokeColor: "#2a6fdb" strokeWidth: 2
 
-shape User     as @actor   label:"Visitor"
-shape Landing  as @rounded label:"Landing Page"
-shape Check    as @rhombus label:"Signed up?" style:decision
-shape Welcome  as @hex     label:"Welcome"
+  shape User     as @actor   label:"Visitor" icon:fa/user
+  shape Landing  as @rounded label:"Landing Page"
+  shape Check    as @rhombus label:"Signed up?" style:decision
+  shape Welcome  as @hexagon     label:"Welcome"
+  shape Pricing  as @doc     label:"Pricing" icon:fa/dollar link:"/pricing" tooltip:"See pricing"
 
-User -> Landing : visits
-Landing -> Check
-Check[yes] -> Welcome
-Check[no]  -> Pricing : reads
+  User -visits-> Landing
+  Landing -> Check
+  Check -yes-> Welcome
+  Check -no-> Pricing
+}
 ```
 
 <div style="margin: 2rem 0;">
@@ -86,11 +96,11 @@ Check[no]  -> Pricing : reads
 Create flowcharts, sequence diagrams, use case diagrams, class diagrams, state machines, ER diagrams, and architecture diagrams with clean, readable syntax.
 :::
 
-::: info Control Systems
-Design PID controllers, feedback loops, and state-space models. Export to LaTeX for papers or Simulink for simulation.
+::: info Control Logic
+Design ladder and function block logic for automation systems with schematic rendering.
 :::
 
-::: info Electrical Engineering
+::: info Schematic/Electrical Engineering
 Define analog circuits and export SPICE netlists for simulation. Generate professional IEEE-standard schematics.
 :::
 
@@ -112,16 +122,17 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 
 ## Recent Updates
 
-**October 17, 2025** - v0.1.0 Released! 🎉
+**October 31, 2025** - v0.1.0 Released! 🎉
 
-- ✅ 54 shapes across 9 categories
+- ✅ 192 shapes across 18 categories
+- ✅ Quantum circuits, pedigree diagrams, BPMN, AWS, ERD, DFD support
 - ✅ UML relationship support (stereotypes, line styles, arrow types)
-- ✅ Use case diagrams with actors and system boundaries
-- ✅ Block diagrams with LaTeX and Simulink export
+- ✅ Control logic diagrams with LaTeX and Simulink export
+- ✅ Electrical & digital circuits with SPICE/Verilog export
 - ✅ Hierarchical containers for complex architectures
 - ✅ 705+ tests passing
 
-[View Full Changelog →](/CHANGELOG)
+[View Full Changelog →](https://github.com/jgreywolf/runiq/blob/main/CHANGELOG.md)
 
 ## Community & Support
 

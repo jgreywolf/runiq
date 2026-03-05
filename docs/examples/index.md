@@ -2,6 +2,32 @@
 
 Runiq diagrams span multiple domains. Browse by category:
 
+## Visual Communication
+
+Smart diagram layouts for presentations, reports, and visual storytelling.
+
+### [Glyphset Diagrams](/examples/glyphsets)
+
+- **List Layouts**: Vertical, horizontal, alternating, chevron, bending picture
+- **Process Flows**: Linear, circular, alternating, stepped, continuous cycles
+- **Hierarchies**: Pyramids, stacked lists, organizational charts, nested blocks
+- **Comparisons**: Balance scales, opposing lists, pros/cons, comparison tables
+- **Relationships**: Venn overlaps, converging/diverging flows, connected blocks
+- **Matrices**: 2×2 grids, quadrants, segmented cycles, grouped lists
+- **Visual Metaphors**: Funnels, targets, gears, puzzles, containers
+- **Applications**: Presentations, reports, infographics, strategic planning
+
+### [Glyphset Catalog](/examples/glyphset-catalog)
+
+- Full list of every glyphset type
+- Min/max item counts and descriptions
+- Quick scan for available SmartArt-style patterns
+
+### [Decorative Elements](/examples/decorative-elements)
+
+- Callouts, badges, dividers, and typographic accents
+- Mixed into any diagram profile layout
+
 ## Software Engineering
 
 Build architecture diagrams, UML models, and process flows.
@@ -14,34 +40,150 @@ Build architecture diagrams, UML models, and process flows.
 - Multi-container architectures
 - **Visual Examples**: Auth flow, ETL pipeline, bubble sort
 
+### [Mindmap Diagrams](/examples/mindmap-diagrams)
+
+- Radial layout for visual thinking
+- Automatic shape assignment with `type:mindmap`
+- Hierarchical project breakdown
+- Learning roadmaps and knowledge mapping
+- **Examples**: Simple mindmap, project planning, learning roadmap, business strategy
+
+### [Data Flow Diagrams](/examples/dfd-diagrams)
+
+- Gane-Sarson notation for system analysis
+- Processes, data stores, external entities
+- Requirements documentation and integration planning
+- **Examples**: Order processing, library system, user registration, payment integration
+
+### [State Machine Diagrams](/examples/state-machines)
+
+- UML statecharts modeling object lifecycles
+- Entry/exit actions and do-activities
+- Event-driven transitions with guards
+- Composite states and history states
+- **Examples**: Traffic light, door lock, vending machine, media player
+- Applications: UI states, device controllers, protocol implementations
+
+### [Activity Diagrams](/examples/activity-diagrams)
+
+- UML activity diagrams for workflow modeling
+- Action pins and object nodes
+- Swimlanes (horizontal and vertical)
+- Signal events and time events
+- Fork/join, decision/merge nodes
+- **Examples**: Order processing, CI/CD pipeline, microservices communication
+- Applications: Business processes, data pipelines, parallel workflows
+
+### [BPMN Diagrams](/examples/bpmn-diagrams)
+
+- Business Process Model and Notation (BPMN 2.0)
+- Pools, lanes, and nested containers
+- Event types (start, intermediate, end)
+- Gateway types (exclusive, parallel, inclusive)
+- Message flows between participants
+- **Examples**: Order fulfillment, purchase order process, cross-functional workflows
+- Applications: Business process automation, enterprise workflows
+
+### [Sequence Diagrams](/examples/sequence-diagrams)
+
+- UML interaction diagrams showing message exchanges
+- Synchronous and asynchronous messaging
+- Activation boxes and lifelines
+- Return messages and self-calls
+- Fragment operators (loop, alt, opt, par)
+- Timing constraints and delays
+- **Visual Examples**: Auth flow, API error handling, async messaging
+- Applications: API design, protocol documentation, user stories
+
+### [Railroad Diagrams](/examples/railroad-diagrams)
+
+- Grammar and syntax rules with EBNF shorthand
+- Left-to-right deterministic layout
+- Branches, loops, and optional paths
+- **Examples**: Arithmetic grammar, JSON subset, URL grammar
+
+### [Class Diagrams](/examples/class-diagrams)
+
+- UML class modeling with relationships
+- Attributes, methods, and visibility modifiers
+- Association, aggregation, and composition
+- Inheritance and interface implementation
+- Generic types and collections
+- Design patterns (factory, strategy, observer)
+- Applications: Object-oriented design, database schema, API modeling
+
 ### [Use Case Diagrams](/examples/use-case)
 
 - UML actor interactions
 - System boundaries
-- <<include>> and <<extend>> stereotypes
+- `<<include>>` and `<<extend>>` stereotypes
 - Banking, e-commerce examples
 - 8 actor shape styles
 
-### [Container Diagrams](/examples/containers)
+### [C4 Architecture Diagrams](/examples/c4-architecture)
 
 - C4 architecture model (context, container, component)
 - Microservices topology
 - Multi-tier applications (3-tier)
-- BPMN swimlanes
-- Multi-region deployments
+- System context and container views
+- Component-level detail
+- **Visual Examples**: E-commerce system, banking platform, microservices
+- Applications: Architecture documentation, system design reviews
 
-## Control Systems
+## Data Visualization
 
-Design control loops and signal processing.
+Create charts and visual analytics for presentations and reports.
 
-### [Block Diagrams](/examples/block-diagrams)
+### [Chart Diagrams](/examples/chart-diagrams)
 
-- PID controllers with feedback
-- Multi-stage transfer functions
-- State-space representation
-- Motor speed control, aircraft pitch
-- Export to LaTeX/TikZ and Simulink MDL
-- **Supports**: Summing junctions, gain blocks, integrators
+- Bar charts (vertical, horizontal, grouped, stacked)
+- Pie charts with labeled slices and percentages
+- Line charts for time series and trends
+- Radar/spider charts for multi-dimensional metrics
+- Sankey diagrams for flow visualization
+- Applications: Business reporting, data analysis, KPI tracking
+
+### [Treemap Diagrams](/examples/treemap-diagrams)
+
+- Hierarchical area layouts for portfolio breakdowns
+- Value-to-area mapping with groups and items
+- Useful for budgets, usage, and resource allocation
+
+### [Venn Diagrams](/examples/venn-diagrams)
+
+- Set overlap analysis (2-circle and 3-circle)
+- Automatic region calculations and intersection labels
+- Market segmentation and skill assessment
+- **Visual Examples**: Market overlap, developer skills, customer segments, feature adoption
+- Applications: Set theory, competitive analysis, skill mapping
+
+### [Pyramid Diagrams](/examples/pyramid-diagrams)
+
+- Hierarchical stacked visualizations
+- Proportional width scaling from data
+- Organizational hierarchies and sales funnels
+- **Visual Examples**: Maslow's hierarchy, org structure, sales funnel, learning levels
+- Applications: Hierarchical data, process stages, organizational charts
+
+## Control Logic
+
+PLC-style ladder and function block diagrams for automation logic.
+
+### [Control Logic Diagrams](/examples/control-diagrams)
+
+- Ladder rungs with contacts and coils
+- Function block diagrams with timers and outputs
+- **Supports**: NO/NC contacts, set/reset coils, TON timers
+
+## Mechanical Systems
+
+Linkages and mechanisms for robotics and motion design.
+
+### [Kinematic Diagrams](/examples/kinematic-diagrams)
+
+- Joints, links, and actuators for mechanism layouts
+- Four-bar linkages, slider-cranks, and robot arms
+- Applications: robotics, mechanism design, motion studies
 
 ## Electrical Engineering
 
@@ -70,19 +212,121 @@ Design logic circuits with Verilog HDL export.
 - 4-bit ALU and 8-bit shift register examples
 - Export to Verilog for synthesis and simulation
 
+## Quantum Computing
+
+Visualize quantum circuits and algorithms.
+
+### [Quantum Circuits](/examples/quantum-circuits)
+
+- IBM Qiskit-style quantum circuit diagrams
+- Single-qubit gates: Pauli (X, Y, Z), Hadamard, Phase (S, T)
+- Multi-qubit operations: CNOT, SWAP, controlled gates
+- Measurement and barriers
+- Qubit register visualization
+- Applications: Quantum algorithm design, education, research papers
+
+## Fluid Power Systems
+
+Design pneumatic and hydraulic circuits following ISO 1219-1 standards.
+
+### [P&ID Diagrams](/examples/pid-diagrams)
+
+- Piping & Instrumentation Diagrams (P&ID) following ISA-5.1
+- Equipment: Tanks, pumps, compressors, heat exchangers, separators
+- Instruments: Transmitters (pressure, temperature, level, flow)
+- Control loops: PID control, cascade control, anti-surge
+- Safety systems: PSVs, interlocks, emergency shutdown
+- **Examples**: Tank-pump transfer, heat exchanger control, 3-phase separator, compressor package
+- Applications: Oil & gas, chemical processing, power generation
+
+### [Pneumatic Circuits](/examples/pneumatic-circuits)
+
+- Cylinders: Single-acting (spring return), double-acting
+- Valves: 3/2-way, 5/2-way, check valves
+- Air preparation: FRL units (filter, regulator, lubricator)
+- Flow control and speed regulation
+- Pressure specification (bar, psi, kPa, MPa)
+- Flow rate specification (L/min, CFM, m³/h)
+- **Visual Examples**: FRL unit, cylinder control, sequential A+B+B-A-
+- Applications: Factory automation, material handling, assembly
+
+### [Hydraulic Circuits](/examples/hydraulic-circuits)
+
+- Power generation: Fixed/variable pumps, reservoirs
+- Actuators: Hydraulic motors and cylinders
+- Valves: 4/3-way directional control, relief, reducing
+- Flow control and load sensing
+- Fluid specifications: Mineral, synthetic, biodegradable, fire-resistant
+- Temperature ranges and viscosity grades (ISO VG)
+- **Visual Examples**: Power unit, press system, motor control
+- Applications: Heavy machinery, presses, mobile equipment
+
+### [HVAC Diagrams](/examples/hvac-diagrams)
+
+- Air handling units, coils, and VAV boxes
+- Supply/return ducting and diffusers
+- Sensors: temperature, pressure, thermostats
+- **Visual Examples**: Office AHU, rooftop unit
+- Applications: Commercial buildings, campuses, data centers
+
 ## Medical & Genetics
 
-Professional pedigree charts following medical standards.
+Family tree diagrams with spouses, parentage, and adoption support.
 
-### [Pedigree Charts](/examples/pedigree)
+### [Pedigree Diagrams](/examples/pedigree-diagrams)
 
-- Male (square), female (circle), unknown sex (diamond) symbols
-- Affected (black fill), carrier (half-fill), normal (white) individuals
-- Deceased notation (diagonal line)
-- Marriage relationships (horizontal line, no arrow)
-- Consanguineous marriages (double line)
-- Three-generation families, autosomal inheritance patterns
-- **Visual Examples**: Genetic trait inheritance, consanguinity
+- People with name, DOB, DOD, and sex markers
+- Spouse relationships (optional date)
+- Parentage and adoption connections
+- Multi-generation family layouts
+
+## Strategy & Planning
+
+Strategic mapping tools for business analysis and decision-making.
+
+### [Wardley Maps](/examples/wardley-maps)
+
+- 2D strategic mapping: Evolution × Value Chain axes
+- Component positioning: Genesis → Custom → Product → Commodity
+- Value chain dependencies and flow visualization
+- Evolution indicators showing strategic movements
+- Inertia markers for organizational resistance
+- Anchor points for user needs and outcomes
+- **Visual Examples**: Tea shop, technology evolution, business strategy
+- Export to SVG for presentations and documentation
+
+## Productivity Visuals
+
+Planning and collaboration diagrams for teams.
+
+### [Kanban Boards](/examples/kanban-diagrams)
+
+- Swimlanes, columns, and card metadata
+- WIP limits and workflow visualization
+- **Examples**: Product roadmap, bug triage, campaign planning
+
+### [GitGraph Diagrams](/examples/gitgraph-diagrams)
+
+- Branches, commits, merges, and tags
+- Useful for release flows and hotfix pipelines
+- **Examples**: Release flow, feature train, milestone tags
+
+## Timelines & Chronology
+
+Visualize events and milestones over time.
+
+### [Timeline Diagrams](/examples/timeline-diagrams)
+
+- Chronological event visualization
+- Project roadmaps and milestones
+- Company history and growth phases
+- Product release schedules
+- Career progression tracking
+- Horizontal or vertical orientation
+- Period backgrounds with opacity
+- Custom colors and icons
+- **Visual Examples**: Software project, company history, product releases, career journey
+- Applications: Project planning, historical narratives, version tracking
 
 ---
 
@@ -90,48 +334,166 @@ Professional pedigree charts following medical standards.
 
 ::: info Under Development
 
-- **Quantum Circuits** - Quantum gates and measurements
-- **Network Diagrams** - Topology and infrastructure
-- **Timing Diagrams** - Waveforms and signals
-- **SmartArt** - Lists, hierarchies, matrices
+- **Network Topology** - Routers, switches, firewalls, cloud infrastructure
+- **Timing Diagrams** - Digital waveforms and signal timing
+- **Block Diagrams** - System-level architectural blocks
   :::
 
 ## Quick Navigation
 
 <div class="example-grid">
+  <a href="/examples/glyphsets" class="example-card">
+    <h3>✨ Glyphsets</h3>
+    <p>61 smart layouts & visual metaphors</p>
+  </a>
+
+  <a href="/examples/glyphset-catalog" class="example-card">
+    <h3>Glyphset Catalog</h3>
+    <p>All SmartArt-style templates</p>
+  </a>
+
   <a href="/examples/flowcharts" class="example-card">
     <h3>🔄 Flowcharts</h3>
     <p>Process flows and decision logic</p>
   </a>
+
+  <a href="/examples/mindmap-diagrams" class="example-card">
+    <h3>🧠 Mindmaps</h3>
+    <p>Visual thinking & brainstorming</p>
+  </a>
+
+  <a href="/examples/venn-diagrams" class="example-card">
+    <h3>⭕ Venn Diagrams</h3>
+    <p>Set overlaps & relationships</p>
+  </a>
+
+  <a href="/examples/pyramid-diagrams" class="example-card">
+    <h3>🔺 Pyramids</h3>
+    <p>Hierarchical stacked data</p>
+  </a>
+
+  <a href="/examples/dfd-diagrams" class="example-card">
+    <h3>🔀 Data Flow</h3>
+    <p>Gane-Sarson system analysis</p>
+  </a>
+
+  <a href="/examples/state-machines" class="example-card">
+    <h3>🔀 State Machines</h3>
+    <p>UML statecharts & object lifecycles</p>
+  </a>
   
+  <a href="/examples/activity-diagrams" class="example-card">
+    <h3>📊 Activity Diagrams</h3>
+    <p>UML workflows & business processes</p>
+  </a>
+  
+  <a href="/examples/bpmn-diagrams" class="example-card">
+    <h3>🔁 BPMN</h3>
+    <p>Business process notation</p>
+  </a>
+
+  <a href="/examples/sequence-diagrams" class="example-card">
+    <h3>💬 Sequence Diagrams</h3>
+    <p>UML message exchanges & interactions</p>
+  </a>
+
+  <a href="/examples/railroad-diagrams" class="example-card">
+    <h3>Railroad Diagrams</h3>
+    <p>Grammar rules & syntax flows</p>
+  </a>
+
+  <a href="/examples/class-diagrams" class="example-card">
+    <h3>📐 Class Diagrams</h3>
+    <p>UML object-oriented modeling</p>
+  </a>
+
   <a href="/examples/use-case" class="example-card">
     <h3>👤 Use Case</h3>
     <p>UML actor interactions</p>
   </a>
-  
-  <a href="/examples/containers" class="example-card">
-    <h3>📦 Containers</h3>
-    <p>C4 architecture diagrams</p>
+
+  <a href="/examples/c4-architecture" class="example-card">
+    <h3>📦 C4 Architecture</h3>
+    <p>Context, container, component views</p>
+  </a>
+
+  <a href="/examples/chart-diagrams" class="example-card">
+    <h3>📊 Charts</h3>
+    <p>Bar, pie, line, radar & more</p>
+  </a>
+
+  <a href="/examples/treemap-diagrams" class="example-card">
+    <h3>dY"? Treemaps</h3>
+    <p>Hierarchical area visualizations</p>
+  </a>
+
+  <a href="/examples/kanban-diagrams" class="example-card">
+    <h3>dY"? Kanban</h3>
+    <p>Columns, cards, and swimlanes</p>
+  </a>
+
+  <a href="/examples/gitgraph-diagrams" class="example-card">
+    <h3>dY"? GitGraph</h3>
+    <p>Branches, commits, and merges</p>
   </a>
   
-  <a href="/examples/block-diagrams" class="example-card">
-    <h3>🎛️ Block Diagrams</h3>
-    <p>Control systems & signal flow</p>
+  <a href="/examples/control-diagrams" class="example-card">
+    <h3>Control Logic Diagrams</h3>
+    <p>Ladder and function block logic</p>
+  </a>
+
+  <a href="/examples/kinematic-diagrams" class="example-card">
+    <h3>Kinematic Diagrams</h3>
+    <p>Linkages, joints, and actuators</p>
   </a>
   
   <a href="/examples/electrical" class="example-card">
     <h3>⚡ Analog Circuits</h3>
-    <p>Schematics with SPICE export</p>
+    <p>Electrical circuits with SPICE export</p>
   </a>
   
   <a href="/examples/digital" class="example-card">
     <h3>🔢 Digital Logic</h3>
     <p>Gates & HDL export</p>
   </a>
+
+  <a href="/examples/quantum-circuits" class="example-card">
+    <h3>⚛️ Quantum Circuits</h3>
+    <p>Quantum gates & algorithms</p>
+  </a>
+
+  <a href="/examples/pid-diagrams" class="example-card">
+    <h3>🏭 P&ID Diagrams</h3>
+    <p>Process instrumentation (ISA-5.1)</p>
+  </a>
   
-  <a href="/examples/pedigree" class="example-card">
-    <h3>🧬 Pedigree Charts</h3>
-    <p>Medical family trees</p>
+  <a href="/examples/pneumatic-circuits" class="example-card">
+    <h3>💨 Pneumatic</h3>
+    <p>Compressed air circuits (ISO 1219-1)</p>
+  </a>
+  
+  <a href="/examples/hydraulic-circuits" class="example-card">
+    <h3>🔧 Hydraulic</h3>
+    <p>Fluid power systems (ISO 1219-1)</p>
+  </a>
+  <a href="/examples/hvac-diagrams" class="example-card">
+    <h3>HVAC</h3>
+    <p>Air handling and duct layouts (ASHRAE)</p>
+  </a>
+
+  <a href="/examples/pedigree-diagrams" class="example-card">
+    <h3>🧬 Pedigree Diagrams</h3>
+    <p>Family trees and genealogy</p>
+  </a>
+
+  <a href="/examples/wardley-maps" class="example-card">
+    <h3>📊 Wardley Maps</h3>
+    <p>Strategic evolution mapping</p>
+  </a>
+  
+  <a href="/examples/timeline-diagrams" class="example-card">
+    <h3>⏱️ Timelines</h3>
+    <p>Chronological events & milestones</p>
   </a>
 </div>
 

@@ -1,0 +1,11 @@
+// Diverging Glyphset Example: Decision Branching
+//
+// A single decision point branching into multiple paths.
+// Demonstrates 3-destination diverging pattern.
+
+glyphset diverging "Decision Flow" {
+    theme "forest"
+item "Success"
+  item "Error"
+  item "Retry"
+}

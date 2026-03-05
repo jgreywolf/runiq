@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '@runiq/core';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Container
@@ -6,7 +8,7 @@ import type { ShapeDefinition } from '@runiq/core';
  * Medium rounded rectangle with title and technology label
  */
 export const c4Container: ShapeDefinition = {
-  id: 'c4-container',
+  id: 'c4Container',
   bounds(ctx) {
     const labelSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 16;
@@ -22,13 +24,28 @@ export const c4Container: ShapeDefinition = {
     };
   },
 
+  anchors(ctx) {
+    const bounds = this.bounds(ctx);
+    const w = bounds.width;
+    const h = bounds.height;
+
+    return [
+      { x: w / 2, y: 0, name: 'top' },
+      { x: w, y: h / 2, name: 'right' },
+      { x: w / 2, y: h, name: 'bottom' },
+      { x: 0, y: h / 2, name: 'left' },
+    ];
+  },
+
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#438DD5'; // C4 container light blue
-    const stroke = ctx.style.stroke || '#2E6295';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#438DD5', // C4 container light blue
+      defaultStroke: '#2E6295',
+      defaultStrokeWidth: 2,
+    });
     const textColor = ctx.style.textColor || '#ffffff';
     const rx = ctx.style.rx || 8;
 
@@ -42,32 +59,43 @@ export const c4Container: ShapeDefinition = {
     const titleY = y + bounds.height / 2 - (technology ? 8 : 0);
     const techY = y + bounds.height / 2 + 12;
 
+    const titleStyle = {
+      ...ctx.style,
+      fontSize: ctx.style.fontSize || 14,
+      fontWeight: 'bold',
+      color: textColor,
+    };
+    const titleSvg = renderShapeLabel(
+      { ...ctx, style: titleStyle },
+      title,
+      x + bounds.width / 2,
+      titleY
+    );
+
+    const techStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) - 2,
+      fontStyle: 'italic' as const,
+      color: textColor,
+    };
+    const techSvg = technology
+      ? renderShapeLabel(
+          { ...ctx, style: techStyle },
+          technology,
+          x + bounds.width / 2,
+          techY
+        )
+      : '';
+
     return `
       <!-- C4 Container -->
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             rx="${rx}" ry="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
+
       <!-- Title -->
-      <text x="${x + bounds.width / 2}" y="${titleY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}"
-            fill="${textColor}" font-weight="bold">
-        ${title}
-      </text>
-      
-      ${
-        technology
-          ? `
-      <!-- Technology Label -->
-      <text x="${x + bounds.width / 2}" y="${techY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${(ctx.style.fontSize || 14) - 2}"
-            fill="${textColor}" font-style="italic">
-        ${technology}
-      </text>
-      `
-          : ''
-      }
+      ${titleSvg}
+
+      ${technology ? `<!-- Technology Label -->\n      ${techSvg}` : ''}
     `;
   },
 };

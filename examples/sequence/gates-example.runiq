@@ -1,0 +1,33 @@
+// UML 2.5 Gates Example
+// Gates are connection points at fragment boundaries for message routing
+
+sequence "API Gateway with Gates" {
+  participant "Client" as actor
+  participant "API Gateway" as boundary
+  participant "Auth Service" as control
+  participant "Data Service" as control
+  participant "Cache" as database
+
+  note "Gates allow messages to enter/exit fragments at specific points" position:over participants:("API Gateway")
+
+  message from:"Client" to:"API Gateway" label:"POST /api/data" type:sync
+
+  // Fragment with gates for authentication routing
+  fragment alt "Authentication Flow" from:1 to:5 gates:["authIn", "authSuccess", "authFail"] alternatives:("Valid Token":1..3,"Invalid Token":3..5)
+  
+  message from:"API Gateway" to:"Auth Service" label:"validateToken()" type:sync
+  message from:"Auth Service" to:"API Gateway" label:"valid" type:return
+  message from:"API Gateway" to:"Client" label:"401 Unauthorized" type:return
+
+  // Fragment with gates for data flow routing
+  fragment par "Parallel Data Access" from:6 to:9 gates:["dataIn", "cacheGate", "dbGate", "dataOut"]
+  
+  message from:"API Gateway" to:"Cache" label:"get(key)" type:async
+  message from:"API Gateway" to:"Data Service" label:"fetchData()" type:async
+  message from:"Cache" to:"API Gateway" label:"cached result" type:return
+  message from:"Data Service" to:"API Gateway" label:"fresh data" type:return
+
+  message from:"API Gateway" to:"Client" label:"200 OK with data" type:return
+
+  note "Gates enable precise control over message flow in complex interactions" position:right participants:("API Gateway")
+}

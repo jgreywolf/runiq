@@ -1,0 +1,20 @@
+// Bar Chart with All Features
+// Demonstrates labels, colors, and flipAxes together
+
+diagram "Full Featured Bar Chart" {
+  shape revenue as @barChart
+    label:"Quarterly Revenue by Region"
+    data:[120, 150, 135, 180]
+    labels:["Q1", "Q2", "Q3", "Q4"]
+    colors:["#3b82f6", "#10b981", "#f59e0b", "#ef4444"]
+    title:"2025 Performance"
+    xLabel:"Quarter"
+    yLabel:"Revenue ($K)"
+  
+  shape budget as @barChart
+    label:"Department Budgets"
+    data:[500, 350, 420, 280, 390]
+    labels:["Engineering", "Marketing", "Sales", "Operations", "R&D"]
+    colors:["#667eea", "#764ba2", "#f093fb", "#4facfe", "#43e97b"]
+    flipAxes:true
+}

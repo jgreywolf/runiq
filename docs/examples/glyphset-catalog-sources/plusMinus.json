@@ -1,0 +1,30 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "plusMinus-composite",
+      "shape": "plusMinus",
+      "label": "Pros vs Cons",
+      "data": {
+        "plus": [
+          {
+            "label": "Alpha",
+            "color": "#546E7A"
+          },
+          {
+            "label": "Beta",
+            "color": "#78909C"
+          }
+        ],
+        "minus": [
+          {
+            "label": "Gamma",
+            "color": "#607D8B"
+          }
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

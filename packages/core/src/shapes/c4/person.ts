@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '@runiq/core';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * C4 Model: Person
@@ -6,7 +11,7 @@ import type { ShapeDefinition } from '@runiq/core';
  * Styled as a rounded rectangle with icon/pictogram above label
  */
 export const c4Person: ShapeDefinition = {
-  id: 'c4-person',
+  id: 'c4Person',
   bounds(ctx) {
     const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
     const padding = ctx.style.padding || 16;
@@ -19,13 +24,19 @@ export const c4Person: ShapeDefinition = {
     };
   },
 
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+
   render(ctx, position) {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const fill = ctx.style.fill || '#08427B'; // C4 person blue
-    const stroke = ctx.style.stroke || '#052E56';
-    const strokeWidth = ctx.style.strokeWidth || 2;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#08427B', // C4 person blue
+      defaultStroke: '#052E56',
+      defaultStrokeWidth: 2,
+    });
     const textColor = ctx.style.textColor || '#ffffff';
     const rx = ctx.style.rx || 8;
 
@@ -33,25 +44,33 @@ export const c4Person: ShapeDefinition = {
     const iconY = y + 20;
     const labelY = y + 45;
 
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: ctx.style.fontSize || 14,
+      fontWeight: 'bold',
+      color: textColor,
+    };
+    const labelSvg = renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || ctx.node.id,
+      x + bounds.width / 2,
+      labelY
+    );
+
     return `
       <!-- C4 Person Container -->
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}"
             rx="${rx}" ry="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
+
       <!-- Person Icon (simple stick figure) -->
       <circle cx="${iconX}" cy="${iconY}" r="6" fill="${textColor}" />
       <line x1="${iconX}" y1="${iconY + 6}" x2="${iconX}" y2="${iconY + 14}" stroke="${textColor}" stroke-width="2" />
       <line x1="${iconX - 8}" y1="${iconY + 10}" x2="${iconX + 8}" y2="${iconY + 10}" stroke="${textColor}" stroke-width="2" />
       <line x1="${iconX}" y1="${iconY + 14}" x2="${iconX - 6}" y2="${iconY + 22}" stroke="${textColor}" stroke-width="2" />
       <line x1="${iconX}" y1="${iconY + 14}" x2="${iconX + 6}" y2="${iconY + 22}" stroke="${textColor}" stroke-width="2" />
-      
+
       <!-- Label -->
-      <text x="${x + bounds.width / 2}" y="${labelY}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}"
-            fill="${textColor}" font-weight="bold">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${labelSvg}
     `;
   },
 };

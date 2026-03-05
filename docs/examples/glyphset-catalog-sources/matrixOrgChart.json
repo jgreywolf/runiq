@@ -1,0 +1,41 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "matrixOrgChart",
+      "shape": "matrixOrgChart",
+      "label": "",
+      "data": {
+        "structure": {
+          "ceo": "CEO",
+          "functional": [
+            {
+              "name": "VP Engineering",
+              "reports": [
+                "Dev Lead",
+                "QA Lead"
+              ]
+            },
+            {
+              "name": "VP Sales",
+              "reports": [
+                "Account Lead"
+              ]
+            }
+          ]
+        },
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C",
+          "#90A4AE",
+          "#455A64",
+          "#37474F"
+        ],
+        "showDottedLines": true
+      }
+    }
+  ],
+  "edges": []
+}

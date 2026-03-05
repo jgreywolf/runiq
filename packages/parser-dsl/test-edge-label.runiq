@@ -1,3 +1,0 @@
-diagram "test"
-A -> B
-C -label-> D

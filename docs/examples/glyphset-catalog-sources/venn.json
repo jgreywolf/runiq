@@ -1,0 +1,23 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "venn",
+      "shape": "venn",
+      "label": "",
+      "data": {
+        "labels": [
+          "Set A",
+          "Set B",
+          "Set C"
+        ],
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

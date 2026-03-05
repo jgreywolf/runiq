@@ -1,0 +1,29 @@
+// Social Network with Metrics Visualization
+// Demonstrates degree centrality on a small social network
+// showMetrics: true enables metric badge display
+
+diagram "Social Network Analysis" {
+  shape alice as @person label: "Alice" showMetrics: true
+  shape bob as @person label: "Bob" showMetrics: true
+  shape charlie as @person label: "Charlie" showMetrics: true
+  shape diana as @person label: "Diana" showMetrics: true
+  shape eve as @person label: "Eve" showMetrics: true
+  shape frank as @person label: "Frank" showMetrics: true
+
+  // Alice is a hub (highest degree)
+  alice -> bob label: "friends"
+  alice -> charlie label: "friends"
+  alice -> diana label: "friends"
+  alice -> eve label: "friends"
+
+  // Bob connects to multiple people
+  bob -> charlie label: "friends"
+  bob -> frank label: "friends"
+
+  // Charlie has connections
+  charlie -> diana label: "friends"
+  charlie -> frank label: "friends"
+
+  // Eve and Frank are less connected
+  eve -> frank label: "friends"
+}

@@ -1,0 +1,16 @@
+diagram "Two-DOF Arm" {
+  direction LR
+
+  style link fillColor: "#ede9fe" strokeColor: "#6d28d9"
+  style joint fillColor: "#fee2e2" strokeColor: "#b91c1c"
+  style ground fillColor: "#e2e8f0" strokeColor: "#475569"
+
+  shape Base as @groundLink label: "Base" style:ground
+  shape J1 as @revoluteJoint label: "Shoulder" style:joint
+  shape Link1 as @binaryLink label: "Link 1" style:link
+  shape J2 as @revoluteJoint label: "Elbow" style:joint
+  shape Link2 as @binaryLink label: "Link 2" style:link
+  shape Tool as @ternaryLink label: "Tool" style:link
+
+  Base -> J1 -> Link1 -> J2 -> Link2 -> Tool
+}

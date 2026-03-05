@@ -1,0 +1,10 @@
+// Target Diagram - Market Segmentation
+// Shows core to emerging market segments
+
+glyphset target "Market Segmentation" {
+    theme "forest"
+circle "Core Market"
+  circle "Secondary Market"
+  circle "Emerging Market"
+  circle "Future Opportunities"
+}

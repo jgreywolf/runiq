@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="327.6" height="970.5999999999999" 
+    viewBox="0 0 327.6 970.5999999999999"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Banking System - Container Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-container="web"><rect x="32" y="315.8" width="275.6" height="634.8" 
+    fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="8" /><text x="42" y="335.8" class="runiq-container-label">Web Container</text></g><g data-runiq-edge="webapp-api"><defs>
+      <marker id="arrow-standard-webapp-api" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 170 441.4 L 170 591.4" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-webapp-api)" /></g><g data-runiq-edge="api-db"><defs>
+      <marker id="arrow-standard-api-db" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 170 675 L 170 825" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-api-db)" /></g><g data-runiq-edge="customer-webapp"><defs>
+      <marker id="arrow-standard-customer-webapp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 149 51.4 L 149 225.5 L 169.8 225.5 L 169.8 399.6" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-customer-webapp)" /></g><g data-runiq-edge="api-emailSystem"><defs>
+      <marker id="arrow-standard-api-emailSystem" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 169.8 633.1999999999999 L 169.8 728.6025403784438 L 149 728.6025403784438 L 149 824.0050807568878" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-api-emailSystem)" /></g><g data-runiq-node="webapp">
+      <!-- C4 Container -->
+      <rect x="74" y="357.8" width="191.6" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="169.8" y="399.6" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Single-Page App
+[JavaScript, React]
+      </text>
+      
+      
+    </g><g data-runiq-node="api">
+      <!-- C4 Container -->
+      <rect x="74" y="591.4" width="191.6" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="169.8" y="633.1999999999999" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        API Application
+[Java, Spring Boot]
+      </text>
+      
+      
+    </g><g data-runiq-node="db">
+      <!-- C4 Container -->
+      <rect x="100" y="825" width="140" height="83.6"
+            rx="8" ry="8" fill="#438DD5" stroke="#2E6295" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="170" y="866.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Database
+[Oracle]
+      </text>
+      
+      
+    </g><g data-runiq-node="customer">
+      <!-- C4 Person Container -->
+      <rect x="89" y="12" width="120" height="78.8"
+            rx="8" ry="8" fill="#08427B" stroke="#052E56" stroke-width="2" />
+      
+      <!-- Person Icon (simple stick figure) -->
+      <circle cx="149" cy="32" r="6" fill="#ffffff" />
+      <line x1="149" y1="38" x2="149" y2="46" stroke="#ffffff" stroke-width="2" />
+      <line x1="141" y1="42" x2="157" y2="42" stroke="#ffffff" stroke-width="2" />
+      <line x1="149" y1="46" x2="143" y2="54" stroke="#ffffff" stroke-width="2" />
+      <line x1="149" y1="46" x2="155" y2="54" stroke="#ffffff" stroke-width="2" />
+      
+      <!-- Label -->
+      <text x="149" y="57" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Customer
+      </text>
+    </g><g data-runiq-node="emailSystem">
+      <!-- C4 Software System -->
+      <rect x="69" y="774.0050807568878" width="160" height="100"
+            rx="8" ry="8" fill="#1168BD" stroke="#0B4884" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="149" y="824.0050807568878" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="16"
+            fill="#ffffff" font-weight="bold">
+        Email System
+      </text>
+      
+      <!-- TODO: Add description text below title -->
+    </g></svg>

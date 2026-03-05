@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="1592" height="102" 
+    viewBox="0 0 1592 102"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Slider-Crank</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="Motor" data-node-id="Motor" data-node-shape="rotaryMotor">
+      <circle cx="47" cy="47" r="35"
+        fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      <path d="M 26 47 A 21 21 0 1 1 61.7 42.8"
+        fill="none" stroke="#48677e" stroke-width="1" />
+      <polygon points="61.7,42.8 55.7,40.8 59.7,48.8"
+        fill="#48677e" />
+      <text x="47" y="47" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      Motor
+    </text>
+    </g><g data-runiq-node="J1" data-node-id="J1" data-node-shape="revoluteJoint">
+      <circle cx="262" cy="47" r="30"
+        fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      <circle cx="262" cy="47" r="3.5999999999999996"
+        fill="#48677e" />
+      <text x="262" y="47" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      J1
+    </text>
+    </g><g data-runiq-node="Crank" data-node-id="Crank" data-node-shape="binaryLink">
+      <rect x="442" y="22" width="140" height="50"
+        rx="12.5" ry="12.5"
+        fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      <circle cx="462" cy="47" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <circle cx="562" cy="47" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <text x="512" y="47" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#0f172a">
+      Crank
+    </text>
+    </g><g data-runiq-node="J2" data-node-id="J2" data-node-shape="revoluteJoint">
+      <circle cx="762" cy="47" r="30"
+        fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      <circle cx="762" cy="47" r="3.5999999999999996"
+        fill="#48677e" />
+      <text x="762" y="47" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      J2
+    </text>
+    </g><g data-runiq-node="Rod" data-node-id="Rod" data-node-shape="binaryLink">
+      <rect x="942" y="22" width="140" height="50"
+        rx="12.5" ry="12.5"
+        fill="#96bacf" stroke="#48677e" stroke-width="1" />
+      <circle cx="962" cy="47" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <circle cx="1062" cy="47" r="15"
+        fill="#fff" stroke="#48677e" stroke-width="1" />
+      <text x="1012" y="47" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#0f172a">
+      Rod
+    </text>
+    </g><g data-runiq-node="J3" data-node-id="J3" data-node-shape="prismaticJoint">
+      <rect x="1232" y="12" width="70" height="70"
+        rx="8.4" ry="8.4"
+        fill="#73a3bf" stroke="#48677e" stroke-width="1" />
+      <rect x="1246" y="38.25" width="42" height="17.5"
+        rx="8.75" ry="8.75"
+        fill="none" stroke="#48677e" stroke-width="1" />
+      <text x="1267" y="47" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      J3
+    </text>
+    </g><g data-runiq-node="Slider" data-node-id="Slider" data-node-shape="linearActuator">
+      <rect x="1452" y="17" width="120" height="60"
+        rx="12" ry="12"
+        fill="#5a819e" stroke="#48677e" stroke-width="1" />
+      <line x1="1476" y1="47" x2="1542" y2="47"
+        stroke="#48677e" stroke-width="1" />
+      <polygon points="1542,47 1534,42 1534,52"
+        fill="#48677e" />
+      <text x="1512" y="47" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#ffffff">
+      Slider
+    </text>
+    </g><g data-runiq-edge="Motor-J1-0" data-edge-id="Motor-J1-0" data-edge-from="Motor" data-edge-to="J1"><defs>
+      <marker id="arrow-standard-Motor-J1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 82 47 L 157 47 L 157 47 L 232 47" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 82 47 L 157 47 L 157 47 L 232 47" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Motor-J1)" pointer-events="none" /></g><g data-runiq-edge="J1-Crank-1" data-edge-id="J1-Crank-1" data-edge-from="J1" data-edge-to="Crank"><defs>
+      <marker id="arrow-standard-J1-Crank" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 292 47 L 367 47 L 367 47 L 442 47" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 292 47 L 367 47 L 367 47 L 442 47" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-J1-Crank)" pointer-events="none" /></g><g data-runiq-edge="Crank-J2-2" data-edge-id="Crank-J2-2" data-edge-from="Crank" data-edge-to="J2"><defs>
+      <marker id="arrow-standard-Crank-J2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 582 47 L 657 47 L 657 47 L 732 47" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 582 47 L 657 47 L 657 47 L 732 47" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Crank-J2)" pointer-events="none" /></g><g data-runiq-edge="J2-Rod-3" data-edge-id="J2-Rod-3" data-edge-from="J2" data-edge-to="Rod"><defs>
+      <marker id="arrow-standard-J2-Rod" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 792 47 L 867 47 L 867 47 L 942 47" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 792 47 L 867 47 L 867 47 L 942 47" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-J2-Rod)" pointer-events="none" /></g><g data-runiq-edge="Rod-J3-4" data-edge-id="Rod-J3-4" data-edge-from="Rod" data-edge-to="J3"><defs>
+      <marker id="arrow-standard-Rod-J3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1082 47 L 1157 47 L 1157 47 L 1232 47" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1082 47 L 1157 47 L 1157 47 L 1232 47" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-Rod-J3)" pointer-events="none" /></g><g data-runiq-edge="J3-Slider-5" data-edge-id="J3-Slider-5" data-edge-from="J3" data-edge-to="Slider"><defs>
+      <marker id="arrow-standard-J3-Slider" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#48677e" />
+      </marker></defs><path d="M 1302 47 L 1377 47 L 1377 47 L 1452 47" fill="none" stroke="transparent" stroke-width="20" pointer-events="stroke" class="edge-hit-area" /><path d="M 1302 47 L 1377 47 L 1377 47 L 1452 47" fill="none" stroke="#48677e" stroke-width="1" marker-end="url(#arrow-standard-J3-Slider)" pointer-events="none" /></g></svg>

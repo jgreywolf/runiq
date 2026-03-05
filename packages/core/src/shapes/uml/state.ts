@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML State shape
@@ -12,7 +17,22 @@ export const stateShape: ShapeDefinition = {
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
 
-    const activities = (ctx.node.data?.activities as string[]) || [];
+    // Build activities array from first-class properties or legacy data.activities
+    const activities: string[] = [];
+    if (ctx.node.entry) {
+      activities.push(`entry / ${ctx.node.entry}`);
+    }
+    if (ctx.node.doActivity) {
+      activities.push(`do / ${ctx.node.doActivity}`);
+    }
+    if (ctx.node.exit) {
+      activities.push(`exit / ${ctx.node.exit}`);
+    }
+    // Fallback to legacy data.activities if present
+    if (activities.length === 0 && ctx.node.data?.activities) {
+      activities.push(...(ctx.node.data.activities as string[]));
+    }
+
     const nameSize = ctx.measureText(ctx.node.label || '', ctx.style);
 
     // Calculate width based on longest text
@@ -37,16 +57,7 @@ export const stateShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -57,11 +68,27 @@ export const stateShape: ShapeDefinition = {
 
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
-    const activities = (ctx.node.data?.activities as string[]) || [];
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    // Build activities array from first-class properties or legacy data.activities
+    const activities: string[] = [];
+    if (ctx.node.entry) {
+      activities.push(`entry / ${ctx.node.entry}`);
+    }
+    if (ctx.node.doActivity) {
+      activities.push(`do / ${ctx.node.doActivity}`);
+    }
+    if (ctx.node.exit) {
+      activities.push(`exit / ${ctx.node.exit}`);
+    }
+    // Fallback to legacy data.activities if present
+    if (activities.length === 0 && ctx.node.data?.activities) {
+      activities.push(...(ctx.node.data.activities as string[]));
+    }
+
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
     const cornerRadius = 10;
 
     let svg = `<g class="state-shape">`;
@@ -73,11 +100,17 @@ export const stateShape: ShapeDefinition = {
 
     // State name
     let currentY = y + padding + lineHeight * 0.7;
-    svg += `<text x="${x + w / 2}" y="${currentY}" `;
-    svg += `text-anchor="middle" font-size="${ctx.style.fontSize || 14}" `;
-    svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
-    svg += `font-weight="bold" fill="${stroke}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const nameStyle = {
+      ...ctx.style,
+      fontWeight: 'bold' as const,
+      color: stroke,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: nameStyle },
+      ctx.node.label || '',
+      x + w / 2,
+      currentY
+    );
 
     // Optional activities section
     if (activities.length > 0) {
@@ -93,10 +126,18 @@ export const stateShape: ShapeDefinition = {
       // Activity list
       activities.forEach((activity) => {
         currentY += lineHeight * 0.7;
-        svg += `<text x="${x + padding}" y="${currentY}" `;
-        svg += `font-size="${(ctx.style.fontSize || 14) * 0.9}" `;
-        svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-        svg += `${activity}</text>`;
+        const activityStyle = {
+          ...ctx.style,
+          fontSize: (ctx.style.fontSize || 14) * 0.9,
+          color: stroke,
+        };
+        svg += renderShapeLabel(
+          { ...ctx, style: activityStyle },
+          activity,
+          x + padding,
+          currentY,
+          'start'
+        );
         currentY += lineHeight * 0.3;
       });
     }

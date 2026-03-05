@@ -1,0 +1,18 @@
+// Table Hierarchy - Tabular rows with hierarchical connections
+// Shows hierarchical data in table format with fan-out connections
+
+glyphset tableHierarchy "Software Layers" {
+  theme "ocean"
+  showConnections true
+  level "Presentation Layer"
+  level "Service A" BusinessLogic
+  level "Service B" BusinessLogic
+  level "Service C" BusinessLogic
+  level "Repository 1" DataAccess
+  level "Repository 2" DataAccess
+  level "Repository 3" DataAccess
+  level "Repository 4" DataAccess
+  level "Primary" Database
+  level "Cache" Database
+  level "Archive" Database
+}

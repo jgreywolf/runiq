@@ -1,0 +1,32 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "theme": "professional",
+  "nodes": [
+    {
+      "id": "item1",
+      "shape": "processBox",
+      "label": "Alpha",
+      "data": {
+        "fillColor": "#546E7A"
+      }
+    },
+    {
+      "id": "item2",
+      "shape": "processBox",
+      "label": "Beta",
+      "data": {
+        "fillColor": "#607D8B"
+      }
+    },
+    {
+      "id": "item3",
+      "shape": "processBox",
+      "label": "Gamma",
+      "data": {
+        "fillColor": "#78909C"
+      }
+    }
+  ],
+  "edges": []
+}

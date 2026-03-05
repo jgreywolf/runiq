@@ -1,10 +1,10 @@
 diagram "Parallel Signal Processing" {
 
   shape input as @rect label:"Input"
-  shape split as @sm-circ label:""
+  shape split as @smallCircle label:""
   shape g1 as @gain label:"10"
   shape g2 as @gain label:"5"
-  shape mult as @multiply-junction label:"×"
+  shape mult as @multiplyJunction label:"×"
   shape output as @rect label:"Output"
 
   input -> split

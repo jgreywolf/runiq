@@ -1,9 +1,9 @@
 import type { ElectricalProfile, PartAst, AnalysisAst } from '@runiq/core';
 
 /**
- * Export an ElectricalProfile to SPICE netlist format
+ * Export a ElectricalProfile to SPICE netlist format
  *
- * @param profile - The electrical profile to export
+ * @param profile - The schematic profile to export
  * @param options - Export options (flavor: ngspice, pspice, ltspice)
  * @returns SPICE netlist as a string
  *

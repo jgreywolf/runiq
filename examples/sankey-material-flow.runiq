@@ -1,0 +1,5 @@
+diagram "Material Flow" {
+  datasource "json" key:materialData from:"data/sankey-material.json"
+  
+  shape materials as @sankeyChart from:materialData label:"Product Manufacturing Flow"
+}

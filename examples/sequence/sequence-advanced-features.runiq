@@ -1,0 +1,48 @@
+sequence "Advanced Sequence Features Demo" {
+
+  participant "Client" as actor
+  participant "API Gateway" as control
+  participant "Auth Service" as control
+  participant "Cache" as entity
+  participant "Database" as database
+
+  note "Authentication with guard condition" position:over participants:("Client", "API Gateway")
+
+  // Guard condition protects sensitive operations
+  message from:"Client" to:"API Gateway" label:"request()" type:sync guard:"token valid" activate:true
+
+  // Self-message for internal validation
+  message from:"API Gateway" to:"API Gateway" label:"validateRequest()" type:sync
+
+  note "Authorization check with timing SLA" position:right participants:("API Gateway")
+
+  // Timing constraint ensures performance
+  message from:"API Gateway" to:"Auth Service" label:"authorize()" type:sync timing:"< 50ms"
+  message from:"Auth Service" to:"API Gateway" label:"authorized" type:return
+
+  note "Data access with caching strategy" position:over participants:("Cache", "Database")
+
+  // Fast cache lookup
+  message from:"API Gateway" to:"Cache" label:"get(key)" type:sync timing:"< 10ms"
+  message from:"Cache" to:"API Gateway" label:"null" type:return
+
+  // Database fallback with guard and timing
+  message from:"API Gateway" to:"Database" label:"query()" type:sync guard:"cache miss" timing:"< 100ms"
+  message from:"Database" to:"API Gateway" label:"data" type:return
+
+  note "Async operations - fire and forget" position:right participants:("API Gateway")
+
+  // Lost message: no response expected (fire-and-forget)
+  message from:"API Gateway" to:lost label:"auditLog(event)" type:async
+
+  // Another lost message for analytics
+  message from:"API Gateway" to:lost label:"metrics.record()" type:async
+
+  note "External event arrives" position:left participants:("Client")
+
+  // Found message: unsolicited notification from outside system
+  message from:found to:"Client" label:"pushNotification" type:async
+
+  // Return with guards and timing
+  message from:"API Gateway" to:"Client" label:"response" type:return guard:"success" timing:"< 200ms total"
+}

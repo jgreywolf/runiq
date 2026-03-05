@@ -1,62 +1,130 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { EditorView, basicSetup } from 'codemirror';
-	import { EditorState, Compartment } from '@codemirror/state';
+	import { EditorState, Compartment, Transaction, Annotation } from '@codemirror/state';
+
+	// Custom annotation to mark programmatic changes
+	const ProgrammaticChange = Annotation.define<boolean>();
 	import { javascript } from '@codemirror/lang-javascript';
 	import { lintGutter, linter } from '@codemirror/lint';
-	import type { Diagnostic } from '@codemirror/lint';
+	import type { Diagnostic, Action } from '@codemirror/lint';
 	import { autocompletion, type CompletionContext } from '@codemirror/autocomplete';
+	import { createRuniqServices } from '@runiq/parser-dsl';
+	import { EmptyFileSystem, URI } from 'langium';
+	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
+	import { handleCodeChange, handleEditorErrors, handleEditorWarnings } from '$lib/state/editorState.svelte';
 
 	// Props
 	interface Props {
 		value?: string;
-		onchange?: (value: string) => void;
-		onerror?: (errors: string[]) => void;
 		readonly?: boolean;
 	}
 
-	let { value = '', onchange, onerror, readonly = false }: Props = $props();
+	let { value = '', readonly = false }: Props = $props();
 
 	let editorContainer: HTMLDivElement;
 	let editorView: EditorView | null = null;
 	let editorTheme = new Compartment();
 
-	// Default blank diagram
-	const defaultCode = `diagram "My Diagram" {\n  // Add your shapes and connections here\n}`;
+	// Initialize Langium services for validation
+	const allServices = createRuniqServices(EmptyFileSystem);
+	const langiumServices = allServices.Runiq;
+	const sharedServices = allServices.shared;
 
-	// Simple DSL linter (basic validation)
-	function runiqLinter(view: EditorView): Diagnostic[] {
+	// Enhanced DSL linter with Langium validation
+	async function runiqLinter(view: EditorView): Promise<Diagnostic[]> {
 		const diagnostics: Diagnostic[] = [];
 		const doc = view.state.doc;
 		const text = doc.toString();
 
-		// Basic syntax checking
-		const lines = text.split('\n');
-		lines.forEach((line, index) => {
-			const lineNumber = index + 1;
-			const trimmed = line.trim();
+		try {
+			// Create a temporary Langium document with proper URI
+			const uri = URI.parse('file:///temp.runiq');
+			const langiumDoc = sharedServices.workspace.LangiumDocumentFactory.fromString(text, uri);
 
-			// Check for common issues
-			if (trimmed.startsWith('shape') && !trimmed.includes('as')) {
+			// Build the document (resolve cross-references, etc.)
+			await sharedServices.workspace.DocumentBuilder.build([langiumDoc], {});
+
+			// Get validation diagnostics
+			const validationDiagnostics =
+				await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
+
+			// Convert Langium diagnostics to CodeMirror format
+			for (const diagnostic of validationDiagnostics) {
+				const from = offsetAt(doc, diagnostic.range.start);
+				const to = offsetAt(doc, diagnostic.range.end);
+
+				// Map Langium severity to CodeMirror severity
+				let severity: 'error' | 'warning' | 'info' = 'error';
+				if (diagnostic.severity === 1) severity = 'error';
+				else if (diagnostic.severity === 2) severity = 'warning';
+				else if (diagnostic.severity === 3 || diagnostic.severity === 4) severity = 'info';
+
+				// Extract suggestions from the diagnostic message if present
+				const actions = extractQuickFixes(diagnostic, view, from, to);
+
 				diagnostics.push({
-					from: doc.line(lineNumber).from,
-					to: doc.line(lineNumber).to,
-					severity: 'error',
-					message: 'Shape definition must include "as @type"'
+					from,
+					to,
+					severity,
+					message: diagnostic.message,
+					actions: actions.length > 0 ? actions : undefined
 				});
 			}
-
-			if (trimmed.includes('->') && trimmed.split('->').length > 2) {
-				diagnostics.push({
-					from: doc.line(lineNumber).from,
-					to: doc.line(lineNumber).to,
-					severity: 'warning',
-					message: 'Multiple arrows on one line may cause confusion'
-				});
-			}
-		});
+		} catch (err) {
+			console.error('Validation error:', err);
+		}
 
 		return diagnostics;
+	}
+
+	// Convert LSP position to CodeMirror offset
+	function offsetAt(doc: any, position: { line: number; character: number }): number {
+		const line = doc.line(position.line + 1); // LSP lines are 0-based, CodeMirror is 1-based
+		return line.from + position.character;
+	}
+
+	// Extract quick-fix actions from diagnostic messages
+	function extractQuickFixes(
+		diagnostic: LangiumDiagnostic,
+		view: EditorView,
+		from: number,
+		to: number
+	): Action[] {
+		const actions: Action[] = [];
+		const message = diagnostic.message;
+
+		// Look for "Did you mean: X, Y, Z?" pattern
+		const didYouMeanMatch = message.match(/Did you mean: ([^?]+)\?/);
+		if (didYouMeanMatch) {
+			const suggestions = didYouMeanMatch[1].split(',').map((s) => s.trim());
+
+			// Create quick-fix action for each suggestion
+			for (const suggestion of suggestions.slice(0, 3)) {
+				// Limit to top 3
+				actions.push({
+					name: `Replace with '${suggestion}'`,
+					apply: (view, from, to) => {
+						const doc = view.state.doc;
+						const lineStart = doc.lineAt(from);
+						const lineText = lineStart.text;
+
+						// Find the shape type in the line (after "as")
+						const asMatch = lineText.match(/as\s+(@?\w+)/);
+						if (asMatch && asMatch[1]) {
+							const shapeStart = lineStart.from + lineText.indexOf(asMatch[1]);
+							const shapeEnd = shapeStart + asMatch[1].length;
+
+							view.dispatch({
+								changes: { from: shapeStart, to: shapeEnd, insert: suggestion }
+							});
+						}
+					}
+				});
+			}
+		}
+
+		return actions;
 	}
 
 	// Autocompletion for Runiq DSL
@@ -70,6 +138,9 @@
 			{ label: 'shape', type: 'keyword', detail: 'shape id as @type' },
 			{ label: 'group', type: 'keyword', detail: 'group id [...]' },
 			{ label: 'style', type: 'keyword', detail: 'style id {...}' },
+			{ label: 'container', type: 'keyword', detail: 'container "name" { ... }' },
+			{ label: 'template', type: 'keyword', detail: 'template "id" { ... }' },
+			{ label: 'preset', type: 'keyword', detail: 'preset "id" { ... }' },
 			{ label: 'as', type: 'keyword' },
 			{ label: 'label:', type: 'property' },
 			{ label: 'icon:', type: 'property' },
@@ -99,22 +170,23 @@
 			// UML shapes
 			{ label: '@class', type: 'type', detail: 'UML Class' },
 			{ label: '@actor', type: 'type', detail: 'UML Actor' },
-			{ label: '@system-boundary', type: 'type', detail: 'System boundary' },
+			{ label: '@systemBoundary', type: 'type', detail: 'System boundary' },
 			// Network shapes
 			{ label: '@server', type: 'type', detail: 'Server' },
 			{ label: '@router', type: 'type', detail: 'Router' },
 			{ label: '@switch', type: 'type', detail: 'Network switch' },
 			{ label: '@firewall', type: 'type', detail: 'Firewall' },
 			{ label: '@cloud', type: 'type', detail: 'Cloud' },
-			// Block diagram shapes
-			{ label: '@transfer-function', type: 'type', detail: 'Transfer function' },
+			// Control system diagram shapes
+			{ label: '@transferFunction', type: 'type', detail: 'Transfer function' },
 			{ label: '@gain', type: 'type', detail: 'Gain block' },
 			{ label: '@integrator', type: 'type', detail: 'Integrator' },
 			{ label: '@summing-junction', type: 'type', detail: 'Summing junction' },
 			// Chart shapes
-			{ label: '@pie-chart', type: 'type', detail: 'Pie chart' },
-			{ label: '@bar-chart-vertical', type: 'type', detail: 'Vertical bar chart' },
-			{ label: '@bar-chart-horizontal', type: 'type', detail: 'Horizontal bar chart' },
+			{ label: '@pieChart', type: 'type', detail: 'Pie chart' },
+			{ label: '@barChart', type: 'type', detail: 'Bar chart' },
+			{ label: '@radarChart', type: 'type', detail: 'Horizontal bar chart' },
+			{ label: '@lineChart', type: 'type', detail: 'Line chart' },
 			// UML properties
 			{ label: 'attributes:', type: 'property', detail: 'Class attributes array' },
 			{ label: 'methods:', type: 'property', detail: 'Class methods array' },
@@ -136,7 +208,27 @@
 			{ label: 'source', type: 'constant' },
 			{ label: 'target', type: 'constant' },
 			{ label: 'bidirectional', type: 'constant' },
-			{ label: 'constraints:', type: 'property', detail: 'Constraints array' }
+			{ label: 'constraints:', type: 'property', detail: 'Constraints array' },
+			// Phase 5: Templates & Presets
+			{ label: 'templateId:', type: 'property', detail: 'Reference to container template' },
+			{ label: 'preset:', type: 'property', detail: 'Apply named style preset' },
+			{ label: 'extends:', type: 'property', detail: 'Inherit from container/template' },
+			{ label: 'parameters:', type: 'property', detail: 'Template parameters array' },
+			{ label: 'description:', type: 'property', detail: 'Template/preset description' },
+			{ label: 'children:', type: 'property', detail: 'Template children placeholders' },
+			// Parameter types
+			{ label: 'string', type: 'type', detail: 'String parameter type' },
+			{ label: 'number', type: 'type', detail: 'Number parameter type' },
+			{ label: 'boolean', type: 'type', detail: 'Boolean parameter type' },
+			{ label: 'color', type: 'type', detail: 'Color parameter type' },
+			// Container style properties
+			{ label: 'fillColor:', type: 'property', detail: 'Container background color' },
+			{ label: 'strokeColor:', type: 'property', detail: 'Container border color' },
+			{ label: 'strokeWidth:', type: 'property', detail: 'Container border width' },
+			{ label: 'padding:', type: 'property', detail: 'Container padding' },
+			{ label: 'shadow:', type: 'property', detail: 'Container shadow (true/false)' },
+			{ label: 'collapseButtonVisible:', type: 'property', detail: 'Show collapse button' },
+			{ label: 'resizable:', type: 'property', detail: 'Enable resizing' }
 		];
 
 		return {
@@ -160,21 +252,21 @@
 			padding: '0 10px'
 		},
 		'.cm-gutters': {
-			backgroundColor: '#f9fafb',
+			fillColor: '#f9fafb',
 			color: '#6b7280',
 			border: 'none'
 		},
 		'.cm-activeLineGutter': {
-			backgroundColor: '#e5e7eb'
+			fillColor: '#e5e7eb'
 		},
 		'.cm-activeLine': {
-			backgroundColor: '#f0f5f8'
+			fillColor: '#f0f5f8'
 		},
 		'.cm-selectionBackground': {
-			backgroundColor: '#dce8ef !important'
+			fillColor: '#dce8ef !important'
 		},
 		'&.cm-focused .cm-selectionBackground': {
-			backgroundColor: '#b9d1df !important'
+			fillColor: '#b9d1df !important'
 		},
 		'.cm-cursor': {
 			borderLeftColor: '#5a819e'
@@ -183,27 +275,32 @@
 
 	onMount(() => {
 		const startState = EditorState.create({
-			doc: value || defaultCode,
+			doc: value || '',
 			extensions: [
 				basicSetup,
 				javascript(), // Temporary - will create custom Runiq language later
 				lintGutter(),
-				linter(runiqLinter),
+				linter(runiqLinter), // Now async - CodeMirror handles promises
 				autocompletion({ override: [runiqCompletions] }),
 				editorTheme.of(runiqTheme),
 				EditorView.updateListener.of((update) => {
-					if (update.docChanged && onchange) {
+					if (update.docChanged) {
 						const newValue = update.state.doc.toString();
-						onchange(newValue);
+						const isProgrammatic = update.transactions.some((tr: any) =>
+							tr.annotation(ProgrammaticChange)
+						);
+						handleCodeChange(newValue, !isProgrammatic);
 
-						// Extract errors for parent component
-						const diagnostics = runiqLinter(update.view);
-						if (onerror) {
+						runiqLinter(update.view).then((diagnostics) => {
 							const errors = diagnostics
 								.filter((d) => d.severity === 'error')
 								.map((d) => d.message);
-							onerror(errors);
-						}
+							const warnings = diagnostics
+								.filter((d) => d.severity === 'warning')
+								.map((d) => d.message);
+							handleEditorErrors(errors);
+							handleEditorWarnings(warnings);
+						});
 					}
 				}),
 				EditorView.editable.of(!readonly)
@@ -215,7 +312,6 @@
 			parent: editorContainer
 		});
 	});
-
 	onDestroy(() => {
 		if (editorView) {
 			editorView.destroy();
@@ -236,7 +332,8 @@
 					from: 0,
 					to: editorView.state.doc.length,
 					insert: newValue
-				}
+				},
+				annotations: [Transaction.addToHistory.of(false), ProgrammaticChange.of(true)]
 			});
 
 			// Position cursor at the end of the "Add your shapes" comment line
@@ -246,7 +343,7 @@
 
 			// Find the line with the comment
 			const commentLineIndex = lines.findIndex((line) =>
-				line.includes('Add your shapes and connections here')
+				line.includes('// Add your shapes and connections here')
 			);
 
 			if (commentLineIndex !== -1 && commentLineIndex + 1 < lines.length) {
@@ -293,16 +390,54 @@
 		// Focus the editor
 		editorView.focus();
 	}
+
+	export function jumpTo(line: number, column: number) {
+		if (!editorView) return;
+
+		const doc = editorView.state.doc;
+		const clampedLine = Math.max(1, Math.min(line, doc.lines));
+		const lineInfo = doc.line(clampedLine);
+		const clampedColumn = Math.max(1, Math.min(column, lineInfo.length + 1));
+		const pos = lineInfo.from + clampedColumn - 1;
+
+		editorView.dispatch({
+			selection: { anchor: pos },
+			scrollIntoView: true
+		});
+		editorView.focus();
+	}
 </script>
 
-<div class="h-full w-full overflow-hidden" bind:this={editorContainer}></div>
+<div class="editor-container" bind:this={editorContainer}></div>
 
 <style>
-	:global(.cm-editor) {
+	.editor-container {
+		width: 100%;
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		position: relative;
 	}
 
-	:global(.cm-scroller) {
-		overflow: auto;
+	:global(.editor-container .cm-editor) {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	:global(.editor-container .cm-scroller) {
+		overflow: auto !important;
+		flex: 1 1 0;
+		min-height: 0;
+	}
+
+	:global(.editor-container .cm-content) {
+		min-height: 0;
 	}
 </style>

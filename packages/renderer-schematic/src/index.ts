@@ -1,12 +1,68 @@
 /**
- * Electrical Schematic Renderer for Runiq
+ * Schematic Renderer for Runiq
  *
- * Converts ElectricalProfile to SVG schematic diagrams with IEEE-standard symbols.
+ * Converts ElectricalProfile, PneumaticProfile, or HydraulicProfile to SVG diagrams
+ * with IEEE-standard and ISO 1219 symbols.
  * Uses automatic routing and placement for clean, professional-looking schematics.
  */
 
-import type { ElectricalProfile, PartAst } from '@runiq/core';
-import { getSymbol, type SymbolDefinition } from './symbols.js';
+import type {
+  ControlProfile,
+  DigitalProfile,
+  ElectricalProfile,
+  HvacProfile,
+  HydraulicProfile,
+  PartAst,
+  PneumaticProfile,
+} from '@runiq/core';
+import { Orientation } from '@runiq/core';
+import { convertDigitalToSchematic } from './digital.ts';
+import { SymbolDefinition } from './symbol.ts';
+import { getSymbol } from './symbolRegistry.ts';
+
+// Re-export P&ID symbols, line types, tag system, and renderer
+export {
+  getLineType,
+  getLineTypeStyle,
+  pidLineTypes,
+  renderDoubleLine,
+  renderInsulationMarks,
+  renderPIDLine,
+  type PIDLineType,
+  type PIDLineTypeId,
+} from './pid-line-types.js';
+export {
+  renderPID,
+  type PIDRenderOptions,
+  type PIDRenderResult,
+} from './pid-renderer.js';
+export { pidSymbols, type PIDSymbolType } from './pid-symbols.js';
+export {
+  commonTagCombinations,
+  createTag,
+  formatTagDisplay,
+  generateSequentialTags,
+  getLoopNumber,
+  getLoopTags,
+  getTagCategory,
+  isFieldMounted,
+  isISACompliant,
+  isSameLoop,
+  measuredVariables,
+  parseTag,
+  readoutFunctions,
+  suggestTags,
+  validateTag,
+  type PIDTag,
+} from './pid-tags.js';
+
+// Union type for all profile types that can be rendered as schematics
+export type RenderableProfile =
+  | ControlProfile
+  | ElectricalProfile
+  | PneumaticProfile
+  | HydraulicProfile
+  | HvacProfile;
 
 export interface SchematicOptions {
   /** Grid size for component placement (default: 50) */
@@ -21,10 +77,12 @@ export interface SchematicOptions {
   showValues?: boolean;
   /** Show component references (default: true) */
   showReferences?: boolean;
-  /** Orientation: 'horizontal' | 'vertical' (default: 'horizontal') */
-  orientation?: 'horizontal' | 'vertical';
+  /** Orientation (default: Orientation.HORIZONTAL) */
+  orientation?: Orientation;
   /** Wire routing mode: 'direct' | 'orthogonal' (default: 'direct') */
   routing?: 'direct' | 'orthogonal';
+  /** Show airflow direction arrows on wires (HVAC only by default) */
+  showFlowArrows?: boolean;
 }
 
 export interface RenderResult {
@@ -48,9 +106,10 @@ interface NetConnection {
 
 /**
  * Main schematic rendering function
+ * Supports electrical schematics, pneumatic circuits, hydraulic circuits, and HVAC systems
  */
 export function renderSchematic(
-  profile: ElectricalProfile,
+  profile: RenderableProfile,
   options: SchematicOptions = {}
 ): RenderResult {
   const warnings: string[] = [];
@@ -61,8 +120,9 @@ export function renderSchematic(
     showNetLabels = true,
     showValues = true,
     showReferences = true,
-    orientation = 'horizontal',
+    orientation = Orientation.HORIZONTAL,
     routing = 'direct',
+    showFlowArrows = profile.type === 'hvac',
   } = options;
 
   // Build net connectivity map
@@ -82,22 +142,43 @@ export function renderSchematic(
   // Route wires between components (with routing mode)
   const wires = routeWires(netMap, connections, gridSize, routing);
 
-  // Calculate bounds
-  const bounds = calculateBounds(positioned, wires);
+  // Calculate bounds (including space for metadata)
+  const bounds = calculateBounds(positioned, wires, profile);
+
+  // Determine CSS class prefix based on profile type
+  const classPrefix =
+    profile.type === 'electrical'
+      ? 'electrical'
+      : profile.type === 'pneumatic'
+        ? 'pneumatic'
+        : profile.type === 'hvac'
+          ? 'hvac'
+          : profile.type === 'control'
+            ? 'control'
+            : 'hydraulic';
 
   // Generate SVG
   let svg = generateSvgHeader(bounds, profile.name);
-  svg += generateStyles(wireColor, componentColor);
-  svg += generateDefs();
+  svg += generateStyles(wireColor, componentColor, classPrefix);
+  svg += generateDefs(wireColor, classPrefix, showFlowArrows);
 
   // Render wires (below components)
-  svg += renderWires(wires, showNetLabels);
+  svg += renderWires(wires, showNetLabels, classPrefix, showFlowArrows);
 
   // Render components
-  svg += renderComponents(positioned, showValues, showReferences, warnings);
+  svg += renderComponents(
+    positioned,
+    showValues,
+    showReferences,
+    warnings,
+    classPrefix
+  );
 
   // Render ground symbols
-  svg += renderGroundSymbols(netMap, connections, gridSize);
+  svg += renderGroundSymbols(netMap, connections, gridSize, classPrefix);
+
+  // Render profile metadata (pressure, flow, fluid specs)
+  svg += renderProfileMetadata(profile, bounds, classPrefix);
 
   svg += '</svg>';
 
@@ -105,9 +186,33 @@ export function renderSchematic(
 }
 
 /**
- * Build map of nets to connected parts
+ * Render a digital profile using schematic symbols.
+ * Converts digital instances/modules into schematic parts and reuses renderSchematic.
  */
-function buildNetMap(profile: ElectricalProfile): Map<string, PartAst[]> {
+export function renderDigital(
+  profile: DigitalProfile,
+  options: SchematicOptions = {}
+): RenderResult {
+  const schematicProfile = convertDigitalToSchematic(profile);
+  if (!schematicProfile.parts || schematicProfile.parts.length === 0) {
+    const title = profile.name || 'Digital Circuit';
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="520" height="160" viewBox="0 0 520 160" role="img" aria-labelledby="digital-title">
+  <title id="digital-title">${title}</title>
+  <rect width="520" height="160" fill="#f9fafb"/>
+  <text x="20" y="40" font-family="sans-serif" font-size="18" font-weight="bold" fill="#16a34a">${title}</text>
+  <text x="20" y="72" font-family="sans-serif" font-size="12" fill="#555">No instances to render.</text>
+  <text x="20" y="94" font-family="sans-serif" font-size="12" fill="#555">Add inst statements to draw gate-level symbols.</text>
+</svg>`;
+    return { svg, warnings: [] };
+  }
+  return renderSchematic(schematicProfile, options);
+}
+
+/**
+ * Build map of nets to connected parts
+ * Works with electrical, pneumatic, and hydraulic profiles
+ */
+function buildNetMap(profile: RenderableProfile): Map<string, PartAst[]> {
   const netMap = new Map<string, PartAst[]>();
 
   for (const part of profile.parts) {
@@ -140,7 +245,7 @@ function normalizeNetName(name: string): string {
 function placeComponents(
   parts: PartAst[],
   gridSize: number,
-  orientation: 'horizontal' | 'vertical',
+  orientation: Orientation,
   warnings: string[]
 ): PositionedComponent[] {
   const positioned: PositionedComponent[] = [];
@@ -157,12 +262,12 @@ function placeComponents(
     positioned.push({
       part,
       symbol,
-      x: orientation === 'horizontal' ? currentX : gridSize * 2,
-      y: orientation === 'horizontal' ? gridSize * 2 : currentY,
+      x: orientation === Orientation.HORIZONTAL ? currentX : gridSize * 2,
+      y: orientation === Orientation.HORIZONTAL ? gridSize * 2 : currentY,
       rotation: 0,
     });
 
-    if (orientation === 'horizontal') {
+    if (orientation === Orientation.HORIZONTAL) {
       currentX += symbol.width + gridSize * 2;
     } else {
       currentY += symbol.height + gridSize * 2;
@@ -220,7 +325,7 @@ function routeWires(
     junctions?: { x: number; y: number }[];
   }[] = [];
 
-  for (const [netName, _parts] of netMap.entries()) {
+  for (const [netName] of netMap.entries()) {
     if (netName === 'GND') continue; // Ground handled separately
 
     const terminals = connections.filter((c) => c.net === netName);
@@ -303,7 +408,8 @@ function routeWires(
  */
 function calculateBounds(
   positioned: PositionedComponent[],
-  wires: { net: string; points: { x: number; y: number }[] }[]
+  wires: { net: string; points: { x: number; y: number }[] }[],
+  profile: RenderableProfile
 ): { width: number; height: number; minX: number; minY: number } {
   let minX = Infinity;
   let minY = Infinity;
@@ -326,10 +432,19 @@ function calculateBounds(
     }
   }
 
+  // Calculate metadata height (for hydraulic/pneumatic profiles)
+  let metadataHeight = 0;
+  if ('pressure' in profile && profile.pressure) metadataHeight += 18;
+  if ('flowRate' in profile && profile.flowRate) metadataHeight += 18;
+  if ('fluid' in profile && profile.fluid) {
+    metadataHeight += 18; // Fluid type line
+    if (profile.fluid.temperature) metadataHeight += 18; // Temperature line
+  }
+
   const padding = 40;
   return {
     width: maxX - minX + padding * 2,
-    height: maxY - minY + padding * 2,
+    height: maxY - minY + padding * 2 + metadataHeight + 20, // Add metadata space + margin
     minX: minX - padding,
     minY: minY - padding,
   };
@@ -355,15 +470,19 @@ function generateSvgHeader(
 /**
  * Generate CSS styles
  */
-function generateStyles(wireColor: string, componentColor: string): string {
+function generateStyles(
+  wireColor: string,
+  componentColor: string,
+  classPrefix: string
+): string {
   return `
   <defs>
     <style type="text/css"><![CDATA[
-      .schematic-wire { stroke: ${wireColor}; stroke-width: 2; fill: none; }
-      .schematic-component { color: ${componentColor}; }
-      .schematic-label { font-family: sans-serif; font-size: 12px; fill: ${componentColor}; }
-      .schematic-value { font-family: sans-serif; font-size: 10px; fill: ${componentColor}; }
-      .schematic-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
+      .${classPrefix}-wire { stroke: ${wireColor}; stroke-width: 2; fill: none; }
+      .${classPrefix}-component { color: ${componentColor}; }
+      .${classPrefix}-label { font-family: sans-serif; font-size: 12px; fill: ${componentColor}; }
+      .${classPrefix}-value { font-family: sans-serif; font-size: 10px; fill: ${componentColor}; }
+      .${classPrefix}-net-label { font-family: sans-serif; font-size: 10px; fill: #0066cc; }
     ]]></style>
   </defs>
 `;
@@ -372,8 +491,22 @@ function generateStyles(wireColor: string, componentColor: string): string {
 /**
  * Generate defs (markers, etc.)
  */
-function generateDefs(): string {
-  return '';
+function generateDefs(
+  wireColor: string,
+  classPrefix: string,
+  showFlowArrows: boolean
+): string {
+  if (!showFlowArrows) {
+    return '';
+  }
+
+  return `
+  <defs>
+    <marker id="${classPrefix}-flow-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="${wireColor}" />
+    </marker>
+  </defs>
+`;
 }
 
 /**
@@ -385,9 +518,11 @@ function renderWires(
     points: { x: number; y: number }[];
     junctions?: { x: number; y: number }[];
   }[],
-  showNetLabels: boolean
+  showNetLabels: boolean,
+  classPrefix: string,
+  showFlowArrows: boolean
 ): string {
-  let svg = '<g class="schematic-wires">\n';
+  let svg = `<g class="${classPrefix}-wires">\n`;
 
   // Collect all junctions
   const allJunctions = new Map<string, { x: number; y: number }>();
@@ -399,13 +534,17 @@ function renderWires(
       .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x},${p.y}`)
       .join(' ');
 
-    svg += `  <path d="${pathData}" class="schematic-wire"/>\n`;
+    const arrowMarker =
+      showFlowArrows && wire.net !== 'GND'
+        ? ` marker-end="url(#${classPrefix}-flow-arrow)"`
+        : '';
+    svg += `  <path d="${pathData}" class="${classPrefix}-wire"${arrowMarker}/>\n`;
 
     // Add net label at midpoint
     if (showNetLabels && wire.net !== 'GND') {
       const midIdx = Math.floor(wire.points.length / 2);
       const midPoint = wire.points[midIdx];
-      svg += `  <text x="${midPoint.x + 5}" y="${midPoint.y - 5}" class="schematic-net-label">${escapeXml(wire.net)}</text>\n`;
+      svg += `  <text x="${midPoint.x + 5}" y="${midPoint.y - 5}" class="${classPrefix}-net-label">${escapeXml(wire.net)}</text>\n`;
     }
 
     // Collect junctions from this wire
@@ -419,9 +558,9 @@ function renderWires(
 
   // Render junction dots
   if (allJunctions.size > 0) {
-    svg += '  <g class="schematic-junctions">\n';
+    svg += `  <g class="${classPrefix}-junctions">\n`;
     for (const junction of allJunctions.values()) {
-      svg += `    <circle cx="${junction.x}" cy="${junction.y}" r="3" class="schematic-junction" fill="currentColor"/>\n`;
+      svg += `    <circle cx="${junction.x}" cy="${junction.y}" r="3" class="${classPrefix}-junction" fill="currentColor"/>\n`;
     }
     svg += '  </g>\n';
   }
@@ -437,9 +576,10 @@ function renderComponents(
   positioned: PositionedComponent[],
   showValues: boolean,
   showReferences: boolean,
-  warnings: string[]
+  warnings: string[],
+  classPrefix: string
 ): string {
-  let svg = '<g class="schematic-components">\n';
+  let svg = `<g class="${classPrefix}-components">\n`;
 
   for (const comp of positioned) {
     // Get rotation angle (default to 0)
@@ -467,7 +607,7 @@ function renderComponents(
         ? ` transform="rotate(${actualRotation} ${centerX} ${centerY})"`
         : '';
 
-    svg += `  <g class="schematic-component" data-ref="${escapeXml(comp.part.ref)}"${transformAttr}>\n`;
+    svg += `  <g class="${classPrefix}-component" data-ref="${escapeXml(comp.part.ref)}"${transformAttr}>\n`;
     svg += comp.symbol.render(comp.x, comp.y);
 
     // Component reference (above)
@@ -475,24 +615,19 @@ function renderComponents(
       const labelX = comp.x + comp.symbol.width / 2;
       const labelY = comp.y - 8;
       svg += `    <text x="${labelX}" y="${labelY}" 
-        class="schematic-label" 
+        class="${classPrefix}-label" 
         text-anchor="middle">${escapeXml(comp.part.ref)}</text>\n`;
     }
 
     // Component value (below)
     if (showValues && comp.part.params) {
-      const value =
-        comp.part.params.value ||
-        comp.part.params.source ||
-        comp.part.params.model ||
-        comp.part.params.ratio ||
-        '';
+      const value = getComponentValue(comp.part.params);
       if (value) {
         const valueX = comp.x + comp.symbol.width / 2;
         const valueY = comp.y + comp.symbol.height + 15;
         svg += `    <text x="${valueX}" y="${valueY}" 
-          class="schematic-value" 
-          text-anchor="middle">${escapeXml(String(value))}</text>\n`;
+          class="${classPrefix}-value" 
+          text-anchor="middle">${escapeXml(value)}</text>\n`;
       }
     }
 
@@ -503,15 +638,44 @@ function renderComponents(
   return svg;
 }
 
+function getComponentValue(
+  params: Record<string, unknown>
+): string | undefined {
+  const knownKeys = [
+    'value',
+    'source',
+    'model',
+    'ratio',
+    'cfm',
+    'cfm-max',
+    'capacity',
+    'flow',
+    'btu',
+    'tonnage',
+  ];
+
+  for (const key of knownKeys) {
+    if (key in params) {
+      const raw = params[key];
+      if (raw === undefined || raw === null || raw === '') continue;
+      const label = key.toUpperCase().replace(/-/g, ' ');
+      return `${label}: ${String(raw)}`;
+    }
+  }
+
+  return undefined;
+}
+
 /**
  * Render ground symbols
  */
 function renderGroundSymbols(
   _netMap: Map<string, PartAst[]>,
   connections: NetConnection[],
-  _gridSize: number
+  _gridSize: number,
+  classPrefix: string
 ): string {
-  let svg = '<g class="schematic-grounds">\n';
+  let svg = `<g class="${classPrefix}-grounds">\n`;
 
   const groundConnections = connections.filter((c) => c.net === 'GND');
 
@@ -523,6 +687,56 @@ function renderGroundSymbols(
     const y = conn.terminal.y + 5;
 
     svg += gndSymbol.render(x, y);
+  }
+
+  svg += '</g>\n';
+  return svg;
+}
+
+/**
+ * Render profile-specific metadata (pressure, flow rate, fluid specs)
+ */
+function renderProfileMetadata(
+  profile: RenderableProfile,
+  bounds: { width: number; height: number; minX: number; minY: number },
+  classPrefix: string
+): string {
+  let svg = '<g class="profile-metadata">\n';
+
+  const startY = bounds.minY + bounds.height + 20;
+  const startX = bounds.minX + 10;
+  let currentY = startY;
+
+  // Render pressure specification
+  if ('pressure' in profile && profile.pressure) {
+    const { value, unit, type } = profile.pressure;
+    const typeStr = type ? ` (${type})` : '';
+    svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">Pressure: ${value} ${unit}${typeStr}</text>\n`;
+    currentY += 18;
+  }
+
+  // Render flow rate specification
+  if ('flowRate' in profile && profile.flowRate) {
+    const { value, unit } = profile.flowRate;
+    svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">Flow Rate: ${value} ${unit}</text>\n`;
+    currentY += 18;
+  }
+
+  // Render fluid specification (hydraulic only)
+  if ('fluid' in profile && profile.fluid) {
+    const { type, viscosity, temperature } = profile.fluid;
+    svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">Fluid: ${type}`;
+    if (viscosity) {
+      svg += ` (${escapeXml(viscosity)})`;
+    }
+    svg += '</text>\n';
+    currentY += 18;
+
+    if (temperature) {
+      svg += `  <text x="${startX}" y="${currentY}" class="${classPrefix}-label">`;
+      svg += `Temp: ${temperature.min}°${temperature.unit} to ${temperature.max}°${temperature.unit}`;
+      svg += '</text>\n';
+    }
   }
 
   svg += '</g>\n';

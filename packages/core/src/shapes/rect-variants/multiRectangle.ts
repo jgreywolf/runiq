@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Multi rectangle (stacked) - for repeated/loop processes
@@ -52,12 +54,8 @@ export const multiRectangleShape: ShapeDefinition = {
 
     const rectWidth = bounds.width - totalOffset;
     const rectHeight = bounds.height - totalOffset;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
-    const font = ctx.style.font || 'sans-serif';
-    const fontSize = ctx.style.fontSize || 14;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+    const label = ctx.node.label || '';
 
     const textX = x + bounds.width / 2;
     const textY = y + (bounds.height - totalOffset) / 2;
@@ -75,11 +73,7 @@ export const multiRectangleShape: ShapeDefinition = {
     return `
       ${rects}
       
-      <text x="${textX}" y="${textY}"
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize}">
-        ${ctx.node.label || ''}
-      </text>
+      ${renderShapeLabel(ctx, label, textX, textY)}
     `;
   },
 };

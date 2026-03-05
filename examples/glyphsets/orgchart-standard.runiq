@@ -1,0 +1,24 @@
+// Standard Vertical Organization Chart
+// Top-down hierarchy with CEO and reporting structure
+
+glyphset orgChart "Tech Company Org Chart" {
+    theme "forest"
+person "Sarah Chen - CEO" {
+    person "Michael Torres - VP Engineering" {
+      person "Alex Kim - Dev Manager" {
+        person "Jordan Lee - Senior Developer"
+        person "Sam Patel - Developer"
+      }
+      person "Casey Martinez - QA Manager" {
+        person "Taylor Brown - QA Engineer"
+      }
+    }
+    person "Emily Watson - VP Product" {
+      person "Chris Anderson - Product Manager"
+      person "Robin Davis - UX Designer"
+    }
+    person "David Park - VP Sales" {
+      person "Jamie Wilson - Sales Lead"
+    }
+  }
+}

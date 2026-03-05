@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Lightning bolt - for power, energy, or asynchronous events
@@ -49,24 +51,22 @@ export const lightningBoltShape: ShapeDefinition = {
       `${x + w * 0.8},${y}`, // 7. Top center-right (back to top)
     ].join(' ');
 
-    const fill = ctx.style.fill || '#fbbf24';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#fbbf24',
+    });
     const font = ctx.style.font || 'sans-serif';
     const fontSize = ctx.style.fontSize || 10;
 
     const textX = x + w / 2;
     const textY = y + h * 0.78; // Lower to avoid bolt shape
+    const label = ctx.node.label || '';
+    const labelStyle = { ...ctx.style, fontSize };
 
     return `
       <polygon points="${points}"
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${textX}" y="${textY}"
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${font}" font-size="${fontSize}">
-        ${ctx.node.label || ''}
-      </text>
+      ${renderShapeLabel({ ...ctx, style: labelStyle }, label, textX, textY)}
     `;
   },
 };

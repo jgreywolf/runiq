@@ -1,0 +1,16 @@
+diagram "Gripper Mechanism" {
+  direction LR
+
+  style link fillColor: "#e0f2fe" strokeColor: "#0284c7"
+  style joint fillColor: "#fef3c7" strokeColor: "#b45309"
+  style actuator fillColor: "#dcfce7" strokeColor: "#15803d"
+
+  shape Base as @groundLink label: "Base"
+  shape J1 as @revoluteJoint label: "J1" style:joint
+  shape Link1 as @binaryLink label: "Link" style:link
+  shape Gripper as @gripperParallel label: "Gripper" style:actuator
+  shape Mount as @toolMount label: "Tool Mount" style:actuator
+
+  Base -> J1 -> Link1 -> Gripper
+  Gripper -> Mount
+}

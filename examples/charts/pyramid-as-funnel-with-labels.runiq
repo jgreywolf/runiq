@@ -1,0 +1,10 @@
+// Pyramid Chart with Custom Labels
+// Demonstrates custom labels for level names
+
+diagram "Sales Funnel" {
+  shape sales_funnel as @pyramid
+    label:"Conversion Funnel"
+    data:[100, 75, 50, 30, 15]
+    labels:["Website Visitors", "Product Views", "Add to Cart", "Checkout", "Purchase"]
+    colors:["#4ECDC4", "#45B7D1", "#5B8DEF", "#7B68EE", "#9B59B6"]
+}

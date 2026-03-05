@@ -1,0 +1,18 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "cycle",
+      "shape": "cycle",
+      "label": "",
+      "data": {
+        "steps": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,9 @@
+// Horizontal List - Project Phases
+glyphset horizontalList "Project Phases" {
+    theme "forest"
+item "Planning"
+  item "Development"
+  item "Testing"
+  item "Deployment"
+  item "Maintenance"
+}

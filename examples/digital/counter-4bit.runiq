@@ -1,13 +1,5 @@
 digital "Counter4bit" {
-  module Counter4bit {
-    param WIDTH = 4
-    param INIT = 0
-    
-    input clk
-    input reset
-    input enable
-    output [3:0] count
-  }
-  
+  module Counter4bit ports:(clk, reset, enable, count[3:0]) params:(WIDTH:4, INIT:0)
+
   net clk, reset, enable, count[3:0]
 }

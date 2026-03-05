@@ -1,0 +1,19 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "continuousBlockProcess",
+      "shape": "continuousBlockProcess",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ],
+        "direction": "LR"
+      }
+    }
+  ],
+  "edges": []
+}

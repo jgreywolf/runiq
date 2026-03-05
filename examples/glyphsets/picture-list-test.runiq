@@ -1,0 +1,16 @@
+// Test file for pictureList glyphset - Phase 2 Implementation
+// Demonstrates image support with circular thumbnails and labels
+
+glyphset pictureList "Team Members" {
+  theme "professional"
+  orientation "horizontal"
+  
+  // Image items - URLs will be processed by image utilities
+  // These will render as circular thumbnails with labels below
+  image "https://i.pravatar.cc/150?img=1"
+  image "https://i.pravatar.cc/150?img=2"
+  image "https://i.pravatar.cc/150?img=3"
+  
+  // Data URLs are also supported for inline images
+  image "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%234CAF50'/%3E%3C/svg%3E"
+}

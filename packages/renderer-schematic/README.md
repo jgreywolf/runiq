@@ -612,11 +612,11 @@ import { renderSchematic } from '@runiq/renderer-schematic';
 const content = await fs.readFile('rc-filter.runiq', 'utf-8');
 const parseResult = parse(content);
 
-const electricalProfile = parseResult.document.profiles.find(
+const ElectricalProfile = parseResult.document.profiles.find(
   (p) => p.type === 'electrical'
 );
 
-const schematic = renderSchematic(electricalProfile);
+const schematic = renderSchematic(ElectricalProfile);
 
 await fs.writeFile('rc-filter.svg', schematic.svg);
 ```

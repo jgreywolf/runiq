@@ -1,0 +1,12 @@
+// Plus/Minus Glyphset Example: Cloud Migration
+//
+// Compare pros and cons of migrating to cloud.
+// Demonstrates balanced 4-item comparison (2 pros, 2 cons).
+
+glyphset plusMinus "Cloud Migration Decision" {
+    theme "forest"
+item "Scalability"
+  item "Cost Savings"
+  item "High Initial Cost"
+  item "Migration Risk"
+}

@@ -16,7 +16,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc -p tsconfig.build.json",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -25,10 +25,13 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*",
     "elkjs": "^0.9.3"
   },
+  "peerDependencies": {
+    "@runiq/core": "workspace:*"
+  },
   "devDependencies": {
+    "@runiq/core": "workspace:*",
     "@runiq/parser-dsl": "workspace:*",
     "@runiq/renderer-svg": "workspace:*",
     "@types/node": "^20.11.0",

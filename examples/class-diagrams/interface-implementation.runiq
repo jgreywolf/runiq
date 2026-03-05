@@ -2,7 +2,7 @@
 // Demonstrates interface definitions and implementation relationships
 
 diagram "Comparable Types" {
-  direction: TB
+  direction TB
   
   // Interface definition
   shape IComparable as @class label:"IComparable"
@@ -44,7 +44,7 @@ diagram "Comparable Types" {
     ]
   
   // Implementation relationships (dashed arrows typically)
-  Integer -> IComparable lineStyle:dashed
-  String -> IComparable lineStyle:dashed
-  Date -> IComparable lineStyle:dashed
+  Integer -> IComparable lineStyle:"dashed"
+  String -> IComparable lineStyle:"dashed"
+  Date -> IComparable lineStyle:"dashed"
 }

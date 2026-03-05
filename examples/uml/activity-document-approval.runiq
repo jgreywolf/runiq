@@ -1,0 +1,122 @@
+// UML Activity Diagram: Document Approval Workflow
+// Demonstrates central buffer as task queue
+// Shows data store interactions and conditional routing
+
+diagram "Document Approval Activity" {
+  direction TB
+
+  // Start/end
+  shape start as @initialState
+  shape approved as @finalState
+  shape rejected as @finalState
+
+  // Activities
+  shape submitDoc as @activity label:"Submit Document"
+  shape autoValidate as @activity label:"Auto Validate"
+  shape assignReviewer as @activity label:"Assign Reviewer"
+  shape reviewDoc as @activity label:"Review Document"
+  shape requestChanges as @activity label:"Request Changes"
+  shape reviseDoc as @activity label:"Revise Document"
+  shape managerApprove as @activity label:"Manager Approval"
+  shape finalizeDoc as @activity label:"Finalize Document"
+  shape archiveDoc as @activity label:"Archive Document"
+  shape notifyAuthor as @activity label:"Notify Author"
+
+  // Object nodes
+  shape draft as @objectNode label:"Draft Document"
+  shape validated as @objectNode label:"Validated Document"
+  shape reviewed as @objectNode label:"Reviewed Document"
+  shape revised as @objectNode label:"Revised Document"
+  shape approvedDoc as @objectNode label:"Approved Document"
+  shape changes as @objectNode label:"Change Requests"
+
+  // Central buffers (work queues)
+  shape reviewQueue as @centralBuffer label:"Review Queue"
+  shape approvalQueue as @centralBuffer label:"Approval Queue"
+
+  // Data stores
+  shape userDB as @dataStore label:"User DB"
+  shape documentDB as @dataStore label:"Document DB"
+  shape auditDB as @dataStore label:"Audit Log"
+
+  // Decision points
+  shape validationOK as @choice
+  shape reviewDecision as @choice
+  shape needsManagerApproval as @choice
+  shape managerDecision as @choice
+
+  // Workflow starts
+  start -> submitDoc flowType:"control"
+  submitDoc -> draft flowType:"object"
+
+  // Save draft
+  draft -> documentDB flowType:"object" label:"save draft"
+
+  // Auto validation
+  draft -> autoValidate flowType:"object"
+  autoValidate -> validationOK flowType:"control"
+
+  // Validation failed
+  validationOK -> notifyAuthor label:"[failed]" flowType:"control"
+  notifyAuthor -> rejected flowType:"control"
+
+  // Validation passed
+  validationOK -> validated label:"[passed]" flowType:"object"
+
+  // Assign reviewer (lookup from user DB)
+  validated -> assignReviewer flowType:"object"
+  userDB -> assignReviewer flowType:"object" label:"find reviewer"
+
+  // Add to review queue
+  assignReviewer -> reviewQueue flowType:"object"
+
+  // Review document
+  reviewQueue -> reviewDoc flowType:"object"
+  reviewDoc -> reviewDecision flowType:"control"
+
+  // Review outcome: changes requested
+  reviewDecision -> changes label:"[changes needed]" flowType:"object"
+  changes -> requestChanges flowType:"object"
+  requestChanges -> notifyAuthor flowType:"control"
+  
+  // Revision loop
+  notifyAuthor -> reviseDoc flowType:"control"
+  reviseDoc -> revised flowType:"object"
+  revised -> documentDB flowType:"object" label:"update"
+  revised -> reviewQueue flowType:"object" // Back to queue
+
+  // Review outcome: approved
+  reviewDecision -> reviewed label:"[approved]" flowType:"object"
+
+  // Check if manager approval needed
+  reviewed -> needsManagerApproval flowType:"control"
+
+  // Simple docs: skip manager approval
+  needsManagerApproval -> finalizeDoc label:"[not needed]" flowType:"control"
+  reviewed -> finalizeDoc flowType:"object"
+
+  // Complex docs: require manager approval
+  needsManagerApproval -> approvalQueue label:"[required]" flowType:"object"
+  approvalQueue -> managerApprove flowType:"object"
+  
+  // Manager decision
+  managerApprove -> managerDecision flowType:"control"
+  
+  // Manager rejects: back to author
+  managerDecision -> changes label:"[rejected]" flowType:"object"
+  
+  // Manager approves
+  managerDecision -> approvedDoc label:"[approved]" flowType:"object"
+  approvedDoc -> finalizeDoc flowType:"object"
+
+  // Finalization
+  finalizeDoc -> documentDB flowType:"object" label:"save final"
+  finalizeDoc -> archiveDoc flowType:"control"
+
+  // Archive with audit
+  approvedDoc -> archiveDoc flowType:"object"
+  archiveDoc -> auditDB flowType:"object" label:"log"
+
+  // Complete
+  archiveDoc -> approved flowType:"control"
+}

@@ -1,0 +1,17 @@
+diagram "Simple ATM Example" {
+  
+  // Actor
+  shape user as @actor label:"Bank Customer"
+  
+  // System boundary with use cases
+  container atm "ATM System" {
+    shape withdraw as @ellipseWide label:"Withdraw Cash"
+    shape checkBalance as @ellipseWide label:"Check Balance"
+    shape printReceipt as @ellipseWide label:"Print Receipt"
+  }
+  
+  // Relationships
+  user -> withdraw
+  user -> checkBalance
+  withdraw -optional-> printReceipt
+}

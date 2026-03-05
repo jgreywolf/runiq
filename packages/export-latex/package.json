@@ -1,7 +1,7 @@
 {
   "name": "@runiq/export-latex",
   "version": "0.1.0",
-  "description": "LaTeX/TikZ exporter for Runiq block diagrams",
+  "description": "LaTeX/TikZ exporter for Runiq Control system diagrams",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,7 +23,6 @@
   "keywords": [
     "latex",
     "tikz",
-    "block-diagram",
     "control-systems",
     "export"
   ],

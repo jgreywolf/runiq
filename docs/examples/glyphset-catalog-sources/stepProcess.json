@@ -1,0 +1,19 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "stepProcess",
+      "shape": "stepProcess",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ],
+        "direction": "up"
+      }
+    }
+  ],
+  "edges": []
+}

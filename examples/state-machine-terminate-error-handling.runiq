@@ -1,0 +1,57 @@
+// Error Handling State Machine with Terminate
+// Demonstrates terminate pseudo-state for critical error abort scenarios
+
+diagram "Transaction Processing" {
+  // Initial state
+  shape init as @state label:"Initialize"
+  
+  // Main processing states
+  shape validating as @state label:"Validating"
+  shape authChecking as @state label:"Auth Check"
+  shape processing as @state label:"Processing"
+  
+  // Decision points
+  shape checkAuth as @junction label:"Auth OK?"
+  shape checkError as @junction label:"Error Type?"
+  
+  // Error handling states
+  shape retryable as @state label:"Retryable Error"
+  shape criticalError as @state label:"Critical Error"
+  
+  // Terminate pseudo-state - aborts entire state machine
+  shape abort as @terminate label:"ABORT"
+  
+  // Recovery and completion
+  shape rollback as @state label:"Rollback"
+  shape complete as @state label:"Complete"
+  
+  // Transitions
+  init -> validating label:"start"
+  validating -> authChecking label:"validate OK"
+  validating -> checkError label:"validation failed"
+  
+  // Auth check with junction
+  authChecking -> checkAuth
+  checkAuth -> processing label:"authorized"
+  checkAuth -> criticalError label:"unauthorized"
+  
+  // Processing outcomes
+  processing -> complete label:"success"
+  processing -> checkError label:"error"
+  
+  // Error classification junction
+  checkError -> retryable label:"network timeout"
+  checkError -> criticalError label:"fraud detected"
+  checkError -> criticalError label:"data corruption"
+  
+  // Retryable error handling
+  retryable -> init label:"retry"
+  retryable -> rollback label:"max retries"
+  
+  // Critical error handling
+  criticalError -> abort label:"security breach"
+  criticalError -> rollback label:"safe failure"
+  
+  // Rollback to completion
+  rollback -> complete label:"rolled back"
+}

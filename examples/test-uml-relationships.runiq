@@ -1,0 +1,60 @@
+diagram "UML Class Diagram Relationships Test" {
+  
+  // Classes
+  shape Company as @class label:"Company"
+    attributes:[
+      {name:"name" type:"String"}
+    ]
+  
+  shape Department as @class label:"Department"
+    attributes:[
+      {name:"name" type:"String"}
+    ]
+  
+  shape Employee as @class label:"Employee"
+    attributes:[
+      {name:"id" type:"int"},
+      {name:"name" type:"String"}
+    ]
+  
+  shape Address as @class label:"Address"
+    attributes:[
+      {name:"street" type:"String"},
+      {name:"city" type:"String"}
+    ]
+  
+  shape Project as @class label:"Project"
+    attributes:[
+      {name:"name" type:"String"}
+    ]
+  
+  // Aggregation: Company has Departments (shared ownership)
+  Company -> Department
+    edgeType: aggregation
+    multiplicitySource: "1"
+    multiplicityTarget: "1..*"
+    label: "has"
+  
+  // Composition: Employee has Address (strong ownership)
+  Employee -> Address
+    edgeType: composition
+    multiplicitySource: "1"
+    multiplicityTarget: "1"
+    label: "lives at"
+  
+  // Association with roles and multiplicity
+  Employee -> Company
+    edgeType: association
+    multiplicitySource: "1..*"
+    multiplicityTarget: "1"
+    roleSource: "employee"
+    roleTarget: "employer"
+    label: "works for"
+  
+  // Many-to-Many association
+  Employee -> Project
+    edgeType: association
+    multiplicitySource: "1..*"
+    multiplicityTarget: "0..*"
+    label: "assigned to"
+}

@@ -1,0 +1,101 @@
+// UML Activity Diagram: Event-Driven Order Processing
+// Demonstrates acceptEvent shapes for waiting on multiple event types
+// Shows event-driven workflow with conditional event handling
+
+diagram "Event-Driven Order Processing System" {
+  direction TB
+
+  // Start/end
+  shape start as @initialState
+  shape complete as @finalState
+  shape cancelled as @finalState
+
+  // Activities
+  shape initOrder as @activity label:"Initialize Order"
+  shape processPayment as @activity label:"Process Payment"
+  shape shipOrder as @activity label:"Ship Order"
+  shape notifyCustomer as @activity label:"Notify Customer"
+  shape handleRefund as @activity label:"Handle Refund"
+  shape archiveOrder as @activity label:"Archive Order"
+
+  // Event acceptance (waiting for events)
+  shape waitForPayment as @acceptEvent label:"Wait for Payment"
+  shape waitForCancellation as @acceptEvent label:"Wait for Cancellation"
+  shape waitForShippingConfirm as @acceptEvent label:"Wait for Shipping Confirmed"
+  shape waitForDelivery as @acceptEvent label:"Wait for Delivery"
+  shape waitForTimeout as @acceptEvent label:"Wait for Timeout"
+
+  // Signal sending
+  shape sendShipRequest as @sendSignal label:"Send Ship Request"
+  shape sendCancelNotice as @sendSignal label:"Send Cancellation Notice"
+  shape sendTrackingUpdate as @sendSignal label:"Send Tracking Update"
+  shape sendDeliveryConfirm as @sendSignal label:"Send Delivery Confirmation"
+
+  // Merge points for event handling (using choice shape for merge)
+  shape eventMerge as @choice
+  shape completionMerge as @choice
+  shape cancelMerge as @choice
+
+  // Fork for parallel event listeners
+  shape eventFork as @fork
+  shape notificationFork as @fork
+
+  // Object nodes
+  shape orderData as @objectNode label:"Order"
+  shape paymentInfo as @objectNode label:"Payment Info"
+  shape shippingInfo as @objectNode label:"Shipping Info"
+
+  // Central buffer for pending events
+  shape eventQueue as @centralBuffer label:"Event Queue"
+
+  // Initialize order
+  start -> initOrder flowType:"control"
+  initOrder -> orderData flowType:"object"
+
+  // Wait for payment or cancellation (race condition)
+  orderData -> eventQueue flowType:"object"
+  eventQueue -> eventFork flowType:"control"
+
+  eventFork -> waitForPayment flowType:"control"
+  eventFork -> waitForCancellation flowType:"control"
+  eventFork -> waitForTimeout flowType:"control"
+
+  // Timeout path
+  waitForTimeout -> sendCancelNotice flowType:"control"
+  sendCancelNotice -> cancelMerge flowType:"control"
+
+  // Cancellation path
+  waitForCancellation -> sendCancelNotice flowType:"control"
+
+  // Payment received path
+  waitForPayment -> paymentInfo flowType:"object"
+  paymentInfo -> processPayment flowType:"object"
+  processPayment -> sendShipRequest flowType:"control"
+
+  // Wait for shipping confirmation
+  sendShipRequest -> waitForShippingConfirm flowType:"control"
+  waitForShippingConfirm -> shippingInfo flowType:"object"
+
+  // Ship order
+  shippingInfo -> shipOrder flowType:"object"
+  shipOrder -> sendTrackingUpdate flowType:"control"
+
+  // Wait for delivery event
+  sendTrackingUpdate -> waitForDelivery flowType:"control"
+  waitForDelivery -> sendDeliveryConfirm flowType:"control"
+
+  // Notify customer (parallel notifications)
+  sendDeliveryConfirm -> notificationFork flowType:"control"
+  notificationFork -> notifyCustomer flowType:"control"
+  notificationFork -> archiveOrder flowType:"control"
+
+  notifyCustomer -> completionMerge flowType:"control"
+  archiveOrder -> completionMerge flowType:"control"
+
+  completionMerge -> complete flowType:"control"
+
+  // Cancellation flow
+  cancelMerge -> handleRefund flowType:"control"
+  handleRefund -> archiveOrder flowType:"control"
+  archiveOrder -> cancelled flowType:"control"
+}

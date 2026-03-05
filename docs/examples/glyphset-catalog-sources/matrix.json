@@ -1,0 +1,34 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "matrix-composite",
+      "shape": "matrix",
+      "label": "2x2 Matrix",
+      "data": {
+        "quadrants": [
+          {
+            "label": "Alpha",
+            "color": "#546E7A"
+          },
+          {
+            "label": "Beta",
+            "color": "#607D8B"
+          },
+          {
+            "label": "Gamma",
+            "color": "#78909C"
+          },
+          {
+            "label": "Delta",
+            "color": "#90A4AE"
+          }
+        ],
+        "horizontalAxis": "",
+        "verticalAxis": ""
+      }
+    }
+  ],
+  "edges": []
+}

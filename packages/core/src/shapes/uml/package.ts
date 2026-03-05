@@ -1,4 +1,9 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Package shape
@@ -37,16 +42,7 @@ export const packageShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -67,9 +63,10 @@ export const packageShape: ShapeDefinition = {
     const maxTabWidth = w * 0.7; // Allow up to 70% of width
     const tabWidth = Math.min(Math.max(minTabWidth, 70), maxTabWidth);
 
-    const fill = ctx.style.fill || '#ffe4b5'; // Moccasin/light orange - very visible!
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffe4b5',
+      defaultStroke: '#000000',
+    }); // Moccasin/light orange - very visible!
 
     let svg = `<g class="package-shape">`;
 
@@ -90,12 +87,17 @@ export const packageShape: ShapeDefinition = {
 
     // Package name in the tab area
     const textY = y + tabHeight / 2 + (ctx.style.fontSize || 14) / 2;
-    const textColor = ctx.style.color || '#000000'; // Use explicit text color or black
-    svg += `<text x="${x + padding / 2}" y="${textY}" `;
-    svg += `font-size="${(ctx.style.fontSize || 14) - 2}" `;
-    svg += `font-family="${ctx.style.fontFamily || 'Arial'}" `;
-    svg += `font-weight="bold" fill="${textColor}">`;
-    svg += `${ctx.node.label || ''}</text>`;
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) - 2,
+      fontWeight: 'bold' as const,
+    };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || '',
+      x + padding / 2,
+      textY
+    );
 
     svg += `</g>`;
     return svg;

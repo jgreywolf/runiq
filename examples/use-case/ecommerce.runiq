@@ -1,0 +1,42 @@
+diagram "E-Commerce System" {
+  
+  // External actors
+  shape customer as @actor label:"Online Customer"
+  shape admin as @actor label:"System Administrator"
+  shape vendor as @actor label:"External Vendor"
+  
+  // System boundary
+  container ecommerce "E-Commerce Platform" {
+    // Customer use cases
+    shape browse as @ellipseWide label:"Browse Products"
+    shape search as @ellipseWide label:"Search Catalog"
+    shape addToCart as @ellipseWide label:"Add to Cart"
+    shape checkout as @ellipseWide label:"Checkout"
+    shape payment as @ellipseWide label:"Process Payment"
+    shape trackOrder as @ellipseWide label:"Track Order"
+    
+    // Admin use cases
+    shape manageProducts as @ellipseWide label:"Manage Products"
+    shape viewReports as @ellipseWide label:"View Sales Reports"
+    shape manageUsers as @ellipseWide label:"Manage Users"
+  }
+  
+  // Customer associations
+  customer -> browse
+  customer -> search
+  customer -> addToCart
+  customer -> checkout
+  customer -> trackOrder
+  
+  // Checkout extends to payment
+  checkout -> payment
+  
+  // Admin associations
+  admin -> manageProducts
+  admin -> viewReports
+  admin -> manageUsers
+  
+  // External system interaction
+  payment -> vendor
+  manageProducts -> vendor
+}

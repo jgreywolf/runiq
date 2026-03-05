@@ -1,0 +1,11 @@
+// Multi-series radar charts with complex axis configuration
+// are better suited for JSON or programmatic generation
+// This example shows two simple radar charts with connections
+
+diagram "Technology Stack" {
+  shape frontend as @radarChart label:"Frontend Scores" data:[8, 9, 7, 9, 10, 9]
+
+  shape backend as @radarChart label:"Backend Scores" data:[9, 10, 9, 8, 9]
+
+  frontend -> backend
+}

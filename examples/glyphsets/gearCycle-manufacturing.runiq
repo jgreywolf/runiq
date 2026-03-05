@@ -1,0 +1,10 @@
+// Gear Cycle - Manufacturing Process
+// Shows interconnected manufacturing stages
+
+glyphset gearCycle "Manufacturing System" {
+    theme "forest"
+item "Design"
+  item "Production"
+  item "Quality"
+  item "Delivery"
+}

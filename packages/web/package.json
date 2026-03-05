@@ -1,0 +1,59 @@
+{
+  "name": "@runiq/web",
+  "version": "1.0.0",
+  "description": "Browser-friendly SDK to parse, layout, and render Runiq diagrams to SVG",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@runiq/core": "workspace:*",
+    "@runiq/parser-dsl": "workspace:*",
+    "@runiq/layout-base": "workspace:*",
+    "@runiq/renderer-svg": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "keywords": [
+    "runiq",
+    "diagram",
+    "parser",
+    "layout",
+    "elkjs",
+    "svg",
+    "renderer",
+    "browser"
+  ],
+  "author": "Runiq Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgreywolf/runiq.git",
+    "directory": "packages/web"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

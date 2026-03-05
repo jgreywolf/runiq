@@ -1,0 +1,20 @@
+// Async messaging pattern
+sequence "Event-Driven Async Processing" {
+  participant "User Service" as control
+  participant "Message Queue" as boundary
+  participant "Email Service" as control
+  participant "Notification Service" as control
+
+  message from:"User Service" to:"Message Queue" label:"Publish user.created event" type:async
+  
+  note "Services consume events asynchronously" position:over participants:("Message Queue")
+
+  message from:"Message Queue" to:"Email Service" label:"user.created" type:async activate:true
+  message from:"Email Service" to:"Email Service" label:"Send welcome email" type:sync
+  
+  message from:"Message Queue" to:"Notification Service" label:"user.created" type:async activate:true
+  message from:"Notification Service" to:"Notification Service" label:"Send push notification" type:sync
+
+  note "Event processing happens independently" position:left participants:("Email Service")
+  note "No coupling between services" position:right participants:("Notification Service")
+}

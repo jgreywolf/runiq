@@ -1,0 +1,8 @@
+// Balance Glyphset Example: Pros/Cons Analysis
+// Use case: Weighing advantages and disadvantages of a decision
+
+glyphset balance "colorful" {
+    theme "forest"
+item"Pros: Flexibility, Cost Savings, Innovation"
+  item"Cons: Security Risk, Complexity, Vendor Lock-in"
+}

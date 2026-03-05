@@ -1,0 +1,9 @@
+// Alternating List - Product Evolution
+glyphset alternatingList "Product Evolution" {
+  theme "forest"
+  item "v1.0: MVP Release"
+  item "v2.0: User Feedback Integration"
+  item "v3.0: Enterprise Features"
+  item "v4.0: AI Integration"
+  item "v5.0: Global Expansion"
+}

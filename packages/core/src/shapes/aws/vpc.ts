@@ -1,4 +1,5 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
 
 /**
  * AWS VPC (Virtual Private Cloud) container shape
@@ -21,16 +22,7 @@ export const awsVpcShape: ShapeDefinition = {
   },
 
   anchors(ctx: ShapeRenderContext) {
-    const bounds = this.bounds(ctx);
-    const halfWidth = bounds.width / 2;
-    const halfHeight = bounds.height / 2;
-
-    return [
-      { x: halfWidth, y: 0, direction: 'top' },
-      { x: bounds.width, y: halfHeight, direction: 'right' },
-      { x: halfWidth, y: bounds.height, direction: 'bottom' },
-      { x: 0, y: halfHeight, direction: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {

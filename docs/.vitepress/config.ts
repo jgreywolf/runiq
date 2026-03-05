@@ -1,4 +1,9 @@
 import { defineConfig } from 'vitepress';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -6,17 +11,31 @@ export default defineConfig({
   description:
     'A markdown-friendly diagram DSL with JSON twin that compiles to standards-compliant SVG',
 
+  // Enable clean URLs (no .html extension needed)
+  cleanUrls: true,
+
   // Base URL (adjust for GitHub Pages if needed)
   // base: '/runiq/',
 
-  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]],
+  head: [
+    [
+      'link',
+      {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/images/runiq.mascot.badge.png',
+      },
+    ],
+  ],
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '/logo.svg',
+    logo: '/images/runiq.mascot.badge.png',
 
     nav: [
+      { text: 'Playground', link: 'https://editor.runiq.org' },
       { text: 'Guide', link: '/guide/getting-started' },
+      { text: 'Gallery', link: '/examples/gallery' },
       { text: 'Examples', link: '/examples/' },
       { text: 'Reference', link: '/reference/shapes' },
       {
@@ -45,91 +64,129 @@ export default defineConfig({
             { text: 'What is Runiq?', link: '/guide/what-is-runiq' },
             { text: 'Getting Started', link: '/guide/getting-started' },
             { text: 'Quick Start', link: '/guide/quick-start' },
+            { text: 'Editor Guide', link: '/guide/editor' },
+            { text: 'Profiles', link: '/guide/profiles' },
           ],
         },
         {
           text: 'Core Concepts',
           items: [
-            { text: 'Shapes', link: '/guide/shapes' },
+            { text: 'Shapes Overview', link: '/guide/shapes' },
             { text: 'Edges & Connections', link: '/guide/edges' },
             { text: 'Containers', link: '/guide/containers' },
             { text: 'Styling', link: '/guide/styling' },
+            { text: 'Themes', link: '/guide/themes' },
             { text: 'Layout', link: '/guide/layout' },
+            { text: 'Reserved Keywords', link: '/guide/reserved-keywords' },
+            { text: 'Web SDK Integration', link: '/guide/web-sdk' },
           ],
         },
         {
-          text: 'Diagram Types',
+          text: 'Glyphsets (Smart Art)',
+          items: [
+            { text: 'What are Glyphsets?', link: '/guide/glyphsets' },
+            { text: 'Process Glyphsets', link: '/guide/glyphsets-process' },
+            { text: 'List Glyphsets', link: '/guide/glyphsets-list' },
+            {
+              text: 'Comparison Glyphsets',
+              link: '/guide/glyphsets-comparison',
+            },
+            {
+              text: 'Visualization Glyphsets',
+              link: '/guide/glyphsets-visualization',
+            },
+            { text: 'Hierarchy Glyphsets', link: '/guide/glyphsets-hierarchy' },
+            {
+              text: 'Relationship Glyphsets',
+              link: '/guide/glyphsets-relationship',
+            },
+          ],
+        },
+        {
+          text: 'Diagram Profile',
           items: [
             { text: 'Flowcharts', link: '/guide/flowcharts' },
-            { text: 'Sequence Diagrams', link: '/guide/sequence' },
-            { text: 'Use Case Diagrams', link: '/guide/use-case' },
-            { text: 'Class Diagrams', link: '/guide/class' },
-            { text: 'State Machines', link: '/guide/state-machine' },
-            { text: 'ER Diagrams', link: '/guide/entity-relationship' },
-            { text: 'Block Diagrams', link: '/guide/block-diagrams' },
+            { text: 'Mindmap Diagrams', link: '/guide/mindmap-diagrams' },
+            { text: 'Venn Diagrams', link: '/guide/venn-diagrams' },
+            { text: 'Pyramid Diagrams', link: '/guide/pyramid-diagrams' },
+            { text: 'Data Flow Diagrams', link: '/guide/dfd-diagrams' },
+            { text: 'UML Class Diagrams', link: '/guide/class-diagrams' },
+            { text: 'Component Diagrams', link: '/guide/component-diagrams' },
+            { text: 'ERD Diagrams', link: '/guide/erd-diagrams' },
+            {
+              text: 'State Machine Diagrams',
+              link: '/guide/state-machine-diagrams',
+            },
+            { text: 'Activity Diagrams', link: '/guide/activity-diagrams' },
+            { text: 'BPMN Diagrams', link: '/guide/bpmn-diagrams' },
+            { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
+            { text: 'C4 Architecture', link: '/guide/c4-architecture' },
+            {
+              text: 'Control system Diagrams',
+              link: '/guide/control-diagrams',
+            },
+            { text: 'Kinematic Diagrams', link: '/guide/kinematic-diagrams' },
+            { text: 'Network Diagrams', link: '/guide/network-diagrams' },
+            { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
+            { text: 'Charts & Graphs', link: '/guide/charts' },
+            { text: 'Quantum Circuits', link: '/guide/quantum-circuits' },
           ],
         },
         {
-          text: 'Circuits',
+          text: 'Specialized Profiles',
           items: [
             { text: 'Electrical Circuits', link: '/guide/electrical' },
-            { text: 'Digital Logic', link: '/guide/digital' },
+            { text: 'Digital Circuits', link: '/guide/digital-circuits' },
+            { text: 'Wardley Maps', link: '/guide/wardley-maps' },
+            { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
+            { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
+            { text: 'Railroad Diagrams', link: '/guide/railroad-diagrams' },
+            { text: 'Pedigree Diagrams', link: '/guide/pedigree-diagrams' },
+            { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
+            { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
+            { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
           ],
         },
-      ],
-      '/examples/': [
         {
-          text: 'Examples',
-          items: [{ text: 'Overview', link: '/examples/' }],
-        },
-        {
-          text: 'Software Engineering',
+          text: 'Productivity Profiles',
           items: [
-            { text: 'Flowcharts', link: '/examples/flowcharts' },
-            { text: 'Use Case Diagrams', link: '/examples/use-case' },
-            { text: 'Container Diagrams', link: '/examples/containers' },
+            { text: 'Kanban Boards', link: '/guide/kanban-diagrams' },
+            { text: 'GitGraph Diagrams', link: '/guide/gitgraph-diagrams' },
+            { text: 'Treemap Diagrams', link: '/guide/treemap-diagrams' },
           ],
         },
         {
-          text: 'Control Systems',
-          items: [{ text: 'Block Diagrams', link: '/examples/block-diagrams' }],
-        },
-        {
-          text: 'Circuits',
-          items: [
-            { text: 'Electrical (Analog)', link: '/examples/electrical' },
-            { text: 'Digital Logic', link: '/examples/digital' },
-          ],
+          text: 'Help',
+          items: [{ text: 'Troubleshooting', link: '/guide/troubleshooting' }],
         },
       ],
       '/reference/': [
         {
           text: 'Reference',
           items: [
-            { text: 'Shape Catalog', link: '/reference/shapes' },
+            { text: 'Shapes', link: '/reference/shapes' },
+            { text: 'Edges', link: '/reference/edges' },
             { text: 'DSL Syntax', link: '/reference/dsl' },
             { text: 'JSON Format', link: '/reference/json' },
-            { text: 'CLI Usage', link: '/reference/cli' },
+            // { text: 'Data-Driven Diagrams', link: '/reference/data-driven' },
+            { text: 'Templates & Presets', link: '/reference/templates' },
+            { text: 'Export Formats', link: '/reference/export' },
+            { text: 'CLI Reference', link: '/reference/cli' },
           ],
         },
         {
-          text: 'API',
+          text: 'Glyphsets Reference',
           items: [
-            { text: 'Core API', link: '/reference/api/core' },
-            { text: 'Parser', link: '/reference/api/parser' },
-            { text: 'Layout', link: '/reference/api/layout' },
-            { text: 'Renderer', link: '/reference/api/renderer' },
+            { text: 'All Glyphsets', link: '/reference/glyphsets' },
+            { text: 'Glyphset Themes', link: '/reference/glyphset-themes' },
           ],
         },
-      ],
-      '/export/': [
         {
-          text: 'Export Formats',
+          text: 'API Reference',
           items: [
-            { text: 'SPICE Netlist', link: '/export/spice' },
-            { text: 'Verilog HDL', link: '/export/verilog' },
-            { text: 'LaTeX/TikZ', link: '/export/latex' },
-            { text: 'Simulink', link: '/export/simulink' },
+            { text: 'Parser API', link: '/reference/api/parser' },
+            { text: 'Renderer API', link: '/reference/api/renderer' },
+            { text: 'Layout API', link: '/reference/api/layout' },
           ],
         },
       ],
@@ -168,5 +225,52 @@ export default defineConfig({
       dark: 'github-dark',
     },
     lineNumbers: true,
+    async shikiSetup(shiki) {
+      // Load custom Runiq grammar
+      const runiqGrammar = JSON.parse(
+        readFileSync(
+          resolve(
+            __dirname,
+            '../../packages/parser-dsl/syntaxes/runiq.tmLanguage.json'
+          ),
+          'utf-8'
+        )
+      );
+      // Add id field for Shiki v1.x
+      await shiki.loadLanguage({
+        ...runiqGrammar,
+        id: 'runiq',
+      });
+
+      // Load custom SPICE grammar
+      const spiceGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/spice.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...spiceGrammar,
+        name: 'spice',
+        id: 'spice',
+      });
+
+      // Load custom Langium grammar
+      const langiumGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/langium.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...langiumGrammar,
+        name: 'langium',
+        id: 'langium',
+      });
+
+      // Load custom Simulink MDL grammar
+      const mdlGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/mdl.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...mdlGrammar,
+        name: 'mdl',
+        id: 'mdl',
+      });
+    },
   },
 });

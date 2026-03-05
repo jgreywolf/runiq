@@ -1,4 +1,6 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { calculateRectangularAnchors } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * AWS API Gateway shape
@@ -23,16 +25,7 @@ export const awsApiGatewayShape: ShapeDefinition = {
   },
 
   anchors(ctx: ShapeRenderContext) {
-    const bounds = this.bounds(ctx);
-    const halfWidth = bounds.width / 2;
-    const halfHeight = bounds.height / 2;
-
-    return [
-      { x: halfWidth, y: 0, direction: 'top' },
-      { x: bounds.width, y: halfHeight, direction: 'right' },
-      { x: halfWidth, y: bounds.height, direction: 'bottom' },
-      { x: 0, y: halfHeight, direction: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx: ShapeRenderContext, position: { x: number; y: number }): string {
@@ -88,11 +81,13 @@ export const awsApiGatewayShape: ShapeDefinition = {
     // Label
     if (ctx.node.label) {
       const labelY = iconY + iconSize + 16 + (ctx.style.fontSize || 14);
-      result += `<text x="${position.x + bounds.width / 2}" y="${labelY}" 
-                      text-anchor="middle" 
-                      fill="${textColor}" 
-                      font-size="${ctx.style.fontSize || 14}" 
-                      font-family="${ctx.style.fontFamily || 'Arial'}">${ctx.node.label}</text>`;
+      const labelStyle = { ...ctx.style, color: textColor };
+      result += renderShapeLabel(
+        { ...ctx, style: labelStyle },
+        ctx.node.label,
+        position.x + bounds.width / 2,
+        labelY
+      );
     }
 
     result += `</g>`;

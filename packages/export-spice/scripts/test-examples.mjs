@@ -63,7 +63,7 @@ for (const file of files) {
       continue;
     }
 
-    // Find electrical profile
+    // Find schematic profile
     const electricalProfile = parseResult.document.profiles.find(
       (p) => p.type === 'electrical'
     );

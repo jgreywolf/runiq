@@ -1,4 +1,79 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+
+// Maximum width for note shapes to prevent layout issues
+const MAX_WIDTH = 500;
+const MIN_WIDTH = 100;
+
+/**
+ * Wrap text to fit within a maximum width by breaking into multiple lines.
+ * Uses greedy algorithm to fit as many words as possible per line.
+ */
+function wrapText(
+  ctx: ShapeRenderContext,
+  text: string,
+  maxWidth: number,
+  padding: number
+): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let currentLine = '';
+
+  const availableWidth = maxWidth - padding * 2;
+
+  for (const word of words) {
+    const wordSize = ctx.measureText(word, ctx.style);
+    if (wordSize.width > availableWidth) {
+      if (currentLine) {
+        lines.push(currentLine);
+        currentLine = '';
+      }
+
+      let chunk = '';
+      for (const char of word) {
+        const testChunk = chunk + char;
+        const testSize = ctx.measureText(testChunk, ctx.style);
+        if (testSize.width <= availableWidth || chunk === '') {
+          chunk = testChunk;
+        } else {
+          lines.push(chunk);
+          chunk = char;
+        }
+      }
+
+      if (chunk) {
+        lines.push(chunk);
+      }
+      continue;
+    }
+
+    const testLine = currentLine ? `${currentLine} ${word}` : word;
+    const testSize = ctx.measureText(testLine, ctx.style);
+
+    if (testSize.width <= availableWidth) {
+      currentLine = testLine;
+    } else {
+      // Word doesn't fit, start new line
+      if (currentLine) {
+        lines.push(currentLine);
+        currentLine = word;
+      } else {
+        // Single word exceeds width, add it anyway (prevent infinite loop)
+        lines.push(word);
+      }
+    }
+  }
+
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines.length > 0 ? lines : [''];
+}
 
 /**
  * UML Note shape
@@ -12,33 +87,69 @@ export const noteShape: ShapeDefinition = {
     const padding = ctx.style.padding || 12;
     const lineHeight = (ctx.style.fontSize || 14) + 4;
 
-    // Check for multi-line notes
-    const lines = (ctx.node.data?.lines as string[]) || [ctx.node.label || ''];
+    // Get label text
+    const labelText = ctx.node.label || '';
+
+    const maxAllowedWidth =
+      typeof ctx.node.data?.maxWidth === 'number'
+        ? ctx.node.data.maxWidth
+        : MAX_WIDTH;
+
+    // Respect provided lines but still wrap any line that exceeds max width.
+    const rawLines =
+      (ctx.node.data?.lines as string[] | undefined) ??
+      (labelText ? [labelText] : ['']);
+    const lines: string[] = [];
+    let didWrap = false;
+
+    for (const line of rawLines) {
+      if (!line) {
+        lines.push('');
+        continue;
+      }
+
+      const lineSize = ctx.measureText(line, ctx.style);
+      const naturalWidth = lineSize.width + padding * 2;
+
+      if (naturalWidth > maxAllowedWidth) {
+        const wrapped = wrapText(ctx, line, maxAllowedWidth, padding);
+        lines.push(...wrapped);
+        if (wrapped.length > 1 || wrapped[0] !== line) {
+          didWrap = true;
+        }
+      } else {
+        lines.push(line);
+      }
+    }
+
+    if (didWrap) {
+      if (!ctx.node.data) {
+        (ctx.node as any).data = {};
+      }
+      (ctx.node.data as any).wrappedLines = lines;
+    }
 
     // Calculate width based on longest line
-    let maxWidth = 0;
+    let maxLineWidth = 0;
     lines.forEach((line) => {
       const lineSize = ctx.measureText(line, ctx.style);
-      maxWidth = Math.max(maxWidth, lineSize.width);
+      maxLineWidth = Math.max(maxLineWidth, lineSize.width);
     });
 
-    const width = maxWidth + padding * 2;
+    const width = maxLineWidth + padding * 2;
     const height = padding * 2 + lines.length * lineHeight;
 
-    return { width: Math.max(width, 100), height: Math.max(height, 60) };
+    // Apply constraints
+    const constrainedWidth = Math.max(
+      MIN_WIDTH,
+      Math.min(width, maxAllowedWidth)
+    );
+
+    return { width: constrainedWidth, height: Math.max(height, 60) };
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -52,9 +163,10 @@ export const noteShape: ShapeDefinition = {
     const dogEarSize = 12; // Size of the folded corner
 
     // Notes typically have a light yellow background
-    const fill = ctx.style.fill || '#ffffcc';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffcc',
+      defaultStroke: '#000000',
+    });
 
     let svg = `<g class="note-shape">`;
 
@@ -75,17 +187,23 @@ export const noteShape: ShapeDefinition = {
     svg += `L ${x + w} ${y + dogEarSize}" `;
     svg += `fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
 
-    // Text content
-    const lines = (ctx.node.data?.lines as string[]) || [ctx.node.label || ''];
-    let currentY = y + padding + lineHeight * 0.7;
+    // Text content - use wrappedLines if available, otherwise fall back to lines or label
+    const lines = (ctx.node.data?.wrappedLines as string[]) ||
+      (ctx.node.data?.lines as string[]) || [ctx.node.label || ''];
 
-    lines.forEach((line) => {
-      svg += `<text x="${x + padding}" y="${currentY}" `;
-      svg += `font-size="${ctx.style.fontSize || 14}" `;
-      svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-      svg += `${line}</text>`;
-      currentY += lineHeight;
-    });
+    // Render multiline text using \n (renderShapeLabel handles this)
+    const multilineText = lines.join('\n');
+    const textY = y + h / 2;
+
+    const textStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: textStyle },
+      multilineText,
+      x + padding,
+      textY,
+      'start',
+      'middle'
+    );
 
     svg += `</g>`;
     return svg;

@@ -1,0 +1,18 @@
+diagram "Walking Mechanism" {
+  direction LR
+
+  style link fillColor: "#e2e8f0" strokeColor: "#475569"
+  style joint fillColor: "#fee2e2" strokeColor: "#b91c1c"
+  style actuator fillColor: "#dcfce7" strokeColor: "#15803d"
+
+  shape Hip as @revoluteJoint label: "Hip" style:joint
+  shape Leg as @binaryLink label: "Upper Leg" style:link
+  shape Knee as @revoluteJoint label: "Knee" style:joint
+  shape Shin as @binaryLink label: "Lower Leg" style:link
+  shape Ankle as @revoluteJoint label: "Ankle" style:joint
+  shape Foot as @binaryLink label: "Foot" style:link
+  shape Spring as @spring label: "Spring" style:actuator
+
+  Hip -> Leg -> Knee -> Shin -> Ankle -> Foot
+  Knee -> Spring
+}

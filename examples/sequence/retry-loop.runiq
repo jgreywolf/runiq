@@ -1,0 +1,22 @@
+// Retry logic with loop fragment
+sequence "API with Retry Logic" {
+  participant "Client" as actor
+  participant "Load Balancer" as boundary
+  participant "Service Instance" as control
+  participant "Database" as database
+
+  message from:"Client" to:"Load Balancer" label:"POST /order" type:sync
+  message from:"Load Balancer" to:"Service Instance" label:"Create order" type:sync activate:true
+
+  fragment loop "Retry up to 3 times" from:2 to:5
+
+  message from:"Service Instance" to:"Database" label:"BEGIN transaction" type:sync
+  message from:"Database" to:"Service Instance" label:"ACK" type:return
+  message from:"Service Instance" to:"Database" label:"INSERT order" type:sync
+  message from:"Database" to:"Service Instance" label:"Success/Failure" type:return
+
+  message from:"Service Instance" to:"Load Balancer" label:"Order created" type:return
+  message from:"Load Balancer" to:"Client" label:"201 Created" type:return
+
+  note "Exponential backoff between retries" position:right participants:("Service Instance")
+}

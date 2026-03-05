@@ -1,4 +1,15 @@
+---
+title: Getting Started
+description: Get Runiq up and running in minutes with installation, basic usage, and next steps.
+lastUpdated: 2025-01-09
+---
+
 # Getting Started
+
+<div style="text-align:center; margin: 1.5rem 0;">
+  <img src="/images/runiq.waving.png" alt="Runiq waving" style="max-width: 520px; width: 100%;" />
+  <div style="color:#6b7280; font-size: 0.95rem; margin-top: .5rem;">Say hello to Runiq!</div>
+</div>
 
 This guide will help you get Runiq up and running in minutes.
 
@@ -6,10 +17,28 @@ This guide will help you get Runiq up and running in minutes.
 
 ### Prerequisites
 
-- **Node.js** >= 18
+- **Node.js** >= 20.19 (or >= 22.12)
 - **pnpm** >= 8.15.0 (recommended) or npm
 
-### Install via pnpm
+### Use in your web app (npm)
+
+If you just want to render diagrams in your own application, install the browser SDK:
+
+```bash
+npm install @runiq/web
+```
+
+Quick start in code:
+
+```ts
+import { renderRuniqToSvg } from '@runiq/web';
+
+const text = `diagram "Hello" {\n  shape A as @rect label:"Hi"\n  shape B as @rect label:"There"\n  A -link-> B\n}`;
+const { svg } = await renderRuniqToSvg(text);
+document.querySelector('#out')!.innerHTML = svg;
+```
+
+### Install via pnpm (monorepo dev)
 
 ```bash
 # Install pnpm globally if you haven't
@@ -29,19 +58,6 @@ pnpm build
 pnpm test
 ```
 
-### Install via npm
-
-```bash
-# Clone and install
-git clone https://github.com/jgreywolf/runiq.git
-cd runiq
-npm install
-
-# Build and test
-npm run build
-npm test
-```
-
 ## Project Structure
 
 ```
@@ -51,7 +67,9 @@ Runiq/
 │   ├── parser-dsl/       # Langium parser
 │   ├── layout-base/      # ELK layout engine
 │   ├── renderer-svg/     # SVG renderer
+│   ├── renderer-schematic/# IEEE schematic renderer
 │   ├── io-json/          # JSON I/O
+│   ├── web/              # Browser SDK
 │   ├── export-spice/     # SPICE exporter
 │   ├── export-verilog/   # Verilog exporter
 │   ├── export-latex/     # LaTeX exporter
@@ -65,24 +83,85 @@ Runiq/
 
 ## Your First Diagram
 
+Runiq offers two ways to create diagrams:
+
+1. **Glyphsets (Smart Art)** - Pre-built templates for quick diagrams
+2. **Diagram Profile** - Full control with custom shapes and connections
+
+### Quick Start with Glyphsets
+
+Glyphsets are the fastest way to create professional diagrams. Just provide your data:
+
+```runiq
+glyphset basicProcess "Development Workflow" {
+  step "Requirements"
+  step "Design"
+  step "Implementation"
+  step "Testing"
+  step "Deployment"
+
+  theme professional
+  orientation "horizontal"
+}
+```
+
+That's it! Runiq generates a complete process flow diagram automatically.
+
+**More glyphset examples:**
+
+```runiq
+// Organization chart
+glyphset orgChart "Company Structure" {
+  person "CEO" {
+    person "CTO" {
+      person "Dev Team Lead"
+      person "QA Manager"
+    }
+    person "CFO"
+  }
+}
+
+// Comparison matrix
+glyphset matrix "Feature Comparison" {
+  quadrant "High Priority / Easy" label: "Quick Wins"
+  quadrant "High Priority / Hard" label: "Strategic"
+  quadrant "Low Priority / Easy" label: "Nice to Have"
+  quadrant "Low Priority / Hard" label: "Avoid"
+
+  horizontalAxis "Priority"
+  verticalAxis "Difficulty"
+}
+```
+
+[Learn more about glyphsets →](/guide/glyphsets)
+
+### Full Control with Diagram Profile
+
+For detailed diagrams with custom layouts, use the diagram profile:
+
 ### 1. Create a `.runiq` file
 
 Create a file named `hello.runiq`:
 
 ```runiq
-diagram "Hello Runiq" direction: TB
+diagram "Hello Runiq" {
+  theme ocean
+  direction TB
 
-shape Start as @rounded label: "Start"
-shape Process as @rect label: "Process Data"
-shape Decision as @rhombus label: "Valid?"
-shape Success as @hex label: "Success"
-shape Error as @doc label: "Error"
+  shape Start as @rounded label: "Start"
+  shape Process as @rect label: "Process Data"
+  shape Decision as @rhombus label: "Valid?"
+  shape Success as @hexagon label: "Success"
+  shape Error as @doc label: "Error"
 
-Start -> Process
-Process -> Decision
-Decision[yes] -> Success
-Decision[no] -> Error
+  Start -> Process
+  Process -> Decision
+  Decision -yes-> Success
+  Decision -no-> Error
+}
 ```
+
+**Pro tip**: Add a `theme` declaration to automatically apply professional color schemes. [Learn more about themes →](/guide/themes)
 
 ### 2. Generate SVG (via CLI - coming soon)
 

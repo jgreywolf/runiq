@@ -2,7 +2,7 @@
 // Demonstrates Phase 2 features: static underline, abstract italics, derived attributes
 
 diagram "Visual Enhancements" {
-  direction: TB
+  direction TB
   
   // Singleton Pattern with static members
   shape Singleton as @class label:"Singleton"

@@ -1,0 +1,15 @@
+hvac "Heat Pump System" {
+  equipment HP1 type:heat-exchanger label:"Heat Pump"
+  equipment AHU1 type:air-handling-unit cfm:4200
+  equipment Fan1 type:supply-fan cfm:4200
+  equipment Therm1 type:thermostat
+
+  duct Supply type:supply size:"16x12"
+  duct Return type:return size:"20x14"
+
+  connect HP1.out -> AHU1.in
+  connect AHU1.out -> Supply -> Fan1.in
+  connect Fan1.out -> Supply
+  connect Return -> AHU1.in
+  connect Therm1.sense -> AHU1.in
+}

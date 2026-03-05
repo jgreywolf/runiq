@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="532" height="282" 
+    viewBox="0 0 532 282"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="pyramidList" data-node-id="pyramidList" data-node-shape="pyramidList"><g transform="translate(12,12)"><polygon points="61.66666666666667,20 113.33333333333333,20 139.16666666666666,90 35.833333333333336,90" fill="#5B9BD5" fill-opacity="0.85" stroke="#48677e" stroke-width="1.5" /><text x="87.5" y="55" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="white">
+      Level 1
+    </text><circle cx="200" cy="44" r="3" fill="#5B9BD5" /><text x="210" y="44" text-anchor="start" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="12" fill="#48677e">Item A</text><circle cx="200" cy="66" r="3" fill="#5B9BD5" /><text x="210" y="66" text-anchor="start" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="12" fill="#48677e">Item B</text><polygon points="35.833333333333336,90 139.16666666666666,90 165,160 10,160" fill="#70AD47" fill-opacity="0.85" stroke="#48677e" stroke-width="1.5" /><text x="87.5" y="125" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="white">
+      Level 2
+    </text><circle cx="200" cy="114" r="3" fill="#70AD47" /><text x="210" y="114" text-anchor="start" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="12" fill="#48677e">Item C</text><circle cx="200" cy="136" r="3" fill="#70AD47" /><text x="210" y="136" text-anchor="start" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="12" fill="#48677e">Item D</text><polygon points="10,160 165,160 165,230 10,230" fill="#FFC000" fill-opacity="0.85" stroke="#48677e" stroke-width="1.5" /><text x="87.5" y="195" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="white">
+      Level 3
+    </text><circle cx="200" cy="195" r="3" fill="#FFC000" /><text x="210" y="195" text-anchor="start" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="12" fill="#48677e">Item E</text></g></g></svg>

@@ -173,13 +173,24 @@ We migrated from Dagre to ELK in October 2025 because:
 5. **More Features** - Multiple algorithms, better configuration options
 6. **Manual Positioning** - Supports hybrid manual/auto layout (future feature)
 
+## Available Algorithms
+
+ELK supports multiple layout algorithms via the `algorithm` option:
+
+- ✅ **layered** (default) - Hierarchical layout for flowcharts, processes
+- ✅ **force** - Force-directed layout for networks, organic graphs
+- ✅ **stress** - Stress minimization for similarity graphs
+- ✅ **radial** - Radial tree layout
+- ✅ **mrtree** - Multi-root tree layout
+
+See [Force-Directed Networks Guide](../../docs/guide/force-directed-networks.md) for details.
+
 ## Future Features
 
 Planned enhancements:
 
 - 🔜 **Hybrid Layout** - Mix manual + automatic positioning
 - 🔜 **Constraint System** - Relative positioning (e.g., "B below A")
-- 🔜 **Alternative Algorithms** - Force-directed, stress-based layouts
 - 🔜 **Subgraph Support** - Nested diagram containers
 - 🔜 **Port Constraints** - Control edge attachment points
 

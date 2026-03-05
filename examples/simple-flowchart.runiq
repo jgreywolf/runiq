@@ -1,7 +1,7 @@
 diagram "Simple Flowchart Test" {
   
   shape start as @rounded label:"Start"
-  shape input as @lean-r label:"Get Input"
+  shape input as @leanR label:"Get Input"
   shape process as @rect label:"Process Data"
   shape decision as @rhombus label:"Valid?"
   shape output as @doc label:"Generate Report"

@@ -1,0 +1,7 @@
+// Multi-series line charts with complex data structures
+// are better suited for JSON or programmatic generation
+// This example shows a simple single-series line chart
+
+diagram "Performance Trend" {
+  shape performance as @lineChart label:"Page Load Time (seconds)" data:[2.5, 2.3, 2.1, 2.0, 1.9, 1.8, 1.7, 1.6]
+}

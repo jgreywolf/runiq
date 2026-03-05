@@ -1,0 +1,46 @@
+// Technology Evolution - Wardley Map
+// Shows evolution of technology stack from genesis to commodity
+
+wardley "Modern Web Application Stack" {
+  // User need
+  anchor "User Experience" value:0.98
+
+  // Application layer (highly visible)
+  component "Web Application" evolution:0.6 value:0.9 label:"Web App"
+  component "Mobile App" evolution:0.5 value:0.85 inertia:true
+  
+  // Platform layer
+  component "API Gateway" evolution:0.65 value:0.7
+  component "Microservices" evolution:0.55 value:0.65
+  component "Container Orchestration" evolution:0.6 value:0.5 label:"Kubernetes"
+  
+  // Infrastructure layer (less visible)
+  component "Virtual Machines" evolution:0.85 value:0.4 label:"VMs"
+  component "Cloud Computing" evolution:0.75 value:0.35 label:"AWS/Azure"
+  component "Data Centers" evolution:0.95 value:0.2
+  component "Power & Cooling" evolution:1.0 value:0.1
+  
+  // New/emerging components
+  component "Serverless" evolution:0.4 value:0.55 inertia:false
+  component "Edge Computing" evolution:0.3 value:0.45
+  
+  // Dependencies
+  dependency from:"User Experience" to:"Web Application"
+  dependency from:"User Experience" to:"Mobile App"
+  dependency from:"Web Application" to:"API Gateway"
+  dependency from:"Mobile App" to:"API Gateway"
+  dependency from:"API Gateway" to:"Microservices"
+  dependency from:"API Gateway" to:"Serverless"
+  dependency from:"Microservices" to:"Container Orchestration"
+  dependency from:"Serverless" to:"Cloud Computing"
+  dependency from:"Container Orchestration" to:"Virtual Machines"
+  dependency from:"Virtual Machines" to:"Cloud Computing"
+  dependency from:"Cloud Computing" to:"Data Centers"
+  dependency from:"Data Centers" to:"Power & Cooling"
+  dependency from:"Serverless" to:"Edge Computing"
+  
+  // Evolution movements (showing future direction)
+  evolve "Microservices" to evolution:0.7
+  evolve "Container Orchestration" to evolution:0.75
+  evolve "Serverless" to evolution:0.6
+}

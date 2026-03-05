@@ -1,0 +1,15 @@
+/*
+ * Framed Picture Example
+ * Demonstrates images with decorative frames in gallery layout
+ */
+
+  glyphset framedPicture "Classic Collection" {
+    theme "professional"
+    frameStyle "classic"
+    
+    image "https://i.pravatar.cc/300?img=30" label "Renaissance"
+    image "https://i.pravatar.cc/300?img=31" label "Impressionism"
+    image "https://i.pravatar.cc/300?img=32" label "Modern Art"
+    image "https://i.pravatar.cc/300?img=33" label "Abstract"
+  }
+

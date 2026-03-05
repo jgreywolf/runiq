@@ -1,0 +1,11 @@
+// Detailed Process - Process with Substeps
+// Format: "Main Step | Substep 1 | Substep 2 | ..."
+glyphset detailedProcess "Product Development" {
+    theme "forest"
+item "Research | Market Analysis | User Interviews | Competitor Study"
+  item "Design | Wireframes | Prototypes | User Testing"
+  item "Build | Frontend | Backend | Integration"
+  item "Launch | Beta Release | Marketing"
+  
+  direction "LR"
+}

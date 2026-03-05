@@ -2,6 +2,24 @@
 
 ## Runiq Project Development Guidelines
 
+Please also review the following files for additional context on Runiq development practices:
+.github\svelte-instructions.md
+.github\general-typescript-instructions.md
+.github\remember-prompt.md
+
+### ABSOLUTE MANDATORY RULES:
+
+    1. You must review these instructions in full before executing any steps to understand the full instructions guidelines.
+    2. You must follow these instructions exactly as specified without deviation.
+    3. Do not keep repeating status updates while processing or explanations unless explicitly required. This is bad and will flood Copilot session context.
+    4. NO phase announcements (no "# Phase X" headers in output)
+    5. Phases must be executed one at a time and in the exact order specified.
+    6. NO combining of phases in one response
+    7. NO skipping of phases
+    8. NO verbose explanations or commentary
+    9. DO not commit unless all tests are passing
+    10. All test failures must be fixed before proceeding to the next phase, even if they were not broken as a result of our work
+
 ### Test-Driven Development (TDD)
 
 **ALWAYS use Test-Driven Development wherever possible:**
@@ -15,19 +33,21 @@
 ### Testing Standards
 
 - All new features must have corresponding tests
-- Test files: `packages/*/src/__tests__/*.test.ts`
+- Test files: inline with the code \*.spec.ts
 - Use Vitest for all testing
 - Minimum test coverage targets:
   - Core logic: 90%+
   - Shape implementations: 80%+
   - DSL parsing: 95%+
 - Run tests frequently during development: `pnpm test`
+- Ensure all tests pass before committing
+- Create appropriate playwright visual tests for rendering features
 
 ### Shape Implementation Pattern
 
 When adding new shapes to `packages/core/src/shapes/`:
 
-1. **Write tests first** in `__tests__/new-shapes.test.ts` or dedicated file
+1. **Write tests first** in dedicated file
 2. Test structure for each shape:
    - ID correctness
    - Bounds calculation
@@ -54,6 +74,8 @@ When adding new shapes to `packages/core/src/shapes/`:
 
 ### Build & Test Commands
 
+Run all commands using the full path, instead of the relative path
+
 ```bash
 # Run all tests across workspace
 pnpm -r test
@@ -74,6 +96,7 @@ pnpm -r build
 - **packages/parser-dsl**: Langium-based DSL parser
 - **packages/layout-base**: ELK layout engine (replaced Dagre Oct 2025)
 - **packages/renderer-svg**: SVG rendering engine
+- **packages/schematic**: Rendering engine specifically for electrical schematics
 - **packages/io-json**: JSON import/export
 - **packages/icons-fontawesome**: Icon library integration
 - **packages/cli**: Command-line interface

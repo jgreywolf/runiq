@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="466.4" height="610.8" 
+    viewBox="0 0 466.4 610.8"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Banking System - System Context</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="customer-bankingSystem"><defs>
+      <marker id="arrow-standard-customer-bankingSystem" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 124 90.8 L 124 240.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-customer-bankingSystem)" /></g><g data-runiq-edge="bankingSystem-emailSystem"><defs>
+      <marker id="arrow-standard-bankingSystem-emailSystem" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 92 340.8 L 92 490.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-bankingSystem-emailSystem)" /></g><g data-runiq-edge="bankingSystem-mainframe"><defs>
+      <marker id="arrow-standard-bankingSystem-mainframe" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 156 340.8 L 156 350.8 L 359 350.8 L 359 490.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-bankingSystem-mainframe)" /></g><g data-runiq-node="customer">
+      <!-- C4 Person Container -->
+      <rect x="64" y="12" width="120" height="78.8"
+            rx="8" ry="8" fill="#08427B" stroke="#052E56" stroke-width="2" />
+      
+      <!-- Person Icon (simple stick figure) -->
+      <circle cx="124" cy="32" r="6" fill="#ffffff" />
+      <line x1="124" y1="38" x2="124" y2="46" stroke="#ffffff" stroke-width="2" />
+      <line x1="116" y1="42" x2="132" y2="42" stroke="#ffffff" stroke-width="2" />
+      <line x1="124" y1="46" x2="118" y2="54" stroke="#ffffff" stroke-width="2" />
+      <line x1="124" y1="46" x2="130" y2="54" stroke="#ffffff" stroke-width="2" />
+      
+      <!-- Label -->
+      <text x="124" y="57" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14"
+            fill="#ffffff" font-weight="bold">
+        Customer
+      </text>
+    </g><g data-runiq-node="bankingSystem">
+      <!-- C4 Software System -->
+      <rect x="27" y="240.8" width="193.6" height="100"
+            rx="8" ry="8" fill="#1168BD" stroke="#0B4884" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="123.8" y="290.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="16"
+            fill="#ffffff" font-weight="bold">
+        Internet Banking
+System
+      </text>
+      
+      <!-- TODO: Add description text below title -->
+    </g><g data-runiq-node="emailSystem">
+      <!-- C4 Software System -->
+      <rect x="12" y="490.8" width="160" height="100"
+            rx="8" ry="8" fill="#1168BD" stroke="#0B4884" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="92" y="540.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="16"
+            fill="#ffffff" font-weight="bold">
+        Email System
+      </text>
+      
+      <!-- TODO: Add description text below title -->
+    </g><g data-runiq-node="mainframe">
+      <!-- C4 Software System -->
+      <rect x="272" y="490.8" width="174.4" height="100"
+            rx="8" ry="8" fill="#1168BD" stroke="#0B4884" stroke-width="2" />
+      
+      <!-- Title -->
+      <text x="359.2" y="540.8" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="16"
+            fill="#ffffff" font-weight="bold">
+        Mainframe
+Banking System
+      </text>
+      
+      <!-- TODO: Add description text below title -->
+    </g></svg>

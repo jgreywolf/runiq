@@ -1,0 +1,12 @@
+// Pie Chart with Custom Labels
+// Demonstrates custom labels for slice names
+
+diagram "Budget Breakdown" {
+  shape budget as @pieChart 
+    label:"Monthly Budget Breakdown" 
+    data:[30, 25, 20, 15, 10]
+    labels:["Rent", "Food", "Transport", "Entertainment", "Savings"]
+    colors:["#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", "#98D8C8"]
+    showLegend:true
+    legendPosition:"right"
+}

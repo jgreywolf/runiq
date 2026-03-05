@@ -1,0 +1,10 @@
+// Numbered Chevron List - Simple Steps (No Descriptions)
+glyphset numberedChevronList "Onboarding Steps" {
+    theme "forest"
+item "Register"
+  item "Verify Email"
+  item "Complete Profile"
+  item "Start Tutorial"
+  
+  colorScheme "single"
+}

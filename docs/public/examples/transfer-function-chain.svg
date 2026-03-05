@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="123.2" height="902.8" 
+    viewBox="0 0 123.2 902.8"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Cascaded Transfer Functions</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="input-g1"><defs>
+      <marker id="arrow-standard-input-g1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 58 52.8 L 58 202.8" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-input-g1)" /></g><g data-runiq-edge="g1-g2"><defs>
+      <marker id="arrow-standard-g1-g2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 58 272.4 L 58 422.4" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-g1-g2)" /></g><g data-runiq-edge="g2-g3"><defs>
+      <marker id="arrow-standard-g2-g3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 58 492 L 58 642" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-g2-g3)" /></g><g data-runiq-edge="g3-output"><defs>
+      <marker id="arrow-standard-g3-output" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 58 692 L 58 842" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-g3-output)" /></g><g data-runiq-node="input">
+      <rect x="25" y="12" width="66" height="40.8"
+            fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="58" y="32.4" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Input
+      </text>
+    </g><g data-runiq-node="g1">
+      <rect x="17" y="202.8" width="82.80000000000001" height="69.6"
+            fill="#ffffff" stroke="#333" stroke-width="2" />
+      
+      
+        <text x="58.400000000000006" y="229.60000000000002" 
+              text-anchor="middle" dominant-baseline="middle"
+              font-family="sans-serif" 
+              font-size="12">
+          K
+        </text>
+        
+        <line x1="29.420000000000005" y1="237.60000000000002" 
+              x2="87.38000000000001" y2="237.60000000000002"
+              stroke="#333" stroke-width="2" />
+        
+        <text x="58.400000000000006" y="249.60000000000002" 
+              text-anchor="middle" dominant-baseline="middle"
+              font-family="sans-serif" 
+              font-size="12">
+          (s+1)
+        </text>
+      
+    </g><g data-runiq-node="g2">
+      <rect x="12" y="422.4" width="91.2" height="69.6"
+            fill="#ffffff" stroke="#333" stroke-width="2" />
+      
+      
+        <text x="57.6" y="449.2" 
+              text-anchor="middle" dominant-baseline="middle"
+              font-family="sans-serif" 
+              font-size="12">
+          10
+        </text>
+        
+        <line x1="25.680000000000003" y1="457.2" 
+              x2="89.52" y2="457.2"
+              stroke="#333" stroke-width="2" />
+        
+        <text x="57.6" y="469.2" 
+              text-anchor="middle" dominant-baseline="middle"
+              font-family="sans-serif" 
+              font-size="12">
+          (s+5)
+        </text>
+      
+    </g><g data-runiq-node="g3">
+      <rect x="23" y="642" width="70" height="50"
+            fill="#e3f2fd" stroke="#1976d2" stroke-width="2" />
+      
+      <text x="58" y="667" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" 
+            font-size="16"
+            font-style="italic">
+        1/s
+      </text>
+    </g><g data-runiq-node="output">
+      <rect x="21" y="842" width="74.4" height="40.8"
+            fill="#f0f0f0" stroke="#333" stroke-width="1" />
+      
+      <text x="58.2" y="862.4" 
+            text-anchor="middle" dominant-baseline="middle"
+            font-family="sans-serif" font-size="14">
+        Output
+      </text>
+    </g></svg>

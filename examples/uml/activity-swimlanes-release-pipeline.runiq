@@ -1,0 +1,59 @@
+// Activity Diagram: Software Release Process with Multiple Stages
+// Demonstrates: Complex multi-stage workflow with swimlanes
+// Shows: Development -> QA -> Operations pipeline with feedback loops
+
+diagram "Software Release Process" {
+  direction LR
+  
+  // Development swimlane
+  container "Development" orientation: horizontal fill: "#e3f2fd" padding: 20 {
+    shape dev1 as @initialState
+    shape dev2 as @activity label: "Write\nCode"
+    shape dev3 as @activity label: "Unit\nTest"
+    shape dev4 as @activity label: "Code\nReview"
+    shape dev5 as @diamond
+  }
+  
+  // QA swimlane
+  container "Quality Assurance" orientation: horizontal fill: "#fff3e0" padding: 20 {
+    shape qa1 as @activity label: "Integration\nTest"
+    shape qa2 as @activity label: "System\nTest"
+    shape qa3 as @diamond
+    shape qa4 as @activity label: "Bug\nReport"
+    shape qa5 as @activity label: "Regression\nTest"
+  }
+  
+  // Operations swimlane
+  container "Operations" orientation: horizontal fill: "#e8f5e9" padding: 20 {
+    shape ops1 as @activity label: "Deploy\nStaging"
+    shape ops2 as @activity label: "Smoke\nTest"
+    shape ops3 as @diamond
+    shape ops4 as @activity label: "Deploy\nProduction"
+    shape ops5 as @activity label: "Monitor"
+    shape ops6 as @finalState
+  }
+  
+  // Development flow
+  dev1 -> dev2
+  dev2 -> dev3
+  dev3 -> dev4
+  dev4 -> dev5
+  dev5 -approved-> qa1
+  dev5 -changes_needed-> dev2
+  
+  // QA flow
+  qa1 -> qa2
+  qa2 -> qa3
+  qa3 -pass-> qa5
+  qa3 -fail-> qa4
+  qa4 -> dev2
+  qa5 -> ops1
+  
+  // Operations flow
+  ops1 -> ops2
+  ops2 -> ops3
+  ops3 -pass-> ops4
+  ops3 -fail-> qa4
+  ops4 -> ops5
+  ops5 -> ops6
+}

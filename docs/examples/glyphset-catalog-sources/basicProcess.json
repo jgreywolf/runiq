@@ -1,0 +1,43 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "theme": "colorful",
+  "nodes": [
+    {
+      "id": "step1",
+      "shape": "processBox",
+      "label": "Alpha",
+      "data": {
+        "fillColor": "#4472C4"
+      }
+    },
+    {
+      "id": "step2",
+      "shape": "processBox",
+      "label": "Beta",
+      "data": {
+        "fillColor": "#ED7D31"
+      }
+    },
+    {
+      "id": "step3",
+      "shape": "processBox",
+      "label": "Gamma",
+      "data": {
+        "fillColor": "#A5A5A5"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "step1",
+      "to": "step2",
+      "style": "solid"
+    },
+    {
+      "from": "step2",
+      "to": "step3",
+      "style": "solid"
+    }
+  ]
+}

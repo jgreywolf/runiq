@@ -1,4 +1,5 @@
-import type { ShapeDefinition, ShapeRenderContext } from '../../types.js';
+import type { ShapeDefinition, ShapeRenderContext } from '../../types/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Artifact shape - represents a physical piece of information (file, database, etc.).
@@ -45,10 +46,9 @@ export const artifactShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
 
-    const backgroundColor =
-      (ctx.node.data?.backgroundColor as string) || '#ffffcc';
-    const borderColor = (ctx.node.data?.borderColor as string) || '#666666';
-    const borderWidth = (ctx.node.data?.borderWidth as number) || 2;
+    const fillColor = (ctx.node.data?.fillColor as string) || '#ffffcc';
+    const strokeColor = (ctx.node.data?.strokeColor as string) || '#666666';
+    const strokeWidth = (ctx.node.data?.strokeWidth as number) || 2;
 
     const foldSize = 12; // Size of the dog-eared corner
 
@@ -65,21 +65,30 @@ export const artifactShape: ShapeDefinition = {
     // Fold line (diagonal line for the dog-ear)
     const foldLine = `M ${x + bounds.width - foldSize},${y} L ${x + bounds.width},${y + foldSize}`;
 
-    const shape = `<path d="${path}" fill="${backgroundColor}" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
-    const fold = `<path d="${foldLine}" fill="none" stroke="${borderColor}" stroke-width="${borderWidth}"/>`;
+    const shape = `<path d="${path}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
+    const fold = `<path d="${foldLine}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>`;
 
     // Stereotype text (top)
     const fontSize = ctx.style.fontSize || 14;
     const stereotypeX = x + bounds.width / 2;
     const stereotypeY = y + fontSize + 8;
-    const stereotype = `<text x="${stereotypeX}" y="${stereotypeY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize - 2}" fill="#666666">«artifact»</text>`;
+    const stereotypeStyle = {
+      ...ctx.style,
+      fontSize: fontSize - 2,
+      color: '#666666',
+    };
+    const stereotype = renderShapeLabel(
+      { ...ctx, style: stereotypeStyle },
+      '«artifact»',
+      stereotypeX,
+      stereotypeY
+    );
 
     // Label text (center)
     const label = ctx.node.label || '';
     const textX = x + bounds.width / 2;
-    const textY = y + bounds.height / 2 + fontSize / 3 + 6;
-    const text = `<text x="${textX}" y="${textY}" text-anchor="middle" font-family="${ctx.style.fontFamily}" font-size="${fontSize}" fill="#000000">${label}</text>`;
+    const textY = y + bounds.height / 2 + 6;
 
-    return `${shape}${fold}${stereotype}${text}`;
+    return `${shape}${fold}${stereotype}${renderShapeLabel(ctx, label, textX, textY)}`;
   },
 };

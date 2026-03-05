@@ -1,0 +1,80 @@
+diagram "UML State Machine - Complete Features" {
+  direction TB
+
+  # Initial state
+  shape start as @initialState
+
+  # Standard states with behaviors
+  shape idle as @state label: "Idle"
+    entry: "turnOffLight()"
+    doActivity: "monitorSensors()"
+    exit: "logStateChange()"
+
+  shape processing as @state label: "Processing"
+    entry: "startProcess()"
+    doActivity: "processData()"
+    exit: "cleanup()"
+
+  shape waiting as @state label: "Waiting"
+    entry: "startTimer()"
+    exit: "cancelTimer()"
+
+  # Pseudo-states
+  shape decision as @choice
+  shape split as @fork
+  shape merge as @join
+  shape junc as @junction
+  shape hist as @historyShallow
+  shape histDeep as @historyDeep
+  shape term as @terminate
+  shape entryPt as @entryPoint
+  shape exitPt as @exitPoint
+
+  # Final state
+  shape end as @finalState
+
+  # Transitions with full UML syntax
+  start -> idle
+
+  idle -> decision
+    event: "dataReceived"
+    guard: "[dataValid]"
+    effect: "/ validateData()"
+
+  decision -> processing
+    label: "[priority == high]"
+
+  decision -> waiting
+    label: "[priority == low]"
+
+  processing -> split
+    event: "completed"
+
+  # Split processing into parallel tasks
+  split -> waiting
+  split -> idle
+
+  # Merge parallel tasks
+  waiting -> merge
+  idle -> merge
+
+  merge -> junc
+    effect: "/ checkStatus()"
+
+  # Junction branches based on static condition
+  junc -> processing
+    label: "[retry]"
+
+  junc -> hist
+    label: "[restore]"
+
+  # History restores previous state
+  hist -> idle
+
+  junc -> term
+    label: "[fatal error]"
+
+  processing -> end
+    event: "shutdown"
+    effect: "/ cleanup()"
+}

@@ -1,0 +1,37 @@
+// Infrastructure Network with Closeness Centrality
+// Shows servers and their connections with closeness metric
+// Identifies servers with best average connectivity
+
+diagram "Server Infrastructure" {
+  shape lb as @server label: "Load Balancer" showMetrics: true metricType: closeness metricPosition: top-left
+  shape web1 as @server label: "Web Server 1" showMetrics: true metricType: closeness
+  shape web2 as @server label: "Web Server 2" showMetrics: true metricType: closeness
+  shape api1 as @server label: "API Server 1" showMetrics: true metricType: closeness
+  shape api2 as @server label: "API Server 2" showMetrics: true metricType: closeness
+  shape db1 as @database label: "Database 1" showMetrics: true metricType: closeness
+  shape db2 as @database label: "Database 2" showMetrics: true metricType: closeness
+  shape cache as @storage label: "Cache" showMetrics: true metricType: closeness
+
+  // Load balancer distributes
+  lb -> web1
+  lb -> web2
+
+  // Web servers call APIs
+  web1 -> api1
+  web1 -> api2
+  web2 -> api1
+  web2 -> api2
+
+  // APIs access databases
+  api1 -> db1
+  api1 -> db2
+  api2 -> db1
+  api2 -> db2
+
+  // APIs use cache
+  api1 -> cache
+  api2 -> cache
+
+  // Database replication
+  db1 -> db2 label: "replicate"
+}

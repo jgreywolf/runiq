@@ -1,0 +1,105 @@
+// BPMN Gateway Types Example
+// Demonstrates all 5 gateway types with their visual markers
+
+diagram "Order Processing with Gateway Types" {
+  // Start
+  shape start as @bpmnEvent label:"Order Received"
+  
+  // Exclusive Gateway (XOR) - X marker
+  // Only ONE path is taken based on condition
+  shape checkPayment as @bpmnGateway label:"Payment?" gatewayType:exclusive
+  
+  // Tasks after exclusive decision
+  shape processPayment as @bpmnTask label:"Process Payment"
+  shape rejectOrder as @bpmnTask label:"Reject Order"
+  
+  // Parallel Gateway (AND) - + marker  
+  // ALL paths are taken simultaneously
+  shape splitWork as @bpmnGateway label:"Fork Work" gatewayType:parallel
+  
+  // Parallel tasks
+  shape updateInventory as @bpmnTask label:"Update Inventory"
+  shape notifyCustomer as @bpmnTask label:"Notify Customer"
+  shape prepareShipment as @bpmnTask label:"Prepare Shipment"
+  
+  // Parallel Gateway to join/synchronize
+  shape joinWork as @bpmnGateway label:"Join" gatewayType:parallel
+  
+  // Inclusive Gateway (OR) - O marker
+  // ONE OR MORE paths can be taken
+  shape selectShipping as @bpmnGateway label:"Shipping Options" gatewayType:inclusive
+  
+  // Optional parallel paths
+  shape expressShipping as @bpmnTask label:"Express"
+  shape standardShipping as @bpmnTask label:"Standard" 
+  shape insurance as @bpmnTask label:"Add Insurance"
+  
+  // Inclusive join
+  shape mergeShipping as @bpmnGateway gatewayType:inclusive
+  
+  // Event-Based Gateway - Pentagon/circle marker
+  // Wait for ONE of several possible events
+  shape waitForEvent as @bpmnGateway label:"Wait for Response" gatewayType:eventBased
+  
+  shape paymentConfirmed as @bpmnEvent label:"Payment OK"
+  shape paymentTimeout as @bpmnEvent label:"Timeout"
+  shape customerCancelled as @bpmnEvent label:"Cancelled"
+  
+  // Complex Gateway - Asterisk marker
+  // Custom complex conditions (rarely used)
+  shape complexLogic as @bpmnGateway label:"Complex Rules" gatewayType:complex
+  
+  shape specialHandling as @bpmnTask label:"Special Handling"
+  shape normalProcess as @bpmnTask label:"Normal Process"
+  
+  // End
+  shape complete as @bpmnEvent label:"Order Complete"
+  shape cancelled as @bpmnEvent label:"Order Cancelled"
+  
+  // Flow
+  start -> checkPayment
+  
+  // Exclusive gateway - only one path (X marker)
+  checkPayment -> processPayment
+  checkPayment -> rejectOrder
+  rejectOrder -> cancelled
+  
+  // Parallel split - all paths
+  processPayment -> splitWork
+  splitWork -> updateInventory
+  splitWork -> notifyCustomer
+  splitWork -> prepareShipment
+  
+  // Parallel join - wait for all
+  updateInventory -> joinWork
+  notifyCustomer -> joinWork
+  prepareShipment -> joinWork
+  
+  // Inclusive gateway - one or more paths (O marker)
+  joinWork -> selectShipping
+  selectShipping -> expressShipping
+  selectShipping -> standardShipping
+  selectShipping -> insurance
+  
+  // Inclusive merge
+  expressShipping -> mergeShipping
+  standardShipping -> mergeShipping
+  insurance -> mergeShipping
+  
+  // Event-based gateway - wait for one event
+  mergeShipping -> waitForEvent
+  waitForEvent -> paymentConfirmed
+  waitForEvent -> paymentTimeout
+  waitForEvent -> customerCancelled
+  
+  paymentTimeout -> cancelled
+  customerCancelled -> cancelled
+  
+  // Complex gateway (asterisk marker)
+  paymentConfirmed -> complexLogic
+  complexLogic -> specialHandling
+  complexLogic -> normalProcess
+  
+  specialHandling -> complete
+  normalProcess -> complete
+}

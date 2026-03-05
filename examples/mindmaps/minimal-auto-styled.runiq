@@ -1,0 +1,30 @@
+// Minimal Mindmap - No Styling Required!
+// This example uses ZERO color specifications
+// Everything is automatically styled based on hierarchy levels
+diagram "My Ideas" {
+  
+  container "Mindmap" algorithm: radial spacing: 70 {
+    // Just define nodes and connections
+    // Colors, fonts, and styling are all automatic!
+    
+    shape main as @circle label: "Main Topic"
+    
+    shape idea1 as @roundedRectangle label: "First Idea"
+    shape idea2 as @roundedRectangle label: "Second Idea"
+    shape idea3 as @roundedRectangle label: "Third Idea"
+    
+    shape detail1 as @rectangle label: "Detail A"
+    shape detail2 as @rectangle label: "Detail B"
+    shape detail3 as @rectangle label: "Detail C"
+    shape detail4 as @rectangle label: "Detail D"
+    
+    main -> idea1
+    main -> idea2
+    main -> idea3
+    
+    idea1 -> detail1
+    idea1 -> detail2
+    idea2 -> detail3
+    idea3 -> detail4
+  }
+}

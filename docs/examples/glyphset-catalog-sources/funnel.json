@@ -1,0 +1,30 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "funnel",
+      "shape": "invertedPyramid",
+      "label": "",
+      "data": {
+        "levels": [
+          {
+            "label": "Awareness",
+            "value": 3
+          },
+          {
+            "label": "Interest",
+            "value": 2
+          },
+          {
+            "label": "Decision",
+            "value": 1
+          }
+        ],
+        "showValues": false,
+        "theme": "professional"
+      }
+    }
+  ],
+  "edges": []
+}

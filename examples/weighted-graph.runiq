@@ -1,0 +1,61 @@
+// Weighted Graph Example - Road Network with Distances
+// Shows cities connected by roads with distance weights
+
+diagram "Road Network" {
+  container "Cities" algorithm: force spacing: 150 {
+    // Cities
+    shape boston as @circle label:"Boston"
+    shape nyc as @circle label:"New York"
+    shape philly as @circle label:"Philadelphia" 
+    shape washington as @circle label:"Washington DC"
+    shape baltimore as @circle label:"Baltimore"
+    shape richmond as @circle label:"Richmond"
+    
+    // Roads with distances (miles)
+    boston -> nyc weight: 215 label:"215 mi"
+    nyc -> philly weight: 95 label:"95 mi"
+    philly -> washington weight: 140 label:"140 mi"
+    washington -> baltimore weight: 40 label:"40 mi"
+    baltimore -> philly weight: 100 label:"100 mi"
+    boston -> baltimore weight: 400 label:"400 mi"
+    washington -> richmond weight: 110 label:"110 mi"
+  }
+}
+
+// Weighted graph showing network costs
+diagram "Network Cost" {
+  container "Servers" algorithm: force spacing: 130 {
+    shape server1 as @hexagon label:"Server 1"
+    shape server2 as @hexagon label:"Server 2"
+    shape server3 as @hexagon label:"Server 3"
+    shape server4 as @hexagon label:"Server 4"
+    shape server5 as @hexagon label:"Server 5"
+    
+    // Network links with latency (ms)
+    server1 -> server2 weight: 5 label:"5ms"
+    server1 -> server3 weight: 10 label:"10ms"
+    server2 -> server3 weight: 3 label:"3ms"
+    server2 -> server4 weight: 8 label:"8ms"
+    server3 -> server4 weight: 4 label:"4ms"
+    server3 -> server5 weight: 12 label:"12ms"
+    server4 -> server5 weight: 6 label:"6ms"
+  }
+}
+
+// Weighted edges with visual distinction using strokeWidth
+diagram "Capacity Network" {
+  container "Nodes" algorithm: force spacing: 120 {
+    shape a as @circle label:"A"
+    shape b as @circle label:"B"
+    shape c as @circle label:"C"
+    shape d as @circle label:"D"
+    shape ef as @circle label:"E"
+    
+    // Edge capacity (thickness represents capacity)
+    a -> b weight: 100 strokeWidth: 5 label:"100"
+    a -> c weight: 50 strokeWidth: 3 label:"50"
+    b -> d weight: 75 strokeWidth: 4 label:"75"
+    c -> d weight: 25 strokeWidth: 2 label:"25"
+    d -> ef weight: 60 strokeWidth: 3 label:"60"
+  }
+}

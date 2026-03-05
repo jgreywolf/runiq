@@ -1,0 +1,21 @@
+// Software Development Lifecycle (SDLC)
+// Circular layout showing iterative development process
+
+diagram "SDLC - Agile Cycle" {
+  container "Sprint Cycle" algorithm: circular spacing: 120 {
+    shape planning as @rect label: "Planning" fill: "#e3f2fd"
+    shape design as @rect label: "Design" fill: "#f3e5f5"
+    shape development as @rect label: "Development" fill: "#e8f5e9"
+    shape testing as @rect label: "Testing" fill: "#fff3e0"
+    shape deployment as @rect label: "Deployment" fill: "#fce4ec"
+    shape review as @rect label: "Review" fill: "#e0f2f1"
+    
+    // Continuous cycle
+    planning -> design
+    design -> development
+    development -> testing
+    testing -> deployment
+    deployment -> review
+    review -> planning label: "Next Sprint"
+  }
+}

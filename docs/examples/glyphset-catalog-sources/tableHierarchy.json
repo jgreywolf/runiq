@@ -1,0 +1,40 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "tableHierarchy",
+      "shape": "tableHierarchy",
+      "label": "",
+      "data": {
+        "levels": [
+          {
+            "label": "Executive",
+            "items": [
+              "Leadership"
+            ]
+          },
+          {
+            "label": "Execution",
+            "items": [
+              "Operations"
+            ]
+          },
+          {
+            "label": "Enable",
+            "items": [
+              "Support"
+            ]
+          }
+        ],
+        "colors": [
+          "#546E7A",
+          "#607D8B",
+          "#78909C",
+          "#90A4AE"
+        ],
+        "showConnections": true
+      }
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,11 @@
+// Converging Glyphset Example: Team Collaboration
+//
+// Multiple teams or roles converging toward a shared goal.
+// Demonstrates 3-source converging pattern.
+
+glyphset converging "Team Collaboration" {
+  theme "forest"
+  item "Development Team"
+  item "Design Team"
+  item "Product Management"
+}

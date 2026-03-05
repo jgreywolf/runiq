@@ -1,0 +1,118 @@
+// UML Activity Diagram: Data Processing Pipeline
+// Demonstrates producer-consumer pattern with central buffers
+// Shows parallel processing and data transformation
+
+diagram "Data Processing Pipeline" {
+  direction LR
+
+  // Start/end
+  shape start as @initialState
+  shape end as @finalState
+
+  // Data ingestion activities
+  shape ingestAPI as @activity label:"Ingest from API"
+  shape ingestFiles as @activity label:"Ingest from Files"
+  shape ingestStreams as @activity label:"Ingest from Streams"
+
+  // Processing activities
+  shape validate as @activity label:"Validate Data"
+  shape transform as @activity label:"Transform Data"
+  shape enrich as @activity label:"Enrich Data"
+  shape aggregate as @activity label:"Aggregate Data"
+
+  // Output activities
+  shape writeDB as @activity label:"Write to Database"
+  shape generateReport as @activity label:"Generate Report"
+  shape sendNotification as @activity label:"Send Notification"
+
+  // Object nodes
+  shape rawData1 as @objectNode label:"API Data"
+  shape rawData2 as @objectNode label:"File Data"
+  shape rawData3 as @objectNode label:"Stream Data"
+  shape validData as @objectNode label:"Valid Data"
+  shape transformedData as @objectNode label:"Transformed Data"
+  shape enrichedData as @objectNode label:"Enriched Data"
+  shape aggregateResult as @objectNode label:"Aggregate Result"
+  shape report as @objectNode label:"Report"
+
+  // Central buffers (message queues)
+  shape ingestionQueue as @centralBuffer label:"Ingestion Queue"
+  shape processingQueue as @centralBuffer label:"Processing Queue"
+  shape outputQueue as @centralBuffer label:"Output Queue"
+
+  // Data stores
+  shape referenceDB as @dataStore label:"Reference DB"
+  shape mainDB as @dataStore label:"Main DB"
+  shape archiveDB as @dataStore label:"Archive DB"
+
+  // Fork/join for parallel ingestion
+  shape ingestFork as @fork
+  shape ingestJoin as @join
+
+  // Control flow
+  start -> ingestFork flowType:"control"
+
+  // Parallel data ingestion
+  ingestFork -> ingestAPI flowType:"control"
+  ingestFork -> ingestFiles flowType:"control"
+  ingestFork -> ingestStreams flowType:"control"
+
+  // Each ingestion produces data objects
+  ingestAPI -> rawData1 flowType:"object"
+  ingestFiles -> rawData2 flowType:"object"
+  ingestStreams -> rawData3 flowType:"object"
+
+  // All data goes to ingestion queue
+  rawData1 -> ingestionQueue flowType:"object"
+  rawData2 -> ingestionQueue flowType:"object"
+  rawData3 -> ingestionQueue flowType:"object"
+
+  // Validation consumes from queue
+  ingestionQueue -> validate flowType:"object"
+  validate -> validData flowType:"object"
+
+  // Transformation
+  validData -> transform flowType:"object"
+  transform -> transformedData flowType:"object"
+
+  // Data goes to processing queue
+  transformedData -> processingQueue flowType:"object"
+
+  // Enrichment (with reference data lookup)
+  processingQueue -> enrich flowType:"object"
+  referenceDB -> enrich flowType:"object" label:"lookup"
+  enrich -> enrichedData flowType:"object"
+
+  // Aggregation
+  enrichedData -> aggregate flowType:"object"
+  aggregate -> aggregateResult flowType:"object"
+
+  // Results to output queue
+  aggregateResult -> outputQueue flowType:"object"
+
+  // Fork for parallel output
+  shape outputFork as @fork
+  outputQueue -> outputFork flowType:"control"
+
+  // Write to database
+  outputFork -> writeDB flowType:"control"
+  aggregateResult -> writeDB flowType:"object"
+  writeDB -> mainDB flowType:"object" label:"save"
+  mainDB -> archiveDB flowType:"object" label:"backup"
+
+  // Generate report
+  outputFork -> generateReport flowType:"control"
+  aggregateResult -> generateReport flowType:"object"
+  generateReport -> report flowType:"object"
+
+  // Send notification
+  report -> sendNotification flowType:"object"
+
+  // Join outputs
+  shape outputJoin as @join
+  sendNotification -> outputJoin flowType:"control"
+  writeDB -> outputJoin flowType:"control"
+
+  // Complete
+  outputJoin -> end flowType:"control"
+}

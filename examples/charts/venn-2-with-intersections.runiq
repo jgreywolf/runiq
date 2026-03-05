@@ -1,0 +1,13 @@
+// Venn Diagram: Skills Overlap with Intersection Label
+// Shows the intersection between two skill sets
+
+diagram "Skills Overlap: Frontend & Backend" {
+  
+  shape SkillSets as @venn
+    label:"Developer Skills"
+    data:[1, 1]
+    labels:["Frontend", "Backend"]
+    colors:["#FF6B6B", "#4ECDC4"]
+    intersections:["Full Stack"]
+  
+}

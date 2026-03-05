@@ -1,0 +1,269 @@
+// ============================================================================
+// ISO 1219-2 Hydraulic Symbols
+// ============================================================================
+
+import { createSymbol } from '../symbol.ts';
+
+/**
+ * Hydraulic Motor
+ * ISO 1219-2 standard motor symbol
+ */
+export const motorHydraulic = createSymbol(
+  'MOTOR_HYD',
+  50,
+  50,
+  [
+    { x: 0, y: 25, name: 'in' },
+    { x: 50, y: 25, name: 'out' },
+    { x: 25, y: 0, name: 'shaft' },
+  ],
+  (cx, cy) => {
+    const radius = 18;
+
+    return `
+      <!-- Circle body -->
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2.5" fill="white"/>
+
+      <!-- Arrow (clockwise) -->
+      <path d="M ${cx - 8},${cy - 5} L ${cx + 3},${cy - 5} L ${cx + 3},${cy - 10} L ${cx + 10},${cy} L ${cx + 3},${cy + 10} L ${cx + 3},${cy + 5} L ${cx - 8},${cy + 5}"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+      <!-- shaft line extending from center -->
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
+      <text x="${cx + 12}" y="${cy - radius - 5}" font-size="7" fill="currentColor">shaft</text>
+
+      <!-- Connection lines -->
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+    `;
+  }
+);
+
+/**
+ * Gear Motor (fixed displacement)
+ * ISO 1219-2 motor with gear teeth indicators
+ */
+export const motorGear = createSymbol(
+  'MOTOR_GEAR',
+  50,
+  50,
+  [
+    { x: 0, y: 25, name: 'in' },
+    { x: 50, y: 25, name: 'out' },
+    { x: 25, y: 0, name: 'shaft' },
+  ],
+  (cx, cy) => {
+    const radius = 18;
+
+    return `
+      <!-- Circle body -->
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2.5" fill="white"/>
+
+      <!-- Arrow (clockwise) -->
+      <path d="M ${cx - 8},${cy - 5} L ${cx + 3},${cy - 5} L ${cx + 3},${cy - 10} L ${cx + 10},${cy} L ${cx + 3},${cy + 10} L ${cx + 3},${cy + 5} L ${cx - 8},${cy + 5}"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+      <!-- Gear teeth around edge (4 cardinal directions) -->
+      <path d="M ${cx},${cy - radius - 3} l 2,3 l -2,0 l -2,0 l 2,-3" fill="currentColor"/>
+      <path d="M ${cx + radius + 3},${cy} l -3,2 l 0,-2 l 0,-2 l 3,2" fill="currentColor"/>
+      <path d="M ${cx},${cy + radius + 3} l 2,-3 l -2,0 l -2,0 l 2,3" fill="currentColor"/>
+      <path d="M ${cx - radius - 3},${cy} l 3,2 l 0,-2 l 0,-2 l -3,2" fill="currentColor"/>
+
+      <!-- shaft line extending from center -->
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
+
+      <!-- Connection lines -->
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+    `;
+  }
+);
+
+/**
+ * Vane Motor
+ * ISO 1219-2 motor with radial vane indicator
+ */
+export const motorVane = createSymbol(
+  'MOTOR_VANE',
+  50,
+  50,
+  [
+    { x: 0, y: 25, name: 'in' },
+    { x: 50, y: 25, name: 'out' },
+    { x: 25, y: 0, name: 'shaft' },
+  ],
+  (cx, cy) => {
+    const radius = 18;
+
+    return `
+      <!-- Circle body -->
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2.5" fill="white"/>
+
+      <!-- Arrow (clockwise) -->
+      <path d="M ${cx - 8},${cy - 5} L ${cx + 3},${cy - 5} L ${cx + 3},${cy - 10} L ${cx + 10},${cy} L ${cx + 3},${cy + 10} L ${cx + 3},${cy + 5} L ${cx - 8},${cy + 5}"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+      <!-- Vane indicator (4 radial lines intersecting at center) -->
+      <line x1="${cx - 10}" y1="${cy}" x2="${cx + 10}" y2="${cy}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy - 10}" x2="${cx}" y2="${cy + 10}"
+        stroke="currentColor" stroke-width="1.5"/>
+
+      <!-- shaft line extending from center -->
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
+
+      <!-- Connection lines -->
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+    `;
+  }
+);
+
+/**
+ * Axial Piston Motor
+ * ISO 1219-2 motor with axial piston indicator (angled lines)
+ */
+export const motorPistonAxial = createSymbol(
+  'MOTOR_PISTON_AXIAL',
+  50,
+  50,
+  [
+    { x: 0, y: 25, name: 'in' },
+    { x: 50, y: 25, name: 'out' },
+    { x: 25, y: 0, name: 'shaft' },
+  ],
+  (cx, cy) => {
+    const radius = 18;
+
+    return `
+      <!-- Circle body -->
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2.5" fill="white"/>
+
+      <!-- Arrow (clockwise) -->
+      <path d="M ${cx - 8},${cy - 5} L ${cx + 3},${cy - 5} L ${cx + 3},${cy - 10} L ${cx + 10},${cy} L ${cx + 3},${cy + 10} L ${cx + 3},${cy + 5} L ${cx - 8},${cy + 5}"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+      <!-- Axial piston indicator (3 angled parallel lines) -->
+      <line x1="${cx - 6}" y1="${cy - 8}" x2="${cx - 6}" y2="${cy + 8}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy - 8}" x2="${cx}" y2="${cy + 8}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx + 6}" y1="${cy - 8}" x2="${cx + 6}" y2="${cy + 8}"
+        stroke="currentColor" stroke-width="1.5"/>
+
+      <!-- shaft line extending from center -->
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
+
+      <!-- Connection lines -->
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+    `;
+  }
+);
+
+/**
+ * Radial Piston Motor
+ * ISO 1219-2 motor with radial piston indicator
+ */
+export const motorPistonRadial = createSymbol(
+  'MOTOR_PISTON_RADIAL',
+  50,
+  50,
+  [
+    { x: 0, y: 25, name: 'in' },
+    { x: 50, y: 25, name: 'out' },
+    { x: 25, y: 0, name: 'shaft' },
+  ],
+  (cx, cy) => {
+    const radius = 18;
+
+    return `
+      <!-- Circle body -->
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2.5" fill="white"/>
+
+      <!-- Arrow (clockwise) -->
+      <path d="M ${cx - 8},${cy - 5} L ${cx + 3},${cy - 5} L ${cx + 3},${cy - 10} L ${cx + 10},${cy} L ${cx + 3},${cy + 10} L ${cx + 3},${cy + 5} L ${cx - 8},${cy + 5}"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+      <!-- Radial piston indicator (4 lines radiating from center + center dot) -->
+      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - 10}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy}" x2="${cx + 10}" y2="${cy}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy + 10}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <line x1="${cx}" y1="${cy}" x2="${cx - 10}" y2="${cy}"
+        stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="${cx}" cy="${cy}" r="2" fill="currentColor"/>
+
+      <!-- shaft line extending from center -->
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
+
+      <!-- Connection lines -->
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+    `;
+  }
+);
+
+/**
+ * Orbit Motor (Gerotor)
+ * ISO 1219-2 motor with orbital/gerotor indicator
+ */
+export const motorOrbit = createSymbol(
+  'MOTOR_ORBIT',
+  50,
+  50,
+  [
+    { x: 0, y: 25, name: 'in' },
+    { x: 50, y: 25, name: 'out' },
+    { x: 25, y: 0, name: 'shaft' },
+  ],
+  (cx, cy) => {
+    const radius = 18;
+
+    return `
+      <!-- Circle body -->
+      <circle cx="${cx}" cy="${cy}" r="${radius}"
+        stroke="currentColor" stroke-width="2.5" fill="white"/>
+
+      <!-- Arrow (clockwise) -->
+      <path d="M ${cx - 8},${cy - 5} L ${cx + 3},${cy - 5} L ${cx + 3},${cy - 10} L ${cx + 10},${cy} L ${cx + 3},${cy + 10} L ${cx + 3},${cy + 5} L ${cx - 8},${cy + 5}"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+      <!-- Gerotor indicator (offset small circle inside) -->
+      <circle cx="${cx + 3}" cy="${cy}" r="8"
+        stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+      <!-- shaft line extending from center -->
+      <line x1="${cx}" y1="${cy - radius}" x2="${cx}" y2="${cy - radius - 7}"
+        stroke="currentColor" stroke-width="3"/>
+
+      <!-- Connection lines -->
+      <line x1="${cx - radius - 7}" y1="${cy}" x2="${cx - radius}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+      <line x1="${cx + radius}" y1="${cy}" x2="${cx + radius + 7}" y2="${cy}"
+        stroke="currentColor" stroke-width="2.5"/>
+    `;
+  }
+);

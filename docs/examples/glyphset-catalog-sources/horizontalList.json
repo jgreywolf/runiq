@@ -1,0 +1,19 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "horizontalList",
+      "shape": "horizontalList",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}

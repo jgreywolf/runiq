@@ -1,0 +1,6 @@
+[
+  { "quarter": "Q1", "revenue": 120000 },
+  { "quarter": "Q2", "revenue": 150000 },
+  { "quarter": "Q3", "revenue": 135000 },
+  { "quarter": "Q4", "revenue": 180000 }
+]

@@ -1,0 +1,79 @@
+import type { ShapeDefinition } from '../../types/index.js';
+import {
+  calculateRectangularAnchors,
+  extractBasicStyles,
+} from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
+
+/**
+ * UML Continuation shape
+ * Represents a goto-like flow control mechanism in sequence diagrams
+ * UML 2.5: Continuations define connection points for continuing interaction flows
+ * Shape: Hexagon with label inside
+ */
+export const continuationShape: ShapeDefinition = {
+  id: 'continuation',
+
+  bounds(ctx) {
+    const padding = ctx.style.padding || 12;
+    const textSize = ctx.measureText(ctx.node.label || 'ref', ctx.style);
+
+    // Hexagon needs extra width for angled sides
+    const width = textSize.width + padding * 3;
+    const height = textSize.height + padding * 2;
+
+    return {
+      width: Math.max(width, 80),
+      height: Math.max(height, 40),
+    };
+  },
+
+  anchors(ctx) {
+    return calculateRectangularAnchors(ctx, this.bounds(ctx));
+  },
+
+  render(ctx, position) {
+    const bounds = this.bounds(ctx);
+    const { x, y } = position;
+    const w = bounds.width;
+    const h = bounds.height;
+
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+      defaultStrokeWidth: 1.5,
+    });
+    const fontSize = ctx.style.fontSize || 14;
+    const fontFamily = ctx.style.font || 'Arial';
+
+    // Hexagon path - horizontal orientation
+    // Indent on left and right sides
+    const indent = w * 0.15;
+
+    const path = `M ${x + indent} ${y}
+                  L ${x + w - indent} ${y}
+                  L ${x + w} ${y + h / 2}
+                  L ${x + w - indent} ${y + h}
+                  L ${x + indent} ${y + h}
+                  L ${x} ${y + h / 2}
+                  Z`;
+
+    let svg = `<g class="continuation-shape">`;
+
+    // Hexagon shape
+    svg += `<path d="${path}" `;
+    svg += `fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />`;
+
+    // Label (centered)
+    const labelStyle = { ...ctx.style, color: stroke };
+    svg += renderShapeLabel(
+      { ...ctx, style: labelStyle },
+      ctx.node.label || 'ref',
+      x + w / 2,
+      y + h / 2
+    );
+
+    svg += `</g>`;
+    return svg;
+  },
+};

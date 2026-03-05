@@ -1,4 +1,7 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
+import { extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * Parallelogram (Lean Right) - Data input/output flowing in
@@ -7,14 +10,10 @@ import type { ShapeDefinition } from '../../types.js';
 export const parallelogramShape: ShapeDefinition = {
   id: 'parallelogram',
   bounds(ctx) {
-    const textSize = ctx.measureText(ctx.node.label || ctx.node.id, ctx.style);
-    const padding = ctx.style.padding || 12;
     const skew = 15; // pixels of horizontal skew
-
-    return {
-      width: textSize.width + padding * 2 + skew * 2,
-      height: textSize.height + padding * 2,
-    };
+    return calculateSimpleBounds(ctx, {
+      extraWidth: skew * 2,
+    });
   },
 
   anchors(ctx) {
@@ -23,6 +22,7 @@ export const parallelogramShape: ShapeDefinition = {
     const h = bounds.height;
     const skew = 15;
 
+    // Use rectangular anchors but adjust for skew
     return [
       { x: w / 2, y: 0, name: 'top' },
       { x: w - skew, y: h / 2, name: 'right' },
@@ -35,10 +35,8 @@ export const parallelogramShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const skew = 15;
-
-    const fill = ctx.style.fill || '#f0f0f0';
-    const stroke = ctx.style.stroke || '#333';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx);
+    const label = ctx.node.label || ctx.node.id;
 
     // Parallelogram: lean right
     const points = [
@@ -52,11 +50,7 @@ export const parallelogramShape: ShapeDefinition = {
       <polygon points="${points}" 
                fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
       
-      <text x="${x + bounds.width / 2}" y="${y + bounds.height / 2}" 
-            text-anchor="middle" dominant-baseline="middle"
-            font-family="${ctx.style.font || 'sans-serif'}" font-size="${ctx.style.fontSize || 14}">
-        ${ctx.node.label || ctx.node.id}
-      </text>
+      ${renderShapeLabel(ctx, label, x + bounds.width / 2, y + bounds.height / 2)}
     `;
   },
 };

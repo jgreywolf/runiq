@@ -1,0 +1,31 @@
+{
+  "astVersion": "1.0",
+  "nodes": [
+    {
+      "id": "groupedProcess",
+      "shape": "groupedProcess",
+      "label": "",
+      "data": {
+        "groups": [
+          {
+            "name": "Design",
+            "items": [
+              "Wireframes",
+              "Prototypes"
+            ]
+          },
+          {
+            "name": "Build",
+            "items": [
+              "API",
+              "Frontend",
+              "Database"
+            ]
+          }
+        ],
+        "mergePoint": "Launch"
+      }
+    }
+  ],
+  "edges": []
+}

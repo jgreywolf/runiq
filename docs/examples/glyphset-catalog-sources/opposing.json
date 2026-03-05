@@ -1,0 +1,29 @@
+{
+  "astVersion": "1.0",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "opposing",
+      "shape": "opposing",
+      "label": "",
+      "data": {
+        "items": [
+          {
+            "label": "Alpha",
+            "color": "#546E7A"
+          },
+          {
+            "label": "Beta",
+            "color": "#607D8B"
+          },
+          {
+            "label": "Gamma",
+            "color": "#78909C"
+          }
+        ],
+        "pattern": 3
+      }
+    }
+  ],
+  "edges": []
+}

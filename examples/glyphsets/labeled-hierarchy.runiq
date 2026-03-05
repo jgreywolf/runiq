@@ -1,0 +1,11 @@
+// Labeled Hierarchy - Tree structure with edge labels
+// Shows hierarchical relationships with labeled connections
+
+glyphset labeledHierarchy "Team Roles" {
+  theme "sunset" 
+  root "Engineering Manager"
+  child "Tech Lead" oversees
+  child "Senior Engineer" manages
+  child "Engineer" supports
+  child "Junior Engineer" mentors
+}

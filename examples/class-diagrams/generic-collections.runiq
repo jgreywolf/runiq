@@ -2,7 +2,7 @@
 // Demonstrates generic type parameters with collections
 
 diagram "Generic Collections" {
-  direction: LR
+  direction LR
   
   // Simple generic class
   shape List as @class label:"List"
@@ -77,8 +77,8 @@ diagram "Generic Collections" {
     ]
   
   // Implementation relationships
-  ArrayList -> List lineStyle:dashed
-  HashMap -> Map lineStyle:dashed
+  ArrayList -> List lineStyle:"dashed"
+  HashMap -> Map lineStyle:"dashed"
   
   // Composition relationships
   Repository -> Map

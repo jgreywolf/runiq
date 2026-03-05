@@ -1,0 +1,17 @@
+hvac "Chilled Water Plant" {
+  equipment CH1 type:chiller capacity:"250 tons"
+  equipment CT1 type:cooling-tower capacity:"300 tons"
+  equipment Pump1 type:pump flow:"1200 gpm"
+  equipment HX1 type:heat-exchanger
+  equipment AHU1 type:air-handling-unit cfm:8000
+
+  duct Supply type:supply size:"24x16"
+  duct Return type:return size:"28x18"
+
+  connect AHU1.out -> Supply
+  connect Return -> AHU1.in
+  connect CH1.out -> HX1.in
+  connect HX1.out -> Pump1.in
+  connect Pump1.out -> CH1.in
+  connect CT1.out -> CH1.in
+}

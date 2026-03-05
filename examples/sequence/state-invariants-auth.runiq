@@ -1,0 +1,30 @@
+// UML 2.5 State Invariants Example - Authentication Flow
+// State invariants express conditions that must be true at specific points in the sequence
+
+sequence "Secure Authentication Flow" {
+  participant "User" as actor
+  participant "Web App" as boundary
+  participant "Auth Service" as control
+  participant "Session Store" as database
+  participant "User Database" as database
+
+  // User initiates login
+  message from:"User" to:"Web App" label:"Login Request" type:sync
+  
+  // Forward to auth service - at this point, user should be unauthenticated
+  message from:"Web App" to:"Auth Service" label:"authenticate(username, password)" type:sync stateInvariant:"user.isAuthenticated == false"
+  
+  // Verify credentials
+  message from:"Auth Service" to:"User Database" label:"verifyCredentials()" type:sync
+  message from:"User Database" to:"Auth Service" label:"credentials valid" type:return stateInvariant:"user.exists && user.passwordMatches"
+  
+  // Create session - credentials must be valid before creating session
+  message from:"Auth Service" to:"Session Store" label:"createSession(userId)" type:sync stateInvariant:"credentials.validated"
+  message from:"Session Store" to:"Auth Service" label:"sessionId: abc123" type:return stateInvariant:"session.created && session.active"
+  
+  // Return success to user - session must be active
+  message from:"Auth Service" to:"Web App" label:"auth success (token)" type:return stateInvariant:"user.isAuthenticated && session.active"
+  message from:"Web App" to:"User" label:"Welcome!" type:return stateInvariant:"user.loggedIn && session.valid"
+  
+  note "State invariants ensure critical security properties hold at each step" position:right participants:("Auth Service")
+}

@@ -1,0 +1,34 @@
+// Media Player State Machine with History
+// Demonstrates historyShallow pseudo-state for pause/resume functionality
+
+diagram "Media Player" {
+  // States
+  shape off as @state label:"Off"
+  shape on as @state label:"On"
+  shape idle as @state label:"Idle"
+  shape playing as @state label:"Playing"
+  shape paused as @state label:"Paused"
+  shape stopped as @state label:"Stopped"
+  
+  // History pseudo-state
+  shape resumePoint as @historyShallow label:"H"
+  
+  // Transitions
+  off -> on label:"power on"
+  on -> idle label:"initialize"
+  idle -> playing label:"play"
+  playing -> paused label:"pause"
+  paused -> playing label:"resume"
+  playing -> stopped label:"stop"
+  stopped -> idle label:"reset"
+  
+  // History transitions - restores last active substate
+  on -> resumePoint label:"quick resume"
+  resumePoint -> paused label:"restore last state"
+  
+  // Power off from any state
+  playing -> off label:"power off"
+  paused -> off label:"power off"
+  stopped -> off label:"power off"
+  idle -> off label:"power off"
+}

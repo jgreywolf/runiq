@@ -1,4 +1,6 @@
-import type { ShapeDefinition } from '../../types.js';
+import type { ShapeDefinition } from '../../types/index.js';
+import { calculateDiamondAnchors, extractBasicStyles } from '../utils/index.js';
+import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
  * UML Choice shape
@@ -15,16 +17,7 @@ export const choiceShape: ShapeDefinition = {
   },
 
   anchors(ctx) {
-    const bounds = this.bounds(ctx);
-    const w = bounds.width;
-    const h = bounds.height;
-
-    return [
-      { x: w / 2, y: 0, name: 'top' },
-      { x: w, y: h / 2, name: 'right' },
-      { x: w / 2, y: h, name: 'bottom' },
-      { x: 0, y: h / 2, name: 'left' },
-    ];
+    return calculateDiamondAnchors(ctx, this.bounds(ctx));
   },
 
   render(ctx, position) {
@@ -33,9 +26,10 @@ export const choiceShape: ShapeDefinition = {
     const w = bounds.width;
     const h = bounds.height;
 
-    const fill = ctx.style.fill || '#ffffff';
-    const stroke = ctx.style.stroke || '#000000';
-    const strokeWidth = ctx.style.strokeWidth || 1;
+    const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
+      defaultFill: '#ffffff',
+      defaultStroke: '#000000',
+    });
 
     let svg = `<g class="choice-shape">`;
 
@@ -50,10 +44,17 @@ export const choiceShape: ShapeDefinition = {
 
     // Optional label (guard condition)
     if (ctx.node.label) {
-      svg += `<text x="${x + w / 2}" y="${y + h / 2 + 5}" `;
-      svg += `text-anchor="middle" font-size="${(ctx.style.fontSize || 14) * 0.8}" `;
-      svg += `font-family="${ctx.style.fontFamily || 'Arial'}" fill="${stroke}">`;
-      svg += `${ctx.node.label}</text>`;
+      const labelStyle = {
+        ...ctx.style,
+        fontSize: (ctx.style.fontSize || 14) * 0.8,
+      };
+      const labelCtx = { ...ctx, style: labelStyle };
+      svg += renderShapeLabel(
+        labelCtx,
+        ctx.node.label,
+        x + w / 2,
+        y + h / 2 + 5
+      );
     }
 
     svg += `</g>`;

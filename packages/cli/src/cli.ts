@@ -1,27 +1,44 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import { promises as fs } from 'fs';
-import { parse, type ParseResult } from '@runiq/parser-dsl';
-import { jsonToAst, astToJson } from '@runiq/io-json';
-import { ElkLayoutEngine } from '@runiq/layout-base';
-import { renderSvg } from '@runiq/renderer-svg';
 import {
-  registerDefaultShapes,
-  layoutRegistry,
   iconRegistry,
-  validateDiagramType,
+  layoutRegistry,
   listDiagramTypes,
-  type DiagramType,
+  ProfileType,
+  registerDefaultShapes,
+  validateDiagramType,
   type DiagramAst,
   type DiagramProfile,
+  type DiagramType,
+  type WardleyProfile,
 } from '@runiq/core';
+import { brandIcons } from '@runiq/icons-brand';
 import { fontAwesome } from '@runiq/icons-fontawesome';
+import { iconify } from '@runiq/icons-iconify';
+import { astToJson, jsonToAst } from '@runiq/io-json';
+import { ElkLayoutEngine } from '@runiq/layout-base';
+import { parse, type ParseResult } from '@runiq/parser-dsl';
+import {
+  renderGitGraph,
+  renderKanban,
+  renderRailroadDiagram,
+  renderSequenceDiagram,
+  renderSvg,
+  renderTimeline,
+  renderTreemap,
+  renderWardleyMap,
+} from '@runiq/renderer-svg';
+import { renderDigital, renderSchematic } from '@runiq/renderer-schematic';
+import { Command } from 'commander';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 // Register default providers
 registerDefaultShapes();
 layoutRegistry.register(new ElkLayoutEngine());
+iconRegistry.register(brandIcons);
 iconRegistry.register(fontAwesome);
+iconRegistry.register(iconify);
 
 /**
  * Helper function to extract DiagramProfile from ParseResult
@@ -36,7 +53,7 @@ function extractDiagramFromParseResult(result: ParseResult): DiagramAst | null {
 
   // Find the first diagram profile
   const diagramProfile = doc.profiles.find(
-    (p): p is DiagramProfile => p.type === 'diagram'
+    (p): p is DiagramProfile => p.type === ProfileType.DIAGRAM
   );
 
   if (!diagramProfile) {
@@ -56,6 +73,334 @@ function extractDiagramFromParseResult(result: ParseResult): DiagramAst | null {
   };
 
   return ast;
+}
+
+function normalizeDataSourceOptions(
+  options?: Array<{ name: string; value: string | number | boolean }>
+): Record<string, unknown> {
+  const normalized: Record<string, unknown> = {};
+  if (!options) return normalized;
+  for (const option of options) {
+    normalized[option.name] = option.value;
+  }
+  return normalized;
+}
+
+function parseCsvRows(content: string, delimiter: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < content.length; i++) {
+    const char = content[i];
+    const next = content[i + 1];
+
+    if (char === '"') {
+      if (inQuotes && next === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (!inQuotes && char === delimiter) {
+      row.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    if (!inQuotes && (char === '\n' || char === '\r')) {
+      if (char === '\r' && next === '\n') {
+        i += 1;
+      }
+      row.push(current.trim());
+      if (row.some((cell) => cell.length > 0)) {
+        rows.push(row);
+      }
+      row = [];
+      current = '';
+      continue;
+    }
+
+    current += char;
+  }
+
+  if (current.length > 0 || row.length > 0) {
+    row.push(current.trim());
+    if (row.some((cell) => cell.length > 0)) {
+      rows.push(row);
+    }
+  }
+
+  return rows;
+}
+
+function parseCsvToObjects(
+  content: string,
+  options: Record<string, unknown>
+): Array<Record<string, unknown>> {
+  const delimiter =
+    (typeof options.sep === 'string' && options.sep) ||
+    (typeof options.delimiter === 'string' && options.delimiter) ||
+    ',';
+  const hasHeader =
+    (options.hasHeader === undefined ? options.header : options.hasHeader) ??
+    true;
+
+  const rows = parseCsvRows(content, delimiter);
+  if (rows.length === 0) {
+    return [];
+  }
+
+  if (hasHeader) {
+    const headers = rows[0].map((h) => h.trim());
+    return rows.slice(1).map((row) => {
+      const obj: Record<string, unknown> = {};
+      headers.forEach((header, index) => {
+        const value = row[index] ?? '';
+        const numberValue = Number(value);
+        obj[header] = Number.isNaN(numberValue) ? value : numberValue;
+      });
+      return obj;
+    });
+  }
+
+  return rows.map((row, index) => ({
+    index: index + 1,
+    values: row,
+  }));
+}
+
+function extractChartValues(
+  data: unknown
+): { values: unknown[]; labels?: string[] } | null {
+  if (Array.isArray(data)) {
+    if (data.length === 0) {
+      return { values: [] };
+    }
+
+    if (typeof data[0] === 'object' && data[0] !== null) {
+      const firstObj = data[0] as Record<string, unknown>;
+      const keys = Object.keys(firstObj);
+      const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
+      const labelKey = keys.find((k) => typeof firstObj[k] === 'string');
+
+      if (numericKey) {
+        const values = data.map((item: any) => item[numericKey]);
+        const labels =
+          labelKey !== undefined
+            ? data.map((item: any) => item[labelKey])
+            : undefined;
+        return { values, labels };
+      }
+    }
+
+    return { values: data };
+  }
+
+  if (data && typeof data === 'object') {
+    const obj = data as Record<string, unknown>;
+    if (Array.isArray(obj.values)) {
+      return {
+        values: obj.values,
+        labels: Array.isArray(obj.labels) ? obj.labels : undefined,
+      };
+    }
+    const firstKey = Object.keys(obj)[0];
+    if (firstKey && Array.isArray(obj[firstKey])) {
+      return extractChartValues(obj[firstKey]);
+    }
+  }
+
+  return null;
+}
+
+function buildSankeyDataFromRows(
+  rows: Array<Record<string, unknown>>
+): Record<string, unknown> | null {
+  if (rows.length === 0) {
+    return { nodes: [], links: [] };
+  }
+
+  const links: Array<Record<string, unknown>> = [];
+  const nodes = new Map<string, { id: string; label?: string; color?: string }>();
+
+  for (const row of rows) {
+    const rowLower: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(row)) {
+      rowLower[key.toLowerCase()] = value;
+    }
+
+    const source = String(rowLower.source ?? rowLower.from ?? '');
+    const target = String(rowLower.target ?? rowLower.to ?? '');
+    const valueRaw = rowLower.value ?? rowLower.amount ?? rowLower.size;
+    const value = Number(valueRaw);
+
+    if (!source || !target || Number.isNaN(value)) {
+      return null;
+    }
+
+    const link: Record<string, unknown> = {
+      source,
+      target,
+      value,
+    };
+
+    if (rowLower.label || rowLower.linklabel) {
+      link.label = String(rowLower.label ?? rowLower.linklabel);
+    }
+    if (rowLower.color || rowLower.linkcolor) {
+      link.color = String(rowLower.color ?? rowLower.linkcolor);
+    }
+
+    links.push(link);
+
+    const sourceLabel = rowLower.sourcelabel ? String(rowLower.sourcelabel) : undefined;
+    const targetLabel = rowLower.targetlabel ? String(rowLower.targetlabel) : undefined;
+    const sourceColor = rowLower.sourcecolor ? String(rowLower.sourcecolor) : undefined;
+    const targetColor = rowLower.targetcolor ? String(rowLower.targetcolor) : undefined;
+
+    if (!nodes.has(source)) {
+      nodes.set(source, { id: source, label: sourceLabel, color: sourceColor });
+    }
+    if (!nodes.has(target)) {
+      nodes.set(target, { id: target, label: targetLabel, color: targetColor });
+    }
+  }
+
+  return { nodes: Array.from(nodes.values()), links };
+}
+
+function normalizeSankeyData(data: unknown): Record<string, unknown> | null {
+  if (!data) return null;
+
+  if (Array.isArray(data)) {
+    return buildSankeyDataFromRows(data as Array<Record<string, unknown>>);
+  }
+
+  if (typeof data === 'object') {
+    const obj = data as Record<string, unknown>;
+    const nodes = obj.nodes;
+    const links = obj.links;
+
+    if (Array.isArray(links)) {
+      const sanitizedLinks = links
+        .map((link: any) => ({
+          ...link,
+          value: Number(link.value),
+        }))
+        .filter((link: any) => link.source && link.target && !Number.isNaN(link.value));
+
+      const normalizedNodes = Array.isArray(nodes)
+        ? nodes
+        : Array.from(
+            new Set(
+              sanitizedLinks
+                .flatMap((link: any) => [link.source, link.target])
+                .filter(Boolean)
+            )
+          ).map((id) => ({ id }));
+
+      return { ...obj, nodes: normalizedNodes, links: sanitizedLinks };
+    }
+  }
+
+  return null;
+}
+
+async function resolveDataSourcesForDiagram(
+  profile: any,
+  baseDir: string,
+  warnings: string[]
+): Promise<void> {
+  const sources = profile?.dataSources;
+  if (!Array.isArray(sources) || !Array.isArray(profile.nodes)) {
+    return;
+  }
+
+  const chartShapes = new Set([
+    'lineChart',
+    'radarChart',
+    'pieChart',
+    'barChart',
+    'pyramidShape',
+    'venn2Shape',
+    'venn3Shape',
+    'sankeyChart',
+  ]);
+
+  const resolved = new Map<string, unknown>();
+
+  for (const source of sources) {
+    const format = source.format;
+    const key = source.key;
+    const src = source.source;
+    const options = normalizeDataSourceOptions(source.options);
+
+    if (!format || !key || !src) continue;
+
+    try {
+      if (format === 'json') {
+        let content = src;
+        if (!src.trim().startsWith('{') && !src.trim().startsWith('[')) {
+          const fullPath = path.resolve(baseDir, src);
+          content = await fs.readFile(fullPath, 'utf-8');
+        }
+        resolved.set(key, JSON.parse(content));
+      } else if (format === 'csv') {
+        let content = src;
+        const looksInline =
+          src.includes('\n') || src.includes('\r') || src.includes(',');
+        if (!looksInline) {
+          const fullPath = path.resolve(baseDir, src);
+          content = await fs.readFile(fullPath, 'utf-8');
+        }
+        resolved.set(key, parseCsvToObjects(content, options));
+      } else {
+        warnings.push(`Datasource "${key}" uses unsupported format "${format}".`);
+      }
+    } catch (error) {
+      warnings.push(
+        `Failed to load datasource "${key}": ${
+          error instanceof Error ? error.message : 'unknown error'
+        }`
+      );
+    }
+  }
+
+  for (const node of profile.nodes) {
+    if (!node.dataSource || !chartShapes.has(node.shape)) continue;
+    const data = resolved.get(node.dataSource);
+    if (!data) {
+      warnings.push(`Datasource "${node.dataSource}" not found for shape "${node.id}".`);
+      continue;
+    }
+
+    if (node.shape === 'sankeyChart') {
+      const sankeyData = normalizeSankeyData(data);
+      if (!sankeyData) {
+        warnings.push(`Datasource "${node.dataSource}" does not match Sankey data format.`);
+        continue;
+      }
+      node.data = { ...(node.data || {}), ...sankeyData };
+      continue;
+    }
+
+    const chartData = extractChartValues(data);
+    if (!chartData) {
+      warnings.push(`Datasource "${node.dataSource}" could not map to chart values.`);
+      continue;
+    }
+
+    node.data = {
+      ...(node.data || {}),
+      values: chartData.values,
+      labels: chartData.labels ?? node.data?.labels,
+    };
+  }
 }
 
 const program = new Command();
@@ -80,13 +425,15 @@ program
     try {
       const content = await fs.readFile(input, 'utf-8');
       let ast;
+      let renderProfileType: string | null = null;
+      let nonDiagramProfile: any = null;
 
       // Parse based on file extension or content
       if (input.endsWith('.json')) {
         const result = jsonToAst(content);
         if (!result.success) {
           console.error('JSON parse failed:');
-          result.problems.forEach((p) => console.error(`  ${p}`));
+          result.problems.forEach((p: any) => console.error(`  ${p}`));
           process.exit(1);
         }
         ast = result.data!;
@@ -101,11 +448,104 @@ program
           result.errors.forEach((e: string) => console.error(`  ${e}`));
           process.exit(1);
         }
-        ast = extractDiagramFromParseResult(result);
-        if (!ast) {
-          console.error('No diagram profile found in document');
+
+        const profile = result.document?.profiles?.[0];
+        renderProfileType = profile?.type ?? null;
+        nonDiagramProfile = profile ?? null;
+
+        const dataSourceWarnings: string[] = [];
+        if (profile?.type === ProfileType.DIAGRAM) {
+          await resolveDataSourcesForDiagram(
+            profile,
+            path.dirname(input),
+            dataSourceWarnings
+          );
+        }
+
+        if (dataSourceWarnings.length > 0) {
+          console.warn('Datasource warnings:');
+          dataSourceWarnings.forEach((w) => console.warn(`  ${w}`));
+        }
+
+        if (renderProfileType === ProfileType.DIAGRAM) {
+          ast = extractDiagramFromParseResult(result);
+          if (!ast) {
+            console.error('No diagram profile found in document');
+            process.exit(1);
+          }
+        } else if (!nonDiagramProfile) {
+          console.error('No profile found in document');
           process.exit(1);
         }
+      }
+
+      // Handle non-diagram profiles (no layout needed)
+      if (renderProfileType && renderProfileType !== ProfileType.DIAGRAM) {
+        let renderResult: { svg: string; warnings: string[] } | null = null;
+
+        if (renderProfileType === ProfileType.WARDLEY) {
+          renderResult = renderWardleyMap(nonDiagramProfile as WardleyProfile);
+        } else if (renderProfileType === ProfileType.RAILROAD) {
+          renderResult = renderRailroadDiagram(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.SEQUENCE) {
+          renderResult = renderSequenceDiagram(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.TIMELINE) {
+          renderResult = renderTimeline(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.KANBAN) {
+          renderResult = renderKanban(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.GITGRAPH) {
+          renderResult = renderGitGraph(nonDiagramProfile as any);
+        } else if (renderProfileType === ProfileType.TREEMAP) {
+          renderResult = renderTreemap(nonDiagramProfile as any);
+        } else if (
+          renderProfileType === ProfileType.ELECTRICAL ||
+          renderProfileType === ProfileType.PNEUMATIC ||
+          renderProfileType === ProfileType.HYDRAULIC ||
+          renderProfileType === ProfileType.HVAC ||
+          renderProfileType === ProfileType.CONTROL
+        ) {
+          renderResult = renderSchematic(nonDiagramProfile as any, {
+            gridSize: 50,
+            routing: 'orthogonal',
+            showNetLabels: true,
+            showValues: true,
+            showReferences: true,
+          });
+        } else if (renderProfileType === ProfileType.DIGITAL) {
+          renderResult = renderDigital(nonDiagramProfile as any, {
+            gridSize: 50,
+            routing: 'orthogonal',
+            showNetLabels: true,
+            showValues: false,
+            showReferences: true,
+          });
+        }
+
+        if (!renderResult) {
+          console.error(`Unsupported profile type: ${renderProfileType}`);
+          process.exit(1);
+        }
+
+        if (renderResult.warnings.length > 0) {
+          console.warn('Warnings:');
+          renderResult.warnings.forEach((w) => console.warn(`  ${w}`));
+        }
+
+        // Output
+        if (options.output) {
+          await fs.writeFile(options.output, renderResult.svg);
+          console.log(`SVG written to ${options.output}`);
+        } else {
+          console.log(renderResult.svg);
+        }
+        return;
+      }
+
+      // Standard diagram rendering (with layout)
+      // Ensure ast is defined
+      if (!ast) {
+        console.error('No diagram AST available');
+        process.exit(1);
       }
 
       // Validate diagram type if specified
@@ -186,10 +626,10 @@ program
       if (input.endsWith('.json')) {
         const result = jsonToAst(content);
         if (result.success) {
-          console.log('✓ Valid JSON diagram syntax');
+          console.log('?" Valid JSON diagram syntax');
           ast = result.data;
         } else {
-          console.error('✗ Invalid JSON diagram:');
+          console.error('?- Invalid JSON diagram:');
           result.problems.forEach((p) => console.error(`  ${p}`));
           process.exit(1);
         }
@@ -199,14 +639,20 @@ program
           : content;
         const result = parse(dslContent);
         if (result.success) {
-          console.log('✓ Valid DSL diagram syntax');
+          const profile = result.document?.profiles?.[0];
+          if (profile && profile.type !== ProfileType.DIAGRAM) {
+            console.log(`?" Valid DSL ${profile.type} syntax`);
+            return;
+          }
+
+          console.log('?" Valid DSL diagram syntax');
           ast = extractDiagramFromParseResult(result);
           if (!ast) {
-            console.error('✗ No diagram profile found in document');
+            console.error('?- No diagram profile found in document');
             process.exit(1);
           }
         } else {
-          console.error('✗ Invalid DSL diagram:');
+          console.error('?- Invalid DSL diagram:');
           result.errors.forEach((e: string) => console.error(`  ${e}`));
           process.exit(1);
         }
@@ -330,7 +776,7 @@ function astToDsl(ast: any): string {
   if (ast.title) {
     dsl += `diagram "${ast.title}"`;
     if (ast.direction) {
-      dsl += ` direction: ${ast.direction}`;
+      dsl += ` direction ${ast.direction}`;
     }
     dsl += '\n\n';
   }

@@ -1,0 +1,33 @@
+diagram "Door Lock State Machine" {
+  
+  // States with entry/exit actions
+  shape initial as @initialState
+  
+  shape unlocked as @state 
+    label:"Unlocked" 
+    entry:"releaseLockBolt()" 
+    doActivity:"monitorDoor()" 
+    exit:"stopMonitoring()"
+  
+  shape locked as @state 
+    label:"Locked" 
+    entry:"engageLockBolt() ; enableAlarm()" 
+    exit:"disableAlarm()"
+  
+  shape alarmed as @state 
+    label:"Alarmed" 
+    entry:"soundAlarm() ; notifySecurity()" 
+    doActivity:"flashLights()" 
+    exit:"silenceAlarm()"
+  
+  shape final as @finalState
+  
+  // Transitions with events
+  initial -> unlocked
+  unlocked -> locked label:"lock"
+  locked -> unlocked label:"unlock"
+  unlocked -> alarmed label:"tamper"
+  locked -> alarmed label:"forceDetected"
+  alarmed -> locked label:"reset"
+  locked -> final label:"deactivate"
+}

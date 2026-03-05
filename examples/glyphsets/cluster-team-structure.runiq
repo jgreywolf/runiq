@@ -1,0 +1,14 @@
+// Cluster Glyphset Example: Team Structure
+//
+// Shows a team lead with team members arranged in a hub-and-spoke pattern.
+// Demonstrates 6-item cluster pattern.
+
+glyphset cluster "Development Team" {
+  theme "forest"
+  item "Frontend Developer"
+  item "Backend Developer"
+  item "UI/UX Designer"
+  item "QA Engineer"
+  item "DevOps Engineer"
+  item "Product Owner"
+}

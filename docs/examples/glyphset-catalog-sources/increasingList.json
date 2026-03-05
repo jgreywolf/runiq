@@ -1,0 +1,20 @@
+{
+  "astVersion": "1.0",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "increasingList",
+      "shape": "increasingList",
+      "label": "",
+      "data": {
+        "items": [
+          "Alpha",
+          "Beta",
+          "Gamma"
+        ],
+        "shape": "circle"
+      }
+    }
+  ],
+  "edges": []
+}

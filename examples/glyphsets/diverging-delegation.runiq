@@ -1,0 +1,12 @@
+// Diverging Glyphset Example: Team Delegation
+//
+// Project manager delegating work to multiple teams.
+// Demonstrates 4-destination diverging pattern.
+
+glyphset diverging "Project Delegation" {
+    theme "forest"
+item "Frontend Team"
+  item "Backend Team"
+  item "QA Team"
+  item "DevOps Team"
+}

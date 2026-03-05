@@ -1,6 +1,6 @@
 # Electrical Circuit Examples
 
-Create professional IEEE-standard electrical schematics with SPICE netlist export.
+Create professional IEEE/IEC-standard schematics with SPICE netlist export.
 
 ## RC Lowpass Filter
 
@@ -26,7 +26,7 @@ electrical "RC Lowpass Filter" {
 
 ### Generated SVG
 
-![RC Lowpass Filter](../examples/rc-filter.svg)
+![RC Lowpass Filter](/examples/rc-filter.svg)
 
 ### Exported SPICE Netlist
 
@@ -78,7 +78,7 @@ electrical "Voltage Divider" {
 
 ### Generated SVG
 
-![Voltage Divider](../examples/voltage-divider.svg)
+![Voltage Divider](/examples/voltage-divider.svg)
 
 ### Circuit Calculation
 
@@ -119,7 +119,7 @@ electrical "Non-Inverting Amplifier" {
 
 ### Generated SVG
 
-![Op-Amp Amplifier](../examples/opamp-amplifier.svg)
+![Op-Amp Amplifier](/examples/opamp-amplifier.svg)
 
 ### Gain Calculation
 
@@ -249,7 +249,7 @@ electrical "LED Circuit" {
 
 ### Generated SVG
 
-![LED Circuit](../examples/led-circuit.svg)
+![LED Circuit](/examples/led-circuit.svg)
 
 ### RLC Resonant Circuit
 
@@ -262,7 +262,7 @@ electrical "RLC Resonant Circuit" {
 
   # Series RLC components
   part R1 type:R value:"10" pins:(IN,OUT)
-  part L1 type:L value:"10m" pins:(OUT,GND)
+  part L1 type:l value:"10m" pins:(OUT,GND)
   part C1 type:C value:"1u" pins:(OUT,GND)
 
   # AC analysis: 100Hz to 10kHz
@@ -272,7 +272,7 @@ electrical "RLC Resonant Circuit" {
 
 ### Generated SVG
 
-![RLC Resonant Circuit](../examples/rlc-resonant.svg)
+![RLC Resonant Circuit](/examples/rlc-resonant.svg)
 
 ### Resonant Frequency
 
@@ -304,7 +304,7 @@ electrical "Bridge Rectifier" {
   part C1 type:C value:"1000u" pins:(DC_PLUS,DC_MINUS)
 
   # Load resistor
-  part RL type:R value:"100" pins:(DC_PLUS,DC_MINUS)
+  part RLOAD type:R value:"100" pins:(DC_PLUS,DC_MINUS)
 
   analysis tran "0 100m"
 }
@@ -354,7 +354,7 @@ ngspice rc-filter.cir
 ## Next Steps
 
 - [Digital Circuits →](/examples/digital) - Logic gates and HDL export
-- [Block Diagrams →](/examples/block-diagrams) - Control systems
+- [Control Logic Diagrams](/examples/control-diagrams) - Ladder and function block logic
 - [Reference →](/reference/shapes) - All electrical symbols
 
 ---

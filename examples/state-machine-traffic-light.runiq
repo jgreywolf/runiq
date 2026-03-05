@@ -1,0 +1,70 @@
+diagram "Traffic Light State Machine" {
+  
+  // Traffic light states with timing actions
+  shape initial as @initialState
+  
+  shape red as @state 
+    label:"Red" 
+    entry:"turnOnRed() ; startTimer(30)" 
+    doActivity:"enforceStop()" 
+    exit:"turnOffRed() ; clearTimer()"
+  
+  shape yellow as @state 
+    label:"Yellow" 
+    entry:"turnOnYellow() ; startTimer(5)" 
+    doActivity:"warnDrivers()" 
+    exit:"turnOffYellow()"
+  
+  shape green as @state 
+    label:"Green" 
+    entry:"turnOnGreen() ; startTimer(45)" 
+    doActivity:"allowTraffic()" 
+    exit:"turnOffGreen()"
+  
+  // Pedestrian crossing state
+  shape pedestrianCrossing as @state 
+    label:"Pedestrian Crossing" 
+    entry:"turnOnRedLight() ; activateCrosswalk() ; startTimer(15)" 
+    doActivity:"displayWalkSign() ; monitorCrossing()" 
+    exit:"deactivateCrosswalk() ; displayDontWalk()"
+  
+  // Emergency mode
+  shape emergency as @state 
+    label:"Emergency Mode" 
+    entry:"flashAllRed() ; soundAlarm()" 
+    doActivity:"prioritizeEmergencyVehicle()" 
+    exit:"resumeNormalOperation()"
+  
+  // Malfunction
+  shape malfunction as @state 
+    label:"Malfunction" 
+    entry:"flashYellow() ; notifyControl()" 
+    doActivity:"logIssue()" 
+    exit:"resetSystem()"
+  
+  shape final as @finalState
+  
+  // Normal cycle
+  initial -> red
+  red -> green label:"timerExpired"
+  green -> yellow label:"timerExpired"
+  yellow -> red label:"timerExpired"
+  
+  // Pedestrian button
+  red -> pedestrianCrossing label:"pedestrianButton"
+  pedestrianCrossing -> green label:"timerExpired"
+  
+  // Emergency override
+  red -> emergency label:"emergencySignal"
+  green -> emergency label:"emergencySignal"
+  yellow -> emergency label:"emergencySignal"
+  emergency -> red label:"emergencyCleared"
+  
+  // Malfunction handling
+  red -> malfunction label:"sensorFailure"
+  green -> malfunction label:"sensorFailure"
+  malfunction -> red label:"systemReset"
+  
+  // Shutdown
+  red -> final label:"shutdown"
+}

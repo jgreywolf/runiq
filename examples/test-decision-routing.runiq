@@ -1,0 +1,16 @@
+diagram "Test Decision Routing" {
+  
+  shape start as @rounded label:"Start"
+  shape process1 as @rect label:"Process"
+  shape decision as @rhombus label:"Valid?"
+  shape process2 as @rect label:"Option A"
+  shape process3 as @rect label:"Option B"
+  shape end as @rounded label:"End"
+  
+  start -> process1
+  process1 -> decision
+  decision -yes-> process2
+  decision -no-> process3
+  process2 -> end
+  process3 -> end
+}

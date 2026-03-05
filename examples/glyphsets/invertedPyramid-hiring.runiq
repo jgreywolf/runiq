@@ -1,0 +1,13 @@
+// Inverted Pyramid Example - Hiring Pipeline
+// Funnel showing candidate filtering process
+
+glyphset invertedPyramid "Hiring Pipeline" {
+    theme "forest"
+level "Applications Received"
+  level "Resume Screening"
+  level "Phone Interviews"
+  level "Technical Interviews"
+  level "Final Interviews"
+  level "Job Offers"
+  level "Accepted Hires"
+}
