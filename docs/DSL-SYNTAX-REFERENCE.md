@@ -162,6 +162,7 @@ Customer -> Order
 - `link:"/url"`
 - `tooltip:"text"`
 - `data:[values]`
+- `from:datasourceKey`
 - `showLegend:true`
 - `showMetrics:true` - Display graph metric badge
 - `metricType:degree` - Metric to display (degree, betweenness, closeness, clustering)
@@ -360,7 +361,7 @@ Common shapes:
 - `@database` - Database icon
 - `@browser` - Browser icon
 
-Control system diagram shapes:
+Control system block diagram shapes (legacy, diagram profile):
 
 - `@box` - Simple box
 - `@gain` - Gain block
@@ -369,6 +370,8 @@ Control system diagram shapes:
 - `@integrator` - Integrator block
 - `@multiply-junction` - Multiplication point
 - `@small-circle` - Small circle
+
+Note: New control logic work should use the `control` profile with `part` and `net` syntax.
 
 Chart shapes:
 
@@ -381,3 +384,4 @@ Chart shapes:
 - `diagram "Name" { }` - Visual diagrams (default)
 - `electrical "Name" { }` - Electrical circuits (parser only, not yet rendered)
 - `digital "Name" { }` - Digital circuits (parser only, not yet rendered)
+- `control "Name" { }` - PLC ladder and function block diagrams

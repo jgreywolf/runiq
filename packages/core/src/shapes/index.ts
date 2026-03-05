@@ -14,7 +14,6 @@ import * as flowchart from './flowchart/index.js';
 import * as glyphsets from './glyphsets/index.js';
 import * as kinematic from './kinematic/index.js';
 import * as network from './network/index.js';
-import * as pedigree from './pedigree/index.js';
 import * as quantum from './quantum/index.js';
 import * as rectVariants from './rect-variants/index.js';
 import * as special from './special/index.js';
@@ -105,6 +104,31 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.hourglassShape);
   shapeRegistry.register(special.forkJoinShape);
   shapeRegistry.register(special.orShape);
+  shapeRegistry.register(special.hRuleShape);
+  shapeRegistry.register(special.vRuleShape);
+  shapeRegistry.register(special.bracketLeftShape);
+  shapeRegistry.register(special.bracketRightShape);
+  shapeRegistry.register(special.sectionHeaderShape);
+  shapeRegistry.register(special.swimlaneDividerShape);
+  shapeRegistry.register(special.titleBoxShape);
+  shapeRegistry.register(special.subtitleTextShape);
+  shapeRegistry.register(special.captionBoxShape);
+  shapeRegistry.register(special.footnoteTextShape);
+  shapeRegistry.register(special.legendBoxShape);
+  shapeRegistry.register(special.watermarkTextShape);
+  shapeRegistry.register(special.badgeWarningShape);
+  shapeRegistry.register(special.badgeInfoShape);
+  shapeRegistry.register(special.badgeSuccessShape);
+  shapeRegistry.register(special.badgeErrorShape);
+  shapeRegistry.register(special.badgeStarShape);
+  shapeRegistry.register(special.badgeFlagShape);
+  shapeRegistry.register(special.badgeLockShape);
+  shapeRegistry.register(special.badgeUnlockShape);
+  shapeRegistry.register(special.badgeNewShape);
+  shapeRegistry.register(special.badgeUpdatedShape);
+  shapeRegistry.register(special.badgePriorityShape);
+  shapeRegistry.register(special.badgeNumberShape);
+  shapeRegistry.register(special.badgeLabelShape);
 }
 
 export function registerChartShapes(): void {
@@ -291,12 +315,6 @@ export function registerUMLShapes(): void {
   shapeRegistry.register(uml.terminateShape);
 }
 
-export function registerPedigreeShapes(): void {
-  shapeRegistry.register(pedigree.pedigreeMaleShape);
-  shapeRegistry.register(pedigree.pedigreeFemaleShape);
-  shapeRegistry.register(pedigree.pedigreeUnknownShape);
-}
-
 export function registerC4Shapes(): void {
   shapeRegistry.register(c4.c4Person);
   shapeRegistry.register(c4.c4System);
@@ -364,7 +382,6 @@ export function registerDefaultShapes(): void {
   registerNetworkShapes();
   registerQuantumShapes();
   registerUMLShapes();
-  registerPedigreeShapes();
   registerC4Shapes();
   registerBPMNShapes();
   registerAWSShapes();
@@ -389,7 +406,6 @@ export * from './erd/index.js';
 export * from './flowchart/index.js';
 export * from './kinematic/index.js';
 export * from './network/index.js';
-export * from './pedigree/index.js';
 export * from './quantum/index.js';
 export * from './rect-variants/index.js';
 export * from './special/index.js';

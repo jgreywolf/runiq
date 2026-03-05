@@ -135,6 +135,17 @@ export function renderTreemap(
       node.color ||
       theme?.nodeColors?.[depth % (theme?.nodeColors?.length || 1)] ||
       DEPTH_COLORS[depth % DEPTH_COLORS.length];
+    const hoverParts: string[] = [];
+    if (node.label) {
+      hoverParts.push(node.label);
+    }
+    if (node.value !== undefined) {
+      hoverParts.push(`Value: ${node.value}`);
+    }
+    const hoverTitle = hoverParts.length > 0 ? hoverParts.join(' | ') : 'Treemap item';
+
+    svg += `<g>`;
+    svg += `<title>${escapeXml(hoverTitle)}</title>`;
     svg += `<rect x="${x}" y="${y}" width="${rectWidth}" height="${rectHeight}" fill="${fill}" stroke="#ffffff" />`;
 
     const label = node.label;
@@ -152,6 +163,7 @@ export function renderTreemap(
         fill: textColor,
       });
     }
+    svg += `</g>`;
   });
 
   if (showLegend) {

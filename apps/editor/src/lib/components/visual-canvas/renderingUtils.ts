@@ -1,18 +1,28 @@
 // SVG rendering utilities for the visual canvas
 
-import { parse, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
 import { layoutRegistry } from '@runiq/core';
+import { parse, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
+import { renderDigital, renderPID, renderSchematic } from '@runiq/renderer-schematic';
 import {
-	renderRailroadDiagram,
-	renderSvg,
-	renderWardleyMap,
-	renderSequenceDiagram,
-	renderTimeline,
-	renderKanban,
 	renderGitGraph,
-	renderTreemap
+	renderKanban,
+	renderPedigree,
+	renderRailroadDiagram,
+	renderSequenceDiagram,
+	renderSvg,
+	renderTimeline,
+	renderTreemap,
+	renderWardleyMap
 } from '@runiq/renderer-svg';
-import { renderDigital, renderSchematic, renderPID } from '@runiq/renderer-schematic';
+import {
+	applyDataSourcesToCharts,
+	applyDataSourcesToDiagram,
+	applyDataSourcesToTimeline,
+	applyDataSourcesToTreemap,
+	buildSankeyDataFromRows,
+	injectDataIntoCode,
+	parseCsvToObjects
+} from './dataMappings';
 
 export interface RenderResult {
 	success: boolean;
@@ -24,147 +34,6 @@ export interface RenderResult {
 	renderTime: number;
 	nodeLocations?: Map<string, NodeLocation>;
 	profile?: any;
-}
-
-function injectDataIntoCode(syntaxCode: string, data: string): string {
-	if (!data || !data.trim()) {
-		return syntaxCode;
-	}
-
-	const trimmedData = data.trim();
-	const looksLikeJson = trimmedData.startsWith('{') || trimmedData.startsWith('[');
-
-	let parsedData: any;
-
-	if (looksLikeJson) {
-		try {
-			parsedData = JSON.parse(trimmedData);
-		} catch {
-			return syntaxCode;
-		}
-	} else {
-		const lines = trimmedData
-			.split('\n')
-			.map((l) => l.trim())
-			.filter((l) => l);
-
-		if (lines.length > 0) {
-			const headers = lines[0].split(',').map((h) => h.trim());
-			const rows = lines.slice(1).map((line) => {
-				const values = line.split(',').map((v) => v.trim());
-				const obj: any = {};
-				headers.forEach((header, i) => {
-					const value = values[i];
-					obj[header] = isNaN(Number(value)) ? value : Number(value);
-				});
-				return obj;
-			});
-
-			parsedData = { dataset: rows };
-		}
-	}
-
-	if (!parsedData) {
-		return syntaxCode;
-	}
-
-	let modifiedCode = syntaxCode;
-
-	const chartShapePattern =
-		/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape|sankeyChart)/g;
-
-	let match;
-	const replacements: Array<{ from: number; to: number; replacement: string }> = [];
-
-	while ((match = chartShapePattern.exec(syntaxCode)) !== null) {
-		const fullMatch = match[0];
-		const shapeId = match[1];
-		const shapeType = match[2];
-		const matchStart = match.index;
-
-		if (shapeType === 'sankeyChart') {
-			continue;
-		}
-
-		const afterMatch = syntaxCode.substring(matchStart + fullMatch.length);
-		const endMatch = afterMatch.match(/(?:\r?\n|$)/);
-		const lineEnd = endMatch
-			? matchStart + fullMatch.length + endMatch.index!
-			: syntaxCode.length;
-
-		const currentLine = syntaxCode.substring(matchStart, lineEnd);
-
-		const propsMatch = currentLine.match(/as\s+@\w+\s+(.*)$/);
-		const existingProps = propsMatch ? propsMatch[1].trim() : '';
-
-		const withoutData = existingProps.replace(/\bdata:\[.*?\]|\bdata:\{.*?\}/g, '').trim();
-
-		let dataToInject: any;
-
-		if (typeof parsedData === 'object' && !Array.isArray(parsedData)) {
-			const dataKeys = Object.keys(parsedData);
-			if (dataKeys.length > 0) {
-				dataToInject = parsedData[dataKeys[0]];
-			}
-		} else {
-			dataToInject = parsedData;
-		}
-
-		if (!dataToInject) continue;
-
-		let chartData: any;
-		let chartLabels: string[] | null = null;
-
-		if (
-			Array.isArray(dataToInject) &&
-			dataToInject.length > 0 &&
-			typeof dataToInject[0] === 'object'
-		) {
-			const firstObj = dataToInject[0];
-			const keys = Object.keys(firstObj);
-
-			const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
-			const labelKey = keys.find((k) => typeof firstObj[k] === 'string');
-
-			if (numericKey) {
-				chartData = dataToInject.map((item: any) => item[numericKey]);
-
-				if (labelKey) {
-					chartLabels = dataToInject.map((item: any) => item[labelKey]);
-				}
-			} else {
-				chartData = dataToInject;
-			}
-		} else {
-			chartData = dataToInject;
-		}
-
-		const dataStr = JSON.stringify(chartData);
-		let newProps = withoutData;
-
-		if (chartLabels && chartLabels.length > 0) {
-			const labelsStr = JSON.stringify(chartLabels);
-			newProps = newProps
-				? `${newProps} labels:${labelsStr} data:${dataStr}`
-				: `labels:${labelsStr} data:${dataStr}`;
-		} else {
-			newProps = newProps ? `${newProps} data:${dataStr}` : `data:${dataStr}`;
-		}
-
-		const newShapeDecl = `shape ${shapeId} as @${shapeType} ${newProps}`;
-
-		replacements.push({
-			from: matchStart,
-			to: lineEnd,
-			replacement: newShapeDecl
-		});
-	}
-
-	replacements.reverse().forEach(({ from, to, replacement }) => {
-		modifiedCode = modifiedCode.substring(0, from) + replacement + modifiedCode.substring(to);
-	});
-
-	return modifiedCode;
 }
 
 export async function renderDiagram(
@@ -210,8 +79,6 @@ export async function renderDiagram(
 		}
 
 		const renderStart = performance.now();
-
-		// Extract profile from parse result - could be in diagram (legacy) or document.profiles[0]
 		const profile = parseResult.diagram || parseResult.document?.profiles?.[0];
 		result.profile = profile;
 
@@ -220,56 +87,74 @@ export async function renderDiagram(
 			return result;
 		}
 
-		// For DiagramAst (from parseResult.diagram), treat as 'diagram' type
 		const profileType = 'type' in profile ? profile.type : 'diagram';
+		const diagramProfile = profile as any;
+
+		if (profileType === 'diagram') {
+			applyDataSourcesToCharts(diagramProfile, result.warnings);
+			applyDataSourcesToDiagram(diagramProfile, result.warnings);
+		} else if (profileType === 'timeline') {
+			applyDataSourcesToTimeline(diagramProfile, result.warnings);
+		} else if (profileType === 'treemap') {
+			applyDataSourcesToTreemap(diagramProfile, result.warnings);
+		}
 
 		if (profileType === 'diagram' && dataContent) {
 			try {
 				const data = JSON.parse(dataContent);
-				if (profile.nodes) {
-					for (const node of profile.nodes) {
-						if (node.shape === 'sankeyChart') {
-							if (data[node.id]) {
-								node.data = data[node.id];
-							} else {
-								const dataKeys = Object.keys(data);
-								if (dataKeys.length > 0) {
-									node.data = data[dataKeys[0]];
-								}
+				if (Array.isArray(diagramProfile.nodes)) {
+					for (const node of diagramProfile.nodes) {
+						if (node.shape !== 'sankeyChart') continue;
+						if (data[node.id]) {
+							node.data = data[node.id];
+						} else {
+							const dataKeys = Object.keys(data);
+							if (dataKeys.length > 0) {
+								node.data = data[dataKeys[0]];
 							}
 						}
 					}
 				}
 			} catch {
-				// Ignore JSON parse errors for sankey injection
+				const rows = parseCsvToObjects(dataContent, {}, result.warnings, 'data panel');
+				if (rows && Array.isArray(diagramProfile.nodes)) {
+					for (const node of diagramProfile.nodes) {
+						if (node.shape !== 'sankeyChart') continue;
+						const sankeyData = buildSankeyDataFromRows(rows, result.warnings, 'data panel');
+						if (sankeyData) node.data = sankeyData;
+					}
+				}
 			}
 		}
 
 		if (profileType === 'wardley') {
-			result.svg = renderWardleyMap(profile as any).svg;
+			result.svg = renderWardleyMap(diagramProfile).svg;
 		} else if (profileType === 'sequence') {
-			result.svg = renderSequenceDiagram(profile as any).svg;
+			result.svg = renderSequenceDiagram(diagramProfile).svg;
 		} else if (profileType === 'timeline') {
-			result.svg = renderTimeline(profile as any).svg;
+			result.svg = renderTimeline(diagramProfile).svg;
 		} else if (profileType === 'kanban') {
-			result.svg = renderKanban(profile as any).svg;
+			result.svg = renderKanban(diagramProfile).svg;
 		} else if (profileType === 'gitgraph') {
-			result.svg = renderGitGraph(profile as any).svg;
+			result.svg = renderGitGraph(diagramProfile).svg;
 		} else if (profileType === 'treemap') {
-			result.svg = renderTreemap(profile as any).svg;
+			result.svg = renderTreemap(diagramProfile).svg;
+		} else if (profileType === 'pedigree') {
+			result.svg = renderPedigree(diagramProfile).svg;
 		} else if (
 			profileType === 'electrical' ||
 			profileType === 'pneumatic' ||
 			profileType === 'hydraulic' ||
-			profileType === 'hvac'
+			profileType === 'hvac' ||
+			profileType === 'control'
 		) {
-			result.svg = renderSchematic(profile as any).svg;
+			result.svg = renderSchematic(diagramProfile).svg;
 		} else if (profileType === 'pid') {
-			result.svg = renderPID(profile as any).svg;
+			result.svg = renderPID(diagramProfile).svg;
 		} else if (profileType === 'railroad') {
-			result.svg = renderRailroadDiagram(profile as any).svg;
+			result.svg = renderRailroadDiagram(diagramProfile).svg;
 		} else if (profileType === 'digital') {
-			result.svg = renderDigital(profile as any, {
+			result.svg = renderDigital(diagramProfile, {
 				gridSize: 50,
 				routing: 'orthogonal',
 				showNetLabels: true,
@@ -277,20 +162,19 @@ export async function renderDiagram(
 				showReferences: true
 			}).svg;
 		} else {
-			// Standard diagram with layout
 			const layoutAlgorithm = layoutRegistry.get(layoutEngine || 'elk');
-
 			if (!layoutAlgorithm) {
 				result.errors = [`Layout engine "${layoutEngine}" not found`];
 				return result;
 			}
 
-			const laidOutProfile = await layoutAlgorithm.layout(profile as any);
-			const renderResult = renderSvg(profile as any, laidOutProfile);
+			const laidOutProfile = await layoutAlgorithm.layout(diagramProfile);
+			const renderResult = renderSvg(diagramProfile, laidOutProfile);
 			result.svg = renderResult.svg;
 		}
 
 		result.renderTime = Math.round(performance.now() - renderStart);
+		result.success = !result.errors.length && !!result.svg;
 	} catch (error: any) {
 		result.errors = [error.message || String(error)];
 	}
@@ -309,12 +193,10 @@ export function attachInteractiveHandlers(
 ): void {
 	if (!svgContainer) return;
 
-	// Find the diagram SVG (not toolbar icon SVGs)
 	const allSvgs = svgContainer.querySelectorAll('svg');
 	let diagramSvg: SVGSVGElement | null = null;
 
 	for (const svg of allSvgs) {
-		// The diagram SVG contains elements with data-node-id or data-edge-id
 		if (svg.querySelector('[data-node-id], [data-edge-id]')) {
 			diagramSvg = svg as SVGSVGElement;
 			break;
@@ -323,7 +205,6 @@ export function attachInteractiveHandlers(
 
 	if (!diagramSvg) return;
 
-	// Attach event listeners to all interactive elements
 	const interactiveElements = diagramSvg.querySelectorAll(
 		'[data-node-id], [data-edge-id], [data-container-id]'
 	);
@@ -354,14 +235,10 @@ export function updateElementStyles(
 	if (!svgElement) return;
 
 	const attribute = isNode ? 'data-node-id' : 'data-edge-id';
-
-	// Handle edge ID suffix matching
 	let element: Element | null = null;
-	if (!isNode) {
-		// Try exact match first
-		element = svgElement.querySelector(`[${attribute}="${elementId}"]`);
 
-		// If not found, try suffix matching
+	if (!isNode) {
+		element = svgElement.querySelector(`[${attribute}="${elementId}"]`);
 		if (!element) {
 			const allEdges = svgElement.querySelectorAll(`[${attribute}]`);
 			for (const edge of allEdges) {
@@ -378,31 +255,15 @@ export function updateElementStyles(
 
 	if (!element) return;
 
-	// Apply styles based on element type
-	if (isNode) {
-		const rect = element.querySelector('rect, circle, ellipse, path');
-		const text = element.querySelector('text');
+	const mainElement = element.querySelector('rect, circle, ellipse, polygon, path, line, text');
+	if (!mainElement) return;
 
-		if (rect && styles.fillColor) {
-			rect.setAttribute('fill', styles.fillColor);
-		}
-		if (rect && styles.strokeColor) {
-			rect.setAttribute('stroke', styles.strokeColor);
-		}
-		if (rect && styles.strokeWidth) {
-			rect.setAttribute('stroke-width', styles.strokeWidth);
-		}
-		if (text && styles.textColor) {
-			text.setAttribute('fill', styles.textColor);
-		}
-	} else {
-		// Edge styling
-		const path = element.querySelector('path, line, polyline');
-		if (path && styles.strokeColor) {
-			path.setAttribute('stroke', styles.strokeColor);
-		}
-		if (path && styles.strokeWidth) {
-			path.setAttribute('stroke-width', styles.strokeWidth);
-		}
+	if (styles.fillColor) mainElement.setAttribute('fill', styles.fillColor);
+	if (styles.strokeColor) mainElement.setAttribute('stroke', styles.strokeColor);
+	if (styles.strokeWidth) mainElement.setAttribute('stroke-width', styles.strokeWidth);
+
+	if (styles.textColor) {
+		const textElements = element.querySelectorAll('text');
+		textElements.forEach((text) => text.setAttribute('fill', styles.textColor!));
 	}
 }

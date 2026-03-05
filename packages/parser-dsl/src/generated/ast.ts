@@ -98,6 +98,7 @@ export type RuniqKeywordNames =
     | "activity"
     | "activityFinal"
     | "actor"
+    | "adopt"
     | "affected:"
     | "aggregation"
     | "agitator"
@@ -159,6 +160,7 @@ export type RuniqKeywordNames =
     | "centerLabel"
     | "central"
     | "centralBuffer"
+    | "chart"
     | "child"
     | "childCountPosition:"
     | "children:"
@@ -248,6 +250,7 @@ export type RuniqKeywordNames =
     | "dehumidifier"
     | "delimiter"
     | "dependency"
+    | "depends"
     | "depth:"
     | "depthIndicatorStyle:"
     | "derived:"
@@ -265,6 +268,8 @@ export type RuniqKeywordNames =
     | "distillationColumn"
     | "distribution:"
     | "doActivity:"
+    | "dob:"
+    | "dod:"
     | "done"
     | "dotted"
     | "double"
@@ -305,8 +310,11 @@ export type RuniqKeywordNames =
     | "extensionPoints:"
     | "f"
     | "false"
+    | "families"
     | "fan"
+    | "fbd"
     | "feedforward"
+    | "female"
     | "field"
     | "fill-available"
     | "fillColor:"
@@ -340,6 +348,7 @@ export type RuniqKeywordNames =
     | "foreach"
     | "forest"
     | "format"
+    | "format:"
     | "found"
     | "fragment"
     | "frame"
@@ -391,6 +400,7 @@ export type RuniqKeywordNames =
     | "iconColor:"
     | "iconSize:"
     | "id"
+    | "id:"
     | "if"
     | "image"
     | "images"
@@ -419,8 +429,12 @@ export type RuniqKeywordNames =
     | "knockoutDrum"
     | "label"
     | "label:"
+    | "labelColors:"
     | "labelPosition:"
     | "labels:"
+    | "ladder"
+    | "lane"
+    | "lane:"
     | "layered"
     | "layout"
     | "layoutCache:"
@@ -449,6 +463,7 @@ export type RuniqKeywordNames =
     | "lineStyle:"
     | "linear"
     | "link:"
+    | "links"
     | "local"
     | "location:"
     | "loop"
@@ -456,7 +471,9 @@ export type RuniqKeywordNames =
     | "lost"
     | "low"
     | "m"
+    | "male"
     | "manual"
+    | "map"
     | "map:"
     | "margin:"
     | "marginBottom:"
@@ -479,6 +496,8 @@ export type RuniqKeywordNames =
     | "metricPosition:"
     | "metricType:"
     | "middle"
+    | "milestone"
+    | "milestones"
     | "min"
     | "minHeight:"
     | "minResizeHeight:"
@@ -505,6 +524,7 @@ export type RuniqKeywordNames =
     | "net"
     | "node"
     | "nodeSpacing:"
+    | "nodes"
     | "noise"
     | "none"
     | "note"
@@ -549,6 +569,8 @@ export type RuniqKeywordNames =
     | "partial"
     | "participant"
     | "participants:"
+    | "pedigree"
+    | "people"
     | "period"
     | "person"
     | "personnel_protection"
@@ -630,6 +652,7 @@ export type RuniqKeywordNames =
     | "runiq"
     | "ruptureDisk"
     | "s"
+    | "sankey"
     | "schedule:"
     | "schematic"
     | "se"
@@ -641,8 +664,11 @@ export type RuniqKeywordNames =
     | "separator"
     | "separatorHorizontal"
     | "sequence"
+    | "series"
     | "setpoint:"
     | "settings"
+    | "sex:"
+    | "sfc"
     | "shadow:"
     | "shape"
     | "shape:"
@@ -712,6 +738,8 @@ export type RuniqKeywordNames =
     | "tag:"
     | "tags:"
     | "target"
+    | "task"
+    | "tasks"
     | "team"
     | "temp:"
     | "temperature"
@@ -754,6 +782,8 @@ export type RuniqKeywordNames =
     | "type:"
     | "unit:"
     | "units"
+    | "unknown"
+    | "use"
     | "useContainers"
     | "utility"
     | "vGap:"
@@ -775,6 +805,7 @@ export type RuniqKeywordNames =
     | "valveSafetyRelief"
     | "valveShutoff"
     | "valveThreeWay"
+    | "variant"
     | "vav-box"
     | "vertical"
     | "verticalAlign:"
@@ -1167,7 +1198,7 @@ export function isConnectionPoint(item: unknown): item is ConnectionPoint {
 export interface ContainerBlock extends langium.AstNode {
     readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
     readonly $type: 'ContainerBlock';
-    id?: DiagramIdentifier;
+    id?: string;
     label: string;
     properties: Array<ContainerProperty>;
     shape?: FlexibleID | string;
@@ -1421,10 +1452,58 @@ export function isControlMode(item: unknown): item is ControlMode {
     return item === 'manual' || item === 'auto' || item === 'cascade' || item === 'ratio' || item === 'feedforward';
 }
 
+export interface ControlProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'ControlProfile';
+    name: string;
+    statements: Array<ControlStatement>;
+}
+
+export const ControlProfile = {
+    $type: 'ControlProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isControlProfile(item: unknown): item is ControlProfile {
+    return reflection.isInstance(item, ControlProfile.$type);
+}
+
+export type ControlStatement = ControlVariantStatement | NetStatement | PartStatement;
+
+export const ControlStatement = {
+    $type: 'ControlStatement'
+} as const;
+
+export function isControlStatement(item: unknown): item is ControlStatement {
+    return reflection.isInstance(item, ControlStatement.$type);
+}
+
 export type ControlVariable = 'composition' | 'conductivity' | 'flow' | 'level' | 'ph' | 'pressure' | 'speed' | 'temperature';
 
 export function isControlVariable(item: unknown): item is ControlVariable {
     return item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed';
+}
+
+export type ControlVariant = 'fbd' | 'ladder' | 'sfc';
+
+export function isControlVariant(item: unknown): item is ControlVariant {
+    return item === 'ladder' || item === 'fbd' || item === 'sfc';
+}
+
+export interface ControlVariantStatement extends langium.AstNode {
+    readonly $container: ControlProfile;
+    readonly $type: 'ControlVariantStatement';
+    variant: ControlVariant;
+}
+
+export const ControlVariantStatement = {
+    $type: 'ControlVariantStatement',
+    variant: 'variant'
+} as const;
+
+export function isControlVariantStatement(item: unknown): item is ControlVariantStatement {
+    return reflection.isInstance(item, ControlVariantStatement.$type);
 }
 
 export interface DataArray extends langium.AstNode {
@@ -1450,6 +1529,54 @@ export const DataItem = {
 
 export function isDataItem(item: unknown): item is DataItem {
     return reflection.isInstance(item, DataItem.$type);
+}
+
+export type DataMapKeyWithColon = 'color:' | 'endDate:' | 'format:' | 'from:' | 'id:' | 'key:' | 'label:' | 'name:' | 'source:' | 'startDate:' | 'to:' | 'value:';
+
+export function isDataMapKeyWithColon(item: unknown): item is DataMapKeyWithColon {
+    return item === 'label:' || item === 'name:' || item === 'id:' || item === 'value:' || item === 'format:' || item === 'color:' || item === 'source:' || item === 'key:' || item === 'from:' || item === 'to:' || item === 'startDate:' || item === 'endDate:';
+}
+
+export interface DataMapProperty extends langium.AstNode {
+    readonly $container: DataMapStatement;
+    readonly $type: 'DataMapProperty';
+    key: DataMapKeyWithColon | FlexibleID;
+    value: string;
+}
+
+export const DataMapProperty = {
+    $type: 'DataMapProperty',
+    key: 'key',
+    value: 'value'
+} as const;
+
+export function isDataMapProperty(item: unknown): item is DataMapProperty {
+    return reflection.isInstance(item, DataMapProperty.$type);
+}
+
+export interface DataMapStatement extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock | TimelineProfile | TreemapProfile;
+    readonly $type: 'DataMapStatement';
+    properties: Array<DataMapProperty>;
+    source: DiagramIdentifier;
+    target: DataMapTarget;
+}
+
+export const DataMapStatement = {
+    $type: 'DataMapStatement',
+    properties: 'properties',
+    source: 'source',
+    target: 'target'
+} as const;
+
+export function isDataMapStatement(item: unknown): item is DataMapStatement {
+    return reflection.isInstance(item, DataMapStatement.$type);
+}
+
+export type DataMapTarget = 'chart' | 'events' | 'milestones' | 'sankey' | 'tasks' | 'timeline' | 'treemap';
+
+export function isDataMapTarget(item: unknown): item is DataMapTarget {
+    return item === 'timeline' || item === 'events' || item === 'tasks' || item === 'milestones' || item === 'sankey' || item === 'treemap' || item === 'chart';
 }
 
 export interface DataObject extends langium.AstNode {
@@ -1500,7 +1627,7 @@ export function isDataProperty(item: unknown): item is DataProperty {
 }
 
 export interface DataSourceDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GroupBlock;
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock | TimelineProfile | TreemapProfile;
     readonly $type: 'DataSourceDeclaration';
     format: string;
     key: DiagramIdentifier;
@@ -1535,6 +1662,36 @@ export const DataSourceOption = {
 
 export function isDataSourceOption(item: unknown): item is DataSourceOption {
     return reflection.isInstance(item, DataSourceOption.$type);
+}
+
+export interface DataSourceRefProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'DataSourceRefProperty';
+    source: DiagramIdentifier;
+}
+
+export const DataSourceRefProperty = {
+    $type: 'DataSourceRefProperty',
+    source: 'source'
+} as const;
+
+export function isDataSourceRefProperty(item: unknown): item is DataSourceRefProperty {
+    return reflection.isInstance(item, DataSourceRefProperty.$type);
+}
+
+export interface DataUseStatement extends langium.AstNode {
+    readonly $container: ContainerBlock | DiagramProfile | GroupBlock | TimelineProfile | TreemapProfile;
+    readonly $type: 'DataUseStatement';
+    source: DiagramIdentifier;
+}
+
+export const DataUseStatement = {
+    $type: 'DataUseStatement',
+    source: 'source'
+} as const;
+
+export function isDataUseStatement(item: unknown): item is DataUseStatement {
+    return reflection.isInstance(item, DataUseStatement.$type);
 }
 
 export interface DataValue extends langium.AstNode {
@@ -1596,7 +1753,7 @@ export function isDiagramProfile(item: unknown): item is DiagramProfile {
     return reflection.isInstance(item, DiagramProfile.$type);
 }
 
-export type DiagramStatement = ContainerBlock | DataSourceDeclaration | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock | ThemeDeclaration;
+export type DiagramStatement = ContainerBlock | DataMapStatement | DataSourceDeclaration | DataUseStatement | DirectionDeclaration | EdgeDeclaration | ForEachBlock | GroupBlock | PresetBlock | RoutingDeclaration | ShapeDeclaration | StyleDeclaration | TemplateBlock | ThemeDeclaration;
 
 export const DiagramStatement = {
     $type: 'DiagramStatement'
@@ -1946,10 +2103,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'end' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'loop' | 'm' | 'member' | 'mobile' | 'name' | 'node' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'team' | 'temperature' | 'to' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'chart' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'events' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'links' | 'loop' | 'm' | 'member' | 'milestones' | 'mobile' | 'name' | 'node' | 'nodes' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'sankey' | 'series' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'tasks' | 'team' | 'temperature' | 'to' | 'treemap' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'tasks' || item === 'milestones' || item === 'events' || item === 'nodes' || item === 'links' || item === 'series' || item === 'treemap' || item === 'sankey' || item === 'chart' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -2925,6 +3082,21 @@ export function isHydraulicStatement(item: unknown): item is HydraulicStatement 
     return reflection.isInstance(item, HydraulicStatement.$type);
 }
 
+export interface IconColorProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'IconColorProperty';
+    color: string;
+}
+
+export const IconColorProperty = {
+    $type: 'IconColorProperty',
+    color: 'color'
+} as const;
+
+export function isIconColorProperty(item: unknown): item is IconColorProperty {
+    return reflection.isInstance(item, IconColorProperty.$type);
+}
+
 export interface IconProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'IconProperty';
@@ -2940,6 +3112,21 @@ export const IconProperty = {
 
 export function isIconProperty(item: unknown): item is IconProperty {
     return reflection.isInstance(item, IconProperty.$type);
+}
+
+export interface IconSizeProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'IconSizeProperty';
+    size: string;
+}
+
+export const IconSizeProperty = {
+    $type: 'IconSizeProperty',
+    size: 'size'
+} as const;
+
+export function isIconSizeProperty(item: unknown): item is IconSizeProperty {
+    return reflection.isInstance(item, IconSizeProperty.$type);
 }
 
 export interface InputPinsProperty extends langium.AstNode {
@@ -3368,6 +3555,21 @@ export const KanbanWipProperty = {
 
 export function isKanbanWipProperty(item: unknown): item is KanbanWipProperty {
     return reflection.isInstance(item, KanbanWipProperty.$type);
+}
+
+export interface LabelColorsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'LabelColorsProperty';
+    value: StringArray;
+}
+
+export const LabelColorsProperty = {
+    $type: 'LabelColorsProperty',
+    value: 'value'
+} as const;
+
+export function isLabelColorsProperty(item: unknown): item is LabelColorsProperty {
+    return reflection.isInstance(item, LabelColorsProperty.$type);
 }
 
 export type LabelPositionValue = 'bottom' | 'left' | 'right' | 'top';
@@ -3832,7 +4034,7 @@ export function isNetDecl(item: unknown): item is NetDecl {
 }
 
 export interface NetStatement extends langium.AstNode {
-    readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
+    readonly $container: ControlProfile | ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'NetStatement';
     names: Array<ProfileIdentifier>;
 }
@@ -3846,7 +4048,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconProperty | InputPinsProperty | IntersectionsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InputPinsProperty | IntersectionsProperty | LabelColorsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -4031,7 +4233,7 @@ export function isPartSourceProperty(item: unknown): item is PartSourceProperty 
 }
 
 export interface PartStatement extends langium.AstNode {
-    readonly $container: ElectricalProfile | HydraulicProfile | PneumaticProfile;
+    readonly $container: ControlProfile | ElectricalProfile | HydraulicProfile | PneumaticProfile;
     readonly $type: 'PartStatement';
     properties: Array<PartProperty>;
     ref: ProfileIdentifier;
@@ -4075,6 +4277,177 @@ export const PartValueProperty = {
 
 export function isPartValueProperty(item: unknown): item is PartValueProperty {
     return reflection.isInstance(item, PartValueProperty.$type);
+}
+
+export type PedigreeChildModifier = 'adopt' | 'step';
+
+export function isPedigreeChildModifier(item: unknown): item is PedigreeChildModifier {
+    return item === 'adopt' || item === 'step';
+}
+
+export interface PedigreeChildRef extends langium.AstNode {
+    readonly $container: PedigreeFamilyDecl;
+    readonly $type: 'PedigreeChildRef';
+    id: ProfileIdentifier;
+    modifier?: PedigreeChildModifier;
+}
+
+export const PedigreeChildRef = {
+    $type: 'PedigreeChildRef',
+    id: 'id',
+    modifier: 'modifier'
+} as const;
+
+export function isPedigreeChildRef(item: unknown): item is PedigreeChildRef {
+    return reflection.isInstance(item, PedigreeChildRef.$type);
+}
+
+export interface PedigreeFamiliesBlock extends langium.AstNode {
+    readonly $container: PedigreeProfile;
+    readonly $type: 'PedigreeFamiliesBlock';
+    families: Array<PedigreeFamilyDecl>;
+}
+
+export const PedigreeFamiliesBlock = {
+    $type: 'PedigreeFamiliesBlock',
+    families: 'families'
+} as const;
+
+export function isPedigreeFamiliesBlock(item: unknown): item is PedigreeFamiliesBlock {
+    return reflection.isInstance(item, PedigreeFamiliesBlock.$type);
+}
+
+export interface PedigreeFamilyDecl extends langium.AstNode {
+    readonly $container: PedigreeFamiliesBlock;
+    readonly $type: 'PedigreeFamilyDecl';
+    children: Array<PedigreeChildRef>;
+    date?: string;
+    parents: Array<ProfileIdentifier>;
+}
+
+export const PedigreeFamilyDecl = {
+    $type: 'PedigreeFamilyDecl',
+    children: 'children',
+    date: 'date',
+    parents: 'parents'
+} as const;
+
+export function isPedigreeFamilyDecl(item: unknown): item is PedigreeFamilyDecl {
+    return reflection.isInstance(item, PedigreeFamilyDecl.$type);
+}
+
+export interface PedigreePeopleBlock extends langium.AstNode {
+    readonly $container: PedigreeProfile;
+    readonly $type: 'PedigreePeopleBlock';
+    people: Array<PedigreePersonDecl>;
+}
+
+export const PedigreePeopleBlock = {
+    $type: 'PedigreePeopleBlock',
+    people: 'people'
+} as const;
+
+export function isPedigreePeopleBlock(item: unknown): item is PedigreePeopleBlock {
+    return reflection.isInstance(item, PedigreePeopleBlock.$type);
+}
+
+export interface PedigreePersonDecl extends langium.AstNode {
+    readonly $container: PedigreePeopleBlock;
+    readonly $type: 'PedigreePersonDecl';
+    id: ProfileIdentifier;
+    name: string;
+    properties: Array<PedigreePersonProperty>;
+}
+
+export const PedigreePersonDecl = {
+    $type: 'PedigreePersonDecl',
+    id: 'id',
+    name: 'name',
+    properties: 'properties'
+} as const;
+
+export function isPedigreePersonDecl(item: unknown): item is PedigreePersonDecl {
+    return reflection.isInstance(item, PedigreePersonDecl.$type);
+}
+
+export interface PedigreePersonDobProperty extends langium.AstNode {
+    readonly $container: PedigreePersonDecl;
+    readonly $type: 'PedigreePersonDobProperty';
+    dob: string;
+}
+
+export const PedigreePersonDobProperty = {
+    $type: 'PedigreePersonDobProperty',
+    dob: 'dob'
+} as const;
+
+export function isPedigreePersonDobProperty(item: unknown): item is PedigreePersonDobProperty {
+    return reflection.isInstance(item, PedigreePersonDobProperty.$type);
+}
+
+export interface PedigreePersonDodProperty extends langium.AstNode {
+    readonly $container: PedigreePersonDecl;
+    readonly $type: 'PedigreePersonDodProperty';
+    dod: string;
+}
+
+export const PedigreePersonDodProperty = {
+    $type: 'PedigreePersonDodProperty',
+    dod: 'dod'
+} as const;
+
+export function isPedigreePersonDodProperty(item: unknown): item is PedigreePersonDodProperty {
+    return reflection.isInstance(item, PedigreePersonDodProperty.$type);
+}
+
+export type PedigreePersonProperty = PedigreePersonDobProperty | PedigreePersonDodProperty | PedigreePersonSexProperty;
+
+export const PedigreePersonProperty = {
+    $type: 'PedigreePersonProperty'
+} as const;
+
+export function isPedigreePersonProperty(item: unknown): item is PedigreePersonProperty {
+    return reflection.isInstance(item, PedigreePersonProperty.$type);
+}
+
+export interface PedigreePersonSexProperty extends langium.AstNode {
+    readonly $container: PedigreePersonDecl;
+    readonly $type: 'PedigreePersonSexProperty';
+    sex: PedigreeSexValue;
+}
+
+export const PedigreePersonSexProperty = {
+    $type: 'PedigreePersonSexProperty',
+    sex: 'sex'
+} as const;
+
+export function isPedigreePersonSexProperty(item: unknown): item is PedigreePersonSexProperty {
+    return reflection.isInstance(item, PedigreePersonSexProperty.$type);
+}
+
+export interface PedigreeProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'PedigreeProfile';
+    familiesBlock?: PedigreeFamiliesBlock;
+    name: string;
+    peopleBlock?: PedigreePeopleBlock;
+}
+
+export const PedigreeProfile = {
+    $type: 'PedigreeProfile',
+    familiesBlock: 'familiesBlock',
+    name: 'name',
+    peopleBlock: 'peopleBlock'
+} as const;
+
+export function isPedigreeProfile(item: unknown): item is PedigreeProfile {
+    return reflection.isInstance(item, PedigreeProfile.$type);
+}
+
+export type PedigreeSexValue = 'female' | 'male' | 'unknown';
+
+export function isPedigreeSexValue(item: unknown): item is PedigreeSexValue {
+    return item === 'male' || item === 'female' || item === 'unknown';
 }
 
 export interface PIDAccuracyProperty extends langium.AstNode {
@@ -4711,7 +5084,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
+export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PedigreeProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -5611,10 +5984,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'callout' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || item === 'callout' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -5716,7 +6089,7 @@ export function isStereotypeProperty(item: unknown): item is StereotypeProperty 
 }
 
 export interface StringArray extends langium.AstNode {
-    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | KanbanTagsProperty | LabelsProperty | OutputPinsProperty;
+    readonly $container: ColorsProperty | ExtensionPointsProperty | InputPinsProperty | IntersectionsProperty | KanbanTagsProperty | LabelColorsProperty | LabelsProperty | OutputPinsProperty;
     readonly $type: 'StringArray';
     items: Array<string>;
 }
@@ -6091,7 +6464,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TreemapProfile;
+    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TimelineProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -6112,7 +6485,7 @@ export function isThemeValue(item: unknown): item is ThemeValue {
 }
 
 export interface TimelineColorProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement | TimelinePeriodStatement;
+    readonly $container: TimelineEventStatement | TimelineLaneStatement | TimelinePeriodStatement;
     readonly $type: 'TimelineColorProperty';
     color: string;
 }
@@ -6127,7 +6500,7 @@ export function isTimelineColorProperty(item: unknown): item is TimelineColorPro
 }
 
 export interface TimelineDateProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement;
+    readonly $container: TimelineEventStatement | TimelineMilestoneStatement;
     readonly $type: 'TimelineDateProperty';
     date: string;
 }
@@ -6141,8 +6514,25 @@ export function isTimelineDateProperty(item: unknown): item is TimelineDatePrope
     return reflection.isInstance(item, TimelineDateProperty.$type);
 }
 
+export interface TimelineDependencyStatement extends langium.AstNode {
+    readonly $container: TimelineProfile;
+    readonly $type: 'TimelineDependencyStatement';
+    from: TimelineIdentifier;
+    to: TimelineIdentifier;
+}
+
+export const TimelineDependencyStatement = {
+    $type: 'TimelineDependencyStatement',
+    from: 'from',
+    to: 'to'
+} as const;
+
+export function isTimelineDependencyStatement(item: unknown): item is TimelineDependencyStatement {
+    return reflection.isInstance(item, TimelineDependencyStatement.$type);
+}
+
 export interface TimelineDescriptionProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement;
+    readonly $container: TimelineEventStatement | TimelineMilestoneStatement | TimelineTaskStatement;
     readonly $type: 'TimelineDescriptionProperty';
     description: string;
 }
@@ -6157,7 +6547,7 @@ export function isTimelineDescriptionProperty(item: unknown): item is TimelineDe
 }
 
 export interface TimelineEndDateProperty extends langium.AstNode {
-    readonly $container: TimelinePeriodStatement;
+    readonly $container: TimelinePeriodStatement | TimelineTaskStatement;
     readonly $type: 'TimelineEndDateProperty';
     endDate: string;
 }
@@ -6198,6 +6588,21 @@ export function isTimelineEventStatement(item: unknown): item is TimelineEventSt
     return reflection.isInstance(item, TimelineEventStatement.$type);
 }
 
+export interface TimelineFillColorProperty extends langium.AstNode {
+    readonly $container: TimelineLaneStatement | TimelineMilestoneStatement | TimelinePeriodStatement | TimelineTaskStatement;
+    readonly $type: 'TimelineFillColorProperty';
+    color: string;
+}
+
+export const TimelineFillColorProperty = {
+    $type: 'TimelineFillColorProperty',
+    color: 'color'
+} as const;
+
+export function isTimelineFillColorProperty(item: unknown): item is TimelineFillColorProperty {
+    return reflection.isInstance(item, TimelineFillColorProperty.$type);
+}
+
 export interface TimelineIconProperty extends langium.AstNode {
     readonly $container: TimelineEventStatement;
     readonly $type: 'TimelineIconProperty';
@@ -6220,7 +6625,7 @@ export function isTimelineIdentifier(item: unknown): item is TimelineIdentifier 
 }
 
 export interface TimelineLabelProperty extends langium.AstNode {
-    readonly $container: TimelineEventStatement | TimelinePeriodStatement;
+    readonly $container: TimelineEventStatement | TimelineLaneStatement | TimelineMilestoneStatement | TimelinePeriodStatement | TimelineTaskStatement;
     readonly $type: 'TimelineLabelProperty';
     label: string;
 }
@@ -6232,6 +6637,87 @@ export const TimelineLabelProperty = {
 
 export function isTimelineLabelProperty(item: unknown): item is TimelineLabelProperty {
     return reflection.isInstance(item, TimelineLabelProperty.$type);
+}
+
+export type TimelineLaneProperty = TimelineColorProperty | TimelineFillColorProperty | TimelineLabelProperty;
+
+export const TimelineLaneProperty = {
+    $type: 'TimelineLaneProperty'
+} as const;
+
+export function isTimelineLaneProperty(item: unknown): item is TimelineLaneProperty {
+    return reflection.isInstance(item, TimelineLaneProperty.$type);
+}
+
+export interface TimelineLaneRefProperty extends langium.AstNode {
+    readonly $container: TimelineMilestoneStatement | TimelineTaskStatement;
+    readonly $type: 'TimelineLaneRefProperty';
+    lane: TimelineIdentifier;
+}
+
+export const TimelineLaneRefProperty = {
+    $type: 'TimelineLaneRefProperty',
+    lane: 'lane'
+} as const;
+
+export function isTimelineLaneRefProperty(item: unknown): item is TimelineLaneRefProperty {
+    return reflection.isInstance(item, TimelineLaneRefProperty.$type);
+}
+
+export interface TimelineLaneStatement extends langium.AstNode {
+    readonly $container: TimelineProfile;
+    readonly $type: 'TimelineLaneStatement';
+    id: TimelineIdentifier;
+    properties: Array<TimelineLaneProperty>;
+    statements: Array<TimelineLaneStatementItem>;
+}
+
+export const TimelineLaneStatement = {
+    $type: 'TimelineLaneStatement',
+    id: 'id',
+    properties: 'properties',
+    statements: 'statements'
+} as const;
+
+export function isTimelineLaneStatement(item: unknown): item is TimelineLaneStatement {
+    return reflection.isInstance(item, TimelineLaneStatement.$type);
+}
+
+export type TimelineLaneStatementItem = TimelineMilestoneStatement | TimelineTaskStatement;
+
+export const TimelineLaneStatementItem = {
+    $type: 'TimelineLaneStatementItem'
+} as const;
+
+export function isTimelineLaneStatementItem(item: unknown): item is TimelineLaneStatementItem {
+    return reflection.isInstance(item, TimelineLaneStatementItem.$type);
+}
+
+export type TimelineMilestoneProperty = TimelineDateProperty | TimelineDescriptionProperty | TimelineFillColorProperty | TimelineLabelProperty | TimelineLaneRefProperty;
+
+export const TimelineMilestoneProperty = {
+    $type: 'TimelineMilestoneProperty'
+} as const;
+
+export function isTimelineMilestoneProperty(item: unknown): item is TimelineMilestoneProperty {
+    return reflection.isInstance(item, TimelineMilestoneProperty.$type);
+}
+
+export interface TimelineMilestoneStatement extends langium.AstNode {
+    readonly $container: TimelineLaneStatement | TimelineProfile;
+    readonly $type: 'TimelineMilestoneStatement';
+    id: TimelineIdentifier;
+    properties: Array<TimelineMilestoneProperty>;
+}
+
+export const TimelineMilestoneStatement = {
+    $type: 'TimelineMilestoneStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isTimelineMilestoneStatement(item: unknown): item is TimelineMilestoneStatement {
+    return reflection.isInstance(item, TimelineMilestoneStatement.$type);
 }
 
 export interface TimelineOpacityProperty extends langium.AstNode {
@@ -6270,7 +6756,7 @@ export function isTimelineOrientationStatement(item: unknown): item is TimelineO
     return reflection.isInstance(item, TimelineOrientationStatement.$type);
 }
 
-export type TimelinePeriodProperty = TimelineColorProperty | TimelineEndDateProperty | TimelineLabelProperty | TimelineOpacityProperty | TimelineStartDateProperty;
+export type TimelinePeriodProperty = TimelineColorProperty | TimelineEndDateProperty | TimelineFillColorProperty | TimelineLabelProperty | TimelineOpacityProperty | TimelineStartDateProperty;
 
 export const TimelinePeriodProperty = {
     $type: 'TimelinePeriodProperty'
@@ -6336,7 +6822,7 @@ export function isTimelineProfile(item: unknown): item is TimelineProfile {
 }
 
 export interface TimelineStartDateProperty extends langium.AstNode {
-    readonly $container: TimelinePeriodStatement;
+    readonly $container: TimelinePeriodStatement | TimelineTaskStatement;
     readonly $type: 'TimelineStartDateProperty';
     startDate: string;
 }
@@ -6350,7 +6836,7 @@ export function isTimelineStartDateProperty(item: unknown): item is TimelineStar
     return reflection.isInstance(item, TimelineStartDateProperty.$type);
 }
 
-export type TimelineStatement = TimelineEventStatement | TimelineOrientationStatement | TimelinePeriodStatement;
+export type TimelineStatement = DataMapStatement | DataSourceDeclaration | DataUseStatement | ThemeDeclaration | TimelineDependencyStatement | TimelineEventStatement | TimelineLaneStatement | TimelineMilestoneStatement | TimelineOrientationStatement | TimelinePeriodStatement | TimelineTaskStatement;
 
 export const TimelineStatement = {
     $type: 'TimelineStatement'
@@ -6358,6 +6844,33 @@ export const TimelineStatement = {
 
 export function isTimelineStatement(item: unknown): item is TimelineStatement {
     return reflection.isInstance(item, TimelineStatement.$type);
+}
+
+export type TimelineTaskProperty = TimelineDescriptionProperty | TimelineEndDateProperty | TimelineFillColorProperty | TimelineLabelProperty | TimelineLaneRefProperty | TimelineStartDateProperty;
+
+export const TimelineTaskProperty = {
+    $type: 'TimelineTaskProperty'
+} as const;
+
+export function isTimelineTaskProperty(item: unknown): item is TimelineTaskProperty {
+    return reflection.isInstance(item, TimelineTaskProperty.$type);
+}
+
+export interface TimelineTaskStatement extends langium.AstNode {
+    readonly $container: TimelineLaneStatement | TimelineProfile;
+    readonly $type: 'TimelineTaskStatement';
+    id: TimelineIdentifier;
+    properties: Array<TimelineTaskProperty>;
+}
+
+export const TimelineTaskStatement = {
+    $type: 'TimelineTaskStatement',
+    id: 'id',
+    properties: 'properties'
+} as const;
+
+export function isTimelineTaskStatement(item: unknown): item is TimelineTaskStatement {
+    return reflection.isInstance(item, TimelineTaskStatement.$type);
 }
 
 export interface TitleProperty extends langium.AstNode {
@@ -6564,7 +7077,7 @@ export function isTreemapShowValuesStatement(item: unknown): item is TreemapShow
     return reflection.isInstance(item, TreemapShowValuesStatement.$type);
 }
 
-export type TreemapStatement = ThemeDeclaration | TreemapGapStatement | TreemapGroupBlock | TreemapItemStatement | TreemapLayoutStatement | TreemapPaddingStatement | TreemapShowLegendStatement | TreemapShowValuesStatement;
+export type TreemapStatement = DataMapStatement | DataSourceDeclaration | DataUseStatement | ThemeDeclaration | TreemapGapStatement | TreemapGroupBlock | TreemapItemStatement | TreemapLayoutStatement | TreemapPaddingStatement | TreemapShowLegendStatement | TreemapShowValuesStatement;
 
 export const TreemapStatement = {
     $type: 'TreemapStatement'
@@ -6853,13 +7366,20 @@ export type RuniqAstType = {
     ContainerProperty: ContainerProperty
     ContainerStyleProperty: ContainerStyleProperty
     ContainerTypeProperty: ContainerTypeProperty
+    ControlProfile: ControlProfile
+    ControlStatement: ControlStatement
+    ControlVariantStatement: ControlVariantStatement
     DataArray: DataArray
     DataItem: DataItem
+    DataMapProperty: DataMapProperty
+    DataMapStatement: DataMapStatement
     DataObject: DataObject
     DataObjectProperty: DataObjectProperty
     DataProperty: DataProperty
     DataSourceDeclaration: DataSourceDeclaration
     DataSourceOption: DataSourceOption
+    DataSourceRefProperty: DataSourceRefProperty
+    DataUseStatement: DataUseStatement
     DataValue: DataValue
     DeceasedProperty: DeceasedProperty
     DiagramProfile: DiagramProfile
@@ -6943,7 +7463,9 @@ export type RuniqAstType = {
     HvacStatement: HvacStatement
     HydraulicProfile: HydraulicProfile
     HydraulicStatement: HydraulicStatement
+    IconColorProperty: IconColorProperty
     IconProperty: IconProperty
+    IconSizeProperty: IconSizeProperty
     InputPinsProperty: InputPinsProperty
     InstMapProperty: InstMapProperty
     InstOfProperty: InstOfProperty
@@ -6971,6 +7493,7 @@ export type RuniqAstType = {
     KanbanTagsProperty: KanbanTagsProperty
     KanbanTextColorProperty: KanbanTextColorProperty
     KanbanWipProperty: KanbanWipProperty
+    LabelColorsProperty: LabelColorsProperty
     LabelProperty: LabelProperty
     LabelsProperty: LabelsProperty
     LegendPositionProperty: LegendPositionProperty
@@ -7046,6 +7569,16 @@ export type RuniqAstType = {
     PartStatement: PartStatement
     PartTypeProperty: PartTypeProperty
     PartValueProperty: PartValueProperty
+    PedigreeChildRef: PedigreeChildRef
+    PedigreeFamiliesBlock: PedigreeFamiliesBlock
+    PedigreeFamilyDecl: PedigreeFamilyDecl
+    PedigreePeopleBlock: PedigreePeopleBlock
+    PedigreePersonDecl: PedigreePersonDecl
+    PedigreePersonDobProperty: PedigreePersonDobProperty
+    PedigreePersonDodProperty: PedigreePersonDodProperty
+    PedigreePersonProperty: PedigreePersonProperty
+    PedigreePersonSexProperty: PedigreePersonSexProperty
+    PedigreeProfile: PedigreeProfile
     PneumaticProfile: PneumaticProfile
     PneumaticStatement: PneumaticStatement
     PortConnection: PortConnection
@@ -7140,12 +7673,20 @@ export type RuniqAstType = {
     ThemeDeclaration: ThemeDeclaration
     TimelineColorProperty: TimelineColorProperty
     TimelineDateProperty: TimelineDateProperty
+    TimelineDependencyStatement: TimelineDependencyStatement
     TimelineDescriptionProperty: TimelineDescriptionProperty
     TimelineEndDateProperty: TimelineEndDateProperty
     TimelineEventProperty: TimelineEventProperty
     TimelineEventStatement: TimelineEventStatement
+    TimelineFillColorProperty: TimelineFillColorProperty
     TimelineIconProperty: TimelineIconProperty
     TimelineLabelProperty: TimelineLabelProperty
+    TimelineLaneProperty: TimelineLaneProperty
+    TimelineLaneRefProperty: TimelineLaneRefProperty
+    TimelineLaneStatement: TimelineLaneStatement
+    TimelineLaneStatementItem: TimelineLaneStatementItem
+    TimelineMilestoneProperty: TimelineMilestoneProperty
+    TimelineMilestoneStatement: TimelineMilestoneStatement
     TimelineOpacityProperty: TimelineOpacityProperty
     TimelineOrientationStatement: TimelineOrientationStatement
     TimelinePeriodProperty: TimelinePeriodProperty
@@ -7154,6 +7695,8 @@ export type RuniqAstType = {
     TimelineProfile: TimelineProfile
     TimelineStartDateProperty: TimelineStartDateProperty
     TimelineStatement: TimelineStatement
+    TimelineTaskProperty: TimelineTaskProperty
+    TimelineTaskStatement: TimelineTaskStatement
     TitleProperty: TitleProperty
     TooltipProperty: TooltipProperty
     TreemapColorProperty: TreemapColorProperty
@@ -7666,6 +8209,34 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [ContainerProperty.$type]
         },
+        ControlProfile: {
+            name: ControlProfile.$type,
+            properties: {
+                name: {
+                    name: ControlProfile.name
+                },
+                statements: {
+                    name: ControlProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        ControlStatement: {
+            name: ControlStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        ControlVariantStatement: {
+            name: ControlVariantStatement.$type,
+            properties: {
+                variant: {
+                    name: ControlVariantStatement.variant
+                }
+            },
+            superTypes: [ControlStatement.$type]
+        },
         DataArray: {
             name: DataArray.$type,
             properties: {
@@ -7681,6 +8252,34 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
             },
             superTypes: []
+        },
+        DataMapProperty: {
+            name: DataMapProperty.$type,
+            properties: {
+                key: {
+                    name: DataMapProperty.key
+                },
+                value: {
+                    name: DataMapProperty.value
+                }
+            },
+            superTypes: []
+        },
+        DataMapStatement: {
+            name: DataMapStatement.$type,
+            properties: {
+                properties: {
+                    name: DataMapStatement.properties,
+                    defaultValue: []
+                },
+                source: {
+                    name: DataMapStatement.source
+                },
+                target: {
+                    name: DataMapStatement.target
+                }
+            },
+            superTypes: [DiagramStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         DataObject: {
             name: DataObject.$type,
@@ -7731,7 +8330,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: DataSourceDeclaration.source
                 }
             },
-            superTypes: [DiagramStatement.$type]
+            superTypes: [DiagramStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         DataSourceOption: {
             name: DataSourceOption.$type,
@@ -7744,6 +8343,24 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: []
+        },
+        DataSourceRefProperty: {
+            name: DataSourceRefProperty.$type,
+            properties: {
+                source: {
+                    name: DataSourceRefProperty.source
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        DataUseStatement: {
+            name: DataUseStatement.$type,
+            properties: {
+                source: {
+                    name: DataUseStatement.source
+                }
+            },
+            superTypes: [DiagramStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         DataValue: {
             name: DataValue.$type,
@@ -8623,6 +9240,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: []
         },
+        IconColorProperty: {
+            name: IconColorProperty.$type,
+            properties: {
+                color: {
+                    name: IconColorProperty.color
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         IconProperty: {
             name: IconProperty.$type,
             properties: {
@@ -8631,6 +9257,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 provider: {
                     name: IconProperty.provider
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        IconSizeProperty: {
+            name: IconSizeProperty.$type,
+            properties: {
+                size: {
+                    name: IconSizeProperty.size
                 }
             },
             superTypes: [NodeProperty.$type]
@@ -8898,6 +9533,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [KanbanColumnProperty.$type]
+        },
+        LabelColorsProperty: {
+            name: LabelColorsProperty.$type,
+            properties: {
+                value: {
+                    name: LabelColorsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
         },
         LabelProperty: {
             name: LabelProperty.$type,
@@ -9171,7 +9815,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     defaultValue: []
                 }
             },
-            superTypes: [ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
+            superTypes: [ControlStatement.$type, ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
         },
         NodeProperty: {
             name: NodeProperty.$type,
@@ -9610,7 +10254,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: PartStatement.ref
                 }
             },
-            superTypes: [ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
+            superTypes: [ControlStatement.$type, ElectricalStatement.$type, HydraulicStatement.$type, PneumaticStatement.$type]
         },
         PartTypeProperty: {
             name: PartTypeProperty.$type,
@@ -9629,6 +10273,119 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [PartProperty.$type]
+        },
+        PedigreeChildRef: {
+            name: PedigreeChildRef.$type,
+            properties: {
+                id: {
+                    name: PedigreeChildRef.id
+                },
+                modifier: {
+                    name: PedigreeChildRef.modifier
+                }
+            },
+            superTypes: []
+        },
+        PedigreeFamiliesBlock: {
+            name: PedigreeFamiliesBlock.$type,
+            properties: {
+                families: {
+                    name: PedigreeFamiliesBlock.families,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreeFamilyDecl: {
+            name: PedigreeFamilyDecl.$type,
+            properties: {
+                children: {
+                    name: PedigreeFamilyDecl.children,
+                    defaultValue: []
+                },
+                date: {
+                    name: PedigreeFamilyDecl.date
+                },
+                parents: {
+                    name: PedigreeFamilyDecl.parents,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreePeopleBlock: {
+            name: PedigreePeopleBlock.$type,
+            properties: {
+                people: {
+                    name: PedigreePeopleBlock.people,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreePersonDecl: {
+            name: PedigreePersonDecl.$type,
+            properties: {
+                id: {
+                    name: PedigreePersonDecl.id
+                },
+                name: {
+                    name: PedigreePersonDecl.name
+                },
+                properties: {
+                    name: PedigreePersonDecl.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: []
+        },
+        PedigreePersonDobProperty: {
+            name: PedigreePersonDobProperty.$type,
+            properties: {
+                dob: {
+                    name: PedigreePersonDobProperty.dob
+                }
+            },
+            superTypes: [PedigreePersonProperty.$type]
+        },
+        PedigreePersonDodProperty: {
+            name: PedigreePersonDodProperty.$type,
+            properties: {
+                dod: {
+                    name: PedigreePersonDodProperty.dod
+                }
+            },
+            superTypes: [PedigreePersonProperty.$type]
+        },
+        PedigreePersonProperty: {
+            name: PedigreePersonProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        PedigreePersonSexProperty: {
+            name: PedigreePersonSexProperty.$type,
+            properties: {
+                sex: {
+                    name: PedigreePersonSexProperty.sex
+                }
+            },
+            superTypes: [PedigreePersonProperty.$type]
+        },
+        PedigreeProfile: {
+            name: PedigreeProfile.$type,
+            properties: {
+                familiesBlock: {
+                    name: PedigreeProfile.familiesBlock
+                },
+                name: {
+                    name: PedigreeProfile.name
+                },
+                peopleBlock: {
+                    name: PedigreeProfile.peopleBlock
+                }
+            },
+            superTypes: [Profile.$type]
         },
         PneumaticProfile: {
             name: PneumaticProfile.$type,
@@ -10582,7 +11339,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TreemapStatement.$type]
+            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,
@@ -10591,7 +11348,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineColorProperty.color
                 }
             },
-            superTypes: [TimelineEventProperty.$type, TimelinePeriodProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineLaneProperty.$type, TimelinePeriodProperty.$type]
         },
         TimelineDateProperty: {
             name: TimelineDateProperty.$type,
@@ -10600,7 +11357,19 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineDateProperty.date
                 }
             },
-            superTypes: [TimelineEventProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineMilestoneProperty.$type]
+        },
+        TimelineDependencyStatement: {
+            name: TimelineDependencyStatement.$type,
+            properties: {
+                from: {
+                    name: TimelineDependencyStatement.from
+                },
+                to: {
+                    name: TimelineDependencyStatement.to
+                }
+            },
+            superTypes: [TimelineStatement.$type]
         },
         TimelineDescriptionProperty: {
             name: TimelineDescriptionProperty.$type,
@@ -10609,7 +11378,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineDescriptionProperty.description
                 }
             },
-            superTypes: [TimelineEventProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineMilestoneProperty.$type, TimelineTaskProperty.$type]
         },
         TimelineEndDateProperty: {
             name: TimelineEndDateProperty.$type,
@@ -10618,7 +11387,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineEndDateProperty.endDate
                 }
             },
-            superTypes: [TimelinePeriodProperty.$type]
+            superTypes: [TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
         },
         TimelineEventProperty: {
             name: TimelineEventProperty.$type,
@@ -10639,6 +11408,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [TimelineStatement.$type]
         },
+        TimelineFillColorProperty: {
+            name: TimelineFillColorProperty.$type,
+            properties: {
+                color: {
+                    name: TimelineFillColorProperty.color
+                }
+            },
+            superTypes: [TimelineLaneProperty.$type, TimelineMilestoneProperty.$type, TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
+        },
         TimelineIconProperty: {
             name: TimelineIconProperty.$type,
             properties: {
@@ -10655,7 +11433,64 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineLabelProperty.label
                 }
             },
-            superTypes: [TimelineEventProperty.$type, TimelinePeriodProperty.$type]
+            superTypes: [TimelineEventProperty.$type, TimelineLaneProperty.$type, TimelineMilestoneProperty.$type, TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
+        },
+        TimelineLaneProperty: {
+            name: TimelineLaneProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineLaneRefProperty: {
+            name: TimelineLaneRefProperty.$type,
+            properties: {
+                lane: {
+                    name: TimelineLaneRefProperty.lane
+                }
+            },
+            superTypes: [TimelineMilestoneProperty.$type, TimelineTaskProperty.$type]
+        },
+        TimelineLaneStatement: {
+            name: TimelineLaneStatement.$type,
+            properties: {
+                id: {
+                    name: TimelineLaneStatement.id
+                },
+                properties: {
+                    name: TimelineLaneStatement.properties,
+                    defaultValue: []
+                },
+                statements: {
+                    name: TimelineLaneStatement.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineStatement.$type]
+        },
+        TimelineLaneStatementItem: {
+            name: TimelineLaneStatementItem.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineMilestoneProperty: {
+            name: TimelineMilestoneProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineMilestoneStatement: {
+            name: TimelineMilestoneStatement.$type,
+            properties: {
+                id: {
+                    name: TimelineMilestoneStatement.id
+                },
+                properties: {
+                    name: TimelineMilestoneStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineLaneStatementItem.$type, TimelineStatement.$type]
         },
         TimelineOpacityProperty: {
             name: TimelineOpacityProperty.$type,
@@ -10723,13 +11558,32 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: TimelineStartDateProperty.startDate
                 }
             },
-            superTypes: [TimelinePeriodProperty.$type]
+            superTypes: [TimelinePeriodProperty.$type, TimelineTaskProperty.$type]
         },
         TimelineStatement: {
             name: TimelineStatement.$type,
             properties: {
             },
             superTypes: []
+        },
+        TimelineTaskProperty: {
+            name: TimelineTaskProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        TimelineTaskStatement: {
+            name: TimelineTaskStatement.$type,
+            properties: {
+                id: {
+                    name: TimelineTaskStatement.id
+                },
+                properties: {
+                    name: TimelineTaskStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [TimelineLaneStatementItem.$type, TimelineStatement.$type]
         },
         TitleProperty: {
             name: TitleProperty.$type,

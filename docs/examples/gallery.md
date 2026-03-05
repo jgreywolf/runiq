@@ -387,6 +387,28 @@ treemap "Product Usage" {
 
 ---
 
+## Medical & Genetics
+
+### Pedigree Family Tree
+
+```runiq
+pedigree "Family Tree Basics" {
+  people {
+    p1 "Alex Rivera" dob:"1970-01-10" sex:male
+    p2 "Jordan Lee" dob:"1972-05-22" sex:female
+    c1 "Casey Rivera" dob:"1998-03-11" sex:female
+  }
+
+  families {
+    p1 + p2 date:"1995-06-12" -> c1
+  }
+}
+```
+
+[Try this example ?+'](https://editor.runiq.org)
+
+---
+
 ## What's Next?
 
 - **[Getting Started](/guide/getting-started)** - Install Runiq and create your first diagram
@@ -402,7 +424,7 @@ Explore additional examples organized by category:
 - [Electrical Circuits](/examples/electrical) - Analog circuits, schematics
 - [Digital Circuits](/examples/digital) - Logic gates, digital systems
 - [Sequence Diagrams](/examples/sequence-diagrams) - Interactions, message flows
-<!-- - [Pedigree](/examples/pedigree) - Family trees, genealogy -->
+- [Pedigree Diagrams](/examples/pedigree-diagrams) - Family trees, genealogy
 
 ## Contributing Examples
 

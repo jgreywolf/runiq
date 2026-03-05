@@ -3,6 +3,7 @@ export enum ProfileName {
 	glyphset = 'glyphset',
 	electrical = 'electrical',
 	digital = 'digital',
+	control = 'control',
 	pneumatic = 'pneumatic',
 	hydraulic = 'hydraulic',
 	hvac = 'hvac',
@@ -13,5 +14,6 @@ export enum ProfileName {
 	railroad = 'railroad',
 	kanban = 'kanban',
 	gitgraph = 'gitgraph',
-	treemap = 'treemap'
+	treemap = 'treemap',
+	pedigree = 'pedigree'
 }

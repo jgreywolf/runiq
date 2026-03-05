@@ -9,7 +9,7 @@ This page showcases a variety of diagrams similar to the samples available in th
 - Flowcharts — see [Flowcharts](/examples/flowcharts)
 - Use Case Diagrams — see [Use Case](/examples/use-case)
 - Container Diagrams — see [Containers](/examples/containers)
-- Control system Diagrams — see [Control system Diagrams](/examples/control-diagrams)
+- Control Logic Diagrams — see [Control Logic Diagrams](/examples/control-diagrams)
 - Electrical — see [Electrical](/examples/electrical)
 - Digital Logic — see [Digital](/examples/digital)
 

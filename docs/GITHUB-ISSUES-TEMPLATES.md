@@ -1,6 +1,6 @@
 # GitHub Issues Templates for Unimplemented Diagram Types
 
-**Date:** October 17, 2025  
+**Date:** February 8, 2026  
 **Purpose:** Ready-to-use GitHub issue templates for all 46 unimplemented diagram types  
 **Status:** Ready for bulk issue creation
 
@@ -38,9 +38,9 @@ Add kinematic diagram support for robotics and mechanism design. Shows motion re
 
 ### Current Status
 
-- ✅ Node-edge model fits perfectly
-- ✅ Layout algorithms available
-- ✅ Kinematic-specific shapes available
+- [x] Node-edge model fits perfectly
+- [x] Layout algorithms available
+- [x] Kinematic-specific shapes available
 
 ### Implementation Requirements
 
@@ -138,15 +138,17 @@ diagram kinematic "4-Bar Linkage"
 ### Issue 6: Control System Diagrams (Ladder Logic/FBD)
 
 ```markdown
-## 🎯 Feature: PLC Control System Diagrams (Ladder Logic & Function Block)
+## Feature: PLC Control System Diagrams (Ladder Logic & Function Block)
 
 ### Description
-Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuses electrical circuit architecture!**
+Add support for PLC programming diagrams following IEC 61131-3 standard. Reuses schematic renderer infrastructure.
 
 ### Current Status
-- ✅ Node-edge model perfect fit
-- ✅ Schematic renderer available
-- ❌ IEC 61131-3 symbol library missing
+- [x] Control profile added (ladder/FBD variants)
+- [x] Schematic renderer wiring via parts + nets
+- [x] Basic IEC ladder symbols (NO/NC contacts, coil, set/reset, TON)
+- [x] Documentation updated for control profile (legacy control system block diagrams retired)
+- [ ] Expanded IEC 61131-3 symbol library (timers, counters, compare, math)
 
 ### Implementation Requirements
 
@@ -154,16 +156,14 @@ Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuse
 **Priority:** High (Factory automation, SCADA)
 **Complexity:** Low (architecture reuse)
 
-#### Phase 1: Ladder Logic Symbols (1 day)
+#### Phase 1: Ladder Logic Symbols
 **30-40 Symbols:**
-- [ ] Normally Open (NO) contact
-- [ ] Normally Closed (NC) contact
-- [ ] Output coil
-- [ ] Latch coil (Set)
-- [ ] Unlatch coil (Reset)
-- [ ] Positive transition (rising edge)
-- [ ] Negative transition (falling edge)
-- [ ] Timer On-Delay (TON)
+- [x] Normally Open (NO) contact
+- [x] Normally Closed (NC) contact
+- [x] Output coil
+- [x] Latch coil (Set)
+- [x] Unlatch coil (Reset)
+- [x] Timer On-Delay (TON)
 - [ ] Timer Off-Delay (TOF)
 - [ ] Timer Pulse (TP)
 - [ ] Counter Up (CTU)
@@ -173,7 +173,7 @@ Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuse
 - [ ] Math operations (+, -, *, /)
 - [ ] Move (MOV)
 
-#### Phase 2: Function Block Symbols (4 hours)
+#### Phase 2: Function Block Symbols
 - [ ] AND block
 - [ ] OR block
 - [ ] NOT block
@@ -184,38 +184,34 @@ Add support for PLC programming diagrams following IEC 61131-3 standard. **Reuse
 - [ ] Scale function
 - [ ] Limit function
 
-#### Phase 3: Profile Type (2 hours)
+#### Phase 3: Profile Type
 ```typescript
 interface ControlProfile {
   type: 'control';
   variant: 'ladder' | 'fbd' | 'sfc';
   name: string;
-  nets: NetAst[];  // Power rails, signal lines
-  parts: PartAst[]; // Contacts, coils, blocks
-  rungs?: RungAst[]; // Ladder-specific
+  nets: NetAst[];
+  parts: PartAst[];
 }
-````
-
-#### Phase 4: DSL Syntax (2 hours)
-
-```runiq
-control ladder "Motor Start-Stop"
-  rung 1 {
-    contact Start type:NO address:I0.0
-    contact Stop type:NC address:I0.1
-    contact Motor_Running type:NO address:Q0.0
-    coil Motor_Relay address:Q0.0
-  }
-
-  rung 2 {
-    contact Motor_Running type:NO address:Q0.0
-    coil Motor_Output address:Q0.1
-  }
 ```
 
-#### Phase 5: Examples (4 hours)
+#### Phase 4: DSL Syntax
 
-- [ ] Start-Stop motor control
+```runiq
+control "Motor Start-Stop" {
+  variant ladder
+  net L1, L2, M1, M2
+
+  part Start type:NO_CONTACT pins:(L1,M1) doc:"Start PB"
+  part Stop type:NC_CONTACT pins:(M1,M2) doc:"Stop PB"
+  part Motor type:COIL pins:(M2,L2) doc:"Motor coil"
+}
+```
+
+#### Phase 5: Examples
+
+- [x] Start-Stop motor control
+- [x] Timer enable
 - [ ] Traffic light sequence
 - [ ] Conveyor belt control
 - [ ] Tank filling with timers
@@ -223,7 +219,7 @@ control ladder "Motor Start-Stop"
 
 ### Testing Requirements
 
-- [ ] All ladder symbols render
+- [x] Core ladder symbols render
 - [ ] Rung layout (horizontal)
 - [ ] Power rail rendering
 - [ ] Contact/coil connections
@@ -233,7 +229,7 @@ control ladder "Motor Start-Stop"
 
 - [ ] 40+ ladder/FBD symbols
 - [ ] IEC 61131-3 compliance
-- [ ] 5+ example programs
+- [x] 2+ example programs
 - [ ] 40+ tests passing
 - [ ] Export to Structured Text (future)
 
@@ -245,8 +241,7 @@ control ladder "Motor Start-Stop"
 ### Estimated Effort
 
 **Total: 2-3 days** (symbols + ladder layout + tests)
-
-````
+```
 
 ---
 
@@ -315,13 +310,14 @@ diagram hvac "Office HVAC System"
 - [x] Duct routing
 - [x] Airflow direction indicators
 - [x] Equipment labels (CFM, BTU, tonnage)
+- [x] Equipment metadata labels (flow, capacity, pressure)
 
 ### Acceptance Criteria
 
-- [ ] 30+ HVAC symbols
-- [ ] ASHRAE standard compliance
+- [x] 30+ HVAC symbols
+- [ ] ASHRAE standard compliance (partial)
 - [x] 5+ example systems
-- [ ] 35+ tests passing
+- [x] 35+ tests passing
 
 ### Standards
 
@@ -478,7 +474,7 @@ diagram timing "Door Controller"
 Add support for Piping & Instrumentation Diagrams (P&ID) following ISA-5.1 standard. **Extremely high industry value!**
 
 ### Current Status
-- ƒo. P&ID profile implemented with equipment, instrumentation, lines, and control loops
+- [x] P&ID profile implemented with equipment, instrumentation, lines, and control loops
 
 ### Implementation Requirements
 
@@ -658,7 +654,7 @@ diagram pid "Distillation Column"
 **Complexity:** Medium
 
 ### Requirements
-- [ ] Enable ELK rectpacking algorithm
+- [x] Enable ELK rectpacking algorithm
 - [x] Hierarchical nesting
 - [x] Value-to-area mapping
 - [x] Color scales
@@ -723,7 +719,7 @@ Add support for C4 model (Context, Container, Component, Code) architecture diag
 
 ### Current Status
 
-- ƒo. C4 shapes, examples, and docs are in place
+- [x] C4 shapes, examples, and docs are in place
 
 ### Implementation Requirements
 
@@ -818,8 +814,8 @@ diagram c4Component "API Container"
 Add comprehensive BPMN 2.0 support with pools, lanes, events, tasks, and gateways.
 
 ### Current Status
-- ƒo. Core BPMN shapes + pools implemented with examples
-- ƒ?O Full BPMN 2.0 coverage (subtypes, compliance, validation)
+- [x] Core BPMN shapes + pools implemented with examples
+- [ ] Full BPMN 2.0 coverage (subtypes, compliance, validation)
 
 ### Implementation Requirements
 

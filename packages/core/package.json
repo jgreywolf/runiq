@@ -50,10 +50,6 @@
       "types": "./dist/shapes/uml/index.d.ts",
       "import": "./dist/shapes/uml/index.js"
     },
-    "./shapes/pedigree": {
-      "types": "./dist/shapes/pedigree/index.d.ts",
-      "import": "./dist/shapes/pedigree/index.js"
-    },
     "./shapes/c4": {
       "types": "./dist/shapes/c4/index.d.ts",
       "import": "./dist/shapes/c4/index.js"

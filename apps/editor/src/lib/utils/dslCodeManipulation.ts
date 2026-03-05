@@ -18,6 +18,7 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 		'pid',
 		'electrical',
 		'digital',
+		'control',
 		'pneumatic',
 		'hydraulic',
 		'hvac',

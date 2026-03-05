@@ -69,7 +69,7 @@ pid "Distillation Column" {
   // Utility Lines - Steam and Cooling Water
   line utility from:STEAM-1.header to:E-101.shellIn size:3 unit:in material:CS
   line utility from:E-101.shellOut to:COND-1.returnLine size:3 unit:in material:CS
-  line utility from:CW-1.supply to:E-102.shellIn size:8 unit:in schedule:STD material:CS
+  line utility from:CW-1.supplyLine to:E-102.shellIn size:8 unit:in schedule:STD material:CS
   line utility from:E-102.shellOut to:CW-1.returnLine size:8 unit:in schedule:STD material:CS
   
   // Signal Lines - Temperature Control

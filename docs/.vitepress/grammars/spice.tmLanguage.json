@@ -1,0 +1,36 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "SPICE",
+  "scopeName": "source.spice",
+  "patterns": [
+    {
+      "name": "comment.line.asterisk.spice",
+      "match": "^\\s*\\*.*$"
+    },
+    {
+      "name": "comment.line.semicolon.spice",
+      "match": "^\\s*;.*$"
+    },
+    {
+      "name": "keyword.control.directive.spice",
+      "match": "(?i)^\\s*\\.(ac|dc|tran|op|tf|param|model|subckt|ends|include|lib|ic|plot|print|meas|end)\\b"
+    },
+    {
+      "name": "entity.name.function.element.spice",
+      "match": "(?i)^\\s*([rclvibqmdxetghfkuwzp]\\w*)\\b"
+    },
+    {
+      "name": "constant.numeric.spice",
+      "match": "(?i)\\b[+-]?(?:\\d+\\.\\d*|\\d*\\.\\d+|\\d+)(?:e[+-]?\\d+)?(?:t|g|meg|k|m|u|n|p|f)?\\b"
+    },
+    {
+      "name": "string.quoted.double.spice",
+      "begin": "\"",
+      "end": "\""
+    },
+    {
+      "name": "variable.parameter.spice",
+      "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*="
+    }
+  ]
+}

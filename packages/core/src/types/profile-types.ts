@@ -52,6 +52,7 @@ export type Profile =
   | DiagramProfile
   | ElectricalProfile
   | DigitalProfile
+  | ControlProfile
   | BlockDiagramProfile
   | WardleyProfile
   | SequenceProfile
@@ -63,7 +64,8 @@ export type Profile =
   | TimelineProfile
   | KanbanProfile
   | GitGraphProfile
-  | TreemapProfile;
+  | TreemapProfile
+  | PedigreeProfile;
 
 /**
  * Electrical/Analog circuit profile
@@ -111,6 +113,18 @@ export interface BlockDiagramProfile {
   nets: NetAst[]; // Signal paths
   parts: PartAst[]; // Transfer functions, gain blocks, operations
   feedbackLoops?: boolean; // Enable feedback loop routing
+}
+
+/**
+ * PLC control profile (ladder logic / function block diagrams)
+ * Uses schematic-style parts and nets with optional variant hints.
+ */
+export interface ControlProfile {
+  type: 'control';
+  name: string;
+  nets: NetAst[]; // Power rails, signal lines
+  parts: PartAst[]; // Contacts, coils, blocks
+  variant?: 'ladder' | 'fbd' | 'sfc';
 }
 
 /**
@@ -569,9 +583,17 @@ export interface TimelineProfile {
   type: 'timeline';
   astVersion: string;
   title: string;
+  theme?: string;
   orientation?: 'horizontal' | 'vertical'; // Default: horizontal
   events: TimelineEvent[];
   periods?: TimelinePeriod[]; // Optional time periods/eras
+  lanes?: TimelineLane[];
+  tasks?: TimelineTask[];
+  milestones?: TimelineMilestone[];
+  dependencies?: TimelineDependency[];
+  dataSources?: import('./data-types.js').DataSourceDefinition[];
+  dataUse?: string;
+  dataMaps?: import('./data-types.js').DataMapDefinition[];
 }
 
 /**
@@ -597,6 +619,49 @@ export interface TimelinePeriod {
   label: string;
   fillColor?: string; // Background color for period shading
   opacity?: number; // Default: 0.1
+}
+
+/**
+ * Optional lane grouping for Gantt/roadmap timelines.
+ */
+export interface TimelineLane {
+  id: string;
+  label?: string;
+  fillColor?: string;
+  textColor?: string;
+}
+
+/**
+ * Range-based task for Gantt timelines.
+ */
+export interface TimelineTask {
+  id: string;
+  startDate: string;
+  endDate: string;
+  label: string;
+  description?: string;
+  fillColor?: string;
+  lane?: string;
+}
+
+/**
+ * Point-in-time milestone for Gantt timelines.
+ */
+export interface TimelineMilestone {
+  id: string;
+  date: string;
+  label: string;
+  description?: string;
+  fillColor?: string;
+  lane?: string;
+}
+
+/**
+ * Dependency edge between tasks/milestones.
+ */
+export interface TimelineDependency {
+  from: string;
+  to: string;
 }
 
 // ============================================================================
@@ -705,6 +770,9 @@ export interface TreemapProfile {
   showValues?: boolean;
   showLegend?: boolean;
   nodes: TreemapNode[];
+  dataSources?: import('./data-types.js').DataSourceDefinition[];
+  dataUse?: string;
+  dataMaps?: import('./data-types.js').DataMapDefinition[];
 }
 
 export interface TreemapNode {
@@ -712,4 +780,38 @@ export interface TreemapNode {
   value?: number;
   color?: string;
   children?: TreemapNode[];
+}
+
+// ============================================================================
+// Pedigree Profile Types
+// ============================================================================
+
+export interface PedigreeProfile {
+  type: 'pedigree';
+  name: string;
+  people: PedigreePerson[];
+  spouses: PedigreeSpouse[];
+  parentages: PedigreeParentage[];
+}
+
+export type PedigreeSex = 'male' | 'female' | 'unknown';
+
+export interface PedigreePerson {
+  id: string;
+  name: string;
+  dob?: string;
+  dod?: string;
+  sex?: PedigreeSex;
+}
+
+export interface PedigreeSpouse {
+  left: string;
+  right: string;
+  date?: string;
+}
+
+export interface PedigreeParentage {
+  parents: string[];
+  child: string;
+  type: 'biological' | 'adopted' | 'step';
 }

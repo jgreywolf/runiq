@@ -33,6 +33,9 @@ timeline "Software Project Launch" {
   period development startDate:"2024-03-01" endDate:"2024-05-31" label:"Development Phase" textColor:"#dbeafe"
   
   period testing startDate:"2024-04-15" endDate:"2024-05-31" label:"Testing Period" textColor:"#fef3c7"
+
+  // Orientation control (horizontal is default)
+  orientation horizontal
 }`
 			},
 			{
@@ -247,6 +250,7 @@ timeline "CloudFlow Platform Releases" {
 			{
 				name: 'Career Journey (Vertical)',
 				description: 'Professional development from education to leadership',
+				badges: ['Vertical'],
 				code: `// Personal Career Journey - Vertical Timeline
 // Shows career progression from education to current role
 
@@ -348,6 +352,52 @@ timeline "Professional Development Journey" {
   
   // Vertical orientation for chronological flow
   orientation vertical
+}`
+			},
+			{
+				name: 'Data-Driven Roadmap',
+				description: 'Tasks mapped from a CSV datasource',
+				badges: ['Data'],
+				code: `// Data-driven tasks mapped into a timeline
+// Uses a CSV datasource and map to tasks
+
+timeline "Data-Driven Roadmap" {
+  datasource "csv" key:roadmap from:"id,label,start,end,lane\nT1,Planning,2024-01-05,2024-02-01,Product\nT2,Build,2024-02-05,2024-03-15,Engineering\nT3,Launch Prep,2024-03-20,2024-04-10,Go-To-Market"
+
+  data use roadmap
+  map roadmap as tasks {
+    id: "id"
+    label: "label"
+    startDate: "start"
+    endDate: "end"
+    lane: "lane"
+  }
+}`
+			},
+			{
+				name: 'Gantt Roadmap',
+				description: 'Lane-based tasks, milestones, and dependencies',
+				badges: ['Gantt'],
+				code: `// Gantt Roadmap - Lane-based tasks and milestones
+// Use lanes to group workstreams, or omit lanes for a single track
+
+timeline "Roadmap Plan" {
+  theme professional
+
+  lane platform label:"Platform" {
+    task api1 startDate:"2024-01-10" endDate:"2024-02-28" label:"API Foundation"
+    milestone beta1 date:"2024-03-05" label:"Beta"
+  }
+
+  lane experience label:"Experience" {
+    task ux1 startDate:"2024-01-20" endDate:"2024-02-15" label:"UX Refresh"
+    task onboarding1 startDate:"2024-02-10" endDate:"2024-03-20" label:"Onboarding"
+  }
+
+  task ops1 startDate:"2024-02-01" endDate:"2024-03-25" label:"Ops Readiness"
+  milestone launch1 date:"2024-03-30" label:"Launch"
+
+  depends api1 -> launch1
 }`
 			}
 		]

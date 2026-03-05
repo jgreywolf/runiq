@@ -191,14 +191,6 @@ For complex features (multi-series, custom colors, toggles), use JSON or program
 
 **📖 See the [State Machine Diagrams Guide](./docs/guide/state-machine-diagrams.md) for complete UML 2.5 syntax and examples.**
 
-<!-- ### Pedigree/Genealogy
-
-**Pedigree Shapes that ARE correct:**
-
-- ✅ `@pedigreeMale` - Male individual (square)
-- ✅ `@pedigreeFemale` - Female individual (circle)
-- ✅ `@pedigreeUnknown` - Unknown gender (diamond) -->
-
 ### Network Topology
 
 **Network Shapes that ARE correct:**

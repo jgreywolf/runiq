@@ -38,19 +38,6 @@ describe('ElkLayoutEngine', () => {
         `<polygon points="${position.x + 50},${position.y} ${position.x + 100},${position.y + 50} ${position.x + 50},${position.y + 100} ${position.x},${position.y + 50}" />`,
     });
 
-    shapeRegistry.register({
-      id: 'pedigree-male',
-      bounds: (_ctx) => ({ width: 80, height: 80 }),
-      render: (_ctx, position) =>
-        `<rect x="${position.x}" y="${position.y}" width="80" height="80" />`,
-    });
-
-    shapeRegistry.register({
-      id: 'pedigree-female',
-      bounds: (_ctx) => ({ width: 80, height: 80 }),
-      render: (_ctx, position) =>
-        `<circle cx="${position.x + 40}" cy="${position.y + 40}" r="40" />`,
-    });
   });
 
   describe('Engine Metadata', () => {
@@ -708,26 +695,6 @@ describe('ElkLayoutEngine', () => {
 
       expect(result.nodes).toHaveLength(2);
       expect(diagram.nodes[0].data?.mindmapLevel).toBeDefined();
-    });
-
-    it('should layout pedigree diagrams without errors', async () => {
-      const diagram: DiagramAst = {
-        astVersion: '1.0',
-        nodes: [
-          { id: 'p1', shape: 'pedigree-male' },
-          { id: 'p2', shape: 'pedigree-female' },
-          { id: 'c1', shape: 'pedigree-male' },
-        ],
-        edges: [
-          { from: 'p1', to: 'c1' },
-          { from: 'p2', to: 'c1' },
-        ],
-      };
-
-      const result = await engine.layout(diagram);
-
-      expect(result.nodes).toHaveLength(3);
-      expect(result.edges).toHaveLength(2);
     });
 
     it('should respect anchor constraints', async () => {

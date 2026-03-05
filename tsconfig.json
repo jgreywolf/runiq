@@ -27,6 +27,8 @@
       "@runiq/layout-base": ["./packages/layout-base/src"],
       "@runiq/renderer-svg": ["./packages/renderer-svg/src"],
       "@runiq/icons-fontawesome": ["./packages/icons-fontawesome/src"],
+      "@runiq/icons-iconify": ["./packages/icons-iconify/src/index.ts"],
+      "@runiq/icons-brand": ["./packages/icons-brand/src/index.ts"],
       "@runiq/cli": ["./packages/cli/src"],
       "@runiq/glyphsets": ["./packages/glyphsets/src"]
     }

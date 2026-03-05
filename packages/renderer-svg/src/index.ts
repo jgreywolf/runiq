@@ -59,6 +59,13 @@ export {
   type TreemapRenderResult,
 } from './treemap-renderer.js';
 
+// Re-export Pedigree renderer
+export {
+  renderPedigree,
+  type PedigreeRenderOptions,
+  type PedigreeRenderResult,
+} from './pedigree-renderer.js';
+
 // Re-export label utilities for inline icons
 export {
   measureLabelWithIcons,

@@ -12,6 +12,18 @@ Create chronological timeline diagrams to visualize events, milestones, and peri
 
 Timeline diagrams display events in chronological order, perfect for project roadmaps, company histories, product releases, and career progressions. They support both horizontal and vertical orientations with customizable colors, icons, and period backgrounds.
 
+Timeline diagrams support two linear modes:
+
+- **Chronological timelines**: `event` + `period`
+- **Gantt/Roadmap timelines**: `task` + `milestone` (+ optional `lane`, `depends`)
+
+## Timeline Modes
+
+| Mode                 | Primary Elements             | Best For                         |
+| -------------------- | ---------------------------- | -------------------------------- |
+| Chronological        | `event`, `period`            | Histories, milestones, releases  |
+| Gantt/Roadmap        | `task`, `milestone`, `lane`  | Project plans, roadmaps, phases  |
+
 ## Theming
 
 Apply professional color schemes to your timeline diagrams:
@@ -88,6 +100,87 @@ timeline "My Timeline" {
   orientation horizontal  // or vertical
 }
 ```
+
+## Gantt & Roadmap Timelines
+
+Use tasks and milestones to build linear, lane-based timelines. Lanes are optional—if you omit them, tasks and milestones appear in a single default lane.
+
+```runiq
+timeline "Product Roadmap" {
+  theme professional
+
+  lane platform label:"Platform" {
+    task api1 startDate:"2024-01-10" endDate:"2024-02-28" label:"API Foundation"
+    milestone beta1 date:"2024-03-05" label:"Beta"
+  }
+
+  lane experience label:"Experience" {
+    task ux1 startDate:"2024-01-20" endDate:"2024-02-15" label:"UX Refresh"
+    task onboarding startDate:"2024-02-10" endDate:"2024-03-20" label:"Onboarding"
+  }
+
+  task ops1 startDate:"2024-02-01" endDate:"2024-03-25" label:"Ops Readiness"
+  milestone launch1 date:"2024-03-30" label:"Launch"
+
+  depends api1 -> launch1
+}
+```
+
+**Task Properties:**
+
+- `startDate:"YYYY-MM-DD"` (required)
+- `endDate:"YYYY-MM-DD"` (required)
+- `label:"text"` (required)
+- `description:"text"` (optional)
+- `fillColor:"#hex"` (optional)
+- `lane:"laneId"` (optional when task is outside a lane block)
+
+**Milestone Properties:**
+
+- `date:"YYYY-MM-DD"` (required)
+- `label:"text"` (required)
+- `description:"text"` (optional)
+- `fillColor:"#hex"` (optional)
+- `lane:"laneId"` (optional when milestone is outside a lane block)
+
+**Lane Properties:**
+
+- `label:"text"` (optional)
+- `fillColor:"#hex"` (optional)
+- `textColor:"#hex"` (optional)
+
+**Dependencies:**
+
+- `depends fromTask -> toTask` draws a dependency arrow between tasks or milestones.
+
+**Orientation Note:** Gantt/roadmap timelines currently render **horizontally** only. Vertical orientation is supported for event/period timelines.
+
+## Data-Driven Timelines
+
+Timeline profiles can bind to CSV or JSON data sources and map rows to events, tasks, or milestones.
+
+```runiq
+timeline "Data-Driven Roadmap" {
+  datasource "csv" key:roadmap from:"id,label,start,end,lane\nT1,Planning,2024-01-05,2024-02-01,Product\nT2,Build,2024-02-05,2024-03-15,Engineering\nT3,Launch Prep,2024-03-20,2024-04-10,Go-To-Market"
+
+  data use roadmap
+  map roadmap as tasks {
+    id: "id"
+    label: "label"
+    startDate: "start"
+    endDate: "end"
+    lane: "lane"
+  }
+}
+```
+
+**Data map targets:**
+
+- `timeline` or `events`: map to event rows (requires `date` + `label`/`name`)
+- `tasks`: map to task rows (requires `startDate` + `endDate` + `label`/`name`)
+- `milestones`: map to milestone rows (requires `date` + `label`/`name`)
+
+If required fields are missing, the editor reports warnings and skips those rows.
 
 ## Basic Timeline
 

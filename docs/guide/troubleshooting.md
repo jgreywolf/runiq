@@ -168,6 +168,8 @@ fillColor: "#219"                 # Short hex ❌
 
 ## Editor Issues
 
+For editor capabilities and current limitations, see [Editor Guide](/guide/editor).
+
 ### Autocomplete Not Working
 
 **Cause**: Langium language server not initialized.

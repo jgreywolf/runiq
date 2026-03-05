@@ -4,7 +4,9 @@ import {
   layoutRegistry,
   registerDefaultShapes,
 } from '@runiq/core';
+import { brandIcons } from '@runiq/icons-brand';
 import { fontAwesome } from '@runiq/icons-fontawesome';
+import { iconify } from '@runiq/icons-iconify';
 import { ElkLayoutEngine } from '@runiq/layout-base';
 import { parse } from '@runiq/parser-dsl';
 import { renderSvg } from '../../src/index.js';
@@ -15,7 +17,9 @@ function initializeRuniq() {
   if (!initialized) {
     registerDefaultShapes();
     layoutRegistry.register(new ElkLayoutEngine());
+    iconRegistry.register(brandIcons);
     iconRegistry.register(fontAwesome);
+    iconRegistry.register(iconify);
     initialized = true;
   }
 }

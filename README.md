@@ -13,7 +13,7 @@
 **⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
 **⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️
 
-<!-- **⚡ NEW**: Pedigree charts for medical genetics & genealogy - 3 shapes, full notation support! 🧬   -->
+**⚡ NEW**: Pedigree diagrams for family trees - people, spouses, and parentage (including adoption). 🧬  
 
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
 **⚡ NEW**: UML relationships - stereotypes (`<<include>>`, `<<extend>>`), line styles, arrow types!  
@@ -109,16 +109,11 @@
 - **Flexible spacing**: Control node distance for clarity
 - **4 example diagrams**: Simple brainstorming, project planning, learning roadmap, business strategy
 
-<!-- ### Pedigree Charts (NEW! 🎉)
+### Pedigree Diagrams (NEW! 🎉)
 
-- **Medical genetics notation**: Standard symbols for genealogy and clinical genetics
-- **Gender-specific shapes**: Male (square), female (circle), unknown sex (diamond)
-- **Genetic status markers**: Affected (black fill), carrier (half-fill), normal (white)
-- **Vital status**: Deceased individuals with diagonal line overlay
-- **Relationship types**: Marriage (horizontal line, no arrow), consanguinity (double line)
-- **Property-based syntax**: Inline `affected:true`, `carrier:true`, `deceased:true`
-- **Standards compliant**: Follows medical/genetics pedigree conventions
-- **5 example diagrams**: Inheritance patterns, consanguinity, multi-generation families -->
+- **Family trees**: People, spouse relationships, and parentage
+- **Adoption support**: Distinguish adopted connections
+- **Metadata fields**: Name, date of birth, date of death, sex markers
 
 ### Quantum Circuits (NEW! 🎉)
 
@@ -575,13 +570,12 @@ pid "Simple Process Flow" {
 - [x] **UML Relationships** - Stereotypes, line styles, arrow types complete
 - [x] **Use Case Diagrams** - Actors, use cases, system boundaries
 - [x] **Control system Diagrams** - Control systems with LaTeX/Simulink export
-- [ ] **Pedigree Charts** - NEXT UP! Family trees for genealogy & genetics
+- [x] **Pedigree Diagrams** - Family trees with spouse/parentage relationships
 
 **Research & Planning:**
 
 See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) for analysis of:
 
-- ✅ Pedigree charts (genealogy, medical genetics) - **READY TO IMPLEMENT**
 - Quantum circuit diagrams (quantum computing education)
 - Network topology diagrams (IT infrastructure)
 - UML timing diagrams (embedded systems, protocols)
@@ -590,9 +584,8 @@ See [docs/new-diagram-types-research.md](./docs/new-diagram-types-research.md) f
 
 **High Priority - Specialized Diagrams:**
 
-1. **Pedigree Charts** (IN PROGRESS) - Family trees, medical genetics, genealogy
-2. **Network Topology** (NEXT) - IT infrastructure, cloud architecture
-3. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocol timing
+1. **Network Topology** (NEXT) - IT infrastructure, cloud architecture
+2. **UML Timing Diagrams** (FUTURE) - Real-time systems, protocol timing
 
 **Medium Priority - Electrical/Digital:**
 
@@ -666,7 +659,6 @@ Runiq provides **248 professional shapes** across 18 categories in the core regi
 | **Network**       | 7     | Server, router, switch, firewall, cloud                       |
 | **Quantum**       | 12    | Quantum gates (X, Y, Z, H, S, T, CNOT, SWAP)                  |
 | **UML**           | 52    | Class, state, activity, sequence, component diagrams          |
-| **Pedigree**      | 3     | Medical genetics symbols (male, female, unknown)              |
 | **C4**            | 4     | C4 architecture (person, system, container, component)        |
 | **BPMN**          | 6     | Business process modeling notation                            |
 | **AWS**           | 6     | AWS service shapes (EC2, S3, Lambda, RDS, VPC, API Gateway)   |
@@ -703,14 +695,11 @@ Schematic profiles use a separate symbol registry (36 electrical/digital symbols
 | ✅     | Digital logic       | Grammar ready, Verilog export coming soon |
 | 🟡     | Mixed-signal        | Analog + digital in same circuit (future) |
 
-<!-- ### Medical & Genetics (NEW!)
+### Pedigree Diagrams (NEW!)
 
-| Status | Type            | Notes                                          |
-| ------ | --------------- | ---------------------------------------------- |
-| ✅     | Pedigree charts | Male/female/unknown shapes, genetic markers 🎉 |
-| ✅     | Inheritance     | Affected, carrier, normal status               |
-| ✅     | Relationships   | Marriage, consanguinity (double line)          |
-| ✅     | Vital status    | Deceased marker (diagonal line)                | -->
+| Status | Type              | Notes                                                  |
+| ------ | ----------------- | ------------------------------------------------------ |
+| ✅     | Pedigree diagrams | Family trees with spouses, parentage, and adoption     |
 
 ## 🚀 What Makes Runiq Unique?
 
@@ -749,5 +738,3 @@ MIT © 2025 Justin Greywolf
 ---
 
 **Built with ❤️ using Test-Driven Development** | [Report Issues](https://github.com/jgreywolf/runiq/issues) | [Contribute](https://github.com/jgreywolf/runiq/pulls)
-
-

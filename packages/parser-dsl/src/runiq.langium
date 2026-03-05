@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile;
+    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile | PedigreeProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -31,6 +31,8 @@ DiagramStatement:
     | TemplateBlock
     | PresetBlock
     | DataSourceDeclaration
+    | DataUseStatement
+    | DataMapStatement
     | ForEachBlock;
 
 // ============================================================================
@@ -78,6 +80,23 @@ AnalysisStatement:
 
 AnalysisKind returns string:
     'tran' | 'ac' | 'dc' | 'op' | 'noise';
+
+// ============================================================================
+// Control Profile (PLC ladder / FBD)
+// ============================================================================
+ControlProfile:
+    'control' name=STRING '{'
+        statements+=ControlStatement*
+    '}';
+
+ControlStatement:
+    ControlVariantStatement | NetStatement | PartStatement;
+
+ControlVariantStatement:
+    'variant' variant=ControlVariant;
+
+ControlVariant returns string:
+    'ladder' | 'fbd' | 'sfc';
 
 // ============================================================================
 // Digital Profile (digital circuits)
@@ -722,7 +741,17 @@ TimelineProfile:
     '}';
 
 TimelineStatement:
-    TimelineEventStatement | TimelinePeriodStatement | TimelineOrientationStatement;
+    TimelineEventStatement
+    | TimelinePeriodStatement
+    | TimelineOrientationStatement
+    | TimelineLaneStatement
+    | TimelineTaskStatement
+    | TimelineMilestoneStatement
+    | TimelineDependencyStatement
+    | ThemeDeclaration
+    | DataSourceDeclaration
+    | DataUseStatement
+    | DataMapStatement;
 
 // event kickoff date:"2024-01-15" label:"Project Kickoff" description:"Initial meeting" icon:"flag" textColor:"#3b82f6"
   TimelineEventStatement:
@@ -746,6 +775,9 @@ TimelineIconProperty:
 TimelineColorProperty:
     'textColor:' color=STRING;
 
+TimelineFillColorProperty:
+    'fillColor:' color=STRING;
+
 TimelinePositionProperty:
     'position:' position=TimelinePosition;
 
@@ -760,7 +792,12 @@ TimelinePosition returns string:
       FlexibleID | STRING;
 
 TimelinePeriodProperty:
-    TimelineStartDateProperty | TimelineEndDateProperty | TimelineLabelProperty | TimelineColorProperty | TimelineOpacityProperty;
+    TimelineStartDateProperty
+    | TimelineEndDateProperty
+    | TimelineLabelProperty
+    | TimelineColorProperty
+    | TimelineFillColorProperty
+    | TimelineOpacityProperty;
 
 TimelineStartDateProperty:
     'startDate:' startDate=STRING;
@@ -777,6 +814,48 @@ TimelineOrientationStatement:
 
 TimelineOrientation returns string:
     'horizontal' | 'vertical';
+
+// Optional lane grouping for Gantt/roadmap timelines
+TimelineLaneStatement:
+    'lane' id=TimelineIdentifier properties+=TimelineLaneProperty* '{'
+        statements+=TimelineLaneStatementItem*
+    '}';
+
+TimelineLaneStatementItem:
+    TimelineTaskStatement | TimelineMilestoneStatement;
+
+TimelineLaneProperty:
+    TimelineLabelProperty | TimelineColorProperty | TimelineFillColorProperty;
+
+// task build startDate:"2024-01-01" endDate:"2024-02-01" label:"Build" lane:"Platform"
+TimelineTaskStatement:
+    'task' id=TimelineIdentifier properties+=TimelineTaskProperty+;
+
+TimelineTaskProperty:
+    TimelineStartDateProperty
+    | TimelineEndDateProperty
+    | TimelineLabelProperty
+    | TimelineDescriptionProperty
+    | TimelineFillColorProperty
+    | TimelineLaneRefProperty;
+
+// milestone launch date:"2024-03-01" label:"Launch" lane:"Platform"
+TimelineMilestoneStatement:
+    'milestone' id=TimelineIdentifier properties+=TimelineMilestoneProperty+;
+
+TimelineMilestoneProperty:
+    TimelineDateProperty
+    | TimelineLabelProperty
+    | TimelineDescriptionProperty
+    | TimelineFillColorProperty
+    | TimelineLaneRefProperty;
+
+TimelineLaneRefProperty:
+    'lane:' lane=TimelineIdentifier;
+
+// depends build -> launch
+TimelineDependencyStatement:
+    'depends' from=TimelineIdentifier ARROW to=TimelineIdentifier;
 
 // ============================================================================
 // Kanban Profile - Columns, cards, and swimlanes
@@ -995,7 +1074,10 @@ TreemapStatement:
     | TreemapShowValuesStatement
     | TreemapShowLegendStatement
     | TreemapGroupBlock
-    | TreemapItemStatement;
+    | TreemapItemStatement
+    | DataSourceDeclaration
+    | DataUseStatement
+    | DataMapStatement;
 
 TreemapLayoutStatement:
     'layout' layout=TreemapLayoutValue;
@@ -1034,6 +1116,53 @@ TreemapColorProperty:
 
 TreemapLabelProperty:
     'label:' label=STRING;
+
+// ============================================================================
+// Pedigree Profile - Family trees and relationships
+// ============================================================================
+
+PedigreeProfile:
+    'pedigree' name=STRING '{'
+        peopleBlock=PedigreePeopleBlock?
+        familiesBlock=PedigreeFamiliesBlock?
+    '}';
+
+PedigreePeopleBlock:
+    'people' '{' people+=PedigreePersonDecl* '}';
+
+PedigreePersonDecl:
+    id=ProfileIdentifier name=STRING properties+=PedigreePersonProperty*;
+
+PedigreePersonProperty:
+    PedigreePersonDobProperty
+    | PedigreePersonDodProperty
+    | PedigreePersonSexProperty;
+
+PedigreePersonDobProperty:
+    'dob:' dob=STRING;
+
+PedigreePersonDodProperty:
+    'dod:' dod=STRING;
+
+PedigreePersonSexProperty:
+    'sex:' sex=PedigreeSexValue;
+
+PedigreeSexValue returns string:
+    'male' | 'female' | 'unknown';
+
+PedigreeFamiliesBlock:
+    'families' '{' families+=PedigreeFamilyDecl* '}';
+
+PedigreeFamilyDecl:
+    parents+=ProfileIdentifier ('+' parents+=ProfileIdentifier)?
+    ('date:' date=STRING)?
+    ARROW children+=PedigreeChildRef (',' children+=PedigreeChildRef)*;
+
+PedigreeChildRef:
+    id=ProfileIdentifier modifier=PedigreeChildModifier?;
+
+PedigreeChildModifier returns string:
+    'adopt' | 'step';
 
 // ============================================================================
 // GlyphSet Profile - SmartArt-style diagram templates
@@ -1144,23 +1273,27 @@ ShapeIdentifier returns string:
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
     | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
-    | 'db' | 'pill' | 'circle' | 'person';
+    | 'db' | 'pill' | 'circle' | 'person' | 'callout';
 
-NodeProperty:
-    LabelProperty
-    | PositionProperty
-    | StyleRefProperty
-    | IconProperty
-    | LinkProperty
-    | TooltipProperty
-    | DataProperty
-    | LabelsProperty
+  NodeProperty:
+      LabelProperty
+      | PositionProperty
+      | StyleRefProperty
+      | IconProperty
+      | IconColorProperty
+      | IconSizeProperty
+      | LinkProperty
+      | TooltipProperty
+      | DataProperty
+      | DataSourceRefProperty
+      | LabelsProperty
     | ShowLegendProperty
     | ShowValuesProperty
     | LegendPositionProperty
     | StackedProperty
-    | ColorsProperty
-    | IntersectionsProperty
+  | ColorsProperty
+  | LabelColorsProperty
+  | IntersectionsProperty
     | FlipAxesProperty
     | TitleProperty
     | XLabelProperty
@@ -1210,8 +1343,14 @@ GatewayTypeValue returns string:
 StyleRefProperty:
     'style:' ref=[StyleDeclaration:DiagramIdentifier];
 
-IconProperty:
-    'icon:' provider=ID '/' icon=ID;
+  IconProperty:
+      'icon:' provider=ID '/' icon=ID;
+
+  IconColorProperty:
+      'iconColor:' color=STRING;
+
+  IconSizeProperty:
+      'iconSize:' size=NUMBER;
 
 LinkProperty:
     'link:' url=STRING;
@@ -1236,6 +1375,9 @@ StackedProperty:
 
 ColorsProperty:
     'colors:' value=StringArray;
+
+LabelColorsProperty:
+    'labelColors:' value=StringArray;
 
 IntersectionsProperty:
     'intersections:' value=StringArray;
@@ -1426,7 +1568,10 @@ StringArray:
     '[' (items+=STRING (',' items+=STRING)*)? ']';
 
 DataProperty:
-    'data:' '[' (items+=DataItem (',' items+=DataItem)*)? ']';
+    ('data:' | 'data' ':') '[' (items+=DataItem (',' items+=DataItem)*)? ']';
+
+DataSourceRefProperty:
+    'from:' source=DiagramIdentifier;
 
 DataItem:
     DataObject | DataValue;
@@ -1554,7 +1699,7 @@ GroupBlock:
 // container "Label" { ... } with optional properties
 // Now supports: container id "Label" as @shapeName { ... }
 ContainerBlock:
-    'container' (id=DiagramIdentifier)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
+    'container' (id=ID)? label=STRING ('as' '@' shape=(SHAPE_ID | FlexibleID))? properties+=ContainerProperty* '{'
         statements+=DiagramStatement*
     '}';
 
@@ -1666,8 +1811,27 @@ ContainerLayoutProperty:
 // datasource "json" key:users from:"data/users.json"
 // datasource "csv" key:metrics from:"metrics.csv"
 DataSourceDeclaration:
-    'datasource' format=STRING 'key:' key=DiagramIdentifier 'from:' source=STRING
+    ('datasource' | 'data' 'source') format=STRING 'key:' key=DiagramIdentifier 'from:' source=STRING
     ('options:' '{' options+=DataSourceOption (',' options+=DataSourceOption)* '}')?;
+
+DataUseStatement:
+    'data' 'use' source=DiagramIdentifier;
+
+DataMapStatement:
+    'map' source=DiagramIdentifier 'as' target=DataMapTarget '{'
+        properties+=DataMapProperty*
+    '}';
+
+DataMapTarget returns string:
+    'timeline' | 'events' | 'tasks' | 'milestones' | 'sankey' | 'treemap' | 'chart';
+
+DataMapProperty:
+    key=FlexibleID ':' value=STRING
+    | key=DataMapKeyWithColon value=STRING;
+
+DataMapKeyWithColon returns string:
+    'label:' | 'name:' | 'id:' | 'value:' | 'format:' | 'color:' | 'source:' | 'key:'
+    | 'from:' | 'to:' | 'startDate:' | 'endDate:';
 
 DataSourceOption:
     name=ID ':' value=(STRING | NUMBER | BooleanValue);
@@ -1743,12 +1907,14 @@ FlexibleID returns string:
     ID 
     // Data-driven keywords (excluding 'template' which is a Phase 5 keyword)
     | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
+    | 'tasks' | 'milestones' | 'events' | 'nodes' | 'links' | 'series'
+    | 'treemap' | 'sankey' | 'chart'
     // Property keywords  
     | 'label' | 'name' | 'id' | 'type' | 'value' | 'format' | 'color' | 'header' | 'delimiter'
     // Control flow keywords
     | 'for' | 'in' | 'if' | 'loop' | 'call'
     // Common node names
-    | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'step' | 'action'
+    | 'start' | 'end' | 'done' | 'process' | 'mobile' | 'm' | 'f' | 'e' | 'step' | 'action'
     | 'input' | 'output' | 'config' | 'settings' | 'api' | 'db' | 'cache' | 'queue'
     // Common mindmap/hierarchy node names
     | 'root' | 'child' | 'branch' | 'leaf' | 'node' | 'center' | 'central' | 'hub'

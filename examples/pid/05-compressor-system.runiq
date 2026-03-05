@@ -69,7 +69,7 @@ pid "Two-Stage Compressor System" {
   instrument VT-902 type:vibrationTransmitter range:(0,50) unit:mm/s location:field
   
   // Process Lines - Main Compression Path
-  line process from:FEED-1.supply to:PCV-601.inlet size:12 unit:in schedule:STD material:CS
+  line process from:FEED-1.supplyLine to:PCV-601.inlet size:12 unit:in schedule:STD material:CS
   line process from:PCV-601.outlet to:K-101.inlet size:12 unit:in schedule:STD material:CS
   line process from:K-101.discharge to:E-101.tubeIn size:10 unit:in schedule:XS material:CS
   line process from:E-101.tubeOut to:D-101.inlet size:10 unit:in schedule:XS material:CS
@@ -93,9 +93,9 @@ pid "Two-Stage Compressor System" {
   line process from:P-102.discharge to:DRAIN-1.tank size:2 unit:in schedule:STD material:CS
   
   // Utility Lines - Cooling Water
-  line utility from:CW-1.supply to:E-101.shellIn size:8 unit:in schedule:STD material:CS
+  line utility from:CW-1.supplyLine to:E-101.shellIn size:8 unit:in schedule:STD material:CS
   line utility from:E-101.shellOut to:CW-1.returnLine size:8 unit:in schedule:STD material:CS
-  line utility from:CW-1.supply to:E-102.shellIn size:6 unit:in schedule:STD material:CS
+  line utility from:CW-1.supplyLine to:E-102.shellIn size:6 unit:in schedule:STD material:CS
   line utility from:E-102.shellOut to:CW-1.returnLine size:6 unit:in schedule:STD material:CS
   
   // Signal Lines - Pressure Control

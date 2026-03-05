@@ -236,7 +236,7 @@ No user-facing configuration needed. Validation is automatic and always enabled.
 
 Developer can adjust:
 
-- Debounce delay in parent component (`Preview.svelte`)
+- Debounce delay in parent component (`VisualCanvas.svelte`)
 - Max suggestions count in `extractQuickFixes()` (currently 3)
 - Severity levels in validator implementation
 

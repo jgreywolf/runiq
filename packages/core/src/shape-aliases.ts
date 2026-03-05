@@ -45,6 +45,10 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('io', 'parallelogram');
   shapeRegistry.registerAlias('doc', 'document');
 
+  // Decorative Shapes
+  shapeRegistry.registerAlias('callout', 'captionBox');
+  shapeRegistry.registerAlias('calloutBox', 'captionBox');
+
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');
   shapeRegistry.registerAlias('gateway', 'bpmnGateway');

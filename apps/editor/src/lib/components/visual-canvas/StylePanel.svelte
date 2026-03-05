@@ -134,7 +134,7 @@
 				{#if isNode}
 					<!-- Fill Color -->
 					<div class="style-field">
-						<label for="style-background">Background:</label>
+						<label for="style-fill-color">Background:</label>
 						<div class="color-picker-wrapper">
 							<button
 								type="button"
@@ -146,10 +146,11 @@
 								<span class="sr-only">Pick color</span>
 							</button>
 						</div>
-						<input
-							type="text"
-							value={styleValues.fillColor || ''}
-							onchange={(e) => onStyleChange('fillColor', e.currentTarget.value)}
+					<input
+						id="style-fill-color"
+						type="text"
+						value={styleValues.fillColor || ''}
+						onchange={(e) => onStyleChange('fillColor', e.currentTarget.value)}
 							placeholder="#FFFFFF"
 							class="style-text-input"
 						/>
@@ -158,8 +159,7 @@
 
 				<!-- Stroke Color -->
 				<div class="style-field">
-					<!-- svelte-ignore a11y_label_has_associated_control -->
-					<label class="style-label">Stroke Color:</label>
+					<label class="style-label" for="style-stroke-color">Stroke Color:</label>
 					<div class="color-picker-wrapper">
 						<button
 							type="button"
@@ -172,6 +172,7 @@
 						</button>
 					</div>
 					<input
+						id="style-stroke-color"
 						type="text"
 						value={styleValues.strokeColor || ''}
 						onchange={(e) => onStyleChange('strokeColor', e.currentTarget.value)}
@@ -182,8 +183,9 @@
 
 				<!-- Stroke Width -->
 				<div class="style-field">
-					<label class="style-label">Stroke Width</label>
+					<label class="style-label" for="style-stroke-width">Stroke Width</label>
 					<input
+						id="style-stroke-width"
 						type="number"
 						class="style-number-input"
 						value={styleValues.strokeWidth || '2'}
@@ -196,8 +198,7 @@
 
 				<!-- Text Color -->
 				<div class="style-field">
-					<!-- svelte-ignore a11y_label_has_associated_control -->
-					<label class="style-label">Text Color:</label>
+					<label class="style-label" for="style-text-color">Text Color:</label>
 					<div class="color-picker-wrapper">
 						<button
 							type="button"
@@ -210,6 +211,7 @@
 						</button>
 					</div>
 					<input
+						id="style-text-color"
 						type="text"
 						value={styleValues.textColor || ''}
 						onchange={(e) => onStyleChange('textColor', e.currentTarget.value)}
@@ -221,8 +223,9 @@
 				{#if !isNode}
 					<!-- Edge Routing -->
 					<div class="style-field">
-						<label class="style-label">Routing</label>
+						<label class="style-label" for="style-routing">Routing</label>
 						<select
+							id="style-routing"
 							class="style-select"
 							value={styleValues.routing || ''}
 							onchange={(e) => onStyleChange('routing', e.currentTarget.value)}

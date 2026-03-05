@@ -4,6 +4,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "declarationMap": true,
+    "declarationDir": "./dist",
     "outDir": "./dist",
     "rootDir": "./src",
     "noEmit": false

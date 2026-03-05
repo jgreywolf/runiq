@@ -77,4 +77,26 @@ hvac "Office HVAC System" {
       expect(profile.nets.length).toBeGreaterThan(0);
     }
   });
+
+  it('should parse control profile with parts and nets', () => {
+    const input = `
+control "Motor Start-Stop" {
+  variant ladder
+  net L1, L2, M1
+  part Start type:NO_CONTACT pins:(L1,M1)
+  part Motor type:COIL pins:(M1,L2)
+}`;
+
+    const result = parse(input);
+
+    expect(result.success).toBe(true);
+    const profile = result.document!.profiles[0];
+    expect(profile.type).toBe(ProfileType.CONTROL);
+
+    if (profile.type === ProfileType.CONTROL) {
+      expect(profile.variant).toBe('ladder');
+      expect(profile.parts).toHaveLength(2);
+      expect(profile.nets).toHaveLength(3);
+    }
+  });
 });

@@ -18,7 +18,7 @@
 </script>
 
 <Dialog.Root bind:open>
-	<Dialog.Content class="bg-white sm:max-w-md">
+	<Dialog.Content class="bg-white sm:max-w-3xl">
 		<Dialog.Header>
 			<Dialog.Title class="text-neutral-900">Create New Diagram</Dialog.Title>
 			<Dialog.Description class="text-neutral-600"
@@ -26,7 +26,7 @@
 			>
 		</Dialog.Header>
 
-		<div class="grid grid-cols-2 gap-4 py-4">
+		<div class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto py-4 sm:grid-cols-3">
 			<!-- Regular Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.diagram)}
@@ -94,7 +94,25 @@
 					</div>
 					<div>
 						<h3 class="font-semibold text-neutral-900">Timeline</h3>
-						<p class="text-sm text-neutral-600">Chronological events, milestones, periods</p>
+						<p class="text-sm text-neutral-600">Events, periods, and Gantt-style roadmaps</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Pedigree Diagram Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.pedigree)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-200"
+					>
+						<Icon icon="tabler:binary-tree-2" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Pedigree</h3>
+						<p class="text-sm text-neutral-600">Family trees, lineage, adoption</p>
 					</div>
 				</div>
 			</button>
@@ -185,6 +203,24 @@
 					<div>
 						<h3 class="font-semibold text-neutral-900">Electrical Schematic</h3>
 						<p class="text-sm text-neutral-600">Circuit diagrams, logic gates, components</p>
+					</div>
+				</div>
+			</button>
+
+			<!-- Control Logic Option -->
+			<button
+				onclick={() => createDiagramClick(ProfileName.control)}
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-orange-400 hover:bg-orange-50"
+			>
+				<div class="flex items-center gap-3">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 text-orange-600 transition-colors group-hover:bg-orange-200"
+					>
+						<Icon icon="tabler:switch-2" width="24" height="24" />
+					</div>
+					<div>
+						<h3 class="font-semibold text-neutral-900">Control Logic</h3>
+						<p class="text-sm text-neutral-600">Ladder logic and FBD blocks</p>
 					</div>
 				</div>
 			</button>

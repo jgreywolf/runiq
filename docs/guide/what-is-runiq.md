@@ -216,15 +216,18 @@ digital "Half Adder" {
 }
 ```
 
-### 10. Control system Diagrams
+### 10. Control Logic Diagrams
 
-Control systems with export to LaTeX and Simulink:
+PLC-style ladder and function block diagrams rendered through the schematic engine:
 
 ```runiq
-diagram "PID Controller" {
-  shape Kp as @gain label: "Kp"
-  shape Ki as @transferFunction label: "Ki/s"
-  shape Kd as @transferFunction label: "Kd·s"
+control "Motor Start-Stop" {
+  variant ladder
+  net L1, L2, M1, M2
+
+  part Start type:NO_CONTACT pins:(L1,M1) doc:"Start button"
+  part Stop type:NC_CONTACT pins:(M1,M2) doc:"Stop button"
+  part Motor type:COIL pins:(M2,L2) doc:"Motor coil"
 }
 ```
 
@@ -274,7 +277,7 @@ Runiq is built as a **monorepo** with modular packages:
 
 ### Control Systems
 
-- Control system diagrams with transfer functions
+- Control logic diagrams with ladder and function block support
 - PID controllers, feedback loops
 - State-space models
 - Export to LaTeX papers or Simulink

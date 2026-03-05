@@ -64,6 +64,7 @@ export default defineConfig({
             { text: 'What is Runiq?', link: '/guide/what-is-runiq' },
             { text: 'Getting Started', link: '/guide/getting-started' },
             { text: 'Quick Start', link: '/guide/quick-start' },
+            { text: 'Editor Guide', link: '/guide/editor' },
             { text: 'Profiles', link: '/guide/profiles' },
           ],
         },
@@ -128,7 +129,6 @@ export default defineConfig({
             { text: 'Network Diagrams', link: '/guide/network-diagrams' },
             { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
             { text: 'Charts & Graphs', link: '/guide/charts' },
-            //{ text: 'Pedigree Charts', link: '/guide/pedigree-charts' },
             { text: 'Quantum Circuits', link: '/guide/quantum-circuits' },
           ],
         },
@@ -141,6 +141,7 @@ export default defineConfig({
             { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
             { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
             { text: 'Railroad Diagrams', link: '/guide/railroad-diagrams' },
+            { text: 'Pedigree Diagrams', link: '/guide/pedigree-diagrams' },
             { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
             { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
             { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
@@ -239,6 +240,36 @@ export default defineConfig({
       await shiki.loadLanguage({
         ...runiqGrammar,
         id: 'runiq',
+      });
+
+      // Load custom SPICE grammar
+      const spiceGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/spice.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...spiceGrammar,
+        name: 'spice',
+        id: 'spice',
+      });
+
+      // Load custom Langium grammar
+      const langiumGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/langium.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...langiumGrammar,
+        name: 'langium',
+        id: 'langium',
+      });
+
+      // Load custom Simulink MDL grammar
+      const mdlGrammar = JSON.parse(
+        readFileSync(resolve(__dirname, 'grammars/mdl.tmLanguage.json'), 'utf-8')
+      );
+      await shiki.loadLanguage({
+        ...mdlGrammar,
+        name: 'mdl',
+        id: 'mdl',
       });
     },
   },

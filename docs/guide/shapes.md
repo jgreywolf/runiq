@@ -1,12 +1,12 @@
 ---
 title: Shapes Overview
-description: Comprehensive reference of all 52+ built-in shapes organized by category with syntax examples.
+description: Comprehensive reference of all 200+ built-in shapes organized by category with syntax examples.
 lastUpdated: 2025-01-09
 ---
 
 # Shapes Overview
 
-Runiq provides a large catalog of shapes spanning flowcharts, UML, containers, charts, Control system diagrams, and schematic symbols. You can mix shapes within a single diagram—there is no strict separation by diagram type.
+Runiq provides a large catalog of shapes spanning flowcharts, UML, containers, charts, control logic diagrams, and schematic symbols. You can mix shapes within a single diagram—there is no strict separation by diagram type.
 
 Common examples:
 
@@ -56,3 +56,26 @@ Corner icons are fixed at 16px and appear in the top-right of the shape.
 | Type       | Syntax               | Separator | Example          |
 | ---------- | -------------------- | --------- | ---------------- |
 | **Corner** | `icon:provider/icon` | Slash `/` | `icon:fa/server` |
+
+## Decorative Elements
+
+Use decorative shapes for labels, separators, badges, and callouts. These are standard diagram shapes, so they can be placed anywhere and connected with edges.
+
+```runiq
+diagram "Decorative Elements" {
+  direction LR
+
+  shape header as @sectionHeader label:"Phase 1" data:{ length: 240 }
+  shape callout as @callout label:"Owner: Team A"
+  shape target as @roundedRectangle label:"Payments"
+
+  header -> target
+  callout -> target
+}
+```
+
+**Notes:**
+
+- `@callout` is an alias for `@captionBox`. Use an edge to point it at the target.
+- Divider lengths can be controlled with `data:{ length: 220 }`.
+- Badge shapes use `@badgeNumber` or `@badgeLabel` for short text.

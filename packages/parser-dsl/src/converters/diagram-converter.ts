@@ -179,6 +179,20 @@ function processDialogStatement(
         return { name: opt.name, value };
       }),
     });
+  } else if (Langium.isDataUseStatement(statement)) {
+    (diagram as any).dataUse = unescapeString(statement.source);
+  } else if (Langium.isDataMapStatement(statement)) {
+    if (!(diagram as any).dataMaps) (diagram as any).dataMaps = [];
+    const fields: Record<string, string> = {};
+    for (const prop of statement.properties) {
+      const key = prop.key.replace(/:$/, '');
+      fields[key] = prop.value.replace(/^"|"$/g, '');
+    }
+    (diagram as any).dataMaps.push({
+      source: unescapeString(statement.source),
+      target: statement.target,
+      fields,
+    });
   } else if (Langium.isForEachBlock(statement)) {
     if (!(diagram as any).dataTemplates) (diagram as any).dataTemplates = [];
     (diagram as any).dataTemplates.push({
@@ -249,6 +263,12 @@ function processNodeProperties(
         provider: prop.provider,
         name: prop.icon,
       };
+    } else if (Langium.isIconColorProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.iconColor = prop.color.replace(/^"|"$/g, '');
+    } else if (Langium.isIconSizeProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.iconSize = parseFloat(prop.size);
     } else if (Langium.isLinkProperty(prop)) {
       node.link = {
         href: prop.url.replace(/^"|"$/g, ''),
@@ -257,6 +277,8 @@ function processNodeProperties(
       node.tooltip = prop.text.replace(/^"|"$/g, '');
     } else if (Langium.isDataProperty(prop)) {
       node.data = convertDataProperty(prop);
+    } else if (Langium.isDataSourceRefProperty(prop)) {
+      node.dataSource = unescapeString(prop.source);
     } else if (Langium.isShowLegendProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.showLegend = prop.value === 'true';

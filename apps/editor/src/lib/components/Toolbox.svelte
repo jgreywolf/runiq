@@ -48,7 +48,11 @@
 					</div>
 				{:else if editorState.profileName === ProfileName.electrical}
 					<div class="border-b border-amber-200 bg-amber-50 px-4 py-2">
-						<p class="text-xs font-medium text-amber-900">⚡ Electrical Circuit Mode</p>
+						<p class="text-xs font-medium text-amber-900">Electrical Circuit Mode</p>
+					</div>
+				{:else if editorState.profileName === ProfileName.control}
+					<div class="border-b border-orange-200 bg-orange-50 px-4 py-2">
+						<p class="text-xs font-medium text-orange-900">Control Logic Mode</p>
 					</div>
 				{:else if editorState.profileName === ProfileName.digital}
 					<div class="border-b border-lime-200 bg-lime-50 px-4 py-2">

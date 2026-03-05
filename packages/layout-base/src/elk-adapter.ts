@@ -251,11 +251,6 @@ export class ElkLayoutEngine implements LayoutEngine {
     const baseSpacing = hasContainers ? 150 : 100; // Extra spacing for container diagrams
     const spacing = opts.spacing || baseSpacing;
 
-    // Detect if this is a pedigree chart
-    const isPedigreeChart = diagram.nodes.some(
-      (n) => n.shape === 'pedigree-male' || n.shape === 'pedigree-female'
-    );
-
     // Detect if this is a use case diagram (actors + use cases in containers or ellipses)
     // Only apply BOX algorithm if there are no containers (flat layout)
     const isUseCaseDiagram =
@@ -276,17 +271,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Build ELK graph structure with hierarchyHandling for containers
     const elkGraph: ElkNode = {
       id: 'root',
-      layoutOptions: isPedigreeChart
-        ? {
-            // For pedigree/family tree charts, use MrTree algorithm which is designed for trees
-            'elk.algorithm': 'mrtree',
-            'elk.direction': direction,
-            'elk.spacing.nodeNode': '80',
-            'elk.mrtree.searchOrder': 'DFS',
-            'elk.edgeRouting': 'ORTHOGONAL', // Use orthogonal routing (right-angles only, no diagonals)
-            'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints
-          }
-        : isUseCaseDiagram
+      layoutOptions: isUseCaseDiagram
           ? {
               // For use case diagrams, use BOX algorithm which is better for clustered layouts
               // This prevents actors and use cases from bunching up
@@ -359,13 +344,6 @@ export class ElkLayoutEngine implements LayoutEngine {
       );
     }
 
-    // Calculate generations for pedigree charts (isPedigreeChart already declared above)
-    const nodeGenerations = new Map<string, number>();
-    const spousePairs = new Map<string, string>(); // Track spouse relationships
-    if (isPedigreeChart) {
-      this.calculatePedigreeGenerations(diagram, nodeGenerations, spousePairs);
-    }
-
     // Determine which nodes need ports (nodes that have edges with anchor constraints)
     const nodesNeedingPorts = new Set<string>();
     for (const edge of diagram.edges) {
@@ -419,27 +397,6 @@ export class ElkLayoutEngine implements LayoutEngine {
           // CRITICAL: Set port constraints on the node itself
           elkNode.layoutOptions = elkNode.layoutOptions || {};
           elkNode.layoutOptions['elk.portConstraints'] = 'FIXED_SIDE';
-        }
-
-        // Apply layer constraint for pedigree charts
-        if (isPedigreeChart && nodeGenerations.has(node.id)) {
-          const generation = nodeGenerations.get(node.id)!;
-
-          // Get spouse if any - spouses should have same position priority
-          const spouse = spousePairs.get(node.id);
-          const basePosition = spouse && node.id < spouse ? 0 : spouse ? 1 : 0;
-
-          elkNode.layoutOptions = elkNode.layoutOptions || {};
-          elkNode.layoutOptions['elk.layered.layering.layer'] = generation;
-          elkNode.layoutOptions[
-            'elk.layered.crossingMinimization.semiInteractive'
-          ] = 'true';
-          elkNode.layoutOptions['elk.layered.nodePlacement.bk.fixedAlignment'] =
-            'BALANCED';
-          elkNode.layoutOptions['elk.priority'] = (
-            generation * 100 +
-            basePosition
-          ).toString();
         }
 
         elkGraph.children.push(elkNode);
@@ -761,7 +718,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const uniqueEdges = Array.from(edgeMap.values());
 
     // Snap edge endpoints to shape anchor points for better visual accuracy
-    this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText);
+    this.snapEdgesToAnchors(diagram, uniqueEdges, nodes, measureText, direction);
 
     // Simplify edges to straight lines for radial/mindmap layouts
     this.simplifyRadialEdges(diagram, uniqueEdges);
@@ -812,7 +769,8 @@ export class ElkLayoutEngine implements LayoutEngine {
     diagram: DiagramAst,
     edges: RoutedEdge[],
     nodes: PositionedNode[],
-    measureText: ReturnType<typeof createTextMeasurer>
+    measureText: ReturnType<typeof createTextMeasurer>,
+    direction: string
   ): void {
     for (const edge of edges) {
       if (!edge.points || edge.points.length < 2) continue;
@@ -857,7 +815,13 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const firstPoint = edge.points[0];
-        startAnchor = this.findNearestAnchor(firstPoint, anchors, fromNode);
+        startAnchor = this.findPreferredAnchor(
+          anchors,
+          fromNode,
+          toNode,
+          firstPoint,
+          direction
+        );
         if (startAnchor) {
           newStartPoint = {
             x: fromNode.x + startAnchor.x,
@@ -896,6 +860,7 @@ export class ElkLayoutEngine implements LayoutEngine {
           fromNode,
           toNode
         );
+        this.simplifySideBranchEdge(edge, startAnchor, endAnchor, direction);
       }
     }
   }
@@ -980,7 +945,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     newStartPoint: { x: number; y: number } | null,
     newEndPoint: { x: number; y: number } | null,
     startAnchor: { x: number; y: number; name?: string } | null,
-    _endAnchor: { x: number; y: number; name?: string } | null,
+    endAnchor: { x: number; y: number; name?: string } | null,
     _fromNode: PositionedNode,
     _toNode: PositionedNode
   ): void {
@@ -1003,8 +968,34 @@ export class ElkLayoutEngine implements LayoutEngine {
       }
       if (newEndPoint) {
         edge.points[edge.points.length - 1] = newEndPoint;
-        // TODO: Could also fix the last segment to arrive orthogonally at the end anchor
+        if (endAnchor?.name) {
+          const endDir = this.getAnchorDirection(endAnchor.name);
+          const lastIndex = edge.points.length - 1;
+          const prevIndex = lastIndex - 1;
+          if (prevIndex >= 0) {
+            if (endDir === Orientation.HORIZONTAL) {
+              edge.points[prevIndex] = {
+                x: edge.points[prevIndex].x,
+                y: newEndPoint.y,
+              };
+            } else if (endDir === Orientation.VERTICAL) {
+              edge.points[prevIndex] = {
+                x: newEndPoint.x,
+                y: edge.points[prevIndex].y,
+              };
+            }
+          }
+        }
       }
+      this.ensureOrthogonalPath(edge);
+      if (startAnchor?.name && newStartPoint) {
+        this.nudgeEndpointOutward(edge, 'start', startAnchor.name, 12);
+      }
+      if (endAnchor?.name && newEndPoint) {
+        this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+        this.alignEndSegmentToAnchor(edge, endAnchor.name);
+      }
+      this.ensureOrthogonalPath(edge);
       return;
     }
 
@@ -1057,6 +1048,15 @@ export class ElkLayoutEngine implements LayoutEngine {
         ];
       }
     }
+    this.ensureOrthogonalPath(edge);
+    if (startAnchor?.name && newStartPoint) {
+      this.nudgeEndpointOutward(edge, 'start', startAnchor.name, 12);
+    }
+    if (endAnchor?.name && newEndPoint) {
+      this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+      this.alignEndSegmentToAnchor(edge, endAnchor.name);
+    }
+    this.ensureOrthogonalPath(edge);
   }
 
   /**
@@ -1075,6 +1075,220 @@ export class ElkLayoutEngine implements LayoutEngine {
     }
     return null;
   }
+
+  /**
+   * Ensure the edge path is strictly orthogonal by inserting bend points
+   * anywhere a diagonal segment exists.
+   */
+  private ensureOrthogonalPath(edge: RoutedEdge): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const normalized: { x: number; y: number }[] = [edge.points[0]];
+
+    for (let i = 1; i < edge.points.length; i++) {
+      const prev = normalized[normalized.length - 1];
+      const current = edge.points[i];
+
+      if (prev.x !== current.x && prev.y !== current.y) {
+        const dx = Math.abs(current.x - prev.x);
+        const dy = Math.abs(current.y - prev.y);
+        if (dx >= dy) {
+          normalized.push({ x: current.x, y: prev.y });
+        } else {
+          normalized.push({ x: prev.x, y: current.y });
+        }
+      }
+
+      normalized.push(current);
+    }
+
+    edge.points = normalized;
+  }
+
+  /**
+   * Simplify side-branch edges in vertical layouts to avoid x-axis oscillation.
+   */
+  private simplifySideBranchEdge(
+    edge: RoutedEdge,
+    startAnchor: { x: number; y: number; name?: string } | null,
+    endAnchor: { x: number; y: number; name?: string } | null,
+    direction: string
+  ): void {
+    if (!startAnchor?.name || edge.points.length < 4) return;
+    if (direction !== 'DOWN' && direction !== 'UP') return;
+
+    const anchorName = startAnchor.name.toLowerCase();
+    if (anchorName !== 'left' && anchorName !== 'right') return;
+
+    const uniqueX = new Set(edge.points.map((p) => p.x));
+    if (uniqueX.size <= 2) return;
+
+    const start = edge.points[0];
+    const end = edge.points[edge.points.length - 1];
+    const offset = anchorName === 'left' ? -12 : 12;
+    const midX = start.x + offset;
+
+    edge.points = [
+      start,
+      { x: midX, y: start.y },
+      { x: midX, y: end.y },
+      end,
+    ];
+
+    this.ensureOrthogonalPath(edge);
+    if (endAnchor?.name) {
+      this.nudgeEndpointOutward(edge, 'end', endAnchor.name, 12);
+      this.ensureOrthogonalPath(edge);
+    }
+  }
+
+  /**
+   * Ensure the first/last segment steps outward from the node
+   * so paths don't jog inward before routing.
+   */
+  private nudgeEndpointOutward(
+    edge: RoutedEdge,
+    which: 'start' | 'end',
+    anchorName: string,
+    offset: number
+  ): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const name = anchorName.toLowerCase();
+    if (which === 'start') {
+      const start = edge.points[0];
+      const next = edge.points[1];
+      if (name === 'left') {
+        const targetX = start.x - offset;
+        if (next.x > targetX) {
+          edge.points[1] = { x: targetX, y: next.y };
+        }
+      } else if (name === 'right') {
+        const targetX = start.x + offset;
+        if (next.x < targetX) {
+          edge.points[1] = { x: targetX, y: next.y };
+        }
+      } else if (name === 'top') {
+        const targetY = start.y - offset;
+        if (next.y > targetY) {
+          edge.points[1] = { x: next.x, y: targetY };
+        }
+      } else if (name === 'bottom') {
+        const targetY = start.y + offset;
+        if (next.y < targetY) {
+          edge.points[1] = { x: next.x, y: targetY };
+        }
+      }
+    } else {
+      const lastIndex = edge.points.length - 1;
+      const end = edge.points[lastIndex];
+      const prev = edge.points[lastIndex - 1];
+      if (name === 'left') {
+        const targetX = end.x - offset;
+        if (prev.x < targetX) {
+          edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
+        }
+      } else if (name === 'right') {
+        const targetX = end.x + offset;
+        if (prev.x > targetX) {
+          edge.points[lastIndex - 1] = { x: targetX, y: prev.y };
+        }
+      } else if (name === 'top') {
+        const targetY = end.y - offset;
+        if (prev.y < targetY) {
+          edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
+        }
+      } else if (name === 'bottom') {
+        const targetY = end.y + offset;
+        if (prev.y > targetY) {
+          edge.points[lastIndex - 1] = { x: prev.x, y: targetY };
+        }
+      }
+    }
+  }
+
+  /**
+   * Align the final segment with the anchor direction so arrowheads point correctly.
+   */
+  private alignEndSegmentToAnchor(
+    edge: RoutedEdge,
+    anchorName: string
+  ): void {
+    if (!edge.points || edge.points.length < 2) return;
+
+    const name = anchorName.toLowerCase();
+    const lastIndex = edge.points.length - 1;
+    const end = edge.points[lastIndex];
+    const prev = edge.points[lastIndex - 1];
+
+    if (name === 'top' || name === 'bottom') {
+      // Force vertical entry.
+      edge.points[lastIndex - 1] = { x: end.x, y: prev.y };
+    } else if (name === 'left' || name === 'right') {
+      // Force horizontal entry.
+      edge.points[lastIndex - 1] = { x: prev.x, y: end.y };
+    }
+  }
+
+  /**
+   * Prefer left/right anchors for side-branching in vertical layouts
+   * and top/bottom anchors for side-branching in horizontal layouts.
+   * Falls back to nearest anchor when no strong directional preference exists.
+   */
+  private findPreferredAnchor(
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    fromNode: PositionedNode,
+    toNode: PositionedNode,
+    fallbackPoint: { x: number; y: number },
+    direction: string
+  ): { x: number; y: number; name?: string } | null {
+    if (anchors.length === 0) return null;
+
+    const fromCenter = {
+      x: fromNode.x + fromNode.width / 2,
+      y: fromNode.y + fromNode.height / 2,
+    };
+    const toCenter = {
+      x: toNode.x + toNode.width / 2,
+      y: toNode.y + toNode.height / 2,
+    };
+
+    const dx = toCenter.x - fromCenter.x;
+    const dy = toCenter.y - fromCenter.y;
+
+    const verticalLayout = direction === 'DOWN' || direction === 'UP';
+    const horizontalLayout = direction === 'RIGHT' || direction === 'LEFT';
+
+    const thresholdX = fromNode.width * 0.35;
+    const thresholdY = fromNode.height * 0.35;
+
+    let desired: string | null = null;
+    if (verticalLayout) {
+      if (Math.abs(dx) > thresholdX) {
+        desired = dx >= 0 ? 'right' : 'left';
+      } else {
+        desired = dy >= 0 ? 'bottom' : 'top';
+      }
+    } else if (horizontalLayout) {
+      if (Math.abs(dy) > thresholdY) {
+        desired = dy >= 0 ? 'bottom' : 'top';
+      } else {
+        desired = dx >= 0 ? 'right' : 'left';
+      }
+    }
+
+    if (desired) {
+      const preferred = anchors.find(
+        (anchor) => anchor.name?.toLowerCase() === desired
+      );
+      if (preferred) {
+        return preferred;
+      }
+    }
+
+    return this.findNearestAnchor(fallbackPoint, anchors, fromNode);
+  }
+
 
   /**
    * Calculate positions for sibling containers based on orientation
@@ -2793,199 +3007,6 @@ export class ElkLayoutEngine implements LayoutEngine {
         return 'LEFT';
       default:
         return 'DOWN'; // Default fallback
-    }
-  }
-
-  /**
-   * Calculate generation (layer) for each node in a pedigree chart.
-   * Uses BFS from root nodes (those with no incoming parent edges)
-   * to assign generation numbers that enforce hierarchical layering.
-   */
-  private calculatePedigreeGenerations(
-    diagram: DiagramAst,
-    nodeGenerations: Map<string, number>,
-    spousePairsOut?: Map<string, string>
-  ): void {
-    // Build adjacency lists for parent->child relationships
-    const children = new Map<string, Set<string>>();
-    const parents = new Map<string, Set<string>>();
-
-    for (const node of diagram.nodes) {
-      children.set(node.id, new Set());
-      parents.set(node.id, new Set());
-    }
-
-    // Analyze edges to find parent-child relationships
-    // In pedigree charts, edges from both parents point to children
-    for (const edge of diagram.edges) {
-      children.get(edge.from)?.add(edge.to);
-      parents.get(edge.to)?.add(edge.from);
-    }
-
-    // Find root nodes (generation 0) - nodes with no parents or only spouse edges
-    const roots: string[] = [];
-    const spouseEdges = new Set<string>();
-    const spousePairs = new Set<string>(); // Track spouse relationships
-
-    // Detect spouse/marriage edges using multiple heuristics:
-    // 1. Bidirectional edges (explicit marriage notation)
-    for (const edge of diagram.edges) {
-      const hasReverseEdge = diagram.edges.some(
-        (e) => e.from === edge.to && e.to === edge.from
-      );
-      if (hasReverseEdge) {
-        spouseEdges.add(`${edge.from}-${edge.to}`);
-        spouseEdges.add(`${edge.to}-${edge.from}`);
-        const pairKey = [edge.from, edge.to].sort().join('-');
-        spousePairs.add(pairKey);
-      }
-    }
-
-    // 2. Co-parents: if two nodes both point to the same child(ren), they're likely spouses
-    const childToParents = new Map<string, Set<string>>();
-    for (const edge of diagram.edges) {
-      if (!childToParents.has(edge.to)) {
-        childToParents.set(edge.to, new Set());
-      }
-      childToParents.get(edge.to)!.add(edge.from);
-    }
-
-    // If two parents point to the same child, mark them as spouses
-    for (const [_child, parentSet] of childToParents.entries()) {
-      const parentList = Array.from(parentSet);
-      if (parentList.length === 2) {
-        const [p1, p2] = parentList;
-        // Check if both parents are pedigree shapes
-        const p1Node = diagram.nodes.find((n) => n.id === p1);
-        const p2Node = diagram.nodes.find((n) => n.id === p2);
-        if (
-          p1Node &&
-          p2Node &&
-          (p1Node.shape === 'pedigree-male' ||
-            p1Node.shape === 'pedigree-female') &&
-          (p2Node.shape === 'pedigree-male' ||
-            p2Node.shape === 'pedigree-female')
-        ) {
-          spouseEdges.add(`${p1}-${p2}`);
-          spouseEdges.add(`${p2}-${p1}`);
-          const pairKey = [p1, p2].sort().join('-');
-          spousePairs.add(pairKey);
-        }
-      }
-    }
-
-    // Populate output spouse pairs map if provided
-    if (spousePairsOut) {
-      for (const pairKey of spousePairs) {
-        const [p1, p2] = pairKey.split('-');
-        spousePairsOut.set(p1, p2);
-        spousePairsOut.set(p2, p1);
-      }
-    }
-
-    // Build spouse relationship map
-    const spouseMap = new Map<string, string[]>();
-    for (const pairKey of spousePairs) {
-      const [p1, p2] = pairKey.split('-');
-      if (!spouseMap.has(p1)) spouseMap.set(p1, []);
-      if (!spouseMap.has(p2)) spouseMap.set(p2, []);
-      spouseMap.get(p1)!.push(p2);
-      spouseMap.get(p2)!.push(p1);
-    }
-
-    // Identify roots: nodes with no non-spouse parents
-    // Key insight: A node is a root ONLY if:
-    // 1. It has no real parents, AND
-    // 2. Its spouse (if any) ALSO has no real parents
-    // This prevents spouses who "married in" from being roots
-    const processedRoots = new Set<string>();
-
-    for (const node of diagram.nodes) {
-      if (processedRoots.has(node.id)) continue;
-
-      const nodeParents = parents.get(node.id)!;
-      const realParents = Array.from(nodeParents).filter((p) => {
-        return !spouseEdges.has(`${p}-${node.id}`);
-      });
-
-      const nodeChildren = children.get(node.id)!;
-      const nonSpouseChildren = Array.from(nodeChildren).filter((c) => {
-        return !spouseEdges.has(`${node.id}-${c}`);
-      });
-
-      // This node is a potential root if it has no real parents and has descendants
-      if (realParents.length === 0 && nonSpouseChildren.length > 0) {
-        // Check if this node has a spouse
-        const spouses = spouseMap.get(node.id) || [];
-
-        if (spouses.length > 0) {
-          // Check if ANY spouse has real parents
-          let anySpouseHasParents = false;
-          for (const spouseId of spouses) {
-            const spouseParents = parents.get(spouseId)!;
-            const spouseRealParents = Array.from(spouseParents).filter((p) => {
-              return !spouseEdges.has(`${p}-${spouseId}`);
-            });
-            if (spouseRealParents.length > 0) {
-              anySpouseHasParents = true;
-              break;
-            }
-          }
-
-          // Only add as root if NO spouse has real parents
-          if (!anySpouseHasParents) {
-            roots.push(node.id);
-            nodeGenerations.set(node.id, 0);
-            processedRoots.add(node.id);
-          }
-        } else {
-          // No spouse - single root
-          roots.push(node.id);
-          nodeGenerations.set(node.id, 0);
-          processedRoots.add(node.id);
-        }
-      }
-    }
-
-    // Process all nodes using BFS, handling spouses and children
-    const queue: string[] = [...roots];
-    const visited = new Set<string>();
-
-    // Mark roots as visited
-    for (const root of roots) {
-      visited.add(root);
-    }
-
-    while (queue.length > 0) {
-      const nodeId = queue.shift()!;
-      const currentGen = nodeGenerations.get(nodeId) || 0;
-
-      // Process all edges from this node
-      const nodeChildren = children.get(nodeId)!;
-      for (const childId of nodeChildren) {
-        if (spouseEdges.has(`${nodeId}-${childId}`)) {
-          // Spouse edge - same generation
-          const existingGen = nodeGenerations.get(childId);
-          if (existingGen === undefined || existingGen !== currentGen) {
-            nodeGenerations.set(childId, currentGen);
-          }
-          if (!visited.has(childId)) {
-            visited.add(childId);
-            queue.push(childId);
-          }
-        } else {
-          // Parent-child edge - next generation
-          const childGen = currentGen + 1;
-          const existingGen = nodeGenerations.get(childId);
-          if (existingGen === undefined || childGen < existingGen) {
-            nodeGenerations.set(childId, childGen);
-          }
-          if (!visited.has(childId)) {
-            visited.add(childId);
-            queue.push(childId);
-          }
-        }
-      }
     }
   }
 

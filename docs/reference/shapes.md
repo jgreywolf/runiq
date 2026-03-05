@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (192 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (224 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 192 diagram profile shapes below ↓](#all-shapes)
+[See all 224 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -158,11 +158,11 @@ diagram "Emphasis Styles" {
 }
 ```
 
-### 5. Control System Shapes (10 shapes)
+### 5. Control System Shapes (legacy, 10 shapes)
 
 **Profile:** `diagram` (default)
 
-Control system diagram elements for control systems and signal processing:
+Legacy control system block-diagram elements (transfer functions, summing junctions). New control logic work should use the `control` profile with schematic parts/nets.
 
 | Shape             | Syntax              | Description                    |
 | ----------------- | ------------------- | ------------------------------ |
@@ -172,9 +172,9 @@ Control system diagram elements for control systems and signal processing:
 | Differentiator    | `@differentiator`   | Differentiation block (s)      |
 | Time Delay        | `@timeDelay`        | Transport delay (e^-Ts)        |
 | Saturation        | `@saturation`       | Limiter/saturator              |
-| Summing Junction  | `@summingJunction`  | Adder/summer (Σ)               |
-| Multiply Junction | `@multiplyJunction` | Multiplier (×)                 |
-| Divide Junction   | `@divideJunction`   | Divider (÷)                    |
+| Summing Junction  | `@summingJunction`  | Adder/summer                   |
+| Multiply Junction | `@multiplyJunction` | Multiplier                     |
+| Divide Junction   | `@divideJunction`   | Divider                        |
 | Compare Junction  | `@compareJunction`  | Comparator                     |
 
 **Example:**
@@ -183,13 +183,13 @@ Control system diagram elements for control systems and signal processing:
 diagram "PID Controller" {
   shape kp as @gain label: "Kp"
   shape ki as @integrator label: "Ki/s"
-  shape kd as @differentiator label: "Kd·s"
-  shape sum as @summingJunction label: "Σ"
+  shape kd as @differentiator label: "Kd*s"
+  shape sum as @summingJunction label: "+/-"
 }
 ```
 
-::: tip Control Systems
-See the [Control system Diagrams Guide](../guide/control-diagrams.md) for comprehensive documentation on control system diagrams with LaTeX and Simulink export.
+::: tip Control Logic
+See the [Control Logic Diagrams Guide](../guide/control-diagrams.md) for ladder and function block examples.
 :::
 
 
@@ -245,11 +245,13 @@ diagram "Kinematic Linkage" {
 }
 ```
 
-### 7. Special Shapes (7 shapes)
+### 7. Special & Decorative Shapes (32 shapes)
 
 **Profile:** `diagram` (default)
 
-Miscellaneous special-purpose shapes:
+Miscellaneous special-purpose shapes plus decorative elements:
+
+#### Core Special Shapes
 
 | Shape          | Syntax           | Description             |
 | -------------- | ---------------- | ----------------------- |
@@ -261,12 +263,54 @@ Miscellaneous special-purpose shapes:
 | Fork Join      | `@forkJoin`      | Parallel sync bar       |
 | Or             | `@or`            | Logical OR symbol       |
 
+#### Decorative Separators
+
+| Shape            | Syntax             | Description                     |
+| ---------------- | ------------------ | ------------------------------- |
+| Horizontal Rule  | `@hRule`           | Horizontal line divider         |
+| Vertical Rule    | `@vRule`           | Vertical line divider           |
+| Bracket Left     | `@bracketLeft`     | Left bracket connector          |
+| Bracket Right    | `@bracketRight`    | Right bracket connector         |
+| Section Header   | `@sectionHeader`   | Line with centered label        |
+| Swimlane Divider | `@swimlaneDivider` | Dashed divider with optional label |
+
+#### Decorative Typography
+
+| Shape        | Syntax         | Description               |
+| ------------ | -------------- | ------------------------- |
+| Title Box    | `@titleBox`    | Bold heading container    |
+| Subtitle     | `@subtitleText`| Subheading text           |
+| Caption Box  | `@captionBox`  | Caption or callout box    |
+| Footnote     | `@footnoteText`| Small italic footnote     |
+| Legend Box   | `@legendBox`   | Legend container          |
+| Watermark    | `@watermarkText` | Large background text  |
+
+#### Decorative Badges
+
+| Shape          | Syntax           | Description            |
+| -------------- | ---------------- | ---------------------- |
+| Warning Badge  | `@badgeWarning`  | Warning icon           |
+| Info Badge     | `@badgeInfo`     | Info icon              |
+| Success Badge  | `@badgeSuccess`  | Checkmark icon         |
+| Error Badge    | `@badgeError`    | X icon                 |
+| Star Badge     | `@badgeStar`     | Star icon              |
+| Flag Badge     | `@badgeFlag`     | Flag icon              |
+| Lock Badge     | `@badgeLock`     | Locked padlock         |
+| Unlock Badge   | `@badgeUnlock`   | Unlocked padlock       |
+| New Badge      | `@badgeNew`      | NEW text badge         |
+| Updated Badge  | `@badgeUpdated`  | UPD text badge         |
+| Priority Badge | `@badgePriority` | P1 text badge          |
+| Number Badge   | `@badgeNumber`   | Numeric badge          |
+| Label Badge    | `@badgeLabel`    | Short text pill badge  |
+
 **Example:**
 
 ```runiq
-diagram "Special Symbols" {
-  shape note as @textBlock label: "Plain text"
-  shape power as @lightningBolt label: "AC Power"
+diagram "Decorative Shapes" {
+  shape title as @titleBox label:"Milestone"
+  shape callout as @captionBox label:"Owner: Team A"
+  shape warn as @badgeWarning
+  callout -> title
 }
 ```
 
@@ -400,45 +444,6 @@ diagram "Use Case Diagram" {
   shape db as @component label: "Database"
 }
 ```
-
-<!-- ### 12. Pedigree Shapes (3 shapes)
-
-**Profile:** `diagram` (default)
-
-Medical/genetic family tree symbols following standard pedigree notation:
-
-| Shape            | Syntax             | Description                      |
-| ---------------- | ------------------ | -------------------------------- |
-| Pedigree Male    | `@pedigreeMale`    | Male individual (square)         |
-| Pedigree Female  | `@pedigreeFemale`  | Female individual (circle)       |
-| Pedigree Unknown | `@pedigreeUnknown` | Unknown sex individual (diamond) |
-
-**Special Properties:**
-
-- `affected:true` - Black fill (has genetic condition)
-- `carrier:true` - Half-fill pattern (carries one copy)
-- `deceased:true` - Diagonal line overlay
-
-**Example:**
-
-```runiq
-diagram "Family History" {
-  direction TB
-
-  shape father as @pedigreeMale label: "Father" carrier: true
-  shape mother as @pedigreeFemale label: "Mother" carrier: true
-  shape son as @pedigreeMale label: "Son" affected: true
-  shape daughter as @pedigreeFemale label: "Daughter"
-
-  father -> mother arrowType: none
-  father -> son
-  mother -> daughter
-}
-```
-
-::: tip Pedigree Charts
-See the [Pedigree Charts Guide](../guide/pedigree-charts.md) for comprehensive documentation on creating medical family trees with inheritance patterns.
-::: -->
 
 ### 13. C4 Architecture Shapes (4 shapes)
 
@@ -602,14 +607,13 @@ Complete listing organized by category:
 | Flowchart          | 14    | Process flows, ISO 5807 standard               |
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
-| Control Systems    | 10    | Control system diagrams, signal processing     |
+| Control Systems (legacy) | 10 | Control system block diagrams |
 | Kinematic          | 25    | Joints, links, and actuators                   |
-| Special            | 7     | Miscellaneous symbols                          |
+| Special            | 32    | Decorative accents, badges, and symbols        |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |
 | Network            | 7     | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
-| Pedigree           | 3     | Medical family trees, genetics                 |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
 | BPMN               | 7     | Business process modeling                      |
 | AWS                | 6     | Amazon Web Services infrastructure             |
@@ -617,7 +621,7 @@ Complete listing organized by category:
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 201 diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 220+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

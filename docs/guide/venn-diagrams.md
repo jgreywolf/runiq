@@ -74,7 +74,44 @@ shape stack as @venn
 - **3-circle**: `[AB, AC, BC, ABC]` (4 intersections)
 - **4-circle**: `[AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD]` (11 intersections)
 
-### 3. Custom Styling
+Intersection label styling is not configurable in the DSL yet. (It will be supported via the data panel JSON format.)
+
+```runiq
+shape styled as @venn
+  label:"Overlap Styling"
+  data:[60, 40, 30]
+  labels:["A", "B", "C"]
+  intersections:["A+B", "A+C", "B+C", "All"]
+```
+
+### 3. Data-Driven Sizing
+
+Circle sizes scale proportionally to the values in `data`, within a bounded range. This keeps the diagram readable while still reflecting relative magnitude.
+
+```runiq
+shape proportional as @venn
+  label:"Feature Usage"
+  data:[1200, 1000, 800]
+  labels:["Core", "Plus", "Pro"]
+  intersections:["Core+Plus", "Core+Pro", "Plus+Pro", "All"]
+```
+
+### 4. Theme-Aware Colors
+
+If you omit `colors`, the Venn shape pulls from the active theme's palette when available. If no theme palette is present, it falls back to the default palette.
+
+```runiq
+diagram "Themed Venn" {
+  theme runiq
+  shape themed as @venn
+    label:"Adoption"
+    data:[45, 55]
+    labels:["Product A", "Product B"]
+    intersections:["Both"]
+}
+```
+
+### 5. Custom Styling
 
 Full control over colors, stroke, and labels:
 
@@ -84,6 +121,7 @@ shape colors as @venn
   data:[100, 100, 100]
   labels:["Red", "Blue", "Yellow"]
   colors:["#ff0000", "#0000ff", "#ffff00"]
+  labelColors:["#7f1d1d", "#1e3a8a", "#78350f"]
   strokeColor:"#000"
   strokeWidth:3
   fontSize:16
@@ -217,7 +255,7 @@ shape generic as @venn
 
 ### 5. Keep Data Values Proportional
 
-While the circles don't scale perfectly to data values, maintain reasonable proportions:
+Circle sizes are scaled within a bounded range, so extreme differences will still compress visually. Keep values in a reasonable range for best results:
 
 ```runiq
 # ✅ Good: Similar magnitudes
@@ -240,6 +278,7 @@ shape disproportionate as @venn
 | `data`          | `number[]` or `object[]` | Values for each circle (2-4 items) | Yes           |
 | `labels`        | `string[]`               | Labels for each circle             | Conditional\* |
 | `colors`        | `string[]`               | Custom colors (hex/rgb)            | No            |
+| `labelColors`   | `string[]`               | Text colors for each set label      | No            |
 | `intersections` | `string[]`               | Labels for overlap regions         | No            |
 
 \* Required if using simple array format for `data`; optional if using object format with inline labels.
@@ -255,7 +294,7 @@ shape disproportionate as @venn
 
 ### Default Colors
 
-If no colors are specified, Runiq uses a default palette:
+If no colors are specified, Runiq uses a theme palette when available, otherwise it falls back to the default palette:
 
 - Circle 1: `#4299e1` (Blue)
 - Circle 2: `#48bb78` (Green)

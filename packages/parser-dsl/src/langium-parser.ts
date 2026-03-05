@@ -3,12 +3,14 @@ import { ProfileType } from '@runiq/core';
 import { EmptyFileSystem, type AstNode } from 'langium';
 import {
   convertDiagramProfile,
+  convertControlProfile,
   convertDigitalProfile,
   convertElectricalProfile,
   convertGitGraphProfile,
   convertHvacProfile,
   convertHydraulicProfile,
   convertKanbanProfile,
+  convertPedigreeProfile,
   convertPIDProfile,
   convertPneumaticProfile,
   convertRailroadProfile,
@@ -142,6 +144,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
   for (const profile of document.profiles) {
     if (Langium.isDiagramProfile(profile)) {
       runiqDoc.profiles.push(convertDiagramProfile(profile));
+    } else if (Langium.isControlProfile(profile)) {
+      runiqDoc.profiles.push(convertControlProfile(profile));
     } else if (Langium.isElectricalProfile(profile)) {
       runiqDoc.profiles.push(convertElectricalProfile(profile));
     } else if (Langium.isDigitalProfile(profile)) {
@@ -168,6 +172,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertGitGraphProfile(profile));
     } else if (Langium.isTreemapProfile(profile)) {
       runiqDoc.profiles.push(convertTreemapProfile(profile));
+    } else if (Langium.isPedigreeProfile(profile)) {
+      runiqDoc.profiles.push(convertPedigreeProfile(profile));
     } else if (isGlyphSetProfile(profile)) {
       // Expand glyphset to diagram profile
       const expandedDiagram = expandGlyphSet(profile);
@@ -204,6 +210,12 @@ function collectParseWarningsFromLangium(
       warnings.push(...collectHvacWarnings(profile));
     } else if (Langium.isPIDProfile(profile)) {
       warnings.push(...collectPidWarnings(profile));
+    } else if (Langium.isDiagramProfile(profile)) {
+      warnings.push(...collectDataWarnings(profile, 'diagram'));
+    } else if (Langium.isTimelineProfile(profile)) {
+      warnings.push(...collectDataWarnings(profile, 'timeline'));
+    } else if (Langium.isTreemapProfile(profile)) {
+      warnings.push(...collectDataWarnings(profile, 'treemap'));
     }
   }
 
@@ -269,10 +281,217 @@ function collectParseWarningDetails(
       warnings.push(...collectHvacWarningDetails(profile));
     } else if (Langium.isPIDProfile(profile)) {
       warnings.push(...collectPidWarningDetails(profile));
+    } else if (Langium.isDiagramProfile(profile)) {
+      warnings.push(...collectDataWarningDetails(profile, 'diagram'));
+    } else if (Langium.isTimelineProfile(profile)) {
+      warnings.push(...collectDataWarningDetails(profile, 'timeline'));
+    } else if (Langium.isTreemapProfile(profile)) {
+      warnings.push(...collectDataWarningDetails(profile, 'treemap'));
     }
   }
 
   return warnings;
+}
+
+type DataProfileType = 'diagram' | 'timeline' | 'treemap';
+
+const DATA_TARGETS_BY_PROFILE: Record<DataProfileType, Set<string>> = {
+  diagram: new Set(['sankey', 'treemap', 'chart']),
+  timeline: new Set(['timeline', 'events', 'tasks', 'milestones']),
+  treemap: new Set(['treemap']),
+};
+
+const DATA_REQUIRED_FIELDS: Record<
+  string,
+  { required: string[]; needsLabel: boolean }
+> = {
+  timeline: { required: ['date'], needsLabel: true },
+  events: { required: ['date'], needsLabel: true },
+  milestones: { required: ['date'], needsLabel: true },
+  tasks: { required: ['startDate', 'endDate'], needsLabel: true },
+  treemap: { required: ['value'], needsLabel: true },
+  sankey: { required: ['source', 'target', 'value'], needsLabel: false },
+  chart: { required: ['value'], needsLabel: true },
+};
+
+function normalizeKey(key: string): string {
+  return unescapeString(key).replace(/:$/, '');
+}
+
+function collectDataWarnings(
+  profile:
+    | Langium.DiagramProfile
+    | Langium.TimelineProfile
+    | Langium.TreemapProfile,
+  profileType: DataProfileType
+): string[] {
+  const warnings: string[] = [];
+  const dataSources = new Map<string, Langium.DataSourceDeclaration>();
+
+  for (const statement of profile.statements) {
+    if (Langium.isDataSourceDeclaration(statement)) {
+      dataSources.set(unescapeString(statement.key), statement);
+    }
+  }
+
+  for (const statement of profile.statements) {
+    if (Langium.isDataUseStatement(statement)) {
+      const sourceId = unescapeString(statement.source);
+      if (!dataSources.has(sourceId)) {
+        warnings.push(`Data source not found: ${sourceId}`);
+      }
+    } else if (Langium.isDataMapStatement(statement)) {
+      const sourceId = unescapeString(statement.source);
+      if (!dataSources.has(sourceId)) {
+        warnings.push(`Data map source not found: ${sourceId}`);
+      }
+
+      const target = statement.target;
+      if (!DATA_TARGETS_BY_PROFILE[profileType].has(target)) {
+        warnings.push(
+          `Data map target ${target} is not supported in ${profileType} profiles`
+        );
+        continue;
+      }
+
+      const fields = new Set<string>();
+      for (const prop of statement.properties) {
+        if (!prop.key) continue;
+        fields.add(normalizeKey(prop.key));
+      }
+
+      if (target === 'sankey') {
+        if (fields.has('to')) fields.add('target');
+        if (fields.has('from')) fields.add('source');
+      }
+
+      if (fields.size === 0) {
+        warnings.push(`Data map for ${target} has no fields`);
+        continue;
+      }
+
+      const requirements = DATA_REQUIRED_FIELDS[target];
+      if (!requirements) continue;
+
+      const missing: string[] = [];
+      for (const required of requirements.required) {
+        if (!fields.has(required)) {
+          missing.push(required);
+        }
+      }
+      if (requirements.needsLabel) {
+        const hasLabel = fields.has('label') || fields.has('name');
+        if (!hasLabel) {
+          missing.push('label/name');
+        }
+      }
+      if (missing.length > 0) {
+        warnings.push(
+          `Data map for ${target} is missing required field(s): ${missing.join(
+            ', '
+          )}`
+        );
+      }
+    }
+  }
+
+  return warnings;
+}
+
+function collectDataWarningDetails(
+  profile:
+    | Langium.DiagramProfile
+    | Langium.TimelineProfile
+    | Langium.TreemapProfile,
+  profileType: DataProfileType
+): WarningDetail[] {
+  const warningDetails: WarningDetail[] = [];
+  const dataSources = new Map<string, Langium.DataSourceDeclaration>();
+
+  for (const statement of profile.statements) {
+    if (Langium.isDataSourceDeclaration(statement)) {
+      dataSources.set(unescapeString(statement.key), statement);
+    }
+  }
+
+  const addWarning = (message: string, node?: AstNode) => {
+    const range = node?.$cstNode?.range;
+    if (!range) return;
+    warningDetails.push({
+      message,
+      range: {
+        startLine: range.start.line + 1,
+        startColumn: range.start.character + 1,
+        endLine: range.end.line + 1,
+        endColumn: range.end.character + 1,
+      },
+    });
+  };
+
+  for (const statement of profile.statements) {
+    if (Langium.isDataUseStatement(statement)) {
+      const sourceId = unescapeString(statement.source);
+      if (!dataSources.has(sourceId)) {
+        addWarning(`Data source not found: ${sourceId}`, statement);
+      }
+    } else if (Langium.isDataMapStatement(statement)) {
+      const sourceId = unescapeString(statement.source);
+      if (!dataSources.has(sourceId)) {
+        addWarning(`Data map source not found: ${sourceId}`, statement);
+      }
+
+      const target = statement.target;
+      if (!DATA_TARGETS_BY_PROFILE[profileType].has(target)) {
+        addWarning(
+          `Data map target ${target} is not supported in ${profileType} profiles`,
+          statement
+        );
+        continue;
+      }
+
+      const fields = new Set<string>();
+      for (const prop of statement.properties) {
+        if (!prop.key) continue;
+        fields.add(normalizeKey(prop.key));
+      }
+
+      if (target === 'sankey') {
+        if (fields.has('to')) fields.add('target');
+        if (fields.has('from')) fields.add('source');
+      }
+
+      if (fields.size === 0) {
+        addWarning(`Data map for ${target} has no fields`, statement);
+        continue;
+      }
+
+      const requirements = DATA_REQUIRED_FIELDS[target];
+      if (!requirements) continue;
+
+      const missing: string[] = [];
+      for (const required of requirements.required) {
+        if (!fields.has(required)) {
+          missing.push(required);
+        }
+      }
+      if (requirements.needsLabel) {
+        const hasLabel = fields.has('label') || fields.has('name');
+        if (!hasLabel) {
+          missing.push('label/name');
+        }
+      }
+      if (missing.length > 0) {
+        addWarning(
+          `Data map for ${target} is missing required field(s): ${missing.join(
+            ', '
+          )}`,
+          statement
+        );
+      }
+    }
+  }
+
+  return warningDetails;
 }
 
 function collectRailroadWarningDetails(

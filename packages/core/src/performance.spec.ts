@@ -69,8 +69,6 @@ describe('Performance Benchmarks', () => {
     const complexShapes = [
       'pieChart',
       'barChartVertical',
-      'pedigreeMale',
-      'pedigreeFemale',
       'gateX',
       'gateH',
       'server',

@@ -15,6 +15,23 @@ shape pyramid as @pyramid label:"Sales Funnel" data:[{"label":"Leads","value":10
 }`
 			},
 			{
+				name: 'Sankey Flow (Data-Driven)',
+				description: 'CSV datasource mapped into a Sankey chart',
+				badges: ['Data'],
+				code: `diagram "Energy Flow" {
+  datasource "csv" key:flows from:"source,target,value\nCoal,Grid,300\nSolar,Grid,100\nGrid,Homes,380"
+
+  data use flows
+  map flows as sankey {
+    source: "source"
+    to: "target"
+    value: "value"
+  }
+
+  shape energy as @sankeyChart label:"Energy Distribution"
+}`
+			},
+			{
 				name: 'Monthly Sales Trend',
 				description: 'Line chart with data from Data tab',
 				code: `diagram "Monthly Sales Trend" {

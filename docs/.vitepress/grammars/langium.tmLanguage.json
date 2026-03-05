@@ -1,0 +1,51 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Langium Grammar",
+  "scopeName": "source.langium",
+  "patterns": [
+    {
+      "name": "comment.line.double-slash.langium",
+      "match": "//.*$"
+    },
+    {
+      "name": "comment.block.langium",
+      "begin": "/\\*",
+      "end": "\\*/"
+    },
+    {
+      "name": "string.quoted.double.langium",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.langium",
+          "match": "\\\\."
+        }
+      ]
+    },
+    {
+      "name": "keyword.control.langium",
+      "match": "\\b(grammar|entry|returns|fragment|hidden|terminal|import|with|infer|datatype|as|current)\\b"
+    },
+    {
+      "name": "keyword.operator.assignment.langium",
+      "match": "(\\?=|\\+=|=|\\?\\:)\\s*"
+    },
+    {
+      "name": "constant.language.cardinality.langium",
+      "match": "[*+?]"
+    },
+    {
+      "name": "constant.numeric.langium",
+      "match": "\\b\\d+\\b"
+    },
+    {
+      "name": "entity.name.type.langium",
+      "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+    },
+    {
+      "name": "variable.other.rule.langium",
+      "match": "\\b[a-z][A-Za-z0-9_]*\\b"
+    }
+  ]
+}

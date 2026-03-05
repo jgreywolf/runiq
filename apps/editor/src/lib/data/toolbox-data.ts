@@ -1,15 +1,15 @@
 import { basicShapeIcons } from './toolboxIcons/basicShapeIcons';
 import { flowchartShapeIcons } from './toolboxIcons/flowchartShapeIcons';
 import { logicGateShapeIcons } from './toolboxIcons/logicGateShapeIcons';
-// import { pedigreeShapeIcons } from './toolboxIcons/pedigreeShapeIcons';
 import { specialShapeIcons } from './toolboxIcons/specialShapeIcons';
+import { decorativeShapeIcons } from './toolboxIcons/decorativeShapeIcons';
 import { umlShapeIcons } from './toolboxIcons/umlShapeIcons';
 import { c4ShapeIcons } from './toolboxIcons/c4ShapeIcons';
 import { bpmnShapeIcons } from './toolboxIcons/bpmnShapeIcons';
 import { storageShapeIcons } from './toolboxIcons/storageShapeIcons';
-import { controlSystemsShapeIcons } from './toolboxIcons/controlSystemsShapeIcons';
 import { kinematicShapeIcons } from './toolboxIcons/kinematicShapeIcons';
 import { electricalShapeIcons } from './toolboxIcons/electricalShapeIcons';
+import { controlShapeIcons } from './toolboxIcons/controlShapeIcons';
 import { pneumaticShapeIcons } from './toolboxIcons/pneumaticShapeIcons';
 import { hydraulicShapeIcons } from './toolboxIcons/hydraulicShapeIcons';
 import { hvacShapeIcons } from './toolboxIcons/hvacShapeIcons';
@@ -25,6 +25,13 @@ import { quantumShapeIcons } from './toolboxIcons/quantumShapeIcons';
 import { containerTemplateShapeIcons } from './toolboxIcons/containerTemplateShapeIcons';
 import { sequenceShapeIcons } from './toolboxIcons/sequenceShapeIcons';
 import { glyphsetIcons } from './toolboxIcons/glyphsetIcons';
+import { timelineSyntaxShapeIcons } from './toolboxIcons/timelineSyntaxShapeIcons';
+import { kanbanSyntaxShapeIcons } from './toolboxIcons/kanbanSyntaxShapeIcons';
+import { gitgraphSyntaxShapeIcons } from './toolboxIcons/gitgraphSyntaxShapeIcons';
+import { treemapSyntaxShapeIcons } from './toolboxIcons/treemapSyntaxShapeIcons';
+import { wardleySyntaxShapeIcons } from './toolboxIcons/wardleySyntaxShapeIcons';
+import { pidSyntaxShapeIcons } from './toolboxIcons/pidSyntaxShapeIcons';
+import { pedigreeSyntaxShapeIcons } from './toolboxIcons/pedigreeSyntaxShapeIcons';
 import { ProfileName } from '$lib/types';
 
 export interface Shape {
@@ -39,7 +46,7 @@ export interface ShapeCategory {
 	shapes: Shape[];
 	/**
 	 * Profile(s) this shape category belongs to.
-	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, pneumatic, hydraulic, hvac, railroad
+	 * Official profiles: diagram (default), sequence, wardley, electrical, digital, control, pneumatic, hydraulic, hvac, railroad
 	 * If undefined or contains 'diagram', category is shown in general diagram mode.
 	 */
 	profiles?: string[];
@@ -54,17 +61,24 @@ export const shapeCategories: ShapeCategory[] = [
 	...storageShapeIcons,
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
-	...controlSystemsShapeIcons,
 	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
-	//...pedigreeShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
+	...decorativeShapeIcons,
 	...sequenceShapeIcons,
+	...wardleySyntaxShapeIcons,
+	...timelineSyntaxShapeIcons,
+	...kanbanSyntaxShapeIcons,
+	...gitgraphSyntaxShapeIcons,
+	...treemapSyntaxShapeIcons,
+	...pidSyntaxShapeIcons,
+	...pedigreeSyntaxShapeIcons,
 	...electricalShapeIcons,
 	...logicGateShapeIcons,
+	...controlShapeIcons,
 	...digitalComponentShapeIcons,
 	...digitalLogicGateShapeIcons,
 	...digitalSyntaxShapeIcons,
@@ -84,23 +98,31 @@ export const diagramShapes: ShapeCategory[] = [
 	...storageShapeIcons,
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
-	...controlSystemsShapeIcons,
 	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...networkShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,
-	...specialShapeIcons
+	...specialShapeIcons,
+	...decorativeShapeIcons
 ];
 
 export const glyphsets: ShapeCategory[] = [...glyphsetIcons];
 export const sequenceShapes: ShapeCategory[] = [...sequenceShapeIcons];
+export const wardleyShapes: ShapeCategory[] = [...wardleySyntaxShapeIcons];
+export const timelineShapes: ShapeCategory[] = [...timelineSyntaxShapeIcons];
+export const kanbanShapes: ShapeCategory[] = [...kanbanSyntaxShapeIcons];
+export const gitgraphShapes: ShapeCategory[] = [...gitgraphSyntaxShapeIcons];
+export const treemapShapes: ShapeCategory[] = [...treemapSyntaxShapeIcons];
+export const pidShapes: ShapeCategory[] = [...pidSyntaxShapeIcons];
+export const pedigreeShapes: ShapeCategory[] = [...pedigreeSyntaxShapeIcons];
 export const hydraulicShapes: ShapeCategory[] = [...hydraulicShapeIcons];
 export const pneumaticShapes: ShapeCategory[] = [...pneumaticShapeIcons];
 export const electricalShapes: ShapeCategory[] = [
 	...electricalShapeIcons,
 	...logicGateShapeIcons
 ];
+export const controlShapes: ShapeCategory[] = [...controlShapeIcons];
 export const hvacShapes: ShapeCategory[] = [...hvacShapeIcons];
 export const digitalShapes: ShapeCategory[] = [
 	...digitalSyntaxShapeIcons,
@@ -115,6 +137,8 @@ export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCatego
 			return sequenceShapes;
 		case ProfileName.electrical:
 			return electricalShapes;
+		case ProfileName.control:
+			return controlShapes;
 		case ProfileName.digital:
 			return digitalShapes;
 		case ProfileName.pneumatic:
@@ -129,6 +153,20 @@ export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCatego
 			return glyphsets;
 		case ProfileName.railroad:
 			return railroadShapes;
+		case ProfileName.wardley:
+			return wardleyShapes;
+		case ProfileName.timeline:
+			return timelineShapes;
+		case ProfileName.kanban:
+			return kanbanShapes;
+		case ProfileName.gitgraph:
+			return gitgraphShapes;
+		case ProfileName.treemap:
+			return treemapShapes;
+		case ProfileName.pid:
+			return pidShapes;
+		case ProfileName.pedigree:
+			return pedigreeShapes;
 		default:
 			return [];
 	}
