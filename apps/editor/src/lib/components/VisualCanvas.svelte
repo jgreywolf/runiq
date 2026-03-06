@@ -77,6 +77,7 @@ import {
 	shouldClearElementToolbar,
 	shouldRepositionElementToolbar
 } from './visual-canvas/elementToolbarVisibility';
+import { supportsCanvasSelection } from './visual-canvas/interactiveProfiles';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
@@ -870,6 +871,66 @@ import {
 		return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 	}
 
+	function findTimelineStatementLineIndex(lines: string[], nodeId: string): number {
+		const id = nodeId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const timelineRegex = new RegExp(`^\\s*(event|period|task|milestone)\\s+${id}(?:\\s|$)`);
+		for (let i = 0; i < lines.length; i++) {
+			if (timelineRegex.test(lines[i])) return i;
+		}
+		return -1;
+	}
+
+	function buildUniqueTimelineId(lines: string[], baseId: string): string {
+		const code = lines.join('\n');
+		const escaped = baseId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		if (!new RegExp(`\\b${escaped}\\b`).test(code)) return baseId;
+		let index = 1;
+		let candidate = `${baseId}_${index}`;
+		while (new RegExp(`\\b${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(code)) {
+			index += 1;
+			candidate = `${baseId}_${index}`;
+		}
+		return candidate;
+	}
+
+	function duplicateTimelineElement(nodeId: string): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findTimelineStatementLineIndex(lines, nodeId);
+		if (lineIndex < 0) return false;
+		const line = lines[lineIndex];
+		const match = line.match(
+			/^(\s*)(event|period|task|milestone)\s+([A-Za-z_][A-Za-z0-9_-]*)(.*)$/
+		);
+		if (!match) return false;
+		const [, indent, keyword, id, remainder] = match;
+		const nextId = buildUniqueTimelineId(lines, `${id}_copy`);
+		let nextRemainder = remainder;
+		if (/label:"([^"]*)"/.test(nextRemainder)) {
+			nextRemainder = nextRemainder.replace(/label:"([^"]*)"/, (_full, current) => {
+				return `label:"${escapeDslString(String(current))} Copy"`;
+			});
+		} else {
+			nextRemainder = `${nextRemainder} label:"${nextId}"`;
+		}
+		const nextLine = `${indent}${keyword} ${nextId}${nextRemainder}`;
+		lines.splice(lineIndex + 1, 0, nextLine);
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function deleteTimelineElement(nodeId: string): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findTimelineStatementLineIndex(lines, nodeId);
+		if (lineIndex < 0) return false;
+		lines.splice(lineIndex, 1);
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
 	function getSelectedNodeProfile(nodeId: string | null): any | null {
 		if (!nodeId) return null;
 		return (diagramState.profile as any)?.nodes?.find((n: any) => n.id === nodeId) ?? null;
@@ -1163,6 +1224,7 @@ import {
 	}
 
 	function handleCopyStyleFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
 		if (!elementContextMenu) return;
 		const { nodeId, edgeId, containerId } = elementContextMenu;
 		if (containerId) return;
@@ -1213,6 +1275,7 @@ import {
 	}
 
 	function handleCopyElementFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
 		if (!elementContextMenu) return;
 		if (elementContextMenu.containerId) {
 			const block = getContainerBlockById(
@@ -1238,6 +1301,7 @@ import {
 	}
 
 	function handleCutElementFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
 		if (!elementContextMenu) return;
 		if (elementContextMenu.containerId) {
 			const block = getContainerBlockById(
@@ -1271,6 +1335,7 @@ import {
 	}
 
 	function handlePasteElementFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
 		if (containerClipboard) {
 			pasteContainerFromClipboard();
 			closeElementContextMenu();
@@ -1281,6 +1346,7 @@ import {
 	}
 
 	function handlePasteIntoContainerFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
 		if (!elementContextMenu?.containerId) return;
 		const targetContainerId = elementContextMenu.containerId;
 		const targetContainerLabel = elementContextMenu.containerLabel;
@@ -1300,6 +1366,7 @@ import {
 	}
 
 	function handlePasteStyleFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
 		if (!elementContextMenu || !styleClipboard) return;
 		const { nodeId, edgeId, containerId } = elementContextMenu;
 		if (containerId) return;
@@ -1316,6 +1383,11 @@ import {
 
 	function handleDuplicateFromContext() {
 		if (!elementContextMenu) return;
+		if (editorState.profileName === ProfileName.timeline && elementContextMenu.nodeId) {
+			duplicateTimelineElement(elementContextMenu.nodeId);
+			closeElementContextMenu();
+			return;
+		}
 		const { nodeId, edgeId, containerId } = elementContextMenu;
 		if (containerId) {
 			const block = getContainerBlockById(containerId, elementContextMenu.containerLabel);
@@ -1367,6 +1439,13 @@ import {
 
 	function handleDeleteFromContext() {
 		if (!elementContextMenu) return;
+		if (editorState.profileName === ProfileName.timeline && elementContextMenu.nodeId) {
+			deleteTimelineElement(elementContextMenu.nodeId);
+			selection.clearSelection();
+			selection.updateVisualSelection(svgContainer);
+			closeElementContextMenu();
+			return;
+		}
 		if (elementContextMenu.containerId) {
 			deleteContainerById(elementContextMenu.containerId);
 		} else {
@@ -1378,7 +1457,8 @@ import {
 	}
 
 	function handleCanvasContextMenu(event: MouseEvent) {
-		if (editorState.profileName !== ProfileName.diagram) return;
+		if (!supportsCanvasSelection(editorState.profileName))
+			return;
 		const target = event.target as HTMLElement | null;
 		if (!target) return;
 		const nodeElement = target.closest('[data-node-id]') as HTMLElement | null;
@@ -1400,7 +1480,7 @@ import {
 			};
 			return;
 		}
-		if (containerElement) {
+		if (editorState.profileName === ProfileName.diagram && containerElement) {
 			event.preventDefault();
 			selection.clearSelection();
 			selection.updateVisualSelection(svgContainer);
@@ -2169,15 +2249,20 @@ import {
 		class="canvas-context-menu"
 		style="left: {canvasContextMenu.x}px; top: {canvasContextMenu.y}px;"
 	>
-		<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
-		<button onclick={() => handleContextSetMode('connect')}>Connect Mode</button>
-		<div class="separator"></div>
-		<button onclick={handleContextAddShape}>Add Shape</button>
-		<button onclick={handleContextAddContainer}>Add Container</button>
-		<button onclick={handleContextAddImage}>Add Image</button>
-		<button onclick={handleContextAddText}>Add Text</button>
-		<button onclick={handleContextPaste} disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}>Paste</button>
-		<div class="separator"></div>
+		{#if editorState.profileName === ProfileName.diagram}
+			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+			<button onclick={() => handleContextSetMode('connect')}>Connect Mode</button>
+			<div class="separator"></div>
+			<button onclick={handleContextAddShape}>Add Shape</button>
+			<button onclick={handleContextAddContainer}>Add Container</button>
+			<button onclick={handleContextAddImage}>Add Image</button>
+			<button onclick={handleContextAddText}>Add Text</button>
+			<button onclick={handleContextPaste} disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}>Paste</button>
+			<div class="separator"></div>
+		{:else if editorState.profileName === ProfileName.timeline}
+			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+			<div class="separator"></div>
+		{/if}
 		<div class="section-label">Theme</div>
 		{#each availableThemes as themeId}
 			<button onclick={() => handleContextApplyTheme(themeId)}>{themeId}</button>
@@ -2190,29 +2275,34 @@ import {
 		class="canvas-context-menu"
 		style="left: {elementContextMenu.x}px; top: {elementContextMenu.y}px;"
 	>
-		{#if !elementContextMenu.edgeId}
-			<button onclick={handleCopyElementFromContext}>Copy</button>
-			<button onclick={handleCutElementFromContext}>Cut</button>
+		{#if editorState.profileName === ProfileName.timeline}
+			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
+		{:else}
+			{#if !elementContextMenu.edgeId}
+				<button onclick={handleCopyElementFromContext}>Copy</button>
+				<button onclick={handleCutElementFromContext}>Cut</button>
+			{/if}
+			<button onclick={handlePasteElementFromContext} disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}>Paste</button>
+			{#if elementContextMenu.containerId}
+				<button
+					onclick={handlePasteIntoContainerFromContext}
+					disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}
+					>Paste Into Container</button
+				>
+			{/if}
+			<div class="separator"></div>
+			<button onclick={handleElementContextAddShape}>Add Shape</button>
+			<button onclick={handleElementContextAddContainer}>Add Container</button>
+			<button onclick={handleElementContextAddImage}>Add Image</button>
+			<button onclick={handleElementContextAddText}>Add Text Box</button>
+			<div class="separator"></div>
+			<button onclick={handleCopyStyleFromContext} disabled={!!elementContextMenu.containerId}>Copy Style</button>
+			<button onclick={handlePasteStyleFromContext} disabled={!styleClipboard || !!elementContextMenu.containerId}>Paste Style</button>
+			<div class="separator"></div>
+			<button onclick={handleDuplicateFromContext}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext}>{elementContextMenu.containerId ? 'Delete Container' : 'Delete'}</button>
 		{/if}
-		<button onclick={handlePasteElementFromContext} disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}>Paste</button>
-		{#if elementContextMenu.containerId}
-			<button
-				onclick={handlePasteIntoContainerFromContext}
-				disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}
-				>Paste Into Container</button
-			>
-		{/if}
-		<div class="separator"></div>
-		<button onclick={handleElementContextAddShape}>Add Shape</button>
-		<button onclick={handleElementContextAddContainer}>Add Container</button>
-		<button onclick={handleElementContextAddImage}>Add Image</button>
-		<button onclick={handleElementContextAddText}>Add Text Box</button>
-		<div class="separator"></div>
-		<button onclick={handleCopyStyleFromContext} disabled={!!elementContextMenu.containerId}>Copy Style</button>
-		<button onclick={handlePasteStyleFromContext} disabled={!styleClipboard || !!elementContextMenu.containerId}>Paste Style</button>
-		<div class="separator"></div>
-		<button onclick={handleDuplicateFromContext}>Duplicate</button>
-		<button class="danger" onclick={handleDeleteFromContext}>{elementContextMenu.containerId ? 'Delete Container' : 'Delete'}</button>
 	</div>
 {/if}
 
