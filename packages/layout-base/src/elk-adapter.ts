@@ -246,10 +246,15 @@ export class ElkLayoutEngine implements LayoutEngine {
       opts.direction || diagram.direction || 'TB'
     );
 
-    // Increase spacing if diagram has containers (to avoid overlaps)
+    // Increase spacing for container-heavy diagrams, but keep small flat diagrams compact.
     const hasContainers = diagram.containers && diagram.containers.length > 0;
-    const baseSpacing = hasContainers ? 150 : 100; // Extra spacing for container diagrams
+    const nodeCount = diagram.nodes.length;
+    const compactFlatDiagram = !hasContainers && nodeCount <= 6;
+    const baseSpacing = hasContainers ? 140 : compactFlatDiagram ? 65 : 95;
     const spacing = opts.spacing || baseSpacing;
+    const layerSpacing = compactFlatDiagram ? Math.round(spacing * 1.2) : Math.round(spacing * 1.5);
+    const edgeEdgeSpacing = compactFlatDiagram ? '14' : '25';
+    const edgeNodeSpacing = compactFlatDiagram ? '20' : '35';
     const selectedAlgorithm =
       (opts as LayoutOptions & { algorithm?: string }).algorithm ||
       LayoutAlgorithm.LAYERED;
@@ -279,7 +284,7 @@ export class ElkLayoutEngine implements LayoutEngine {
               // For use case diagrams, use BOX algorithm which is better for clustered layouts
               // This prevents actors and use cases from bunching up
               'elk.algorithm': 'box',
-              'elk.spacing.nodeNode': '150', // Increased spacing for better readability
+              'elk.spacing.nodeNode': compactFlatDiagram ? '110' : '150', // Increased spacing for better readability
               'elk.edgeRouting': 'POLYLINE', // Use polyline routing for cleaner connections
               'elk.box.packingMode': 'GROUP_DEC', // Group nodes and pack efficiently
             }
@@ -287,9 +292,7 @@ export class ElkLayoutEngine implements LayoutEngine {
               'elk.algorithm': selectedAlgorithm,
               'elk.direction': direction,
               'elk.spacing.nodeNode': spacing.toString(),
-              'elk.layered.spacing.nodeNodeBetweenLayers': (
-                spacing * 1.5
-              ).toString(), // Extra layer spacing for containers
+              'elk.layered.spacing.nodeNodeBetweenLayers': layerSpacing.toString(),
               // Force pure orthogonal (right-angle) routing - no diagonals
               'elk.edgeRouting': 'ORTHOGONAL',
               'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
@@ -301,13 +304,16 @@ export class ElkLayoutEngine implements LayoutEngine {
               // Port constraints - respect port sides when ports are specified
               'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
               // Edge spacing to prevent overlap - increased for better separation
-              'elk.spacing.edgeEdge': '25', // Space between parallel edges
-              'elk.spacing.edgeNode': '35', // Space between edges and nodes
-              'elk.layered.spacing.edgeEdgeBetweenLayers': '25', // Space between edges crossing layers
-              'elk.layered.spacing.edgeNodeBetweenLayers': '35', // Space between edges and nodes across layers
+              'elk.spacing.edgeEdge': edgeEdgeSpacing, // Space between parallel edges
+              'elk.spacing.edgeNode': edgeNodeSpacing, // Space between edges and nodes
+              'elk.layered.spacing.edgeEdgeBetweenLayers': edgeEdgeSpacing, // Space between edges crossing layers
+              'elk.layered.spacing.edgeNodeBetweenLayers': edgeNodeSpacing, // Space between edges and nodes across layers
               // Edge crossing minimization
               'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
               'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
+              // Prefer obstacle avoidance over perfectly straight edge runs in dense container stacks.
+              // This reduces the "edge disappears under sibling node" effect.
+              'elk.layered.nodePlacement.favorStraightEdges': 'false',
               'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
               // Improve edge separation
               'elk.layered.thoroughness': '10', // Higher value = better edge routing (1-100)

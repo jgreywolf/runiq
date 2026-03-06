@@ -10,8 +10,10 @@
 	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 	import { canvasState } from '$lib/state';
 	import { ProfileName } from '$lib/types';
-	import { containerTemplateShapeIcons } from '$lib/data/toolboxIcons/containerTemplateShapeIcons';
 	import { applyThemeToDsl, extractSvgDimensions } from './editorToolbarActions';
+	import ContainerPickerFlyout from '$lib/components/ContainerPickerFlyout.svelte';
+	import ImageInsertFlyout from '$lib/components/ImageInsertFlyout.svelte';
+	import ShapePickerFlyout from '$lib/components/ShapePickerFlyout.svelte';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -37,23 +39,32 @@
 
 	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
 
-	const quickShapes = [
-		{ label: 'Rectangle', code: 'shape id as @rectangle label:"New Node"' },
-		{ label: 'Rounded', code: 'shape id as @roundedRectangle label:"New Node"' },
-		{ label: 'Circle', code: 'shape id as @circle label:"New Node"' },
-		{ label: 'Decision', code: 'shape id as @rhombus label:"Decision"' }
-	];
+	function getNextContainerLabel(baseLabel = 'New Container'): string {
+		const code = editorState.code || '';
+		const escapedBase = baseLabel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const pattern = new RegExp(
+			`container\\s+(?:[A-Za-z_][\\w-]*\\s+)?\"${escapedBase}(?:\\s+(\\d+))?\"`,
+			'g'
+		);
+		let maxIndex = 0;
+		for (const match of code.matchAll(pattern)) {
+			const suffix = match[1];
+			if (!suffix) {
+				maxIndex = Math.max(maxIndex, 1);
+			} else {
+				const parsed = Number.parseInt(suffix, 10);
+				if (Number.isFinite(parsed)) {
+					maxIndex = Math.max(maxIndex, parsed);
+				}
+			}
+		}
+		return maxIndex <= 0 ? baseLabel : `${baseLabel} ${maxIndex + 1}`;
+	}
 
-	const containerSnippets = [
-		{
-			label: 'Basic Container',
-			code: 'container "New Container" {\n    shape id as @rectangle label:"Node"\n  }'
-		},
-		...containerTemplateShapeIcons[0].shapes.slice(0, 2).map((shape) => ({
-			label: shape.label,
-			code: shape.code.trim()
-		}))
-	];
+	function withUniqueContainerLabel(code: string): string {
+		const nextLabel = getNextContainerLabel('New Container');
+		return code.replace(/container\s+"New Container"/, `container "${nextLabel}"`);
+	}
 
 	// Mode handlers
 	function handleModeChange(newMode: EditorMode) {
@@ -89,13 +100,13 @@
 		canvasState.mode = 'select';
 	}
 
-	function insertQuickShape(code: string) {
+	function insertShapeFromPicker(code: string) {
 		handleInsertShape(code);
 		setFlyoutOpen(null);
 	}
 
-	function insertQuickContainer(code: string) {
-		handleInsertShape(code);
+	function insertContainerFromPicker(code: string) {
+		handleInsertShape(withUniqueContainerLabel(code));
 		setFlyoutOpen(null);
 	}
 
@@ -152,7 +163,6 @@
 		editorRefs.viewport.fitToScreen(dimensions.width, dimensions.height, containerWidth, containerHeight);
 	}
 
-	let imageUrlInput = $state('https://images.unsplash.com/photo-1461749280684-dccba630e2f6');
 </script>
 
 <div class="toolbar-wrapper">
@@ -319,52 +329,26 @@
 
 	{#if showShapeFlyout}
 		<div class="theme-flyout">
-			<div class="mb-1 px-2 py-1">
-				<h3 class="text-xs font-semibold text-neutral-700">Quick Shapes</h3>
-			</div>
-			{#each quickShapes as shape}
-				<button
-					onclick={() => insertQuickShape(shape.code)}
-					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
-				>
-					<span class="text-xs">{shape.label}</span>
-				</button>
-			{/each}
+			<ShapePickerFlyout
+				profileName={editorState.profileName ?? ProfileName.diagram}
+				iconSize={12}
+				onSelect={insertShapeFromPicker}
+			/>
 		</div>
 	{/if}
 
 	{#if showContainerFlyout}
 		<div class="theme-flyout">
-			<div class="mb-1 px-2 py-1">
-				<h3 class="text-xs font-semibold text-neutral-700">Containers</h3>
-			</div>
-			{#each containerSnippets as container}
-				<button
-					onclick={() => insertQuickContainer(container.code)}
-					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
-				>
-					<span class="text-xs">{container.label}</span>
-				</button>
-			{/each}
+			<ContainerPickerFlyout
+				profileName={editorState.profileName ?? ProfileName.diagram}
+				onSelect={insertContainerFromPicker}
+			/>
 		</div>
 	{/if}
 
 	{#if showImageFlyout}
 		<div class="theme-flyout">
-			<div class="mb-1 px-2 py-1">
-				<h3 class="text-xs font-semibold text-neutral-700">Insert Image</h3>
-			</div>
-			<input
-				class="rounded border border-neutral-300 px-2 py-1 text-xs"
-				bind:value={imageUrlInput}
-				placeholder="https://..."
-			/>
-			<button
-				onclick={() => insertImageShape(imageUrlInput)}
-				class="mt-1 rounded bg-neutral-900 px-2 py-1.5 text-xs text-white hover:bg-neutral-700"
-			>
-				Add Image Node
-			</button>
+			<ImageInsertFlyout onInsert={insertImageShape} />
 		</div>
 	{/if}
 </div>

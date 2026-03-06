@@ -19,6 +19,10 @@ class ClipboardManager {
 		return this.clipboards[scope];
 	}
 
+	getItemsInScope(scope: string = 'default'): ClipboardItem[] {
+		return [...this.getScopeClipboard(scope)];
+	}
+
 	/**
 	 * Copy selected elements to clipboard
 	 */
@@ -126,6 +130,7 @@ class ClipboardManager {
 
 		// Generate DSL code for pasted elements with new IDs
 		clipboard.forEach((item, index) => {
+			if (item.type !== 'node') return;
 			const newId = `${item.id}_copy_${Date.now()}_${index}`;
 			const shapeCode = generateShapeCode(item, newId);
 			if (shapeCode) {

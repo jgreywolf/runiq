@@ -26,6 +26,24 @@ interface CanvasEventHandlerDeps {
 	onConnectPreviewStart: (point: { x: number; y: number }) => void;
 	onConnectPreviewMove: (point: { x: number; y: number }) => void;
 	onConnectPreviewEnd: () => void;
+	onNodeContainerDragStart?: (payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetContainerId: string | null;
+	}) => void;
+	onNodeContainerDragMove?: (payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetContainerId: string | null;
+	}) => void;
+	onNodeContainerDragEnd?: (payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetContainerId: string | null;
+	}) => void;
 }
 
 export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
@@ -42,11 +60,22 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		handleInsertEdge,
 		handleInsertShapeAndEdge,
 		getNextShapeId,
-		onConnectPreviewStart,
-		onConnectPreviewMove,
-		onConnectPreviewEnd
+	onConnectPreviewStart,
+	onConnectPreviewMove,
+	onConnectPreviewEnd,
+	onNodeContainerDragStart,
+	onNodeContainerDragMove,
+	onNodeContainerDragEnd
 	} = deps;
 	let connectStartNodeId: string | null = null;
+	let nodeDragPending:
+		| {
+				nodeId: string;
+				clientX: number;
+				clientY: number;
+		  }
+		| null = null;
+	let nodeDragActiveNodeId: string | null = null;
 
 	const isDiagramProfile = () => getProfileName() === ProfileName.diagram;
 	const isInteractiveProfile = () => supportsCanvasSelection(getProfileName());
@@ -68,6 +97,13 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		if (!maybeElement || typeof maybeElement.closest !== 'function') return null;
 		const element = maybeElement.closest('[data-node-id]');
 		return element?.getAttribute('data-node-id') ?? null;
+	}
+
+	function getContainerIdFromEventTarget(target: EventTarget | null): string | null {
+		const maybeElement = target as unknown as Element | null;
+		if (!maybeElement || typeof maybeElement.closest !== 'function') return null;
+		const element = maybeElement.closest('[data-container-id]');
+		return element?.getAttribute('data-container-id') ?? null;
 	}
 
 	function clearConnectStartHighlight() {
@@ -221,6 +257,22 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		}
 
 		const target = e.target as HTMLElement;
+		if (isDiagramProfile() && isSelectMode() && e.button === 0) {
+			const nodeId = getNodeIdFromEventTarget(target);
+			if (
+				nodeId &&
+				!selection.selectedEdgeId &&
+				!e.ctrlKey &&
+				!e.metaKey &&
+				!e.shiftKey
+			) {
+				nodeDragPending = {
+					nodeId,
+					clientX: e.clientX,
+					clientY: e.clientY
+				};
+			}
+		}
 		if (target.closest('[data-node-id], [data-edge-id]')) return;
 
 		if (e.button !== 0) return;
@@ -250,6 +302,32 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			if (mouse) onConnectPreviewMove(mouse);
 		}
 
+		if (isDiagramProfile() && isSelectMode()) {
+			if (nodeDragPending && !nodeDragActiveNodeId) {
+				const dx = e.clientX - nodeDragPending.clientX;
+				const dy = e.clientY - nodeDragPending.clientY;
+				const distance = Math.sqrt(dx * dx + dy * dy);
+				if (distance > 6) {
+					nodeDragActiveNodeId = nodeDragPending.nodeId;
+					onNodeContainerDragStart?.({
+						nodeId: nodeDragActiveNodeId,
+						clientX: e.clientX,
+						clientY: e.clientY,
+						targetContainerId: getContainerIdFromEventTarget(e.target)
+					});
+				}
+			}
+			if (nodeDragActiveNodeId) {
+				onNodeContainerDragMove?.({
+					nodeId: nodeDragActiveNodeId,
+					clientX: e.clientX,
+					clientY: e.clientY,
+					targetContainerId: getContainerIdFromEventTarget(e.target)
+				});
+				return;
+			}
+		}
+
 		if (selection.isLassoPending || selection.isLassoActive) {
 			selection.updateLasso(viewport.mouseX, viewport.mouseY);
 		} else if (viewport.isPanning) {
@@ -259,6 +337,13 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 
 	function handleMouseUp() {
 		if (!isInteractiveProfile()) return;
+
+		if (nodeDragActiveNodeId) {
+			nodeDragPending = null;
+			nodeDragActiveNodeId = null;
+			return;
+		}
+		nodeDragPending = null;
 
 		if (isConnectMode()) {
 			onConnectPreviewEnd();
@@ -287,6 +372,19 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	}
 
 	function handleMouseUpWithEvent(e: MouseEvent) {
+		if (nodeDragActiveNodeId) {
+			onNodeContainerDragEnd?.({
+				nodeId: nodeDragActiveNodeId,
+				clientX: e.clientX,
+				clientY: e.clientY,
+				targetContainerId: getContainerIdFromEventTarget(e.target)
+			});
+			nodeDragPending = null;
+			nodeDragActiveNodeId = null;
+			return;
+		}
+		nodeDragPending = null;
+
 		if (!isInteractiveProfile() || !isConnectMode()) {
 			handleMouseUp();
 			return;

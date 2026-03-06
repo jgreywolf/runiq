@@ -633,6 +633,8 @@ function renderHorizontalTimeline(
     const labelY = isTop ? timelineY - 40 : timelineY + 40;
     const labelAnchor = 'middle';
 
+    svg += `<g data-runiq-node="${escapeXml(event.id)}" data-node-id="${escapeXml(event.id)}" data-node-shape="timelineEvent">`;
+
     // Event marker (circle)
     svg += `<circle 
       cx="${x}" 
@@ -698,6 +700,8 @@ function renderHorizontalTimeline(
     if (event.icon) {
       // TODO: Implement icon rendering when icon system is available
     }
+
+    svg += `</g>`;
   });
 
   return svg;
@@ -808,6 +812,8 @@ function renderVerticalTimeline(
     const labelX = isLeft ? timelineX - 40 : timelineX + 40;
     const labelAnchor = isLeft ? 'end' : 'start';
 
+    svg += `<g data-runiq-node="${escapeXml(event.id)}" data-node-id="${escapeXml(event.id)}" data-node-shape="timelineEvent">`;
+
     // Event marker (circle)
     svg += `<circle 
       cx="${timelineX}" 
@@ -874,6 +880,8 @@ function renderVerticalTimeline(
     if (event.icon) {
       // TODO: Implement icon rendering when icon system is available
     }
+
+    svg += `</g>`;
   });
 
   return svg;

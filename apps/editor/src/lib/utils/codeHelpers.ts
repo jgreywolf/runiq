@@ -5,6 +5,8 @@
 
 export interface ElementData {
 	id: string | null;
+	shape?: string;
+	label?: string;
 	// Additional properties will be added as needed
 	[key: string]: unknown;
 }
@@ -22,10 +24,16 @@ export interface ClipboardItem {
  * @returns DSL code string
  */
 export function generateShapeCode(item: ClipboardItem, newId: string): string {
-	// This is a simplified version - in a real implementation,
-	// you would generate proper DSL syntax based on the element's properties
 	if (item.type === 'node') {
-		return `shape ${newId} as @rectangle label:"Copy of ${item.id}"`;
+		const shape =
+			typeof item.data.shape === 'string' && item.data.shape.length > 0
+				? item.data.shape
+				: 'rectangle';
+		const labelSource =
+			typeof item.data.label === 'string' && item.data.label.length > 0
+				? item.data.label
+				: `Copy of ${item.id}`;
+		return `shape ${newId} as @${shape} label:"${escapeLabel(labelSource)}"`;
 	} else {
 		return `${item.id} -> ${newId}`;
 	}
@@ -38,11 +46,20 @@ export function generateShapeCode(item: ClipboardItem, newId: string): string {
  * @returns Element data object
  */
 export function extractElementData(element: Element, type: 'node' | 'edge'): ElementData {
-	// This is a simplified version - in a real implementation,
-	// you would extract all the node/edge properties from the AST
+	const id = element.getAttribute(`data-${type}-id`);
+	const data: ElementData = { id };
+	if (type === 'node') {
+		const shape = element.getAttribute('data-node-shape');
+		if (shape) {
+			data.shape = shape;
+		}
+		const labelText = element.querySelector('text')?.textContent?.trim();
+		if (labelText) {
+			data.label = labelText;
+		}
+	}
 	return {
-		id: element.getAttribute(`data-${type}-id`)
-		// Additional properties would be extracted here
+		...data
 	};
 }
 

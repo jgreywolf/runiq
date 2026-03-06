@@ -376,7 +376,7 @@
 	}
 
 	// Export function to set value
-	export function setValue(newValue: string) {
+	export function setValue(newValue: string, addToUndoStack: boolean = false) {
 		if (editorView) {
 			editorView.dispatch({
 				changes: {
@@ -384,7 +384,10 @@
 					to: editorView.state.doc.length,
 					insert: newValue
 				},
-				annotations: [Transaction.addToHistory.of(false), ProgrammaticChange.of(true)]
+				annotations: [
+					Transaction.addToHistory.of(addToUndoStack),
+					ProgrammaticChange.of(true)
+				]
 			});
 
 			// Position cursor at the end of the "Add your shapes" comment line
@@ -442,7 +445,11 @@
 		editorView.focus();
 	}
 
-	export function jumpTo(line: number, column: number) {
+	export function jumpTo(
+		line: number,
+		column: number,
+		options?: { focus?: boolean; selectLine?: boolean }
+	) {
 		if (!editorView) return;
 
 		const doc = editorView.state.doc;
@@ -451,11 +458,20 @@
 		const clampedColumn = Math.max(1, Math.min(column, lineInfo.length + 1));
 		const pos = lineInfo.from + clampedColumn - 1;
 
-		editorView.dispatch({
-			selection: { anchor: pos },
-			scrollIntoView: true
-		});
-		editorView.focus();
+		if (options?.selectLine) {
+			editorView.dispatch({
+				selection: { anchor: lineInfo.from, head: lineInfo.to },
+				scrollIntoView: true
+			});
+		} else {
+			editorView.dispatch({
+				selection: { anchor: pos },
+				scrollIntoView: true
+			});
+		}
+		if (options?.focus !== false) {
+			editorView.focus();
+		}
 	}
 </script>
 

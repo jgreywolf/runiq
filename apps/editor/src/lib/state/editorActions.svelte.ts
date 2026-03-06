@@ -23,7 +23,7 @@ export function updateCode(newCode: string, addToHistory: boolean = false) {
 	// Update CodeMirror editor (single source of truth)
 	// This will trigger handleCodeChange via updateListener, which updates state
 	if (editorRefs.code) {
-		editorRefs.code.setValue(newCode);
+		editorRefs.code.setValue(newCode, addToHistory);
 	} else {
 		// Fallback if editor not mounted yet
 		editorState.code = newCode;

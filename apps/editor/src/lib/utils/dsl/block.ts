@@ -26,6 +26,9 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 	let inProfileBlock = false;
 	let braceDepth = 0;
 	let profileStartIndent = '';
+	let pendingProfileStart = false;
+	let pendingStartLineIndex = -1;
+	let pendingStartIndent = '';
 
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i];
@@ -33,18 +36,41 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 
 		const isProfileStart = profileTypes.some((type) => new RegExp(`^${type}\\s+`).test(trimmed));
 
-		if (isProfileStart && trimmed.endsWith('{')) {
-			inProfileBlock = true;
-			startLineIndex = i;
-			braceDepth = 1;
+		if (!inProfileBlock && isProfileStart) {
 			const match = line.match(/^(\s*)/);
-			profileStartIndent = match ? match[1] : '';
-			indentation = profileStartIndent + '  ';
-		} else if (inProfileBlock) {
-			if (trimmed.includes('{')) braceDepth++;
-			if (trimmed.includes('}')) braceDepth--;
+			pendingStartIndent = match ? match[1] : '';
+			pendingStartLineIndex = i;
+			pendingProfileStart = true;
+		}
 
-			if (braceDepth === 0 && trimmed === '}') {
+		// Profile may declare "{" either on the same line or a following line.
+		if (!inProfileBlock && pendingProfileStart && trimmed.includes('{')) {
+			inProfileBlock = true;
+			startLineIndex = pendingStartLineIndex;
+			profileStartIndent = pendingStartIndent;
+			indentation = profileStartIndent + '  ';
+			braceDepth = 1;
+			const remaining = trimmed.slice(trimmed.indexOf('{') + 1);
+			if (remaining.includes('{')) {
+				braceDepth += remaining.split('{').length - 1;
+			}
+			if (remaining.includes('}')) {
+				braceDepth -= remaining.split('}').length - 1;
+			}
+			if (braceDepth <= 0) {
+				insertLineIndex = i;
+				break;
+			}
+			continue;
+		}
+
+		if (inProfileBlock) {
+			// Count braces across the full line.
+			const openCount = (line.match(/{/g) ?? []).length;
+			const closeCount = (line.match(/}/g) ?? []).length;
+			braceDepth += openCount - closeCount;
+
+			if (braceDepth <= 0) {
 				insertLineIndex = i;
 				break;
 			}
@@ -54,4 +80,3 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 	if (insertLineIndex === -1) return null;
 	return { startLineIndex, insertLineIndex, indentation };
 }
-

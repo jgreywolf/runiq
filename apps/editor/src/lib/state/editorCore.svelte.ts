@@ -6,9 +6,13 @@ import { editorSettings } from './editorSettings.svelte';
 
 export interface EditorRefs {
 	code: {
-		setValue: (code: string) => void;
+		setValue: (code: string, addToUndoStack?: boolean) => void;
 		insertAtCursor: (text: string) => void;
-		jumpTo: (line: number, column: number) => void;
+		jumpTo: (
+			line: number,
+			column: number,
+			options?: { focus?: boolean; selectLine?: boolean }
+		) => void;
 	} | null;
 	data: { setValue: (data: string) => void } | null;
 	preview: { hasValidDiagram: () => boolean; getSvg: () => string } | null;

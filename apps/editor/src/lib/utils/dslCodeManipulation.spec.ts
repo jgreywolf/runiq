@@ -58,6 +58,12 @@ describe('dslCodeManipulation location-aware edits', () => {
 		expect(updated).toContain('shape n1 as @rectangle label:"New"');
 	});
 
+	it('edits timeline event label by id', () => {
+		const code = `timeline "Launch" {\n  event kickoff date:"2024-01-15" label:"Project Kickoff"\n}`;
+		const updated = editLabel(code, 'kickoff', 'Kickoff Updated', false, { startLine: 2 });
+		expect(updated).toContain('event kickoff date:"2024-01-15" label:"Kickoff Updated"');
+	});
+
 	it('edits edge style using edge location hint', () => {
 		const code = `diagram "Example" {\n  a -> b\n}`;
 		const updated = editStyleProperty(code, 'a-b', 'routing', 'orthogonal', { startLine: 2 });

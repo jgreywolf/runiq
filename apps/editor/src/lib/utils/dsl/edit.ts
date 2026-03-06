@@ -40,6 +40,20 @@ export function editLabel(
 				break;
 			}
 		}
+
+		if (lineIndex === -1) {
+			// Timeline/Gantt declarations that carry labels and ids.
+			const timelineRegex = new RegExp(
+				`^\\s*(event|period|task|milestone)\\s+${escapeRegExp(nodeOrEdgeId)}(?:\\s|$)`
+			);
+			lineIndex = resolveLineIndexFromLocation(lines, location, (line) => timelineRegex.test(line));
+			for (let i = 0; i < lines.length && lineIndex === -1; i++) {
+				if (timelineRegex.test(lines[i])) {
+					lineIndex = i;
+					break;
+				}
+			}
+		}
 	}
 
 	if (lineIndex === -1) return code;
@@ -269,4 +283,3 @@ export function resetStyles(code: string, elementIds: string[]): string {
 
 	return lines.join('\n');
 }
-
