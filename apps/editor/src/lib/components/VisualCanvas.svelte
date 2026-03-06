@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { PopoverContent, Popover as PopoverRoot, PopoverTrigger } from '$lib/components/ui/popover';
 	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
 	import { canvasState, diagramState } from '$lib/state';
-import {
-	editorRefs,
-	editorState,
+	import { applyDraftOperation } from '$lib/state/draftOperations';
+	import {
+		editorRefs,
+		editorState,
 		handleDelete,
 		handleEdit,
 		handleInsertEdge,
@@ -11,90 +13,89 @@ import {
 		handleInsertShapeAndEdge,
 		handleParse,
 		handleResetStyles,
-	updateCode
-} from '$lib/state/editorState.svelte';
-import { applyDraftOperation } from '$lib/state/draftOperations';
+		updateCode
+	} from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
-	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
 	import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
+	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
+	import { getAvailableBaseThemes, getDiagramTheme } from '@runiq/core';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
-	import { getAvailableBaseThemes } from '@runiq/core';
 	import { type DiagramProfile, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
 	import { onMount, tick } from 'svelte';
-	import EditorToolbar from './Editor/EditorToolbar.svelte';
 	import ContainerPickerFlyout from './ContainerPickerFlyout.svelte';
+	import EditorToolbar from './Editor/EditorToolbar.svelte';
+	import { applyThemeToDsl } from './Editor/editorToolbarActions';
 	import ImageInsertFlyout from './ImageInsertFlyout.svelte';
 	import ShapePickerFlyout from './ShapePickerFlyout.svelte';
+	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
 	import CanvasInteractionLayer from './visual-canvas/CanvasInteractionLayer.svelte';
 	import CanvasStateOverlay from './visual-canvas/CanvasStateOverlay.svelte';
 	import CanvasStatusBar from './visual-canvas/CanvasStatusBar.svelte';
-	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
 	import { createCanvasDebugLogger } from './visual-canvas/debug';
-	import ElementToolbar from './visual-canvas/ElementToolbar.svelte';
-	import QuickConnectOverlay from './visual-canvas/QuickConnectOverlay.svelte';
 	import {
-		computeElementToolbarPosition,
-		constrainToolbarPosition
-	} from './visual-canvas/elementToolbarPosition';
-	import {
-		closeAllPanels as closePanelState,
-		createFillDraftFromStyles,
-		createInitialPanelOpen,
-		getFilteredIconTokens as getFilteredIconTokensFromState,
-		type ElementPanelKey
-	} from './visual-canvas/elementToolbarState';
-import {
-	getFilteredStyleDeclarations
-} from './visual-canvas/elementStyleActions';
-import {
-	applyStyleRefForSelection,
-	clearStyleRefForSelection,
-	openCreateStyleDialogWorkflow,
-	removeStyleDeclarationWorkflow,
-	saveStyleDeclarationAndApplyWorkflow
-} from './visual-canvas/elementStyleWorkflow';
-import {
-	applyBorderDraftForSelected,
+		applyBorderDraftForSelected,
 		applyFillDraftForSelected,
 		applyIconToSelectedNode,
 		applyTextDraftForSelected,
 		clearIconOnSelectedNode,
 		openBorderPanelDraft,
 		openFillPanelDraft,
-	openIconPanelDraft,
-	openTextPanelDraft
-} from './visual-canvas/elementPanelActions';
-import {
-	applyShapeToSelection,
-	deleteSelectionFromToolbar,
-	handlePanelOpenChange as handlePanelOpenChangeOrchestrated
-} from './visual-canvas/elementToolbarOrchestrator';
-import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolbarDismiss';
-import {
-	hasAnySelection,
-	hasPrimarySelection,
-	shouldClearElementToolbar,
-	shouldRepositionElementToolbar
-} from './visual-canvas/elementToolbarVisibility';
-import { supportsCanvasSelection } from './visual-canvas/interactiveProfiles';
+		openIconPanelDraft,
+		openTextPanelDraft
+	} from './visual-canvas/elementPanelActions';
+	import {
+		getFilteredStyleDeclarations
+	} from './visual-canvas/elementStyleActions';
+	import {
+		applyStyleRefForSelection,
+		clearStyleRefForSelection,
+		openCreateStyleDialogWorkflow,
+		removeStyleDeclarationWorkflow,
+		saveStyleDeclarationAndApplyWorkflow
+	} from './visual-canvas/elementStyleWorkflow';
+	import ElementToolbar from './visual-canvas/ElementToolbar.svelte';
+	import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolbarDismiss';
+	import {
+		applyShapeToSelection,
+		deleteSelectionFromToolbar,
+		handlePanelOpenChange as handlePanelOpenChangeOrchestrated
+	} from './visual-canvas/elementToolbarOrchestrator';
+	import {
+		computeElementToolbarPosition,
+		constrainToolbarPosition
+	} from './visual-canvas/elementToolbarPosition';
+	import {
+		closeAllPanels as closePanelState,
+		createInitialPanelOpen,
+		getFilteredIconTokens as getFilteredIconTokensFromState,
+		type ElementPanelKey
+	} from './visual-canvas/elementToolbarState';
+	import {
+		hasAnySelection,
+		hasPrimarySelection,
+		shouldClearElementToolbar,
+		shouldRepositionElementToolbar
+	} from './visual-canvas/elementToolbarVisibility';
+	import { supportsCanvasSelection } from './visual-canvas/interactiveProfiles';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
 		type QuickConnectDirection
 	} from './visual-canvas/quickConnect';
 	import {
-		type QuickConnectHandle
-	} from './visual-canvas/quickConnectRuntime';
-import {
 		activateQuickConnectPreview,
 		resetQuickConnectState,
 		runQuickConnect as runQuickConnectAction,
 		updateQuickConnectFromMouseEvent as updateQuickConnectFromMouseEventAction
 	} from './visual-canvas/quickConnectActions';
+	import QuickConnectOverlay from './visual-canvas/QuickConnectOverlay.svelte';
+	import {
+		type QuickConnectHandle
+	} from './visual-canvas/quickConnectRuntime';
 	import { withQuickConnectState } from './visual-canvas/quickConnectStateBridge';
-	import { createCanvasRenderRuntime } from './visual-canvas/renderRuntime';
 	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
+	import { createCanvasRenderRuntime } from './visual-canvas/renderRuntime';
 	import { resolveSelectionSourceLocation } from './visual-canvas/selectionCodeNavigation';
 	import { SelectionState } from './visual-canvas/SelectionState.svelte';
 	import {
@@ -108,10 +109,9 @@ import {
 		computeWarningUiState,
 		getFloatingToolbarTop,
 		jumpToWarningLocation,
-		type RenderStateCallbacks,
-		shouldForceSelectMode
+		shouldForceSelectMode,
+		type RenderStateCallbacks
 	} from './visual-canvas/warningStatusOrchestration';
-	import { applyThemeToDsl } from './Editor/editorToolbarActions';
 
 	let diagramDataId = 'runiq-diagram';
 
@@ -170,6 +170,11 @@ import {
 		description: string;
 		startDate: string;
 		endDate: string;
+	} | null>(null);
+	let timelineEditErrors = $state<{
+		date?: string;
+		startDate?: string;
+		endDate?: string;
 	} | null>(null);
 	let styleClipboard = $state<{
 		kind: 'node' | 'edge';
@@ -233,6 +238,46 @@ import {
 		...listIconifyIconNamesForDsl().map((name) => `iconify/${name}`)
 	];
 	const availableThemes = getAvailableBaseThemes();
+	function hexToRgb(hexColor: string): { r: number; g: number; b: number } | null {
+		const normalized = hexColor.trim();
+		const shortMatch = /^#([0-9a-f]{3})$/i.exec(normalized);
+		if (shortMatch) {
+			const [r, g, b] = shortMatch[1].split('').map((char) => parseInt(char + char, 16));
+			return { r, g, b };
+		}
+		const longMatch = /^#([0-9a-f]{6})$/i.exec(normalized);
+		if (!longMatch) return null;
+		return {
+			r: parseInt(longMatch[1].slice(0, 2), 16),
+			g: parseInt(longMatch[1].slice(2, 4), 16),
+			b: parseInt(longMatch[1].slice(4, 6), 16)
+		};
+	}
+
+	function getReadableTextColor(backgroundColor: string): string {
+		const rgb = hexToRgb(backgroundColor);
+		if (!rgb) return '#111827';
+		const luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b) / 255;
+		return luminance > 0.57 ? '#111827' : '#ffffff';
+	}
+
+	const themePreviewEntries = $derived(
+		availableThemes.map((themeId) => {
+			const theme = getDiagramTheme(themeId);
+			const sampleBackground = theme.nodeColors[0] ?? theme.accentColor;
+			return {
+				id: themeId,
+				name: theme.name,
+				backgroundColor: theme.backgroundColor,
+				textColor: theme.textColor,
+				edgeColor: theme.edgeColor,
+				accentColor: theme.accentColor,
+				nodeColors: theme.nodeColors.slice(0, 3),
+				sampleBackground,
+				sampleTextColor: getReadableTextColor(sampleBackground)
+			};
+		})
+	);
 	const diagramShapeCategories = getShapeCategoryByProfile(ProfileName.diagram).map((category) => ({
 		label: category.label,
 		shapes: category.shapes.map((shape) => ({ id: shape.id, label: shape.label }))
@@ -983,6 +1028,7 @@ import {
 		if (!elementContextMenu?.nodeId) return;
 		const parsed = parseTimelineStatementById(elementContextMenu.nodeId);
 		if (!parsed) return;
+		timelineEditErrors = null;
 		timelineEditFlyout = {
 			x: elementContextMenu.x + 190,
 			y: elementContextMenu.y,
@@ -997,8 +1043,52 @@ import {
 		elementContextMenu = null;
 	}
 
+	function isValidIsoDate(value: string): boolean {
+		if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+		const [y, m, d] = value.split('-').map((part) => Number.parseInt(part, 10));
+		if (!Number.isFinite(y) || !Number.isFinite(m) || !Number.isFinite(d)) return false;
+		if (m < 1 || m > 12 || d < 1 || d > 31) return false;
+		const dt = new Date(Date.UTC(y, m - 1, d));
+		return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+	}
+
+	function setTimelineDateField(
+		key: 'date' | 'startDate' | 'endDate',
+		value: string
+	) {
+		if (!timelineEditFlyout) return;
+		timelineEditFlyout = {
+			...timelineEditFlyout,
+			[key]: value
+		};
+		if (timelineEditErrors?.[key]) {
+			timelineEditErrors = {
+				...timelineEditErrors,
+				[key]: undefined
+			};
+		}
+	}
+
 	function applyTimelineEditFromFlyout() {
 		if (!timelineEditFlyout) return;
+		const errors: { date?: string; startDate?: string; endDate?: string } = {};
+		if (timelineEditFlyout.keyword === 'period') {
+			if (!timelineEditFlyout.startDate || !isValidIsoDate(timelineEditFlyout.startDate)) {
+				errors.startDate = 'Use YYYY-MM-DD';
+			}
+			if (!timelineEditFlyout.endDate || !isValidIsoDate(timelineEditFlyout.endDate)) {
+				errors.endDate = 'Use YYYY-MM-DD';
+			}
+		} else {
+			if (!timelineEditFlyout.date || !isValidIsoDate(timelineEditFlyout.date)) {
+				errors.date = 'Use YYYY-MM-DD';
+			}
+		}
+		if (Object.keys(errors).length > 0) {
+			timelineEditErrors = errors;
+			return;
+		}
+
 		const lines = (editorState.code || '').split('\n');
 		const parsed = parseTimelineStatementById(timelineEditFlyout.nodeId);
 		if (!parsed) {
@@ -1026,6 +1116,7 @@ import {
 			lines[parsed.lineIndex] = nextLine;
 			updateCode(lines.join('\n'), true);
 		}
+		timelineEditErrors = null;
 		timelineEditFlyout = null;
 		closeElementContextMenu();
 	}
@@ -2385,9 +2476,15 @@ import {
 			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
 			<button onclick={() => handleContextSetMode('connect')}>Connect Mode</button>
 			<div class="separator"></div>
-			<button onclick={handleContextAddShape}>Add Shape</button>
-			<button onclick={handleContextAddContainer}>Add Container</button>
-			<button onclick={handleContextAddImage}>Add Image</button>
+			<button class="has-submenu" onclick={handleContextAddShape}
+				><span>Add Shape</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleContextAddContainer}
+				><span>Add Container</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleContextAddImage}
+				><span>Add Image</span><span class="submenu-arrow">></span></button
+			>
 			<button onclick={handleContextAddText}>Add Text</button>
 			<button onclick={handleContextPaste} disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}>Paste</button>
 			<div class="separator"></div>
@@ -2395,7 +2492,9 @@ import {
 			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
 			<div class="separator"></div>
 		{/if}
-		<button onclick={handleContextOpenThemeFlyout}>Theme</button>
+		<button class="has-submenu" onclick={handleContextOpenThemeFlyout}
+			><span>Theme</span><span class="submenu-arrow">></span></button
+		>
 	</div>
 {/if}
 
@@ -2406,7 +2505,9 @@ import {
 	>
 		{#if editorState.profileName === ProfileName.timeline}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId}>Edit Label</button>
-			<button onclick={openTimelineEditFromContext} disabled={!elementContextMenu.nodeId}>Edit Details</button>
+			<button class="has-submenu" onclick={openTimelineEditFromContext} disabled={!elementContextMenu.nodeId}
+				><span>Edit Details</span><span class="submenu-arrow">></span></button
+			>
 			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
@@ -2426,9 +2527,15 @@ import {
 				>
 			{/if}
 			<div class="separator"></div>
-			<button onclick={handleElementContextAddShape}>Add Shape</button>
-			<button onclick={handleElementContextAddContainer}>Add Container</button>
-			<button onclick={handleElementContextAddImage}>Add Image</button>
+			<button class="has-submenu" onclick={handleElementContextAddShape}
+				><span>Add Shape</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleElementContextAddContainer}
+				><span>Add Container</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleElementContextAddImage}
+				><span>Add Image</span><span class="submenu-arrow">></span></button
+			>
 			<button onclick={handleElementContextAddText}>Add Text Box</button>
 			<div class="separator"></div>
 			<button onclick={handleCopyStyleFromContext} disabled={!!elementContextMenu.containerId}>Copy Style</button>
@@ -2480,8 +2587,26 @@ import {
 		style="left: {contextThemeFlyout.x}px; top: {contextThemeFlyout.y}px;"
 	>
 		<div class="section-label">Theme</div>
-		{#each availableThemes as themeId}
-			<button onclick={() => handleContextApplyTheme(themeId)}>{themeId}</button>
+		{#each themePreviewEntries as theme}
+			<button class="theme-preview-row" onclick={() => handleContextApplyTheme(theme.id)}>
+				<div class="theme-preview-header">
+					<span>{theme.name}</span>
+					<span class="theme-preview-id">{theme.id}</span>
+				</div>
+				<div class="theme-preview-swatches">
+					<span style="background: {theme.backgroundColor}; border-color: {theme.edgeColor};"></span>
+					<span style="background: {theme.nodeColors[0] ?? theme.accentColor};"></span>
+					<span style="background: {theme.nodeColors[1] ?? theme.accentColor};"></span>
+					<span style="background: {theme.nodeColors[2] ?? theme.accentColor};"></span>
+					<span style="background: {theme.accentColor};"></span>
+				</div>
+				<div
+					class="theme-preview-sample"
+					style="color: {theme.sampleTextColor}; background: {theme.sampleBackground}; border-color: {theme.edgeColor};"
+				>
+					Aa
+				</div>
+			</button>
 		{/each}
 	</div>
 {/if}
@@ -2499,16 +2624,91 @@ import {
 		{#if timelineEditFlyout.keyword === 'period'}
 			<label class="context-label">
 				Start Date
-				<input bind:value={timelineEditFlyout.startDate} placeholder="YYYY-MM-DD" />
+				<div class="context-date-row">
+					<input
+						value={timelineEditFlyout.startDate}
+						oninput={(event) =>
+							setTimelineDateField(
+								'startDate',
+								(event.currentTarget as HTMLInputElement).value
+							)}
+						placeholder="YYYY-MM-DD"
+					/>
+					<PopoverRoot>
+						<PopoverTrigger class="date-picker-button">Pick</PopoverTrigger>
+						<PopoverContent class="date-picker-popover" sideOffset={6}>
+							<input
+								type="date"
+								value={timelineEditFlyout.startDate}
+								onchange={(event) =>
+									setTimelineDateField(
+										'startDate',
+										(event.currentTarget as HTMLInputElement).value
+									)}
+							/>
+						</PopoverContent>
+					</PopoverRoot>
+				</div>
+				{#if timelineEditErrors?.startDate}
+					<span class="context-error">{timelineEditErrors.startDate}</span>
+				{/if}
 			</label>
 			<label class="context-label">
 				End Date
-				<input bind:value={timelineEditFlyout.endDate} placeholder="YYYY-MM-DD" />
+				<div class="context-date-row">
+					<input
+						value={timelineEditFlyout.endDate}
+						oninput={(event) =>
+							setTimelineDateField(
+								'endDate',
+								(event.currentTarget as HTMLInputElement).value
+							)}
+						placeholder="YYYY-MM-DD"
+					/>
+					<PopoverRoot>
+						<PopoverTrigger class="date-picker-button">Pick</PopoverTrigger>
+						<PopoverContent class="date-picker-popover" sideOffset={6}>
+							<input
+								type="date"
+								value={timelineEditFlyout.endDate}
+								onchange={(event) =>
+									setTimelineDateField(
+										'endDate',
+										(event.currentTarget as HTMLInputElement).value
+									)}
+							/>
+						</PopoverContent>
+					</PopoverRoot>
+				</div>
+				{#if timelineEditErrors?.endDate}
+					<span class="context-error">{timelineEditErrors.endDate}</span>
+				{/if}
 			</label>
 		{:else}
 			<label class="context-label">
 				Date
-				<input bind:value={timelineEditFlyout.date} placeholder="YYYY-MM-DD" />
+				<div class="context-date-row">
+					<input
+						value={timelineEditFlyout.date}
+						oninput={(event) =>
+							setTimelineDateField('date', (event.currentTarget as HTMLInputElement).value)}
+						placeholder="YYYY-MM-DD"
+					/>
+					<PopoverRoot>
+						<PopoverTrigger class="date-picker-button">Pick</PopoverTrigger>
+						<PopoverContent class="date-picker-popover" sideOffset={6}>
+							<input
+								type="date"
+								value={timelineEditFlyout.date}
+								onchange={(event) =>
+									setTimelineDateField('date', (event.currentTarget as HTMLInputElement).value)}
+							/>
+						</PopoverContent>
+					</PopoverRoot>
+				</div>
+				{#if timelineEditErrors?.date}
+					<span class="context-error">{timelineEditErrors.date}</span>
+				{/if}
 			</label>
 			<label class="context-label">
 				Description
@@ -2516,7 +2716,12 @@ import {
 			</label>
 		{/if}
 		<div class="context-actions">
-			<button onclick={() => (timelineEditFlyout = null)}>Cancel</button>
+			<button
+				onclick={() => {
+					timelineEditFlyout = null;
+					timelineEditErrors = null;
+				}}>Cancel</button
+			>
 			<button onclick={applyTimelineEditFromFlyout}>Apply</button>
 		</div>
 	</div>
@@ -2549,6 +2754,18 @@ import {
 		color: #1f2937;
 	}
 
+	.canvas-context-menu button.has-submenu {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+	}
+
+	.canvas-context-menu .submenu-arrow {
+		font-size: 11px;
+		color: #6b7280;
+	}
+
 	.canvas-context-menu .context-label {
 		display: flex;
 		flex-direction: column;
@@ -2565,6 +2782,51 @@ import {
 		font-size: 12px;
 		color: #111827;
 		background: white;
+	}
+
+	.canvas-context-menu .context-date-row {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.canvas-context-menu .context-date-row input {
+		flex: 1 1 auto;
+	}
+
+	:global(.date-picker-button) {
+		flex: 0 0 auto;
+		padding: 6px 8px;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		font-size: 11px;
+		background: #f9fafb;
+		color: #374151;
+	}
+
+	:global(.date-picker-popover) {
+		z-index: 1300;
+		min-width: 180px;
+		padding: 8px;
+		background: #fff;
+		border: 1px solid #d4d4d8;
+		border-radius: 8px;
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1);
+	}
+
+	:global(.date-picker-popover input[type='date']) {
+		width: 100%;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 6px 8px;
+		font-size: 12px;
+	}
+
+	.canvas-context-menu .context-error {
+		font-size: 11px;
+		color: #b91c1c;
 	}
 
 	.canvas-context-menu .context-actions {
@@ -2607,5 +2869,55 @@ import {
 		padding: 0;
 		overflow: hidden;
 	}
-</style>
 
+	.canvas-context-menu .theme-preview-row {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-template-areas:
+			'header sample'
+			'swatches sample';
+		column-gap: 10px;
+		row-gap: 4px;
+		padding: 8px;
+	}
+
+	.canvas-context-menu .theme-preview-header {
+		grid-area: header;
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 8px;
+	}
+
+	.canvas-context-menu .theme-preview-id {
+		font-size: 10px;
+		color: #6b7280;
+		text-transform: lowercase;
+	}
+
+	.canvas-context-menu .theme-preview-swatches {
+		grid-area: swatches;
+		display: flex;
+		gap: 4px;
+	}
+
+	.canvas-context-menu .theme-preview-swatches span {
+		width: 14px;
+		height: 14px;
+		border-radius: 4px;
+		border: 1px solid #e5e7eb;
+	}
+
+	.canvas-context-menu .theme-preview-sample {
+		grid-area: sample;
+		width: 28px;
+		height: 28px;
+		border-radius: 6px;
+		border: 1px solid #d1d5db;
+		font-size: 11px;
+		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>

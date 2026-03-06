@@ -1,7 +1,7 @@
 ---
 title: Editor Guide
 description: What the Runiq Editor can do today, what it cannot do yet, and recommended workflows.
-lastUpdated: 2026-02-24
+lastUpdated: 2026-03-05
 ---
 
 # Editor Guide
@@ -31,6 +31,7 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
 - Auto-save your DSL in browser storage and restore it on reload.
 - Open **Settings** to configure autosave behavior, default layout strategy, canvas mode, and default diagram theme.
   - Layout strategy options are shown only for profiles that support automatic layout selection.
+- Canvas context menus (empty-canvas and element) with flyout submenus for insert actions and theme selection.
 - Undo/redo code changes from the app-level key handler (`Ctrl/Cmd+Z`, `Ctrl/Cmd+Y`, `Ctrl/Cmd+Shift+Z`).
 
 ## What The Editor Cannot Do Yet
@@ -75,7 +76,18 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
 - `Add Image`: inserts `@image` node using `data:[{ src:"..." }]`.
 - `Add Text`: inserts `@textBlock` with default left text alignment.
 - `Theme`: applies/updates `theme <id>` in current profile block.
+  - Theme insertion is anchored to the first line after the active profile opening `{` (not cursor location).
 - `Zoom In / Zoom Out / Reset / Fit`.
+
+### Context Menus
+
+- Right-click empty canvas to open profile-aware canvas actions.
+- Right-click an element to open element actions (edit/duplicate/delete and profile-specific actions).
+- Items that open a flyout submenu show a right-arrow indicator.
+- Theme picker opens as a flyout with visual previews:
+  - Theme name/id
+  - Palette swatches
+  - Small sample chip for quick contrast/readability cues
 
 ### Selection Toolbar (Diagram Profile)
 
