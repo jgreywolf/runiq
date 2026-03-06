@@ -1675,6 +1675,14 @@ import {
 		closeCanvasContextMenu();
 	}
 
+	function handleEditLabelFromContext() {
+		if (!elementContextMenu) return;
+		if (!supportsCanvasSelection(editorState.profileName)) return;
+		if (!elementContextMenu.nodeId && !elementContextMenu.edgeId) return;
+		interactionManager.startLabelEdit(elementContextMenu.nodeId, elementContextMenu.edgeId);
+		closeElementContextMenu();
+	}
+
 	// Export functions for parent component access
 	export function hasValidDiagram(): boolean {
 		return svgOutput.trim() !== '' && diagramState.errors.length === 0;
@@ -1790,7 +1798,7 @@ import {
 	}
 
 	function handleEditBlur() {
-		if (editorState.profileName !== ProfileName.diagram || canvasState.mode !== 'select') return;
+		if (!supportsCanvasSelection(editorState.profileName) || canvasState.mode !== 'select') return;
 		if (selection.editingNodeId) {
 			handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
 			selection.cancelLabelEdit();
@@ -2276,9 +2284,13 @@ import {
 		style="left: {elementContextMenu.x}px; top: {elementContextMenu.y}px;"
 	>
 		{#if editorState.profileName === ProfileName.timeline}
+			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId}>Edit Label</button>
+			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
 		{:else}
+			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button>
+			<div class="separator"></div>
 			{#if !elementContextMenu.edgeId}
 				<button onclick={handleCopyElementFromContext}>Copy</button>
 				<button onclick={handleCutElementFromContext}>Cut</button>

@@ -85,9 +85,9 @@ test.describe('Visual canvas context menus', () => {
 		await getSyntaxEditor(page).fill(dsl);
 		await page.waitForTimeout(900);
 
-		await page
-			.locator('svg [data-node-id="kickoff"]')
-			.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+		const kickoffNode = page.locator('svg [data-node-id="kickoff"]').first();
+		await expect(kickoffNode).toBeVisible({ timeout: 10000 });
+		await kickoffNode.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
 		const menu = page.locator('.canvas-context-menu:visible').first();
 		await expect(menu.getByRole('button', { name: 'Duplicate' })).toBeVisible();
 		await menu.getByRole('button', { name: 'Duplicate' }).dispatchEvent('click');
@@ -96,9 +96,9 @@ test.describe('Visual canvas context menus', () => {
 		let editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
 		expect(editorContent).toContain('event kickoff_copy');
 
-		await page
-			.locator('svg [data-node-id="alpha"]')
-			.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+		const alphaNode = page.locator('svg [data-node-id="alpha"]').first();
+		await expect(alphaNode).toBeVisible({ timeout: 10000 });
+		await alphaNode.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
 		const deleteMenu = page.locator('.canvas-context-menu:visible').first();
 		await expect(deleteMenu.getByRole('button', { name: 'Delete' })).toBeVisible();
 		await deleteMenu.getByRole('button', { name: 'Delete' }).dispatchEvent('click');
@@ -130,5 +130,25 @@ test.describe('Visual canvas context menus', () => {
 		await expect(menu).toBeVisible();
 		await expect(menu.getByRole('button', { name: 'Select Mode' })).toBeVisible();
 		await expect(menu.getByText('Theme')).toBeVisible();
+	});
+
+	test('timeline inline edit persists label on Enter', async ({ page }) => {
+		const dsl = `timeline "Launch" {
+  event kickoff date:"2024-01-15" label:"Kickoff"
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(700);
+
+		await page
+			.locator('svg [data-node-id="kickoff"]')
+			.dispatchEvent('dblclick', { bubbles: true, cancelable: true });
+		const editInput = page.locator('input.edit-input');
+		await expect(editInput).toBeVisible();
+		await editInput.fill('Kickoff Updated');
+		await editInput.press('Enter');
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('label:"Kickoff Updated"');
 	});
 });
