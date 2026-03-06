@@ -7,13 +7,13 @@
 		handleInsertShape,
 		updateCode
 	} from '$lib/state/editorState.svelte';
-	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 	import { canvasState } from '$lib/state';
 	import { ProfileName } from '$lib/types';
 	import { applyThemeToDsl, extractSvgDimensions } from './editorToolbarActions';
 	import ContainerPickerFlyout from '$lib/components/ContainerPickerFlyout.svelte';
 	import ImageInsertFlyout from '$lib/components/ImageInsertFlyout.svelte';
 	import ShapePickerFlyout from '$lib/components/ShapePickerFlyout.svelte';
+	import ThemePickerFlyout from '$lib/components/ThemePickerFlyout.svelte';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -26,16 +26,6 @@
 	let showShapeFlyout = $state(false);
 	let showContainerFlyout = $state(false);
 	let showImageFlyout = $state(false);
-	const availableThemes = getAvailableBaseThemes();
-	const themeOptions = availableThemes.map((themeId) => {
-		const theme = getBaseTheme(themeId);
-		return {
-			id: themeId,
-			name: theme.name,
-			description: theme.description,
-			primaryColor: theme.primaryColor
-		};
-	});
 
 	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
 
@@ -308,22 +298,7 @@
 	<!-- Theme Flyout -->
 	{#if showThemeFlyout}
 		<div class="theme-flyout">
-			<div class="mb-1 px-2 py-1">
-				<h3 class="text-xs font-semibold text-neutral-700">Select Theme</h3>
-			</div>
-			{#each themeOptions as theme}
-				<button
-					onclick={() => applyTheme(theme.id)}
-					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
-					title={theme.description}
-				>
-					<div
-						class="h-4 w-4 rounded border border-neutral-300"
-						style="background-color: {theme.primaryColor};"
-					></div>
-					<span class="text-xs">{theme.name}</span>
-				</button>
-			{/each}
+			<ThemePickerFlyout onSelect={applyTheme} />
 		</div>
 	{/if}
 
