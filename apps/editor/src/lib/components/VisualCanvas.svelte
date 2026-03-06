@@ -156,6 +156,21 @@ import {
 		containerId: string | null;
 		containerLabel: string | null;
 	} | null>(null);
+	let contextThemeFlyout = $state<{
+		x: number;
+		y: number;
+	} | null>(null);
+	let timelineEditFlyout = $state<{
+		x: number;
+		y: number;
+		nodeId: string;
+		keyword: 'event' | 'period' | 'task' | 'milestone';
+		label: string;
+		date: string;
+		description: string;
+		startDate: string;
+		endDate: string;
+	} | null>(null);
 	let styleClipboard = $state<{
 		kind: 'node' | 'edge';
 		styleRef?: string;
@@ -824,6 +839,7 @@ import {
 		contextShapeFlyout = null;
 		contextContainerFlyout = null;
 		contextImageFlyout = null;
+		contextThemeFlyout = null;
 	}
 
 	function closeElementContextMenu() {
@@ -831,6 +847,7 @@ import {
 		contextShapeFlyout = null;
 		contextContainerFlyout = null;
 		contextImageFlyout = null;
+		timelineEditFlyout = null;
 	}
 
 	function insertShapeFromContext(shapeCode: string) {
@@ -929,6 +946,88 @@ import {
 		if (nextCode === editorState.code) return false;
 		updateCode(nextCode, true);
 		return true;
+	}
+
+	function parseTimelineStatementById(nodeId: string): {
+		lineIndex: number;
+		keyword: 'event' | 'period' | 'task' | 'milestone';
+		line: string;
+		fields: Record<string, string>;
+	} | null {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findTimelineStatementLineIndex(lines, nodeId);
+		if (lineIndex < 0) return null;
+		const line = lines[lineIndex];
+		const head = line.match(/^\s*(event|period|task|milestone)\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+		if (!head) return null;
+		const keyword = head[1] as 'event' | 'period' | 'task' | 'milestone';
+		const fields: Record<string, string> = {};
+		const tokenRegex = /(\w+):"((?:\\.|[^"])*)"/g;
+		let tokenMatch: RegExpExecArray | null;
+		while ((tokenMatch = tokenRegex.exec(line)) !== null) {
+			fields[tokenMatch[1]] = tokenMatch[2].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+		}
+		return { lineIndex, keyword, line, fields };
+	}
+
+	function upsertQuotedField(line: string, key: string, value: string): string {
+		const escaped = escapeDslString(value.trim());
+		const regex = new RegExp(`\\b${key}:"(?:\\\\.|[^"])*"`);
+		if (regex.test(line)) {
+			return line.replace(regex, `${key}:"${escaped}"`);
+		}
+		return `${line} ${key}:"${escaped}"`;
+	}
+
+	function openTimelineEditFromContext() {
+		if (!elementContextMenu?.nodeId) return;
+		const parsed = parseTimelineStatementById(elementContextMenu.nodeId);
+		if (!parsed) return;
+		timelineEditFlyout = {
+			x: elementContextMenu.x + 190,
+			y: elementContextMenu.y,
+			nodeId: elementContextMenu.nodeId,
+			keyword: parsed.keyword,
+			label: parsed.fields.label ?? '',
+			date: parsed.fields.date ?? '',
+			description: parsed.fields.description ?? '',
+			startDate: parsed.fields.startDate ?? '',
+			endDate: parsed.fields.endDate ?? ''
+		};
+		elementContextMenu = null;
+	}
+
+	function applyTimelineEditFromFlyout() {
+		if (!timelineEditFlyout) return;
+		const lines = (editorState.code || '').split('\n');
+		const parsed = parseTimelineStatementById(timelineEditFlyout.nodeId);
+		if (!parsed) {
+			timelineEditFlyout = null;
+			return;
+		}
+		let nextLine = parsed.line;
+		nextLine = upsertQuotedField(nextLine, 'label', timelineEditFlyout.label || timelineEditFlyout.nodeId);
+		if (timelineEditFlyout.keyword === 'period') {
+			if (timelineEditFlyout.startDate) {
+				nextLine = upsertQuotedField(nextLine, 'startDate', timelineEditFlyout.startDate);
+			}
+			if (timelineEditFlyout.endDate) {
+				nextLine = upsertQuotedField(nextLine, 'endDate', timelineEditFlyout.endDate);
+			}
+		} else {
+			if (timelineEditFlyout.date) {
+				nextLine = upsertQuotedField(nextLine, 'date', timelineEditFlyout.date);
+			}
+			if (timelineEditFlyout.description) {
+				nextLine = upsertQuotedField(nextLine, 'description', timelineEditFlyout.description);
+			}
+		}
+		if (nextLine !== parsed.line) {
+			lines[parsed.lineIndex] = nextLine;
+			updateCode(lines.join('\n'), true);
+		}
+		timelineEditFlyout = null;
+		closeElementContextMenu();
 	}
 
 	function getSelectedNodeProfile(nodeId: string | null): any | null {
@@ -1470,6 +1569,7 @@ import {
 			const edgeId = edgeElement?.getAttribute('data-edge-id') ?? null;
 			setSelectionFromContextMenu(nodeId, edgeId);
 			canvasContextMenu = null;
+			contextThemeFlyout = null;
 			elementContextMenu = {
 				x: event.clientX,
 				y: event.clientY,
@@ -1485,6 +1585,7 @@ import {
 			selection.clearSelection();
 			selection.updateVisualSelection(svgContainer);
 			canvasContextMenu = null;
+			contextThemeFlyout = null;
 			const labelText =
 				containerElement.querySelector('.runiq-container-label')?.textContent?.trim() || null;
 			elementContextMenu = {
@@ -1499,7 +1600,9 @@ import {
 		}
 		event.preventDefault();
 		elementContextMenu = null;
+		timelineEditFlyout = null;
 		canvasContextMenu = { x: event.clientX, y: event.clientY };
+		contextThemeFlyout = null;
 	}
 
 	function handleContextSetMode(mode: 'select' | 'connect') {
@@ -1511,6 +1614,7 @@ import {
 		if (!canvasContextMenu) return;
 		contextContainerFlyout = null;
 		contextImageFlyout = null;
+		contextThemeFlyout = null;
 		contextShapeFlyout = {
 			x: canvasContextMenu.x + 190,
 			y: canvasContextMenu.y,
@@ -1524,6 +1628,7 @@ import {
 		if (!canvasContextMenu) return;
 		contextShapeFlyout = null;
 		contextImageFlyout = null;
+		contextThemeFlyout = null;
 		contextContainerFlyout = {
 			x: canvasContextMenu.x + 190,
 			y: canvasContextMenu.y,
@@ -1537,6 +1642,7 @@ import {
 		if (!canvasContextMenu) return;
 		contextShapeFlyout = null;
 		contextContainerFlyout = null;
+		contextThemeFlyout = null;
 		contextImageFlyout = {
 			x: canvasContextMenu.x + 190,
 			y: canvasContextMenu.y,
@@ -1660,6 +1766,7 @@ import {
 	}
 
 	function handleContextPaste() {
+		contextThemeFlyout = null;
 		if (containerClipboard) {
 			pasteContainerFromClipboard();
 			closeCanvasContextMenu();
@@ -1672,7 +1779,16 @@ import {
 	function handleContextApplyTheme(themeId: string) {
 		const nextCode = applyThemeToDsl(editorState.code || '', themeId);
 		updateCode(nextCode, true);
+		contextThemeFlyout = null;
 		closeCanvasContextMenu();
+	}
+
+	function handleContextOpenThemeFlyout() {
+		if (!canvasContextMenu) return;
+		contextThemeFlyout = {
+			x: canvasContextMenu.x + 190,
+			y: canvasContextMenu.y
+		};
 	}
 
 	function handleEditLabelFromContext() {
@@ -2050,12 +2166,20 @@ import {
 		});
 
 		const handleGlobalContextMenuDismiss = (event: PointerEvent) => {
-			const hasAnyMenu = !!canvasContextMenu || !!elementContextMenu;
+			const hasAnyMenu =
+				!!canvasContextMenu ||
+				!!elementContextMenu ||
+				!!contextShapeFlyout ||
+				!!contextContainerFlyout ||
+				!!contextImageFlyout ||
+				!!contextThemeFlyout ||
+				!!timelineEditFlyout;
 			if (!hasAnyMenu) return;
 			const target = event.target as HTMLElement | null;
 			if (target?.closest('.canvas-context-menu')) return;
 			closeCanvasContextMenu();
 			closeElementContextMenu();
+			timelineEditFlyout = null;
 		};
 
 		document.addEventListener('pointerdown', handleGlobalPointerDown, true);
@@ -2271,10 +2395,7 @@ import {
 			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
 			<div class="separator"></div>
 		{/if}
-		<div class="section-label">Theme</div>
-		{#each availableThemes as themeId}
-			<button onclick={() => handleContextApplyTheme(themeId)}>{themeId}</button>
-		{/each}
+		<button onclick={handleContextOpenThemeFlyout}>Theme</button>
 	</div>
 {/if}
 
@@ -2285,6 +2406,7 @@ import {
 	>
 		{#if editorState.profileName === ProfileName.timeline}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId}>Edit Label</button>
+			<button onclick={openTimelineEditFromContext} disabled={!elementContextMenu.nodeId}>Edit Details</button>
 			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
@@ -2352,6 +2474,54 @@ import {
 	</div>
 {/if}
 
+{#if contextThemeFlyout}
+	<div
+		class="canvas-context-menu shape-picker-context-flyout"
+		style="left: {contextThemeFlyout.x}px; top: {contextThemeFlyout.y}px;"
+	>
+		<div class="section-label">Theme</div>
+		{#each availableThemes as themeId}
+			<button onclick={() => handleContextApplyTheme(themeId)}>{themeId}</button>
+		{/each}
+	</div>
+{/if}
+
+{#if timelineEditFlyout}
+	<div
+		class="canvas-context-menu"
+		style="left: {timelineEditFlyout.x}px; top: {timelineEditFlyout.y}px; min-width: 260px;"
+	>
+		<div class="section-label">Edit {timelineEditFlyout.keyword}</div>
+		<label class="context-label">
+			Label
+			<input bind:value={timelineEditFlyout.label} />
+		</label>
+		{#if timelineEditFlyout.keyword === 'period'}
+			<label class="context-label">
+				Start Date
+				<input bind:value={timelineEditFlyout.startDate} placeholder="YYYY-MM-DD" />
+			</label>
+			<label class="context-label">
+				End Date
+				<input bind:value={timelineEditFlyout.endDate} placeholder="YYYY-MM-DD" />
+			</label>
+		{:else}
+			<label class="context-label">
+				Date
+				<input bind:value={timelineEditFlyout.date} placeholder="YYYY-MM-DD" />
+			</label>
+			<label class="context-label">
+				Description
+				<input bind:value={timelineEditFlyout.description} />
+			</label>
+		{/if}
+		<div class="context-actions">
+			<button onclick={() => (timelineEditFlyout = null)}>Cancel</button>
+			<button onclick={applyTimelineEditFromFlyout}>Apply</button>
+		</div>
+	</div>
+{/if}
+
 <style>
 	.canvas-context-menu {
 		position: fixed;
@@ -2377,6 +2547,31 @@ import {
 		padding: 7px 8px;
 		font-size: 12px;
 		color: #1f2937;
+	}
+
+	.canvas-context-menu .context-label {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 4px 6px;
+		font-size: 11px;
+		color: #4b5563;
+	}
+
+	.canvas-context-menu .context-label input {
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 6px 8px;
+		font-size: 12px;
+		color: #111827;
+		background: white;
+	}
+
+	.canvas-context-menu .context-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 6px;
+		padding: 6px;
 	}
 
 	.canvas-context-menu button:hover:enabled {
