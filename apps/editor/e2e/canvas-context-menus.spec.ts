@@ -231,7 +231,7 @@ test.describe('Visual canvas context menus', () => {
 		expect(editorContent).toContain('activate:true');
 	});
 
-	test.fixme('sequence message drag shows reorder preview guide', async ({ page }) => {
+	test('sequence message drag reorders statements', async ({ page }) => {
 		const dsl = `sequence "Auth Flow" {
   participant "User" as actor
   participant "App" as entity
@@ -242,20 +242,35 @@ test.describe('Visual canvas context menus', () => {
 		await getSyntaxEditor(page).fill(dsl);
 		await page.waitForTimeout(1100);
 
-		const m2Label = page.locator('svg [data-edge-id="seq-message-1"] text.message-text').first();
-		const m1Label = page.locator('svg [data-edge-id="seq-message-0"] text.message-text').first();
-		await expect(m2Label).toBeVisible({ timeout: 10000 });
-		await expect(m1Label).toBeVisible({ timeout: 10000 });
-		const m2Box = await m2Label.boundingBox();
-		const m1Box = await m1Label.boundingBox();
-		expect(m2Box).not.toBeNull();
-		expect(m1Box).not.toBeNull();
-		await page.mouse.move((m2Box?.x ?? 0) + 20, (m2Box?.y ?? 0) + (m2Box?.height ?? 0) / 2);
+		const m2Edge = page.locator('svg [data-edge-id="seq-message-1"]').first();
+		const m1Edge = page.locator('svg [data-edge-id="seq-message-0"]').first();
+		await expect(m2Edge).toBeVisible({ timeout: 10000 });
+		await expect(m1Edge).toBeVisible({ timeout: 10000 });
+		const m2Point = await m2Edge.evaluate((edge) => {
+			const line = edge.querySelector('line.message-hit-area') as SVGLineElement | null;
+			if (!line) return null;
+			const rect = line.getBoundingClientRect();
+			return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+		});
+		const m1Point = await m1Edge.evaluate((edge) => {
+			const line = edge.querySelector('line.message-hit-area') as SVGLineElement | null;
+			if (!line) return null;
+			const rect = line.getBoundingClientRect();
+			return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+		});
+		expect(m2Point).not.toBeNull();
+		expect(m1Point).not.toBeNull();
+		await page.mouse.move(m2Point?.x ?? 0, m2Point?.y ?? 0);
 		await page.mouse.down();
-		await page.mouse.move((m1Box?.x ?? 0) + 20, (m1Box?.y ?? 0) - 30, { steps: 12 });
-		await expect(page.locator('.sequence-reorder-guide-horizontal')).toBeVisible();
-		await expect(page.locator('.sequence-reorder-badge-horizontal')).toContainText('Insert');
+		await page.mouse.move(m1Point?.x ?? 0, (m1Point?.y ?? 0) - 20, { steps: 12 });
 		await page.mouse.up();
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		const m2Index = editorContent.indexOf('label:"M2"');
+		const m1Index = editorContent.indexOf('label:"M1"');
+		expect(m2Index).toBeGreaterThan(-1);
+		expect(m1Index).toBeGreaterThan(-1);
+		expect(m2Index).toBeLessThan(m1Index);
 	});
 
 	test('sequence note supports inline label editing', async ({ page }) => {
