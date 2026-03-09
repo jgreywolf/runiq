@@ -28,6 +28,15 @@
 	let showImageFlyout = $state(false);
 
 	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
+	const isSequenceProfile = $derived(editorState.profileName === ProfileName.sequence);
+	const canSelectInCanvas = $derived(
+		editorState.profileName === ProfileName.diagram ||
+			editorState.profileName === ProfileName.timeline ||
+			editorState.profileName === ProfileName.sequence
+	);
+	const canUseConnectMode = $derived(
+		editorState.profileName === ProfileName.diagram
+	);
 
 	function getNextContainerLabel(baseLabel = 'New Container'): string {
 		const code = editorState.code || '';
@@ -58,7 +67,8 @@
 
 	// Mode handlers
 	function handleModeChange(newMode: EditorMode) {
-		if (!isDiagramProfile) return;
+		if (!canSelectInCanvas) return;
+		if (newMode === 'connect' && !canUseConnectMode) return;
 		canvasState.mode = newMode;
 	}
 
@@ -87,6 +97,60 @@
 	function handleAddText() {
 		if (!isDiagramProfile) return;
 		handleInsertShape('shape id as @textBlock label:"Edit text" textAlign:left');
+		canvasState.mode = 'select';
+	}
+
+	function getNextParticipantLabel(baseLabel = 'New Participant'): string {
+		const code = editorState.code || '';
+		const escapedBase = baseLabel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const pattern = new RegExp(`participant\\s+\"${escapedBase}(?:\\s+(\\d+))?\"`, 'g');
+		let maxIndex = 0;
+		for (const match of code.matchAll(pattern)) {
+			const suffix = match[1];
+			if (!suffix) {
+				maxIndex = Math.max(maxIndex, 1);
+			} else {
+				const parsed = Number.parseInt(suffix, 10);
+				if (Number.isFinite(parsed)) {
+					maxIndex = Math.max(maxIndex, parsed);
+				}
+			}
+		}
+		return maxIndex <= 0 ? baseLabel : `${baseLabel} ${maxIndex + 1}`;
+	}
+
+	function extractSequenceParticipantNames(code: string): string[] {
+		const names: string[] = [];
+		const lines = code.split('\n');
+		for (const line of lines) {
+			const match = /^\s*participant\s+\"((?:\\.|[^\"])*)\"/.exec(line);
+			if (!match) continue;
+			names.push(match[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\'));
+		}
+		return names;
+	}
+
+	function handleAddSequenceParticipant() {
+		if (!isSequenceProfile) return;
+		const label = getNextParticipantLabel('New Participant').replace(/"/g, '\\"');
+		handleInsertShape(`participant "${label}" as entity`);
+		canvasState.mode = 'select';
+	}
+
+	function handleAddSequenceMessage() {
+		if (!isSequenceProfile) return;
+		const participants = extractSequenceParticipantNames(editorState.code || '');
+		const from = (participants[0] ?? 'Participant A').replace(/"/g, '\\"');
+		const to = (participants[1] ?? participants[0] ?? 'Participant B').replace(/"/g, '\\"');
+		handleInsertShape(`message from:"${from}" to:"${to}" label:"New Message" type:sync`);
+		canvasState.mode = 'select';
+	}
+
+	function handleAddSequenceNote() {
+		if (!isSequenceProfile) return;
+		const participants = extractSequenceParticipantNames(editorState.code || '');
+		const target = (participants[0] ?? 'Participant A').replace(/"/g, '\\"');
+		handleInsertShape(`note "New note" position:right participants:("${target}")`);
 		canvasState.mode = 'select';
 	}
 
@@ -165,66 +229,95 @@
 				onclick={() => handleModeChange('select')}
 				title="Select Mode (V)"
 				aria-label="Select Mode (V)"
-				disabled={!isDiagramProfile}
+				disabled={!canSelectInCanvas}
 			>
 				<Icon icon="lucide:pointer" class="icon" />
 			</button>
 
-			<button
-				class="toolbar-btn"
-				class:active={canvasState.mode === 'connect'}
-				onclick={() => handleModeChange('connect')}
-				title="Connect Mode (C)"
-				aria-label="Connect Mode (C)"
-				disabled={!isDiagramProfile}
-			>
-				<Icon icon="lucide:git-branch" class="icon" />
-			</button>
+			{#if canUseConnectMode}
+				<button
+					class="toolbar-btn"
+					class:active={canvasState.mode === 'connect'}
+					onclick={() => handleModeChange('connect')}
+					title="Connect Mode (C)"
+					aria-label="Connect Mode (C)"
+					disabled={!canUseConnectMode}
+				>
+					<Icon icon="lucide:git-branch" class="icon" />
+				</button>
+			{/if}
 		</div>
 
 		<div class="toolbar-divider"></div>
 
 		<!-- Shape Tools -->
 		<div class="toolbar-section">
-			<button
-				class="toolbar-btn"
-				onclick={handleAddShape}
-				title="Add Shape"
-				aria-label="Add Shape"
-				disabled={!isDiagramProfile}
-			>
-				<Icon icon="lucide:square-plus" class="icon" />
-			</button>
+			{#if isSequenceProfile}
+				<button
+					class="toolbar-btn"
+					onclick={handleAddSequenceParticipant}
+					title="Add Participant"
+					aria-label="Add Participant"
+				>
+					<Icon icon="lucide:user-plus" class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddSequenceMessage}
+					title="Add Message"
+					aria-label="Add Message"
+				>
+					<Icon icon="lucide:arrow-right-left" class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddSequenceNote}
+					title="Add Note"
+					aria-label="Add Note"
+				>
+					<Icon icon="lucide:sticky-note" class="icon" />
+				</button>
+			{:else}
+				<button
+					class="toolbar-btn"
+					onclick={handleAddShape}
+					title="Add Shape"
+					aria-label="Add Shape"
+					disabled={!isDiagramProfile}
+				>
+					<Icon icon="lucide:square-plus" class="icon" />
+				</button>
 
-			<button
-				class="toolbar-btn"
-				onclick={handleAddContainer}
-				title="Add Container"
-				aria-label="Add Container"
-				disabled={!isDiagramProfile}
-			>
-				<Icon icon="lucide:box" class="icon" />
-			</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddContainer}
+					title="Add Container"
+					aria-label="Add Container"
+					disabled={!isDiagramProfile}
+				>
+					<Icon icon="lucide:box" class="icon" />
+				</button>
 
-			<button
-				class="toolbar-btn"
-				onclick={handleAddImage}
-				title="Add Image"
-				aria-label="Add Image"
-				disabled={!isDiagramProfile}
-			>
-				<Icon icon="lucide:image-plus" class="icon" />
-			</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddImage}
+					title="Add Image"
+					aria-label="Add Image"
+					disabled={!isDiagramProfile}
+				>
+					<Icon icon="lucide:image-plus" class="icon" />
+				</button>
 
-			<button
-				class="toolbar-btn"
-				onclick={handleAddText}
-				title="Add Text"
-				aria-label="Add Text"
-				disabled={!isDiagramProfile}
-			>
-				<Icon icon="lucide:text-cursor-input" class="icon" />
-			</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddText}
+					title="Add Text"
+					aria-label="Add Text"
+					disabled={!isDiagramProfile}
+				>
+					<Icon icon="lucide:text-cursor-input" class="icon" />
+				</button>
+			{/if}
 		</div>
 
 		<div class="toolbar-divider"></div>

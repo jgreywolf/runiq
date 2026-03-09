@@ -27,6 +27,11 @@ export function convertSequenceProfile(
 
   // Process sequence statements
   for (const statement of profile.statements) {
+    if (Langium.isThemeDeclaration(statement)) {
+      sequenceProfile.theme = statement.value;
+      continue;
+    }
+
     if (Langium.isSequenceParticipantStatement(statement)) {
       // participant "Actor" as actor
       const name = unescapeString(statement.name);

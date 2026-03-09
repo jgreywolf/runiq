@@ -64,6 +64,18 @@ describe('dslCodeManipulation location-aware edits', () => {
 		expect(updated).toContain('event kickoff date:"2024-01-15" label:"Kickoff Updated"');
 	});
 
+	it('edits sequence participant label by synthetic participant id', () => {
+		const code = `sequence "Auth" {\n  participant "User Client" as actor\n  participant "API Server" as boundary\n}`;
+		const updated = editLabel(code, 'seq-participant-user_client', 'Web User', false);
+		expect(updated).toContain('participant "Web User" as actor');
+	});
+
+	it('edits sequence message label by synthetic message edge id', () => {
+		const code = `sequence "Auth" {\n  participant "User Client" as actor\n  participant "API Server" as boundary\n  message from:"User Client" to:"API Server" label:"Login"\n}`;
+		const updated = editLabel(code, 'seq-message-0', 'Authenticate', true);
+		expect(updated).toContain('message from:"User Client" to:"API Server" label:"Authenticate"');
+	});
+
 	it('edits edge style using edge location hint', () => {
 		const code = `diagram "Example" {\n  a -> b\n}`;
 		const updated = editStyleProperty(code, 'a-b', 'routing', 'orthogonal', { startLine: 2 });

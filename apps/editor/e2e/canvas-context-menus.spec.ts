@@ -151,4 +151,63 @@ test.describe('Visual canvas context menus', () => {
 		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
 		expect(editorContent).toContain('label:"Kickoff Updated"');
 	});
+
+	test('sequence element context menu edit details updates participant and message fields', async ({
+		page
+	}) => {
+		const dsl = `sequence "Auth Flow" {
+  participant "User" as actor
+  participant "App" as entity
+  message from:"User" to:"App" label:"Login" type:sync
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const participantNode = page.locator('svg text', { hasText: 'User' }).first();
+		await expect(participantNode).toBeVisible({ timeout: 10000 });
+		await participantNode.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+
+		let menu = page.locator('.canvas-context-menu:visible').first();
+		await expect(menu.getByRole('button', { name: 'Edit Details' })).toBeVisible();
+		await menu.getByRole('button', { name: 'Edit Details' }).dispatchEvent('click');
+
+		let flyout = page
+			.locator('.canvas-context-menu:visible')
+			.filter({ hasText: 'Edit sequence participant' })
+			.first();
+		await expect(flyout).toBeVisible();
+		await flyout.locator('label:has-text("Label") input').fill('User Updated');
+		await flyout.locator('label:has-text("Participant type") select').selectOption('boundary');
+		await flyout.getByRole('button', { name: 'Apply' }).dispatchEvent('click');
+		await page.waitForTimeout(250);
+
+		let editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('participant "User Updated" as boundary');
+
+		const messageEdge = page.locator('svg text', { hasText: 'Login' }).first();
+		await expect(messageEdge).toBeVisible({ timeout: 10000 });
+		await messageEdge.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+
+		menu = page.locator('.canvas-context-menu:visible').first();
+		await expect(menu.getByRole('button', { name: 'Edit Details' })).toBeVisible();
+		await menu.getByRole('button', { name: 'Edit Details' }).dispatchEvent('click');
+
+		flyout = page
+			.locator('.canvas-context-menu:visible')
+			.filter({ hasText: 'Edit sequence message' })
+			.first();
+		await expect(flyout).toBeVisible();
+		await flyout.locator('label:has-text("Label") input').fill('Submit Login');
+		await flyout.locator('label:has-text("Type") select').selectOption('async');
+		await flyout.locator('label:has-text("Guard") input').fill('isValid');
+		await flyout.locator('label:has-text("Timing") input').fill('t < 50ms');
+		await flyout.getByRole('button', { name: 'Apply' }).dispatchEvent('click');
+		await page.waitForTimeout(250);
+
+		editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('label:"Submit Login"');
+		expect(editorContent).toContain('type:async');
+		expect(editorContent).toContain('guard:"isValid"');
+		expect(editorContent).toContain('timing:"t < 50ms"');
+	});
 });

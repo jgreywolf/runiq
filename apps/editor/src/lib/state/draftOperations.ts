@@ -47,7 +47,11 @@ export function applyDraftOperation(
 			const { targetId, property, value } = op;
 
 			if (property === 'label') {
-				newCode = DSL.editLabel(code, targetId, String(value), false, resolveLocation(targetId, false));
+				if (targetId.startsWith('seq-note-')) {
+					newCode = editSequenceNoteLabel(code, targetId, String(value));
+				} else {
+					newCode = DSL.editLabel(code, targetId, String(value), false, resolveLocation(targetId, false));
+				}
 			} else if (property === 'edgeLabel') {
 				newCode = DSL.editLabel(code, targetId, String(value), true, resolveLocation(targetId, true));
 			} else if (property === 'position') {
@@ -125,4 +129,26 @@ export function applyDraftOperation(
 		default:
 			return { newCode: code, shapeCounterDelta: 0 };
 	}
+}
+
+function editSequenceNoteLabel(code: string, noteNodeId: string, nextLabel: string): string {
+	const indexRaw = noteNodeId.slice('seq-note-'.length);
+	const noteIndex = Number.parseInt(indexRaw, 10);
+	if (!Number.isFinite(noteIndex) || noteIndex < 0) return code;
+	const lines = code.split('\n');
+	let currentNote = 0;
+	for (let i = 0; i < lines.length; i += 1) {
+		const line = lines[i];
+		if (!/^\s*note\b/.test(line)) continue;
+		if (currentNote !== noteIndex) {
+			currentNote += 1;
+			continue;
+		}
+		const match = line.match(/^(\s*note\s+)("([^"\\]|\\.)*")(.*)$/);
+		if (!match) return code;
+		const escaped = nextLabel.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+		lines[i] = `${match[1]}"${escaped}"${match[4] || ''}`;
+		return lines.join('\n');
+	}
+	return code;
 }

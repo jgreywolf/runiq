@@ -12,7 +12,9 @@
 	}
 
 	interface Props {
-		isDiagramConnectMode: boolean;
+		showConnectPreview: boolean;
+		showDiagramQuickConnect: boolean;
+		connectPreviewClassName?: string;
 		connectPreviewStart: Point | null;
 		connectPreviewEnd: Point | null;
 		quickConnectNodeId: string | null;
@@ -36,7 +38,9 @@
 	}
 
 	let {
-		isDiagramConnectMode,
+		showConnectPreview,
+		showDiagramQuickConnect,
+		connectPreviewClassName = '',
 		connectPreviewStart,
 		connectPreviewEnd,
 		quickConnectNodeId,
@@ -52,10 +56,10 @@
 	}: Props = $props();
 </script>
 
-{#if isDiagramConnectMode && connectPreviewStart && connectPreviewEnd}
+{#if showConnectPreview && connectPreviewStart && connectPreviewEnd}
 	<svg class="connect-preview-overlay" aria-hidden="true">
 		<line
-			class="connect-preview-line"
+			class={`connect-preview-line ${connectPreviewClassName}`.trim()}
 			x1={connectPreviewStart.x}
 			y1={connectPreviewStart.y}
 			x2={connectPreviewEnd.x}
@@ -64,7 +68,7 @@
 	</svg>
 {/if}
 
-{#if isDiagramConnectMode && !connectPreviewStart && quickConnectNodeId && quickConnectHandles.length > 0}
+{#if showDiagramQuickConnect && !connectPreviewStart && quickConnectNodeId && quickConnectHandles.length > 0}
 	<div class="quick-connect-layer" aria-hidden="true">
 		{#each quickConnectHandles as handle}
 			<button
@@ -96,7 +100,7 @@
 	</div>
 {/if}
 
-{#if isDiagramConnectMode && quickConnectPreviewStart && quickConnectPreviewEnd}
+{#if showDiagramQuickConnect && quickConnectPreviewStart && quickConnectPreviewEnd}
 	<svg class="connect-preview-overlay" aria-hidden="true">
 		<line
 			class="quick-connect-preview-line"
@@ -118,4 +122,3 @@
 		{/if}
 	</svg>
 {/if}
-

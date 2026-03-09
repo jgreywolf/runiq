@@ -30,6 +30,13 @@
 	filter: drop-shadow(0 0 3px rgba(37, 99, 235, 0.45));
 }
 
+.connect-preview-line.sequence-connect-preview-line {
+	stroke: #0f766e;
+	stroke-width: 2.75;
+	stroke-dasharray: 10 4;
+	filter: drop-shadow(0 0 3px rgba(15, 118, 110, 0.45));
+}
+
 .quick-connect-layer {
 	position: absolute;
 	inset: 0;
@@ -128,4 +135,3 @@
 .marching-ants {
 	animation: march 0.5s linear infinite;
 }
-

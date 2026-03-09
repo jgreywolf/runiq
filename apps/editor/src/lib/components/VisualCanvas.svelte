@@ -17,8 +17,8 @@
 	} from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
 	import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
+	import * as DSL from '$lib/utils/dslCodeManipulation';
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
-	import { getAvailableBaseThemes } from '@runiq/core';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
 	import { type DiagramProfile, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
@@ -162,8 +162,6 @@
 		y: number;
 	} | null>(null);
 	let timelineEditFlyout = $state<{
-		x: number;
-		y: number;
 		nodeId: string;
 		keyword: 'event' | 'period' | 'task' | 'milestone';
 		label: string;
@@ -171,6 +169,17 @@
 		description: string;
 		startDate: string;
 		endDate: string;
+	} | null>(null);
+	let sequenceEditFlyout = $state<{
+		kind: 'participant' | 'message';
+		nodeId: string | null;
+		edgeId: string | null;
+		label: string;
+		messageType: 'sync' | 'async' | 'return' | 'create' | 'destroy';
+		guard: string;
+		timing: string;
+		activate: boolean;
+		participantType: 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation' | '';
 	} | null>(null);
 	let timelineEditErrors = $state<{
 		date?: string;
@@ -193,6 +202,22 @@
 	let quickConnectTargetNodeId = $state<string | null>(null);
 	let quickConnectNewNodePosition = $state<{ x: number; y: number } | null>(null);
 	let quickConnectBehaviorHint = $state<QuickConnectBehavior>('auto');
+	let sequenceMessageEndpointHandles = $state<{
+		from: { x: number; y: number };
+		to: { x: number; y: number };
+	} | null>(null);
+	let sequenceLifelineHotspots = $state<Array<{ nodeId: string; x: number; y: number }>>([]);
+	let sequenceDropTargetNodeId = $state<string | null>(null);
+	let sequenceParticipantReorderPreview = $state<{
+		targetNodeId: string;
+		position: 'before' | 'after';
+		x: number;
+	} | null>(null);
+	let sequenceMessageReorderPreview = $state<{
+		targetEdgeId: string;
+		position: 'before' | 'after';
+		y: number;
+	} | null>(null);
 	let nodeContainerDrag = $state<{
 		nodeId: string;
 		label: string;
@@ -238,7 +263,6 @@
 		...listBrandIconNames().map((name) => `brand/${name.replace(/-/g, '_')}`),
 		...listIconifyIconNamesForDsl().map((name) => `iconify/${name}`)
 	];
-	const availableThemes = getAvailableBaseThemes();
 	const diagramShapeCategories = getShapeCategoryByProfile(ProfileName.diagram).map((category) => ({
 		label: category.label,
 		shapes: category.shapes.map((shape) => ({ id: shape.id, label: shape.label }))
@@ -331,6 +355,12 @@
 			connectPreviewEnd = null;
 			resetQuickConnect();
 			debugCanvas('effect:exit-connect-mode');
+		}
+	});
+
+	$effect(() => {
+		if (editorState.profileName === ProfileName.sequence && canvasState.mode === 'connect') {
+			canvasState.mode = 'select';
 		}
 	});
 
@@ -493,8 +523,29 @@
 			tick().then(() => {
 				interactionManager.attachHandlers(svgContainer, getDiagramSvg);
 				interactionManager.restoreSelection(svgContainer, getDiagramSvg);
+				refreshSequenceInteractionHints();
 			});
 		}
+	});
+
+	$effect(() => {
+		const profileName = editorState.profileName;
+		const mode = canvasState.mode;
+		const selectedEdgeId = selection.selectedEdgeId;
+		const svg = svgOutput;
+		const scale = viewport.scale;
+		const translateX = viewport.translateX;
+		const translateY = viewport.translateY;
+		void profileName;
+		void mode;
+		void selectedEdgeId;
+		void svg;
+		void scale;
+		void translateX;
+		void translateY;
+		tick().then(() => {
+			refreshSequenceInteractionHints();
+		});
 	});
 
 	function getDiagramSvg() {
@@ -512,6 +563,66 @@
 		if (!svgContainer) return null;
 		const rect = svgContainer.getBoundingClientRect();
 		return { x: clientX - rect.left, y: clientY - rect.top };
+	}
+
+	function svgPointToContainer(
+		svg: SVGSVGElement,
+		x: number,
+		y: number
+	): { x: number; y: number } | null {
+		if (!svgContainer) return null;
+		const svgRect = svg.getBoundingClientRect();
+		const containerRect = svgContainer.getBoundingClientRect();
+		const viewBox = svg.viewBox?.baseVal;
+		if (!viewBox || svgRect.width <= 0 || svgRect.height <= 0) return null;
+		const px = ((x - viewBox.x) / viewBox.width) * svgRect.width;
+		const py = ((y - viewBox.y) / viewBox.height) * svgRect.height;
+		return {
+			x: svgRect.left - containerRect.left + px,
+			y: svgRect.top - containerRect.top + py
+		};
+	}
+
+	function refreshSequenceInteractionHints() {
+		sequenceMessageEndpointHandles = null;
+		sequenceLifelineHotspots = [];
+		if (editorState.profileName !== ProfileName.sequence) return;
+		const svg = getDiagramSvg();
+		if (!svg) return;
+
+		if (canvasState.mode === 'connect' || (canvasState.mode === 'select' && !!selection.selectedEdgeId?.startsWith('seq-message-'))) {
+			const lifelines = Array.from(
+				svg.querySelectorAll<SVGLineElement>('line[data-seq-lifeline]')
+			);
+			sequenceLifelineHotspots = lifelines
+				.map((lifeline) => {
+					const participantNodeId = lifeline.getAttribute('data-participant-id');
+					if (!participantNodeId) return null;
+					const x1 = Number.parseFloat(lifeline.getAttribute('x1') || '0');
+					const y1 = Number.parseFloat(lifeline.getAttribute('y1') || '0');
+					const point = svgPointToContainer(svg, x1, y1 + 22);
+					if (!point) return null;
+					return { nodeId: participantNodeId, x: point.x, y: point.y };
+				})
+				.filter((entry): entry is { nodeId: string; x: number; y: number } => !!entry);
+		}
+
+		if (selection.selectedEdgeId?.startsWith('seq-message-')) {
+			const edgeElement = svg.querySelector(
+				`[data-edge-id="${selection.selectedEdgeId}"]`
+			) as SVGGraphicsElement | null;
+			const lineElement = edgeElement?.querySelector('line.message-line') as SVGLineElement | null;
+			if (!lineElement) return;
+			const x1 = Number.parseFloat(lineElement.getAttribute('x1') || '0');
+			const y1 = Number.parseFloat(lineElement.getAttribute('y1') || '0');
+			const x2 = Number.parseFloat(lineElement.getAttribute('x2') || '0');
+			const y2 = Number.parseFloat(lineElement.getAttribute('y2') || '0');
+			const fromPoint = svgPointToContainer(svg, x1, y1);
+			const toPoint = svgPointToContainer(svg, x2, y2);
+			if (fromPoint && toPoint) {
+				sequenceMessageEndpointHandles = { from: fromPoint, to: toPoint };
+			}
+		}
 	}
 
 	function getNodeLabelById(nodeId: string): string {
@@ -846,6 +957,7 @@
 		contextContainerFlyout = null;
 		contextImageFlyout = null;
 		contextThemeFlyout = null;
+		sequenceEditFlyout = null;
 	}
 
 	function closeElementContextMenu() {
@@ -854,6 +966,7 @@
 		contextContainerFlyout = null;
 		contextImageFlyout = null;
 		timelineEditFlyout = null;
+		sequenceEditFlyout = null;
 	}
 
 	function insertShapeFromContext(shapeCode: string) {
@@ -985,14 +1098,250 @@
 		return `${line} ${key}:"${escaped}"`;
 	}
 
+	function upsertBareField(line: string, key: string, value: string): string {
+		const normalized = value.trim();
+		const regex = new RegExp(`\\b${key}:(?:true|false|[A-Za-z_][A-Za-z0-9_-]*)`);
+		if (regex.test(line)) {
+			return line.replace(regex, `${key}:${normalized}`);
+		}
+		return `${line} ${key}:${normalized}`;
+	}
+
+	function removeField(line: string, key: string): string {
+		const quotedRegex = new RegExp(`\\s+${key}:"(?:\\\\.|[^"])*"`, 'g');
+		const bareRegex = new RegExp(`\\s+${key}:(?:true|false|[A-Za-z_][A-Za-z0-9_-]*)`, 'g');
+		return line.replace(quotedRegex, '').replace(bareRegex, '');
+	}
+
+	function normalizeSequenceIdentifier(value: string): string {
+		return value.trim().replace(/^"|"$/g, '').toLowerCase().replace(/\s+/g, '_');
+	}
+
+	function findSequenceParticipantStatementLineIndex(
+		lines: string[],
+		nodeId: string
+	): number {
+		if (!nodeId.startsWith('seq-participant-')) return -1;
+		const expectedId = nodeId.slice('seq-participant-'.length);
+		const participantRegex = /^\s*participant\s+("([^"\\]|\\.)*"|\S+)/;
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = participantRegex.exec(lines[i]);
+			if (!match) continue;
+			if (normalizeSequenceIdentifier(match[1]) === expectedId) return i;
+		}
+		return -1;
+	}
+
+	function findSequenceMessageStatementLineIndex(lines: string[], edgeId: string): number {
+		if (!edgeId.startsWith('seq-message-')) return -1;
+		const index = Number.parseInt(edgeId.slice('seq-message-'.length), 10);
+		if (!Number.isFinite(index) || index < 0) return -1;
+		let current = 0;
+		for (let i = 0; i < lines.length; i += 1) {
+			if (!/^\s*message\s+/.test(lines[i])) continue;
+			if (current === index) return i;
+			current += 1;
+		}
+		return -1;
+	}
+
+	function parseSequenceParticipants(lines: string[]) {
+		const participants: Array<{ lineIndex: number; id: string; name: string; line: string }> = [];
+		const participantRegex = /^\s*participant\s+("([^"\\]|\\.)*"|\S+)/;
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = participantRegex.exec(lines[i]);
+			if (!match) continue;
+			const raw = match[1];
+			const name = raw.replace(/^"|"$/g, '').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+			participants.push({
+				lineIndex: i,
+				id: normalizeSequenceIdentifier(raw),
+				name,
+				line: lines[i]
+			});
+		}
+		return participants;
+	}
+
+	function reorderSequenceParticipants(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceNodeId.startsWith('seq-participant-') || !targetNodeId.startsWith('seq-participant-')) {
+			return false;
+		}
+		const sourceId = sourceNodeId.slice('seq-participant-'.length);
+		const targetId = targetNodeId.slice('seq-participant-'.length);
+		if (sourceId === targetId) return false;
+
+		const lines = (editorState.code || '').split('\n');
+		const participants = parseSequenceParticipants(lines);
+		if (participants.length < 2) return false;
+		const sourceIndex = participants.findIndex((entry) => entry.id === sourceId);
+		const targetIndex = participants.findIndex((entry) => entry.id === targetId);
+		if (sourceIndex < 0 || targetIndex < 0) return false;
+
+		const reordered = [...participants];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = reordered.findIndex((entry) => entry.id === targetId);
+		if (insertIndex < 0) return false;
+		if (position === 'after') insertIndex += 1;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = participants.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function reorderSequenceMessages(
+		sourceEdgeId: string,
+		targetEdgeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceEdgeId.startsWith('seq-message-') || !targetEdgeId.startsWith('seq-message-')) return false;
+		const sourceIndex = Number.parseInt(sourceEdgeId.slice('seq-message-'.length), 10);
+		const targetIndex = Number.parseInt(targetEdgeId.slice('seq-message-'.length), 10);
+		if (!Number.isFinite(sourceIndex) || !Number.isFinite(targetIndex)) return false;
+		if (sourceIndex === targetIndex) return false;
+
+		const lines = (editorState.code || '').split('\n');
+		const messageLines = lines
+			.map((line, lineIndex) => ({ line, lineIndex }))
+			.filter((entry) => /^\s*message\s+/.test(entry.line));
+		if (messageLines.length < 2 || sourceIndex < 0 || sourceIndex >= messageLines.length) return false;
+		if (targetIndex < 0 || targetIndex >= messageLines.length) return false;
+
+		const reordered = [...messageLines];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = targetIndex;
+		if (sourceIndex < targetIndex) insertIndex -= 1;
+		if (position === 'after') insertIndex += 1;
+		if (insertIndex < 0) insertIndex = 0;
+		if (insertIndex > reordered.length) insertIndex = reordered.length;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = messageLines.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function findSequenceParticipantNameByNodeId(lines: string[], nodeId: string): string | null {
+		const normalized = nodeId.startsWith('seq-participant-')
+			? nodeId.slice('seq-participant-'.length)
+			: nodeId;
+		const participants = parseSequenceParticipants(lines);
+		const match = participants.find((entry) => entry.id === normalized);
+		return match?.name ?? null;
+	}
+
+	function insertSequenceMessage(fromNodeId: string, toNodeId: string): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const fromName = findSequenceParticipantNameByNodeId(lines, fromNodeId);
+		const toName = findSequenceParticipantNameByNodeId(lines, toNodeId);
+		if (!fromName || !toName) return false;
+		const blockInfo = DSL.findProfileBlock(editorState.code || '');
+		if (!blockInfo) return false;
+
+		const messageLineIndices = lines
+			.map((line, index) => ({ line, index }))
+			.filter((entry) => /^\s*message\s+/.test(entry.line))
+			.map((entry) => entry.index);
+		const participantLineIndices = lines
+			.map((line, index) => ({ line, index }))
+			.filter((entry) => /^\s*participant\s+/.test(entry.line))
+			.map((entry) => entry.index);
+		const insertIndex =
+			messageLineIndices.length > 0
+				? messageLineIndices[messageLineIndices.length - 1] + 1
+				: participantLineIndices.length > 0
+					? participantLineIndices[participantLineIndices.length - 1] + 1
+					: blockInfo.startLineIndex + 1;
+		const newLine = `${blockInfo.indentation}message from:"${escapeDslString(fromName)}" to:"${escapeDslString(toName)}" label:"New Message" type:sync`;
+		lines.splice(insertIndex, 0, newLine);
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function retargetSequenceMessageEndpoint(
+		edgeId: string,
+		endpoint: 'from' | 'to',
+		participantNodeId: string
+	): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const messageLineIndex = findSequenceMessageStatementLineIndex(lines, edgeId);
+		if (messageLineIndex < 0) return false;
+		const participantName = findSequenceParticipantNameByNodeId(lines, participantNodeId);
+		if (!participantName) return false;
+		const currentLine = lines[messageLineIndex];
+		const nextLine = upsertQuotedField(currentLine, endpoint, participantName);
+		if (nextLine === currentLine) return false;
+		lines[messageLineIndex] = nextLine;
+		const nextCode = lines.join('\n');
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function parseSequenceDetailsFromContext(): {
+		kind: 'participant' | 'message';
+		lineIndex: number;
+		line: string;
+		fields: Record<string, string>;
+	} | null {
+		if (!elementContextMenu) return null;
+		const lines = (editorState.code || '').split('\n');
+		if (elementContextMenu.edgeId?.startsWith('seq-message-')) {
+			const lineIndex = findSequenceMessageStatementLineIndex(lines, elementContextMenu.edgeId);
+			if (lineIndex < 0) return null;
+			const line = lines[lineIndex];
+			const fields: Record<string, string> = {};
+			const quotedRegex = /(\w+):"((?:\\.|[^"])*)"/g;
+			let tokenMatch: RegExpExecArray | null;
+			while ((tokenMatch = quotedRegex.exec(line)) !== null) {
+				fields[tokenMatch[1]] = tokenMatch[2].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+			}
+			const bareRegex = /(\w+):(true|false|[A-Za-z_][A-Za-z0-9_-]*)/g;
+			while ((tokenMatch = bareRegex.exec(line)) !== null) {
+				if (!fields[tokenMatch[1]]) {
+					fields[tokenMatch[1]] = tokenMatch[2];
+				}
+			}
+			return { kind: 'message', lineIndex, line, fields };
+		}
+		if (elementContextMenu.nodeId?.startsWith('seq-participant-')) {
+			const lineIndex = findSequenceParticipantStatementLineIndex(lines, elementContextMenu.nodeId);
+			if (lineIndex < 0) return null;
+			const line = lines[lineIndex];
+			const participantMatch = line.match(/^\s*participant\s+("([^"\\]|\\.)*"|\S+)(?:\s+as\s+(\w+))?/);
+			if (!participantMatch) return null;
+			const displayName = participantMatch[1].replace(/^"|"$/g, '').replace(/\\"/g, '"');
+			const fields: Record<string, string> = {
+				label: displayName,
+				type: participantMatch[3] || ''
+			};
+			return { kind: 'participant', lineIndex, line, fields };
+		}
+		return null;
+	}
+
 	function openTimelineEditFromContext() {
 		if (!elementContextMenu?.nodeId) return;
 		const parsed = parseTimelineStatementById(elementContextMenu.nodeId);
 		if (!parsed) return;
 		timelineEditErrors = null;
 		timelineEditFlyout = {
-			x: elementContextMenu.x + 190,
-			y: elementContextMenu.y,
 			nodeId: elementContextMenu.nodeId,
 			keyword: parsed.keyword,
 			label: parsed.fields.label ?? '',
@@ -1002,6 +1351,41 @@
 			endDate: parsed.fields.endDate ?? ''
 		};
 		elementContextMenu = null;
+	}
+
+	function openSequenceEditFromContext() {
+		const parsed = parseSequenceDetailsFromContext();
+		if (!parsed || !elementContextMenu) return;
+		sequenceEditFlyout = {
+			kind: parsed.kind,
+			nodeId: elementContextMenu.nodeId,
+			edgeId: elementContextMenu.edgeId,
+			label: parsed.fields.label ?? '',
+			messageType:
+				(parsed.fields.type as 'sync' | 'async' | 'return' | 'create' | 'destroy') || 'sync',
+			guard: parsed.fields.guard ?? '',
+			timing: parsed.fields.timing ?? '',
+			activate: parsed.fields.activate === 'true',
+			participantType:
+				(parsed.fields.type as
+					| 'actor'
+					| 'entity'
+					| 'boundary'
+					| 'control'
+					| 'database'
+					| 'continuation'
+					| '') || ''
+		};
+		elementContextMenu = null;
+	}
+
+	function closeTimelineEditDialog() {
+		timelineEditFlyout = null;
+		timelineEditErrors = null;
+	}
+
+	function closeSequenceEditDialog() {
+		sequenceEditFlyout = null;
 	}
 
 	function isValidIsoDate(value: string): boolean {
@@ -1079,6 +1463,63 @@
 		}
 		timelineEditErrors = null;
 		timelineEditFlyout = null;
+		closeElementContextMenu();
+	}
+
+	function applySequenceEditFromFlyout() {
+		if (!sequenceEditFlyout) return;
+		const lines = (editorState.code || '').split('\n');
+		let lineIndex = -1;
+
+		if (sequenceEditFlyout.kind === 'message' && sequenceEditFlyout.edgeId) {
+			lineIndex = findSequenceMessageStatementLineIndex(lines, sequenceEditFlyout.edgeId);
+		} else if (sequenceEditFlyout.kind === 'participant' && sequenceEditFlyout.nodeId) {
+			lineIndex = findSequenceParticipantStatementLineIndex(lines, sequenceEditFlyout.nodeId);
+		}
+		if (lineIndex < 0) {
+			sequenceEditFlyout = null;
+			return;
+		}
+
+		const currentLine = lines[lineIndex];
+		let nextLine = currentLine;
+		if (sequenceEditFlyout.kind === 'participant') {
+			const participantMatch = currentLine.match(/^(\s*participant\s+)("([^"\\]|\\.)*"|\S+)(.*)$/);
+			if (!participantMatch) {
+				sequenceEditFlyout = null;
+				return;
+			}
+			const nextLabel = sequenceEditFlyout.label.trim() || 'Participant';
+			nextLine = `${participantMatch[1]}"${escapeDslString(nextLabel)}"${participantMatch[4] || ''}`;
+			if (sequenceEditFlyout.participantType) {
+				if (/\s+as\s+\w+/.test(nextLine)) {
+					nextLine = nextLine.replace(/\s+as\s+\w+/, ` as ${sequenceEditFlyout.participantType}`);
+				} else {
+					nextLine = `${nextLine.trim()} as ${sequenceEditFlyout.participantType}`;
+				}
+			}
+		} else {
+			const nextLabel = sequenceEditFlyout.label.trim() || 'Message';
+			nextLine = upsertQuotedField(nextLine, 'label', nextLabel);
+			nextLine = upsertBareField(nextLine, 'type', sequenceEditFlyout.messageType);
+			nextLine = upsertBareField(nextLine, 'activate', sequenceEditFlyout.activate ? 'true' : 'false');
+			if (sequenceEditFlyout.guard.trim()) {
+				nextLine = upsertQuotedField(nextLine, 'guard', sequenceEditFlyout.guard.trim());
+			} else {
+				nextLine = removeField(nextLine, 'guard');
+			}
+			if (sequenceEditFlyout.timing.trim()) {
+				nextLine = upsertQuotedField(nextLine, 'timing', sequenceEditFlyout.timing.trim());
+			} else {
+				nextLine = removeField(nextLine, 'timing');
+			}
+		}
+
+		if (nextLine !== currentLine) {
+			lines[lineIndex] = nextLine;
+			updateCode(lines.join('\n'), true);
+		}
+		sequenceEditFlyout = null;
 		closeElementContextMenu();
 	}
 
@@ -1952,10 +2393,34 @@
 		onConnectPreviewEnd: () => {
 			connectPreviewStart = null;
 			connectPreviewEnd = null;
+			sequenceDropTargetNodeId = null;
+			sequenceParticipantReorderPreview = null;
+			sequenceMessageReorderPreview = null;
 		},
 		onNodeContainerDragStart: handleNodeContainerDragStart,
 		onNodeContainerDragMove: handleNodeContainerDragMove,
-		onNodeContainerDragEnd: handleNodeContainerDragEnd
+		onNodeContainerDragEnd: handleNodeContainerDragEnd,
+		onSequenceParticipantReorder: ({ sourceNodeId, targetNodeId, position }) => {
+			reorderSequenceParticipants(sourceNodeId, targetNodeId, position);
+		},
+		onSequenceMessageReorder: ({ sourceEdgeId, targetEdgeId, position }) => {
+			reorderSequenceMessages(sourceEdgeId, targetEdgeId, position);
+		},
+		onSequenceCreateMessage: ({ fromNodeId, toNodeId }) => {
+			insertSequenceMessage(fromNodeId, toNodeId);
+		},
+		onSequenceRetargetMessageEndpoint: ({ edgeId, endpoint, participantNodeId }) => {
+			retargetSequenceMessageEndpoint(edgeId, endpoint, participantNodeId);
+		},
+		onSequenceDropTargetHover: (participantNodeId) => {
+			sequenceDropTargetNodeId = participantNodeId;
+		},
+		onSequenceParticipantReorderPreview: (preview) => {
+			sequenceParticipantReorderPreview = preview;
+		},
+		onSequenceMessageReorderPreview: (preview) => {
+			sequenceMessageReorderPreview = preview;
+		}
 	});
 
 	function handleCanvasKeyDown(event: KeyboardEvent) {
@@ -2209,7 +2674,8 @@
 			hasSelection: () => selection.hasSelection,
 			isInsideToolbar: (target) => !!floatingToolbarElement?.contains(target),
 			isInsidePopover: (target) =>
-				target instanceof Element && !!target.closest('[data-slot="popover-content"]'),
+				target instanceof Element &&
+				!!target.closest('[data-slot="popover-content"], [data-preserve-selection="true"]'),
 			onDismiss: () => {
 				selection.clearSelection();
 				selection.updateVisualSelection(svgContainer);
@@ -2218,20 +2684,22 @@
 		});
 
 		const handleGlobalContextMenuDismiss = (event: PointerEvent) => {
-			const hasAnyMenu =
+		const hasAnyMenu =
 				!!canvasContextMenu ||
 				!!elementContextMenu ||
 				!!contextShapeFlyout ||
 				!!contextContainerFlyout ||
 				!!contextImageFlyout ||
 				!!contextThemeFlyout ||
-				!!timelineEditFlyout;
+				!!timelineEditFlyout ||
+				!!sequenceEditFlyout;
 			if (!hasAnyMenu) return;
 			const target = event.target as HTMLElement | null;
 			if (target?.closest('.canvas-context-menu')) return;
 			closeCanvasContextMenu();
 			closeElementContextMenu();
 			timelineEditFlyout = null;
+			sequenceEditFlyout = null;
 		};
 
 		document.addEventListener('pointerdown', handleGlobalPointerDown, true);
@@ -2372,7 +2840,14 @@
 		/>
 
 		<QuickConnectOverlay
-			isDiagramConnectMode={editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'}
+			showConnectPreview={
+				(editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') ||
+				editorState.profileName === ProfileName.sequence
+			}
+			showDiagramQuickConnect={
+				editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'
+			}
+			connectPreviewClassName={editorState.profileName === ProfileName.sequence ? 'sequence-connect-preview-line' : ''}
 			{connectPreviewStart}
 			{connectPreviewEnd}
 			{quickConnectNodeId}
@@ -2392,6 +2867,61 @@
 			onRunHandle={runQuickConnect}
 			getBehaviorFromModifiers={getQuickConnectBehaviorFromModifiers}
 		/>
+
+		{#if editorState.profileName === ProfileName.sequence}
+			<div class="pointer-events-none absolute inset-0 z-[20]">
+				{#if sequenceParticipantReorderPreview}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-vertical"
+						style="left: {sequenceParticipantReorderPreview.x}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-vertical"
+						style="left: {sequenceParticipantReorderPreview.x + 8}px; top: 10px;"
+					>
+						Insert {sequenceParticipantReorderPreview.position}
+					</div>
+				{/if}
+				{#if sequenceMessageReorderPreview}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-horizontal"
+						style="top: {sequenceMessageReorderPreview.y}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-horizontal"
+						style="left: 10px; top: {sequenceMessageReorderPreview.y + 8}px;"
+					>
+						Insert {sequenceMessageReorderPreview.position}
+					</div>
+				{/if}
+				{#if sequenceMessageEndpointHandles && canvasState.mode === 'select'}
+					<div
+						class="sequence-message-endpoint-handle"
+						data-edge-id={selection.selectedEdgeId}
+						data-seq-endpoint="from"
+						data-preserve-selection="true"
+						style="left: {sequenceMessageEndpointHandles.from.x}px; top: {sequenceMessageEndpointHandles.from.y}px;"
+					></div>
+					<div
+						class="sequence-message-endpoint-handle"
+						data-edge-id={selection.selectedEdgeId}
+						data-seq-endpoint="to"
+						data-preserve-selection="true"
+						style="left: {sequenceMessageEndpointHandles.to.x}px; top: {sequenceMessageEndpointHandles.to.y}px;"
+					></div>
+				{/if}
+				{#if canvasState.mode === 'connect' || (canvasState.mode === 'select' && !!selection.selectedEdgeId?.startsWith('seq-message-') && !!connectPreviewStart)}
+					{#each sequenceLifelineHotspots as hotspot (hotspot.nodeId)}
+						<div
+							class="sequence-lifeline-hotspot"
+							class:is-active={sequenceDropTargetNodeId === hotspot.nodeId}
+							data-preserve-selection="true"
+							style="left: {hotspot.x}px; top: {hotspot.y}px;"
+						></div>
+					{/each}
+				{/if}
+			</div>
+		{/if}
 
 		{#if nodeContainerDrag}
 			<div class="pointer-events-none absolute inset-0 z-[21]">
@@ -2466,12 +2996,16 @@
 	>
 		{#if editorState.profileName === ProfileName.timeline}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId}>Edit Label</button>
-			<button class="has-submenu" onclick={openTimelineEditFromContext} disabled={!elementContextMenu.nodeId}
-				><span>Edit Details</span><span class="submenu-arrow">></span></button
-			>
+			<button onclick={openTimelineEditFromContext} disabled={!elementContextMenu.nodeId}>Edit Details</button>
 			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
+		{:else if editorState.profileName === ProfileName.sequence}
+			<button
+				onclick={handleEditLabelFromContext}
+				disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button
+			>
+			<button onclick={openSequenceEditFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Details</button>
 		{:else}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button>
 			<div class="separator"></div>
@@ -2553,10 +3087,27 @@
 
 {#if timelineEditFlyout}
 	<div
-		class="canvas-context-menu"
-		style="left: {timelineEditFlyout.x}px; top: {timelineEditFlyout.y}px; min-width: 260px;"
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close timeline details editor"
+		onpointerdown={closeTimelineEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeTimelineEditDialog();
+			}
+		}}
 	>
-		<div class="section-label">Edit {timelineEditFlyout.keyword}</div>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit timeline details"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit {timelineEditFlyout.keyword}</div>
 		<label class="context-label">
 			Label
 			<input bind:value={timelineEditFlyout.label} />
@@ -2657,12 +3208,82 @@
 		{/if}
 		<div class="context-actions">
 			<button
-				onclick={() => {
-					timelineEditFlyout = null;
-					timelineEditErrors = null;
-				}}>Cancel</button
+				onclick={closeTimelineEditDialog}>Cancel</button
 			>
 			<button onclick={applyTimelineEditFromFlyout}>Apply</button>
+		</div>
+		</div>
+	</div>
+{/if}
+
+{#if sequenceEditFlyout}
+	<div
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close sequence details editor"
+		onpointerdown={closeSequenceEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeSequenceEditDialog();
+			}
+		}}
+	>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit sequence details"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit sequence {sequenceEditFlyout.kind}</div>
+		<label class="context-label">
+			Label
+			<input bind:value={sequenceEditFlyout.label} />
+		</label>
+		{#if sequenceEditFlyout.kind === 'message'}
+			<label class="context-label">
+				Type
+				<select bind:value={sequenceEditFlyout.messageType}>
+					<option value="sync">sync</option>
+					<option value="async">async</option>
+					<option value="return">return</option>
+					<option value="create">create</option>
+					<option value="destroy">destroy</option>
+				</select>
+			</label>
+			<label class="context-label">
+				Guard
+				<input bind:value={sequenceEditFlyout.guard} placeholder="[condition]" />
+			</label>
+			<label class="context-label">
+				Timing
+				<input bind:value={sequenceEditFlyout.timing} placeholder="t < 100ms" />
+			</label>
+			<label class="context-label context-checkbox">
+				<span>Activate target</span>
+				<input type="checkbox" bind:checked={sequenceEditFlyout.activate} />
+			</label>
+		{:else}
+			<label class="context-label">
+				Participant type
+				<select bind:value={sequenceEditFlyout.participantType}>
+					<option value="">(default)</option>
+					<option value="actor">actor</option>
+					<option value="entity">entity</option>
+					<option value="boundary">boundary</option>
+					<option value="control">control</option>
+					<option value="database">database</option>
+					<option value="continuation">continuation</option>
+				</select>
+			</label>
+		{/if}
+		<div class="context-actions">
+			<button onclick={closeSequenceEditDialog}>Cancel</button>
+			<button onclick={applySequenceEditFromFlyout}>Apply</button>
+		</div>
 		</div>
 	</div>
 {/if}
@@ -2682,6 +3303,29 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2px;
+	}
+
+	.canvas-modal-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 1290;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 16px;
+		background: rgb(15 23 42 / 0.22);
+	}
+
+	.canvas-context-menu.canvas-edit-dialog {
+		position: relative;
+		left: auto !important;
+		top: auto !important;
+		z-index: 1300;
+		min-width: min(320px, calc(100vw - 32px));
+		max-width: min(520px, calc(100vw - 32px));
+		max-height: min(80vh, 720px);
+		overflow: auto;
+		padding: 12px;
 	}
 
 	.canvas-context-menu button {
@@ -2722,6 +3366,94 @@
 		font-size: 12px;
 		color: #111827;
 		background: white;
+	}
+
+	.canvas-context-menu .context-label select {
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 6px 8px;
+		font-size: 12px;
+		color: #111827;
+		background: white;
+	}
+
+	.sequence-message-endpoint-handle {
+		position: absolute;
+		width: 14px;
+		height: 14px;
+		border-radius: 9999px;
+		background: #2563eb;
+		border: 2px solid #eff6ff;
+		box-shadow: 0 0 0 1px rgb(37 99 235 / 0.25);
+		transform: translate(-50%, -50%);
+		pointer-events: auto;
+		cursor: crosshair;
+	}
+
+	.sequence-lifeline-hotspot {
+		position: absolute;
+		width: 12px;
+		height: 12px;
+		border-radius: 9999px;
+		background: #2563eb;
+		border: 2px solid #eff6ff;
+		box-shadow: 0 0 0 1px rgb(37 99 235 / 0.25);
+		transform: translate(-50%, -50%);
+		opacity: 0.9;
+	}
+
+	.sequence-lifeline-hotspot.is-active {
+		width: 14px;
+		height: 14px;
+		background: #0f766e;
+		box-shadow: 0 0 0 2px rgb(15 118 110 / 0.28);
+	}
+
+	.sequence-reorder-guide {
+		position: absolute;
+		background: rgb(15 118 110 / 0.9);
+		box-shadow: 0 0 0 1px rgb(15 118 110 / 0.25);
+	}
+
+	.sequence-reorder-guide-vertical {
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		transform: translateX(-1px);
+	}
+
+	.sequence-reorder-guide-horizontal {
+		left: 0;
+		right: 0;
+		height: 2px;
+		transform: translateY(-1px);
+	}
+
+	.sequence-reorder-badge {
+		position: absolute;
+		padding: 2px 6px;
+		border-radius: 9999px;
+		background: rgb(15 118 110 / 0.92);
+		color: #ecfeff;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		box-shadow: 0 1px 3px rgb(15 23 42 / 0.25);
+		white-space: nowrap;
+	}
+
+	.sequence-reorder-badge-vertical {
+		transform: translateY(0);
+	}
+
+	.sequence-reorder-badge-horizontal {
+		transform: translateX(0);
+	}
+
+	.canvas-context-menu .context-checkbox {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
 	}
 
 	.canvas-context-menu .context-date-row {

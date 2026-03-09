@@ -1,6 +1,14 @@
 import type { LocationHint } from './types';
 import { escapeRegExp, resolveLineIndexFromLocation } from './helpers';
 
+function normalizeSequenceIdentifier(value: string): string {
+	return value.trim().replace(/^"|"$/g, '').toLowerCase().replace(/\s+/g, '_');
+}
+
+function escapeDslString(value: string): string {
+	return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
 /**
  * Edit a node or edge label in the DSL
  */
@@ -17,6 +25,29 @@ export function editLabel(
 	if (isEdge) {
 		const edgeParts = nodeOrEdgeId.split('-');
 		if (edgeParts.length < 2) return code;
+		if (nodeOrEdgeId.startsWith('seq-message-')) {
+			const messageIndex = Number.parseInt(nodeOrEdgeId.slice('seq-message-'.length), 10);
+			if (!Number.isFinite(messageIndex) || messageIndex < 0) return code;
+
+			let currentMessageIndex = 0;
+			for (let i = 0; i < lines.length; i++) {
+				if (!/^\s*message\s+/.test(lines[i])) continue;
+				if (currentMessageIndex === messageIndex) {
+					lineIndex = i;
+					break;
+				}
+				currentMessageIndex += 1;
+			}
+			if (lineIndex === -1) return code;
+
+			const line = lines[lineIndex];
+			const hasLabel = /label:\s*"[^"]*"/.test(line);
+			const escaped = escapeDslString(value);
+			lines[lineIndex] = hasLabel
+				? line.replace(/label:\s*"[^"]*"/, `label:"${escaped}"`)
+				: `${line.trim()} label:"${escaped}"`;
+			return lines.join('\n');
+		}
 
 		const fromNode = edgeParts[0];
 		const toNode = edgeParts[1];
@@ -32,6 +63,19 @@ export function editLabel(
 			}
 		}
 	} else {
+		if (nodeOrEdgeId.startsWith('seq-participant-')) {
+			const participantId = nodeOrEdgeId.slice('seq-participant-'.length);
+			const participantRegex = /^(\s*participant\s+)("([^"\\]|\\.)*"|\S+)(.*)$/;
+			for (let i = 0; i < lines.length; i++) {
+				const match = participantRegex.exec(lines[i]);
+				if (!match) continue;
+				if (normalizeSequenceIdentifier(match[2]) !== participantId) continue;
+				lines[i] = `${match[1]}"${escapeDslString(value)}"${match[4]}`;
+				return lines.join('\n');
+			}
+			return code;
+		}
+
 		const shapeRegex = new RegExp(`^\\s*shape\\s+${escapeRegExp(nodeOrEdgeId)}(?:\\s|$)`);
 		lineIndex = resolveLineIndexFromLocation(lines, location, (line) => shapeRegex.test(line));
 		for (let i = 0; i < lines.length && lineIndex === -1; i++) {

@@ -50,6 +50,35 @@ function findTimelineNodeLocation(code: string, nodeId: string): SourceLocation 
 	);
 }
 
+function normalizeSequenceIdentifier(value: string): string {
+	return value.trim().replace(/^"|"$/g, '').toLowerCase().replace(/\s+/g, '_');
+}
+
+function findSequenceParticipantLocation(code: string, participantId: string): SourceLocation | null {
+	const lines = code.split('\n');
+	const participantRegex = /^\s*participant\s+("([^"\\]|\\.)*"|\S+)/;
+	for (let index = 0; index < lines.length; index += 1) {
+		const match = participantRegex.exec(lines[index]);
+		if (!match) continue;
+		if (normalizeSequenceIdentifier(match[1]) === participantId) {
+			return toLineLocation(index);
+		}
+	}
+	return null;
+}
+
+function findSequenceMessageLocation(code: string, messageIndex: number): SourceLocation | null {
+	if (!Number.isFinite(messageIndex) || messageIndex < 0) return null;
+	const lines = code.split('\n');
+	let current = 0;
+	for (let index = 0; index < lines.length; index += 1) {
+		if (!/^\s*message\s+/.test(lines[index])) continue;
+		if (current === messageIndex) return toLineLocation(index);
+		current += 1;
+	}
+	return null;
+}
+
 function findEdgeLocation(code: string, from: string, to: string): SourceLocation | null {
 	const lines = code.split('\n');
 	const fromPattern = new RegExp(`\\b${escapeRegex(from)}\\b`);
@@ -106,6 +135,19 @@ export function resolveSelectionSourceLocation(
 
 	if (profileName === ProfileName.timeline && selectedNodeId) {
 		return findTimelineNodeLocation(code, selectedNodeId);
+	}
+
+	if (profileName === ProfileName.sequence) {
+		if (selectedNodeId?.startsWith('seq-participant-')) {
+			return findSequenceParticipantLocation(
+				code,
+				selectedNodeId.slice('seq-participant-'.length)
+			);
+		}
+		if (selectedEdgeId?.startsWith('seq-message-')) {
+			const messageIndex = Number.parseInt(selectedEdgeId.slice('seq-message-'.length), 10);
+			return findSequenceMessageLocation(code, messageIndex);
+		}
 	}
 
 	return null;

@@ -232,7 +232,9 @@ export class InteractionManager {
 		const element = svgElement.querySelector(selector);
 		if (!element) return;
 
-		const textElement = element.querySelector('text');
+		const textElement = edgeId
+			? element.querySelector('.message-text, .runiq-edge-text, text')
+			: element.querySelector('text');
 		if (!textElement) return;
 
 		// Get the current label text

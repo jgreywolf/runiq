@@ -54,4 +54,39 @@ describe('resolveSelectionSourceLocation', () => {
 
 		expect(location).toEqual({ line: 3, column: 1 });
 	});
+
+	it('finds sequence participant line from synthetic participant node id', () => {
+		const code = `sequence "Auth Flow" {
+  participant "User Client" as actor
+  participant "API Server" as boundary
+  message from:"User Client" to:"API Server" label:"Login"
+}`;
+
+		const location = resolveSelectionSourceLocation({
+			code,
+			profileName: ProfileName.sequence,
+			selectedNodeId: 'seq-participant-user_client',
+			selectedEdgeId: null
+		});
+
+		expect(location).toEqual({ line: 2, column: 1 });
+	});
+
+	it('finds sequence message line from synthetic message edge id', () => {
+		const code = `sequence "Auth Flow" {
+  participant "User Client" as actor
+  participant "API Server" as boundary
+  message from:"User Client" to:"API Server" label:"Login"
+  message from:"API Server" to:"User Client" label:"OK"
+}`;
+
+		const location = resolveSelectionSourceLocation({
+			code,
+			profileName: ProfileName.sequence,
+			selectedNodeId: null,
+			selectedEdgeId: 'seq-message-1'
+		});
+
+		expect(location).toEqual({ line: 5, column: 1 });
+	});
 });

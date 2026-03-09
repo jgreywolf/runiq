@@ -5910,7 +5910,7 @@ export function isSequenceStateInvariantProperty(item: unknown): item is Sequenc
     return reflection.isInstance(item, SequenceStateInvariantProperty.$type);
 }
 
-export type SequenceStatement = SequenceDurationConstraintStatement | SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
+export type SequenceStatement = SequenceDurationConstraintStatement | SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement | ThemeDeclaration;
 
 export const SequenceStatement = {
     $type: 'SequenceStatement'
@@ -6464,7 +6464,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TimelineProfile | TreemapProfile;
+    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -11339,7 +11339,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
+            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, SequenceStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,

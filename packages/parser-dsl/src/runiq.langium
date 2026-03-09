@@ -623,7 +623,7 @@ SequenceProfile:
     '}';
 
 SequenceStatement:
-    SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement | SequenceDurationConstraintStatement;
+    ThemeDeclaration | SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement | SequenceDurationConstraintStatement;
 
 // participant Actor as actor
 // participant "Web Server" as entity
