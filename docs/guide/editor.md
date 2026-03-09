@@ -1,7 +1,7 @@
 ---
 title: Editor Guide
 description: What the Runiq Editor can do today, what it cannot do yet, and recommended workflows.
-lastUpdated: 2026-03-05
+lastUpdated: 2026-03-09
 ---
 
 # Editor Guide
@@ -33,6 +33,12 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
   - Layout strategy options are shown only for profiles that support automatic layout selection.
 - Canvas context menus (empty-canvas and element) with flyout submenus for insert actions and theme selection.
 - Undo/redo code changes from the app-level key handler (`Ctrl/Cmd+Z`, `Ctrl/Cmd+Y`, `Ctrl/Cmd+Shift+Z`).
+- Visual editing support for `sequence` profile:
+  - Add Participant, Add Message, Add Note from the main canvas toolbar.
+  - Right-click message/participant and use **Edit Details**.
+  - Double-click sequence notes for inline label editing.
+  - Drag message endpoints to retarget `from`/`to` participant.
+  - Drag participants and messages to reorder (with insertion guides).
 
 ## What The Editor Cannot Do Yet
 
@@ -57,6 +63,11 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
 - In `diagram` profile, canvas mode is context-aware:
   - `Select` mode: standard selection/edit interactions.
   - `Connect` mode: edge creation interactions; toolbar actions remain available.
+- In `sequence` profile, canvas editing uses `Select` mode only (no dedicated connect mode toggle).
+- Sequence endpoint retargeting:
+  - Select a message, then drag blue endpoint handles.
+  - Lifeline targets are highlighted while dragging.
+  - Drop on a participant/lifeline to retarget the message endpoint.
 - Quick-connect behavior in connect mode:
   - Hover a node to show directional handles.
   - Click a handle to connect to an existing directional target (auto) or create a new node.
@@ -101,6 +112,23 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
   - `Text`: text color, size, font family.
   - `Icon`: searchable picker for supported `brand/...` and `iconify/...` tokens.
   - `Delete`: remove selected element.
+
+### Sequence Canvas (Current)
+
+- Toolbar actions:
+  - `Add Participant`
+  - `Add Message`
+  - `Add Note`
+  - `Theme`, zoom controls
+- Context menu actions:
+  - `Edit Label`
+  - `Edit Details` (participant/message fields)
+- Inline edits:
+  - Double-click notes to edit note text directly.
+- Drag interactions:
+  - Drag participants to reorder declaration order.
+  - Drag message lines/labels to reorder message statements.
+  - Drag message endpoint handles to retarget `from`/`to`.
 
 ### Style Precedence
 

@@ -1388,6 +1388,14 @@
 		sequenceEditFlyout = null;
 	}
 
+	function setSequenceActivate(value: boolean) {
+		if (!sequenceEditFlyout || sequenceEditFlyout.kind !== 'message') return;
+		sequenceEditFlyout = {
+			...sequenceEditFlyout,
+			activate: value
+		};
+	}
+
 	function isValidIsoDate(value: string): boolean {
 		if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
 		const [y, m, d] = value.split('-').map((part) => Number.parseInt(part, 10));
@@ -3264,7 +3272,12 @@
 			</label>
 			<label class="context-label context-checkbox">
 				<span>Activate target</span>
-				<input type="checkbox" bind:checked={sequenceEditFlyout.activate} />
+				<input
+					type="checkbox"
+					checked={sequenceEditFlyout.activate}
+					onchange={(event) =>
+						setSequenceActivate((event.currentTarget as HTMLInputElement).checked)}
+				/>
 			</label>
 		{:else}
 			<label class="context-label">

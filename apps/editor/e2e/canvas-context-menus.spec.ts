@@ -210,4 +210,83 @@ test.describe('Visual canvas context menus', () => {
 		expect(editorContent).toContain('guard:"isValid"');
 		expect(editorContent).toContain('timing:"t < 50ms"');
 	});
+
+	test('sequence message details activation checkbox persists', async ({ page }) => {
+		const dsl = `sequence "Auth Flow" {
+  participant "User" as actor
+  participant "App" as entity
+  message from:"User" to:"App" label:"Login" type:sync activate:false
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const messageEdge = page.locator('svg text', { hasText: 'Login' }).first();
+		await expect(messageEdge).toBeVisible({ timeout: 10000 });
+		await messageEdge.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+
+		const menu = page.locator('.canvas-context-menu:visible').first();
+		await menu.getByRole('button', { name: 'Edit Details' }).dispatchEvent('click');
+
+		const flyout = page
+			.locator('.canvas-context-menu:visible')
+			.filter({ hasText: 'Edit sequence message' })
+			.first();
+		await expect(flyout).toBeVisible();
+		const activateCheckbox = flyout.locator('label:has-text("Activate target") input[type="checkbox"]');
+		await activateCheckbox.check();
+		await flyout.getByRole('button', { name: 'Apply' }).dispatchEvent('click');
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('activate:true');
+	});
+
+	test.fixme('sequence message drag shows reorder preview guide', async ({ page }) => {
+		const dsl = `sequence "Auth Flow" {
+  participant "User" as actor
+  participant "App" as entity
+  participant "DB" as database
+  message from:"User" to:"App" label:"M1" type:sync
+  message from:"App" to:"DB" label:"M2" type:sync
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(1100);
+
+		const m2Label = page.locator('svg [data-edge-id="seq-message-1"] text.message-text').first();
+		const m1Label = page.locator('svg [data-edge-id="seq-message-0"] text.message-text').first();
+		await expect(m2Label).toBeVisible({ timeout: 10000 });
+		await expect(m1Label).toBeVisible({ timeout: 10000 });
+		const m2Box = await m2Label.boundingBox();
+		const m1Box = await m1Label.boundingBox();
+		expect(m2Box).not.toBeNull();
+		expect(m1Box).not.toBeNull();
+		await page.mouse.move((m2Box?.x ?? 0) + 20, (m2Box?.y ?? 0) + (m2Box?.height ?? 0) / 2);
+		await page.mouse.down();
+		await page.mouse.move((m1Box?.x ?? 0) + 20, (m1Box?.y ?? 0) - 30, { steps: 12 });
+		await expect(page.locator('.sequence-reorder-guide-horizontal')).toBeVisible();
+		await expect(page.locator('.sequence-reorder-badge-horizontal')).toContainText('Insert');
+		await page.mouse.up();
+	});
+
+	test('sequence note supports inline label editing', async ({ page }) => {
+		const dsl = `sequence "Auth Flow" {
+  participant "User" as actor
+  participant "App" as entity
+  note "Original note" position:right participants:("App")
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const noteNode = page.locator('svg [data-node-id="seq-note-0"]').first();
+		await expect(noteNode).toBeVisible({ timeout: 10000 });
+		await noteNode.dispatchEvent('dblclick', { bubbles: true, cancelable: true });
+		const editInput = page.locator('input.edit-input');
+		await expect(editInput).toBeVisible();
+		await editInput.fill('Updated note');
+		await editInput.press('Enter');
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('note "Updated note"');
+	});
 });
