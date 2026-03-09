@@ -152,7 +152,7 @@ test.describe('Visual canvas context menus', () => {
 		expect(editorContent).toContain('label:"Kickoff Updated"');
 	});
 
-	test('sequence element context menu edit details updates participant and message fields', async ({
+	test('sequence floating toolbar edits participant and message fields', async ({
 		page
 	}) => {
 		const dsl = `sequence "Auth Flow" {
@@ -163,34 +163,31 @@ test.describe('Visual canvas context menus', () => {
 		await getSyntaxEditor(page).fill(dsl);
 		await page.waitForTimeout(900);
 
-		const participantNode = page.locator('svg text', { hasText: 'User' }).first();
+		const participantNode = page.locator('svg [data-node-id="seq-participant-user"]').first();
 		await expect(participantNode).toBeVisible({ timeout: 10000 });
-		await participantNode.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
-
-		let menu = page.locator('.canvas-context-menu:visible').first();
-		await expect(menu.getByRole('button', { name: 'Edit Details' })).toBeVisible();
-		await menu.getByRole('button', { name: 'Edit Details' }).dispatchEvent('click');
+		await participantNode.dispatchEvent('click', { bubbles: true, cancelable: true });
+		const toolbar = page.locator('.sequence-toolbar:visible').first();
+		await expect(toolbar).toBeVisible();
+		await toolbar.getByRole('button', { name: 'Details' }).dispatchEvent('click');
 
 		let flyout = page
 			.locator('.canvas-context-menu:visible')
 			.filter({ hasText: 'Edit sequence participant' })
 			.first();
 		await expect(flyout).toBeVisible();
-		await flyout.locator('label:has-text("Label") input').fill('User Updated');
 		await flyout.locator('label:has-text("Participant type") select').selectOption('boundary');
 		await flyout.getByRole('button', { name: 'Apply' }).dispatchEvent('click');
 		await page.waitForTimeout(250);
 
 		let editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
-		expect(editorContent).toContain('participant "User Updated" as boundary');
+		expect(editorContent).toContain('participant "User" as boundary');
 
-		const messageEdge = page.locator('svg text', { hasText: 'Login' }).first();
+		const messageEdge = page.locator('svg [data-edge-id="seq-message-0"]').first();
 		await expect(messageEdge).toBeVisible({ timeout: 10000 });
-		await messageEdge.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+		await messageEdge.dispatchEvent('click', { bubbles: true, cancelable: true });
 
-		menu = page.locator('.canvas-context-menu:visible').first();
-		await expect(menu.getByRole('button', { name: 'Edit Details' })).toBeVisible();
-		await menu.getByRole('button', { name: 'Edit Details' }).dispatchEvent('click');
+		await expect(toolbar).toBeVisible();
+		await toolbar.getByRole('button', { name: 'Details' }).dispatchEvent('click');
 
 		flyout = page
 			.locator('.canvas-context-menu:visible')
@@ -211,7 +208,7 @@ test.describe('Visual canvas context menus', () => {
 		expect(editorContent).toContain('timing:"t < 50ms"');
 	});
 
-	test('sequence message details activation checkbox persists', async ({ page }) => {
+	test('sequence message activation checkbox persists from toolbar', async ({ page }) => {
 		const dsl = `sequence "Auth Flow" {
   participant "User" as actor
   participant "App" as entity
@@ -220,21 +217,14 @@ test.describe('Visual canvas context menus', () => {
 		await getSyntaxEditor(page).fill(dsl);
 		await page.waitForTimeout(900);
 
-		const messageEdge = page.locator('svg text', { hasText: 'Login' }).first();
+		const messageEdge = page.locator('svg [data-edge-id="seq-message-0"]').first();
 		await expect(messageEdge).toBeVisible({ timeout: 10000 });
-		await messageEdge.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+		await messageEdge.click();
 
-		const menu = page.locator('.canvas-context-menu:visible').first();
-		await menu.getByRole('button', { name: 'Edit Details' }).dispatchEvent('click');
-
-		const flyout = page
-			.locator('.canvas-context-menu:visible')
-			.filter({ hasText: 'Edit sequence message' })
-			.first();
-		await expect(flyout).toBeVisible();
-		const activateCheckbox = flyout.locator('label:has-text("Activate target") input[type="checkbox"]');
+		const toolbar = page.locator('.sequence-toolbar:visible').first();
+		await expect(toolbar).toBeVisible();
+		const activateCheckbox = toolbar.locator('label.sequence-inline-check input[type="checkbox"]');
 		await activateCheckbox.check();
-		await flyout.getByRole('button', { name: 'Apply' }).dispatchEvent('click');
 		await page.waitForTimeout(250);
 
 		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';

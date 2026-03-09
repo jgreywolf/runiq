@@ -181,6 +181,12 @@
 		activate: boolean;
 		participantType: 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation' | '';
 	} | null>(null);
+	let sequenceMessageQuickDraft = $state<{
+		messageType: 'sync' | 'async' | 'return' | 'create' | 'destroy';
+		guard: string;
+		timing: string;
+		activate: boolean;
+	} | null>(null);
 	let timelineEditErrors = $state<{
 		date?: string;
 		startDate?: string;
@@ -393,6 +399,29 @@
 			closeAllPanels();
 			elementToolbarPosition = null;
 		}
+	});
+
+	$effect(() => {
+		const profile = editorState.profileName;
+		const edgeId = selection.selectedEdgeId;
+		const nodeId = selection.selectedNodeId;
+		void nodeId;
+		if (profile !== ProfileName.sequence || !edgeId?.startsWith('seq-message-')) {
+			sequenceMessageQuickDraft = null;
+			return;
+		}
+		const parsed = parseSequenceDetails(null, edgeId);
+		if (!parsed || parsed.kind !== 'message') {
+			sequenceMessageQuickDraft = null;
+			return;
+		}
+		sequenceMessageQuickDraft = {
+			messageType:
+				(parsed.fields.type as 'sync' | 'async' | 'return' | 'create' | 'destroy') || 'sync',
+			guard: parsed.fields.guard ?? '',
+			timing: parsed.fields.timing ?? '',
+			activate: parsed.fields.activate === 'true'
+		};
 	});
 
 	function getSelectedEdgeEndpoints(edgeId: string): { from: string | null; to: string | null } {
@@ -1294,16 +1323,18 @@
 		return true;
 	}
 
-	function parseSequenceDetailsFromContext(): {
+	function parseSequenceDetails(
+		nodeId: string | null,
+		edgeId: string | null
+	): {
 		kind: 'participant' | 'message';
 		lineIndex: number;
 		line: string;
 		fields: Record<string, string>;
 	} | null {
-		if (!elementContextMenu) return null;
 		const lines = (editorState.code || '').split('\n');
-		if (elementContextMenu.edgeId?.startsWith('seq-message-')) {
-			const lineIndex = findSequenceMessageStatementLineIndex(lines, elementContextMenu.edgeId);
+		if (edgeId?.startsWith('seq-message-')) {
+			const lineIndex = findSequenceMessageStatementLineIndex(lines, edgeId);
 			if (lineIndex < 0) return null;
 			const line = lines[lineIndex];
 			const fields: Record<string, string> = {};
@@ -1320,8 +1351,8 @@
 			}
 			return { kind: 'message', lineIndex, line, fields };
 		}
-		if (elementContextMenu.nodeId?.startsWith('seq-participant-')) {
-			const lineIndex = findSequenceParticipantStatementLineIndex(lines, elementContextMenu.nodeId);
+		if (nodeId?.startsWith('seq-participant-')) {
+			const lineIndex = findSequenceParticipantStatementLineIndex(lines, nodeId);
 			if (lineIndex < 0) return null;
 			const line = lines[lineIndex];
 			const participantMatch = line.match(/^\s*participant\s+("([^"\\]|\\.)*"|\S+)(?:\s+as\s+(\w+))?/);
@@ -1333,7 +1364,30 @@
 			};
 			return { kind: 'participant', lineIndex, line, fields };
 		}
+		if (nodeId?.startsWith('seq-note-')) {
+			const indexRaw = nodeId.slice('seq-note-'.length);
+			const noteIndex = Number.parseInt(indexRaw, 10);
+			if (!Number.isFinite(noteIndex) || noteIndex < 0) return null;
+			let current = 0;
+			for (let i = 0; i < lines.length; i += 1) {
+				if (!/^\s*note\s+/.test(lines[i])) continue;
+				if (current !== noteIndex) {
+					current += 1;
+					continue;
+				}
+				const line = lines[i];
+				const noteMatch = line.match(/^\s*note\s+"((?:\\.|[^"])*)"/);
+				if (!noteMatch) return null;
+				const label = noteMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+				return { kind: 'participant', lineIndex: i, line, fields: { label } };
+			}
+		}
 		return null;
+	}
+
+	function parseSequenceDetailsFromContext() {
+		if (!elementContextMenu) return null;
+		return parseSequenceDetails(elementContextMenu.nodeId, elementContextMenu.edgeId);
 	}
 
 	function openTimelineEditFromContext() {
@@ -1377,6 +1431,58 @@
 					| '') || ''
 		};
 		elementContextMenu = null;
+	}
+
+	function openSequenceEditFromSelection() {
+		const nodeId = selection.selectedNodeId;
+		const edgeId = selection.selectedEdgeId;
+		if (!nodeId && !edgeId) return;
+		const parsed = parseSequenceDetails(nodeId, edgeId);
+		if (!parsed) return;
+		sequenceEditFlyout = {
+			kind: parsed.kind === 'message' ? 'message' : 'participant',
+			nodeId,
+			edgeId,
+			label: parsed.fields.label ?? '',
+			messageType:
+				(parsed.fields.type as 'sync' | 'async' | 'return' | 'create' | 'destroy') || 'sync',
+			guard: parsed.fields.guard ?? '',
+			timing: parsed.fields.timing ?? '',
+			activate: parsed.fields.activate === 'true',
+			participantType:
+				(parsed.fields.type as
+					| 'actor'
+					| 'entity'
+					| 'boundary'
+					| 'control'
+					| 'database'
+					| 'continuation'
+					| '') || ''
+		};
+	}
+
+	function applySequenceMessageQuickDraft() {
+		const edgeId = selection.selectedEdgeId;
+		if (!edgeId?.startsWith('seq-message-') || !sequenceMessageQuickDraft) return;
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSequenceMessageStatementLineIndex(lines, edgeId);
+		if (lineIndex < 0) return;
+		let line = lines[lineIndex];
+		line = upsertBareField(line, 'type', sequenceMessageQuickDraft.messageType);
+		line = upsertBareField(line, 'activate', sequenceMessageQuickDraft.activate ? 'true' : 'false');
+		if (sequenceMessageQuickDraft.guard.trim()) {
+			line = upsertQuotedField(line, 'guard', sequenceMessageQuickDraft.guard.trim());
+		} else {
+			line = removeField(line, 'guard');
+		}
+		if (sequenceMessageQuickDraft.timing.trim()) {
+			line = upsertQuotedField(line, 'timing', sequenceMessageQuickDraft.timing.trim());
+		} else {
+			line = removeField(line, 'timing');
+		}
+		if (line === lines[lineIndex]) return;
+		lines[lineIndex] = line;
+		updateCode(lines.join('\n'), true);
 	}
 
 	function closeTimelineEditDialog() {
@@ -2069,6 +2175,12 @@
 			const nodeId = nodeElement?.getAttribute('data-node-id') ?? null;
 			const edgeId = edgeElement?.getAttribute('data-edge-id') ?? null;
 			setSelectionFromContextMenu(nodeId, edgeId);
+			if (editorState.profileName === ProfileName.sequence) {
+				canvasContextMenu = null;
+				contextThemeFlyout = null;
+				elementContextMenu = null;
+				return;
+			}
 			canvasContextMenu = null;
 			contextThemeFlyout = null;
 			elementContextMenu = {
@@ -2827,6 +2939,110 @@
 					bind:iconInputValue
 				/>
 			</div>
+		{:else if editorState.profileName === ProfileName.sequence && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<button class="toolbar-button" onclick={() => interactionManager.startLabelEdit(selection.selectedNodeId, selection.selectedEdgeId)} title="Edit Label">
+					Label
+				</button>
+				<button class="toolbar-button" onclick={openSequenceEditFromSelection} title="Edit Details">
+					Details
+				</button>
+				<div class="toolbar-divider-v"></div>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Border controls are not yet supported per element in sequence DSL."
+				>
+					Border
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Fill controls are not yet supported per element in sequence DSL."
+				>
+					Fill
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Text controls are not yet supported per element in sequence DSL."
+				>
+					Text
+				</button>
+				{#if selection.selectedEdgeId?.startsWith('seq-message-') && sequenceMessageQuickDraft}
+					<div class="toolbar-divider-v"></div>
+					<label class="sequence-inline-field">
+						Type
+						<select
+							value={sequenceMessageQuickDraft.messageType}
+							onchange={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									messageType: (event.currentTarget as HTMLSelectElement).value as
+										| 'sync'
+										| 'async'
+										| 'return'
+										| 'create'
+										| 'destroy'
+								};
+								applySequenceMessageQuickDraft();
+							}}
+						>
+							<option value="sync">sync</option>
+							<option value="async">async</option>
+							<option value="return">return</option>
+							<option value="create">create</option>
+							<option value="destroy">destroy</option>
+						</select>
+					</label>
+					<label class="sequence-inline-field">
+						Guard
+						<input
+							value={sequenceMessageQuickDraft.guard}
+							oninput={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									guard: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySequenceMessageQuickDraft}
+							placeholder="[condition]"
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Timing
+						<input
+							value={sequenceMessageQuickDraft.timing}
+							oninput={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									timing: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySequenceMessageQuickDraft}
+							placeholder="t < 50ms"
+						/>
+					</label>
+					<label class="sequence-inline-check">
+						<span>Activate</span>
+						<input
+							type="checkbox"
+							checked={sequenceMessageQuickDraft.activate}
+							onchange={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									activate: (event.currentTarget as HTMLInputElement).checked
+								};
+								applySequenceMessageQuickDraft();
+							}}
+						/>
+					</label>
+				{/if}
+			</div>
 		{/if}
 
 		<CanvasInteractionLayer
@@ -3008,12 +3224,6 @@
 			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
-		{:else if editorState.profileName === ProfileName.sequence}
-			<button
-				onclick={handleEditLabelFromContext}
-				disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button
-			>
-			<button onclick={openSequenceEditFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Details</button>
 		{:else}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button>
 			<div class="separator"></div>
@@ -3461,6 +3671,72 @@
 
 	.sequence-reorder-badge-horizontal {
 		transform: translateX(0);
+	}
+
+	.sequence-toolbar {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 8px;
+		background: #ffffff;
+		border: 1px solid #d1d5db;
+		border-radius: 8px;
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1);
+	}
+
+	.sequence-toolbar .toolbar-button {
+		border: 1px solid #d1d5db;
+		background: #f8fafc;
+		color: #111827;
+		font-size: 12px;
+		border-radius: 6px;
+		padding: 4px 8px;
+	}
+
+	.sequence-toolbar .toolbar-button:hover {
+		background: #eef2ff;
+	}
+
+	.sequence-toolbar .toolbar-button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		background: #f3f4f6;
+	}
+
+	.toolbar-divider-v {
+		width: 1px;
+		height: 26px;
+		background: #d1d5db;
+	}
+
+	.sequence-inline-field {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 11px;
+		color: #4b5563;
+	}
+
+	.sequence-inline-field input,
+	.sequence-inline-field select {
+		height: 26px;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 2px 6px;
+		font-size: 12px;
+		color: #111827;
+		background: #fff;
+		min-width: 88px;
+	}
+
+	.sequence-inline-check {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 11px;
+		color: #4b5563;
 	}
 
 	.canvas-context-menu .context-checkbox {

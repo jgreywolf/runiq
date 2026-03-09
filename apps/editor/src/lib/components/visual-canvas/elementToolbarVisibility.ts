@@ -12,7 +12,7 @@ export function shouldClearElementToolbar(params: {
 }): boolean {
 	return (
 		!hasPrimarySelection(params.selectedNodeId, params.selectedEdgeId) ||
-		params.profileName !== ProfileName.diagram ||
+		(params.profileName !== ProfileName.diagram && params.profileName !== ProfileName.sequence) ||
 		params.mode !== 'select'
 	);
 }
@@ -24,7 +24,7 @@ export function shouldRepositionElementToolbar(params: {
 	mode: 'select' | 'connect';
 }): boolean {
 	return (
-		params.profileName === ProfileName.diagram &&
+		(params.profileName === ProfileName.diagram || params.profileName === ProfileName.sequence) &&
 		params.mode === 'select' &&
 		hasPrimarySelection(params.selectedNodeId, params.selectedEdgeId)
 	);

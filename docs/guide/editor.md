@@ -35,7 +35,7 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
 - Undo/redo code changes from the app-level key handler (`Ctrl/Cmd+Z`, `Ctrl/Cmd+Y`, `Ctrl/Cmd+Shift+Z`).
 - Visual editing support for `sequence` profile:
   - Add Participant, Add Message, Add Note from the main canvas toolbar.
-  - Right-click message/participant and use **Edit Details**.
+  - Use the floating sequence toolbar for **Label** and **Details** editing.
   - Double-click sequence notes for inline label editing.
   - Drag message endpoints to retarget `from`/`to` participant.
   - Drag participants and messages to reorder (with insertion guides).
@@ -121,8 +121,7 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
   - `Add Note`
   - `Theme`, zoom controls
 - Context menu actions:
-  - `Edit Label`
-  - `Edit Details` (participant/message fields)
+  - Sequence element editing is toolbar-first (element context menu is not used).
 - Inline edits:
   - Double-click notes to edit note text directly.
 - Drag interactions:
