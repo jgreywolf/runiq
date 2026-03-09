@@ -134,6 +134,9 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				startPoint: { x: number; y: number };
 		  }
 		| null = null;
+	const SEQUENCE_PARTICIPANT_REORDER_MAX_DISTANCE_PX = 220;
+	const SEQUENCE_MESSAGE_REORDER_MAX_DISTANCE_PX = 120;
+	const SEQUENCE_REORDER_POSITION_DEADZONE_PX = 10;
 
 	const isDiagramProfile = () => getProfileName() === ProfileName.diagram;
 	const isSequenceProfile = () => getProfileName() === ProfileName.sequence;
@@ -276,9 +279,12 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				distance = d;
 			}
 		}
+		if (distance > SEQUENCE_PARTICIPANT_REORDER_MAX_DISTANCE_PX) return null;
+		const delta = clientX - nearest.x;
+		if (Math.abs(delta) <= SEQUENCE_REORDER_POSITION_DEADZONE_PX) return null;
 		return {
 			targetNodeId: nearest.nodeId,
-			position: clientX < nearest.x ? 'before' : 'after'
+			position: delta < 0 ? 'before' : 'after'
 		};
 	}
 
@@ -334,9 +340,12 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				distance = d;
 			}
 		}
+		if (distance > SEQUENCE_MESSAGE_REORDER_MAX_DISTANCE_PX) return null;
+		const delta = clientY - nearest.y;
+		if (Math.abs(delta) <= SEQUENCE_REORDER_POSITION_DEADZONE_PX) return null;
 		return {
 			targetEdgeId: nearest.edgeId,
-			position: clientY < nearest.y ? 'before' : 'after'
+			position: delta < 0 ? 'before' : 'after'
 		};
 	}
 
@@ -684,6 +693,8 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 								x
 							});
 						}
+					} else {
+						onSequenceParticipantReorderPreview?.(null);
 					}
 				}
 				if (sequenceMessageDragActiveEdgeId) {
@@ -706,6 +717,8 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 								y
 							});
 						}
+					} else {
+						onSequenceMessageReorderPreview?.(null);
 					}
 				}
 				return;

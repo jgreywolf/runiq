@@ -262,7 +262,7 @@ test.describe('Visual canvas context menus', () => {
 		expect(m1Point).not.toBeNull();
 		await page.mouse.move(m2Point?.x ?? 0, m2Point?.y ?? 0);
 		await page.mouse.down();
-		await page.mouse.move(m1Point?.x ?? 0, (m1Point?.y ?? 0) - 20, { steps: 12 });
+		await page.mouse.move(m1Point?.x ?? 0, (m1Point?.y ?? 0) - 70, { steps: 18 });
 		await page.mouse.up();
 
 		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
