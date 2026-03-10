@@ -34,6 +34,7 @@
 
 	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
 	const isSequenceProfile = $derived(editorState.profileName === ProfileName.sequence);
+	const isTimelineProfile = $derived(editorState.profileName === ProfileName.timeline);
 	const isSchematicCanvasProfile = $derived(isSchematicProfile(editorState.profileName));
 	const canUseThemeControl = $derived.by(() => {
 		switch (editorState.profileName) {
@@ -228,6 +229,50 @@
 		const participants = extractSequenceParticipantNames(editorState.code || '');
 		const target = (participants[0] ?? 'Participant A').replace(/"/g, '\\"');
 		handleInsertShape(`note "New note" position:right participants:("${target}")`);
+		canvasState.mode = 'select';
+	}
+
+	function getNextTimelineElementId(prefix: string): string {
+		const code = editorState.code || '';
+		const escapedPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const regex = new RegExp(`\\b${escapedPrefix}(\\d+)\\b`, 'g');
+		let maxIndex = 0;
+		for (const match of code.matchAll(regex)) {
+			const value = Number.parseInt(match[1], 10);
+			if (Number.isFinite(value)) maxIndex = Math.max(maxIndex, value);
+		}
+		return `${prefix}${maxIndex + 1}`;
+	}
+
+	function handleAddTimelineEvent() {
+		if (!isTimelineProfile) return;
+		const id = getNextTimelineElementId('event');
+		handleInsertShape(`event ${id} date:"2026-01-01" label:"New Event"`);
+		canvasState.mode = 'select';
+	}
+
+	function handleAddTimelinePeriod() {
+		if (!isTimelineProfile) return;
+		const id = getNextTimelineElementId('period');
+		handleInsertShape(
+			`period ${id} startDate:"2026-01-01" endDate:"2026-01-31" label:"New Period"`
+		);
+		canvasState.mode = 'select';
+	}
+
+	function handleAddTimelineTask() {
+		if (!isTimelineProfile) return;
+		const id = getNextTimelineElementId('task');
+		handleInsertShape(
+			`task ${id} startDate:"2026-01-01" endDate:"2026-01-14" label:"New Task"`
+		);
+		canvasState.mode = 'select';
+	}
+
+	function handleAddTimelineMilestone() {
+		if (!isTimelineProfile) return;
+		const id = getNextTimelineElementId('milestone');
+		handleInsertShape(`milestone ${id} date:"2026-01-15" label:"New Milestone"`);
 		canvasState.mode = 'select';
 	}
 
@@ -456,6 +501,39 @@
 					aria-label={schematicToolbarMeta.addNetLabel}
 				>
 					<Icon icon={schematicToolbarMeta.netIcon} class="icon" />
+				</button>
+			{:else if isTimelineProfile}
+				<button
+					class="toolbar-btn"
+					onclick={handleAddTimelineEvent}
+					title="Add Event"
+					aria-label="Add Event"
+				>
+					<Icon icon="lucide:calendar-plus" class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddTimelinePeriod}
+					title="Add Period"
+					aria-label="Add Period"
+				>
+					<Icon icon="lucide:calendar-range" class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddTimelineTask}
+					title="Add Task"
+					aria-label="Add Task"
+				>
+					<Icon icon="lucide:list-checks" class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddTimelineMilestone}
+					title="Add Milestone"
+					aria-label="Add Milestone"
+				>
+					<Icon icon="lucide:flag" class="icon" />
 				</button>
 			{:else}
 				<button

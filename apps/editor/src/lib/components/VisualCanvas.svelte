@@ -1654,13 +1654,13 @@
 		return parseSequenceDetails(elementContextMenu.nodeId, elementContextMenu.edgeId);
 	}
 
-	function openTimelineEditFromContext() {
-		if (!elementContextMenu?.nodeId) return;
-		const parsed = parseTimelineStatementById(elementContextMenu.nodeId);
+	function openTimelineEdit(nodeId: string | null) {
+		if (!nodeId) return;
+		const parsed = parseTimelineStatementById(nodeId);
 		if (!parsed) return;
 		timelineEditErrors = null;
 		timelineEditFlyout = {
-			nodeId: elementContextMenu.nodeId,
+			nodeId,
 			keyword: parsed.keyword,
 			label: parsed.fields.label ?? '',
 			date: parsed.fields.date ?? '',
@@ -1668,6 +1668,14 @@
 			startDate: parsed.fields.startDate ?? '',
 			endDate: parsed.fields.endDate ?? ''
 		};
+	}
+
+	function openTimelineEditFromSelection() {
+		openTimelineEdit(selection.selectedNodeId);
+	}
+
+	function openTimelineEditFromContext() {
+		openTimelineEdit(elementContextMenu?.nodeId ?? null);
 		elementContextMenu = null;
 	}
 
@@ -3464,6 +3472,41 @@
 					</label>
 				{/if}
 			</div>
+		{:else if editorState.profileName === ProfileName.timeline && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<button class="toolbar-button" onclick={() => interactionManager.startLabelEdit(selection.selectedNodeId, selection.selectedEdgeId)} title="Edit Label">
+					Label
+				</button>
+				<button class="toolbar-button" onclick={openTimelineEditFromSelection} title="Edit Details">
+					Details
+				</button>
+				<div class="toolbar-divider-v"></div>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Border controls are not yet supported per element in timeline DSL."
+				>
+					Border
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Fill controls are not yet supported per element in timeline DSL."
+				>
+					Fill
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Text controls are not yet supported per element in timeline DSL."
+				>
+					Text
+				</button>
+			</div>
 		{:else if isSchematicProfile(editorState.profileName) && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
 			<div
 				bind:this={floatingToolbarElement}
@@ -3773,7 +3816,6 @@
 	>
 		{#if editorState.profileName === ProfileName.timeline}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId}>Edit Label</button>
-			<button onclick={openTimelineEditFromContext} disabled={!elementContextMenu.nodeId}>Edit Details</button>
 			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>

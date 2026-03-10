@@ -152,6 +152,56 @@ test.describe('Visual canvas context menus', () => {
 		expect(editorContent).toContain('label:"Kickoff Updated"');
 	});
 
+	test('timeline toolbar adds event and milestone', async ({ page }) => {
+		const dsl = `timeline "Launch" {
+  event kickoff date:"2024-01-15" label:"Kickoff"
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(700);
+
+		const addEventButton = page.getByRole('button', { name: 'Add Event' });
+		await expect(addEventButton).toBeVisible();
+		await addEventButton.click();
+		await page.waitForTimeout(200);
+
+		const addMilestoneButton = page.getByRole('button', { name: 'Add Milestone' });
+		await expect(addMilestoneButton).toBeVisible();
+		await addMilestoneButton.click();
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('event event1');
+		expect(editorContent).toContain('milestone milestone1');
+	});
+
+	test('timeline selection toolbar opens details editor', async ({ page }) => {
+		const dsl = `timeline "Launch" {
+  event kickoff date:"2024-01-15" label:"Kickoff"
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(700);
+
+		const kickoffNode = page.locator('svg [data-node-id="kickoff"]').first();
+		await expect(kickoffNode).toBeVisible({ timeout: 10000 });
+		await kickoffNode.dispatchEvent('click', { bubbles: true, cancelable: true });
+
+		const toolbar = page.locator('.sequence-toolbar:visible').first();
+		await expect(toolbar).toBeVisible();
+		await toolbar.getByRole('button', { name: 'Details' }).click();
+
+		const flyout = page
+			.locator('.canvas-context-menu:visible')
+			.filter({ hasText: 'Edit event' })
+			.first();
+		await expect(flyout).toBeVisible();
+		await flyout.locator('label:has-text("Label") input').fill('Kickoff Updated from Toolbar');
+		await flyout.getByRole('button', { name: 'Apply' }).click();
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('label:"Kickoff Updated from Toolbar"');
+	});
+
 	test('sequence floating toolbar edits participant and message fields', async ({
 		page
 	}) => {
