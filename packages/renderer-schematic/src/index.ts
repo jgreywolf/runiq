@@ -104,6 +104,14 @@ interface NetConnection {
   partRef: string;
 }
 
+interface WirePath {
+  net: string;
+  points: { x: number; y: number }[];
+  junctions?: { x: number; y: number }[];
+  fromRef?: string;
+  toRef?: string;
+}
+
 /**
  * Main schematic rendering function
  * Supports electrical schematics, pneumatic circuits, hydraulic circuits, and HVAC systems
@@ -314,16 +322,8 @@ function routeWires(
   connections: NetConnection[],
   gridSize: number,
   routing: 'direct' | 'orthogonal' = 'direct'
-): {
-  net: string;
-  points: { x: number; y: number }[];
-  junctions?: { x: number; y: number }[];
-}[] {
-  const wires: {
-    net: string;
-    points: { x: number; y: number }[];
-    junctions?: { x: number; y: number }[];
-  }[] = [];
+): WirePath[] {
+  const wires: WirePath[] = [];
 
   for (const [netName] of netMap.entries()) {
     if (netName === 'GND') continue; // Ground handled separately
@@ -355,6 +355,8 @@ function routeWires(
                 { x: terminal.x, y: terminal.y },
                 { x: terminal.x, y: busY },
               ],
+              fromRef: terminals[i].partRef,
+              toRef: terminals[i].partRef,
             });
             junctions.push({ x: terminal.x, y: busY });
           }
@@ -368,6 +370,8 @@ function routeWires(
                 { x: terminal.x, y: busY },
                 { x: nextTerminal.x, y: busY },
               ],
+              fromRef: terminals[i].partRef,
+              toRef: terminals[i + 1].partRef,
               junctions:
                 junctions.length > 0
                   ? [junctions[junctions.length - 1]]
@@ -384,6 +388,8 @@ function routeWires(
         wires.push({
           net: netName,
           points: [start, { x: midX, y: start.y }, { x: midX, y: end.y }, end],
+          fromRef: terminals[0].partRef,
+          toRef: terminals[1].partRef,
         });
       }
     } else {
@@ -395,6 +401,8 @@ function routeWires(
         wires.push({
           net: netName,
           points: [start, end],
+          fromRef: terminals[i].partRef,
+          toRef: terminals[i + 1].partRef,
         });
       }
     }
@@ -513,11 +521,7 @@ function generateDefs(
  * Render wires
  */
 function renderWires(
-  wires: {
-    net: string;
-    points: { x: number; y: number }[];
-    junctions?: { x: number; y: number }[];
-  }[],
+  wires: WirePath[],
   showNetLabels: boolean,
   classPrefix: string,
   showFlowArrows: boolean
@@ -527,7 +531,7 @@ function renderWires(
   // Collect all junctions
   const allJunctions = new Map<string, { x: number; y: number }>();
 
-  for (const wire of wires) {
+  for (const [wireIndex, wire] of wires.entries()) {
     if (wire.points.length < 2) continue;
 
     const pathData = wire.points
@@ -538,7 +542,12 @@ function renderWires(
       showFlowArrows && wire.net !== 'GND'
         ? ` marker-end="url(#${classPrefix}-flow-arrow)"`
         : '';
-    svg += `  <path d="${pathData}" class="${classPrefix}-wire"${arrowMarker}/>\n`;
+    const wireId = `sch-net-${encodeTokenForId(wire.net)}-${wireIndex}`;
+    const fromAttr = wire.fromRef
+      ? ` data-edge-from="${escapeXml(wire.fromRef)}"`
+      : '';
+    const toAttr = wire.toRef ? ` data-edge-to="${escapeXml(wire.toRef)}"` : '';
+    svg += `  <path d="${pathData}" class="${classPrefix}-wire" data-runiq-edge="${escapeXml(wireId)}" data-edge-id="${escapeXml(wireId)}"${fromAttr}${toAttr}${arrowMarker}/>\n`;
 
     // Add net label at midpoint
     if (showNetLabels && wire.net !== 'GND') {
@@ -607,7 +616,8 @@ function renderComponents(
         ? ` transform="rotate(${actualRotation} ${centerX} ${centerY})"`
         : '';
 
-    svg += `  <g class="${classPrefix}-component" data-ref="${escapeXml(comp.part.ref)}"${transformAttr}>\n`;
+    const nodeId = `sch-part-${encodeTokenForId(comp.part.ref)}`;
+    svg += `  <g class="${classPrefix}-component" data-ref="${escapeXml(comp.part.ref)}" data-runiq-node="${escapeXml(nodeId)}" data-node-id="${escapeXml(nodeId)}" data-node-shape="${escapeXml(comp.part.type)}"${transformAttr}>\n`;
     svg += comp.symbol.render(comp.x, comp.y);
 
     // Component reference (above)
@@ -753,4 +763,8 @@ function escapeXml(text: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
+}
+
+function encodeTokenForId(value: string): string {
+  return encodeURIComponent(value.trim() || 'unnamed');
 }

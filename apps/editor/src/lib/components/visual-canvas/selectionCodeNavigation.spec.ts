@@ -89,4 +89,38 @@ describe('resolveSelectionSourceLocation', () => {
 
 		expect(location).toEqual({ line: 5, column: 1 });
 	});
+
+	it('finds electrical part line from schematic node id', () => {
+		const code = `electrical "Filter" {
+  net IN, OUT, GND
+  part R1 type:R value:"10k" pins:(IN,OUT)
+  part C1 type:C value:"1n" pins:(OUT,GND)
+}`;
+
+		const location = resolveSelectionSourceLocation({
+			code,
+			profileName: ProfileName.electrical,
+			selectedNodeId: 'sch-part-R1',
+			selectedEdgeId: null
+		});
+
+		expect(location).toEqual({ line: 3, column: 1 });
+	});
+
+	it('finds electrical net line from schematic edge id', () => {
+		const code = `electrical "Filter" {
+  net IN, OUT, GND
+  part R1 type:R value:"10k" pins:(IN,OUT)
+  part C1 type:C value:"1n" pins:(OUT,GND)
+}`;
+
+		const location = resolveSelectionSourceLocation({
+			code,
+			profileName: ProfileName.electrical,
+			selectedNodeId: null,
+			selectedEdgeId: 'sch-net-OUT-0'
+		});
+
+		expect(location).toEqual({ line: 2, column: 1 });
+	});
 });

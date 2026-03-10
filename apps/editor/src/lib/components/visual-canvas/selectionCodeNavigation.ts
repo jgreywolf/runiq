@@ -50,6 +50,30 @@ function findTimelineNodeLocation(code: string, nodeId: string): SourceLocation 
 	);
 }
 
+function decodeNodeToken(value: string): string {
+	try {
+		return decodeURIComponent(value);
+	} catch {
+		return value;
+	}
+}
+
+function findSchematicPartLocation(code: string, nodeId: string): SourceLocation | null {
+	if (!nodeId.startsWith('sch-part-')) return null;
+	const token = decodeNodeToken(nodeId.slice('sch-part-'.length));
+	const lines = code.split('\n');
+	return findLineByPattern(lines, new RegExp(`^\\s*part\\s+${escapeRegex(token)}\\b`));
+}
+
+function findSchematicNetLocation(code: string, edgeId: string): SourceLocation | null {
+	if (!edgeId.startsWith('sch-net-')) return null;
+	const lines = code.split('\n');
+	const lastDash = edgeId.lastIndexOf('-');
+	const encodedNet = lastDash >= 0 ? edgeId.slice('sch-net-'.length, lastDash) : edgeId.slice('sch-net-'.length);
+	const netName = decodeNodeToken(encodedNet);
+	return findLineByPattern(lines, new RegExp(`^\\s*net\\s+.*\\b${escapeRegex(netName)}\\b`));
+}
+
 function normalizeSequenceIdentifier(value: string): string {
 	return value.trim().replace(/^"|"$/g, '').toLowerCase().replace(/\s+/g, '_');
 }
@@ -147,6 +171,22 @@ export function resolveSelectionSourceLocation(
 		if (selectedEdgeId?.startsWith('seq-message-')) {
 			const messageIndex = Number.parseInt(selectedEdgeId.slice('seq-message-'.length), 10);
 			return findSequenceMessageLocation(code, messageIndex);
+		}
+	}
+
+	if (
+		profileName === ProfileName.electrical ||
+		profileName === ProfileName.control ||
+		profileName === ProfileName.pneumatic ||
+		profileName === ProfileName.hydraulic ||
+		profileName === ProfileName.hvac ||
+		profileName === ProfileName.digital
+	) {
+		if (selectedNodeId) {
+			return findSchematicPartLocation(code, selectedNodeId);
+		}
+		if (selectedEdgeId) {
+			return findSchematicNetLocation(code, selectedEdgeId);
 		}
 	}
 

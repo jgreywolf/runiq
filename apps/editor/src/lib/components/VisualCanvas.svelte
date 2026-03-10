@@ -78,7 +78,11 @@
 		shouldClearElementToolbar,
 		shouldRepositionElementToolbar
 	} from './visual-canvas/elementToolbarVisibility';
-	import { supportsCanvasSelection } from './visual-canvas/interactiveProfiles';
+	import {
+		isSchematicProfile,
+		supportsCanvasContextMenus,
+		supportsCanvasSelection
+	} from './visual-canvas/interactiveProfiles';
 	import {
 		getQuickConnectBehaviorFromModifiers,
 		type QuickConnectBehavior,
@@ -180,6 +184,24 @@
 		timing: string;
 		activate: boolean;
 		participantType: 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation' | '';
+	} | null>(null);
+	let schematicEditFlyout = $state<{
+		nodeId: string;
+		ref: string;
+		type: string;
+		pins: string;
+		value: string;
+		source: string;
+		model: string;
+	} | null>(null);
+	let schematicPartQuickDraft = $state<{
+		nodeId: string;
+		ref: string;
+		type: string;
+		pins: string;
+		value: string;
+		source: string;
+		model: string;
 	} | null>(null);
 	let sequenceMessageQuickDraft = $state<{
 		messageType: 'sync' | 'async' | 'return' | 'create' | 'destroy';
@@ -421,6 +443,29 @@
 			guard: parsed.fields.guard ?? '',
 			timing: parsed.fields.timing ?? '',
 			activate: parsed.fields.activate === 'true'
+		};
+	});
+
+	$effect(() => {
+		const profile = editorState.profileName;
+		const nodeId = selection.selectedNodeId;
+		if (!isSchematicProfile(profile) || !nodeId?.startsWith('sch-part-')) {
+			schematicPartQuickDraft = null;
+			return;
+		}
+		const parsed = parseSchematicPartByNodeId(nodeId);
+		if (!parsed) {
+			schematicPartQuickDraft = null;
+			return;
+		}
+		schematicPartQuickDraft = {
+			nodeId,
+			ref: parsed.ref,
+			type: parsed.type,
+			pins: parsed.pins,
+			value: parsed.value,
+			source: parsed.source,
+			model: parsed.model
 		};
 	});
 
@@ -987,6 +1032,7 @@
 		contextImageFlyout = null;
 		contextThemeFlyout = null;
 		sequenceEditFlyout = null;
+		schematicEditFlyout = null;
 	}
 
 	function closeElementContextMenu() {
@@ -996,6 +1042,7 @@
 		contextImageFlyout = null;
 		timelineEditFlyout = null;
 		sequenceEditFlyout = null;
+		schematicEditFlyout = null;
 	}
 
 	function insertShapeFromContext(shapeCode: string) {
@@ -1043,6 +1090,84 @@
 			if (timelineRegex.test(lines[i])) return i;
 		}
 		return -1;
+	}
+
+	function decodeNodeToken(value: string): string {
+		try {
+			return decodeURIComponent(value);
+		} catch {
+			return value;
+		}
+	}
+
+	function findSchematicPartLineIndex(lines: string[], nodeId: string): number {
+		if (!nodeId.startsWith('sch-part-')) return -1;
+		const ref = decodeNodeToken(nodeId.slice('sch-part-'.length));
+		const escapedRef = ref.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const regex = new RegExp(`^\\s*part\\s+${escapedRef}\\b`);
+		return lines.findIndex((line) => regex.test(line));
+	}
+
+	function parseSchematicPartByNodeId(nodeId: string): {
+		lineIndex: number;
+		line: string;
+		ref: string;
+		type: string;
+		pins: string;
+		value: string;
+		source: string;
+		model: string;
+	} | null {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSchematicPartLineIndex(lines, nodeId);
+		if (lineIndex < 0) return null;
+		const line = lines[lineIndex];
+		const partMatch = line.match(/^\s*part\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+		if (!partMatch) return null;
+		const ref = partMatch[1];
+		const extractQuoted = (key: string): string => {
+			const m = line.match(new RegExp(`\\b${key}:"((?:\\\\.|[^"])*)"`));
+			return m ? m[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\') : '';
+		};
+		const extractBare = (key: string): string => {
+			const m = line.match(new RegExp(`\\b${key}:([A-Za-z_][A-Za-z0-9_-]*)`));
+			return m ? m[1] : '';
+		};
+		const extractPins = (): string => {
+			const m = line.match(/\bpins:\(([^)]*)\)/);
+			return m ? m[1].trim() : '';
+		};
+		return {
+			lineIndex,
+			line,
+			ref,
+			type: extractBare('type'),
+			pins: extractPins(),
+			value: extractQuoted('value'),
+			source: extractQuoted('source'),
+			model: extractQuoted('model')
+		};
+	}
+
+	function upsertParensField(line: string, key: string, value: string): string {
+		const normalized = value.trim();
+		const regex = new RegExp(`\\b${key}:\\([^)]*\\)`);
+		if (regex.test(line)) {
+			return line.replace(regex, `${key}:(${normalized})`);
+		}
+		return `${line} ${key}:(${normalized})`;
+	}
+
+	function buildUniqueSchematicPartRef(lines: string[], baseRef: string): string {
+		const escaped = baseRef.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		if (!new RegExp(`^\\s*part\\s+${escaped}\\b`, 'm').test(lines.join('\n'))) return baseRef;
+		let index = 1;
+		let candidate = `${baseRef}_${index}`;
+		while (new RegExp(`^\\s*part\\s+${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'm').test(lines.join('\n'))) {
+			index += 1;
+			candidate = `${baseRef}_${index}`;
+		}
+		return candidate;
 	}
 
 	function buildUniqueTimelineId(lines: string[], baseId: string): string {
@@ -1459,6 +1584,124 @@
 					| 'continuation'
 					| '') || ''
 		};
+	}
+
+	function openSchematicEdit(nodeId: string | null) {
+		if (!nodeId) return;
+		const parsed = parseSchematicPartByNodeId(nodeId);
+		if (!parsed) return;
+		schematicEditFlyout = {
+			nodeId,
+			ref: parsed.ref,
+			type: parsed.type,
+			pins: parsed.pins,
+			value: parsed.value,
+			source: parsed.source,
+			model: parsed.model
+		};
+	}
+
+	function openSchematicEditFromSelection() {
+		openSchematicEdit(selection.selectedNodeId);
+	}
+
+	function openSchematicEditFromContext() {
+		openSchematicEdit(elementContextMenu?.nodeId ?? null);
+		elementContextMenu = null;
+	}
+
+	function closeSchematicEditDialog() {
+		schematicEditFlyout = null;
+	}
+
+	function applySchematicEditFromFlyout() {
+		if (!schematicEditFlyout) return;
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSchematicPartLineIndex(lines, schematicEditFlyout.nodeId);
+		if (lineIndex < 0) {
+			schematicEditFlyout = null;
+			return;
+		}
+
+		const currentLine = lines[lineIndex];
+		const refMatch = currentLine.match(/^(\s*part\s+)([A-Za-z_][A-Za-z0-9_-]*)(.*)$/);
+		if (!refMatch) {
+			schematicEditFlyout = null;
+			return;
+		}
+		const nextRef = schematicEditFlyout.ref.trim() || refMatch[2];
+		let nextLine = `${refMatch[1]}${nextRef}${refMatch[3] || ''}`;
+
+		if (schematicEditFlyout.type.trim()) {
+			nextLine = upsertBareField(nextLine, 'type', schematicEditFlyout.type.trim());
+		}
+		if (schematicEditFlyout.pins.trim()) {
+			nextLine = upsertParensField(nextLine, 'pins', schematicEditFlyout.pins.trim());
+		}
+
+		if (schematicEditFlyout.value.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'value', schematicEditFlyout.value.trim());
+		} else {
+			nextLine = removeField(nextLine, 'value');
+		}
+		if (schematicEditFlyout.source.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'source', schematicEditFlyout.source.trim());
+		} else {
+			nextLine = removeField(nextLine, 'source');
+		}
+		if (schematicEditFlyout.model.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'model', schematicEditFlyout.model.trim());
+		} else {
+			nextLine = removeField(nextLine, 'model');
+		}
+
+		if (nextLine !== currentLine) {
+			lines[lineIndex] = nextLine;
+			updateCode(lines.join('\n'), true);
+		}
+		schematicEditFlyout = null;
+		closeElementContextMenu();
+	}
+
+	function applySchematicPartQuickDraft() {
+		if (!schematicPartQuickDraft) return;
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSchematicPartLineIndex(lines, schematicPartQuickDraft.nodeId);
+		if (lineIndex < 0) return;
+
+		const currentLine = lines[lineIndex];
+		const refMatch = currentLine.match(/^(\s*part\s+)([A-Za-z_][A-Za-z0-9_-]*)(.*)$/);
+		if (!refMatch) return;
+
+		const nextRef = schematicPartQuickDraft.ref.trim() || refMatch[2];
+		let nextLine = `${refMatch[1]}${nextRef}${refMatch[3] || ''}`;
+
+		if (schematicPartQuickDraft.type.trim()) {
+			nextLine = upsertBareField(nextLine, 'type', schematicPartQuickDraft.type.trim());
+		}
+		if (schematicPartQuickDraft.pins.trim()) {
+			nextLine = upsertParensField(nextLine, 'pins', schematicPartQuickDraft.pins.trim());
+		}
+
+		if (schematicPartQuickDraft.value.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'value', schematicPartQuickDraft.value.trim());
+		} else {
+			nextLine = removeField(nextLine, 'value');
+		}
+		if (schematicPartQuickDraft.source.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'source', schematicPartQuickDraft.source.trim());
+		} else {
+			nextLine = removeField(nextLine, 'source');
+		}
+		if (schematicPartQuickDraft.model.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'model', schematicPartQuickDraft.model.trim());
+		} else {
+			nextLine = removeField(nextLine, 'model');
+		}
+
+		if (nextLine === currentLine) return;
+		lines[lineIndex] = nextLine;
+		updateCode(lines.join('\n'), true);
 	}
 
 	function applySequenceMessageQuickDraft() {
@@ -2094,6 +2337,23 @@
 			closeElementContextMenu();
 			return;
 		}
+		if (isSchematicProfile(editorState.profileName) && elementContextMenu.nodeId) {
+			const lines = (editorState.code || '').split('\n');
+			const lineIndex = findSchematicPartLineIndex(lines, elementContextMenu.nodeId);
+			if (lineIndex < 0) return;
+			const line = lines[lineIndex];
+			const match = line.match(/^(\s*part\s+)([A-Za-z_][A-Za-z0-9_-]*)(.*)$/);
+			if (!match) return;
+			const nextRef = buildUniqueSchematicPartRef(lines, `${match[2]}_copy`);
+			const nextLine = `${match[1]}${nextRef}${match[3] || ''}`;
+			lines.splice(lineIndex + 1, 0, nextLine);
+			const nextCode = lines.join('\n');
+			if (nextCode !== editorState.code) {
+				updateCode(nextCode, true);
+			}
+			closeElementContextMenu();
+			return;
+		}
 		const { nodeId, edgeId, containerId } = elementContextMenu;
 		if (containerId) {
 			const block = getContainerBlockById(containerId, elementContextMenu.containerLabel);
@@ -2152,6 +2412,20 @@
 			closeElementContextMenu();
 			return;
 		}
+		if (isSchematicProfile(editorState.profileName) && elementContextMenu.nodeId) {
+			const lines = (editorState.code || '').split('\n');
+			const lineIndex = findSchematicPartLineIndex(lines, elementContextMenu.nodeId);
+			if (lineIndex < 0) return;
+			lines.splice(lineIndex, 1);
+			const nextCode = lines.join('\n');
+			if (nextCode !== editorState.code) {
+				updateCode(nextCode, true);
+			}
+			selection.clearSelection();
+			selection.updateVisualSelection(svgContainer);
+			closeElementContextMenu();
+			return;
+		}
 		if (elementContextMenu.containerId) {
 			deleteContainerById(elementContextMenu.containerId);
 		} else {
@@ -2164,6 +2438,8 @@
 
 	function handleCanvasContextMenu(event: MouseEvent) {
 		if (!supportsCanvasSelection(editorState.profileName))
+			return;
+		if (!supportsCanvasContextMenus(editorState.profileName))
 			return;
 		const target = event.target as HTMLElement | null;
 		if (!target) return;
@@ -2214,6 +2490,7 @@
 		event.preventDefault();
 		elementContextMenu = null;
 		timelineEditFlyout = null;
+		schematicEditFlyout = null;
 		canvasContextMenu = { x: event.clientX, y: event.clientY };
 		contextThemeFlyout = null;
 	}
@@ -2804,7 +3081,7 @@
 		});
 
 		const handleGlobalContextMenuDismiss = (event: PointerEvent) => {
-		const hasAnyMenu =
+			const hasAnyMenu =
 				!!canvasContextMenu ||
 				!!elementContextMenu ||
 				!!contextShapeFlyout ||
@@ -2812,7 +3089,8 @@
 				!!contextImageFlyout ||
 				!!contextThemeFlyout ||
 				!!timelineEditFlyout ||
-				!!sequenceEditFlyout;
+				!!sequenceEditFlyout ||
+				!!schematicEditFlyout;
 			if (!hasAnyMenu) return;
 			const target = event.target as HTMLElement | null;
 			if (target?.closest('.canvas-context-menu')) return;
@@ -2820,6 +3098,7 @@
 			closeElementContextMenu();
 			timelineEditFlyout = null;
 			sequenceEditFlyout = null;
+			schematicEditFlyout = null;
 		};
 
 		document.addEventListener('pointerdown', handleGlobalPointerDown, true);
@@ -3043,6 +3322,98 @@
 					</label>
 				{/if}
 			</div>
+		{:else if isSchematicProfile(editorState.profileName) && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<button class="toolbar-button" onclick={openSchematicEditFromSelection} title="Edit Details">
+					Details
+				</button>
+				{#if selection.selectedNodeId?.startsWith('sch-part-') && schematicPartQuickDraft}
+					<div class="toolbar-divider-v"></div>
+					<label class="sequence-inline-field">
+						Ref
+						<input
+							value={schematicPartQuickDraft.ref}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									ref: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Type
+						<input
+							value={schematicPartQuickDraft.type}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									type: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Pins
+						<input
+							value={schematicPartQuickDraft.pins}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									pins: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+							placeholder="IN,OUT"
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Value
+						<input
+							value={schematicPartQuickDraft.value}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									value: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Source
+						<input
+							value={schematicPartQuickDraft.source}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									source: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Model
+						<input
+							value={schematicPartQuickDraft.model}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									model: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+				{/if}
+			</div>
 		{/if}
 
 		<CanvasInteractionLayer
@@ -3206,6 +3577,9 @@
 		{:else if editorState.profileName === ProfileName.timeline}
 			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
 			<div class="separator"></div>
+		{:else if isSchematicProfile(editorState.profileName)}
+			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+			<div class="separator"></div>
 		{/if}
 		<button class="has-submenu" onclick={handleContextOpenThemeFlyout}
 			><span>Theme</span><span class="submenu-arrow">></span></button
@@ -3221,6 +3595,11 @@
 		{#if editorState.profileName === ProfileName.timeline}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId}>Edit Label</button>
 			<button onclick={openTimelineEditFromContext} disabled={!elementContextMenu.nodeId}>Edit Details</button>
+			<div class="separator"></div>
+			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
+		{:else if isSchematicProfile(editorState.profileName)}
+			<button onclick={openSchematicEditFromContext} disabled={!elementContextMenu.nodeId}>Edit Details</button>
 			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
@@ -3507,6 +3886,61 @@
 			<button onclick={closeSequenceEditDialog}>Cancel</button>
 			<button onclick={applySequenceEditFromFlyout}>Apply</button>
 		</div>
+		</div>
+	</div>
+{/if}
+
+{#if schematicEditFlyout}
+	<div
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close schematic details editor"
+		onpointerdown={closeSchematicEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeSchematicEditDialog();
+			}
+		}}
+	>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit schematic part details"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit part</div>
+			<label class="context-label">
+				Reference
+				<input bind:value={schematicEditFlyout.ref} />
+			</label>
+			<label class="context-label">
+				Type
+				<input bind:value={schematicEditFlyout.type} placeholder="R, C, L, V, I, ..." />
+			</label>
+			<label class="context-label">
+				Pins
+				<input bind:value={schematicEditFlyout.pins} placeholder="IN,OUT" />
+			</label>
+			<label class="context-label">
+				Value
+				<input bind:value={schematicEditFlyout.value} placeholder="10k" />
+			</label>
+			<label class="context-label">
+				Source
+				<input bind:value={schematicEditFlyout.source} placeholder="SIN(0 1 1k)" />
+			</label>
+			<label class="context-label">
+				Model
+				<input bind:value={schematicEditFlyout.model} placeholder="2N3904" />
+			</label>
+			<div class="context-actions">
+				<button onclick={closeSchematicEditDialog}>Cancel</button>
+				<button onclick={applySchematicEditFromFlyout}>Apply</button>
+			</div>
 		</div>
 	</div>
 {/if}

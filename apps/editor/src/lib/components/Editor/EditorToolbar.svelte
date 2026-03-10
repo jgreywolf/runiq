@@ -9,11 +9,16 @@
 	} from '$lib/state/editorState.svelte';
 	import { canvasState } from '$lib/state';
 	import { ProfileName } from '$lib/types';
+	import * as DSL from '$lib/utils/dslCodeManipulation';
 	import { applyThemeToDsl, extractSvgDimensions } from './editorToolbarActions';
 	import ContainerPickerFlyout from '$lib/components/ContainerPickerFlyout.svelte';
 	import ImageInsertFlyout from '$lib/components/ImageInsertFlyout.svelte';
 	import ShapePickerFlyout from '$lib/components/ShapePickerFlyout.svelte';
 	import ThemePickerFlyout from '$lib/components/ThemePickerFlyout.svelte';
+	import {
+		isSchematicProfile,
+		supportsCanvasSelection
+	} from '$lib/components/visual-canvas/interactiveProfiles';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -29,11 +34,77 @@
 
 	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
 	const isSequenceProfile = $derived(editorState.profileName === ProfileName.sequence);
-	const canSelectInCanvas = $derived(
-		editorState.profileName === ProfileName.diagram ||
-			editorState.profileName === ProfileName.timeline ||
-			editorState.profileName === ProfileName.sequence
-	);
+	const isSchematicCanvasProfile = $derived(isSchematicProfile(editorState.profileName));
+	const canUseThemeControl = $derived.by(() => {
+		switch (editorState.profileName) {
+			case ProfileName.diagram:
+			case ProfileName.sequence:
+			case ProfileName.timeline:
+			case ProfileName.wardley:
+			case ProfileName.kanban:
+			case ProfileName.gitgraph:
+			case ProfileName.treemap:
+			case ProfileName.railroad:
+			case ProfileName.glyphset:
+				return true;
+			default:
+				return false;
+		}
+	});
+	const schematicToolbarMeta = $derived.by(() => {
+		switch (editorState.profileName) {
+			case ProfileName.electrical:
+				return {
+					addPartLabel: 'Add Electrical Part',
+					addNetLabel: 'Add Electrical Net',
+					partIcon: 'lucide:zap',
+					netIcon: 'lucide:network'
+				};
+			case ProfileName.hvac:
+				return {
+					addPartLabel: 'Add HVAC Part',
+					addNetLabel: 'Add HVAC Net',
+					partIcon: 'lucide:fan',
+					netIcon: 'lucide:network'
+				};
+			case ProfileName.pneumatic:
+				return {
+					addPartLabel: 'Add Pneumatic Part',
+					addNetLabel: 'Add Pneumatic Net',
+					partIcon: 'lucide:wind',
+					netIcon: 'lucide:network'
+				};
+			case ProfileName.hydraulic:
+				return {
+					addPartLabel: 'Add Hydraulic Part',
+					addNetLabel: 'Add Hydraulic Net',
+					partIcon: 'lucide:droplets',
+					netIcon: 'lucide:network'
+				};
+			case ProfileName.control:
+				return {
+					addPartLabel: 'Add Control Part',
+					addNetLabel: 'Add Control Net',
+					partIcon: 'lucide:sliders-horizontal',
+					netIcon: 'lucide:network'
+				};
+			case ProfileName.digital:
+				return {
+					addPartLabel: 'Add Digital Part',
+					addNetLabel: 'Add Digital Net',
+					partIcon: 'lucide:cpu',
+					netIcon: 'lucide:network'
+				};
+			default:
+				return {
+					addPartLabel: 'Add Part',
+					addNetLabel: 'Add Net',
+					partIcon: 'lucide:circuit-board',
+					netIcon: 'lucide:network'
+				};
+		}
+	});
+	const canSelectInCanvas = $derived(supportsCanvasSelection(editorState.profileName));
 	const canUseConnectMode = $derived(
 		editorState.profileName === ProfileName.diagram
 	);
@@ -78,6 +149,12 @@
 		showContainerFlyout = flyout === 'container';
 		showImageFlyout = flyout === 'image';
 	}
+
+	$effect(() => {
+		if (!canUseThemeControl && showThemeFlyout) {
+			showThemeFlyout = false;
+		}
+	});
 
 	function handleAddShape() {
 		if (!isDiagramProfile) return;
@@ -154,6 +231,91 @@
 		canvasState.mode = 'select';
 	}
 
+	function collectSchematicNetNames(code: string): Set<string> {
+		const nets = new Set<string>();
+		for (const line of code.split('\n')) {
+			const match = line.match(/^\s*net\s+(.+)$/);
+			if (!match) continue;
+			for (const token of match[1].split(',')) {
+				const value = token.trim();
+				if (value) nets.add(value);
+			}
+		}
+		return nets;
+	}
+
+	function getNextSchematicPartRef(code: string, prefix = 'R'): string {
+		const regex = new RegExp(`^\\s*part\\s+${prefix}(\\d+)\\b`);
+		let maxIndex = 0;
+		for (const line of code.split('\n')) {
+			const match = line.match(regex);
+			if (!match) continue;
+			const numeric = Number.parseInt(match[1], 10);
+			if (Number.isFinite(numeric)) maxIndex = Math.max(maxIndex, numeric);
+		}
+		return `${prefix}${maxIndex + 1}`;
+	}
+
+	function getNextSchematicNetName(code: string): string {
+		const nets = collectSchematicNetNames(code);
+		let index = 1;
+		let candidate = `N${index}`;
+		while (nets.has(candidate)) {
+			index += 1;
+			candidate = `N${index}`;
+		}
+		return candidate;
+	}
+
+	function handleAddSchematicPart() {
+		if (!isSchematicCanvasProfile) return;
+		const code = editorState.code || '';
+		const ref = getNextSchematicPartRef(code, 'R');
+		const netA = getNextSchematicNetName(code);
+		const netB = getNextSchematicNetName(`${code}\nnet ${netA}`);
+		insertSchematicStatement(`part ${ref} type:R value:"1k" pins:(${netA},${netB})`);
+		canvasState.mode = 'select';
+	}
+
+	function handleAddSchematicNet() {
+		if (!isSchematicCanvasProfile) return;
+		const code = editorState.code || '';
+		const net = getNextSchematicNetName(code);
+		insertSchematicStatement(`net ${net}`);
+		canvasState.mode = 'select';
+	}
+
+	function getSchematicProfileKeyword(profile: ProfileName | null): string {
+		switch (profile) {
+			case ProfileName.electrical:
+				return 'electrical';
+			case ProfileName.hvac:
+				return 'hvac';
+			case ProfileName.pneumatic:
+				return 'pneumatic';
+			case ProfileName.hydraulic:
+				return 'hydraulic';
+			case ProfileName.control:
+				return 'control';
+			case ProfileName.digital:
+				return 'digital';
+			default:
+				return 'electrical';
+		}
+	}
+
+	function insertSchematicStatement(statement: string) {
+		const code = editorState.code || '';
+		const inserted = DSL.insertShape(code, statement, editorState.shapeCounter);
+		if (inserted !== code) {
+			updateCode(inserted, true);
+			return;
+		}
+		const keyword = getSchematicProfileKeyword(editorState.profileName);
+		const bootstrap = `${keyword} "New ${keyword[0].toUpperCase()}${keyword.slice(1)}" {\n  ${statement}\n}`;
+		updateCode(bootstrap, true);
+	}
+
 	function insertShapeFromPicker(code: string) {
 		handleInsertShape(code);
 		setFlyoutOpen(null);
@@ -175,6 +337,7 @@
 	}
 
 	function handleChangeTheme() {
+		if (!canUseThemeControl) return;
 		setFlyoutOpen(showThemeFlyout ? null : 'theme');
 	}
 
@@ -277,6 +440,23 @@
 				>
 					<Icon icon="lucide:sticky-note" class="icon" />
 				</button>
+			{:else if isSchematicCanvasProfile}
+				<button
+					class="toolbar-btn"
+					onclick={handleAddSchematicPart}
+					title={schematicToolbarMeta.addPartLabel}
+					aria-label={schematicToolbarMeta.addPartLabel}
+				>
+					<Icon icon={schematicToolbarMeta.partIcon} class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleAddSchematicNet}
+					title={schematicToolbarMeta.addNetLabel}
+					aria-label={schematicToolbarMeta.addNetLabel}
+				>
+					<Icon icon={schematicToolbarMeta.netIcon} class="icon" />
+				</button>
 			{:else}
 				<button
 					class="toolbar-btn"
@@ -329,6 +509,7 @@
 				onclick={handleChangeTheme}
 				title="Change Theme"
 				aria-label="Change Theme"
+				disabled={!canUseThemeControl}
 			>
 				<Icon icon="lucide:palette" class="icon" />
 			</button>

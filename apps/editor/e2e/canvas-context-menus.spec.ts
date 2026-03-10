@@ -294,4 +294,199 @@ test.describe('Visual canvas context menus', () => {
 		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
 		expect(editorContent).toContain('note "Updated note"');
 	});
+
+	test('electrical part context menu edits, duplicates, and deletes part', async ({ page }) => {
+		const dsl = `electrical "RC Filter" {
+  net IN, OUT, GND
+  part R1 type:R value:"10k" pins:(IN,OUT)
+  part C1 type:C value:"1n" pins:(OUT,GND)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(1000);
+
+		const resistorNode = page.locator('svg [data-node-id="sch-part-R1"]').first();
+		await expect(resistorNode).toBeVisible({ timeout: 10000 });
+		await resistorNode.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+
+		let menu = page.locator('.canvas-context-menu:visible').first();
+		await expect(menu).toBeVisible();
+		await menu.getByRole('button', { name: 'Edit Details' }).dispatchEvent('click');
+
+		let flyout = page
+			.locator('.canvas-context-menu:visible')
+			.filter({ hasText: 'Edit part' })
+			.first();
+		await expect(flyout).toBeVisible();
+		await flyout.locator('label:has-text("Value") input').fill('22k');
+		await flyout.getByRole('button', { name: 'Apply' }).dispatchEvent('click');
+		await page.waitForTimeout(250);
+
+		let editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('part R1 type:R value:"22k" pins:(IN,OUT)');
+
+		await resistorNode.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+		menu = page.locator('.canvas-context-menu:visible').first();
+		await menu.getByRole('button', { name: 'Duplicate' }).dispatchEvent('click');
+		await page.waitForTimeout(250);
+
+		editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('part R1_copy');
+
+		const capacitorNode = page.locator('svg [data-node-id="sch-part-C1"]').first();
+		await expect(capacitorNode).toBeVisible({ timeout: 10000 });
+		await capacitorNode.dispatchEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 });
+		menu = page.locator('.canvas-context-menu:visible').first();
+		await menu.getByRole('button', { name: 'Delete' }).dispatchEvent('click');
+		await page.waitForTimeout(250);
+
+		editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).not.toContain('part C1 type:C');
+	});
+
+	test('electrical toolbar adds part and net', async ({ page }) => {
+		const dsl = `electrical "Starter" {
+  net IN, OUT
+  part R1 type:R value:"10k" pins:(IN,OUT)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const addPartButton = page.getByRole('button', { name: 'Add Electrical Part' });
+		await expect(addPartButton).toBeVisible();
+		await addPartButton.click();
+		await page.waitForTimeout(250);
+
+		let editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('part R2 type:R value:"1k"');
+
+		const addNetButton = page.getByRole('button', { name: 'Add Electrical Net' });
+		await expect(addNetButton).toBeVisible();
+		await addNetButton.click();
+		await page.waitForTimeout(250);
+
+		editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('net N1');
+	});
+
+	test('electrical selection toolbar edits part fields inline', async ({ page }) => {
+		const dsl = `electrical "Inline Edit" {
+  net IN, OUT, GND
+  part R1 type:R value:"10k" pins:(IN,OUT)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const resistorNode = page.locator('svg [data-node-id="sch-part-R1"]').first();
+		await expect(resistorNode).toBeVisible({ timeout: 10000 });
+		await resistorNode.click();
+
+		const toolbar = page.locator('.sequence-toolbar:visible').first();
+		await expect(toolbar).toBeVisible();
+		const valueInput = toolbar.locator('label:has-text("Value") input').first();
+		await expect(valueInput).toBeVisible();
+		await valueInput.fill('47k');
+		await valueInput.blur();
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('part R1 type:R value:"47k" pins:(IN,OUT)');
+	});
+
+	test('hvac toolbar adds part and net', async ({ page }) => {
+		const dsl = `hvac "Simple Loop" {
+  net SUPPLY, RETURN
+  part F1 type:fan value:"1200cfm" pins:(SUPPLY,RETURN)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const addPartButton = page.getByRole('button', { name: 'Add HVAC Part' });
+		await expect(addPartButton).toBeVisible();
+		await addPartButton.click();
+		await page.waitForTimeout(250);
+
+		let editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('part R1 type:R value:"1k"');
+
+		const addNetButton = page.getByRole('button', { name: 'Add HVAC Net' });
+		await expect(addNetButton).toBeVisible();
+		await addNetButton.click();
+		await page.waitForTimeout(250);
+
+		editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('net N1');
+	});
+
+	test('pneumatic selection toolbar edits part fields inline', async ({ page }) => {
+		const dsl = `pneumatic "Air Loop" {
+  net SUPPLY, RETURN
+  part V1 type:R value:"2-way" pins:(SUPPLY,RETURN)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const partNode = page.locator('svg [data-node-id="sch-part-V1"]').first();
+		await expect(partNode).toBeVisible({ timeout: 10000 });
+		await partNode.click();
+
+		const toolbar = page.locator('.sequence-toolbar:visible').first();
+		await expect(toolbar).toBeVisible();
+		const modelInput = toolbar.locator('label:has-text("Model") input').first();
+		await expect(modelInput).toBeVisible();
+		await modelInput.fill('ValveModel-A');
+		await modelInput.blur();
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('model:"ValveModel-A"');
+	});
+
+	test('hydraulic toolbar adds part and net', async ({ page }) => {
+		const dsl = `hydraulic "Power Loop" {
+  net P, T
+  part P1 type:R value:"100bar" pins:(P,T)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const addPartButton = page.getByRole('button', { name: 'Add Hydraulic Part' });
+		await expect(addPartButton).toBeVisible();
+		await addPartButton.click();
+		await page.waitForTimeout(250);
+
+		let editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('part R1 type:R value:"1k"');
+
+		const addNetButton = page.getByRole('button', { name: 'Add Hydraulic Net' });
+		await expect(addNetButton).toBeVisible();
+		await addNetButton.click();
+		await page.waitForTimeout(250);
+
+		editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('net N1');
+	});
+
+	test('control selection toolbar edits part fields inline', async ({ page }) => {
+		const dsl = `control "PLC Panel" {
+  net L1, L2
+  part K1 type:R value:"coil" pins:(L1,L2)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const partNode = page.locator('svg [data-node-id="sch-part-K1"]').first();
+		await expect(partNode).toBeVisible({ timeout: 10000 });
+		await partNode.dispatchEvent('click', { bubbles: true, cancelable: true });
+
+		const toolbar = page.locator('.sequence-toolbar:visible').first();
+		await expect(toolbar).toBeVisible();
+		const sourceInput = toolbar.locator('label:has-text("Source") input').first();
+		await expect(sourceInput).toBeVisible();
+		await sourceInput.fill('LineFeed');
+		await sourceInput.blur();
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('source:"LineFeed"');
+	});
 });

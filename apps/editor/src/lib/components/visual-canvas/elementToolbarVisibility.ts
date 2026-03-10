@@ -1,4 +1,5 @@
 import { ProfileName } from '$lib/types';
+import { isSchematicProfile } from './interactiveProfiles';
 
 export function hasPrimarySelection(selectedNodeId: string | null, selectedEdgeId: string | null): boolean {
 	return !!(selectedNodeId || selectedEdgeId);
@@ -12,7 +13,9 @@ export function shouldClearElementToolbar(params: {
 }): boolean {
 	return (
 		!hasPrimarySelection(params.selectedNodeId, params.selectedEdgeId) ||
-		(params.profileName !== ProfileName.diagram && params.profileName !== ProfileName.sequence) ||
+		(params.profileName !== ProfileName.diagram &&
+			params.profileName !== ProfileName.sequence &&
+			!isSchematicProfile(params.profileName)) ||
 		params.mode !== 'select'
 	);
 }
@@ -24,7 +27,9 @@ export function shouldRepositionElementToolbar(params: {
 	mode: 'select' | 'connect';
 }): boolean {
 	return (
-		(params.profileName === ProfileName.diagram || params.profileName === ProfileName.sequence) &&
+		(params.profileName === ProfileName.diagram ||
+			params.profileName === ProfileName.sequence ||
+			isSchematicProfile(params.profileName)) &&
 		params.mode === 'select' &&
 		hasPrimarySelection(params.selectedNodeId, params.selectedEdgeId)
 	);
