@@ -489,4 +489,42 @@ test.describe('Visual canvas context menus', () => {
 		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
 		expect(editorContent).toContain('source:"LineFeed"');
 	});
+
+	test('electrical drag/drop reorders parts', async ({ page }) => {
+		const dsl = `electrical "Drag Parts" {
+  net IN, MID, OUT
+  part R1 type:R value:"10k" pins:(IN,MID)
+  part R2 type:R value:"22k" pins:(MID,OUT)
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(1000);
+
+		const sourceNode = page.locator('svg [data-node-id="sch-part-R1"]').first();
+		const targetNode = page.locator('svg [data-node-id="sch-part-R2"]').first();
+		await expect(sourceNode).toBeVisible({ timeout: 10000 });
+		await expect(targetNode).toBeVisible({ timeout: 10000 });
+
+		const sourceBox = await sourceNode.boundingBox();
+		const targetBox = await targetNode.boundingBox();
+		expect(sourceBox).not.toBeNull();
+		expect(targetBox).not.toBeNull();
+
+		const sourceX = (sourceBox?.x ?? 0) + (sourceBox?.width ?? 0) / 2;
+		const sourceY = (sourceBox?.y ?? 0) + (sourceBox?.height ?? 0) / 2;
+		const targetX = (targetBox?.x ?? 0) + (targetBox?.width ?? 0) + 24;
+		const targetY = (targetBox?.y ?? 0) + (targetBox?.height ?? 0) / 2;
+
+		await page.mouse.move(sourceX, sourceY);
+		await page.mouse.down();
+		await page.mouse.move(targetX, targetY, { steps: 18 });
+		await page.mouse.up();
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		const r1Index = editorContent.indexOf('part R1 type:R');
+		const r2Index = editorContent.indexOf('part R2 type:R');
+		expect(r1Index).toBeGreaterThan(-1);
+		expect(r2Index).toBeGreaterThan(-1);
+		expect(r2Index).toBeLessThan(r1Index);
+	});
 });

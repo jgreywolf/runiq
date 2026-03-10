@@ -4,7 +4,7 @@ import type { SelectionState } from './SelectionState.svelte';
 import type { ViewportState } from './ViewportState.svelte';
 import type { EditorMode } from '$lib/types/editor';
 import { ProfileName } from '$lib/types';
-import { supportsCanvasSelection } from './interactiveProfiles';
+import { isSchematicProfile, supportsCanvasSelection } from './interactiveProfiles';
 
 interface CanvasEventHandlerDeps {
 	selection: SelectionState;
@@ -43,6 +43,27 @@ interface CanvasEventHandlerDeps {
 		clientX: number;
 		clientY: number;
 		targetContainerId: string | null;
+	}) => void;
+	onSchematicPartDragStart?: (payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) => void;
+	onSchematicPartDragMove?: (payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) => void;
+	onSchematicPartDragEnd?: (payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
 	}) => void;
 	onSequenceParticipantReorder?: (payload: {
 		sourceNodeId: string;
@@ -93,6 +114,9 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		onNodeContainerDragStart,
 		onNodeContainerDragMove,
 		onNodeContainerDragEnd,
+		onSchematicPartDragStart,
+		onSchematicPartDragMove,
+		onSchematicPartDragEnd,
 		onSequenceParticipantReorder,
 		onSequenceMessageReorder,
 		onSequenceCreateMessage,
@@ -110,6 +134,14 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		  }
 		| null = null;
 	let nodeDragActiveNodeId: string | null = null;
+	let schematicPartDragPending:
+		| {
+				nodeId: string;
+				clientX: number;
+				clientY: number;
+		  }
+		| null = null;
+	let schematicPartDragActiveNodeId: string | null = null;
 	let sequenceParticipantDragPending:
 		| {
 				nodeId: string;
@@ -140,6 +172,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 
 	const isDiagramProfile = () => getProfileName() === ProfileName.diagram;
 	const isSequenceProfile = () => getProfileName() === ProfileName.sequence;
+	const isSchematicCanvasProfile = () => isSchematicProfile(getProfileName());
 	const isInteractiveProfile = () => supportsCanvasSelection(getProfileName());
 	const isSelectMode = () => getMode() === 'select';
 	const isConnectMode = () => getMode() === 'connect';
@@ -346,6 +379,48 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		return {
 			targetEdgeId: nearest.edgeId,
 			position: delta < 0 ? 'before' : 'after'
+		};
+	}
+
+	function getNearestSchematicPartTarget(
+		sourceNodeId: string,
+		clientX: number,
+		clientY: number
+	): { targetNodeId: string; position: 'before' | 'after' } | null {
+		const svgContainer = getSvgContainer();
+		if (!svgContainer) return null;
+		const partElements = Array.from(
+			svgContainer.querySelectorAll('[data-node-id^="sch-part-"]')
+		) as SVGGraphicsElement[];
+		if (partElements.length < 2) return null;
+		let nearest:
+			| { nodeId: string; centerX: number; centerY: number; dx: number; dy: number; distance: number }
+			| null = null;
+		for (const element of partElements) {
+			const nodeId = element.getAttribute('data-node-id');
+			if (!nodeId || nodeId === sourceNodeId) continue;
+			const rect = element.getBoundingClientRect();
+			const centerX = rect.left + rect.width / 2;
+			const centerY = rect.top + rect.height / 2;
+			const dx = clientX - centerX;
+			const dy = clientY - centerY;
+			const distance = Math.sqrt(dx * dx + dy * dy);
+			if (!nearest || distance < nearest.distance) {
+				nearest = { nodeId, centerX, centerY, dx, dy, distance };
+			}
+		}
+		if (!nearest) return null;
+		if (nearest.distance > 220) return null;
+		const useHorizontal = Math.abs(nearest.dx) >= Math.abs(nearest.dy);
+		return {
+			targetNodeId: nearest.nodeId,
+			position: useHorizontal
+				? nearest.dx < 0
+					? 'before'
+					: 'after'
+				: nearest.dy < 0
+					? 'before'
+					: 'after'
 		};
 	}
 
@@ -613,6 +688,22 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				};
 			}
 		}
+		if (isSchematicCanvasProfile() && isSelectMode() && e.button === 0) {
+			const nodeId = getNodeIdFromEventTarget(target);
+			if (
+				nodeId?.startsWith('sch-part-') &&
+				!selection.selectedEdgeId &&
+				!e.ctrlKey &&
+				!e.metaKey &&
+				!e.shiftKey
+			) {
+				schematicPartDragPending = {
+					nodeId,
+					clientX: e.clientX,
+					clientY: e.clientY
+				};
+			}
+		}
 		if (target.closest('[data-node-id], [data-edge-id]')) return;
 
 		if (e.button !== 0) return;
@@ -755,6 +846,43 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				return;
 			}
 		}
+		if (isSchematicCanvasProfile() && isSelectMode()) {
+			if (schematicPartDragPending && !schematicPartDragActiveNodeId) {
+				const dx = e.clientX - schematicPartDragPending.clientX;
+				const dy = e.clientY - schematicPartDragPending.clientY;
+				const distance = Math.sqrt(dx * dx + dy * dy);
+				if (distance > 6) {
+					schematicPartDragActiveNodeId = schematicPartDragPending.nodeId;
+					const target = getNearestSchematicPartTarget(
+						schematicPartDragActiveNodeId,
+						e.clientX,
+						e.clientY
+					);
+					onSchematicPartDragStart?.({
+						nodeId: schematicPartDragActiveNodeId,
+						clientX: e.clientX,
+						clientY: e.clientY,
+						targetNodeId: target?.targetNodeId ?? null,
+						position: target?.position ?? null
+					});
+				}
+			}
+			if (schematicPartDragActiveNodeId) {
+				const target = getNearestSchematicPartTarget(
+					schematicPartDragActiveNodeId,
+					e.clientX,
+					e.clientY
+				);
+				onSchematicPartDragMove?.({
+					nodeId: schematicPartDragActiveNodeId,
+					clientX: e.clientX,
+					clientY: e.clientY,
+					targetNodeId: target?.targetNodeId ?? null,
+					position: target?.position ?? null
+				});
+				return;
+			}
+		}
 
 		if (selection.isLassoPending || selection.isLassoActive) {
 			selection.updateLasso(viewport.mouseX, viewport.mouseY);
@@ -788,6 +916,12 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			return;
 		}
 		nodeDragPending = null;
+		if (schematicPartDragActiveNodeId) {
+			schematicPartDragPending = null;
+			schematicPartDragActiveNodeId = null;
+			return;
+		}
+		schematicPartDragPending = null;
 
 		if (isConnectMode()) {
 			onConnectPreviewEnd();
@@ -885,6 +1019,20 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			return;
 		}
 		nodeDragPending = null;
+		if (schematicPartDragActiveNodeId) {
+			const target = getNearestSchematicPartTarget(schematicPartDragActiveNodeId, e.clientX, e.clientY);
+			onSchematicPartDragEnd?.({
+				nodeId: schematicPartDragActiveNodeId,
+				clientX: e.clientX,
+				clientY: e.clientY,
+				targetNodeId: target?.targetNodeId ?? null,
+				position: target?.position ?? null
+			});
+			schematicPartDragPending = null;
+			schematicPartDragActiveNodeId = null;
+			return;
+		}
+		schematicPartDragPending = null;
 
 		if (!isInteractiveProfile() || !isConnectMode()) {
 			handleMouseUp();

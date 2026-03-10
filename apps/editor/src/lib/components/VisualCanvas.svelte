@@ -257,6 +257,18 @@
 		hoverContainerId: string | null;
 		hoverContainerRect: { x: number; y: number; width: number; height: number } | null;
 	} | null>(null);
+	let schematicPartDrag = $state<{
+		nodeId: string;
+		label: string;
+		width: number;
+		height: number;
+		x: number;
+		y: number;
+		connectedTargets: { x: number; y: number }[];
+		targetNodeId: string | null;
+		targetRect: { x: number; y: number; width: number; height: number } | null;
+		position: 'before' | 'after' | null;
+	} | null>(null);
 	let iconInputValue = $state('');
 	let iconSearchQuery = $state('');
 	let panelOpen = $state<Record<ElementPanelKey, boolean>>(createInitialPanelOpen());
@@ -738,6 +750,24 @@
 				y: rect.top - containerRect.top + rect.height / 2
 			});
 		}
+		if (centers.length > 0) return centers;
+		// Fallback for non-diagram profiles (e.g. schematic) where edges are represented in rendered SVG metadata.
+		const renderedEdges = Array.from(svgContainer.querySelectorAll('[data-edge-id]'));
+		for (const edgeElement of renderedEdges) {
+			const from = edgeElement.getAttribute('data-edge-from');
+			const to = edgeElement.getAttribute('data-edge-to');
+			if (from === nodeId && to) connectedNodeIds.add(to);
+			if (to === nodeId && from) connectedNodeIds.add(from);
+		}
+		for (const id of connectedNodeIds) {
+			const nodeElement = svgContainer.querySelector(`[data-node-id="${id}"]`) as SVGGraphicsElement | null;
+			if (!nodeElement) continue;
+			const rect = nodeElement.getBoundingClientRect();
+			centers.push({
+				x: rect.left - containerRect.left + rect.width / 2,
+				y: rect.top - containerRect.top + rect.height / 2
+			});
+		}
 		return centers;
 	}
 
@@ -1023,6 +1053,66 @@
 			}
 		}
 		nodeContainerDrag = null;
+	}
+
+	function handleSchematicPartDragStart(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) {
+		const rect = getNodeRectInContainer(payload.nodeId);
+		const mouse = getContainerPointFromClient(payload.clientX, payload.clientY);
+		if (!rect || !mouse) return;
+		schematicPartDrag = {
+			nodeId: payload.nodeId,
+			label: getNodeLabelById(payload.nodeId),
+			width: Math.max(56, rect.width),
+			height: Math.max(30, rect.height),
+			x: mouse.x - Math.max(56, rect.width) / 2,
+			y: mouse.y - Math.max(30, rect.height) / 2,
+			connectedTargets: getConnectedNodeCenters(payload.nodeId),
+			targetNodeId: payload.targetNodeId,
+			targetRect: getNodeRectInContainer(payload.targetNodeId ?? ''),
+			position: payload.position
+		};
+	}
+
+	function handleSchematicPartDragMove(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) {
+		if (!schematicPartDrag || schematicPartDrag.nodeId !== payload.nodeId) return;
+		const mouse = getContainerPointFromClient(payload.clientX, payload.clientY);
+		if (!mouse) return;
+		schematicPartDrag = {
+			...schematicPartDrag,
+			x: mouse.x - schematicPartDrag.width / 2,
+			y: mouse.y - schematicPartDrag.height / 2,
+			targetNodeId: payload.targetNodeId,
+			targetRect: getNodeRectInContainer(payload.targetNodeId ?? ''),
+			position: payload.position
+		};
+	}
+
+	function handleSchematicPartDragEnd(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) {
+		if (payload.targetNodeId && payload.position) {
+			const moved = reorderSchematicParts(payload.nodeId, payload.targetNodeId, payload.position);
+			if (moved) {
+				showTransientStatus(`Moved "${getNodeLabelById(payload.nodeId)}" ${payload.position} target.`);
+			}
+		}
+		schematicPartDrag = null;
 	}
 
 	function closeCanvasContextMenu() {
@@ -1381,6 +1471,55 @@
 		reordered.splice(insertIndex, 0, moved);
 
 		const lineSlots = messageLines.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function parseSchematicParts(lines: string[]) {
+		const parts: Array<{ lineIndex: number; ref: string; line: string }> = [];
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = lines[i].match(/^\s*part\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+			if (!match) continue;
+			parts.push({
+				lineIndex: i,
+				ref: match[1],
+				line: lines[i]
+			});
+		}
+		return parts;
+	}
+
+	function reorderSchematicParts(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceNodeId.startsWith('sch-part-') || !targetNodeId.startsWith('sch-part-')) return false;
+		const sourceRef = decodeNodeToken(sourceNodeId.slice('sch-part-'.length));
+		const targetRef = decodeNodeToken(targetNodeId.slice('sch-part-'.length));
+		if (sourceRef === targetRef) return false;
+
+		const lines = (editorState.code || '').split('\n');
+		const parts = parseSchematicParts(lines);
+		if (parts.length < 2) return false;
+
+		const sourceIndex = parts.findIndex((entry) => entry.ref === sourceRef);
+		const targetIndex = parts.findIndex((entry) => entry.ref === targetRef);
+		if (sourceIndex < 0 || targetIndex < 0) return false;
+
+		const reordered = [...parts];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = reordered.findIndex((entry) => entry.ref === targetRef);
+		if (insertIndex < 0) return false;
+		if (position === 'after') insertIndex += 1;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = parts.map((entry) => entry.lineIndex).sort((a, b) => a - b);
 		for (let i = 0; i < lineSlots.length; i += 1) {
 			lines[lineSlots[i]] = reordered[i].line;
 		}
@@ -2797,6 +2936,9 @@
 		onNodeContainerDragStart: handleNodeContainerDragStart,
 		onNodeContainerDragMove: handleNodeContainerDragMove,
 		onNodeContainerDragEnd: handleNodeContainerDragEnd,
+		onSchematicPartDragStart: handleSchematicPartDragStart,
+		onSchematicPartDragMove: handleSchematicPartDragMove,
+		onSchematicPartDragEnd: handleSchematicPartDragEnd,
 		onSequenceParticipantReorder: ({ sourceNodeId, targetNodeId, position }) => {
 			reorderSequenceParticipants(sourceNodeId, targetNodeId, position);
 		},
@@ -3176,7 +3318,7 @@
 					: 'grab'}; outline: none;"
 	>
 		<!-- Floating Toolbar at Top Center -->
-		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !elementContextMenu && !nodeContainerDrag}
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !elementContextMenu && !nodeContainerDrag && !schematicPartDrag}
 			<div
 				bind:this={floatingToolbarElement}
 				class="floating-toolbar"
@@ -3218,7 +3360,7 @@
 					bind:iconInputValue
 				/>
 			</div>
-		{:else if editorState.profileName === ProfileName.sequence && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag}
+		{:else if editorState.profileName === ProfileName.sequence && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
 			<div
 				bind:this={floatingToolbarElement}
 				class="floating-toolbar sequence-toolbar"
@@ -3322,7 +3464,7 @@
 					</label>
 				{/if}
 			</div>
-		{:else if isSchematicProfile(editorState.profileName) && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag}
+		{:else if isSchematicProfile(editorState.profileName) && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
 			<div
 				bind:this={floatingToolbarElement}
 				class="floating-toolbar sequence-toolbar"
@@ -3545,6 +3687,43 @@
 					style="left: {nodeContainerDrag.x}px; top: {nodeContainerDrag.y}px; width: {nodeContainerDrag.width}px; height: {nodeContainerDrag.height}px;"
 				>
 					{nodeContainerDrag.label}
+				</div>
+			</div>
+		{/if}
+
+		{#if schematicPartDrag}
+			<div class="pointer-events-none absolute inset-0 z-[21]">
+				{#if schematicPartDrag.targetRect}
+					<div
+						class="absolute rounded border-2 border-emerald-500/80 bg-emerald-100/20"
+						style="left: {schematicPartDrag.targetRect.x}px; top: {schematicPartDrag.targetRect.y}px; width: {schematicPartDrag.targetRect.width}px; height: {schematicPartDrag.targetRect.height}px;"
+					></div>
+					<div
+						class="schematic-drop-indicator"
+						style="left: {schematicPartDrag.targetRect.x + schematicPartDrag.targetRect.width / 2}px; top: {schematicPartDrag.targetRect.y - 12}px;"
+					>
+						Drop {schematicPartDrag.position === 'after' ? 'after' : 'before'}
+					</div>
+				{/if}
+				<svg class="absolute inset-0 h-full w-full" aria-hidden="true">
+					{#each schematicPartDrag.connectedTargets as target}
+						<line
+							x1={schematicPartDrag.x + schematicPartDrag.width / 2}
+							y1={schematicPartDrag.y + schematicPartDrag.height / 2}
+							x2={target.x}
+							y2={target.y}
+							stroke="#2563eb"
+							stroke-width="1.5"
+							stroke-dasharray="4 3"
+							opacity="0.65"
+						/>
+					{/each}
+				</svg>
+				<div
+					class="absolute flex items-center justify-center rounded border border-dashed border-blue-600 bg-blue-200/45 px-3 text-sm font-medium text-blue-950"
+					style="left: {schematicPartDrag.x}px; top: {schematicPartDrag.y}px; width: {schematicPartDrag.width}px; height: {schematicPartDrag.height}px;"
+				>
+					{schematicPartDrag.label}
 				</div>
 			</div>
 		{/if}
@@ -4171,6 +4350,20 @@
 		gap: 6px;
 		font-size: 11px;
 		color: #4b5563;
+	}
+
+	.schematic-drop-indicator {
+		position: absolute;
+		transform: translateX(-50%);
+		padding: 2px 6px;
+		border-radius: 9999px;
+		background: rgb(5 150 105 / 0.92);
+		color: #ecfdf5;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		box-shadow: 0 1px 3px rgb(15 23 42 / 0.25);
+		white-space: nowrap;
 	}
 
 	.canvas-context-menu .context-checkbox {
