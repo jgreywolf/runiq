@@ -152,8 +152,8 @@ describe('convergingGlyphSet', () => {
       expect(sources[1].color).toBeDefined();
       expect(target.color).toBeDefined();
       // Professional theme colors
-      expect(sources[0].color).toBe('#546E7A');
-      expect(sources[1].color).toBe('#607D8B');
+      expect(sources[0].color).toBe('#374151');
+      expect(sources[1].color).toBe('#4B5563');
     });
 
     it('should support custom theme colors', () => {

@@ -52,122 +52,75 @@ export interface ShapeCategory {
 	profiles?: string[];
 }
 
-export const shapeCategories: ShapeCategory[] = [
-	...basicShapeIcons,
-	...flowchartShapeIcons,
-	...containerTemplateShapeIcons,
-	...umlShapeIcons,
-	...erdShapeIcons,
-	...storageShapeIcons,
-	...bpmnShapeIcons,
-	...c4ShapeIcons,
-	...kinematicShapeIcons,
-	...awsShapeIcons,
-	...networkShapeIcons,
-	...chartShapeIcons,
-	...quantumShapeIcons,
-	...specialShapeIcons,
-	...decorativeShapeIcons,
-	...sequenceShapeIcons,
-	...wardleySyntaxShapeIcons,
-	...timelineSyntaxShapeIcons,
-	...kanbanSyntaxShapeIcons,
-	...gitgraphSyntaxShapeIcons,
-	...treemapSyntaxShapeIcons,
-	...pidSyntaxShapeIcons,
-	...pedigreeSyntaxShapeIcons,
-	...electricalShapeIcons,
-	...logicGateShapeIcons,
-	...controlShapeIcons,
-	...digitalComponentShapeIcons,
-	...digitalLogicGateShapeIcons,
-	...digitalSyntaxShapeIcons,
-	...railroadSyntaxShapeIcons,
-	...pneumaticShapeIcons,
-	...hydraulicShapeIcons,
-	...hvacShapeIcons,
-	...glyphsetIcons
-];
+const combine = (...groups: ShapeCategory[][]): ShapeCategory[] => groups.flat();
 
-export const diagramShapes: ShapeCategory[] = [
-	...basicShapeIcons,
-	...flowchartShapeIcons,
-	...containerTemplateShapeIcons,
-	...umlShapeIcons,
-	...erdShapeIcons,
-	...storageShapeIcons,
-	...bpmnShapeIcons,
-	...c4ShapeIcons,
-	...kinematicShapeIcons,
-	...awsShapeIcons,
-	...networkShapeIcons,
-	...chartShapeIcons,
-	...quantumShapeIcons,
-	...specialShapeIcons,
-	...decorativeShapeIcons
-];
+const diagramProfileCategories: ShapeCategory[] = combine(
+	basicShapeIcons,
+	flowchartShapeIcons,
+	containerTemplateShapeIcons,
+	umlShapeIcons,
+	erdShapeIcons,
+	storageShapeIcons,
+	bpmnShapeIcons,
+	c4ShapeIcons,
+	kinematicShapeIcons,
+	awsShapeIcons,
+	networkShapeIcons,
+	chartShapeIcons,
+	quantumShapeIcons,
+	specialShapeIcons,
+	decorativeShapeIcons
+);
 
-export const glyphsets: ShapeCategory[] = [...glyphsetIcons];
-export const sequenceShapes: ShapeCategory[] = [...sequenceShapeIcons];
-export const wardleyShapes: ShapeCategory[] = [...wardleySyntaxShapeIcons];
-export const timelineShapes: ShapeCategory[] = [...timelineSyntaxShapeIcons];
-export const kanbanShapes: ShapeCategory[] = [...kanbanSyntaxShapeIcons];
-export const gitgraphShapes: ShapeCategory[] = [...gitgraphSyntaxShapeIcons];
-export const treemapShapes: ShapeCategory[] = [...treemapSyntaxShapeIcons];
-export const pidShapes: ShapeCategory[] = [...pidSyntaxShapeIcons];
-export const pedigreeShapes: ShapeCategory[] = [...pedigreeSyntaxShapeIcons];
-export const hydraulicShapes: ShapeCategory[] = [...hydraulicShapeIcons];
-export const pneumaticShapes: ShapeCategory[] = [...pneumaticShapeIcons];
-export const electricalShapes: ShapeCategory[] = [
-	...electricalShapeIcons,
-	...logicGateShapeIcons
-];
-export const controlShapes: ShapeCategory[] = [...controlShapeIcons];
-export const hvacShapes: ShapeCategory[] = [...hvacShapeIcons];
-export const digitalShapes: ShapeCategory[] = [
-	...digitalSyntaxShapeIcons,
-	...digitalLogicGateShapeIcons,
-	...digitalComponentShapeIcons
-];
-export const railroadShapes: ShapeCategory[] = [...railroadSyntaxShapeIcons];
+const profileCategoryMap: Record<ProfileName, ShapeCategory[]> = {
+	[ProfileName.diagram]: diagramProfileCategories,
+	[ProfileName.sequence]: [...sequenceShapeIcons],
+	[ProfileName.wardley]: [...wardleySyntaxShapeIcons],
+	[ProfileName.timeline]: [...timelineSyntaxShapeIcons],
+	[ProfileName.kanban]: [...kanbanSyntaxShapeIcons],
+	[ProfileName.gitgraph]: [...gitgraphSyntaxShapeIcons],
+	[ProfileName.treemap]: [...treemapSyntaxShapeIcons],
+	[ProfileName.pid]: [...pidSyntaxShapeIcons],
+	[ProfileName.pedigree]: [...pedigreeSyntaxShapeIcons],
+	[ProfileName.hydraulic]: [...hydraulicShapeIcons],
+	[ProfileName.pneumatic]: [...pneumaticShapeIcons],
+	[ProfileName.electrical]: [...electricalShapeIcons, ...logicGateShapeIcons],
+	[ProfileName.control]: [...controlShapeIcons],
+	[ProfileName.hvac]: [...hvacShapeIcons],
+	[ProfileName.digital]: [
+		...digitalSyntaxShapeIcons,
+		...digitalLogicGateShapeIcons,
+		...digitalComponentShapeIcons
+	],
+	[ProfileName.railroad]: [...railroadSyntaxShapeIcons],
+	[ProfileName.glyphset]: [...glyphsetIcons]
+};
+
+export const getAllShapeCategories = (): ShapeCategory[] => {
+	return combine(
+		diagramProfileCategories,
+		[...sequenceShapeIcons],
+		[...wardleySyntaxShapeIcons],
+		[...timelineSyntaxShapeIcons],
+		[...kanbanSyntaxShapeIcons],
+		[...gitgraphSyntaxShapeIcons],
+		[...treemapSyntaxShapeIcons],
+		[...pidSyntaxShapeIcons],
+		[...pedigreeSyntaxShapeIcons],
+		[...electricalShapeIcons],
+		[...logicGateShapeIcons],
+		[...controlShapeIcons],
+		[...digitalComponentShapeIcons],
+		[...digitalLogicGateShapeIcons],
+		[...digitalSyntaxShapeIcons],
+		[...railroadSyntaxShapeIcons],
+		[...pneumaticShapeIcons],
+		[...hydraulicShapeIcons],
+		[...hvacShapeIcons],
+		[...glyphsetIcons]
+	);
+};
 
 export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCategory[] => {
-	switch (profileName) {
-		case ProfileName.sequence:
-			return sequenceShapes;
-		case ProfileName.electrical:
-			return electricalShapes;
-		case ProfileName.control:
-			return controlShapes;
-		case ProfileName.digital:
-			return digitalShapes;
-		case ProfileName.pneumatic:
-			return pneumaticShapes;
-		case ProfileName.hydraulic:
-			return hydraulicShapes;
-		case ProfileName.hvac:
-			return hvacShapes;
-		case ProfileName.diagram:
-			return diagramShapes;
-		case ProfileName.glyphset:
-			return glyphsets;
-		case ProfileName.railroad:
-			return railroadShapes;
-		case ProfileName.wardley:
-			return wardleyShapes;
-		case ProfileName.timeline:
-			return timelineShapes;
-		case ProfileName.kanban:
-			return kanbanShapes;
-		case ProfileName.gitgraph:
-			return gitgraphShapes;
-		case ProfileName.treemap:
-			return treemapShapes;
-		case ProfileName.pid:
-			return pidShapes;
-		case ProfileName.pedigree:
-			return pedigreeShapes;
-		default:
-			return [];
-	}
+	return profileCategoryMap[profileName] ?? [];
 };

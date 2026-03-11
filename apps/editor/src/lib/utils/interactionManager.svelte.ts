@@ -9,7 +9,9 @@ import {
 import { SelectionState } from '$lib/components/visual-canvas/SelectionState.svelte';
 import { ViewportState } from '$lib/components/visual-canvas/ViewportState.svelte';
 import { canvasState } from '$lib/state';
+import { editorState } from '$lib/state/editorState.svelte';
 import { SvelteSet } from 'svelte/reactivity';
+import { supportsCanvasSelection } from '$lib/components/visual-canvas/interactiveProfiles';
 
 /**
  * InteractionManager - Manages interactive event handlers and element interactions
@@ -99,6 +101,7 @@ export class InteractionManager {
 	 * Build MouseHandlerContext from current state
 	 */
 	private buildContext(): MouseHandlerContext {
+		const interactionsEnabled = supportsCanvasSelection(editorState.profileName);
 		return {
 			svgContainer: this.svgContainerRef,
 			scale: this.viewport.scale,
@@ -116,7 +119,9 @@ export class InteractionManager {
 			lassoStartX: this.selection.lassoStartX,
 			lassoStartY: this.selection.lassoStartY,
 			lassoEndX: this.selection.lassoEndX,
-			lassoEndY: this.selection.lassoEndY
+			lassoEndY: this.selection.lassoEndY,
+			interactionsEnabled,
+			interactionMode: canvasState.mode
 		};
 	}
 
@@ -128,7 +133,8 @@ export class InteractionManager {
 			onselect: this.onselect,
 			clearSelection: () => this.clearSelection(),
 			updateMultiSelection: () => this.updateMultiSelection(),
-			startLabelEdit: (nodeId, edgeId) => this.startLabelEdit(nodeId, edgeId)
+			startLabelEdit: (nodeId, edgeId, sourceTarget) =>
+				this.startLabelEdit(nodeId, edgeId, sourceTarget)
 		};
 	}
 
@@ -214,7 +220,11 @@ export class InteractionManager {
 	/**
 	 * Start label editing for an element
 	 */
-	startLabelEdit(nodeId: string | null, edgeId: string | null): void {
+	startLabelEdit(
+		nodeId: string | null,
+		edgeId: string | null,
+		sourceTarget?: EventTarget | null
+	): void {
 		if (!this.svgContainerRef) return;
 
 		const elementId = nodeId || edgeId;
@@ -227,7 +237,20 @@ export class InteractionManager {
 		const element = svgElement.querySelector(selector);
 		if (!element) return;
 
-		const textElement = element.querySelector('text');
+		let textElement: Element | null = null;
+		if (
+			sourceTarget &&
+			sourceTarget instanceof Element &&
+			sourceTarget.tagName?.toLowerCase() === 'text' &&
+			element.contains(sourceTarget)
+		) {
+			textElement = sourceTarget;
+		}
+		if (!textElement) {
+			textElement = edgeId
+				? element.querySelector('.message-text, .runiq-edge-text, text')
+				: element.querySelector('text');
+		}
 		if (!textElement) return;
 
 		// Get the current label text

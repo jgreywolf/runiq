@@ -1,5 +1,6 @@
 import * as Langium from '../generated/ast.js';
 import { nodeRefToString } from './node-ref-utils.js';
+import { unescapeString } from './string-utils.js';
 
 /**
  * Location information for a node in the source text
@@ -21,61 +22,62 @@ export function extractNodeLocations(
 ): Map<string, NodeLocation> {
   const locations = new Map<string, NodeLocation>();
 
+  const setLocation = (key: string, range: { start: { line: number; character: number }; end: { line: number; character: number } }) => {
+    if (locations.has(key)) return;
+    locations.set(key, {
+      nodeId: key,
+      startLine: range.start.line + 1,
+      startColumn: range.start.character + 1,
+      endLine: range.end.line + 1,
+      endColumn: range.end.character + 1,
+    });
+  };
+
   // Process each profile
   for (const profile of document.profiles) {
     // Only extract locations for diagram profiles for now
     if (Langium.isDiagramProfile(profile)) {
       for (const statement of profile.statements) {
+        if (Langium.isShapeDeclaration(statement)) {
+          const id = unescapeString(statement.id);
+          if (statement.$cstNode?.range) {
+            setLocation(id, statement.$cstNode.range);
+          }
+          continue;
+        }
+
         // Extract edge declarations - nodes are referenced in edges
         if (Langium.isEdgeDeclaration(statement)) {
+          const fromId = nodeRefToString(statement.from);
+          const toId = nodeRefToString(statement.to);
+          if (statement.$cstNode?.range) {
+            setLocation(`${fromId}-${toId}`, statement.$cstNode.range);
+          }
+
           // Extract source node location from the 'from' NodeRef
           if (statement.from?.$cstNode?.range) {
-            const sourceNodeId = nodeRefToString(statement.from);
             const fromRange = statement.from.$cstNode.range;
-
-            if (!locations.has(sourceNodeId)) {
-              locations.set(sourceNodeId, {
-                nodeId: sourceNodeId,
-                startLine: fromRange.start.line + 1,
-                startColumn: fromRange.start.character + 1,
-                endLine: fromRange.end.line + 1,
-                endColumn: fromRange.end.character + 1,
-              });
-            }
+            setLocation(fromId, fromRange);
           }
 
           // Extract target node location from the 'to' NodeRef (or chain)
           if (statement.to?.$cstNode?.range) {
-            const targetNodeId = nodeRefToString(statement.to);
             const toRange = statement.to.$cstNode.range;
-
-            if (!locations.has(targetNodeId)) {
-              locations.set(targetNodeId, {
-                nodeId: targetNodeId,
-                startLine: toRange.start.line + 1,
-                startColumn: toRange.start.character + 1,
-                endLine: toRange.end.line + 1,
-                endColumn: toRange.end.character + 1,
-              });
-            }
+            setLocation(toId, toRange);
           }
 
           // Handle edge chains (A -> B -> C)
           if (statement.chain && statement.chain.length > 0) {
+            let chainFromId = toId;
             for (const chainItem of statement.chain) {
               if (chainItem.to?.$cstNode?.range) {
                 const chainNodeId = nodeRefToString(chainItem.to);
                 const chainRange = chainItem.to.$cstNode.range;
-
-                if (!locations.has(chainNodeId)) {
-                  locations.set(chainNodeId, {
-                    nodeId: chainNodeId,
-                    startLine: chainRange.start.line + 1,
-                    startColumn: chainRange.start.character + 1,
-                    endLine: chainRange.end.line + 1,
-                    endColumn: chainRange.end.character + 1,
-                  });
+                setLocation(chainNodeId, chainRange);
+                if (chainItem.$cstNode?.range) {
+                  setLocation(`${chainFromId}-${chainNodeId}`, chainItem.$cstNode.range);
                 }
+                chainFromId = chainNodeId;
               }
             }
           }

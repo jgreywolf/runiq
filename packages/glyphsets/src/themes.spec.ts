@@ -129,8 +129,8 @@ describe('themes', () => {
 
     it('professional theme should have gray-blue colors', () => {
       const professional = COLOR_THEMES.professional;
-      expect(professional[0]).toBe('#546E7A');
-      expect(professional[1]).toBe('#607D8B');
+      expect(professional[0]).toBe('#374151');
+      expect(professional[1]).toBe('#4B5563');
     });
 
     it('should have exactly 9 themes', () => {
@@ -227,7 +227,17 @@ describe('themes', () => {
 
     it('should work with professional theme', () => {
       const color = getThemeColor('professional', 0);
-      expect(color).toBe('#546E7A');
+      expect(color).toBe('#374151');
+    });
+
+    it('should support runiq theme alias', () => {
+      const color = getThemeColor('runiq', 0);
+      expect(color).toBe(COLOR_THEMES.colorful[0]);
+    });
+
+    it('should fall back to professional for unknown theme ids', () => {
+      const color = getThemeColor('unknown-theme', 0);
+      expect(color).toBe(COLOR_THEMES.professional[0]);
     });
 
     it('should return valid hex colors', () => {

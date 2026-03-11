@@ -1,7 +1,8 @@
-import type { NodeAst } from '@runiq/core';
-import { GlyphSetError, type GlyphSetDefinition } from '../types.js';
+import type { Direction, NodeAst } from '@runiq/core';
+import type { GlyphSetDefinition } from '../types.js';
 import { validateArrayParameter } from '../utils/validation.js';
 import { extractStringParam } from '../utils/parameters.js';
+import { getThemeColor, type ColorTheme } from '../themes.js';
 
 /**
  * Step Process GlyphSet
@@ -70,24 +71,44 @@ export const stepProcessGlyphSet: GlyphSetDefinition = {
       itemType: 'string',
     });
 
-    // Create a single node that will render the entire step process
-    const nodes: NodeAst[] = [
-      {
-        id: 'stepProcess',
-        shape: 'stepProcess',
-        label: '',
+    // Generate explicit staircase nodes so each step is individually interactive
+    // in the visual editor (selection, drag/reorder, inline label editing).
+    const stepWidth = 140;
+    const stepHeight = 60;
+    const horizontalOffset = 100;
+    const verticalOffset = 70;
+    const themeName = (theme || 'professional') as ColorTheme | string;
+
+    const nodes: NodeAst[] = items.map((item, index) => {
+      const x = index * horizontalOffset;
+      const y =
+        direction === 'up'
+          ? (items.length - 1 - index) * verticalOffset
+          : index * verticalOffset;
+      return {
+        id: `step${index + 1}`,
+        shape: 'processBox',
+        label: item,
+        position: { x, y },
         data: {
-          items,
-          direction,
-          theme,
+          fillColor: getThemeColor(themeName, index),
+          width: stepWidth,
+          height: stepHeight,
+          theme: themeName,
         },
-      },
-    ];
+      };
+    });
+
+    const edges = items.slice(0, -1).map((_, index) => ({
+      from: `step${index + 1}`,
+      to: `step${index + 2}`,
+    }));
 
     return {
       astVersion: '1.0',
+      direction: 'LR' as Direction,
       nodes,
-      edges: [],
+      edges,
     };
   },
 };

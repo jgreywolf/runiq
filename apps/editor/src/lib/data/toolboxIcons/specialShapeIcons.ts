@@ -7,6 +7,11 @@ export const specialShapeIcons: ShapeCategory[] = [
 		profiles: ['diagram'],
 		shapes: [
 			{ id: 'textBlock', label: 'Text Block', code: 'shape id as @textBlock label:"Note"' },
+			{
+				id: 'image',
+				label: 'Image',
+				code: 'shape id as @image label:"Image" data:[{ src:"https://images.unsplash.com/photo-1461749280684-dccba630e2f6" }]'
+			},
 			{ id: 'braceLeft', label: 'Brace Left', code: 'shape id as @braceLeft label:""' },
 			{ id: 'braceRight', label: 'Brace Right', code: 'shape id as @braceRight label:""' },
 			{ id: 'lightning', label: 'Lightning Bolt', code: 'shape id as @lightning label:""' },

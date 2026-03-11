@@ -34,6 +34,8 @@ describe('Timeline Renderer', () => {
       expect(result.svg).toContain('Event 2');
       expect(result.svg).toContain('runiq-timeline-axis');
       expect(result.svg).toContain('runiq-timeline-event');
+      expect(result.svg).toContain('data-node-id="E1"');
+      expect(result.svg).toContain('data-node-id="E2"');
       expect(result.warnings).toHaveLength(0);
     });
 

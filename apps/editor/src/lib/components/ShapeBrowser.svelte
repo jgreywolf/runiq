@@ -1,6 +1,8 @@
 <script lang="ts">
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import { areGlyphsetsCompatible } from '$lib/utils/glyphsetConversion/compatibility';
+	import { getGlyphsetTypeFromCode } from '$lib/utils/glyphsetCanvasSupport';
 	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
 	import {
 		editorState,
@@ -8,8 +10,16 @@
 		handleReplaceGlyphset
 	} from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
+	import { isGlyphsetId } from '@runiq/parser-dsl';
 	import Icon from '@iconify/svelte';
 	import ShapeIcon from './ShapeIcon.svelte';
+	import { buildShapeIconMetadata } from './icons/shapeIconMetadata';
+	import {
+		countShapes,
+		filterShapeCategories,
+		getExpandedCategoryIds,
+		getShapeItemLabelPlural
+	} from './shapeBrowserHelpers';
 
 	const categories = $derived(
 		editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []
@@ -17,48 +27,68 @@
 
 	let searchQuery = $state('');
 	let expandedCategories = $state<string[]>([]);
+	let showIconDiagnostics = $state(false);
 
 	// Filter shapes based on search query
-	let filteredCategories = $derived.by(() => {
-		if (!searchQuery.trim()) {
-			return categories;
-		}
-
-		const query = searchQuery.toLowerCase();
-		return categories
-			.map((category) => ({
-				...category,
-				shapes: category.shapes.filter(
-					(shape) =>
-						shape.id.toLowerCase().includes(query) || shape.label.toLowerCase().includes(query)
-				)
-			}))
-			.filter((category) => category.shapes.length > 0);
-	});
+	let filteredCategories = $derived(filterShapeCategories(categories, searchQuery));
 
 	// Count total shapes
-	let totalShapes = $derived(filteredCategories.reduce((sum, cat) => sum + cat.shapes.length, 0));
+	let totalShapes = $derived(countShapes(filteredCategories));
+
+	let iconMetadata = $derived(
+		buildShapeIconMetadata(filteredCategories, editorState.profileName ?? null, 24)
+	);
+
+	let iconDiagnostics = $derived.by(() => {
+		if (!import.meta.env.DEV) {
+			return { total: 0, placeholderCount: 0, bySource: [] as Array<[string, number]> };
+		}
+		return {
+			total: iconMetadata.total,
+			placeholderCount: iconMetadata.placeholderCount,
+			bySource: iconMetadata.bySource
+		};
+	});
 
 	// Auto-expand all categories when searching
 	$effect(() => {
-		if (searchQuery.trim()) {
-			expandedCategories = filteredCategories.map((cat) => cat.id);
+		const nextExpanded = getExpandedCategoryIds(filteredCategories, searchQuery);
+		if (nextExpanded.length > 0) {
+			expandedCategories = nextExpanded;
 		}
 	});
 
 	// Handle shape click based on profile type
 	function handleShapeClick(shapeCode: string) {
 		if (editorState.profileName === ProfileName.glyphset) {
+			if (!canConvertToGlyphset(shapeCode)) return;
 			handleReplaceGlyphset(shapeCode);
 		} else {
 			handleInsertShape(shapeCode);
 		}
 	}
 
+	function canConvertToGlyphset(targetGlyphsetId: string): boolean {
+		if (editorState.profileName !== ProfileName.glyphset) return true;
+		const current = getGlyphsetTypeFromCode(editorState.code || '');
+		const currentId = current ? isGlyphsetId(current) : null;
+		const targetId = isGlyphsetId(targetGlyphsetId);
+		if (!currentId || !targetId) return true;
+		return areGlyphsetsCompatible(currentId, targetId).compatible;
+	}
+
+	function getGlyphsetCompatibilityReason(targetGlyphsetId: string): string {
+		if (editorState.profileName !== ProfileName.glyphset) return '';
+		const current = getGlyphsetTypeFromCode(editorState.code || '');
+		const currentId = current ? isGlyphsetId(current) : null;
+		const targetId = isGlyphsetId(targetGlyphsetId);
+		if (!currentId || !targetId) return '';
+		const compatibility = areGlyphsetsCompatible(currentId, targetId);
+		return compatibility.compatible ? '' : compatibility.reason ?? '';
+	}
+
 	// Determine search placeholder text
-	const itemLabelPlural = $derived(
-		editorState.profileName === ProfileName.glyphset ? 'glyphsets' : 'shapes'
-	);
+	const itemLabelPlural = $derived(getShapeItemLabelPlural(editorState.profileName));
 </script>
 
 <div class="flex h-full flex-col">
@@ -78,6 +108,26 @@
 				{totalShapes}
 				{totalShapes === 1 ? 'shape' : 'shapes'} found
 			</div>
+		{/if}
+		{#if import.meta.env.DEV}
+			<div class="mt-2">
+				<button
+					type="button"
+					class="rounded border border-neutral-300 px-2 py-1 text-xs hover:bg-neutral-100"
+					onclick={() => (showIconDiagnostics = !showIconDiagnostics)}
+				>
+					{showIconDiagnostics ? 'Hide' : 'Show'} icon diagnostics
+				</button>
+			</div>
+			{#if showIconDiagnostics}
+				<div class="mt-2 rounded border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-900">
+					<div>Total: {iconDiagnostics.total}</div>
+					<div>Placeholders: {iconDiagnostics.placeholderCount}</div>
+					{#each iconDiagnostics.bySource as [source, count]}
+						<div>{source}: {count}</div>
+					{/each}
+				</div>
+			{/if}
 		{/if}
 	</div>
 
@@ -106,6 +156,12 @@
 									<Tooltip.Trigger
 										onclick={() => handleShapeClick(shape.code)}
 										class="flex flex-col items-center gap-1 rounded border border-neutral-200 p-2 hover:border-runiq-500 hover:bg-runiq-50 active:scale-95"
+										disabled={editorState.profileName === ProfileName.glyphset &&
+											!canConvertToGlyphset(shape.code)}
+										title={editorState.profileName === ProfileName.glyphset &&
+										!canConvertToGlyphset(shape.code)
+											? `Unavailable: ${getGlyphsetCompatibilityReason(shape.code)}`
+											: shape.label}
 									>
 										<ShapeIcon shapeId={shape.id} size={24} profileName={editorState.profileName} />
 									</Tooltip.Trigger>
@@ -115,6 +171,16 @@
 										class="max-w-xs bg-slate-900 text-white shadow-lg pointer-events-none"
 									>
 										<p class="text-xs">{shape.label}</p>
+										{#if editorState.profileName === ProfileName.glyphset && !canConvertToGlyphset(shape.code)}
+											<p class="mt-1 text-[10px] text-amber-300">
+												Unavailable: {getGlyphsetCompatibilityReason(shape.code)}
+											</p>
+										{/if}
+										{#if import.meta.env.DEV}
+											<p class="mt-1 text-[10px] opacity-80"
+												>{iconMetadata.byShapeId.get(shape.id)?.source ?? 'unknown'}</p
+											>
+										{/if}
 									</Tooltip.Content>
 								</Tooltip.Root>
 							{/each}

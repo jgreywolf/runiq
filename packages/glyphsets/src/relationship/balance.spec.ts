@@ -88,8 +88,8 @@ describe('balanceGlyphSet', () => {
       expect(result.nodes[0].data?.sides[0].color).toBeDefined();
       expect(result.nodes[0].data?.sides[1].color).toBeDefined();
       // Professional theme colors
-      expect(result.nodes[0].data?.sides[0].color).toBe('#546E7A');
-      expect(result.nodes[0].data?.sides[1].color).toBe('#607D8B');
+      expect(result.nodes[0].data?.sides[0].color).toBe('#374151');
+      expect(result.nodes[0].data?.sides[1].color).toBe('#4B5563');
     });
 
     it('should support custom theme colors', () => {

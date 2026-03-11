@@ -1,9 +1,21 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import NewDiagramButton from './NewDiagramButton.svelte';
 	import NewDiagramDialog from './NewDiagramDialog.svelte';
+	import EditorSettingsDialog from './EditorSettingsDialog.svelte';
 	import ExportButton from './ExportButton.svelte';
 	import SettingsButton from './SettingsButton.svelte';
 	import HelpMenu from './HelpMenu.svelte';
+	import { canvasState } from '$lib/state';
+	import { autoSave, editorState, updateCode } from '$lib/state/editorState.svelte';
+	import {
+		editorSettings,
+		getLayoutStrategyPresetForProfile,
+		profileSupportsDefaultCanvasModeSelection,
+		profileSupportsLayoutStrategySelection,
+		type EditorSettingsSnapshot
+	} from '$lib/state/editorSettings.svelte';
+	import { applyThemeToDsl } from './Editor/editorToolbarActions';
 
 	interface Props {
 		diagramName?: string;
@@ -14,6 +26,13 @@
 	let { diagramName = 'Untitled Diagram', lastSaved = null, isDirty = false }: Props = $props();
 
 	let showNewDiagramDialog = $state(false);
+	let showSettingsDialog = $state(false);
+	const canChangeLayoutStrategy = $derived(
+		profileSupportsLayoutStrategySelection(editorState.profileName)
+	);
+	const canChangeDefaultCanvasMode = $derived(
+		profileSupportsDefaultCanvasModeSelection(editorState.profileName)
+	);
 
 	// Actions
 	function handleNewDiagramClick() {
@@ -25,8 +44,38 @@
 	}
 
 	function handleSettings() {
-		// TODO: Implement settings modal
-		console.log('Settings clicked');
+		showSettingsDialog = true;
+	}
+
+	function handleSaveSettings(
+		next: Partial<EditorSettingsSnapshot> & {
+			applyThemeToCurrentDiagram: boolean;
+			applyModeNow: boolean;
+			applyStrategyNow: boolean;
+		}
+	) {
+		editorSettings.update(next);
+		const strategyToApply =
+			next.defaultLayoutStrategy ??
+			editorSettings.getDefaultLayoutStrategyForProfile(editorState.profileName);
+		editorSettings.setDefaultLayoutStrategyForProfile(editorState.profileName, strategyToApply);
+		autoSave.setDelay(next.autosaveDelayMs ?? editorSettings.autosaveDelayMs);
+		if (!next.autosaveEnabled && next.autosaveEnabled !== undefined) {
+			autoSave.cancel();
+		}
+		if (next.applyModeNow) {
+			canvasState.mode = next.defaultCanvasMode ?? editorSettings.defaultCanvasMode;
+		}
+		if (next.applyStrategyNow && canChangeLayoutStrategy) {
+			editorState.layoutStrategy = strategyToApply;
+		}
+		if (next.applyThemeToCurrentDiagram) {
+			const nextCode = applyThemeToDsl(
+				editorState.code || '',
+				next.defaultDiagramTheme ?? editorSettings.defaultDiagramTheme
+			);
+			updateCode(nextCode, true);
+		}
 	}
 
 	// Format last saved time
@@ -44,6 +93,18 @@
 
 		return date.toLocaleTimeString();
 	}
+
+	onMount(() => {
+		const onKeyDown = (event: KeyboardEvent) => {
+			const isCtrlOrCmd = event.ctrlKey || event.metaKey;
+			if (isCtrlOrCmd && event.key === ',') {
+				event.preventDefault();
+				showSettingsDialog = true;
+			}
+		};
+		window.addEventListener('keydown', onKeyDown);
+		return () => window.removeEventListener('keydown', onKeyDown);
+	});
 </script>
 
 <header
@@ -101,3 +162,17 @@
 
 <!-- New Diagram Dialog -->
 <NewDiagramDialog bind:open={showNewDiagramDialog} />
+<EditorSettingsDialog
+	bind:open={showSettingsDialog}
+	currentAutosaveEnabled={editorSettings.autosaveEnabled}
+	currentAutosaveDelayMs={editorSettings.autosaveDelayMs}
+	currentDefaultCanvasMode={editorSettings.defaultCanvasMode}
+	currentDefaultLayoutEngine={editorSettings.defaultLayoutEngine}
+	currentDefaultLayoutStrategy={editorSettings.getDefaultLayoutStrategyForProfile(editorState.profileName)}
+	recommendedLayoutStrategy={getLayoutStrategyPresetForProfile(editorState.profileName)}
+	currentDefaultDiagramTheme={editorSettings.defaultDiagramTheme}
+	currentProfileName={editorState.profileName}
+	{canChangeLayoutStrategy}
+	{canChangeDefaultCanvasMode}
+	onSave={handleSaveSettings}
+/>

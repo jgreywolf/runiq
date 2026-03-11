@@ -6,7 +6,7 @@ import { SvelteDate } from 'svelte/reactivity';
 
 export class AutoSaveManager {
 	private timeout: ReturnType<typeof setTimeout> | null = null;
-	private readonly delay: number;
+	private delay: number;
 	private readonly storageKey: string;
 	private readonly timeKey: string;
 
@@ -16,6 +16,15 @@ export class AutoSaveManager {
 		this.delay = delay;
 		this.storageKey = storageKey;
 		this.timeKey = `${storageKey}-time`;
+	}
+
+	setDelay(delayMs: number): void {
+		if (!Number.isFinite(delayMs) || delayMs < 100) return;
+		this.delay = delayMs;
+	}
+
+	getDelay(): number {
+		return this.delay;
 	}
 
 	/**

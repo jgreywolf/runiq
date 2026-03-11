@@ -1,11 +1,19 @@
-import { getPrimaryKeyword } from '../glyphsetConversion';
+import { getGlyphsetKeywords } from '../glyphsetConversion';
 import { createParseError, parseGlyphsetDeclaration, replaceGlyphsetType } from './parsing';
 import type { ConversionResult } from './types';
+
+function getPrimaryKeyword(glyphsetType: string): string {
+	const keywords = getGlyphsetKeywords(glyphsetType as any);
+	return keywords[0] ?? 'item';
+}
 
 /**
  * Expand a flat list glyphset to labeledHierarchy by designating first item as root
  */
-export function expandToLabeledHierarchy(code: string): ConversionResult {
+export function expandToLabeledHierarchy(
+	code: string,
+	targetGlyphsetType: 'labeledHierarchy' | 'circleHierarchy' = 'labeledHierarchy'
+): ConversionResult {
 	// Use shared parsing utilities
 	const parsed = parseGlyphsetDeclaration(code);
 	if (!parsed) {
@@ -13,7 +21,7 @@ export function expandToLabeledHierarchy(code: string): ConversionResult {
 	}
 
 	const { glyphsetLineIndex, lines } = parsed;
-	const newLines = replaceGlyphsetType(lines, glyphsetLineIndex, 'labeledHierarchy');
+	const newLines = replaceGlyphsetType(lines, glyphsetLineIndex, targetGlyphsetType);
 	const warnings: string[] = [];
 	const errors: string[] = [];
 

@@ -9,7 +9,17 @@ import {
 
 describe('codeHelpers', () => {
 	describe('generateShapeCode', () => {
-		it('should generate code for a node', () => {
+		it('should generate code for a node preserving shape and label', () => {
+			const item: ClipboardItem = {
+				type: 'node',
+				id: 'node1',
+				data: { id: 'node1', shape: 'rhombus', label: 'Decision' }
+			};
+			const result = generateShapeCode(item, 'node2');
+			expect(result).toBe('shape node2 as @rhombus label:"Decision"');
+		});
+
+		it('should fallback to rectangle and copy label when shape metadata is missing', () => {
 			const item: ClipboardItem = {
 				type: 'node',
 				id: 'node1',
@@ -33,11 +43,23 @@ describe('codeHelpers', () => {
 	describe('extractElementData', () => {
 		it('should extract node ID from SVG element', () => {
 			const mockElement = {
-				getAttribute: (attr: string) => (attr === 'data-node-id' ? 'node1' : null)
+				getAttribute: (attr: string) => {
+					if (attr === 'data-node-id') return 'node1';
+					if (attr === 'data-node-shape') return 'circle';
+					return null;
+				},
+				querySelector: (selector: string) =>
+					selector === 'text'
+						? ({
+								textContent: 'Node Label'
+							} as Element)
+						: null
 			} as Element;
 
 			const result = extractElementData(mockElement, 'node');
 			expect(result.id).toBe('node1');
+			expect(result.shape).toBe('circle');
+			expect(result.label).toBe('Node Label');
 		});
 
 		it('should extract edge ID from SVG element', () => {
@@ -51,7 +73,8 @@ describe('codeHelpers', () => {
 
 		it('should return null ID if attribute missing', () => {
 			const mockElement = {
-				getAttribute: () => null
+				getAttribute: () => null,
+				querySelector: () => null
 			} as unknown as Element;
 
 			const result = extractElementData(mockElement, 'node');

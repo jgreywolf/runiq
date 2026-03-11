@@ -1,6 +1,11 @@
 // Export Langium parser
 export { parse, type ParseResult, type WarningDetail } from './langium-parser.js';
 export type { NodeLocation } from './utils/index.js';
+export {
+  enrichDiagnosticMessage,
+  enrichLexerDiagnosticMessage,
+  type DiagnosticMessageContext,
+} from './diagnostics/diagnostic-message.js';
 
 // Export Langium services for LSP integration
 export { createRuniqServices, type RuniqServices } from './langium-module.js';

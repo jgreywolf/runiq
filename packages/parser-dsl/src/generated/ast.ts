@@ -5910,7 +5910,7 @@ export function isSequenceStateInvariantProperty(item: unknown): item is Sequenc
     return reflection.isInstance(item, SequenceStateInvariantProperty.$type);
 }
 
-export type SequenceStatement = SequenceDurationConstraintStatement | SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement;
+export type SequenceStatement = SequenceDurationConstraintStatement | SequenceFragmentStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceParticipantStatement | ThemeDeclaration;
 
 export const SequenceStatement = {
     $type: 'SequenceStatement'
@@ -5984,10 +5984,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'callout' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'callout' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'image' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || item === 'callout' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || item === 'callout' || item === 'image' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -6464,7 +6464,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | TimelineProfile | TreemapProfile;
+    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -11339,7 +11339,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
+            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, SequenceStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,

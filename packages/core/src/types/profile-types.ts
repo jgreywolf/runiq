@@ -413,6 +413,7 @@ export interface SequenceProfile {
   type: 'sequence';
   astVersion: string;
   title: string;
+  theme?: string;
   participants: SequenceParticipant[];
   messages: SequenceMessage[];
   notes?: SequenceNote[];

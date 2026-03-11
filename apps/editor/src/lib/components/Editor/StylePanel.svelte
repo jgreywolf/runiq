@@ -189,6 +189,20 @@
 					<option value="Verdana">Verdana</option>
 				</select>
 			</div>
+
+			<!-- Icon -->
+			<div class="style-field">
+				<label class="field-label" for="icon-value">Icon (provider/name)</label>
+				<input
+					id="icon-value"
+					type="text"
+					class="text-input"
+					value={currentStyles.icon || ''}
+					onchange={(e) => onStyleChange('icon', e.currentTarget.value)}
+					placeholder="brand/github"
+					aria-label="Icon provider and name"
+				/>
+			</div>
 		</div>
 
 		<!-- Reset Button -->

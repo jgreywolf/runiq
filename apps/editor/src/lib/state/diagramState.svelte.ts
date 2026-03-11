@@ -5,6 +5,7 @@
 
 import { SvelteMap } from 'svelte/reactivity';
 import type { DiagramProfile } from '@runiq/parser-dsl';
+import type { NodeLocation } from '@runiq/parser-dsl';
 import type { DiagramElement } from '../types/editor';
 
 /**
@@ -24,6 +25,7 @@ export class DiagramState {
 	// Parse results
 	errors = $state<string[]>([]);
 	warnings = $state<string[]>([]);
+	nodeLocations = $state<Map<string, NodeLocation>>(new Map());
 
 	// Derived state
 	hasProfile = $derived(this.profile !== null);
@@ -41,10 +43,44 @@ export class DiagramState {
 
 	setProfile(profile: DiagramProfile | null) {
 		this.profile = profile;
+		this.syncElementsFromProfile(profile);
 	}
 
 	clearProfile() {
 		this.profile = null;
+		this.elements.clear();
+		this.nodeLocations = new Map();
+	}
+
+	private syncElementsFromProfile(profile: DiagramProfile | null) {
+		this.elements.clear();
+		if (!profile || typeof profile !== 'object') return;
+
+		const anyProfile = profile as any;
+		const nodes = Array.isArray(anyProfile.nodes) ? anyProfile.nodes : [];
+		const edges = Array.isArray(anyProfile.edges) ? anyProfile.edges : [];
+
+		for (const node of nodes) {
+			if (!node?.id) continue;
+			this.elements.set(node.id, {
+				id: node.id,
+				type: 'node',
+				label: node.label,
+				shapeType: node.shape,
+				properties: node.properties ?? node.data ?? {}
+			});
+		}
+
+		for (const edge of edges) {
+			if (!edge?.from || !edge?.to) continue;
+			const id = edge.id ?? `${edge.from}-${edge.to}`;
+			this.elements.set(id, {
+				id,
+				type: 'edge',
+				label: edge.label,
+				properties: edge.properties ?? {}
+			});
+		}
 	}
 
 	// ========================================================================
@@ -160,6 +196,18 @@ export class DiagramState {
 	}
 
 	// ========================================================================
+	// Source Locations
+	// ========================================================================
+
+	setNodeLocations(locations: Map<string, NodeLocation> | undefined) {
+		this.nodeLocations = locations ?? new Map();
+	}
+
+	clearNodeLocations() {
+		this.nodeLocations = new Map();
+	}
+
+	// ========================================================================
 	// Clear All State
 	// ========================================================================
 
@@ -170,6 +218,7 @@ export class DiagramState {
 		this.dataContent = '';
 		this.errors = [];
 		this.warnings = [];
+		this.nodeLocations = new Map();
 	}
 }
 

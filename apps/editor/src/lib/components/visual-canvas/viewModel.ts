@@ -62,7 +62,8 @@ export function mapStyleProperty(property: string): string {
 		fontSize: 'fontSize',
 		fontFamily: 'fontFamily',
 		fontWeight: 'fontWeight',
-		opacity: 'opacity'
+		opacity: 'opacity',
+		icon: 'icon'
 	};
 
 	return propertyMap[property] || property;
@@ -71,19 +72,65 @@ export function mapStyleProperty(property: string): string {
 export function extractSelectedElementStyles(profile: any, elementId: string | null) {
 	if (!elementId || !profile) return {};
 
-	const element =
-		profile.nodes?.find((n: any) => n.id === elementId) ||
-		profile.edges?.find((e: any) => e.id === elementId || `${e.from}-${e.to}` === elementId);
-
-	if (!element?.properties) return {};
-
-	return {
-		fill: element.properties.fillColor,
-		stroke: element.properties.strokeColor,
-		strokeWidth: element.properties.strokeWidth || 1,
-		opacity: element.properties.opacity || 1,
-		fontSize: element.properties.textSize,
-		fontFamily: element.properties.fontFamily,
-		color: element.properties.textColor
+	const stylesByName = profile.styles || {};
+	const resolveNamedStyle = (styleName: string | undefined) =>
+		styleName && typeof styleName === 'string' ? stylesByName[styleName] || {} : {};
+	const pick = (obj: any, ...keys: string[]) => {
+		for (const key of keys) {
+			if (obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key];
+		}
+		return undefined;
 	};
+
+	const node = profile.nodes?.find((n: any) => n.id === elementId);
+	if (node) {
+		const named = resolveNamedStyle(node.style);
+		const data = node.data || {};
+		const fill = pick(data, 'fillColor', 'fill') ?? pick(named, 'fillColor', 'fill');
+		const stroke = pick(data, 'strokeColor', 'stroke') ?? pick(named, 'strokeColor', 'stroke');
+		const text = pick(data, 'textColor', 'color') ?? pick(named, 'textColor', 'color');
+		const strokeWidth = pick(data, 'strokeWidth') ?? pick(named, 'strokeWidth');
+		const fontSize = pick(data, 'fontSize') ?? pick(named, 'fontSize');
+		const fontFamily = pick(data, 'fontFamily') ?? pick(named, 'fontFamily', 'font');
+		const opacity = pick(data, 'opacity') ?? pick(named, 'opacity');
+		const iconObj = node.icon;
+		const icon =
+			typeof iconObj === 'string'
+				? iconObj
+				: iconObj?.provider && iconObj?.name
+					? `${iconObj.provider}/${iconObj.name}`
+					: '';
+		return {
+			fill,
+			stroke,
+			strokeWidth: strokeWidth ?? 1,
+			opacity: opacity ?? 1,
+			fontSize,
+			fontFamily,
+			text,
+			icon
+		};
+	}
+
+	const edge =
+		profile.edges?.find((e: any) => e.id === elementId) ||
+		profile.edges?.find((e: any) => `${e.from}-${e.to}` === elementId);
+	if (edge) {
+		const named = resolveNamedStyle(edge.style);
+		const data = edge.data || {};
+		const stroke =
+			pick(data, 'strokeColor', 'stroke') ??
+			pick(edge, 'strokeColor', 'color') ??
+			pick(named, 'strokeColor', 'stroke', 'color');
+		const strokeWidth =
+			pick(data, 'strokeWidth') ?? pick(edge, 'strokeWidth') ?? pick(named, 'strokeWidth');
+		const lineStyle = pick(edge, 'lineStyle') ?? pick(named, 'lineStyle');
+		return {
+			stroke,
+			strokeWidth: strokeWidth ?? 1,
+			lineStyle
+		};
+	}
+
+	return {};
 }

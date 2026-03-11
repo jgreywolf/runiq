@@ -102,14 +102,14 @@ export const COLOR_THEMES = {
 
   // Professional gray-blue
   professional: [
-    '#546E7A',
-    '#607D8B',
-    '#78909C',
-    '#90A4AE',
-    '#455A64',
-    '#37474F',
-    '#263238',
-    '#B0BEC5',
+    '#374151',
+    '#4B5563',
+    '#6B7280',
+    '#9CA3AF',
+    '#52525B',
+    '#71717A',
+    '#A1A1AA',
+    '#D4D4D8',
   ],
 };
 
@@ -118,7 +118,11 @@ export type ColorTheme = keyof typeof COLOR_THEMES;
 /**
  * Get color from theme by index (cycles if index > theme length)
  */
-export function getThemeColor(theme: ColorTheme, index: number): string {
-  const colors = COLOR_THEMES[theme];
-  return colors[index % colors.length];
+export function getThemeColor(theme: ColorTheme | string, index: number): string {
+  const normalized = String(theme || 'professional').toLowerCase();
+  const colors =
+    COLOR_THEMES[normalized as ColorTheme] ??
+    (normalized === 'runiq' ? COLOR_THEMES.colorful : COLOR_THEMES.professional);
+  const safeIndex = ((index % colors.length) + colors.length) % colors.length;
+  return colors[safeIndex];
 }

@@ -18,13 +18,19 @@ export interface MouseHandlerContext {
 	lassoStartY: number;
 	lassoEndX: number;
 	lassoEndY: number;
+	interactionsEnabled: boolean;
+	interactionMode: 'select' | 'connect';
 }
 
 export interface MouseHandlerCallbacks {
 	onselect?: (nodeId: string | null, edgeId: string | null) => void;
 	clearSelection: () => void;
 	updateMultiSelection: () => void;
-	startLabelEdit: (nodeId: string | null, edgeId: string | null) => void;
+	startLabelEdit: (
+		nodeId: string | null,
+		edgeId: string | null,
+		sourceTarget?: EventTarget | null
+	) => void;
 }
 
 const chartShapes = new Set([
@@ -37,6 +43,8 @@ const chartShapes = new Set([
 ]);
 
 export function handleElementMouseEnter(event: Event, context: MouseHandlerContext): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	const target = event.currentTarget as SVGElement;
 
 	const nodeId = target.getAttribute('data-node-id');
@@ -55,6 +63,8 @@ export function handleElementMouseEnter(event: Event, context: MouseHandlerConte
 }
 
 export function handleElementMouseLeave(event: Event, context: MouseHandlerContext): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	const target = event.currentTarget as SVGElement;
 
 	const shapeId = target.getAttribute('data-node-shape');
@@ -73,6 +83,8 @@ export function handleElementClick(
 	context: MouseHandlerContext,
 	callbacks: MouseHandlerCallbacks
 ): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	event.stopPropagation();
 	const target = event.currentTarget as SVGElement;
 	const nodeId = target.getAttribute('data-node-id');
@@ -131,6 +143,16 @@ export function handleElementClick(
 		target.classList.add('runiq-selected');
 		if (callbacks.onselect) callbacks.onselect(null, edgeId);
 	}
+
+	// Fallback for environments where native dblclick may be missed after inline edits.
+	// MouseEvent.detail === 2 indicates the second click of a double-click sequence.
+	if (mouseEvent.detail >= 2) {
+		if (nodeId) {
+			callbacks.startLabelEdit(nodeId, null, mouseEvent.target);
+		} else if (edgeId) {
+			callbacks.startLabelEdit(null, edgeId, mouseEvent.target);
+		}
+	}
 }
 
 export function handleElementDoubleClick(
@@ -138,15 +160,17 @@ export function handleElementDoubleClick(
 	context: MouseHandlerContext,
 	callbacks: MouseHandlerCallbacks
 ): void {
+	if (!context.interactionsEnabled || context.interactionMode !== 'select') return;
+
 	event.stopPropagation();
 	const target = event.currentTarget as SVGElement;
 	const nodeId = target.getAttribute('data-node-id');
 	const edgeId = target.getAttribute('data-edge-id');
 
 	if (nodeId) {
-		callbacks.startLabelEdit(nodeId, null);
+		callbacks.startLabelEdit(nodeId, null, (event as MouseEvent).target);
 	} else if (edgeId) {
-		callbacks.startLabelEdit(null, edgeId);
+		callbacks.startLabelEdit(null, edgeId, (event as MouseEvent).target);
 	}
 }
 

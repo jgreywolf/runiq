@@ -1,28 +1,14 @@
 // SVG rendering utilities for the visual canvas
-
-import { layoutRegistry } from '@runiq/core';
 import { parse, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
-import { renderDigital, renderPID, renderSchematic } from '@runiq/renderer-schematic';
-import {
-	renderGitGraph,
-	renderKanban,
-	renderPedigree,
-	renderRailroadDiagram,
-	renderSequenceDiagram,
-	renderSvg,
-	renderTimeline,
-	renderTreemap,
-	renderWardleyMap
-} from '@runiq/renderer-svg';
 import {
 	applyDataSourcesToCharts,
 	applyDataSourcesToDiagram,
 	applyDataSourcesToTimeline,
 	applyDataSourcesToTreemap,
-	buildSankeyDataFromRows,
-	injectDataIntoCode,
-	parseCsvToObjects
+	injectDataIntoCode
 } from './dataMappings';
+import { getProfileTypeForCanvas, renderProfileSvg } from './profileRenderers';
+import { applySankeyDataFromContent } from './sankeyDataBinding';
 
 export interface RenderResult {
 	success: boolean;
@@ -36,10 +22,46 @@ export interface RenderResult {
 	profile?: any;
 }
 
+function appendHint(message: string, hint: string): string {
+	if (message.includes('Hint:')) return message;
+	return `${message} Hint: ${hint}`;
+}
+
+function getLineText(text: string, lineOneBased: number): string {
+	const lines = text.split(/\r?\n/);
+	return lines[lineOneBased - 1] ?? '';
+}
+
+function enrichCanvasParseError(message: string, sourceText: string): string {
+	const lineMatch = message.match(/line\s+(\d+),\s*column\s+\d+/i);
+	const lineOneBased = lineMatch ? Number(lineMatch[1]) : undefined;
+	const lineText =
+		lineOneBased && Number.isFinite(lineOneBased) && lineOneBased > 0
+			? getLineText(sourceText, lineOneBased)
+			: '';
+
+	const likelyMissingColonBeforeString =
+		!!lineText &&
+		/\b[a-zA-Z_][a-zA-Z0-9_]*\s*"[^"]*"/.test(lineText) &&
+		!/\b[a-zA-Z_][a-zA-Z0-9_]*\s*:\s*"[^"]*"/.test(lineText);
+
+	const arrowExpectation = message.includes('[ARROW]') || message.includes('[LABELED_ARROW]');
+	const foundQuotedString = /but found:\s*'"[^']*'/.test(message);
+	if (likelyMissingColonBeforeString && (arrowExpectation || foundQuotedString)) {
+		return appendHint(
+			message,
+			'Missing ":" between attribute name and value (example: label:"My Label").'
+		);
+	}
+
+	return message;
+}
+
 export async function renderDiagram(
 	code: string,
 	dataContent: string,
-	layoutEngine: string
+	layoutEngine: string,
+	layoutStrategy = 'hierarchical'
 ): Promise<RenderResult> {
 	const result: RenderResult = {
 		svg: '',
@@ -63,7 +85,10 @@ export async function renderDiagram(
 
 		if (parseResult.errors && parseResult.errors.length > 0) {
 			result.errors = parseResult.errors.map((e: any) =>
-				typeof e === 'string' ? e : e.message || String(e)
+				enrichCanvasParseError(
+					typeof e === 'string' ? e : e.message || String(e),
+					codeWithData
+				)
 			);
 			return result;
 		}
@@ -73,6 +98,7 @@ export async function renderDiagram(
 				typeof w === 'string' ? w : w.message || String(w)
 			);
 		}
+		result.nodeLocations = parseResult.nodeLocations;
 
 		if (parseResult.warningDetails && parseResult.warningDetails.length > 0) {
 			result.warningDetails = parseResult.warningDetails;
@@ -87,7 +113,7 @@ export async function renderDiagram(
 			return result;
 		}
 
-		const profileType = 'type' in profile ? profile.type : 'diagram';
+		const profileType = getProfileTypeForCanvas(profile);
 		const diagramProfile = profile as any;
 
 		if (profileType === 'diagram') {
@@ -100,78 +126,10 @@ export async function renderDiagram(
 		}
 
 		if (profileType === 'diagram' && dataContent) {
-			try {
-				const data = JSON.parse(dataContent);
-				if (Array.isArray(diagramProfile.nodes)) {
-					for (const node of diagramProfile.nodes) {
-						if (node.shape !== 'sankeyChart') continue;
-						if (data[node.id]) {
-							node.data = data[node.id];
-						} else {
-							const dataKeys = Object.keys(data);
-							if (dataKeys.length > 0) {
-								node.data = data[dataKeys[0]];
-							}
-						}
-					}
-				}
-			} catch {
-				const rows = parseCsvToObjects(dataContent, {}, result.warnings, 'data panel');
-				if (rows && Array.isArray(diagramProfile.nodes)) {
-					for (const node of diagramProfile.nodes) {
-						if (node.shape !== 'sankeyChart') continue;
-						const sankeyData = buildSankeyDataFromRows(rows, result.warnings, 'data panel');
-						if (sankeyData) node.data = sankeyData;
-					}
-				}
-			}
+			applySankeyDataFromContent(diagramProfile, dataContent, result.warnings);
 		}
 
-		if (profileType === 'wardley') {
-			result.svg = renderWardleyMap(diagramProfile).svg;
-		} else if (profileType === 'sequence') {
-			result.svg = renderSequenceDiagram(diagramProfile).svg;
-		} else if (profileType === 'timeline') {
-			result.svg = renderTimeline(diagramProfile).svg;
-		} else if (profileType === 'kanban') {
-			result.svg = renderKanban(diagramProfile).svg;
-		} else if (profileType === 'gitgraph') {
-			result.svg = renderGitGraph(diagramProfile).svg;
-		} else if (profileType === 'treemap') {
-			result.svg = renderTreemap(diagramProfile).svg;
-		} else if (profileType === 'pedigree') {
-			result.svg = renderPedigree(diagramProfile).svg;
-		} else if (
-			profileType === 'electrical' ||
-			profileType === 'pneumatic' ||
-			profileType === 'hydraulic' ||
-			profileType === 'hvac' ||
-			profileType === 'control'
-		) {
-			result.svg = renderSchematic(diagramProfile).svg;
-		} else if (profileType === 'pid') {
-			result.svg = renderPID(diagramProfile).svg;
-		} else if (profileType === 'railroad') {
-			result.svg = renderRailroadDiagram(diagramProfile).svg;
-		} else if (profileType === 'digital') {
-			result.svg = renderDigital(diagramProfile, {
-				gridSize: 50,
-				routing: 'orthogonal',
-				showNetLabels: true,
-				showValues: false,
-				showReferences: true
-			}).svg;
-		} else {
-			const layoutAlgorithm = layoutRegistry.get(layoutEngine || 'elk');
-			if (!layoutAlgorithm) {
-				result.errors = [`Layout engine "${layoutEngine}" not found`];
-				return result;
-			}
-
-			const laidOutProfile = await layoutAlgorithm.layout(diagramProfile);
-			const renderResult = renderSvg(diagramProfile, laidOutProfile);
-			result.svg = renderResult.svg;
-		}
+		result.svg = await renderProfileSvg(diagramProfile, layoutEngine, layoutStrategy);
 
 		result.renderTime = Math.round(performance.now() - renderStart);
 		result.success = !result.errors.length && !!result.svg;
@@ -226,6 +184,9 @@ export function updateElementStyles(
 		strokeColor?: string;
 		strokeWidth?: string;
 		textColor?: string;
+		fill?: string;
+		stroke?: string;
+		color?: string;
 		routing?: string;
 	}
 ): void {
@@ -258,12 +219,16 @@ export function updateElementStyles(
 	const mainElement = element.querySelector('rect, circle, ellipse, polygon, path, line, text');
 	if (!mainElement) return;
 
-	if (styles.fillColor) mainElement.setAttribute('fill', styles.fillColor);
-	if (styles.strokeColor) mainElement.setAttribute('stroke', styles.strokeColor);
+	const fill = styles.fillColor ?? styles.fill;
+	const stroke = styles.strokeColor ?? styles.stroke;
+	const textColor = styles.textColor ?? styles.color;
+
+	if (fill) mainElement.setAttribute('fill', fill);
+	if (stroke) mainElement.setAttribute('stroke', stroke);
 	if (styles.strokeWidth) mainElement.setAttribute('stroke-width', styles.strokeWidth);
 
-	if (styles.textColor) {
+	if (textColor) {
 		const textElements = element.querySelectorAll('text');
-		textElements.forEach((text) => text.setAttribute('fill', styles.textColor!));
+		textElements.forEach((text) => text.setAttribute('fill', textColor));
 	}
 }

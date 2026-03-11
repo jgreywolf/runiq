@@ -161,6 +161,38 @@ describe('Shape Validation', () => {
       const warnings = doc.diagnostics?.filter((d) => d.severity === 2) ?? [];
       expect(warnings).toHaveLength(0);
     });
+
+    it('should warn when shape id is reused in the same scope', async () => {
+      const input = `
+        diagram "test" {
+          shape NodeA as @rectangle
+          shape NodeA as @rectangle
+        }`;
+      const doc = await parse(input);
+      const warnings = doc.diagnostics?.filter((d) => d.severity === 2) ?? [];
+      expect(
+        warnings.some((warning) =>
+          warning.message.includes('is reused in this scope')
+        )
+      ).toBe(true);
+    });
+
+    it('should not warn when same id is reused in nested scope', async () => {
+      const input = `
+        diagram "test" {
+          shape NodeA as @rectangle
+          container "Inner" {
+            shape NodeA as @rectangle
+          }
+        }`;
+      const doc = await parse(input);
+      const warnings = doc.diagnostics?.filter((d) => d.severity === 2) ?? [];
+      expect(
+        warnings.some((warning) =>
+          warning.message.includes('is reused in this scope')
+        )
+      ).toBe(false);
+    });
   });
 
   describe('Common Typo Scenarios', () => {

@@ -1,34 +1,127 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
-	import { type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
-	import { Badge } from '$lib/components/ui/badge';
-	import Icon from '@iconify/svelte';
-	import EditorToolbar from './Editor/EditorToolbar.svelte';
-	import StylePanel from './Editor/StylePanel.svelte';
-	import { diagramState, styleState } from '$lib/state';
-	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
-	import { SelectionState } from './visual-canvas/SelectionState.svelte';
-	import { ViewportState } from './visual-canvas/ViewportState.svelte';
-	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
-	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
-	import { createDebouncedRunner, runRenderCycle } from './visual-canvas/renderController';
+	import { PopoverContent, Popover as PopoverRoot, PopoverTrigger } from '$lib/components/ui/popover';
+	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
+	import { canvasState, diagramState } from '$lib/state';
+	import { applyDraftOperation } from '$lib/state/draftOperations';
 	import {
-		collectSelectedIds,
-		collectSelectedIdSet,
-		extractSelectedElementStyles,
-		mapStyleProperty,
-		mergeWarnings,
-		updateWarningVisibility
-	} from './visual-canvas/viewModel';
-	import {
-		handleEdit,
-		handleDelete,
-		handleResetStyles,
-		handleInsertShape,
 		editorRefs,
-		handleParse
+		editorState,
+		handleDelete,
+		handleEdit,
+		handleInsertEdge,
+		handleInsertShape,
+		handleInsertShapeAndEdge,
+		handleParse,
+		handleResetStyles,
+		updateCode
 	} from '$lib/state/editorState.svelte';
-	import { editorState } from '$lib/state/editorState.svelte';
+	import { ProfileName } from '$lib/types';
+	import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
+	import * as DSL from '$lib/utils/dslCodeManipulation';
+	import { getGlyphsetKeywords } from '$lib/utils/glyphsetConversion';
+	import {
+		getGlyphsetTypeFromCode,
+		isGlyphsetReorderSupported
+	} from '$lib/utils/glyphsetCanvasSupport';
+	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
+	import { listBrandIconNames } from '@runiq/icons-brand';
+	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
+	import { type DiagramProfile, type NodeLocation, type WarningDetail } from '@runiq/parser-dsl';
+	import { onMount, tick } from 'svelte';
+	import ContainerPickerFlyout from './ContainerPickerFlyout.svelte';
+	import EditorToolbar from './Editor/EditorToolbar.svelte';
+	import { applyThemeToDsl } from './Editor/editorToolbarActions';
+	import ImageInsertFlyout from './ImageInsertFlyout.svelte';
+	import ShapePickerFlyout from './ShapePickerFlyout.svelte';
+	import ThemePickerFlyout from './ThemePickerFlyout.svelte';
+	import { createCanvasEventHandlers } from './visual-canvas/canvasEventHandlers';
+	import CanvasInteractionLayer from './visual-canvas/CanvasInteractionLayer.svelte';
+	import CanvasStateOverlay from './visual-canvas/CanvasStateOverlay.svelte';
+	import CanvasStatusBar from './visual-canvas/CanvasStatusBar.svelte';
+	import { createCanvasDebugLogger } from './visual-canvas/debug';
+	import {
+		applyBorderDraftForSelected,
+		applyFillDraftForSelected,
+		applyIconToSelectedNode,
+		applyTextDraftForSelected,
+		clearIconOnSelectedNode,
+		openBorderPanelDraft,
+		openFillPanelDraft,
+		openIconPanelDraft,
+		openTextPanelDraft
+	} from './visual-canvas/elementPanelActions';
+	import {
+		getFilteredStyleDeclarations
+	} from './visual-canvas/elementStyleActions';
+	import {
+		applyStyleRefForSelection,
+		clearStyleRefForSelection,
+		openCreateStyleDialogWorkflow,
+		removeStyleDeclarationWorkflow,
+		saveStyleDeclarationAndApplyWorkflow
+	} from './visual-canvas/elementStyleWorkflow';
+	import ElementToolbar from './visual-canvas/ElementToolbar.svelte';
+	import { createGlobalPointerDismissHandler } from './visual-canvas/elementToolbarDismiss';
+	import {
+		applyShapeToSelection,
+		deleteSelectionFromToolbar,
+		handlePanelOpenChange as handlePanelOpenChangeOrchestrated
+	} from './visual-canvas/elementToolbarOrchestrator';
+	import {
+		computeElementToolbarPosition,
+		constrainToolbarPosition
+	} from './visual-canvas/elementToolbarPosition';
+	import {
+		closeAllPanels as closePanelState,
+		createInitialPanelOpen,
+		getFilteredIconTokens as getFilteredIconTokensFromState,
+		type ElementPanelKey
+	} from './visual-canvas/elementToolbarState';
+	import {
+		hasAnySelection,
+		hasPrimarySelection,
+		shouldClearElementToolbar,
+		shouldRepositionElementToolbar
+	} from './visual-canvas/elementToolbarVisibility';
+	import {
+		isSchematicProfile,
+		supportsCanvasContextMenus,
+		supportsCanvasSelection
+	} from './visual-canvas/interactiveProfiles';
+	import {
+		getQuickConnectBehaviorFromModifiers,
+		type QuickConnectBehavior,
+		type QuickConnectDirection
+	} from './visual-canvas/quickConnect';
+	import {
+		activateQuickConnectPreview,
+		resetQuickConnectState,
+		runQuickConnect as runQuickConnectAction,
+		updateQuickConnectFromMouseEvent as updateQuickConnectFromMouseEventAction
+	} from './visual-canvas/quickConnectActions';
+	import QuickConnectOverlay from './visual-canvas/QuickConnectOverlay.svelte';
+	import {
+		type QuickConnectHandle
+	} from './visual-canvas/quickConnectRuntime';
+	import { withQuickConnectState } from './visual-canvas/quickConnectStateBridge';
+	import { renderDiagram as renderDiagramUtil } from './visual-canvas/renderingUtils';
+	import { createCanvasRenderRuntime } from './visual-canvas/renderRuntime';
+	import { resolveSelectionSourceLocation } from './visual-canvas/selectionCodeNavigation';
+	import { SelectionState } from './visual-canvas/SelectionState.svelte';
+	import {
+		extractSelectedElementStyles,
+	} from './visual-canvas/viewModel';
+	import { ViewportState } from './visual-canvas/ViewportState.svelte';
+	import {
+		applyRenderEmptyState,
+		applyRenderErrorState,
+		applyRenderSuccessState,
+		computeWarningUiState,
+		getFloatingToolbarTop,
+		jumpToWarningLocation,
+		shouldForceSelectMode,
+		type RenderStateCallbacks
+	} from './visual-canvas/warningStatusOrchestration';
 
 	let diagramDataId = 'runiq-diagram';
 
@@ -36,22 +129,230 @@
 	let isRendering = $state(false);
 	let parseTime = $state(0);
 	let renderTime = $state(0);
+	let transientStatusMessage = $state<string | null>(null);
 	let showWarnings = $state(false);
 	let lastWarningCount = $state(0);
 	let warningDetails = $state<WarningDetail[]>([]);
 	let combinedWarnings = $state<string[]>([]);
+	let canvasContextMenu = $state<{ x: number; y: number } | null>(null);
+	let elementContextMenu = $state<
+		{
+			x: number;
+			y: number;
+			nodeId: string | null;
+			edgeId: string | null;
+			containerId: string | null;
+			containerLabel: string | null;
+		} | null
+	>(null);
+	let contextShapeFlyout = $state<{
+		x: number;
+		y: number;
+		target: 'canvas' | 'element';
+		containerId: string | null;
+		containerLabel: string | null;
+	} | null>(null);
+	let contextContainerFlyout = $state<{
+		x: number;
+		y: number;
+		target: 'canvas' | 'element';
+		containerId: string | null;
+		containerLabel: string | null;
+	} | null>(null);
+	let contextImageFlyout = $state<{
+		x: number;
+		y: number;
+		target: 'canvas' | 'element';
+		containerId: string | null;
+		containerLabel: string | null;
+	} | null>(null);
+	let contextThemeFlyout = $state<{
+		x: number;
+		y: number;
+	} | null>(null);
+	let timelineEditFlyout = $state<{
+		nodeId: string;
+		keyword: 'event' | 'period' | 'task' | 'milestone';
+		label: string;
+		date: string;
+		description: string;
+		startDate: string;
+		endDate: string;
+	} | null>(null);
+	let sequenceEditFlyout = $state<{
+		kind: 'participant' | 'message';
+		nodeId: string | null;
+		edgeId: string | null;
+		label: string;
+		messageType: 'sync' | 'async' | 'return' | 'create' | 'destroy';
+		guard: string;
+		timing: string;
+		activate: boolean;
+		participantType: 'actor' | 'entity' | 'boundary' | 'control' | 'database' | 'continuation' | '';
+	} | null>(null);
+	let schematicEditFlyout = $state<{
+		nodeId: string;
+		ref: string;
+		type: string;
+		pins: string;
+		value: string;
+		source: string;
+		model: string;
+	} | null>(null);
+	let glyphsetImageEditFlyout = $state<{
+		items: Array<{
+			lineIndex: number;
+			url: string;
+			label: string;
+			description: string;
+		}>;
+	} | null>(null);
+	let schematicPartQuickDraft = $state<{
+		nodeId: string;
+		ref: string;
+		type: string;
+		pins: string;
+		value: string;
+		source: string;
+		model: string;
+	} | null>(null);
+	let sequenceMessageQuickDraft = $state<{
+		messageType: 'sync' | 'async' | 'return' | 'create' | 'destroy';
+		guard: string;
+		timing: string;
+		activate: boolean;
+	} | null>(null);
+	let timelineEditErrors = $state<{
+		date?: string;
+		startDate?: string;
+		endDate?: string;
+	} | null>(null);
+	let styleClipboard = $state<{
+		kind: 'node' | 'edge';
+		styleRef?: string;
+		properties: Record<string, string | number | boolean>;
+	} | null>(null);
+	let containerClipboard = $state<{ id: string; block: string } | null>(null);
+	let connectPreviewStart = $state<{ x: number; y: number } | null>(null);
+	let connectPreviewEnd = $state<{ x: number; y: number } | null>(null);
+	let quickConnectNodeId = $state<string | null>(null);
+	let quickConnectHandles = $state<QuickConnectHandle[]>([]);
+	let quickConnectActiveDirection = $state<QuickConnectDirection | null>(null);
+	let quickConnectPreviewStart = $state<{ x: number; y: number } | null>(null);
+	let quickConnectPreviewEnd = $state<{ x: number; y: number } | null>(null);
+	let quickConnectTargetNodeId = $state<string | null>(null);
+	let quickConnectNewNodePosition = $state<{ x: number; y: number } | null>(null);
+	let quickConnectBehaviorHint = $state<QuickConnectBehavior>('auto');
+	let sequenceMessageEndpointHandles = $state<{
+		from: { x: number; y: number };
+		to: { x: number; y: number };
+	} | null>(null);
+	let sequenceLifelineHotspots = $state<Array<{ nodeId: string; x: number; y: number }>>([]);
+	let sequenceDropTargetNodeId = $state<string | null>(null);
+	let sequenceParticipantReorderPreview = $state<{
+		targetNodeId: string;
+		position: 'before' | 'after';
+		x: number;
+	} | null>(null);
+	let sequenceMessageReorderPreview = $state<{
+		targetEdgeId: string;
+		position: 'before' | 'after';
+		y: number;
+	} | null>(null);
+	let glyphsetNodeReorderPreview = $state<{
+		targetNodeId: string;
+		position: 'before' | 'after';
+		x: number;
+		y: number;
+		orientation: 'vertical' | 'horizontal';
+	} | null>(null);
+	let timelineNodeReorderPreview = $state<{
+		targetNodeId: string;
+		position: 'before' | 'after';
+		y: number;
+	} | null>(null);
+	let nodeContainerDrag = $state<{
+		nodeId: string;
+		label: string;
+		width: number;
+		height: number;
+		x: number;
+		y: number;
+		connectedTargets: { x: number; y: number }[];
+		hoverContainerId: string | null;
+		hoverContainerRect: { x: number; y: number; width: number; height: number } | null;
+	} | null>(null);
+	let schematicPartDrag = $state<{
+		nodeId: string;
+		label: string;
+		width: number;
+		height: number;
+		x: number;
+		y: number;
+		connectedTargets: { x: number; y: number }[];
+		targetNodeId: string | null;
+		targetRect: { x: number; y: number; width: number; height: number } | null;
+		position: 'before' | 'after' | null;
+	} | null>(null);
+	let iconInputValue = $state('');
+	let iconSearchQuery = $state('');
+	let panelOpen = $state<Record<ElementPanelKey, boolean>>(createInitialPanelOpen());
+	let elementToolbarPosition = $state<{ x: number; y: number } | null>(null);
+	let lastSelectionJumpKey = $state('');
+
+	let borderDraft = $state({
+		strokeColor: '#48677e',
+		strokeWidth: 2,
+		lineStyle: 'solid' as 'solid' | 'dashed' | 'dotted' | 'none'
+	});
+	let fillDraft = $state({ fillColor: '#ffffff' });
+	let textDraft = $state({ textColor: '#1f2937', fontSize: 14, fontFamily: 'sans-serif' });
+	let styleSearchQuery = $state('');
+	let showCreateStyleDialog = $state(false);
+	let editingStyleName = $state<string | null>(null);
+	let newStyleName = $state('');
+	let newStyleDraft = $state({
+		fillColor: '',
+		strokeColor: '',
+		strokeWidth: 2,
+		textColor: '',
+		fontSize: 14,
+		fontFamily: '',
+		lineStyle: 'solid'
+	});
+
+	const canvasDebug = createCanvasDebugLogger();
+	const debugCanvas = canvasDebug.log;
+
+	const availableIconTokens = [
+		...listBrandIconNames().map((name) => `brand/${name.replace(/-/g, '_')}`),
+		...listIconifyIconNamesForDsl().map((name) => `iconify/${name}`)
+	];
+	const diagramShapeCategories = getShapeCategoryByProfile(ProfileName.diagram).map((category) => ({
+		label: category.label,
+		shapes: category.shapes.map((shape) => ({ id: shape.id, label: shape.label }))
+	}));
+	const borderStyleChoices = [
+		{ id: 'solid', label: 'Solid', icon: 'lucide:minus' },
+		{ id: 'dashed', label: 'Dashed', icon: 'lucide:ellipsis' },
+		{ id: 'dotted', label: 'Dotted', icon: 'lucide:grip-horizontal' },
+		{ id: 'none', label: 'None', icon: 'lucide:slash' }
+	] as const;
+
+	const filteredIconTokens = $derived(
+		getFilteredIconTokensFromState(availableIconTokens, iconSearchQuery)
+	);
+	const floatingToolbarTop = $derived(
+		getFloatingToolbarTop(showWarnings, warningDetails.length, combinedWarnings.length)
+	);
 
 	// DOM element references
-	let editInputElement = $state<HTMLInputElement | null>(null);
 	let svgContainer = $state<HTMLDivElement | null>(null);
+	let floatingToolbarElement = $state<HTMLDivElement | null>(null);
 
 	// Selection state managed by SelectionState class
 	// Synced with centralized editorState for consistency
-	const selection = new SelectionState({
-		onSelectionChange: (nodeId, edgeId) => {
-			// Selection changes are now handled internally
-		}
-	});
+	const selection = new SelectionState();
 
 	// Viewport state managed by ViewportState class
 	const viewport = new ViewportState({
@@ -64,9 +365,6 @@
 
 	// Interaction manager for coordinating mouse events and handlers
 	const interactionManager = new InteractionManager(selection, viewport);
-
-	// Node locations from parser (for code highlighting)
-	let nodeLocations = $state<Map<string, NodeLocation>>(new Map());
 
 	// Effect to select all text when editing starts
 	$effect(() => {
@@ -84,18 +382,249 @@
 	});
 
 	$effect(() => {
-		const warningCount = warningDetails.length + combinedWarnings.length;
-		const next = updateWarningVisibility(showWarnings, lastWarningCount, warningCount);
-		showWarnings = next.showWarnings;
-		lastWarningCount = next.lastWarningCount;
+		const next = computeWarningUiState({
+			warningDetails,
+			diagramWarnings: diagramState.warnings,
+			lintWarnings: editorState.lintWarnings,
+			currentShowWarnings: showWarnings,
+			lastWarningCount
+		});
+		const warningsChanged =
+			combinedWarnings.length !== next.combinedWarnings.length ||
+			combinedWarnings.some((warning, index) => warning !== next.combinedWarnings[index]);
+		if (warningsChanged) {
+			combinedWarnings = next.combinedWarnings;
+		}
+		if (showWarnings !== next.showWarnings) {
+			showWarnings = next.showWarnings;
+		}
+		if (lastWarningCount !== next.lastWarningCount) {
+			lastWarningCount = next.lastWarningCount;
+		}
+		debugCanvas('effect:merge-warnings', { merged: combinedWarnings.length });
 	});
 
 	$effect(() => {
-		combinedWarnings = mergeWarnings(
-			warningDetails,
-			diagramState.warnings,
-			editorState.lintWarnings
+		if (shouldForceSelectMode(diagramState.errors.length, canvasState.mode)) {
+			debugCanvas('effect:force-select-mode-on-errors', {
+				errorCount: diagramState.errors.length,
+				mode: canvasState.mode
+			});
+			canvasState.mode = 'select';
+		}
+	});
+
+	$effect(() => {
+		if (canvasState.mode !== 'connect') {
+			connectPreviewStart = null;
+			connectPreviewEnd = null;
+			resetQuickConnect();
+			debugCanvas('effect:exit-connect-mode');
+		}
+	});
+
+	$effect(() => {
+		if (editorState.profileName === ProfileName.sequence && canvasState.mode === 'connect') {
+			canvasState.mode = 'select';
+		}
+	});
+
+	$effect(() => {
+		if (
+			shouldClearElementToolbar({
+				selectedNodeId: selection.selectedNodeId,
+				selectedEdgeId: selection.selectedEdgeId,
+				profileName: editorState.profileName,
+				mode: canvasState.mode
+			})
+		) {
+			closeAllPanels();
+			if (elementToolbarPosition !== null) {
+				elementToolbarPosition = null;
+			}
+			debugCanvas('effect:clear-panel-no-selection', {
+				hasPrimarySelection: hasPrimarySelection(
+					selection.selectedNodeId,
+					selection.selectedEdgeId
+				),
+				profile: editorState.profileName,
+				mode: canvasState.mode
+			});
+		}
+	});
+
+	$effect(() => {
+		if (selection.editingNodeId || selection.editingEdgeId) {
+			closeAllPanels();
+			elementToolbarPosition = null;
+		}
+	});
+
+	$effect(() => {
+		const profile = editorState.profileName;
+		const edgeId = selection.selectedEdgeId;
+		const nodeId = selection.selectedNodeId;
+		void nodeId;
+		if (profile !== ProfileName.sequence || !edgeId?.startsWith('seq-message-')) {
+			sequenceMessageQuickDraft = null;
+			return;
+		}
+		const parsed = parseSequenceDetails(null, edgeId);
+		if (!parsed || parsed.kind !== 'message') {
+			sequenceMessageQuickDraft = null;
+			return;
+		}
+		sequenceMessageQuickDraft = {
+			messageType:
+				(parsed.fields.type as 'sync' | 'async' | 'return' | 'create' | 'destroy') || 'sync',
+			guard: parsed.fields.guard ?? '',
+			timing: parsed.fields.timing ?? '',
+			activate: parsed.fields.activate === 'true'
+		};
+	});
+
+	$effect(() => {
+		const profile = editorState.profileName;
+		const nodeId = selection.selectedNodeId;
+		if (!isSchematicProfile(profile) || !nodeId?.startsWith('sch-part-')) {
+			schematicPartQuickDraft = null;
+			return;
+		}
+		const parsed = parseSchematicPartByNodeId(nodeId);
+		if (!parsed) {
+			schematicPartQuickDraft = null;
+			return;
+		}
+		schematicPartQuickDraft = {
+			nodeId,
+			ref: parsed.ref,
+			type: parsed.type,
+			pins: parsed.pins,
+			value: parsed.value,
+			source: parsed.source,
+			model: parsed.model
+		};
+	});
+
+	function getSelectedEdgeEndpoints(edgeId: string): { from: string | null; to: string | null } {
+		const diagramSvg = getDiagramSvg();
+		if (!diagramSvg) return { from: null, to: null };
+		const edgeElement = diagramSvg.querySelector(`[data-edge-id="${edgeId}"]`);
+		if (!edgeElement) return { from: null, to: null };
+		return {
+			from: edgeElement.getAttribute('data-edge-from'),
+			to: edgeElement.getAttribute('data-edge-to')
+		};
+	}
+
+	$effect(() => {
+		const selectedNodeId = selection.selectedNodeId;
+		const selectedEdgeId = selection.selectedEdgeId;
+		const profileName = editorState.profileName;
+		const selectionKey = `${profileName ?? 'none'}:${selectedNodeId ?? ''}:${selectedEdgeId ?? ''}`;
+
+		if (!selectedNodeId && !selectedEdgeId) {
+			lastSelectionJumpKey = '';
+			return;
+		}
+
+		if (selectionKey === lastSelectionJumpKey) return;
+		lastSelectionJumpKey = selectionKey;
+
+		const edgeEndpoints = selectedEdgeId
+			? getSelectedEdgeEndpoints(selectedEdgeId)
+			: { from: null, to: null };
+		const location = resolveSelectionSourceLocation({
+			code: editorState.code,
+			profileName,
+			selectedNodeId,
+			selectedEdgeId,
+			selectedEdgeFrom: edgeEndpoints.from,
+			selectedEdgeTo: edgeEndpoints.to,
+			nodeLocations: diagramState.nodeLocations
+		});
+
+		if (!location) return;
+
+		editorState.showCodeEditor = true;
+		editorState.activeTab = 'syntax';
+		tick().then(() => {
+			editorRefs.code?.jumpTo(location.line, location.column, { focus: false, selectLine: true });
+		});
+	});
+
+	function getSelectedElementId(): string | null {
+		return selection.selectedNodeId || selection.selectedEdgeId;
+	}
+
+	function updateElementToolbarPosition() {
+		const nextPosition = computeElementToolbarPosition(
+			svgContainer,
+			selection.selectedNodeId,
+			selection.selectedEdgeId
 		);
+		if (!nextPosition) {
+			elementToolbarPosition = null;
+			debugCanvas('update-toolbar-position:none');
+			return;
+		}
+		elementToolbarPosition = nextPosition;
+		debugCanvas('update-toolbar-position:set', elementToolbarPosition);
+	}
+
+	function constrainToolbarToCanvasBounds() {
+		if (!svgContainer || !floatingToolbarElement || !elementToolbarPosition) return;
+		const containerRect = svgContainer.getBoundingClientRect();
+		const toolbarRect = floatingToolbarElement.getBoundingClientRect();
+		const clamped = constrainToolbarPosition(elementToolbarPosition, containerRect, toolbarRect);
+
+		const positionChanged =
+			Math.abs((elementToolbarPosition?.x ?? 0) - clamped.x) > 0.5 ||
+			Math.abs((elementToolbarPosition?.y ?? 0) - clamped.y) > 0.5;
+		if (positionChanged) {
+			elementToolbarPosition = clamped;
+		}
+
+		debugCanvas('constrain-toolbar', {
+			position: elementToolbarPosition
+		});
+	}
+
+	$effect(() => {
+		if (
+			shouldRepositionElementToolbar({
+				selectedNodeId: selection.selectedNodeId,
+				selectedEdgeId: selection.selectedEdgeId,
+				profileName: editorState.profileName,
+				mode: canvasState.mode
+			})
+		) {
+			debugCanvas('effect:recompute-toolbar-position', {
+				node: selection.selectedNodeId,
+				edge: selection.selectedEdgeId
+			});
+			tick().then(() => {
+				updateElementToolbarPosition();
+				tick().then(() => constrainToolbarToCanvasBounds());
+			});
+		}
+	});
+
+	$effect(() => {
+		if (canvasState.mode === 'connect') {
+			const hasActiveSelection = hasAnySelection({
+				selectedNodeId: selection.selectedNodeId,
+				selectedEdgeId: selection.selectedEdgeId,
+				selectedNodeIdsSize: selection.selectedNodeIds.size,
+				selectedEdgeIdsSize: selection.selectedEdgeIds.size
+			});
+			if (!hasActiveSelection) return;
+
+			queueMicrotask(() => {
+				selection.clearSelection();
+				selection.updateVisualSelection(svgContainer);
+			});
+		}
 	});
 
 	// Effect to attach interactive handlers when SVG output changes
@@ -105,12 +634,2466 @@
 			tick().then(() => {
 				interactionManager.attachHandlers(svgContainer, getDiagramSvg);
 				interactionManager.restoreSelection(svgContainer, getDiagramSvg);
+				refreshSequenceInteractionHints();
 			});
 		}
 	});
 
+	$effect(() => {
+		const profileName = editorState.profileName;
+		const mode = canvasState.mode;
+		const selectedEdgeId = selection.selectedEdgeId;
+		const svg = svgOutput;
+		const scale = viewport.scale;
+		const translateX = viewport.translateX;
+		const translateY = viewport.translateY;
+		void profileName;
+		void mode;
+		void selectedEdgeId;
+		void svg;
+		void scale;
+		void translateX;
+		void translateY;
+		tick().then(() => {
+			refreshSequenceInteractionHints();
+		});
+	});
+
 	function getDiagramSvg() {
-		return document.querySelector<SVGSVGElement>(`[data-id="${diagramDataId}"]`);
+		if (!svgContainer) return null;
+		const svgs = svgContainer.querySelectorAll<SVGSVGElement>('svg');
+		for (const svg of svgs) {
+			if (svg.querySelector('[data-node-id], [data-edge-id], [data-container-id]')) {
+				return svg;
+			}
+		}
+		return svgs[0] ?? null;
+	}
+
+	function getContainerPointFromClient(clientX: number, clientY: number): { x: number; y: number } | null {
+		if (!svgContainer) return null;
+		const rect = svgContainer.getBoundingClientRect();
+		return { x: clientX - rect.left, y: clientY - rect.top };
+	}
+
+	function svgPointToContainer(
+		svg: SVGSVGElement,
+		x: number,
+		y: number
+	): { x: number; y: number } | null {
+		if (!svgContainer) return null;
+		const svgRect = svg.getBoundingClientRect();
+		const containerRect = svgContainer.getBoundingClientRect();
+		const viewBox = svg.viewBox?.baseVal;
+		if (!viewBox || svgRect.width <= 0 || svgRect.height <= 0) return null;
+		const px = ((x - viewBox.x) / viewBox.width) * svgRect.width;
+		const py = ((y - viewBox.y) / viewBox.height) * svgRect.height;
+		return {
+			x: svgRect.left - containerRect.left + px,
+			y: svgRect.top - containerRect.top + py
+		};
+	}
+
+	function refreshSequenceInteractionHints() {
+		sequenceMessageEndpointHandles = null;
+		sequenceLifelineHotspots = [];
+		if (editorState.profileName !== ProfileName.sequence) return;
+		const svg = getDiagramSvg();
+		if (!svg) return;
+
+		if (canvasState.mode === 'connect' || (canvasState.mode === 'select' && !!selection.selectedEdgeId?.startsWith('seq-message-'))) {
+			const lifelines = Array.from(
+				svg.querySelectorAll<SVGLineElement>('line[data-seq-lifeline]')
+			);
+			sequenceLifelineHotspots = lifelines
+				.map((lifeline) => {
+					const participantNodeId = lifeline.getAttribute('data-participant-id');
+					if (!participantNodeId) return null;
+					const x1 = Number.parseFloat(lifeline.getAttribute('x1') || '0');
+					const y1 = Number.parseFloat(lifeline.getAttribute('y1') || '0');
+					const point = svgPointToContainer(svg, x1, y1 + 22);
+					if (!point) return null;
+					return { nodeId: participantNodeId, x: point.x, y: point.y };
+				})
+				.filter((entry): entry is { nodeId: string; x: number; y: number } => !!entry);
+		}
+
+		if (selection.selectedEdgeId?.startsWith('seq-message-')) {
+			const edgeElement = svg.querySelector(
+				`[data-edge-id="${selection.selectedEdgeId}"]`
+			) as SVGGraphicsElement | null;
+			const lineElement = edgeElement?.querySelector('line.message-line') as SVGLineElement | null;
+			if (!lineElement) return;
+			const x1 = Number.parseFloat(lineElement.getAttribute('x1') || '0');
+			const y1 = Number.parseFloat(lineElement.getAttribute('y1') || '0');
+			const x2 = Number.parseFloat(lineElement.getAttribute('x2') || '0');
+			const y2 = Number.parseFloat(lineElement.getAttribute('y2') || '0');
+			const fromPoint = svgPointToContainer(svg, x1, y1);
+			const toPoint = svgPointToContainer(svg, x2, y2);
+			if (fromPoint && toPoint) {
+				sequenceMessageEndpointHandles = { from: fromPoint, to: toPoint };
+			}
+		}
+	}
+
+	function getNodeLabelById(nodeId: string): string {
+		const node = (diagramState.profile as any)?.nodes?.find((n: any) => n.id === nodeId);
+		return (node?.label as string) || nodeId;
+	}
+
+	function getNodeRectInContainer(nodeId: string): { x: number; y: number; width: number; height: number } | null {
+		if (!svgContainer) return null;
+		const nodeElement = svgContainer.querySelector(`[data-node-id="${nodeId}"]`) as SVGGraphicsElement | null;
+		if (!nodeElement) return null;
+		const nodeRect = nodeElement.getBoundingClientRect();
+		const containerRect = svgContainer.getBoundingClientRect();
+		return {
+			x: nodeRect.left - containerRect.left,
+			y: nodeRect.top - containerRect.top,
+			width: nodeRect.width,
+			height: nodeRect.height
+		};
+	}
+
+	function getConnectedNodeCenters(nodeId: string): { x: number; y: number }[] {
+		if (!svgContainer) return [];
+		const profile = diagramState.profile as any;
+		const edges = (profile?.edges as any[]) || [];
+		const connectedNodeIds = new Set<string>();
+		for (const edge of edges) {
+			if (edge?.from === nodeId && edge?.to) connectedNodeIds.add(edge.to);
+			if (edge?.to === nodeId && edge?.from) connectedNodeIds.add(edge.from);
+		}
+		const containerRect = svgContainer.getBoundingClientRect();
+		const centers: { x: number; y: number }[] = [];
+		for (const id of connectedNodeIds) {
+			const nodeElement = svgContainer.querySelector(`[data-node-id="${id}"]`) as SVGGraphicsElement | null;
+			if (!nodeElement) continue;
+			const rect = nodeElement.getBoundingClientRect();
+			centers.push({
+				x: rect.left - containerRect.left + rect.width / 2,
+				y: rect.top - containerRect.top + rect.height / 2
+			});
+		}
+		if (centers.length > 0) return centers;
+		// Fallback for non-diagram profiles (e.g. schematic) where edges are represented in rendered SVG metadata.
+		const renderedEdges = Array.from(svgContainer.querySelectorAll('[data-edge-id]'));
+		for (const edgeElement of renderedEdges) {
+			const from = edgeElement.getAttribute('data-edge-from');
+			const to = edgeElement.getAttribute('data-edge-to');
+			if (from === nodeId && to) connectedNodeIds.add(to);
+			if (to === nodeId && from) connectedNodeIds.add(from);
+		}
+		for (const id of connectedNodeIds) {
+			const nodeElement = svgContainer.querySelector(`[data-node-id="${id}"]`) as SVGGraphicsElement | null;
+			if (!nodeElement) continue;
+			const rect = nodeElement.getBoundingClientRect();
+			centers.push({
+				x: rect.left - containerRect.left + rect.width / 2,
+				y: rect.top - containerRect.top + rect.height / 2
+			});
+		}
+		return centers;
+	}
+
+	function getContainerRectInCanvas(containerId: string | null): {
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+	} | null {
+		if (!containerId || !svgContainer) return null;
+		const element = svgContainer.querySelector(`[data-container-id="${containerId}"]`) as SVGGraphicsElement | null;
+		if (!element) return null;
+		const rect = element.getBoundingClientRect();
+		const containerRect = svgContainer.getBoundingClientRect();
+		return {
+			x: rect.left - containerRect.left,
+			y: rect.top - containerRect.top,
+			width: rect.width,
+			height: rect.height
+		};
+	}
+
+	function unindentBlock(lines: string[]): string {
+		let minIndent = Number.POSITIVE_INFINITY;
+		for (const line of lines) {
+			if (!line.trim()) continue;
+			const indent = (line.match(/^\s*/) || [''])[0].length;
+			minIndent = Math.min(minIndent, indent);
+		}
+		if (!Number.isFinite(minIndent)) return lines.join('\n');
+		return lines
+			.map((line) => {
+				if (!line.trim()) return '';
+				return line.slice(minIndent);
+			})
+			.join('\n');
+	}
+
+	function readQuickConnectState() {
+		return {
+			quickConnectNodeId,
+			quickConnectHandles,
+			quickConnectActiveDirection,
+			quickConnectPreviewStart,
+			quickConnectPreviewEnd,
+			quickConnectTargetNodeId,
+			quickConnectNewNodePosition
+		};
+	}
+
+	function writeQuickConnectState(state: ReturnType<typeof readQuickConnectState>) {
+		if (quickConnectNodeId !== state.quickConnectNodeId) {
+			quickConnectNodeId = state.quickConnectNodeId;
+		}
+		if (quickConnectHandles !== state.quickConnectHandles) {
+			quickConnectHandles = state.quickConnectHandles;
+		}
+		if (quickConnectActiveDirection !== state.quickConnectActiveDirection) {
+			quickConnectActiveDirection = state.quickConnectActiveDirection;
+		}
+		if (quickConnectPreviewStart !== state.quickConnectPreviewStart) {
+			quickConnectPreviewStart = state.quickConnectPreviewStart;
+		}
+		if (quickConnectPreviewEnd !== state.quickConnectPreviewEnd) {
+			quickConnectPreviewEnd = state.quickConnectPreviewEnd;
+		}
+		if (quickConnectTargetNodeId !== state.quickConnectTargetNodeId) {
+			quickConnectTargetNodeId = state.quickConnectTargetNodeId;
+		}
+		if (quickConnectNewNodePosition !== state.quickConnectNewNodePosition) {
+			quickConnectNewNodePosition = state.quickConnectNewNodePosition;
+		}
+	}
+
+	function resetQuickConnect() {
+		const alreadyReset =
+			quickConnectNodeId === null &&
+			quickConnectHandles.length === 0 &&
+			quickConnectActiveDirection === null &&
+			quickConnectPreviewStart === null &&
+			quickConnectPreviewEnd === null &&
+			quickConnectTargetNodeId === null &&
+			quickConnectNewNodePosition === null;
+		if (alreadyReset) {
+			if (quickConnectBehaviorHint !== 'auto') {
+				quickConnectBehaviorHint = 'auto';
+			}
+			return;
+		}
+
+		withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				resetQuickConnectState(state);
+			}
+		);
+		quickConnectBehaviorHint = 'auto';
+	}
+
+	// function getContainerPointFromClient(clientX: number, clientY: number): { x: number; y: number } | null {
+	// 	if (!svgContainer) return null;
+	// 	const rect = svgContainer.getBoundingClientRect();
+	// 	return { x: clientX - rect.left, y: clientY - rect.top };
+	// }
+
+	function activateQuickConnect(
+		nodeId: string,
+		direction: QuickConnectDirection,
+		behavior: QuickConnectBehavior = 'auto'
+	) {
+		withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				activateQuickConnectPreview({
+					state,
+					svgContainer,
+					profile: diagramState.profile as any,
+					nodeId,
+					direction,
+					behavior
+				});
+			}
+		);
+	}
+
+	function runQuickConnect(
+		nodeId: string,
+		direction: QuickConnectDirection,
+		behavior: QuickConnectBehavior = 'auto'
+	) {
+		const finalState = withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				runQuickConnectAction({
+					state,
+					svgContainer,
+					profile: diagramState.profile as any,
+					nodeId,
+					direction,
+					behavior,
+					newNodeId: `id${editorState.shapeCounter}`,
+					onInsertEdge: handleInsertEdge,
+					onInsertShapeAndEdge: handleInsertShapeAndEdge
+				});
+				return state;
+			}
+		);
+		if (finalState.quickConnectNodeId === null) {
+			quickConnectBehaviorHint = 'auto';
+		}
+	}
+
+	function updateQuickConnectFromMouseEvent(event: MouseEvent) {
+		withQuickConnectState(
+			{
+				read: readQuickConnectState,
+				write: writeQuickConnectState
+			},
+			(state) => {
+				updateQuickConnectFromMouseEventAction({
+					state,
+					event,
+					profileName: editorState.profileName,
+					mode: canvasState.mode,
+					connectPreviewStart,
+					svgContainer
+				});
+			}
+		);
+	}
+
+	function handleCanvasMouseMove(event: MouseEvent) {
+		if (editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') {
+			quickConnectBehaviorHint = getQuickConnectBehaviorFromModifiers(event);
+		}
+		updateQuickConnectFromMouseEvent(event);
+		handleMouseMove(event);
+	}
+
+	function handleCanvasMouseLeave() {
+		quickConnectBehaviorHint = 'auto';
+		resetQuickConnect();
+	}
+
+	function resolveContainerUnderPointer(
+		clientX: number,
+		clientY: number,
+		fallbackContainerId: string | null
+	): string | null {
+		const elements = document.elementsFromPoint(clientX, clientY);
+		for (const element of elements) {
+			if (!(element instanceof Element)) continue;
+			const container = element.closest('[data-container-id]');
+			const containerId = container?.getAttribute('data-container-id');
+			if (containerId) return containerId;
+		}
+		return fallbackContainerId;
+	}
+
+	function handleNodeContainerDragStart(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetContainerId: string | null;
+	}) {
+		const rect = getNodeRectInContainer(payload.nodeId);
+		const mouse = getContainerPointFromClient(payload.clientX, payload.clientY);
+		if (!rect || !mouse) return;
+		const resolvedContainerId = resolveContainerUnderPointer(
+			payload.clientX,
+			payload.clientY,
+			payload.targetContainerId
+		);
+		nodeContainerDrag = {
+			nodeId: payload.nodeId,
+			label: getNodeLabelById(payload.nodeId),
+			width: Math.max(56, rect.width),
+			height: Math.max(30, rect.height),
+			x: mouse.x - Math.max(56, rect.width) / 2,
+			y: mouse.y - Math.max(30, rect.height) / 2,
+			connectedTargets: getConnectedNodeCenters(payload.nodeId),
+			hoverContainerId: resolvedContainerId,
+			hoverContainerRect: getContainerRectInCanvas(resolvedContainerId)
+		};
+	}
+
+	function handleNodeContainerDragMove(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetContainerId: string | null;
+	}) {
+		if (!nodeContainerDrag || nodeContainerDrag.nodeId !== payload.nodeId) return;
+		const mouse = getContainerPointFromClient(payload.clientX, payload.clientY);
+		if (!mouse) return;
+		const resolvedContainerId = resolveContainerUnderPointer(
+			payload.clientX,
+			payload.clientY,
+			payload.targetContainerId
+		);
+		nodeContainerDrag = {
+			...nodeContainerDrag,
+			x: mouse.x - nodeContainerDrag.width / 2,
+			y: mouse.y - nodeContainerDrag.height / 2,
+			hoverContainerId: resolvedContainerId,
+			hoverContainerRect: getContainerRectInCanvas(resolvedContainerId)
+		};
+	}
+
+	function handleNodeContainerDragEnd(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetContainerId: string | null;
+	}) {
+		const resolvedContainerId = resolveContainerUnderPointer(
+			payload.clientX,
+			payload.clientY,
+			payload.targetContainerId
+		);
+		const targetContainerLabel =
+			resolvedContainerId && svgContainer
+				? (
+						svgContainer
+							.querySelector(`[data-container-id="${resolvedContainerId}"] .runiq-container-label`)
+							?.textContent?.trim() || null
+					)
+				: null;
+		if (resolvedContainerId) {
+			const moved = moveNodeIntoContainer(payload.nodeId, resolvedContainerId, targetContainerLabel);
+			if (moved) {
+				showTransientStatus(`Moved "${getNodeLabelById(payload.nodeId)}" into container.`);
+			}
+		}
+		nodeContainerDrag = null;
+	}
+
+	function handleSchematicPartDragStart(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) {
+		const rect = getNodeRectInContainer(payload.nodeId);
+		const mouse = getContainerPointFromClient(payload.clientX, payload.clientY);
+		if (!rect || !mouse) return;
+		schematicPartDrag = {
+			nodeId: payload.nodeId,
+			label: getNodeLabelById(payload.nodeId),
+			width: Math.max(56, rect.width),
+			height: Math.max(30, rect.height),
+			x: mouse.x - Math.max(56, rect.width) / 2,
+			y: mouse.y - Math.max(30, rect.height) / 2,
+			connectedTargets: getConnectedNodeCenters(payload.nodeId),
+			targetNodeId: payload.targetNodeId,
+			targetRect: getNodeRectInContainer(payload.targetNodeId ?? ''),
+			position: payload.position
+		};
+	}
+
+	function handleSchematicPartDragMove(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) {
+		if (!schematicPartDrag || schematicPartDrag.nodeId !== payload.nodeId) return;
+		const mouse = getContainerPointFromClient(payload.clientX, payload.clientY);
+		if (!mouse) return;
+		schematicPartDrag = {
+			...schematicPartDrag,
+			x: mouse.x - schematicPartDrag.width / 2,
+			y: mouse.y - schematicPartDrag.height / 2,
+			targetNodeId: payload.targetNodeId,
+			targetRect: getNodeRectInContainer(payload.targetNodeId ?? ''),
+			position: payload.position
+		};
+	}
+
+	function handleSchematicPartDragEnd(payload: {
+		nodeId: string;
+		clientX: number;
+		clientY: number;
+		targetNodeId: string | null;
+		position: 'before' | 'after' | null;
+	}) {
+		if (payload.targetNodeId && payload.position) {
+			const moved = reorderSchematicParts(payload.nodeId, payload.targetNodeId, payload.position);
+			if (moved) {
+				showTransientStatus(`Moved "${getNodeLabelById(payload.nodeId)}" ${payload.position} target.`);
+			}
+		}
+		schematicPartDrag = null;
+	}
+
+	function closeCanvasContextMenu() {
+		canvasContextMenu = null;
+		contextShapeFlyout = null;
+		contextContainerFlyout = null;
+		contextImageFlyout = null;
+		contextThemeFlyout = null;
+		sequenceEditFlyout = null;
+		schematicEditFlyout = null;
+	}
+
+	function closeElementContextMenu() {
+		elementContextMenu = null;
+		contextShapeFlyout = null;
+		contextContainerFlyout = null;
+		contextImageFlyout = null;
+		timelineEditFlyout = null;
+		sequenceEditFlyout = null;
+		schematicEditFlyout = null;
+	}
+
+	function insertShapeFromContext(shapeCode: string) {
+		const trimmedShapeCode = shapeCode.trim();
+		const supportsDirectInsert = /^(shape|container|group)\b/.test(trimmedShapeCode);
+		if (!supportsDirectInsert) {
+			// Ignore non-shape clipboard items in context insert flows.
+			return;
+		}
+
+		const beforeCode = editorState.code || '';
+		const result = applyDraftOperation(beforeCode, editorState.shapeCounter, {
+			type: 'insert-shape',
+			shapeCode: trimmedShapeCode
+		});
+		if (result.newCode !== beforeCode) {
+			editorState.shapeCounter += result.shapeCounterDelta;
+			updateCode(result.newCode, true);
+			return;
+		}
+
+		// Fallback only when editor is empty.
+		// Never replace existing documents when insertion fails.
+		if (beforeCode.trim().length > 0) {
+			console.warn('Context insert skipped: unable to locate a valid profile block for insertion.');
+			return;
+		}
+
+		// Bootstrap a minimal diagram when there is no existing content.
+		const nextId = `id${editorState.shapeCounter}`;
+		const normalizedShape = trimmedShapeCode.replace(/\bid\b/g, nextId);
+		const bootstrapCode = `diagram "New Diagram" {\n  ${normalizedShape}\n}`;
+		editorState.shapeCounter += 1;
+		updateCode(bootstrapCode, true);
+	}
+
+	function escapeDslString(value: string): string {
+		return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+	}
+
+	function findTimelineStatementLineIndex(lines: string[], nodeId: string): number {
+		const id = nodeId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const timelineRegex = new RegExp(`^\\s*(event|period|task|milestone)\\s+${id}(?:\\s|$)`);
+		for (let i = 0; i < lines.length; i++) {
+			if (timelineRegex.test(lines[i])) return i;
+		}
+		return -1;
+	}
+
+	function decodeNodeToken(value: string): string {
+		try {
+			return decodeURIComponent(value);
+		} catch {
+			return value;
+		}
+	}
+
+	function findSchematicPartLineIndex(lines: string[], nodeId: string): number {
+		if (!nodeId.startsWith('sch-part-')) return -1;
+		const ref = decodeNodeToken(nodeId.slice('sch-part-'.length));
+		const escapedRef = ref.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const regex = new RegExp(`^\\s*part\\s+${escapedRef}\\b`);
+		return lines.findIndex((line) => regex.test(line));
+	}
+
+	function parseSchematicPartByNodeId(nodeId: string): {
+		lineIndex: number;
+		line: string;
+		ref: string;
+		type: string;
+		pins: string;
+		value: string;
+		source: string;
+		model: string;
+	} | null {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSchematicPartLineIndex(lines, nodeId);
+		if (lineIndex < 0) return null;
+		const line = lines[lineIndex];
+		const partMatch = line.match(/^\s*part\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+		if (!partMatch) return null;
+		const ref = partMatch[1];
+		const extractQuoted = (key: string): string => {
+			const m = line.match(new RegExp(`\\b${key}:"((?:\\\\.|[^"])*)"`));
+			return m ? m[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\') : '';
+		};
+		const extractBare = (key: string): string => {
+			const m = line.match(new RegExp(`\\b${key}:([A-Za-z_][A-Za-z0-9_-]*)`));
+			return m ? m[1] : '';
+		};
+		const extractPins = (): string => {
+			const m = line.match(/\bpins:\(([^)]*)\)/);
+			return m ? m[1].trim() : '';
+		};
+		return {
+			lineIndex,
+			line,
+			ref,
+			type: extractBare('type'),
+			pins: extractPins(),
+			value: extractQuoted('value'),
+			source: extractQuoted('source'),
+			model: extractQuoted('model')
+		};
+	}
+
+	function upsertParensField(line: string, key: string, value: string): string {
+		const normalized = value.trim();
+		const regex = new RegExp(`\\b${key}:\\([^)]*\\)`);
+		if (regex.test(line)) {
+			return line.replace(regex, `${key}:(${normalized})`);
+		}
+		return `${line} ${key}:(${normalized})`;
+	}
+
+	function buildUniqueSchematicPartRef(lines: string[], baseRef: string): string {
+		const escaped = baseRef.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		if (!new RegExp(`^\\s*part\\s+${escaped}\\b`, 'm').test(lines.join('\n'))) return baseRef;
+		let index = 1;
+		let candidate = `${baseRef}_${index}`;
+		while (new RegExp(`^\\s*part\\s+${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'm').test(lines.join('\n'))) {
+			index += 1;
+			candidate = `${baseRef}_${index}`;
+		}
+		return candidate;
+	}
+
+	function buildUniqueTimelineId(lines: string[], baseId: string): string {
+		const code = lines.join('\n');
+		const escaped = baseId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		if (!new RegExp(`\\b${escaped}\\b`).test(code)) return baseId;
+		let index = 1;
+		let candidate = `${baseId}_${index}`;
+		while (new RegExp(`\\b${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(code)) {
+			index += 1;
+			candidate = `${baseId}_${index}`;
+		}
+		return candidate;
+	}
+
+	function duplicateTimelineElement(nodeId: string): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findTimelineStatementLineIndex(lines, nodeId);
+		if (lineIndex < 0) return false;
+		const line = lines[lineIndex];
+		const match = line.match(
+			/^(\s*)(event|period|task|milestone)\s+([A-Za-z_][A-Za-z0-9_-]*)(.*)$/
+		);
+		if (!match) return false;
+		const [, indent, keyword, id, remainder] = match;
+		const nextId = buildUniqueTimelineId(lines, `${id}_copy`);
+		let nextRemainder = remainder;
+		if (/label:"([^"]*)"/.test(nextRemainder)) {
+			nextRemainder = nextRemainder.replace(/label:"([^"]*)"/, (_full, current) => {
+				return `label:"${escapeDslString(String(current))} Copy"`;
+			});
+		} else {
+			nextRemainder = `${nextRemainder} label:"${nextId}"`;
+		}
+		const nextLine = `${indent}${keyword} ${nextId}${nextRemainder}`;
+		lines.splice(lineIndex + 1, 0, nextLine);
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function deleteTimelineElement(nodeId: string): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findTimelineStatementLineIndex(lines, nodeId);
+		if (lineIndex < 0) return false;
+		lines.splice(lineIndex, 1);
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function parseTimelineStatements(lines: string[]) {
+		const statements: Array<{ lineIndex: number; id: string; line: string }> = [];
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = lines[i].match(/^\s*(event|period|task|milestone)\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+			if (!match) continue;
+			statements.push({
+				lineIndex: i,
+				id: match[2],
+				line: lines[i]
+			});
+		}
+		return statements;
+	}
+
+	function reorderTimelineElements(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceNodeId || !targetNodeId || sourceNodeId === targetNodeId) return false;
+		const lines = (editorState.code || '').split('\n');
+		const statements = parseTimelineStatements(lines);
+		if (statements.length < 2) return false;
+		const sourceIndex = statements.findIndex((entry) => entry.id === sourceNodeId);
+		const targetIndex = statements.findIndex((entry) => entry.id === targetNodeId);
+		if (sourceIndex < 0 || targetIndex < 0) return false;
+
+		const reordered = [...statements];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = targetIndex;
+		if (sourceIndex < targetIndex) insertIndex -= 1;
+		if (position === 'after') insertIndex += 1;
+		if (insertIndex < 0) insertIndex = 0;
+		if (insertIndex > reordered.length) insertIndex = reordered.length;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = statements.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function parseTimelineStatementById(nodeId: string): {
+		lineIndex: number;
+		keyword: 'event' | 'period' | 'task' | 'milestone';
+		line: string;
+		fields: Record<string, string>;
+	} | null {
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findTimelineStatementLineIndex(lines, nodeId);
+		if (lineIndex < 0) return null;
+		const line = lines[lineIndex];
+		const head = line.match(/^\s*(event|period|task|milestone)\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+		if (!head) return null;
+		const keyword = head[1] as 'event' | 'period' | 'task' | 'milestone';
+		const fields: Record<string, string> = {};
+		const tokenRegex = /(\w+):"((?:\\.|[^"])*)"/g;
+		let tokenMatch: RegExpExecArray | null;
+		while ((tokenMatch = tokenRegex.exec(line)) !== null) {
+			fields[tokenMatch[1]] = tokenMatch[2].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+		}
+		return { lineIndex, keyword, line, fields };
+	}
+
+	function upsertQuotedField(line: string, key: string, value: string): string {
+		const escaped = escapeDslString(value.trim());
+		const regex = new RegExp(`\\b${key}:"(?:\\\\.|[^"])*"`);
+		if (regex.test(line)) {
+			return line.replace(regex, `${key}:"${escaped}"`);
+		}
+		return `${line} ${key}:"${escaped}"`;
+	}
+
+	function upsertBareField(line: string, key: string, value: string): string {
+		const normalized = value.trim();
+		const regex = new RegExp(`\\b${key}:(?:true|false|[A-Za-z_][A-Za-z0-9_-]*)`);
+		if (regex.test(line)) {
+			return line.replace(regex, `${key}:${normalized}`);
+		}
+		return `${line} ${key}:${normalized}`;
+	}
+
+	function removeField(line: string, key: string): string {
+		const quotedRegex = new RegExp(`\\s+${key}:"(?:\\\\.|[^"])*"`, 'g');
+		const bareRegex = new RegExp(`\\s+${key}:(?:true|false|[A-Za-z_][A-Za-z0-9_-]*)`, 'g');
+		return line.replace(quotedRegex, '').replace(bareRegex, '');
+	}
+
+	function normalizeSequenceIdentifier(value: string): string {
+		return value.trim().replace(/^"|"$/g, '').toLowerCase().replace(/\s+/g, '_');
+	}
+
+	function findSequenceParticipantStatementLineIndex(
+		lines: string[],
+		nodeId: string
+	): number {
+		if (!nodeId.startsWith('seq-participant-')) return -1;
+		const expectedId = nodeId.slice('seq-participant-'.length);
+		const participantRegex = /^\s*participant\s+("([^"\\]|\\.)*"|\S+)/;
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = participantRegex.exec(lines[i]);
+			if (!match) continue;
+			if (normalizeSequenceIdentifier(match[1]) === expectedId) return i;
+		}
+		return -1;
+	}
+
+	function findSequenceMessageStatementLineIndex(lines: string[], edgeId: string): number {
+		if (!edgeId.startsWith('seq-message-')) return -1;
+		const index = Number.parseInt(edgeId.slice('seq-message-'.length), 10);
+		if (!Number.isFinite(index) || index < 0) return -1;
+		let current = 0;
+		for (let i = 0; i < lines.length; i += 1) {
+			if (!/^\s*message\s+/.test(lines[i])) continue;
+			if (current === index) return i;
+			current += 1;
+		}
+		return -1;
+	}
+
+	function parseSequenceParticipants(lines: string[]) {
+		const participants: Array<{ lineIndex: number; id: string; name: string; line: string }> = [];
+		const participantRegex = /^\s*participant\s+("([^"\\]|\\.)*"|\S+)/;
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = participantRegex.exec(lines[i]);
+			if (!match) continue;
+			const raw = match[1];
+			const name = raw.replace(/^"|"$/g, '').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+			participants.push({
+				lineIndex: i,
+				id: normalizeSequenceIdentifier(raw),
+				name,
+				line: lines[i]
+			});
+		}
+		return participants;
+	}
+
+	function reorderSequenceParticipants(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceNodeId.startsWith('seq-participant-') || !targetNodeId.startsWith('seq-participant-')) {
+			return false;
+		}
+		const sourceId = sourceNodeId.slice('seq-participant-'.length);
+		const targetId = targetNodeId.slice('seq-participant-'.length);
+		if (sourceId === targetId) return false;
+
+		const lines = (editorState.code || '').split('\n');
+		const participants = parseSequenceParticipants(lines);
+		if (participants.length < 2) return false;
+		const sourceIndex = participants.findIndex((entry) => entry.id === sourceId);
+		const targetIndex = participants.findIndex((entry) => entry.id === targetId);
+		if (sourceIndex < 0 || targetIndex < 0) return false;
+
+		const reordered = [...participants];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = reordered.findIndex((entry) => entry.id === targetId);
+		if (insertIndex < 0) return false;
+		if (position === 'after') insertIndex += 1;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = participants.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function reorderSequenceMessages(
+		sourceEdgeId: string,
+		targetEdgeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceEdgeId.startsWith('seq-message-') || !targetEdgeId.startsWith('seq-message-')) return false;
+		const sourceIndex = Number.parseInt(sourceEdgeId.slice('seq-message-'.length), 10);
+		const targetIndex = Number.parseInt(targetEdgeId.slice('seq-message-'.length), 10);
+		if (!Number.isFinite(sourceIndex) || !Number.isFinite(targetIndex)) return false;
+		if (sourceIndex === targetIndex) return false;
+
+		const lines = (editorState.code || '').split('\n');
+		const messageLines = lines
+			.map((line, lineIndex) => ({ line, lineIndex }))
+			.filter((entry) => /^\s*message\s+/.test(entry.line));
+		if (messageLines.length < 2 || sourceIndex < 0 || sourceIndex >= messageLines.length) return false;
+		if (targetIndex < 0 || targetIndex >= messageLines.length) return false;
+
+		const reordered = [...messageLines];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = targetIndex;
+		if (sourceIndex < targetIndex) insertIndex -= 1;
+		if (position === 'after') insertIndex += 1;
+		if (insertIndex < 0) insertIndex = 0;
+		if (insertIndex > reordered.length) insertIndex = reordered.length;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = messageLines.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function parseSchematicParts(lines: string[]) {
+		const parts: Array<{ lineIndex: number; ref: string; line: string }> = [];
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = lines[i].match(/^\s*part\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+			if (!match) continue;
+			parts.push({
+				lineIndex: i,
+				ref: match[1],
+				line: lines[i]
+			});
+		}
+		return parts;
+	}
+
+	function reorderSchematicParts(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceNodeId.startsWith('sch-part-') || !targetNodeId.startsWith('sch-part-')) return false;
+		const sourceRef = decodeNodeToken(sourceNodeId.slice('sch-part-'.length));
+		const targetRef = decodeNodeToken(targetNodeId.slice('sch-part-'.length));
+		if (sourceRef === targetRef) return false;
+
+		const lines = (editorState.code || '').split('\n');
+		const parts = parseSchematicParts(lines);
+		if (parts.length < 2) return false;
+
+		const sourceIndex = parts.findIndex((entry) => entry.ref === sourceRef);
+		const targetIndex = parts.findIndex((entry) => entry.ref === targetRef);
+		if (sourceIndex < 0 || targetIndex < 0) return false;
+
+		const reordered = [...parts];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = reordered.findIndex((entry) => entry.ref === targetRef);
+		if (insertIndex < 0) return false;
+		if (position === 'after') insertIndex += 1;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = parts.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function getGlyphsetTypeInCode(code: string): string | null {
+		return getGlyphsetTypeFromCode(code);
+	}
+
+	function extractGlyphsetNodeIndex(nodeId: string): number | null {
+		const match = nodeId.match(/(\d+)$/);
+		if (!match) return null;
+		const index = Number.parseInt(match[1], 10);
+		if (!Number.isFinite(index) || index <= 0) return null;
+		return index - 1;
+	}
+
+	function parseGlyphsetItems(lines: string[], glyphsetType: string) {
+		const keywords = getGlyphsetKeywords(glyphsetType as never);
+		if (!keywords || keywords.length === 0) return [];
+		const escaped = keywords.map((keyword) =>
+			keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+		);
+		const pattern = new RegExp(`^\\s*(?:${escaped.join('|')})\\b`);
+		const items: Array<{ lineIndex: number; line: string }> = [];
+		for (let i = 0; i < lines.length; i += 1) {
+			if (!pattern.test(lines[i])) continue;
+			items.push({ lineIndex: i, line: lines[i] });
+		}
+		return items;
+	}
+
+	function reorderGlyphsetItems(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		const code = editorState.code || '';
+		const glyphsetType = getGlyphsetTypeInCode(code);
+		if (!glyphsetType) return false;
+		if (!isGlyphsetReorderSupported(glyphsetType)) return false;
+		const sourceIndex = extractGlyphsetNodeIndex(sourceNodeId);
+		const targetIndex = extractGlyphsetNodeIndex(targetNodeId);
+		if (sourceIndex === null || targetIndex === null || sourceIndex === targetIndex) return false;
+
+		const lines = code.split('\n');
+		const items = parseGlyphsetItems(lines, glyphsetType);
+		if (items.length < 2) return false;
+		if (sourceIndex < 0 || sourceIndex >= items.length) return false;
+		if (targetIndex < 0 || targetIndex >= items.length) return false;
+
+		const reordered = [...items];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = targetIndex;
+		if (sourceIndex < targetIndex) insertIndex -= 1;
+		if (position === 'after') insertIndex += 1;
+		if (insertIndex < 0) insertIndex = 0;
+		if (insertIndex > reordered.length) insertIndex = reordered.length;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = items.map((item) => item.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function findSequenceParticipantNameByNodeId(lines: string[], nodeId: string): string | null {
+		const normalized = nodeId.startsWith('seq-participant-')
+			? nodeId.slice('seq-participant-'.length)
+			: nodeId;
+		const participants = parseSequenceParticipants(lines);
+		const match = participants.find((entry) => entry.id === normalized);
+		return match?.name ?? null;
+	}
+
+	function insertSequenceMessage(fromNodeId: string, toNodeId: string): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const fromName = findSequenceParticipantNameByNodeId(lines, fromNodeId);
+		const toName = findSequenceParticipantNameByNodeId(lines, toNodeId);
+		if (!fromName || !toName) return false;
+		const blockInfo = DSL.findProfileBlock(editorState.code || '');
+		if (!blockInfo) return false;
+
+		const messageLineIndices = lines
+			.map((line, index) => ({ line, index }))
+			.filter((entry) => /^\s*message\s+/.test(entry.line))
+			.map((entry) => entry.index);
+		const participantLineIndices = lines
+			.map((line, index) => ({ line, index }))
+			.filter((entry) => /^\s*participant\s+/.test(entry.line))
+			.map((entry) => entry.index);
+		const insertIndex =
+			messageLineIndices.length > 0
+				? messageLineIndices[messageLineIndices.length - 1] + 1
+				: participantLineIndices.length > 0
+					? participantLineIndices[participantLineIndices.length - 1] + 1
+					: blockInfo.startLineIndex + 1;
+		const newLine = `${blockInfo.indentation}message from:"${escapeDslString(fromName)}" to:"${escapeDslString(toName)}" label:"New Message" type:sync`;
+		lines.splice(insertIndex, 0, newLine);
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function retargetSequenceMessageEndpoint(
+		edgeId: string,
+		endpoint: 'from' | 'to',
+		participantNodeId: string
+	): boolean {
+		const lines = (editorState.code || '').split('\n');
+		const messageLineIndex = findSequenceMessageStatementLineIndex(lines, edgeId);
+		if (messageLineIndex < 0) return false;
+		const participantName = findSequenceParticipantNameByNodeId(lines, participantNodeId);
+		if (!participantName) return false;
+		const currentLine = lines[messageLineIndex];
+		const nextLine = upsertQuotedField(currentLine, endpoint, participantName);
+		if (nextLine === currentLine) return false;
+		lines[messageLineIndex] = nextLine;
+		const nextCode = lines.join('\n');
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function parseSequenceDetails(
+		nodeId: string | null,
+		edgeId: string | null
+	): {
+		kind: 'participant' | 'message';
+		lineIndex: number;
+		line: string;
+		fields: Record<string, string>;
+	} | null {
+		const lines = (editorState.code || '').split('\n');
+		if (edgeId?.startsWith('seq-message-')) {
+			const lineIndex = findSequenceMessageStatementLineIndex(lines, edgeId);
+			if (lineIndex < 0) return null;
+			const line = lines[lineIndex];
+			const fields: Record<string, string> = {};
+			const quotedRegex = /(\w+):"((?:\\.|[^"])*)"/g;
+			let tokenMatch: RegExpExecArray | null;
+			while ((tokenMatch = quotedRegex.exec(line)) !== null) {
+				fields[tokenMatch[1]] = tokenMatch[2].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+			}
+			const bareRegex = /(\w+):(true|false|[A-Za-z_][A-Za-z0-9_-]*)/g;
+			while ((tokenMatch = bareRegex.exec(line)) !== null) {
+				if (!fields[tokenMatch[1]]) {
+					fields[tokenMatch[1]] = tokenMatch[2];
+				}
+			}
+			return { kind: 'message', lineIndex, line, fields };
+		}
+		if (nodeId?.startsWith('seq-participant-')) {
+			const lineIndex = findSequenceParticipantStatementLineIndex(lines, nodeId);
+			if (lineIndex < 0) return null;
+			const line = lines[lineIndex];
+			const participantMatch = line.match(/^\s*participant\s+("([^"\\]|\\.)*"|\S+)(?:\s+as\s+(\w+))?/);
+			if (!participantMatch) return null;
+			const displayName = participantMatch[1].replace(/^"|"$/g, '').replace(/\\"/g, '"');
+			const fields: Record<string, string> = {
+				label: displayName,
+				type: participantMatch[3] || ''
+			};
+			return { kind: 'participant', lineIndex, line, fields };
+		}
+		if (nodeId?.startsWith('seq-note-')) {
+			const indexRaw = nodeId.slice('seq-note-'.length);
+			const noteIndex = Number.parseInt(indexRaw, 10);
+			if (!Number.isFinite(noteIndex) || noteIndex < 0) return null;
+			let current = 0;
+			for (let i = 0; i < lines.length; i += 1) {
+				if (!/^\s*note\s+/.test(lines[i])) continue;
+				if (current !== noteIndex) {
+					current += 1;
+					continue;
+				}
+				const line = lines[i];
+				const noteMatch = line.match(/^\s*note\s+"((?:\\.|[^"])*)"/);
+				if (!noteMatch) return null;
+				const label = noteMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+				return { kind: 'participant', lineIndex: i, line, fields: { label } };
+			}
+		}
+		return null;
+	}
+
+	function parseSequenceDetailsFromContext() {
+		if (!elementContextMenu) return null;
+		return parseSequenceDetails(elementContextMenu.nodeId, elementContextMenu.edgeId);
+	}
+
+	function openTimelineEdit(nodeId: string | null) {
+		if (!nodeId) return;
+		const parsed = parseTimelineStatementById(nodeId);
+		if (!parsed) return;
+		timelineEditErrors = null;
+		timelineEditFlyout = {
+			nodeId,
+			keyword: parsed.keyword,
+			label: parsed.fields.label ?? '',
+			date: parsed.fields.date ?? '',
+			description: parsed.fields.description ?? '',
+			startDate: parsed.fields.startDate ?? '',
+			endDate: parsed.fields.endDate ?? ''
+		};
+	}
+
+	function openTimelineEditFromSelection() {
+		openTimelineEdit(selection.selectedNodeId);
+	}
+
+	function openTimelineEditFromContext() {
+		openTimelineEdit(elementContextMenu?.nodeId ?? null);
+		elementContextMenu = null;
+	}
+
+	function openSequenceEditFromContext() {
+		const parsed = parseSequenceDetailsFromContext();
+		if (!parsed || !elementContextMenu) return;
+		sequenceEditFlyout = {
+			kind: parsed.kind,
+			nodeId: elementContextMenu.nodeId,
+			edgeId: elementContextMenu.edgeId,
+			label: parsed.fields.label ?? '',
+			messageType:
+				(parsed.fields.type as 'sync' | 'async' | 'return' | 'create' | 'destroy') || 'sync',
+			guard: parsed.fields.guard ?? '',
+			timing: parsed.fields.timing ?? '',
+			activate: parsed.fields.activate === 'true',
+			participantType:
+				(parsed.fields.type as
+					| 'actor'
+					| 'entity'
+					| 'boundary'
+					| 'control'
+					| 'database'
+					| 'continuation'
+					| '') || ''
+		};
+		elementContextMenu = null;
+	}
+
+	function openSequenceEditFromSelection() {
+		const nodeId = selection.selectedNodeId;
+		const edgeId = selection.selectedEdgeId;
+		if (!nodeId && !edgeId) return;
+		const parsed = parseSequenceDetails(nodeId, edgeId);
+		if (!parsed) return;
+		sequenceEditFlyout = {
+			kind: parsed.kind === 'message' ? 'message' : 'participant',
+			nodeId,
+			edgeId,
+			label: parsed.fields.label ?? '',
+			messageType:
+				(parsed.fields.type as 'sync' | 'async' | 'return' | 'create' | 'destroy') || 'sync',
+			guard: parsed.fields.guard ?? '',
+			timing: parsed.fields.timing ?? '',
+			activate: parsed.fields.activate === 'true',
+			participantType:
+				(parsed.fields.type as
+					| 'actor'
+					| 'entity'
+					| 'boundary'
+					| 'control'
+					| 'database'
+					| 'continuation'
+					| '') || ''
+		};
+	}
+
+	function openSchematicEdit(nodeId: string | null) {
+		if (!nodeId) return;
+		const parsed = parseSchematicPartByNodeId(nodeId);
+		if (!parsed) return;
+		schematicEditFlyout = {
+			nodeId,
+			ref: parsed.ref,
+			type: parsed.type,
+			pins: parsed.pins,
+			value: parsed.value,
+			source: parsed.source,
+			model: parsed.model
+		};
+	}
+
+	function openSchematicEditFromSelection() {
+		openSchematicEdit(selection.selectedNodeId);
+	}
+
+	function openSchematicEditFromContext() {
+		openSchematicEdit(elementContextMenu?.nodeId ?? null);
+		elementContextMenu = null;
+	}
+
+	function parseGlyphsetImageEntries(code: string): Array<{
+		lineIndex: number;
+		url: string;
+		label: string;
+		description: string;
+	}> {
+		const blockInfo = DSL.findProfileBlock(code);
+		if (!blockInfo) return [];
+		const lines = code.split('\n');
+		const entries: Array<{
+			lineIndex: number;
+			url: string;
+			label: string;
+			description: string;
+		}> = [];
+		for (let i = blockInfo.startLineIndex + 1; i < blockInfo.insertLineIndex; i += 1) {
+			const line = lines[i];
+			const imageMatch = line.match(/^\s*image\s+"((?:\\.|[^"])*)"(.*)$/);
+			if (!imageMatch) continue;
+			const rest = imageMatch[2] || '';
+			const labelMatch = rest.match(/label(?::|\s+)"((?:\\.|[^"])*)"/);
+			const descriptionMatch = rest.match(/description(?::|\s+)"((?:\\.|[^"])*)"/);
+			entries.push({
+				lineIndex: i,
+				url: imageMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\'),
+				label: (labelMatch?.[1] ?? '').replace(/\\"/g, '"').replace(/\\\\/g, '\\'),
+				description: (descriptionMatch?.[1] ?? '').replace(/\\"/g, '"').replace(/\\\\/g, '\\')
+			});
+		}
+		return entries;
+	}
+
+	function openGlyphsetImageEditFromSelection() {
+		if (editorState.profileName !== ProfileName.glyphset) return;
+		if (!selection.selectedNodeId) return;
+		const entries = parseGlyphsetImageEntries(editorState.code || '');
+		if (entries.length === 0) return;
+		glyphsetImageEditFlyout = {
+			items: entries.map((entry) => ({ ...entry }))
+		};
+	}
+
+	function openGlyphsetImageEditFromContext() {
+		if (editorState.profileName !== ProfileName.glyphset) return;
+		const entries = parseGlyphsetImageEntries(editorState.code || '');
+		if (entries.length === 0) return;
+		glyphsetImageEditFlyout = {
+			items: entries.map((entry) => ({ ...entry }))
+		};
+		elementContextMenu = null;
+	}
+
+	function closeGlyphsetImageEditDialog() {
+		glyphsetImageEditFlyout = null;
+	}
+
+	function applyGlyphsetImageEditFromFlyout() {
+		if (!glyphsetImageEditFlyout) return;
+		const code = editorState.code || '';
+		const lines = code.split('\n');
+		for (const item of glyphsetImageEditFlyout.items) {
+			const currentLine = lines[item.lineIndex];
+			if (!currentLine) continue;
+			const indent = currentLine.match(/^(\s*)/)?.[1] ?? '  ';
+			const url = item.url.trim();
+			if (!url) continue;
+			const labelPart = item.label.trim()
+				? ` label:"${escapeDslString(item.label.trim())}"`
+				: '';
+			const descriptionPart = item.description.trim()
+				? ` description:"${escapeDslString(item.description.trim())}"`
+				: '';
+			lines[item.lineIndex] = `${indent}image "${escapeDslString(url)}"${labelPart}${descriptionPart}`;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode !== code) {
+			updateCode(nextCode, true);
+		}
+		glyphsetImageEditFlyout = null;
+	}
+
+	function closeSchematicEditDialog() {
+		schematicEditFlyout = null;
+	}
+
+	function applySchematicEditFromFlyout() {
+		if (!schematicEditFlyout) return;
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSchematicPartLineIndex(lines, schematicEditFlyout.nodeId);
+		if (lineIndex < 0) {
+			schematicEditFlyout = null;
+			return;
+		}
+
+		const currentLine = lines[lineIndex];
+		const refMatch = currentLine.match(/^(\s*part\s+)([A-Za-z_][A-Za-z0-9_-]*)(.*)$/);
+		if (!refMatch) {
+			schematicEditFlyout = null;
+			return;
+		}
+		const nextRef = schematicEditFlyout.ref.trim() || refMatch[2];
+		let nextLine = `${refMatch[1]}${nextRef}${refMatch[3] || ''}`;
+
+		if (schematicEditFlyout.type.trim()) {
+			nextLine = upsertBareField(nextLine, 'type', schematicEditFlyout.type.trim());
+		}
+		if (schematicEditFlyout.pins.trim()) {
+			nextLine = upsertParensField(nextLine, 'pins', schematicEditFlyout.pins.trim());
+		}
+
+		if (schematicEditFlyout.value.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'value', schematicEditFlyout.value.trim());
+		} else {
+			nextLine = removeField(nextLine, 'value');
+		}
+		if (schematicEditFlyout.source.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'source', schematicEditFlyout.source.trim());
+		} else {
+			nextLine = removeField(nextLine, 'source');
+		}
+		if (schematicEditFlyout.model.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'model', schematicEditFlyout.model.trim());
+		} else {
+			nextLine = removeField(nextLine, 'model');
+		}
+
+		if (nextLine !== currentLine) {
+			lines[lineIndex] = nextLine;
+			updateCode(lines.join('\n'), true);
+		}
+		schematicEditFlyout = null;
+		closeElementContextMenu();
+	}
+
+	function applySchematicPartQuickDraft() {
+		if (!schematicPartQuickDraft) return;
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSchematicPartLineIndex(lines, schematicPartQuickDraft.nodeId);
+		if (lineIndex < 0) return;
+
+		const currentLine = lines[lineIndex];
+		const refMatch = currentLine.match(/^(\s*part\s+)([A-Za-z_][A-Za-z0-9_-]*)(.*)$/);
+		if (!refMatch) return;
+
+		const nextRef = schematicPartQuickDraft.ref.trim() || refMatch[2];
+		let nextLine = `${refMatch[1]}${nextRef}${refMatch[3] || ''}`;
+
+		if (schematicPartQuickDraft.type.trim()) {
+			nextLine = upsertBareField(nextLine, 'type', schematicPartQuickDraft.type.trim());
+		}
+		if (schematicPartQuickDraft.pins.trim()) {
+			nextLine = upsertParensField(nextLine, 'pins', schematicPartQuickDraft.pins.trim());
+		}
+
+		if (schematicPartQuickDraft.value.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'value', schematicPartQuickDraft.value.trim());
+		} else {
+			nextLine = removeField(nextLine, 'value');
+		}
+		if (schematicPartQuickDraft.source.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'source', schematicPartQuickDraft.source.trim());
+		} else {
+			nextLine = removeField(nextLine, 'source');
+		}
+		if (schematicPartQuickDraft.model.trim()) {
+			nextLine = upsertQuotedField(nextLine, 'model', schematicPartQuickDraft.model.trim());
+		} else {
+			nextLine = removeField(nextLine, 'model');
+		}
+
+		if (nextLine === currentLine) return;
+		lines[lineIndex] = nextLine;
+		updateCode(lines.join('\n'), true);
+	}
+
+	function applySequenceMessageQuickDraft() {
+		const edgeId = selection.selectedEdgeId;
+		if (!edgeId?.startsWith('seq-message-') || !sequenceMessageQuickDraft) return;
+		const lines = (editorState.code || '').split('\n');
+		const lineIndex = findSequenceMessageStatementLineIndex(lines, edgeId);
+		if (lineIndex < 0) return;
+		let line = lines[lineIndex];
+		line = upsertBareField(line, 'type', sequenceMessageQuickDraft.messageType);
+		line = upsertBareField(line, 'activate', sequenceMessageQuickDraft.activate ? 'true' : 'false');
+		if (sequenceMessageQuickDraft.guard.trim()) {
+			line = upsertQuotedField(line, 'guard', sequenceMessageQuickDraft.guard.trim());
+		} else {
+			line = removeField(line, 'guard');
+		}
+		if (sequenceMessageQuickDraft.timing.trim()) {
+			line = upsertQuotedField(line, 'timing', sequenceMessageQuickDraft.timing.trim());
+		} else {
+			line = removeField(line, 'timing');
+		}
+		if (line === lines[lineIndex]) return;
+		lines[lineIndex] = line;
+		updateCode(lines.join('\n'), true);
+	}
+
+	function closeTimelineEditDialog() {
+		timelineEditFlyout = null;
+		timelineEditErrors = null;
+	}
+
+	function closeSequenceEditDialog() {
+		sequenceEditFlyout = null;
+	}
+
+	function setSequenceActivate(value: boolean) {
+		if (!sequenceEditFlyout || sequenceEditFlyout.kind !== 'message') return;
+		sequenceEditFlyout = {
+			...sequenceEditFlyout,
+			activate: value
+		};
+	}
+
+	function isValidIsoDate(value: string): boolean {
+		if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+		const [y, m, d] = value.split('-').map((part) => Number.parseInt(part, 10));
+		if (!Number.isFinite(y) || !Number.isFinite(m) || !Number.isFinite(d)) return false;
+		if (m < 1 || m > 12 || d < 1 || d > 31) return false;
+		const dt = new Date(Date.UTC(y, m - 1, d));
+		return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+	}
+
+	function setTimelineDateField(
+		key: 'date' | 'startDate' | 'endDate',
+		value: string
+	) {
+		if (!timelineEditFlyout) return;
+		timelineEditFlyout = {
+			...timelineEditFlyout,
+			[key]: value
+		};
+		if (timelineEditErrors?.[key]) {
+			timelineEditErrors = {
+				...timelineEditErrors,
+				[key]: undefined
+			};
+		}
+	}
+
+	function applyTimelineEditFromFlyout() {
+		if (!timelineEditFlyout) return;
+		const errors: { date?: string; startDate?: string; endDate?: string } = {};
+		if (timelineEditFlyout.keyword === 'period') {
+			if (!timelineEditFlyout.startDate || !isValidIsoDate(timelineEditFlyout.startDate)) {
+				errors.startDate = 'Use YYYY-MM-DD';
+			}
+			if (!timelineEditFlyout.endDate || !isValidIsoDate(timelineEditFlyout.endDate)) {
+				errors.endDate = 'Use YYYY-MM-DD';
+			}
+		} else {
+			if (!timelineEditFlyout.date || !isValidIsoDate(timelineEditFlyout.date)) {
+				errors.date = 'Use YYYY-MM-DD';
+			}
+		}
+		if (Object.keys(errors).length > 0) {
+			timelineEditErrors = errors;
+			return;
+		}
+
+		const lines = (editorState.code || '').split('\n');
+		const parsed = parseTimelineStatementById(timelineEditFlyout.nodeId);
+		if (!parsed) {
+			timelineEditFlyout = null;
+			return;
+		}
+		let nextLine = parsed.line;
+		nextLine = upsertQuotedField(nextLine, 'label', timelineEditFlyout.label || timelineEditFlyout.nodeId);
+		if (timelineEditFlyout.keyword === 'period') {
+			if (timelineEditFlyout.startDate) {
+				nextLine = upsertQuotedField(nextLine, 'startDate', timelineEditFlyout.startDate);
+			}
+			if (timelineEditFlyout.endDate) {
+				nextLine = upsertQuotedField(nextLine, 'endDate', timelineEditFlyout.endDate);
+			}
+		} else {
+			if (timelineEditFlyout.date) {
+				nextLine = upsertQuotedField(nextLine, 'date', timelineEditFlyout.date);
+			}
+			if (timelineEditFlyout.description) {
+				nextLine = upsertQuotedField(nextLine, 'description', timelineEditFlyout.description);
+			}
+		}
+		if (nextLine !== parsed.line) {
+			lines[parsed.lineIndex] = nextLine;
+			updateCode(lines.join('\n'), true);
+		}
+		timelineEditErrors = null;
+		timelineEditFlyout = null;
+		closeElementContextMenu();
+	}
+
+	function applySequenceEditFromFlyout() {
+		if (!sequenceEditFlyout) return;
+		const lines = (editorState.code || '').split('\n');
+		let lineIndex = -1;
+
+		if (sequenceEditFlyout.kind === 'message' && sequenceEditFlyout.edgeId) {
+			lineIndex = findSequenceMessageStatementLineIndex(lines, sequenceEditFlyout.edgeId);
+		} else if (sequenceEditFlyout.kind === 'participant' && sequenceEditFlyout.nodeId) {
+			lineIndex = findSequenceParticipantStatementLineIndex(lines, sequenceEditFlyout.nodeId);
+		}
+		if (lineIndex < 0) {
+			sequenceEditFlyout = null;
+			return;
+		}
+
+		const currentLine = lines[lineIndex];
+		let nextLine = currentLine;
+		if (sequenceEditFlyout.kind === 'participant') {
+			const participantMatch = currentLine.match(/^(\s*participant\s+)("([^"\\]|\\.)*"|\S+)(.*)$/);
+			if (!participantMatch) {
+				sequenceEditFlyout = null;
+				return;
+			}
+			const nextLabel = sequenceEditFlyout.label.trim() || 'Participant';
+			nextLine = `${participantMatch[1]}"${escapeDslString(nextLabel)}"${participantMatch[4] || ''}`;
+			if (sequenceEditFlyout.participantType) {
+				if (/\s+as\s+\w+/.test(nextLine)) {
+					nextLine = nextLine.replace(/\s+as\s+\w+/, ` as ${sequenceEditFlyout.participantType}`);
+				} else {
+					nextLine = `${nextLine.trim()} as ${sequenceEditFlyout.participantType}`;
+				}
+			}
+		} else {
+			const nextLabel = sequenceEditFlyout.label.trim() || 'Message';
+			nextLine = upsertQuotedField(nextLine, 'label', nextLabel);
+			nextLine = upsertBareField(nextLine, 'type', sequenceEditFlyout.messageType);
+			nextLine = upsertBareField(nextLine, 'activate', sequenceEditFlyout.activate ? 'true' : 'false');
+			if (sequenceEditFlyout.guard.trim()) {
+				nextLine = upsertQuotedField(nextLine, 'guard', sequenceEditFlyout.guard.trim());
+			} else {
+				nextLine = removeField(nextLine, 'guard');
+			}
+			if (sequenceEditFlyout.timing.trim()) {
+				nextLine = upsertQuotedField(nextLine, 'timing', sequenceEditFlyout.timing.trim());
+			} else {
+				nextLine = removeField(nextLine, 'timing');
+			}
+		}
+
+		if (nextLine !== currentLine) {
+			lines[lineIndex] = nextLine;
+			updateCode(lines.join('\n'), true);
+		}
+		sequenceEditFlyout = null;
+		closeElementContextMenu();
+	}
+
+	function getSelectedNodeProfile(nodeId: string | null): any | null {
+		if (!nodeId) return null;
+		return (diagramState.profile as any)?.nodes?.find((n: any) => n.id === nodeId) ?? null;
+	}
+
+	function getSelectedEdgeProfile(edgeId: string | null): any | null {
+		if (!edgeId) return null;
+		const profile = diagramState.profile as any;
+		return (
+			profile?.edges?.find((e: any) => e.id === edgeId) ??
+			profile?.edges?.find((e: any) => `${e.from}-${e.to}` === edgeId) ??
+			null
+		);
+	}
+
+	function deleteContainerById(containerId: string): void {
+		const lines = (editorState.code || '').split('\n');
+		const range = findContainerRange(lines, containerId, elementContextMenu?.containerLabel);
+		if (!range) return;
+		const nextLines = [...lines];
+		nextLines.splice(range.startIndex, range.endIndex - range.startIndex + 1);
+		const nextCode = nextLines.join('\n');
+		if (nextCode !== editorState.code) {
+			updateCode(nextCode, true);
+		}
+	}
+
+	function findContainerRange(
+		lines: string[],
+		containerId: string,
+		containerLabel?: string | null
+	): { startIndex: number; endIndex: number } | null {
+		const normalizedLabel = containerLabel?.trim() || null;
+		const normalizedId = containerId?.trim() || '';
+		const labelMatches: number[] = [];
+
+		for (let i = 0; i < lines.length; i++) {
+			const line = lines[i];
+			const parsed = parseContainerHeader(line);
+			if (!parsed) continue;
+			if (parsed.id && normalizedId && parsed.id === normalizedId) {
+				return findContainerRangeFromStart(lines, i);
+			}
+			if (normalizedLabel && parsed.label === normalizedLabel) {
+				labelMatches.push(i);
+			}
+		}
+
+		if (labelMatches.length === 1) {
+			showTransientStatus('Container matched by label fallback.');
+			return findContainerRangeFromStart(lines, labelMatches[0]);
+		}
+
+		if (labelMatches.length > 1) {
+			showTransientStatus('Container label is not unique; could not resolve insertion target.');
+			return null;
+		}
+
+		return null;
+	}
+
+	function parseContainerHeader(line: string): { id: string | null; label: string } | null {
+		const match = line.match(
+			/^\s*container\s+(?:(?<id>[A-Za-z_][A-Za-z0-9_-]*)\s+)?\"(?<label>(?:\\.|[^"])*)\"/
+		);
+		if (!match?.groups?.label) return null;
+		const label = match.groups.label.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+		const id = match.groups.id || null;
+		return { id, label };
+	}
+
+	function findContainerRangeFromStart(
+		lines: string[],
+		startIndex: number
+	): { startIndex: number; endIndex: number } | null {
+		let depth = 0;
+		let foundOpeningBrace = false;
+		let endIndex = startIndex;
+		for (let i = startIndex; i < lines.length; i++) {
+			const line = lines[i];
+			const opens = (line.match(/{/g) || []).length;
+			const closes = (line.match(/}/g) || []).length;
+			if (opens > 0) {
+				foundOpeningBrace = true;
+			}
+			depth += opens - closes;
+			endIndex = i;
+			if (foundOpeningBrace && depth <= 0) {
+				break;
+			}
+		}
+		return { startIndex, endIndex };
+	}
+
+	function getContainerBlockById(containerId: string, containerLabel?: string | null): string | null {
+		const lines = (editorState.code || '').split('\n');
+		const range = findContainerRange(lines, containerId, containerLabel);
+		if (!range) return null;
+		return lines.slice(range.startIndex, range.endIndex + 1).join('\n');
+	}
+
+	function findShapeBlockRange(lines: string[], nodeId: string): { startIndex: number; endIndex: number } | null {
+		const pattern = new RegExp(`^\\s*shape\\s+${nodeId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`);
+		let startIndex = -1;
+		for (let i = 0; i < lines.length; i++) {
+			if (pattern.test(lines[i])) {
+				startIndex = i;
+				break;
+			}
+		}
+		if (startIndex < 0) return null;
+		const startIndent = (lines[startIndex].match(/^\s*/) || [''])[0].length;
+		let endIndex = startIndex;
+		for (let i = startIndex + 1; i < lines.length; i++) {
+			const line = lines[i];
+			if (!line.trim()) {
+				endIndex = i;
+				continue;
+			}
+			const indent = (line.match(/^\s*/) || [''])[0].length;
+			const isContinuation = indent > startIndent;
+			if (!isContinuation) break;
+			endIndex = i;
+		}
+		// Exclude trailing blank lines from moved snippet to keep formatting stable.
+		while (endIndex > startIndex && !lines[endIndex].trim()) {
+			endIndex -= 1;
+		}
+		return { startIndex, endIndex };
+	}
+
+	function moveNodeIntoContainer(
+		nodeId: string,
+		targetContainerId: string,
+		targetContainerLabel?: string | null
+	): boolean {
+		const code = editorState.code || '';
+		const lines = code.split('\n');
+		const nodeRange = findShapeBlockRange(lines, nodeId);
+		if (!nodeRange) return false;
+
+		const sourceContainerRange = findContainerRange(lines, targetContainerId, targetContainerLabel);
+		if (
+			sourceContainerRange &&
+			nodeRange.startIndex >= sourceContainerRange.startIndex &&
+			nodeRange.endIndex <= sourceContainerRange.endIndex
+		) {
+			// Already in this container.
+			return false;
+		}
+
+		const snippet = unindentBlock(lines.slice(nodeRange.startIndex, nodeRange.endIndex + 1));
+		const nextLines = [...lines];
+		nextLines.splice(nodeRange.startIndex, nodeRange.endIndex - nodeRange.startIndex + 1);
+
+		const targetRange = findContainerRange(nextLines, targetContainerId, targetContainerLabel);
+		if (!targetRange) {
+			return false;
+		}
+
+		const containerLine = nextLines[targetRange.startIndex] || '';
+		const containerIndent = (containerLine.match(/^\s*/) || [''])[0];
+		const childIndent = `${containerIndent}  `;
+		const snippetLines = snippet.split('\n').map((line) => `${childIndent}${line}`);
+		nextLines.splice(targetRange.endIndex, 0, ...snippetLines);
+
+		const nextCode = nextLines.join('\n');
+		if (nextCode === code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function getNextAvailableShapeId(): string {
+		const code = editorState.code || '';
+		let candidateNumber = Math.max(1, editorState.shapeCounter);
+		let candidate = `id${candidateNumber}`;
+		while (new RegExp(`\\b${candidate}\\b`).test(code)) {
+			candidateNumber += 1;
+			candidate = `id${candidateNumber}`;
+		}
+		editorState.shapeCounter = candidateNumber + 1;
+		return candidate;
+	}
+
+	function withResolvedIdPlaceholder(snippet: string): string {
+		if (!/\bid\b/.test(snippet)) return snippet;
+		const nextId = getNextAvailableShapeId();
+		return snippet.replace(/\bid\b/g, nextId);
+	}
+
+	function getNextContainerLabel(baseLabel = 'New Container'): string {
+		const code = editorState.code || '';
+		const escapedBase = baseLabel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const pattern = new RegExp(
+			`container\\s+(?:[A-Za-z_][\\w-]*\\s+)?\"${escapedBase}(?:\\s+(\\d+))?\"`,
+			'g'
+		);
+		let maxIndex = 0;
+		for (const match of code.matchAll(pattern)) {
+			const suffix = match[1];
+			if (!suffix) {
+				maxIndex = Math.max(maxIndex, 1);
+			} else {
+				const parsed = Number.parseInt(suffix, 10);
+				if (Number.isFinite(parsed)) {
+					maxIndex = Math.max(maxIndex, parsed);
+				}
+			}
+		}
+		if (maxIndex <= 0) return baseLabel;
+		return `${baseLabel} ${maxIndex + 1}`;
+	}
+
+	function normalizeInsertSnippet(snippet: string): string {
+		let normalized = withResolvedIdPlaceholder(snippet);
+		if (/container\s+"New Container"/.test(normalized)) {
+			const nextLabel = getNextContainerLabel('New Container');
+			normalized = normalized.replace(/container\s+"New Container"/g, `container "${nextLabel}"`);
+		}
+		return normalized;
+	}
+
+	function withUniqueContainerLabel(snippet: string): string {
+		const nextLabel = getNextContainerLabel('New Container');
+		return snippet.replace(/container\s+"New Container"/g, `container "${nextLabel}"`);
+	}
+
+	function insertIntoContainer(containerId: string, snippet: string, containerLabel?: string | null): void {
+		const code = editorState.code || '';
+		const lines = code.split('\n');
+		const range = findContainerRange(lines, containerId, containerLabel);
+		if (!range) {
+			showTransientStatus('Could not find target container in DSL. No insertion applied.');
+			return;
+		}
+
+		const containerLine = lines[range.startIndex] || '';
+		const containerIndent = (containerLine.match(/^\s*/) || [''])[0];
+		const childIndent = `${containerIndent}  `;
+		const indentedSnippet = snippet
+			.split('\n')
+			.map((line) => `${childIndent}${line}`)
+			.join('\n');
+
+		const nextLines = [...lines];
+		nextLines.splice(range.endIndex, 0, indentedSnippet);
+		const nextCode = nextLines.join('\n');
+		if (nextCode !== code) {
+			updateCode(nextCode, true);
+		}
+	}
+
+	function generateUniqueContainerId(baseId: string): string {
+		const code = editorState.code || '';
+		const baseEscaped = baseId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		if (!new RegExp(`\\b${baseEscaped}\\b`).test(code)) {
+			return baseId;
+		}
+		let counter = 1;
+		let candidate = `${baseId}_${counter}`;
+		while (new RegExp(`\\b${candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(code)) {
+			counter += 1;
+			candidate = `${baseId}_${counter}`;
+		}
+		return candidate;
+	}
+
+	function rewriteContainerId(block: string, fromId: string, toId: string): string {
+		const idPattern = fromId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		return block.replace(
+			new RegExp(`^(\\s*container\\s+)${idPattern}(\\b)`, 'm'),
+			`$1${toId}$2`
+		);
+	}
+
+	function pasteContainerFromClipboard(): void {
+		if (!containerClipboard) return;
+		const nextId = generateUniqueContainerId(`${containerClipboard.id}_copy`);
+		const block = rewriteContainerId(containerClipboard.block, containerClipboard.id, nextId);
+		insertShapeFromContext(block);
+	}
+
+	function setSelectionFromContextMenu(nodeId: string | null, edgeId: string | null) {
+		selection.clearSelection();
+		if (nodeId) {
+			selection.selectNode(nodeId);
+		} else if (edgeId) {
+			selection.selectEdge(edgeId);
+		}
+		selection.updateVisualSelection(svgContainer);
+	}
+
+	function handleCopyStyleFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
+		if (!elementContextMenu) return;
+		const { nodeId, edgeId, containerId } = elementContextMenu;
+		if (containerId) return;
+		if (nodeId) {
+			const node = getSelectedNodeProfile(nodeId);
+			if (!node) return;
+			const data = node.data || {};
+			const properties: Record<string, string | number | boolean> = {};
+			const fillColor = data.fillColor ?? data.fill;
+			const strokeColor = data.strokeColor ?? data.stroke;
+			const textColor = data.textColor ?? data.color;
+			if (fillColor !== undefined) properties.fillColor = String(fillColor);
+			if (strokeColor !== undefined) properties.strokeColor = String(strokeColor);
+			if (data.strokeWidth !== undefined) properties.strokeWidth = Number(data.strokeWidth);
+			if (textColor !== undefined) properties.textColor = String(textColor);
+			if (data.fontSize !== undefined) properties.fontSize = Number(data.fontSize);
+			if (data.fontFamily !== undefined) properties.fontFamily = String(data.fontFamily);
+			if (data.lineStyle !== undefined) properties.lineStyle = String(data.lineStyle);
+			if (typeof node.icon === 'string') {
+				properties.icon = node.icon;
+			} else if (node.icon?.provider && node.icon?.name) {
+				properties.icon = `${node.icon.provider}/${node.icon.name}`;
+			}
+			styleClipboard = {
+				kind: 'node',
+				styleRef: typeof node.style === 'string' ? node.style : undefined,
+				properties
+			};
+		} else if (edgeId) {
+			const edge = getSelectedEdgeProfile(edgeId);
+			if (!edge) return;
+			const data = edge.data || {};
+			const properties: Record<string, string | number | boolean> = {};
+			const strokeColor = data.strokeColor ?? data.stroke ?? edge.strokeColor ?? edge.color;
+			if (strokeColor !== undefined) properties.strokeColor = String(strokeColor);
+			if (data.strokeWidth !== undefined || edge.strokeWidth !== undefined) {
+				properties.strokeWidth = Number(data.strokeWidth ?? edge.strokeWidth);
+			}
+			if (edge.lineStyle !== undefined) properties.lineStyle = String(edge.lineStyle);
+			if (edge.routing !== undefined) properties.routing = String(edge.routing);
+			styleClipboard = {
+				kind: 'edge',
+				styleRef: typeof edge.style === 'string' ? edge.style : undefined,
+				properties
+			};
+		}
+		closeElementContextMenu();
+	}
+
+	function handleCopyElementFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
+		if (!elementContextMenu) return;
+		if (elementContextMenu.containerId) {
+			const block = getContainerBlockById(
+				elementContextMenu.containerId,
+				elementContextMenu.containerLabel
+			);
+			if (!block) return;
+			clipboardManager.clear('canvas');
+			containerClipboard = { id: elementContextMenu.containerId, block };
+			closeElementContextMenu();
+			return;
+		}
+		containerClipboard = null;
+		clipboardManager.copy(
+			svgContainer,
+			elementContextMenu.nodeId,
+			elementContextMenu.edgeId,
+			new Set<string>(),
+			new Set<string>(),
+			'canvas'
+		);
+		closeElementContextMenu();
+	}
+
+	function handleCutElementFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
+		if (!elementContextMenu) return;
+		if (elementContextMenu.containerId) {
+			const block = getContainerBlockById(
+				elementContextMenu.containerId,
+				elementContextMenu.containerLabel
+			);
+			if (block) {
+				clipboardManager.clear('canvas');
+				containerClipboard = { id: elementContextMenu.containerId, block };
+			}
+			deleteContainerById(elementContextMenu.containerId);
+			selection.clearSelection();
+			selection.updateVisualSelection(svgContainer);
+			closeElementContextMenu();
+			return;
+		}
+		containerClipboard = null;
+		clipboardManager.cut(
+			svgContainer,
+			elementContextMenu.nodeId,
+			elementContextMenu.edgeId,
+			new Set<string>(),
+			new Set<string>(),
+			(nodeId, edgeId) => handleDelete(nodeId, edgeId)
+			,
+			'canvas'
+		);
+		selection.clearSelection();
+		selection.updateVisualSelection(svgContainer);
+		closeElementContextMenu();
+	}
+
+	function handlePasteElementFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
+		if (containerClipboard) {
+			pasteContainerFromClipboard();
+			closeElementContextMenu();
+			return;
+		}
+		clipboardManager.paste((shapeCode) => insertShapeFromContext(shapeCode), 'canvas');
+		closeElementContextMenu();
+	}
+
+	function handlePasteIntoContainerFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
+		if (!elementContextMenu?.containerId) return;
+		const targetContainerId = elementContextMenu.containerId;
+		const targetContainerLabel = elementContextMenu.containerLabel;
+		if (containerClipboard) {
+			const nextId = generateUniqueContainerId(`${containerClipboard.id}_copy`);
+			const block = rewriteContainerId(containerClipboard.block, containerClipboard.id, nextId);
+			insertIntoContainer(targetContainerId, block, targetContainerLabel);
+			closeElementContextMenu();
+			return;
+		}
+		clipboardManager.paste(
+			(shapeCode) =>
+				insertIntoContainer(targetContainerId, normalizeInsertSnippet(shapeCode), targetContainerLabel),
+			'canvas'
+		);
+		closeElementContextMenu();
+	}
+
+	function handlePasteStyleFromContext() {
+		if (editorState.profileName !== ProfileName.diagram) return;
+		if (!elementContextMenu || !styleClipboard) return;
+		const { nodeId, edgeId, containerId } = elementContextMenu;
+		if (containerId) return;
+		const targetId = nodeId || edgeId;
+		if (!targetId) return;
+		if (nodeId && styleClipboard.styleRef) {
+			handleEdit(targetId, 'style', styleClipboard.styleRef);
+		}
+		for (const [property, value] of Object.entries(styleClipboard.properties)) {
+			handleEdit(targetId, property, value);
+		}
+		closeElementContextMenu();
+	}
+
+	function handleDuplicateFromContext() {
+		if (!elementContextMenu) return;
+		if (editorState.profileName === ProfileName.timeline && elementContextMenu.nodeId) {
+			duplicateTimelineElement(elementContextMenu.nodeId);
+			closeElementContextMenu();
+			return;
+		}
+		if (isSchematicProfile(editorState.profileName) && elementContextMenu.nodeId) {
+			const lines = (editorState.code || '').split('\n');
+			const lineIndex = findSchematicPartLineIndex(lines, elementContextMenu.nodeId);
+			if (lineIndex < 0) return;
+			const line = lines[lineIndex];
+			const match = line.match(/^(\s*part\s+)([A-Za-z_][A-Za-z0-9_-]*)(.*)$/);
+			if (!match) return;
+			const nextRef = buildUniqueSchematicPartRef(lines, `${match[2]}_copy`);
+			const nextLine = `${match[1]}${nextRef}${match[3] || ''}`;
+			lines.splice(lineIndex + 1, 0, nextLine);
+			const nextCode = lines.join('\n');
+			if (nextCode !== editorState.code) {
+				updateCode(nextCode, true);
+			}
+			closeElementContextMenu();
+			return;
+		}
+		const { nodeId, edgeId, containerId } = elementContextMenu;
+		if (containerId) {
+			const block = getContainerBlockById(containerId, elementContextMenu.containerLabel);
+			if (!block) return;
+			const nextId = generateUniqueContainerId(`${containerId}_copy`);
+			insertShapeFromContext(rewriteContainerId(block, containerId, nextId));
+			closeElementContextMenu();
+			return;
+		}
+
+		if (nodeId) {
+			const node = getSelectedNodeProfile(nodeId);
+			if (!node) return;
+			const nextId = `id${editorState.shapeCounter}`;
+			const shapeId = node.shape || 'rectangle';
+			const nextLabel = node.label ? `${node.label} Copy` : 'New Node';
+			const escapedLabel = escapeDslString(nextLabel);
+			const shapeCode = `shape ${nextId} as @${shapeId} label:"${escapedLabel}"`;
+			insertShapeFromContext(shapeCode);
+			if (typeof node.style === 'string' && node.style.length > 0) {
+				handleEdit(nextId, 'style', node.style);
+			}
+			const inlineData = node.data || {};
+			const candidateProperties = [
+				'fillColor',
+				'strokeColor',
+				'strokeWidth',
+				'textColor',
+				'fontSize',
+				'fontFamily',
+				'lineStyle'
+			] as const;
+			for (const property of candidateProperties) {
+				if (inlineData[property] !== undefined) {
+					handleEdit(nextId, property, inlineData[property]);
+				}
+			}
+			if (node.icon?.provider && node.icon?.name) {
+				handleEdit(nextId, 'icon', `${node.icon.provider}/${node.icon.name}`);
+			}
+		} else if (edgeId) {
+			const edge = getSelectedEdgeProfile(edgeId);
+			if (!edge?.from || !edge?.to) return;
+			handleInsertEdge(edge.from, edge.to);
+		}
+
+		closeElementContextMenu();
+	}
+
+	function handleDeleteFromContext() {
+		if (!elementContextMenu) return;
+		if (editorState.profileName === ProfileName.timeline && elementContextMenu.nodeId) {
+			deleteTimelineElement(elementContextMenu.nodeId);
+			selection.clearSelection();
+			selection.updateVisualSelection(svgContainer);
+			closeElementContextMenu();
+			return;
+		}
+		if (isSchematicProfile(editorState.profileName) && elementContextMenu.nodeId) {
+			const lines = (editorState.code || '').split('\n');
+			const lineIndex = findSchematicPartLineIndex(lines, elementContextMenu.nodeId);
+			if (lineIndex < 0) return;
+			lines.splice(lineIndex, 1);
+			const nextCode = lines.join('\n');
+			if (nextCode !== editorState.code) {
+				updateCode(nextCode, true);
+			}
+			selection.clearSelection();
+			selection.updateVisualSelection(svgContainer);
+			closeElementContextMenu();
+			return;
+		}
+		if (elementContextMenu.containerId) {
+			deleteContainerById(elementContextMenu.containerId);
+		} else {
+			handleDelete(elementContextMenu.nodeId, elementContextMenu.edgeId);
+		}
+		selection.clearSelection();
+		selection.updateVisualSelection(svgContainer);
+		closeElementContextMenu();
+	}
+
+	function handleCanvasContextMenu(event: MouseEvent) {
+		if (!supportsCanvasSelection(editorState.profileName))
+			return;
+		if (!supportsCanvasContextMenus(editorState.profileName))
+			return;
+		const target = event.target as HTMLElement | null;
+		if (!target) return;
+		const nodeElement = target.closest('[data-node-id]') as HTMLElement | null;
+		const edgeElement = target.closest('[data-edge-id]') as HTMLElement | null;
+		const containerElement = target.closest('[data-container-id]') as HTMLElement | null;
+		if (nodeElement || edgeElement) {
+			event.preventDefault();
+			const nodeId = nodeElement?.getAttribute('data-node-id') ?? null;
+			const edgeId = edgeElement?.getAttribute('data-edge-id') ?? null;
+			setSelectionFromContextMenu(nodeId, edgeId);
+			if (editorState.profileName === ProfileName.sequence) {
+				canvasContextMenu = null;
+				contextThemeFlyout = null;
+				elementContextMenu = null;
+				return;
+			}
+			canvasContextMenu = null;
+			contextThemeFlyout = null;
+			elementContextMenu = {
+				x: event.clientX,
+				y: event.clientY,
+				nodeId,
+				edgeId,
+				containerId: null,
+				containerLabel: null
+			};
+			return;
+		}
+		if (editorState.profileName === ProfileName.diagram && containerElement) {
+			event.preventDefault();
+			selection.clearSelection();
+			selection.updateVisualSelection(svgContainer);
+			canvasContextMenu = null;
+			contextThemeFlyout = null;
+			const labelText =
+				containerElement.querySelector('.runiq-container-label')?.textContent?.trim() || null;
+			elementContextMenu = {
+				x: event.clientX,
+				y: event.clientY,
+				nodeId: null,
+				edgeId: null,
+				containerId: containerElement.getAttribute('data-container-id'),
+				containerLabel: labelText
+			};
+			return;
+		}
+		event.preventDefault();
+		elementContextMenu = null;
+		timelineEditFlyout = null;
+		schematicEditFlyout = null;
+		canvasContextMenu = { x: event.clientX, y: event.clientY };
+		contextThemeFlyout = null;
+	}
+
+	function handleContextSetMode(mode: 'select' | 'connect') {
+		canvasState.mode = mode;
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddShape() {
+		if (!canvasContextMenu) return;
+		contextContainerFlyout = null;
+		contextImageFlyout = null;
+		contextThemeFlyout = null;
+		contextShapeFlyout = {
+			x: canvasContextMenu.x + 190,
+			y: canvasContextMenu.y,
+			target: 'canvas',
+			containerId: null,
+			containerLabel: null
+		};
+	}
+
+	function handleContextAddContainer() {
+		if (!canvasContextMenu) return;
+		contextShapeFlyout = null;
+		contextImageFlyout = null;
+		contextThemeFlyout = null;
+		contextContainerFlyout = {
+			x: canvasContextMenu.x + 190,
+			y: canvasContextMenu.y,
+			target: 'canvas',
+			containerId: null,
+			containerLabel: null
+		};
+	}
+
+	function handleContextAddImage() {
+		if (!canvasContextMenu) return;
+		contextShapeFlyout = null;
+		contextContainerFlyout = null;
+		contextThemeFlyout = null;
+		contextImageFlyout = {
+			x: canvasContextMenu.x + 190,
+			y: canvasContextMenu.y,
+			target: 'canvas',
+			containerId: null,
+			containerLabel: null
+		};
+	}
+
+	function handleContextAddText() {
+		insertShapeFromContext(
+			withResolvedIdPlaceholder('shape id as @textBlock label:"Edit text" textAlign:left')
+		);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function getNextTimelineContextElementId(prefix: string): string {
+		const code = editorState.code || '';
+		const escapedPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const regex = new RegExp(`\\b${escapedPrefix}(\\d+)\\b`, 'g');
+		let maxIndex = 0;
+		for (const match of code.matchAll(regex)) {
+			const value = Number.parseInt(match[1], 10);
+			if (Number.isFinite(value)) maxIndex = Math.max(maxIndex, value);
+		}
+		return `${prefix}${maxIndex + 1}`;
+	}
+
+	function handleContextAddTimelineEvent() {
+		const id = getNextTimelineContextElementId('event');
+		insertShapeFromContext(`event ${id} date:"2026-01-01" label:"New Event"`);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddTimelinePeriod() {
+		const id = getNextTimelineContextElementId('period');
+		insertShapeFromContext(
+			`period ${id} startDate:"2026-01-01" endDate:"2026-01-31" label:"New Period"`
+		);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddTimelineTask() {
+		const id = getNextTimelineContextElementId('task');
+		insertShapeFromContext(
+			`task ${id} startDate:"2026-01-01" endDate:"2026-01-14" label:"New Task"`
+		);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddTimelineMilestone() {
+		const id = getNextTimelineContextElementId('milestone');
+		insertShapeFromContext(`milestone ${id} date:"2026-01-15" label:"New Milestone"`);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleElementContextAddImage() {
+		if (!elementContextMenu) return;
+		contextShapeFlyout = null;
+		contextContainerFlyout = null;
+		contextImageFlyout = {
+			x: elementContextMenu.x + 190,
+			y: elementContextMenu.y,
+			target: 'element',
+			containerId: elementContextMenu.containerId,
+			containerLabel: elementContextMenu.containerLabel
+		};
+	}
+
+	function handleElementContextAddText() {
+		const snippet = withResolvedIdPlaceholder('shape id as @textBlock label:"Edit text" textAlign:left');
+		if (elementContextMenu?.containerId) {
+			insertIntoContainer(
+				elementContextMenu.containerId,
+				snippet,
+				elementContextMenu.containerLabel
+			);
+		} else {
+			insertShapeFromContext(snippet);
+		}
+		canvasState.mode = 'select';
+		closeElementContextMenu();
+	}
+
+	function handleElementContextAddShape() {
+		if (!elementContextMenu) return;
+		contextContainerFlyout = null;
+		contextImageFlyout = null;
+		contextShapeFlyout = {
+			x: elementContextMenu.x + 190,
+			y: elementContextMenu.y,
+			target: 'element',
+			containerId: elementContextMenu.containerId,
+			containerLabel: elementContextMenu.containerLabel
+		};
+	}
+
+	function handleContextShapeSelected(shapeCode: string) {
+		if (!contextShapeFlyout) return;
+		const snippet = normalizeInsertSnippet(shapeCode);
+		if (contextShapeFlyout.target === 'element' && contextShapeFlyout.containerId) {
+			insertIntoContainer(
+				contextShapeFlyout.containerId,
+				snippet,
+				contextShapeFlyout.containerLabel
+			);
+			closeElementContextMenu();
+			return;
+		}
+		insertShapeFromContext(snippet);
+		closeCanvasContextMenu();
+	}
+
+	function handleElementContextAddContainer() {
+		if (!elementContextMenu) return;
+		contextShapeFlyout = null;
+		contextImageFlyout = null;
+		contextContainerFlyout = {
+			x: elementContextMenu.x + 190,
+			y: elementContextMenu.y,
+			target: 'element',
+			containerId: elementContextMenu.containerId,
+			containerLabel: elementContextMenu.containerLabel
+		};
+	}
+
+	function handleContextContainerSelected(shapeCode: string) {
+		if (!contextContainerFlyout) return;
+		const snippet = normalizeInsertSnippet(withUniqueContainerLabel(shapeCode));
+		if (contextContainerFlyout.target === 'element' && contextContainerFlyout.containerId) {
+			insertIntoContainer(
+				contextContainerFlyout.containerId,
+				snippet,
+				contextContainerFlyout.containerLabel
+			);
+			closeElementContextMenu();
+			return;
+		}
+		insertShapeFromContext(snippet);
+		closeCanvasContextMenu();
+	}
+
+	function handleContextImageSelected(src: string) {
+		if (!contextImageFlyout) return;
+		const normalizedSrc = src.trim().replace(/"/g, '\\"');
+		const snippet = normalizeInsertSnippet(
+			`shape id as @image label:"Image" data:[{ src:"${normalizedSrc}" }]`
+		);
+		if (contextImageFlyout.target === 'element' && contextImageFlyout.containerId) {
+			insertIntoContainer(
+				contextImageFlyout.containerId,
+				snippet,
+				contextImageFlyout.containerLabel
+			);
+			closeElementContextMenu();
+			return;
+		}
+		insertShapeFromContext(snippet);
+		closeCanvasContextMenu();
+	}
+
+	function handleContextPaste() {
+		contextThemeFlyout = null;
+		if (containerClipboard) {
+			pasteContainerFromClipboard();
+			closeCanvasContextMenu();
+			return;
+		}
+		clipboardManager.paste((shapeCode) => insertShapeFromContext(shapeCode), 'canvas');
+		closeCanvasContextMenu();
+	}
+
+	function handleContextApplyTheme(themeId: string) {
+		const nextCode = applyThemeToDsl(editorState.code || '', themeId);
+		updateCode(nextCode, true);
+		contextThemeFlyout = null;
+		closeCanvasContextMenu();
+	}
+
+	function handleContextOpenThemeFlyout() {
+		if (!canvasContextMenu) return;
+		contextThemeFlyout = {
+			x: canvasContextMenu.x + 190,
+			y: canvasContextMenu.y
+		};
+	}
+
+	function handleEditLabelFromContext() {
+		if (!elementContextMenu) return;
+		if (!supportsCanvasSelection(editorState.profileName)) return;
+		if (!elementContextMenu.nodeId && !elementContextMenu.edgeId) return;
+		interactionManager.startLabelEdit(elementContextMenu.nodeId, elementContextMenu.edgeId);
+		closeElementContextMenu();
 	}
 
 	// Export functions for parent component access
@@ -122,58 +3105,51 @@
 		return svgOutput;
 	}
 
-	let lastCode = '';
-	let lastDataContent = '';
+	const renderStateCallbacks: RenderStateCallbacks = {
+		setSvgOutput: (value: string) => (svgOutput = value),
+		clearErrors: () => diagramState.clearErrors(),
+		clearWarnings: () => diagramState.clearWarnings(),
+		setErrors: (errors: string[]) => diagramState.setErrors(errors),
+		setWarnings: (warnings: string[]) => diagramState.setWarnings(warnings),
+		setWarningDetails: (details: WarningDetail[]) => (warningDetails = details),
+		setParseTime: (value: number) => (parseTime = value),
+		setRenderTime: (value: number) => (renderTime = value),
+		setNodeLocations: (locations: Map<string, NodeLocation>) => diagramState.setNodeLocations(locations),
+		clearNodeLocations: () => diagramState.clearNodeLocations(),
+		setProfile: (profile: DiagramProfile) => diagramState.setProfile(profile),
+		handleParse
+	};
 
-	const debouncedRender = createDebouncedRunner(300, (dslCode: string) => {
-		void runRenderCycle({
-			dslCode,
-			dataContent: editorState.dataContent,
-			layoutEngine: editorState.layoutEngine,
-			renderDiagram: renderDiagramUtil,
-			onEmpty: () => {
-				svgOutput = '';
-				diagramState.clearErrors();
-				diagramState.clearWarnings();
-				warningDetails = [];
-				parseTime = 0;
-				renderTime = 0;
-				handleParse(true, []);
-			},
-			onStart: () => {
-				isRendering = true;
-				diagramState.clearErrors();
-				diagramState.clearWarnings();
-			},
-			onSuccess: (result) => {
-				svgOutput = result.svg;
-				diagramState.setErrors(result.errors);
-				diagramState.setWarnings(result.warnings);
-				warningDetails = result.warningDetails ?? [];
-				parseTime = result.parseTime;
-				renderTime = result.renderTime;
-
-				if (result.nodeLocations) {
-					nodeLocations = result.nodeLocations;
-				}
-
-				if (result.profile) {
-					diagramState.setProfile(result.profile);
-				}
-
-				handleParse(result.success, result.errors);
-			},
-			onError: (errorMsg) => {
-				diagramState.setErrors([errorMsg]);
-				warningDetails = [];
-				svgOutput = '';
-				handleParse(false, diagramState.errors);
-			},
-			onComplete: () => {
-				isRendering = false;
-			}
-		});
+	const renderRuntime = createCanvasRenderRuntime({
+		getDataContent: () => editorState.dataContent,
+		getLayoutEngine: () => editorState.layoutEngine,
+		getLayoutStrategy: () => editorState.layoutStrategy,
+		renderDiagram: renderDiagramUtil,
+		onEmpty: () => applyRenderEmptyState(renderStateCallbacks),
+		onStart: () => {
+			isRendering = true;
+			diagramState.clearErrors();
+			diagramState.clearWarnings();
+		},
+		onSuccess: (result) => applyRenderSuccessState(result, renderStateCallbacks),
+		onError: (errorMsg) => applyRenderErrorState(errorMsg, renderStateCallbacks),
+		onComplete: () => {
+			isRendering = false;
+		}
 	});
+
+	let transientStatusTimer: ReturnType<typeof setTimeout> | null = null;
+
+	function showTransientStatus(message: string): void {
+		transientStatusMessage = message;
+		if (transientStatusTimer) {
+			clearTimeout(transientStatusTimer);
+		}
+		transientStatusTimer = setTimeout(() => {
+			transientStatusMessage = null;
+			transientStatusTimer = null;
+		}, 2200);
+	}
 
 	// Watch for code or data changes with debounce
 	$effect(() => {
@@ -181,21 +3157,17 @@
 		const currentCode = editorState.code;
 		const currentDataContent = editorState.dataContent;
 
-		if (currentCode !== lastCode || currentDataContent !== lastDataContent) {
-			lastCode = currentCode;
-			lastDataContent = currentDataContent;
-			debouncedRender.schedule(currentCode);
-		}
+		renderRuntime.updateInputs(currentCode, currentDataContent);
 
 		// Cleanup function to clear timeout on unmount or re-run
 		return () => {
-			debouncedRender.cancel();
+			renderRuntime.cancel();
 		};
 	});
 
 	const {
 		handleCanvasClick,
-		handleCanvasKeyDown,
+		handleCanvasKeyDown: handleCanvasKeyDownBase,
 		handleEditKeyPress,
 		handleMouseDown,
 		handleMouseMove,
@@ -208,39 +3180,323 @@
 		viewport,
 		interactionManager,
 		getSvgContainer: () => svgContainer,
+		getProfileName: () => editorState.profileName,
+		getMode: () => canvasState.mode,
 		handleDelete,
 		handleEdit,
-		handleInsertShape
+		handleInsertShape,
+		handleInsertEdge,
+		handleInsertShapeAndEdge,
+		getNextShapeId: () => `id${editorState.shapeCounter}`,
+		onConnectPreviewStart: (point) => {
+			connectPreviewStart = point;
+		},
+		onConnectPreviewMove: (point) => {
+			connectPreviewEnd = point;
+		},
+		onConnectPreviewEnd: () => {
+			connectPreviewStart = null;
+			connectPreviewEnd = null;
+			sequenceDropTargetNodeId = null;
+			sequenceParticipantReorderPreview = null;
+			sequenceMessageReorderPreview = null;
+			glyphsetNodeReorderPreview = null;
+			timelineNodeReorderPreview = null;
+		},
+		onNodeContainerDragStart: handleNodeContainerDragStart,
+		onNodeContainerDragMove: handleNodeContainerDragMove,
+		onNodeContainerDragEnd: handleNodeContainerDragEnd,
+		onSchematicPartDragStart: handleSchematicPartDragStart,
+		onSchematicPartDragMove: handleSchematicPartDragMove,
+		onSchematicPartDragEnd: handleSchematicPartDragEnd,
+		onSequenceParticipantReorder: ({ sourceNodeId, targetNodeId, position }) => {
+			reorderSequenceParticipants(sourceNodeId, targetNodeId, position);
+		},
+		onSequenceMessageReorder: ({ sourceEdgeId, targetEdgeId, position }) => {
+			reorderSequenceMessages(sourceEdgeId, targetEdgeId, position);
+		},
+		onSequenceCreateMessage: ({ fromNodeId, toNodeId }) => {
+			insertSequenceMessage(fromNodeId, toNodeId);
+		},
+		onSequenceRetargetMessageEndpoint: ({ edgeId, endpoint, participantNodeId }) => {
+			retargetSequenceMessageEndpoint(edgeId, endpoint, participantNodeId);
+		},
+		onSequenceDropTargetHover: (participantNodeId) => {
+			sequenceDropTargetNodeId = participantNodeId;
+		},
+		onSequenceParticipantReorderPreview: (preview) => {
+			sequenceParticipantReorderPreview = preview;
+		},
+		onSequenceMessageReorderPreview: (preview) => {
+			sequenceMessageReorderPreview = preview;
+		},
+		onGlyphsetNodeReorder: ({ sourceNodeId, targetNodeId, position }) => {
+			const glyphsetType = getGlyphsetTypeInCode(editorState.code || '');
+			if (!isGlyphsetReorderSupported(glyphsetType)) return;
+			reorderGlyphsetItems(sourceNodeId, targetNodeId, position);
+		},
+		onGlyphsetNodeReorderPreview: (preview) => {
+			const glyphsetType = getGlyphsetTypeInCode(editorState.code || '');
+			if (!isGlyphsetReorderSupported(glyphsetType)) {
+				glyphsetNodeReorderPreview = null;
+				return;
+			}
+			glyphsetNodeReorderPreview = preview;
+		},
+		onTimelineNodeReorder: ({ sourceNodeId, targetNodeId, position }) => {
+			reorderTimelineElements(sourceNodeId, targetNodeId, position);
+		},
+		onTimelineNodeReorderPreview: (preview) => {
+			timelineNodeReorderPreview = preview;
+		}
 	});
 
-	function handleOpenStylePanel() {
-		const elementId = selection.selectedNodeId || selection.selectedEdgeId;
-		const styles = extractSelectedElementStyles(diagramState.profile as any, elementId);
-		if (Object.keys(styles).length > 0) {
-			styleState.setStyles(styles);
+	function handleCanvasKeyDown(event: KeyboardEvent) {
+		if (editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') {
+			quickConnectBehaviorHint = getQuickConnectBehaviorFromModifiers(event);
 		}
-		styleState.toggle();
+		handleCanvasKeyDownBase(event);
 	}
 
-	function handleStyleChange(property: string, value: string | number) {
-		styleState.setStyle(property, value);
-		const dslProperty = mapStyleProperty(property);
-		for (const targetId of collectSelectedIds(selection)) {
-			handleEdit(targetId, dslProperty, value);
+	function handleEditBlur() {
+		if (!supportsCanvasSelection(editorState.profileName) || canvasState.mode !== 'select') return;
+		if (selection.editingNodeId) {
+			if (editorState.profileName === ProfileName.glyphset) {
+				handleEdit(selection.editingNodeId, 'glyphsetLabel', {
+					from: selection.editingInitialLabel,
+					to: selection.editingLabel
+				});
+			} else {
+				handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
+			}
+			selection.cancelLabelEdit();
+			return;
+		}
+		if (selection.editingEdgeId) {
+			handleEdit(selection.editingEdgeId, 'edgeLabel', selection.editingLabel);
+			selection.cancelLabelEdit();
 		}
 	}
 
-	function handleResetSelectedStyles() {
-		const selectedIds = collectSelectedIds(selection);
-		handleResetStyles(selectedIds);
-		styleState.setStyles({});
+	function handleCanvasKeyUp(event: KeyboardEvent) {
+		if (editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') {
+			quickConnectBehaviorHint = getQuickConnectBehaviorFromModifiers(event);
+		}
 	}
 
-	// onMount(() => {
-	// 	if (editorState.code) {
-	// 		renderDiagram(editorState.code);
-	// 	}
-	// });
+	function handleApplyIcon() {
+		const applied = applyIconToSelectedNode({
+			profileName: editorState.profileName,
+			mode: canvasState.mode,
+			selectedNodeId: selection.selectedNodeId,
+			iconInputValue,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
+		closeAllPanels();
+	}
+
+	function handleClearIcon() {
+		const cleared = clearIconOnSelectedNode({
+			profileName: editorState.profileName,
+			mode: canvasState.mode,
+			selectedNodeId: selection.selectedNodeId,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!cleared.cleared) return;
+		iconInputValue = cleared.iconInputValue;
+		iconSearchQuery = cleared.iconSearchQuery;
+		closeAllPanels();
+	}
+
+	function handleSelectIconToken(token: string) {
+		iconInputValue = token;
+		handleApplyIcon();
+	}
+
+	function closeAllPanels(except?: ElementPanelKey) {
+		closePanelState(panelOpen, except);
+	}
+
+	function onPanelOpenChange(panel: ElementPanelKey, open: boolean) {
+		debugCanvas('panel-open-change', { panel, open });
+		const iconDraft = handlePanelOpenChangeOrchestrated({
+			panel,
+			open,
+			panelOpen,
+			closeAllPanels,
+			onOpenBorderPanel: openBorderPanel,
+			onOpenFillPanel: openFillPanel,
+			onOpenTextPanel: openTextPanel,
+			getIconDraft: () =>
+				openIconPanelDraft(
+					selection.selectedNodeId,
+					diagramState.profile as any,
+					extractSelectedElementStyles
+				)
+		});
+		if (iconDraft) {
+			iconInputValue = iconDraft.iconInputValue;
+			iconSearchQuery = iconDraft.iconSearchQuery;
+		}
+	}
+
+	function handleDeleteFromToolbar() {
+		deleteSelectionFromToolbar({
+			selectedNodeId: selection.selectedNodeId,
+			selectedEdgeId: selection.selectedEdgeId,
+			deleteFn: handleDelete,
+			clearSelection: () => selection.clearSelection(),
+			closeAllPanels: () => closeAllPanels()
+		});
+	}
+
+	function handleApplyShape(shapeId: string) {
+		const applied = applyShapeToSelection(selection.selectedNodeId, shapeId, (id, property, value) =>
+			handleEdit(id, property, value)
+		);
+		if (!applied) return;
+		closeAllPanels();
+	}
+
+	function openBorderPanel() {
+		const draft = openBorderPanelDraft(
+			getSelectedElementId(),
+			diagramState.profile as any,
+			extractSelectedElementStyles
+		);
+		if (!draft) return;
+		borderDraft = draft;
+	}
+
+	function applyBorderDraft() {
+		const applied = applyBorderDraftForSelected({
+			selectedId: getSelectedElementId(),
+			isEdge: !!selection.selectedEdgeId,
+			draft: borderDraft,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
+		closeAllPanels();
+	}
+
+	function openFillPanel() {
+		const draft = openFillPanelDraft(
+			getSelectedElementId(),
+			diagramState.profile as any,
+			extractSelectedElementStyles
+		);
+		if (!draft) return;
+		fillDraft = draft;
+	}
+
+	function applyFillDraft() {
+		const applied = applyFillDraftForSelected({
+			selectedId: getSelectedElementId(),
+			selectedNodeId: selection.selectedNodeId,
+			draft: fillDraft,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
+		closeAllPanels();
+	}
+
+	function openTextPanel() {
+		const draft = openTextPanelDraft(
+			getSelectedElementId(),
+			diagramState.profile as any,
+			extractSelectedElementStyles
+		);
+		if (!draft) return;
+		textDraft = draft;
+	}
+
+	function applyTextDraft() {
+		const applied = applyTextDraftForSelected({
+			selectedId: getSelectedElementId(),
+			selectedNodeId: selection.selectedNodeId,
+			draft: textDraft,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
+		closeAllPanels();
+	}
+
+	function resetTextDraftToTheme() {
+		const selectedId = getSelectedElementId();
+		if (!selectedId) return;
+		handleResetStyles([selectedId]);
+		closeAllPanels();
+	}
+
+	const filteredStyleDeclarations = $derived(
+		getFilteredStyleDeclarations(editorState.code, styleSearchQuery)
+	);
+
+	function applyStyleRef(styleName: string) {
+		const applied = applyStyleRefForSelection({
+			selectedNodeId: selection.selectedNodeId,
+			styleName,
+			resetStyles: handleResetStyles,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!applied) return;
+		closeAllPanels();
+	}
+
+	function resetStyleRefToTheme() {
+		const cleared = clearStyleRefForSelection({
+			selectedNodeId: selection.selectedNodeId,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!cleared) return;
+		closeAllPanels();
+	}
+
+	function openCreateStyleDialog(existing?: { name: string; properties: Record<string, string> }) {
+		const next = openCreateStyleDialogWorkflow(existing);
+		editingStyleName = next.editingStyleName;
+		newStyleName = next.newStyleName;
+		newStyleDraft = next.newStyleDraft;
+		showCreateStyleDialog = next.showCreateStyleDialog;
+	}
+
+	function saveStyleDeclarationAndApply() {
+		const saved = saveStyleDeclarationAndApplyWorkflow({
+			selectedNodeId: selection.selectedNodeId,
+			code: editorState.code,
+			editingStyleName,
+			newStyleName,
+			newStyleDraft,
+			updateCode,
+			edit: (id, property, value) => handleEdit(id, property, value)
+		});
+		if (!saved) return;
+		showCreateStyleDialog = false;
+		closeAllPanels();
+	}
+
+	function closeCreateStyleDialog() {
+		showCreateStyleDialog = false;
+	}
+
+	function removeStyleDeclaration(styleName: string) {
+		removeStyleDeclarationWorkflow({
+			code: editorState.code,
+			styleName,
+			updateCode
+		});
+	}
+
+	function handleJumpToWarning(warning: WarningDetail) {
+		void jumpToWarningLocation({
+			warning,
+			setShowCodeEditor: (value) => (editorState.showCodeEditor = value),
+			setActiveTab: (tab) => (editorState.activeTab = tab),
+			jumpTo: (line, column) => editorRefs.code?.jumpTo(line, column),
+			tick
+		});
+	}
 
 	onMount(() => {
 		// Register VisualCanvas with editorRefs
@@ -249,209 +3505,86 @@
 			getSvg
 		};
 
+		const handleGlobalPointerDown = createGlobalPointerDismissHandler({
+			hasSelection: () => selection.hasSelection,
+			isInsideToolbar: (target) => !!floatingToolbarElement?.contains(target),
+			isInsidePopover: (target) =>
+				target instanceof Element &&
+				!!target.closest('[data-slot="popover-content"], [data-preserve-selection="true"]'),
+			onDismiss: () => {
+				selection.clearSelection();
+				selection.updateVisualSelection(svgContainer);
+				closeAllPanels();
+			}
+		});
+
+		const handleGlobalContextMenuDismiss = (event: PointerEvent) => {
+			const hasAnyMenu =
+				!!canvasContextMenu ||
+				!!elementContextMenu ||
+				!!contextShapeFlyout ||
+				!!contextContainerFlyout ||
+				!!contextImageFlyout ||
+				!!contextThemeFlyout ||
+				!!timelineEditFlyout ||
+				!!sequenceEditFlyout ||
+				!!schematicEditFlyout;
+			if (!hasAnyMenu) return;
+			const target = event.target as HTMLElement | null;
+			if (target?.closest('.canvas-context-menu')) return;
+			closeCanvasContextMenu();
+			closeElementContextMenu();
+			timelineEditFlyout = null;
+			sequenceEditFlyout = null;
+			schematicEditFlyout = null;
+		};
+
+		document.addEventListener('pointerdown', handleGlobalPointerDown, true);
+		document.addEventListener('pointerdown', handleGlobalContextMenuDismiss, true);
+
 		return () => {
 			// Cleanup on unmount
 			editorRefs.preview = null;
+			if (transientStatusTimer) {
+				clearTimeout(transientStatusTimer);
+				transientStatusTimer = null;
+			}
+			document.removeEventListener('pointerdown', handleGlobalPointerDown, true);
+			document.removeEventListener('pointerdown', handleGlobalContextMenuDismiss, true);
 		};
 	});
 </script>
 
+<svelte:window onmousemove={handleCanvasMouseMove} onmouseup={handleMouseUp} />
+
 <div class="flex h-full flex-col">
-	<!-- Header -->
-	<div class="flex items-center justify-between border-b border-runiq-200 bg-runiq-50 px-4 py-2">
-		<!-- Status -->
-		<div class="flex items-center gap-2">
-			{#if isRendering}
-				<Badge variant="secondary" class="gap-1">
-					<svg class="h-3 w-3 animate-spin" viewBox="0 0 24 24">
-						<circle
-							class="opacity-25"
-							cx="12"
-							cy="12"
-							r="10"
-							stroke="currentColor"
-							stroke-width="4"
-							fill="none"
-						></circle>
-						<path
-							class="opacity-75"
-							fill="currentColor"
-							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-						></path>
-					</svg>
-					Rendering...
-				</Badge>
-			{:else if diagramState.errors.length > 0}
-				<Badge variant="destructive" class="gap-1">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-					{diagramState.errors.length} Error{diagramState.errors.length === 1 ? '' : 's'}
-				</Badge>
-			{:else if warningDetails.length + combinedWarnings.length > 0}
-				<button
-					type="button"
-					class="focus:outline-none"
-					onclick={() => {
-						showWarnings = !showWarnings;
-					}}
-				>
-					<Badge variant="outline" class="gap-1 border-warning text-warning">
-						<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-							/>
-						</svg>
-						{warningDetails.length + combinedWarnings.length}
-						Warning
-						{warningDetails.length + combinedWarnings.length === 1
-							? ''
-							: 's'}
-					</Badge>
-				</button>
-			{:else if svgOutput}
-				<Badge variant="default" class="gap-1 bg-success text-white">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M5 13l4 4L19 7"
-						/>
-					</svg>
-					Ready
-				</Badge>
-			{/if}
-
-			{#if parseTime > 0 && renderTime > 0}
-				<span class="text-xs text-neutral-500">
-					Parse: {parseTime}ms · Render: {renderTime}ms
-				</span>
-			{/if}
-
-			{#if selection.selectedNodeIds.size > 0 || selection.selectedEdgeIds.size > 0}
-				<Badge variant="outline" class="gap-1 border-purple-300 bg-purple-50 text-purple-700">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						/>
-					</svg>
-					Multi-Select: {selection.selectedNodeIds.size + selection.selectedEdgeIds.size} items
-				</Badge>
-			{:else if selection.selectedNodeId}
-				<Badge variant="outline" class="gap-1">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-						/>
-					</svg>
-					Selected: {selection.selectedNodeId}
-				</Badge>
-			{:else if selection.selectedEdgeId}
-				<Badge variant="outline" class="gap-1">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					Selected: {selection.selectedEdgeId}
-				</Badge>
-			{/if}
-
-			<!-- Multi-select help hint -->
-			{#if !selection.selectedNodeId && !selection.selectedEdgeId && selection.selectedNodeIds.size === 0 && selection.selectedEdgeIds.size === 0}
-				<span class="text-xs text-neutral-400 italic">
-					Tip: Ctrl+Click to multi-select, Ctrl+Drag for lasso
-				</span>
-			{/if}
-		</div>
-
-		<!-- Zoom Level Display -->
-		<div class="flex items-center gap-1">
-			<span class="min-w-[60px] text-center text-xs text-neutral-600">
-				{viewport.zoomPercentage}%
-			</span>
-		</div>
-	</div>
-
-	{#if (warningDetails.length > 0 || combinedWarnings.length > 0) && showWarnings}
-		<div class="border-b border-warning/40 bg-warning/10 px-4 py-2">
-			<div class="flex items-start justify-between gap-3">
-				<div>
-					<div class="text-sm font-semibold text-warning">Warnings</div>
-					{#if warningDetails.length > 0}
-						<ul class="mt-1 space-y-2 text-sm text-neutral-700">
-							{#each warningDetails as warning}
-								<li>
-									<button
-										type="button"
-										class="flex w-full items-start gap-2 rounded px-2 py-1 text-left hover:bg-warning/20"
-										onclick={() => {
-											editorState.showCodeEditor = true;
-											editorState.activeTab = 'syntax';
-											tick().then(() => {
-												editorRefs.code?.jumpTo(
-													warning.range.startLine,
-													warning.range.startColumn
-												);
-											});
-										}}
-									>
-										<span class="mt-0.5 h-1.5 w-1.5 rounded-full bg-warning"></span>
-										<span class="flex-1">
-											<span class="block">{warning.message}</span>
-											<span class="text-xs text-neutral-500">
-												Line {warning.range.startLine}, Col {warning.range.startColumn}
-											</span>
-										</span>
-									</button>
-								</li>
-							{/each}
-						</ul>
-					{/if}
-					{#if combinedWarnings.length > 0}
-						<ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-neutral-700">
-							{#each combinedWarnings as warning}
-								<li>{warning}</li>
-							{/each}
-						</ul>
-					{/if}
-				</div>
-				<button
-					type="button"
-					class="rounded p-1 text-warning hover:bg-warning/20"
-					aria-label="Dismiss warnings"
-					onclick={() => {
-						showWarnings = false;
-					}}
-				>
-					<Icon icon="lucide:x" class="size-4" />
-				</button>
-			</div>
+	<CanvasStatusBar
+		{isRendering}
+		errorCount={diagramState.errors.length}
+		hasSvgOutput={!!svgOutput}
+		{parseTime}
+		{renderTime}
+		isConnectMode={editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'}
+		connectModeHint={quickConnectBehaviorHint}
+		selectedNodeId={selection.selectedNodeId}
+		selectedEdgeId={selection.selectedEdgeId}
+		selectedNodeCount={selection.selectedNodeIds.size}
+		selectedEdgeCount={selection.selectedEdgeIds.size}
+		zoomPercentage={viewport.zoomPercentage}
+		{warningDetails}
+		{combinedWarnings}
+		bind:showWarnings
+		onJumpToWarning={handleJumpToWarning}
+	/>
+	{#if transientStatusMessage}
+		<div class="mx-4 mt-2 rounded border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-700">
+			{transientStatusMessage}
 		</div>
 	{/if}
-
 	<!-- Floating Toolbar -->
 	<div
 		class="absolute left-4 z-10 flex gap-2"
-		style="top: {showWarnings && diagramState.warnings.length > 0 ? '120px' : '66px'};"
+		style="top: {floatingToolbarTop};"
 	>
 		<EditorToolbar {svgContainer} {svgOutput} />
 	</div>
@@ -460,134 +3593,1328 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 	<div
-		class="relative flex-1 overflow-hidden bg-neutral-50"
+		class="relative flex-1 overflow-hidden bg-white"
 		bind:this={svgContainer}
 		onmousedown={handleMouseDown}
-		onmousemove={handleMouseMove}
-		onmouseup={handleMouseUp}
-		onmouseleave={handleMouseUp}
+		onmouseleave={handleCanvasMouseLeave}
 		onwheel={handleWheel}
 		onclick={handleCanvasClick}
+		oncontextmenu={handleCanvasContextMenu}
 		ondragover={handleDragOver}
 		ondrop={handleDrop}
 		onkeydown={handleCanvasKeyDown}
+		onkeyup={handleCanvasKeyUp}
 		tabindex="0"
 		style="cursor: {viewport.isPanning
 			? 'grabbing'
-			: selection.editingNodeId || selection.editingEdgeId
-				? 'default'
-				: 'grab'}; outline: none;"
+			: editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'
+				? 'crosshair'
+				: selection.editingNodeId || selection.editingEdgeId
+					? 'default'
+					: 'grab'}; outline: none;"
 	>
 		<!-- Floating Toolbar at Top Center -->
-		{#if selection.selectedNodeId || selection.selectedEdgeId}
-			<div class="floating-toolbar">
+		{#if editorState.profileName === ProfileName.diagram && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !elementContextMenu && !nodeContainerDrag && !schematicPartDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<ElementToolbar
+					selectedNodeId={selection.selectedNodeId}
+					{panelOpen}
+					{diagramShapeCategories}
+					{borderStyleChoices}
+					{filteredStyleDeclarations}
+					{filteredIconTokens}
+					bind:showCreateStyleDialog
+					{editingStyleName}
+					bind:newStyleName
+					bind:newStyleDraft
+					{onPanelOpenChange}
+					onApplyShape={handleApplyShape}
+					onApplyStyleRef={applyStyleRef}
+					onOpenCreateStyleDialog={openCreateStyleDialog}
+					onRemoveStyleDeclaration={removeStyleDeclaration}
+					onResetStyleRefToTheme={resetStyleRefToTheme}
+					onCloseAllPanels={closeAllPanels}
+					onApplyBorderDraft={applyBorderDraft}
+					onApplyFillDraft={applyFillDraft}
+					onResetTextDraftToTheme={resetTextDraftToTheme}
+					onApplyTextDraft={applyTextDraft}
+					onSelectIconToken={handleSelectIconToken}
+					onApplyIcon={handleApplyIcon}
+					onClearIcon={handleClearIcon}
+					onDelete={handleDeleteFromToolbar}
+					onCloseCreateStyleDialog={closeCreateStyleDialog}
+					onSaveStyleDeclarationAndApply={saveStyleDeclarationAndApply}
+					bind:borderDraft
+					bind:fillDraft
+					bind:textDraft
+					bind:styleSearchQuery
+					bind:iconSearchQuery
+					bind:iconInputValue
+				/>
+			</div>
+		{:else if editorState.profileName === ProfileName.sequence && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<button class="toolbar-button" onclick={() => interactionManager.startLabelEdit(selection.selectedNodeId, selection.selectedEdgeId)} title="Edit Label">
+					Label
+				</button>
+				<button class="toolbar-button" onclick={openSequenceEditFromSelection} title="Edit Details">
+					Details
+				</button>
+				<div class="toolbar-divider-v"></div>
 				<button
-					onclick={handleOpenStylePanel}
 					class="toolbar-button"
-					title="Edit Style (colors, fonts, effects)"
+					disabled
+					title="Border controls are not yet supported per element in sequence DSL."
 				>
-					<Icon icon="lucide:palette" class="size-4" />
-					<span>Style</span>
+					Border
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Fill controls are not yet supported per element in sequence DSL."
+				>
+					Fill
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Text controls are not yet supported per element in sequence DSL."
+				>
+					Text
+				</button>
+				{#if selection.selectedEdgeId?.startsWith('seq-message-') && sequenceMessageQuickDraft}
+					<div class="toolbar-divider-v"></div>
+					<label class="sequence-inline-field">
+						Type
+						<select
+							value={sequenceMessageQuickDraft.messageType}
+							onchange={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									messageType: (event.currentTarget as HTMLSelectElement).value as
+										| 'sync'
+										| 'async'
+										| 'return'
+										| 'create'
+										| 'destroy'
+								};
+								applySequenceMessageQuickDraft();
+							}}
+						>
+							<option value="sync">sync</option>
+							<option value="async">async</option>
+							<option value="return">return</option>
+							<option value="create">create</option>
+							<option value="destroy">destroy</option>
+						</select>
+					</label>
+					<label class="sequence-inline-field">
+						Guard
+						<input
+							value={sequenceMessageQuickDraft.guard}
+							oninput={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									guard: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySequenceMessageQuickDraft}
+							placeholder="[condition]"
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Timing
+						<input
+							value={sequenceMessageQuickDraft.timing}
+							oninput={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									timing: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySequenceMessageQuickDraft}
+							placeholder="t < 50ms"
+						/>
+					</label>
+					<label class="sequence-inline-check">
+						<span>Activate</span>
+						<input
+							type="checkbox"
+							checked={sequenceMessageQuickDraft.activate}
+							onchange={(event) => {
+								sequenceMessageQuickDraft = {
+									...sequenceMessageQuickDraft!,
+									activate: (event.currentTarget as HTMLInputElement).checked
+								};
+								applySequenceMessageQuickDraft();
+							}}
+						/>
+					</label>
+				{/if}
+			</div>
+		{:else if editorState.profileName === ProfileName.timeline && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<button class="toolbar-button" onclick={() => interactionManager.startLabelEdit(selection.selectedNodeId, selection.selectedEdgeId)} title="Edit Label">
+					Label
+				</button>
+				<button class="toolbar-button" onclick={openTimelineEditFromSelection} title="Edit Details">
+					Details
+				</button>
+				<div class="toolbar-divider-v"></div>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Border controls are not yet supported per element in timeline DSL."
+				>
+					Border
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Fill controls are not yet supported per element in timeline DSL."
+				>
+					Fill
+				</button>
+				<button
+					class="toolbar-button"
+					disabled
+					title="Text controls are not yet supported per element in timeline DSL."
+				>
+					Text
 				</button>
 			</div>
-		{/if}
-
-		<!-- Lasso Selection Rectangle -->
-		{#if selection.isLassoActive}
+		{:else if editorState.profileName === ProfileName.glyphset && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
 			<div
-				class="lasso-rectangle"
-				style="left: {Math.min(selection.lassoStartX, selection.lassoEndX)}px; top: {Math.min(
-					selection.lassoStartY,
-					selection.lassoEndY
-				)}px; width: {Math.abs(selection.lassoEndX - selection.lassoStartX)}px; height: {Math.abs(
-					selection.lassoEndY - selection.lassoStartY
-				)}px;"
-			></div>
-		{/if}
-
-		<!-- Label Edit Input -->
-		{#if (selection.editingNodeId || selection.editingEdgeId) && selection.editInputPosition}
-			<input
-				type="text"
-				bind:this={editInputElement}
-				bind:value={selection.editingLabel}
-				onkeydown={handleEditKeyPress}
-				class="edit-input"
-				style="left: {selection.editInputPosition.x}px; top: {selection.editInputPosition.y}px;"
-			/>
-		{/if}
-
-		{#if styleState.isVisible}
-			<StylePanel
-				selectedIds={collectSelectedIdSet(selection)}
-				currentStyles={styleState.currentStyles}
-				hasMixedValues={styleState.hasMixedValues}
-				onClose={() => styleState.hide()}
-				onStyleChange={handleStyleChange}
-				onResetStyles={handleResetSelectedStyles}
-			/>
-		{/if}
-
-		{#if diagramState.errors.length > 0}
-			<!-- Error Overlay -->
-			<div class="absolute inset-0 flex items-center justify-center p-8">
-				<div class="max-w-2xl rounded-lg border-2 border-error bg-white p-6 shadow-lg">
-					<div class="mb-4 flex items-center gap-2 text-error">
-						<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-						<h3 class="text-lg font-semibold">Parsing Errors</h3>
-					</div>
-					<div class="space-y-2">
-						{#each diagramState.errors as error}
-							<div class="rounded bg-error/10 px-3 py-2 font-mono text-sm text-error">
-								{error}
-							</div>
-						{/each}
-					</div>
-					<p class="mt-4 text-sm text-neutral-600">
-						Fix the errors in the code editor to see the preview.
-					</p>
-				</div>
-			</div>
-		{:else if svgOutput}
-			<!-- SVG Preview with Pan/Zoom -->
-			<div
-				class="absolute inset-0 flex items-center justify-center transition-transform"
-				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})"
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
 			>
-				<div class="rounded-lg border border-neutral-300 bg-white p-4 shadow-sm">
-					{@html svgOutput}
-				</div>
+				<button
+					class="toolbar-button"
+					onclick={() => interactionManager.startLabelEdit(selection.selectedNodeId, selection.selectedEdgeId)}
+					title="Edit Label"
+				>
+					Label
+				</button>
+				<button
+					class="toolbar-button"
+					onclick={openGlyphsetImageEditFromSelection}
+					disabled={parseGlyphsetImageEntries(editorState.code || '').length === 0}
+					title="Edit image URLs and labels for picture glyphsets"
+				>
+					Images
+				</button>
 			</div>
-		{:else}
-			<!-- Empty State -->
-			<div class="absolute inset-0 flex items-center justify-center p-8 text-center">
-				<div class="max-w-md">
-					<svg
-						class="mx-auto mb-4 h-16 w-16 text-neutral-300"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="1.5"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+		{:else if isSchematicProfile(editorState.profileName) && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<button class="toolbar-button" onclick={openSchematicEditFromSelection} title="Edit Details">
+					Details
+				</button>
+				{#if selection.selectedNodeId?.startsWith('sch-part-') && schematicPartQuickDraft}
+					<div class="toolbar-divider-v"></div>
+					<label class="sequence-inline-field">
+						Ref
+						<input
+							value={schematicPartQuickDraft.ref}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									ref: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
 						/>
-					</svg>
-					<h3 class="mb-2 text-lg font-medium text-neutral-700">No Diagram</h3>
-					<p class="text-sm text-neutral-500">
-						Start typing in the code editor to see your diagram here.
-					</p>
+					</label>
+					<label class="sequence-inline-field">
+						Type
+						<input
+							value={schematicPartQuickDraft.type}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									type: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Pins
+						<input
+							value={schematicPartQuickDraft.pins}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									pins: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+							placeholder="IN,OUT"
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Value
+						<input
+							value={schematicPartQuickDraft.value}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									value: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Source
+						<input
+							value={schematicPartQuickDraft.source}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									source: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+					<label class="sequence-inline-field">
+						Model
+						<input
+							value={schematicPartQuickDraft.model}
+							oninput={(event) => {
+								schematicPartQuickDraft = {
+									...schematicPartQuickDraft!,
+									model: (event.currentTarget as HTMLInputElement).value
+								};
+							}}
+							onblur={applySchematicPartQuickDraft}
+						/>
+					</label>
+				{/if}
+			</div>
+		{/if}
+
+		<CanvasInteractionLayer
+			isLassoActive={selection.isLassoActive}
+			lassoStartX={selection.lassoStartX}
+			lassoStartY={selection.lassoStartY}
+			lassoEndX={selection.lassoEndX}
+			lassoEndY={selection.lassoEndY}
+			editingNodeId={selection.editingNodeId}
+			editingEdgeId={selection.editingEdgeId}
+			editInputPosition={selection.editInputPosition}
+			bind:editingLabel={selection.editingLabel}
+			{svgOutput}
+			translateX={viewport.translateX}
+			translateY={viewport.translateY}
+			scale={viewport.scale}
+			onEditKeyPress={handleEditKeyPress}
+			onEditBlur={handleEditBlur}
+		/>
+
+		<QuickConnectOverlay
+			showConnectPreview={
+				(editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect') ||
+				editorState.profileName === ProfileName.sequence
+			}
+			showDiagramQuickConnect={
+				editorState.profileName === ProfileName.diagram && canvasState.mode === 'connect'
+			}
+			connectPreviewClassName={editorState.profileName === ProfileName.sequence ? 'sequence-connect-preview-line' : ''}
+			{connectPreviewStart}
+			{connectPreviewEnd}
+			{quickConnectNodeId}
+			{quickConnectHandles}
+			{quickConnectActiveDirection}
+			{quickConnectPreviewStart}
+			{quickConnectPreviewEnd}
+			{quickConnectTargetNodeId}
+			onActivateHandle={activateQuickConnect}
+			onLeaveHandle={() => {
+				quickConnectActiveDirection = null;
+				quickConnectPreviewStart = null;
+				quickConnectPreviewEnd = null;
+				quickConnectTargetNodeId = null;
+				quickConnectNewNodePosition = null;
+			}}
+			onRunHandle={runQuickConnect}
+			getBehaviorFromModifiers={getQuickConnectBehaviorFromModifiers}
+		/>
+
+		{#if editorState.profileName === ProfileName.sequence}
+			<div class="pointer-events-none absolute inset-0 z-[20]">
+				{#if sequenceParticipantReorderPreview}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-vertical"
+						style="left: {sequenceParticipantReorderPreview.x}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-vertical"
+						style="left: {sequenceParticipantReorderPreview.x + 8}px; top: 10px;"
+					>
+						Insert {sequenceParticipantReorderPreview.position}
+					</div>
+				{/if}
+				{#if sequenceMessageReorderPreview}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-horizontal"
+						style="top: {sequenceMessageReorderPreview.y}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-horizontal"
+						style="left: 10px; top: {sequenceMessageReorderPreview.y + 8}px;"
+					>
+						Insert {sequenceMessageReorderPreview.position}
+					</div>
+				{/if}
+				{#if sequenceMessageEndpointHandles && canvasState.mode === 'select'}
+					<div
+						class="sequence-message-endpoint-handle"
+						data-edge-id={selection.selectedEdgeId}
+						data-seq-endpoint="from"
+						data-preserve-selection="true"
+						style="left: {sequenceMessageEndpointHandles.from.x}px; top: {sequenceMessageEndpointHandles.from.y}px;"
+					></div>
+					<div
+						class="sequence-message-endpoint-handle"
+						data-edge-id={selection.selectedEdgeId}
+						data-seq-endpoint="to"
+						data-preserve-selection="true"
+						style="left: {sequenceMessageEndpointHandles.to.x}px; top: {sequenceMessageEndpointHandles.to.y}px;"
+					></div>
+				{/if}
+				{#if canvasState.mode === 'connect' || (canvasState.mode === 'select' && !!selection.selectedEdgeId?.startsWith('seq-message-') && !!connectPreviewStart)}
+					{#each sequenceLifelineHotspots as hotspot (hotspot.nodeId)}
+						<div
+							class="sequence-lifeline-hotspot"
+							class:is-active={sequenceDropTargetNodeId === hotspot.nodeId}
+							data-preserve-selection="true"
+							style="left: {hotspot.x}px; top: {hotspot.y}px;"
+						></div>
+					{/each}
+				{/if}
+			</div>
+		{/if}
+
+		{#if editorState.profileName === ProfileName.glyphset && glyphsetNodeReorderPreview}
+			<div class="pointer-events-none absolute inset-0 z-[20]">
+				{#if glyphsetNodeReorderPreview.orientation === 'horizontal'}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-vertical"
+						style="left: {glyphsetNodeReorderPreview.x}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-vertical"
+						style="left: {glyphsetNodeReorderPreview.x + 8}px; top: 10px;"
+					>
+						Insert {glyphsetNodeReorderPreview.position}
+					</div>
+				{:else}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-horizontal"
+						style="top: {glyphsetNodeReorderPreview.y}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-horizontal"
+						style="left: 10px; top: {glyphsetNodeReorderPreview.y + 8}px;"
+					>
+						Insert {glyphsetNodeReorderPreview.position}
+					</div>
+				{/if}
+			</div>
+		{/if}
+
+		{#if editorState.profileName === ProfileName.timeline && timelineNodeReorderPreview}
+			<div class="pointer-events-none absolute inset-0 z-[20]">
+				<div
+					class="sequence-reorder-guide sequence-reorder-guide-horizontal"
+					style="top: {timelineNodeReorderPreview.y}px;"
+				></div>
+				<div
+					class="sequence-reorder-badge sequence-reorder-badge-horizontal"
+					style="left: 10px; top: {timelineNodeReorderPreview.y + 8}px;"
+				>
+					Insert {timelineNodeReorderPreview.position}
 				</div>
 			</div>
 		{/if}
+
+		{#if nodeContainerDrag}
+			<div class="pointer-events-none absolute inset-0 z-[21]">
+				{#if nodeContainerDrag.hoverContainerRect}
+					<div
+						class="absolute rounded border-2 border-blue-500/80 bg-blue-100/15"
+						style="left: {nodeContainerDrag.hoverContainerRect.x}px; top: {nodeContainerDrag.hoverContainerRect.y}px; width: {nodeContainerDrag.hoverContainerRect.width}px; height: {nodeContainerDrag.hoverContainerRect.height}px;"
+					></div>
+				{/if}
+				<svg class="absolute inset-0 h-full w-full" aria-hidden="true">
+					{#each nodeContainerDrag.connectedTargets as target}
+						<line
+							x1={nodeContainerDrag.x + nodeContainerDrag.width / 2}
+							y1={nodeContainerDrag.y + nodeContainerDrag.height / 2}
+							x2={target.x}
+							y2={target.y}
+							stroke="#4b5563"
+							stroke-width="1.5"
+							stroke-dasharray="4 3"
+							opacity="0.6"
+						/>
+					{/each}
+				</svg>
+				<div
+					class="absolute flex items-center justify-center rounded border border-dashed border-blue-500 bg-blue-200/40 px-3 text-sm font-medium text-blue-900"
+					style="left: {nodeContainerDrag.x}px; top: {nodeContainerDrag.y}px; width: {nodeContainerDrag.width}px; height: {nodeContainerDrag.height}px;"
+				>
+					{nodeContainerDrag.label}
+				</div>
+			</div>
+		{/if}
+
+		{#if schematicPartDrag}
+			<div class="pointer-events-none absolute inset-0 z-[21]">
+				{#if schematicPartDrag.targetRect}
+					<div
+						class="absolute rounded border-2 border-emerald-500/80 bg-emerald-100/20"
+						style="left: {schematicPartDrag.targetRect.x}px; top: {schematicPartDrag.targetRect.y}px; width: {schematicPartDrag.targetRect.width}px; height: {schematicPartDrag.targetRect.height}px;"
+					></div>
+					<div
+						class="schematic-drop-indicator"
+						style="left: {schematicPartDrag.targetRect.x + schematicPartDrag.targetRect.width / 2}px; top: {schematicPartDrag.targetRect.y - 12}px;"
+					>
+						Drop {schematicPartDrag.position === 'after' ? 'after' : 'before'}
+					</div>
+				{/if}
+				<svg class="absolute inset-0 h-full w-full" aria-hidden="true">
+					{#each schematicPartDrag.connectedTargets as target}
+						<line
+							x1={schematicPartDrag.x + schematicPartDrag.width / 2}
+							y1={schematicPartDrag.y + schematicPartDrag.height / 2}
+							x2={target.x}
+							y2={target.y}
+							stroke="#2563eb"
+							stroke-width="1.5"
+							stroke-dasharray="4 3"
+							opacity="0.65"
+						/>
+					{/each}
+				</svg>
+				<div
+					class="absolute flex items-center justify-center rounded border border-dashed border-blue-600 bg-blue-200/45 px-3 text-sm font-medium text-blue-950"
+					style="left: {schematicPartDrag.x}px; top: {schematicPartDrag.y}px; width: {schematicPartDrag.width}px; height: {schematicPartDrag.height}px;"
+				>
+					{schematicPartDrag.label}
+				</div>
+			</div>
+		{/if}
+
+		<CanvasStateOverlay errors={diagramState.errors} hasSvgOutput={!!svgOutput} />
 	</div>
 </div>
+
+{#if canvasContextMenu}
+	<div
+		class="canvas-context-menu"
+		style="left: {canvasContextMenu.x}px; top: {canvasContextMenu.y}px;"
+	>
+		{#if editorState.profileName === ProfileName.diagram}
+			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+			<button onclick={() => handleContextSetMode('connect')}>Connect Mode</button>
+			<div class="separator"></div>
+			<button class="has-submenu" onclick={handleContextAddShape}
+				><span>Add Shape</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleContextAddContainer}
+				><span>Add Container</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleContextAddImage}
+				><span>Add Image</span><span class="submenu-arrow">></span></button
+			>
+			<button onclick={handleContextAddText}>Add Text</button>
+			<button onclick={handleContextPaste} disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}>Paste</button>
+			<div class="separator"></div>
+		{:else if editorState.profileName === ProfileName.timeline}
+			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+			<div class="separator"></div>
+			<button onclick={handleContextAddTimelineEvent}>Add Event</button>
+			<button onclick={handleContextAddTimelinePeriod}>Add Period</button>
+			<button onclick={handleContextAddTimelineTask}>Add Task</button>
+			<button onclick={handleContextAddTimelineMilestone}>Add Milestone</button>
+			<div class="separator"></div>
+		{:else if isSchematicProfile(editorState.profileName)}
+			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+			<div class="separator"></div>
+		{/if}
+		<button class="has-submenu" onclick={handleContextOpenThemeFlyout}
+			><span>Theme</span><span class="submenu-arrow">></span></button
+		>
+	</div>
+{/if}
+
+{#if elementContextMenu}
+	<div
+		class="canvas-context-menu"
+		style="left: {elementContextMenu.x}px; top: {elementContextMenu.y}px;"
+	>
+		{#if editorState.profileName === ProfileName.timeline}
+			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId}>Edit Label</button>
+			<div class="separator"></div>
+			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
+		{:else if isSchematicProfile(editorState.profileName)}
+			<button onclick={openSchematicEditFromContext} disabled={!elementContextMenu.nodeId}>Edit Details</button>
+			<div class="separator"></div>
+			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
+		{:else if editorState.profileName === ProfileName.glyphset}
+			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button>
+			<button
+				onclick={openGlyphsetImageEditFromContext}
+				disabled={parseGlyphsetImageEntries(editorState.code || '').length === 0}
+			>
+				Edit Images
+			</button>
+			<div class="separator"></div>
+			<button onclick={handleDuplicateFromContext}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext}>Delete</button>
+		{:else}
+			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button>
+			<div class="separator"></div>
+			{#if !elementContextMenu.edgeId}
+				<button onclick={handleCopyElementFromContext}>Copy</button>
+				<button onclick={handleCutElementFromContext}>Cut</button>
+			{/if}
+			<button onclick={handlePasteElementFromContext} disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}>Paste</button>
+			{#if elementContextMenu.containerId}
+				<button
+					onclick={handlePasteIntoContainerFromContext}
+					disabled={!clipboardManager.hasContentInScope('canvas') && !containerClipboard}
+					>Paste Into Container</button
+				>
+			{/if}
+			<div class="separator"></div>
+			<button class="has-submenu" onclick={handleElementContextAddShape}
+				><span>Add Shape</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleElementContextAddContainer}
+				><span>Add Container</span><span class="submenu-arrow">></span></button
+			>
+			<button class="has-submenu" onclick={handleElementContextAddImage}
+				><span>Add Image</span><span class="submenu-arrow">></span></button
+			>
+			<button onclick={handleElementContextAddText}>Add Text Box</button>
+			<div class="separator"></div>
+			<button onclick={handleCopyStyleFromContext} disabled={!!elementContextMenu.containerId}>Copy Style</button>
+			<button onclick={handlePasteStyleFromContext} disabled={!styleClipboard || !!elementContextMenu.containerId}>Paste Style</button>
+			<div class="separator"></div>
+			<button onclick={handleDuplicateFromContext}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext}>{elementContextMenu.containerId ? 'Delete Container' : 'Delete'}</button>
+		{/if}
+	</div>
+{/if}
+
+{#if contextShapeFlyout}
+	<div
+		class="canvas-context-menu shape-picker-context-flyout"
+		style="left: {contextShapeFlyout.x}px; top: {contextShapeFlyout.y}px;"
+	>
+		<ShapePickerFlyout
+			profileName={editorState.profileName ?? ProfileName.diagram}
+			iconSize={12}
+			onSelect={handleContextShapeSelected}
+		/>
+	</div>
+{/if}
+
+{#if contextContainerFlyout}
+	<div
+		class="canvas-context-menu shape-picker-context-flyout"
+		style="left: {contextContainerFlyout.x}px; top: {contextContainerFlyout.y}px;"
+	>
+		<ContainerPickerFlyout
+			profileName={editorState.profileName ?? ProfileName.diagram}
+			onSelect={handleContextContainerSelected}
+		/>
+	</div>
+{/if}
+
+{#if contextImageFlyout}
+	<div
+		class="canvas-context-menu shape-picker-context-flyout"
+		style="left: {contextImageFlyout.x}px; top: {contextImageFlyout.y}px;"
+	>
+		<ImageInsertFlyout onInsert={handleContextImageSelected} />
+	</div>
+{/if}
+
+{#if contextThemeFlyout}
+	<div
+		class="canvas-context-menu shape-picker-context-flyout"
+		style="left: {contextThemeFlyout.x}px; top: {contextThemeFlyout.y}px;"
+	>
+		<ThemePickerFlyout onSelect={handleContextApplyTheme} />
+	</div>
+{/if}
+
+{#if timelineEditFlyout}
+	<div
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close timeline details editor"
+		onpointerdown={closeTimelineEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeTimelineEditDialog();
+			}
+		}}
+	>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit timeline details"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit {timelineEditFlyout.keyword}</div>
+		<label class="context-label">
+			Label
+			<input bind:value={timelineEditFlyout.label} />
+		</label>
+		{#if timelineEditFlyout.keyword === 'period'}
+			<label class="context-label">
+				Start Date
+				<div class="context-date-row">
+					<input
+						value={timelineEditFlyout.startDate}
+						oninput={(event) =>
+							setTimelineDateField(
+								'startDate',
+								(event.currentTarget as HTMLInputElement).value
+							)}
+						placeholder="YYYY-MM-DD"
+					/>
+					<PopoverRoot>
+						<PopoverTrigger class="date-picker-button">Pick</PopoverTrigger>
+						<PopoverContent class="date-picker-popover" sideOffset={6}>
+							<input
+								type="date"
+								value={timelineEditFlyout.startDate}
+								onchange={(event) =>
+									setTimelineDateField(
+										'startDate',
+										(event.currentTarget as HTMLInputElement).value
+									)}
+							/>
+						</PopoverContent>
+					</PopoverRoot>
+				</div>
+				{#if timelineEditErrors?.startDate}
+					<span class="context-error">{timelineEditErrors.startDate}</span>
+				{/if}
+			</label>
+			<label class="context-label">
+				End Date
+				<div class="context-date-row">
+					<input
+						value={timelineEditFlyout.endDate}
+						oninput={(event) =>
+							setTimelineDateField(
+								'endDate',
+								(event.currentTarget as HTMLInputElement).value
+							)}
+						placeholder="YYYY-MM-DD"
+					/>
+					<PopoverRoot>
+						<PopoverTrigger class="date-picker-button">Pick</PopoverTrigger>
+						<PopoverContent class="date-picker-popover" sideOffset={6}>
+							<input
+								type="date"
+								value={timelineEditFlyout.endDate}
+								onchange={(event) =>
+									setTimelineDateField(
+										'endDate',
+										(event.currentTarget as HTMLInputElement).value
+									)}
+							/>
+						</PopoverContent>
+					</PopoverRoot>
+				</div>
+				{#if timelineEditErrors?.endDate}
+					<span class="context-error">{timelineEditErrors.endDate}</span>
+				{/if}
+			</label>
+		{:else}
+			<label class="context-label">
+				Date
+				<div class="context-date-row">
+					<input
+						value={timelineEditFlyout.date}
+						oninput={(event) =>
+							setTimelineDateField('date', (event.currentTarget as HTMLInputElement).value)}
+						placeholder="YYYY-MM-DD"
+					/>
+					<PopoverRoot>
+						<PopoverTrigger class="date-picker-button">Pick</PopoverTrigger>
+						<PopoverContent class="date-picker-popover" sideOffset={6}>
+							<input
+								type="date"
+								value={timelineEditFlyout.date}
+								onchange={(event) =>
+									setTimelineDateField('date', (event.currentTarget as HTMLInputElement).value)}
+							/>
+						</PopoverContent>
+					</PopoverRoot>
+				</div>
+				{#if timelineEditErrors?.date}
+					<span class="context-error">{timelineEditErrors.date}</span>
+				{/if}
+			</label>
+			<label class="context-label">
+				Description
+				<input bind:value={timelineEditFlyout.description} />
+			</label>
+		{/if}
+		<div class="context-actions">
+			<button
+				onclick={closeTimelineEditDialog}>Cancel</button
+			>
+			<button onclick={applyTimelineEditFromFlyout}>Apply</button>
+		</div>
+		</div>
+	</div>
+{/if}
+
+{#if sequenceEditFlyout}
+	<div
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close sequence details editor"
+		onpointerdown={closeSequenceEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeSequenceEditDialog();
+			}
+		}}
+	>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit sequence details"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit sequence {sequenceEditFlyout.kind}</div>
+		<label class="context-label">
+			Label
+			<input bind:value={sequenceEditFlyout.label} />
+		</label>
+		{#if sequenceEditFlyout.kind === 'message'}
+			<label class="context-label">
+				Type
+				<select bind:value={sequenceEditFlyout.messageType}>
+					<option value="sync">sync</option>
+					<option value="async">async</option>
+					<option value="return">return</option>
+					<option value="create">create</option>
+					<option value="destroy">destroy</option>
+				</select>
+			</label>
+			<label class="context-label">
+				Guard
+				<input bind:value={sequenceEditFlyout.guard} placeholder="[condition]" />
+			</label>
+			<label class="context-label">
+				Timing
+				<input bind:value={sequenceEditFlyout.timing} placeholder="t < 100ms" />
+			</label>
+			<label class="context-label context-checkbox">
+				<span>Activate target</span>
+				<input
+					type="checkbox"
+					checked={sequenceEditFlyout.activate}
+					onchange={(event) =>
+						setSequenceActivate((event.currentTarget as HTMLInputElement).checked)}
+				/>
+			</label>
+		{:else}
+			<label class="context-label">
+				Participant type
+				<select bind:value={sequenceEditFlyout.participantType}>
+					<option value="">(default)</option>
+					<option value="actor">actor</option>
+					<option value="entity">entity</option>
+					<option value="boundary">boundary</option>
+					<option value="control">control</option>
+					<option value="database">database</option>
+					<option value="continuation">continuation</option>
+				</select>
+			</label>
+		{/if}
+		<div class="context-actions">
+			<button onclick={closeSequenceEditDialog}>Cancel</button>
+			<button onclick={applySequenceEditFromFlyout}>Apply</button>
+		</div>
+		</div>
+	</div>
+{/if}
+
+{#if schematicEditFlyout}
+	<div
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close schematic details editor"
+		onpointerdown={closeSchematicEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeSchematicEditDialog();
+			}
+		}}
+	>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit schematic part details"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit part</div>
+			<label class="context-label">
+				Reference
+				<input bind:value={schematicEditFlyout.ref} />
+			</label>
+			<label class="context-label">
+				Type
+				<input bind:value={schematicEditFlyout.type} placeholder="R, C, L, V, I, ..." />
+			</label>
+			<label class="context-label">
+				Pins
+				<input bind:value={schematicEditFlyout.pins} placeholder="IN,OUT" />
+			</label>
+			<label class="context-label">
+				Value
+				<input bind:value={schematicEditFlyout.value} placeholder="10k" />
+			</label>
+			<label class="context-label">
+				Source
+				<input bind:value={schematicEditFlyout.source} placeholder="SIN(0 1 1k)" />
+			</label>
+			<label class="context-label">
+				Model
+				<input bind:value={schematicEditFlyout.model} placeholder="2N3904" />
+			</label>
+			<div class="context-actions">
+				<button onclick={closeSchematicEditDialog}>Cancel</button>
+				<button onclick={applySchematicEditFromFlyout}>Apply</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if glyphsetImageEditFlyout}
+	<div
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close glyphset image editor"
+		onpointerdown={closeGlyphsetImageEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeGlyphsetImageEditDialog();
+			}
+		}}
+	>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit glyphset image URLs"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit images</div>
+			{#each glyphsetImageEditFlyout.items as item, index}
+				<div class="context-label">
+					<div class="section-label">Image {index + 1}</div>
+					<label class="context-label">
+						URL
+						<input bind:value={item.url} placeholder="https://..." />
+					</label>
+					<label class="context-label">
+						Label
+						<input bind:value={item.label} placeholder="Optional label" />
+					</label>
+					<label class="context-label">
+						Description
+						<input bind:value={item.description} placeholder="Optional description" />
+					</label>
+				</div>
+			{/each}
+			<div class="context-actions">
+				<button onclick={closeGlyphsetImageEditDialog}>Cancel</button>
+				<button onclick={applyGlyphsetImageEditFromFlyout}>Apply</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<style>
+	.canvas-context-menu {
+		position: fixed;
+		z-index: 1200;
+		min-width: 180px;
+		background: #fff;
+		border: 1px solid #d4d4d8;
+		border-radius: 8px;
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1);
+		padding: 6px;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.canvas-modal-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 1290;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 16px;
+		background: rgb(15 23 42 / 0.22);
+	}
+
+	.canvas-context-menu.canvas-edit-dialog {
+		position: relative;
+		left: auto !important;
+		top: auto !important;
+		z-index: 1300;
+		min-width: min(320px, calc(100vw - 32px));
+		max-width: min(520px, calc(100vw - 32px));
+		max-height: min(80vh, 720px);
+		overflow: auto;
+		padding: 12px;
+	}
+
+	.canvas-context-menu button {
+		text-align: left;
+		background: transparent;
+		border: 0;
+		border-radius: 6px;
+		padding: 7px 8px;
+		font-size: 12px;
+		color: #1f2937;
+	}
+
+	.canvas-context-menu button.has-submenu {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+	}
+
+	.canvas-context-menu .submenu-arrow {
+		font-size: 11px;
+		color: #6b7280;
+	}
+
+	.canvas-context-menu .context-label {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 4px 6px;
+		font-size: 11px;
+		color: #4b5563;
+	}
+
+	.canvas-context-menu .context-label input {
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 6px 8px;
+		font-size: 12px;
+		color: #111827;
+		background: white;
+	}
+
+	.canvas-context-menu .context-label select {
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 6px 8px;
+		font-size: 12px;
+		color: #111827;
+		background: white;
+	}
+
+	.sequence-message-endpoint-handle {
+		position: absolute;
+		width: 14px;
+		height: 14px;
+		border-radius: 9999px;
+		background: #2563eb;
+		border: 2px solid #eff6ff;
+		box-shadow: 0 0 0 1px rgb(37 99 235 / 0.25);
+		transform: translate(-50%, -50%);
+		pointer-events: auto;
+		cursor: crosshair;
+	}
+
+	.sequence-lifeline-hotspot {
+		position: absolute;
+		width: 12px;
+		height: 12px;
+		border-radius: 9999px;
+		background: #2563eb;
+		border: 2px solid #eff6ff;
+		box-shadow: 0 0 0 1px rgb(37 99 235 / 0.25);
+		transform: translate(-50%, -50%);
+		opacity: 0.9;
+	}
+
+	.sequence-lifeline-hotspot.is-active {
+		width: 14px;
+		height: 14px;
+		background: #0f766e;
+		box-shadow: 0 0 0 2px rgb(15 118 110 / 0.28);
+	}
+
+	.sequence-reorder-guide {
+		position: absolute;
+		background: rgb(15 118 110 / 0.9);
+		box-shadow: 0 0 0 1px rgb(15 118 110 / 0.25);
+	}
+
+	.sequence-reorder-guide-vertical {
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		transform: translateX(-1px);
+	}
+
+	.sequence-reorder-guide-horizontal {
+		left: 0;
+		right: 0;
+		height: 2px;
+		transform: translateY(-1px);
+	}
+
+	.sequence-reorder-badge {
+		position: absolute;
+		padding: 2px 6px;
+		border-radius: 9999px;
+		background: rgb(15 118 110 / 0.92);
+		color: #ecfeff;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		box-shadow: 0 1px 3px rgb(15 23 42 / 0.25);
+		white-space: nowrap;
+	}
+
+	.sequence-reorder-badge-vertical {
+		transform: translateY(0);
+	}
+
+	.sequence-reorder-badge-horizontal {
+		transform: translateX(0);
+	}
+
+	.sequence-toolbar {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 8px;
+		background: #ffffff;
+		border: 1px solid #d1d5db;
+		border-radius: 8px;
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1);
+	}
+
+	.sequence-toolbar .toolbar-button {
+		border: 1px solid #d1d5db;
+		background: #f8fafc;
+		color: #111827;
+		font-size: 12px;
+		border-radius: 6px;
+		padding: 4px 8px;
+	}
+
+	.sequence-toolbar .toolbar-button:hover {
+		background: #eef2ff;
+	}
+
+	.sequence-toolbar .toolbar-button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		background: #f3f4f6;
+	}
+
+	.toolbar-divider-v {
+		width: 1px;
+		height: 26px;
+		background: #d1d5db;
+	}
+
+	.sequence-inline-field {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 11px;
+		color: #4b5563;
+	}
+
+	.sequence-inline-field input,
+	.sequence-inline-field select {
+		height: 26px;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 2px 6px;
+		font-size: 12px;
+		color: #111827;
+		background: #fff;
+		min-width: 88px;
+	}
+
+	.sequence-inline-check {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 11px;
+		color: #4b5563;
+	}
+
+	.schematic-drop-indicator {
+		position: absolute;
+		transform: translateX(-50%);
+		padding: 2px 6px;
+		border-radius: 9999px;
+		background: rgb(5 150 105 / 0.92);
+		color: #ecfdf5;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		box-shadow: 0 1px 3px rgb(15 23 42 / 0.25);
+		white-space: nowrap;
+	}
+
+	.canvas-context-menu .context-checkbox {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.canvas-context-menu .context-date-row {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.canvas-context-menu .context-date-row input {
+		flex: 1 1 auto;
+	}
+
+	:global(.date-picker-button) {
+		flex: 0 0 auto;
+		padding: 6px 8px;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		font-size: 11px;
+		background: #f9fafb;
+		color: #374151;
+	}
+
+	:global(.date-picker-popover) {
+		z-index: 1300;
+		min-width: 180px;
+		padding: 8px;
+		background: #fff;
+		border: 1px solid #d4d4d8;
+		border-radius: 8px;
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1);
+	}
+
+	:global(.date-picker-popover input[type='date']) {
+		width: 100%;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		padding: 6px 8px;
+		font-size: 12px;
+	}
+
+	.canvas-context-menu .context-error {
+		font-size: 11px;
+		color: #b91c1c;
+	}
+
+	.canvas-context-menu .context-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 6px;
+		padding: 6px;
+	}
+
+	.canvas-context-menu button:hover:enabled {
+		background: #f3f4f6;
+	}
+
+	.canvas-context-menu button:disabled {
+		color: #9ca3af;
+		cursor: not-allowed;
+	}
+
+	.canvas-context-menu button.danger {
+		color: #b91c1c;
+	}
+
+	.canvas-context-menu .separator {
+		height: 1px;
+		background: #e5e7eb;
+		margin: 4px 2px;
+	}
+
+	.canvas-context-menu .section-label {
+		padding: 4px 8px 2px;
+		font-size: 11px;
+		font-weight: 600;
+		color: #6b7280;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+	}
+
+	.shape-picker-context-flyout {
+		min-width: auto;
+		padding: 0;
+		overflow: hidden;
+	}
+
+</style>

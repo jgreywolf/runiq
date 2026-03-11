@@ -25,7 +25,7 @@ export function generateLinearProcess(
 ): DiagramAst {
   const {
     shape = 'rect',
-    theme = 'colorful',
+    theme,
     direction = 'LR' as Direction,
     idPrefix = 'step',
     edgeStyle = 'solid',
@@ -39,7 +39,7 @@ export function generateLinearProcess(
       id: `${idPrefix}${i + 1}`,
       shape,
       label: item,
-      data: { fillColor: getThemeColor(theme, i) },
+      data: theme ? { fillColor: getThemeColor(theme, i) } : undefined,
     });
 
     if (i > 0) {

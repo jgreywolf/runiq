@@ -12,19 +12,8 @@
 
 	let containerElement: HTMLDivElement;
 
-	// Get icon SVG content
-	let svgContent = $derived.by(() => {
-		const svg = getShapeIconSvg({ shapeId, profileName, size });
-
-		if (!svg) {
-			console.warn(`[ShapeIcon] No icon found for shapeId="${shapeId}"`);
-			return `<svg width="${size}" height="${size}" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-				<text x="20" y="25" text-anchor="middle" font-size="12" fill="#999">?</text>
-			</svg>`;
-		}
-
-		return svg;
-	});
+	// Icon provider always returns an SVG string (real icon or deterministic placeholder).
+	let svgContent = $derived(getShapeIconSvg({ shapeId, profileName, size }));
 
 	// Manually update the DOM when svgContent changes
 	// This bypasses Svelte's {@html} caching issues
@@ -35,10 +24,23 @@
 	});
 </script>
 
-<div bind:this={containerElement} class="shape-icon-wrapper"></div>
+<div
+	bind:this={containerElement}
+	class="shape-icon-wrapper"
+	style="width: {size}px; height: {size}px;"
+></div>
 
 <style>
 	.shape-icon-wrapper {
-		display: contents;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	.shape-icon-wrapper :global(svg) {
+		display: block;
+		width: 100%;
+		height: 100%;
 	}
 </style>

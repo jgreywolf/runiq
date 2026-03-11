@@ -31,6 +31,9 @@ describe('stepProcess', () => {
     expect(result.astVersion).toBe('1.0');
     expect(result.nodes).toBeDefined();
     expect(result.edges).toBeDefined();
+    expect(result.nodes).toHaveLength(3);
+    expect(result.edges).toHaveLength(2);
+    expect(result.nodes[0].id).toBe('step1');
   });
 
   it('should apply direction parameter', () => {

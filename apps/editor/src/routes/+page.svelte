@@ -9,7 +9,7 @@
 	import EmptyPreview from '$lib/components/EmptyPreview.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import VisualCanvas from '$lib/components/VisualCanvas.svelte';
-	import { autoSave, editorRefs, editorState, handleKeyDown, handleReplaceGlyphset } from '$lib/state/editorState.svelte';
+	import { autoSave, editorRefs, editorState, handleKeyDown } from '$lib/state/editorState.svelte';
 	import { bootstrapEditor } from '$lib/state/editorBootstrap';
 	import { DEFAULT_PANEL_SIZES, loadPanelSizes, savePanelSizes } from '$lib/state/panelLayout.svelte';
 	import GlyphsetConversionDialog from '$lib/components/GlyphsetConversionDialog.svelte';
@@ -148,8 +148,6 @@
 	fromType={glyphsetConversionDialogState.fromType}
 	toType={glyphsetConversionDialogState.toType}
 	reason={glyphsetConversionDialogState.reason}
-	alternatives={glyphsetConversionDialogState.alternatives}
 	canConvert={glyphsetConversionDialogState.canConvert}
-	onSelectAlternative={handleReplaceGlyphset}
 	onCancel={closeGlyphsetConversionDialog}
 />

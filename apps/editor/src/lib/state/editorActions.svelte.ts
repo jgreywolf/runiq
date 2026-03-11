@@ -2,10 +2,12 @@ import { getTemplate } from '$lib/data/diagram-templates';
 import { openGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
 import { ProfileName } from '$lib/types';
 import { exportAsPng, exportAsSvg } from '../utils/diagramExport';
-import * as DSL from '../utils/dslCodeManipulation';
 import { convertGlyphset } from '../utils/glyphsetConversion';
 import { autoSave, editorRefs, editorState, history } from './editorCore.svelte';
+import { diagramState } from './diagramState.svelte';
+import { applyDraftOperation, type DraftOperation } from './draftOperations';
 import { detectProfile } from './profileDetection';
+import { editorSettings } from './editorSettings.svelte';
 
 /**
  * Update code in the editor
@@ -21,7 +23,7 @@ export function updateCode(newCode: string, addToHistory: boolean = false) {
 	// Update CodeMirror editor (single source of truth)
 	// This will trigger handleCodeChange via updateListener, which updates state
 	if (editorRefs.code) {
-		editorRefs.code.setValue(newCode);
+		editorRefs.code.setValue(newCode, addToHistory);
 	} else {
 		// Fallback if editor not mounted yet
 		editorState.code = newCode;
@@ -35,7 +37,9 @@ export function updateCode(newCode: string, addToHistory: boolean = false) {
  */
 export function handleCodeChange(newCode: string, addToHistory: boolean = true) {
 	editorState.code = newCode;
-	editorState.profileName = detectProfile(newCode);
+	const detectedProfile = detectProfile(newCode);
+	editorState.profileName = detectedProfile;
+	editorState.layoutStrategy = editorSettings.getDefaultLayoutStrategyForProfile(detectedProfile);
 	editorState.isDirty = true;
 
 	// Add to history for user typing (not for undo/redo or programmatic changes)
@@ -43,9 +47,11 @@ export function handleCodeChange(newCode: string, addToHistory: boolean = true) 
 		history.push(newCode);
 	}
 
-	autoSave.schedule(editorState.code, () => {
-		editorState.isDirty = false;
-	});
+	if (editorSettings.autosaveEnabled) {
+		autoSave.schedule(editorState.code, () => {
+			editorState.isDirty = false;
+		});
+	}
 }
 
 /**
@@ -90,34 +96,28 @@ export function handleParse(success: boolean, parseErrors: string[]) {
 export function handleEdit(
 	nodeOrEdgeId: string,
 	property: string,
-	value: string | number | boolean | { x: number; y: number }
+	value:
+		| string
+		| number
+		| boolean
+		| { x: number; y: number }
+		| { from: string; to: string }
 ) {
-	let newCode = editorState.code;
-
-	if (property === 'label') {
-		newCode = DSL.editLabel(editorState.code, nodeOrEdgeId, String(value), false);
-	} else if (property === 'edgeLabel') {
-		newCode = DSL.editLabel(editorState.code, nodeOrEdgeId, String(value), true);
-	} else if (property === 'position') {
-		if (typeof value === 'object' && 'x' in value && 'y' in value) {
-			newCode = DSL.editPosition(editorState.code, nodeOrEdgeId, value.x, value.y);
-		}
-	} else if (
-		[
-			'fillColor',
-			'strokeColor',
-			'strokeWidth',
-			'fontSize',
-			'textColor',
-			'shadow',
-			'routing'
-		].includes(property)
-	) {
-		newCode = DSL.editStyleProperty(editorState.code, nodeOrEdgeId, property, value);
-	}
+	const op: DraftOperation = {
+		type: 'edit',
+		targetId: nodeOrEdgeId,
+		property,
+		value
+	};
+	const { newCode } = applyDraftOperation(
+		editorState.code,
+		editorState.shapeCounter,
+		op,
+		diagramState.nodeLocations
+	);
 
 	if (newCode !== editorState.code) {
-		updateCode(newCode);
+		updateCode(newCode, true);
 	}
 }
 
@@ -125,14 +125,44 @@ export function handleEdit(
  * Handle shape insertion from toolbox
  */
 export function handleInsertShape(shapeCode: string) {
-	const newCode = DSL.insertShape(editorState.code, shapeCode, editorState.shapeCounter);
+	const { newCode, shapeCounterDelta } = applyDraftOperation(
+		editorState.code,
+		editorState.shapeCounter,
+		{
+			type: 'insert-shape',
+			shapeCode
+		}
+	);
 	if (newCode !== editorState.code) {
-		editorState.shapeCounter++;
-		updateCode(newCode);
-	} else if (editorRefs.code) {
-		// Replace 'id' with 'id{counter}' only when it's a standalone word boundary
-		editorRefs.code.insertAtCursor(shapeCode.replace(/\bid\b/g, `id${editorState.shapeCounter++}`));
+		editorState.shapeCounter += shapeCounterDelta;
+		updateCode(newCode, true);
 	}
+}
+
+/**
+ * Handle inserting a shape and immediately connecting it from an existing node.
+ */
+export function handleInsertShapeAndEdge(
+	shapeCode: string,
+	fromNodeId: string,
+	toNodeId: string
+) {
+	const { newCode, shapeCounterDelta } = applyDraftOperation(
+		editorState.code,
+		editorState.shapeCounter,
+		{
+			type: 'insert-shape-and-edge',
+			shapeCode,
+			fromNodeId,
+			toNodeId
+		}
+	);
+	if (newCode === editorState.code) {
+		return;
+	}
+
+	editorState.shapeCounter += shapeCounterDelta;
+	updateCode(newCode, true);
 }
 
 /**
@@ -198,9 +228,13 @@ export function handleConvertWithTransform(fromType: string, targetGlyphsetType:
  * Handle edge insertion from visual canvas
  */
 export function handleInsertEdge(fromNodeId: string, toNodeId: string) {
-	const newCode = DSL.insertEdge(editorState.code, fromNodeId, toNodeId);
+	const { newCode } = applyDraftOperation(editorState.code, editorState.shapeCounter, {
+		type: 'insert-edge',
+		fromNodeId,
+		toNodeId
+	});
 	if (newCode !== editorState.code) {
-		updateCode(newCode);
+		updateCode(newCode, true);
 	} else if (editorRefs.code) {
 		editorRefs.code.insertAtCursor(`${fromNodeId} -> ${toNodeId}`);
 	}
@@ -247,9 +281,13 @@ export function handleKeyDown(event: KeyboardEvent) {
  * Handle element deletion
  */
 export function handleDelete(nodeId: string | null, edgeId: string | null) {
-	const newCode = DSL.deleteElement(editorState.code, nodeId, edgeId);
+	const { newCode } = applyDraftOperation(editorState.code, editorState.shapeCounter, {
+		type: 'delete',
+		nodeId,
+		edgeId
+	});
 	if (newCode !== editorState.code) {
-		updateCode(newCode);
+		updateCode(newCode, true);
 	}
 }
 
@@ -257,15 +295,18 @@ export function handleDelete(nodeId: string | null, edgeId: string | null) {
  * Handle resetting styles
  */
 export function handleResetStyles(elementIds: string[]) {
-	const newCode = DSL.resetStyles(editorState.code, elementIds);
-	updateCode(newCode);
+	const { newCode } = applyDraftOperation(editorState.code, editorState.shapeCounter, {
+		type: 'reset-styles',
+		elementIds
+	});
+	updateCode(newCode, true);
 }
 
 /**
  * Handle theme change
  */
 export function handleThemeChange(newCode: string) {
-	updateCode(newCode);
+	updateCode(newCode, true);
 	editorState.isDirty = true;
 }
 
@@ -274,8 +315,6 @@ export function handleThemeChange(newCode: string) {
  */
 export function handleInsertSample(sampleCode: string, sampleData?: string) {
 	updateCode(sampleCode);
-	editorState.code = sampleCode;
-	editorState.profileName = detectProfile(sampleCode);
 
 	if (sampleData && editorRefs.data) {
 		editorRefs.data.setValue(sampleData);
@@ -295,8 +334,8 @@ export function handleInsertSample(sampleCode: string, sampleData?: string) {
 export function handleNewDiagram(type: ProfileName) {
 	const template = getTemplate(type);
 	updateCode(template.content);
-	editorState.code = template.content;
 	editorState.profileName = type;
+	editorState.layoutStrategy = editorSettings.getDefaultLayoutStrategyForProfile(type);
 	editorState.diagramName = template.name;
 	editorState.isDirty = false;
 	history.reset(template.content);

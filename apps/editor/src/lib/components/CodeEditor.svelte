@@ -9,7 +9,7 @@
 	import { lintGutter, linter } from '@codemirror/lint';
 	import type { Diagnostic, Action } from '@codemirror/lint';
 	import { autocompletion, type CompletionContext } from '@codemirror/autocomplete';
-	import { createRuniqServices } from '@runiq/parser-dsl';
+	import { createRuniqServices, enrichDiagnosticMessage } from '@runiq/parser-dsl';
 	import { EmptyFileSystem, URI } from 'langium';
 	import type { Diagnostic as LangiumDiagnostic } from 'vscode-languageserver-types';
 	import { handleCodeChange, handleEditorErrors, handleEditorWarnings } from '$lib/state/editorState.svelte';
@@ -45,6 +45,47 @@
 			// Build the document (resolve cross-references, etc.)
 			await sharedServices.workspace.DocumentBuilder.build([langiumDoc], {});
 
+			// Include parser/lexer diagnostics (these are often clearer for syntax issues)
+			for (const lexerError of langiumDoc.parseResult.lexerErrors ?? []) {
+				const line = Math.max(1, lexerError.line ?? 1);
+				const column = Math.max(1, lexerError.column ?? 1);
+				const from = offsetAtOneBased(doc, line, column);
+				const to = Math.min(from + 1, doc.length);
+
+				diagnostics.push({
+					from,
+					to,
+					severity: 'error',
+					message: enrichDiagnosticMessage(lexerError.message, {
+						text,
+						lineOneBased: line
+					})
+				});
+			}
+
+			for (const parserError of langiumDoc.parseResult.parserErrors ?? []) {
+				const token = (parserError as any).token as
+					| { startLine?: number; startColumn?: number; endLine?: number; endColumn?: number; image?: string }
+					| undefined;
+				const line = Math.max(1, token?.startLine ?? 1);
+				const column = Math.max(1, token?.startColumn ?? 1);
+				const from = offsetAtOneBased(doc, line, column);
+				const endLine = Math.max(line, token?.endLine ?? line);
+				const endColumn = Math.max(column + 1, token?.endColumn ?? column + 1);
+				const to = Math.max(from + 1, offsetAtOneBased(doc, endLine, endColumn));
+
+				diagnostics.push({
+					from,
+					to,
+					severity: 'error',
+					message: enrichDiagnosticMessage(parserError.message, {
+						text,
+						lineOneBased: line,
+						tokenImage: token?.image
+					})
+				});
+			}
+
 			// Get validation diagnostics
 			const validationDiagnostics =
 				await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
@@ -67,7 +108,10 @@
 					from,
 					to,
 					severity,
-					message: diagnostic.message,
+					message: enrichDiagnosticMessage(diagnostic.message, {
+						text,
+						lineOneBased: diagnostic.range.start.line + 1
+					}),
 					actions: actions.length > 0 ? actions : undefined
 				});
 			}
@@ -82,6 +126,13 @@
 	function offsetAt(doc: any, position: { line: number; character: number }): number {
 		const line = doc.line(position.line + 1); // LSP lines are 0-based, CodeMirror is 1-based
 		return line.from + position.character;
+	}
+
+	function offsetAtOneBased(doc: any, lineOneBased: number, columnOneBased: number): number {
+		const clampedLine = Math.max(1, Math.min(lineOneBased, doc.lines));
+		const lineInfo = doc.line(clampedLine);
+		const clampedCol = Math.max(1, Math.min(columnOneBased, lineInfo.length + 1));
+		return lineInfo.from + clampedCol - 1;
 	}
 
 	// Extract quick-fix actions from diagnostic messages
@@ -325,7 +376,7 @@
 	}
 
 	// Export function to set value
-	export function setValue(newValue: string) {
+	export function setValue(newValue: string, addToUndoStack: boolean = false) {
 		if (editorView) {
 			editorView.dispatch({
 				changes: {
@@ -333,7 +384,10 @@
 					to: editorView.state.doc.length,
 					insert: newValue
 				},
-				annotations: [Transaction.addToHistory.of(false), ProgrammaticChange.of(true)]
+				annotations: [
+					Transaction.addToHistory.of(addToUndoStack),
+					ProgrammaticChange.of(true)
+				]
 			});
 
 			// Position cursor at the end of the "Add your shapes" comment line
@@ -391,7 +445,11 @@
 		editorView.focus();
 	}
 
-	export function jumpTo(line: number, column: number) {
+	export function jumpTo(
+		line: number,
+		column: number,
+		options?: { focus?: boolean; selectLine?: boolean }
+	) {
 		if (!editorView) return;
 
 		const doc = editorView.state.doc;
@@ -400,11 +458,20 @@
 		const clampedColumn = Math.max(1, Math.min(column, lineInfo.length + 1));
 		const pos = lineInfo.from + clampedColumn - 1;
 
-		editorView.dispatch({
-			selection: { anchor: pos },
-			scrollIntoView: true
-		});
-		editorView.focus();
+		if (options?.selectLine) {
+			editorView.dispatch({
+				selection: { anchor: lineInfo.from, head: lineInfo.to },
+				scrollIntoView: true
+			});
+		} else {
+			editorView.dispatch({
+				selection: { anchor: pos },
+				scrollIntoView: true
+			});
+		}
+		if (options?.focus !== false) {
+			editorView.focus();
+		}
 	}
 </script>
 

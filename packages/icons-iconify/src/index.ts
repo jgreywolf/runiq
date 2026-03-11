@@ -272,3 +272,12 @@ export class IconifyProvider implements IconProvider {
 }
 
 export const iconify = new IconifyProvider();
+
+function toDslTokenName(name: string): string {
+  // Prefer underscore form to avoid DSL reserved-word and punctuation collisions.
+  return name.replace(/:/g, '_').replace(/-/g, '_');
+}
+
+export function listIconifyIconNamesForDsl(): string[] {
+  return Array.from(new Set(Object.keys(iconMap).map(toDslTokenName))).sort();
+}

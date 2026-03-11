@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { layoutRegistry } from '@runiq/core';
-import { renderDiagram } from './renderingUtils';
+import { renderDiagram, updateElementStyles } from './renderingUtils';
 
 describe('renderDiagram data mapping', () => {
 	beforeAll(() => {
@@ -79,5 +79,66 @@ describe('renderDiagram data mapping', () => {
 		const sankeyNode = result.profile?.nodes?.find((node: any) => node.id === 'flow');
 		expect(sankeyNode?.data?.nodes).toHaveLength(2);
 		expect(sankeyNode?.data?.links).toHaveLength(1);
+	});
+});
+
+describe('updateElementStyles aliases', () => {
+	function createFakeElementHarness() {
+		const mainAttrs: Record<string, string> = {};
+		const textAttrs: Record<string, string>[] = [{}, {}];
+		const mainElement = {
+			setAttribute: (name: string, value: string) => {
+				mainAttrs[name] = value;
+			}
+		};
+		const textElements = textAttrs.map((attrs) => ({
+			setAttribute: (name: string, value: string) => {
+				attrs[name] = value;
+			}
+		}));
+		const targetElement = {
+			querySelector: () => mainElement,
+			querySelectorAll: () => textElements
+		};
+		const svgElement = {
+			querySelector: () => targetElement,
+			querySelectorAll: () => []
+		};
+		const svgContainer = {
+			querySelector: (selector: string) => (selector === 'svg' ? svgElement : null)
+		};
+		return { svgContainer, mainAttrs, textAttrs };
+	}
+
+	it('supports canonical style keys (fill/stroke/color)', () => {
+		const { svgContainer, mainAttrs, textAttrs } = createFakeElementHarness();
+		updateElementStyles(svgContainer as any, 'n1', true, {
+			fill: '#111111',
+			stroke: '#222222',
+			color: '#333333',
+			strokeWidth: '4'
+		});
+
+		expect(mainAttrs.fill).toBe('#111111');
+		expect(mainAttrs.stroke).toBe('#222222');
+		expect(mainAttrs['stroke-width']).toBe('4');
+		expect(textAttrs[0].fill).toBe('#333333');
+		expect(textAttrs[1].fill).toBe('#333333');
+	});
+
+	it('prefers alias keys when both alias and canonical are provided', () => {
+		const { svgContainer, mainAttrs, textAttrs } = createFakeElementHarness();
+		updateElementStyles(svgContainer as any, 'n1', true, {
+			fill: '#111111',
+			fillColor: '#aaaaaa',
+			stroke: '#222222',
+			strokeColor: '#bbbbbb',
+			color: '#333333',
+			textColor: '#cccccc'
+		});
+
+		expect(mainAttrs.fill).toBe('#aaaaaa');
+		expect(mainAttrs.stroke).toBe('#bbbbbb');
+		expect(textAttrs[0].fill).toBe('#cccccc');
 	});
 });
