@@ -10,7 +10,13 @@ import {
 	type GlyphsetId
 } from '@runiq/parser-dsl';
 import { parameterRegEx } from './glyphsetConversion/constants';
+import { areGlyphsetsCompatible } from './glyphsetConversion/compatibility';
 import { expandToGroupedProcess, flattenGroupedProcess } from './glyphsetConversion/groupedProcess';
+import {
+	expandToLabeledHierarchy,
+	flattenLabeledHierarchy,
+	flattenTableHierarchy
+} from './glyphsetConversion/hierarchy';
 import {
 	expandToNestedStructure,
 	flattenNestedStructure
@@ -34,6 +40,20 @@ export function convertGlyphset(code: string, newType: string): ConversionResult
 	}
 
 	const { oldGlyphsetId, glyphsetLineIndex, glyphsetTitle, lines } = parsed;
+	const compatibility = areGlyphsetsCompatible(oldGlyphsetId, newGlyphsetId);
+	if (!compatibility.compatible) {
+		return {
+			success: false,
+			newCode: code,
+			warnings: [],
+			errors: [
+				compatibility.reason ||
+					`Conversion from ${oldGlyphsetId} to ${newGlyphsetId} is not currently supported.`
+			],
+			canConvert: false
+		};
+	}
+
 	const warnings: string[] = [];
 	const errors: string[] = [];
 	const newLines: string[] = [];
@@ -49,18 +69,33 @@ export function convertGlyphset(code: string, newType: string): ConversionResult
 
 	if (oldStructure !== newStructure) {
 		const actionType = oldStructure === 'flat' ? 'expanding' : 'flattening';
-		let conversionLines: string[] = [];
+		let conversionResult: ConversionResult | null = null;
 
 		if (oldStructure === 'flat') {
 			// we need to call the "expand" functions
 			switch (newGlyphsetId) {
 				case GlyphsetIds.groupedProcess:
-					conversionLines = expandToGroupedProcess(oldLines, oldGlyphsetId, newGlyphsetId);
+					conversionResult = {
+						success: true,
+						newCode: [...newLines, ...expandToGroupedProcess(oldLines, oldGlyphsetId, newGlyphsetId)].join('\n'),
+						warnings,
+						errors
+					};
 					break;
 				case GlyphsetIds.pyramidList:
 				case GlyphsetIds.nestedList:
 				case GlyphsetIds.segmentedPyramid:
-					conversionLines = expandToNestedStructure(oldLines, oldGlyphsetId, newGlyphsetId);
+				case GlyphsetIds.tableHierarchy:
+					conversionResult = {
+						success: true,
+						newCode: [...newLines, ...expandToNestedStructure(oldLines, oldGlyphsetId, newGlyphsetId)].join('\n'),
+						warnings,
+						errors
+					};
+					break;
+				case GlyphsetIds.labeledHierarchy:
+				case GlyphsetIds.circleHierarchy:
+					conversionResult = expandToLabeledHierarchy(code, newGlyphsetId);
 					break;
 				default:
 					// other expand functions can go here
@@ -71,33 +106,42 @@ export function convertGlyphset(code: string, newType: string): ConversionResult
 			// we need to call the "flatten" functions
 			switch (oldGlyphsetId) {
 				case GlyphsetIds.groupedProcess:
-					conversionLines = flattenGroupedProcess(oldLines, oldGlyphsetId, newGlyphsetId);
+					conversionResult = {
+						success: true,
+						newCode: [...newLines, ...flattenGroupedProcess(oldLines, oldGlyphsetId, newGlyphsetId)].join('\n'),
+						warnings,
+						errors
+					};
 					break;
 				case GlyphsetIds.pyramidList:
 				case GlyphsetIds.nestedList:
 				case GlyphsetIds.segmentedPyramid:
-					conversionLines = flattenNestedStructure(oldLines, oldGlyphsetId, newGlyphsetId);
+					conversionResult = {
+						success: true,
+						newCode: [...newLines, ...flattenNestedStructure(oldLines, oldGlyphsetId, newGlyphsetId)].join('\n'),
+						warnings,
+						errors
+					};
+					break;
+				case GlyphsetIds.labeledHierarchy:
+				case GlyphsetIds.circleHierarchy:
+					conversionResult = flattenLabeledHierarchy(code, newGlyphsetId);
+					break;
+				case GlyphsetIds.tableHierarchy:
+					conversionResult = flattenTableHierarchy(code, newGlyphsetId);
 					break;
 				default:
 					// other expand functions can go here
 					break;
 			}
 		}
-		const isSuccess = conversionLines.length > 0;
-		if (!isSuccess) {
+		if (!conversionResult || !conversionResult.success) {
 			return createParseError(
 				code,
 				`Unknown error occurred while ${actionType} to ${newGlyphsetId}`
 			);
 		}
-
-		newLines.push(...conversionLines);
-		return {
-			success: true,
-			newCode: newLines.join('\n'),
-			warnings,
-			errors
-		};
+		return conversionResult;
 	}
 
 	// Convert to target keyword
@@ -161,6 +205,8 @@ export const getGlyphsetKeywords = (glyphsetId: GlyphsetId) => {
 			return ['source', 'item'];
 		case GlyphsetIds.pictureCallout:
 			return ['image', 'callout'];
+		case GlyphsetIds.events:
+			return ['event'];
 		default:
 			return ['item'];
 	}

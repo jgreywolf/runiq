@@ -96,7 +96,12 @@ export function handleParse(success: boolean, parseErrors: string[]) {
 export function handleEdit(
 	nodeOrEdgeId: string,
 	property: string,
-	value: string | number | boolean | { x: number; y: number }
+	value:
+		| string
+		| number
+		| boolean
+		| { x: number; y: number }
+		| { from: string; to: string }
 ) {
 	const op: DraftOperation = {
 		type: 'edit',

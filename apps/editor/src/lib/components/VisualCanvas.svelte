@@ -18,6 +18,11 @@
 	import { ProfileName } from '$lib/types';
 	import { clipboardManager } from '$lib/utils/clipboardManager.svelte';
 	import * as DSL from '$lib/utils/dslCodeManipulation';
+	import { getGlyphsetKeywords } from '$lib/utils/glyphsetConversion';
+	import {
+		getGlyphsetTypeFromCode,
+		isGlyphsetReorderSupported
+	} from '$lib/utils/glyphsetCanvasSupport';
 	import { InteractionManager } from '$lib/utils/interactionManager.svelte';
 	import { listBrandIconNames } from '@runiq/icons-brand';
 	import { listIconifyIconNamesForDsl } from '@runiq/icons-iconify';
@@ -194,6 +199,14 @@
 		source: string;
 		model: string;
 	} | null>(null);
+	let glyphsetImageEditFlyout = $state<{
+		items: Array<{
+			lineIndex: number;
+			url: string;
+			label: string;
+			description: string;
+		}>;
+	} | null>(null);
 	let schematicPartQuickDraft = $state<{
 		nodeId: string;
 		ref: string;
@@ -245,6 +258,13 @@
 		targetEdgeId: string;
 		position: 'before' | 'after';
 		y: number;
+	} | null>(null);
+	let glyphsetNodeReorderPreview = $state<{
+		targetNodeId: string;
+		position: 'before' | 'after';
+		x: number;
+		y: number;
+		orientation: 'vertical' | 'horizontal';
 	} | null>(null);
 	let nodeContainerDrag = $state<{
 		nodeId: string;
@@ -1529,6 +1549,71 @@
 		return true;
 	}
 
+	function getGlyphsetTypeInCode(code: string): string | null {
+		return getGlyphsetTypeFromCode(code);
+	}
+
+	function extractGlyphsetNodeIndex(nodeId: string): number | null {
+		const match = nodeId.match(/(\d+)$/);
+		if (!match) return null;
+		const index = Number.parseInt(match[1], 10);
+		if (!Number.isFinite(index) || index <= 0) return null;
+		return index - 1;
+	}
+
+	function parseGlyphsetItems(lines: string[], glyphsetType: string) {
+		const keywords = getGlyphsetKeywords(glyphsetType as never);
+		if (!keywords || keywords.length === 0) return [];
+		const escaped = keywords.map((keyword) =>
+			keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+		);
+		const pattern = new RegExp(`^\\s*(?:${escaped.join('|')})\\b`);
+		const items: Array<{ lineIndex: number; line: string }> = [];
+		for (let i = 0; i < lines.length; i += 1) {
+			if (!pattern.test(lines[i])) continue;
+			items.push({ lineIndex: i, line: lines[i] });
+		}
+		return items;
+	}
+
+	function reorderGlyphsetItems(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		const code = editorState.code || '';
+		const glyphsetType = getGlyphsetTypeInCode(code);
+		if (!glyphsetType) return false;
+		if (!isGlyphsetReorderSupported(glyphsetType)) return false;
+		const sourceIndex = extractGlyphsetNodeIndex(sourceNodeId);
+		const targetIndex = extractGlyphsetNodeIndex(targetNodeId);
+		if (sourceIndex === null || targetIndex === null || sourceIndex === targetIndex) return false;
+
+		const lines = code.split('\n');
+		const items = parseGlyphsetItems(lines, glyphsetType);
+		if (items.length < 2) return false;
+		if (sourceIndex < 0 || sourceIndex >= items.length) return false;
+		if (targetIndex < 0 || targetIndex >= items.length) return false;
+
+		const reordered = [...items];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = targetIndex;
+		if (sourceIndex < targetIndex) insertIndex -= 1;
+		if (position === 'after') insertIndex += 1;
+		if (insertIndex < 0) insertIndex = 0;
+		if (insertIndex > reordered.length) insertIndex = reordered.length;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = items.map((item) => item.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode === code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
 	function findSequenceParticipantNameByNodeId(lines: string[], nodeId: string): string | null {
 		const normalized = nodeId.startsWith('seq-participant-')
 			? nodeId.slice('seq-participant-'.length)
@@ -1755,6 +1840,87 @@
 	function openSchematicEditFromContext() {
 		openSchematicEdit(elementContextMenu?.nodeId ?? null);
 		elementContextMenu = null;
+	}
+
+	function parseGlyphsetImageEntries(code: string): Array<{
+		lineIndex: number;
+		url: string;
+		label: string;
+		description: string;
+	}> {
+		const blockInfo = DSL.findProfileBlock(code);
+		if (!blockInfo) return [];
+		const lines = code.split('\n');
+		const entries: Array<{
+			lineIndex: number;
+			url: string;
+			label: string;
+			description: string;
+		}> = [];
+		for (let i = blockInfo.startLineIndex + 1; i < blockInfo.insertLineIndex; i += 1) {
+			const line = lines[i];
+			const imageMatch = line.match(/^\s*image\s+"((?:\\.|[^"])*)"(.*)$/);
+			if (!imageMatch) continue;
+			const rest = imageMatch[2] || '';
+			const labelMatch = rest.match(/label(?::|\s+)"((?:\\.|[^"])*)"/);
+			const descriptionMatch = rest.match(/description(?::|\s+)"((?:\\.|[^"])*)"/);
+			entries.push({
+				lineIndex: i,
+				url: imageMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\'),
+				label: (labelMatch?.[1] ?? '').replace(/\\"/g, '"').replace(/\\\\/g, '\\'),
+				description: (descriptionMatch?.[1] ?? '').replace(/\\"/g, '"').replace(/\\\\/g, '\\')
+			});
+		}
+		return entries;
+	}
+
+	function openGlyphsetImageEditFromSelection() {
+		if (editorState.profileName !== ProfileName.glyphset) return;
+		if (!selection.selectedNodeId) return;
+		const entries = parseGlyphsetImageEntries(editorState.code || '');
+		if (entries.length === 0) return;
+		glyphsetImageEditFlyout = {
+			items: entries.map((entry) => ({ ...entry }))
+		};
+	}
+
+	function openGlyphsetImageEditFromContext() {
+		if (editorState.profileName !== ProfileName.glyphset) return;
+		const entries = parseGlyphsetImageEntries(editorState.code || '');
+		if (entries.length === 0) return;
+		glyphsetImageEditFlyout = {
+			items: entries.map((entry) => ({ ...entry }))
+		};
+		elementContextMenu = null;
+	}
+
+	function closeGlyphsetImageEditDialog() {
+		glyphsetImageEditFlyout = null;
+	}
+
+	function applyGlyphsetImageEditFromFlyout() {
+		if (!glyphsetImageEditFlyout) return;
+		const code = editorState.code || '';
+		const lines = code.split('\n');
+		for (const item of glyphsetImageEditFlyout.items) {
+			const currentLine = lines[item.lineIndex];
+			if (!currentLine) continue;
+			const indent = currentLine.match(/^(\s*)/)?.[1] ?? '  ';
+			const url = item.url.trim();
+			if (!url) continue;
+			const labelPart = item.label.trim()
+				? ` label:"${escapeDslString(item.label.trim())}"`
+				: '';
+			const descriptionPart = item.description.trim()
+				? ` description:"${escapeDslString(item.description.trim())}"`
+				: '';
+			lines[item.lineIndex] = `${indent}image "${escapeDslString(url)}"${labelPart}${descriptionPart}`;
+		}
+		const nextCode = lines.join('\n');
+		if (nextCode !== code) {
+			updateCode(nextCode, true);
+		}
+		glyphsetImageEditFlyout = null;
 	}
 
 	function closeSchematicEditDialog() {
@@ -2940,6 +3106,7 @@
 			sequenceDropTargetNodeId = null;
 			sequenceParticipantReorderPreview = null;
 			sequenceMessageReorderPreview = null;
+			glyphsetNodeReorderPreview = null;
 		},
 		onNodeContainerDragStart: handleNodeContainerDragStart,
 		onNodeContainerDragMove: handleNodeContainerDragMove,
@@ -2967,6 +3134,19 @@
 		},
 		onSequenceMessageReorderPreview: (preview) => {
 			sequenceMessageReorderPreview = preview;
+		},
+		onGlyphsetNodeReorder: ({ sourceNodeId, targetNodeId, position }) => {
+			const glyphsetType = getGlyphsetTypeInCode(editorState.code || '');
+			if (!isGlyphsetReorderSupported(glyphsetType)) return;
+			reorderGlyphsetItems(sourceNodeId, targetNodeId, position);
+		},
+		onGlyphsetNodeReorderPreview: (preview) => {
+			const glyphsetType = getGlyphsetTypeInCode(editorState.code || '');
+			if (!isGlyphsetReorderSupported(glyphsetType)) {
+				glyphsetNodeReorderPreview = null;
+				return;
+			}
+			glyphsetNodeReorderPreview = preview;
 		}
 	});
 
@@ -2980,7 +3160,14 @@
 	function handleEditBlur() {
 		if (!supportsCanvasSelection(editorState.profileName) || canvasState.mode !== 'select') return;
 		if (selection.editingNodeId) {
-			handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
+			if (editorState.profileName === ProfileName.glyphset) {
+				handleEdit(selection.editingNodeId, 'glyphsetLabel', {
+					from: selection.editingInitialLabel,
+					to: selection.editingLabel
+				});
+			} else {
+				handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
+			}
 			selection.cancelLabelEdit();
 			return;
 		}
@@ -3507,6 +3694,28 @@
 					Text
 				</button>
 			</div>
+		{:else if editorState.profileName === ProfileName.glyphset && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
+			<div
+				bind:this={floatingToolbarElement}
+				class="floating-toolbar sequence-toolbar"
+				style="left: {elementToolbarPosition.x}px; top: {elementToolbarPosition.y}px;"
+			>
+				<button
+					class="toolbar-button"
+					onclick={() => interactionManager.startLabelEdit(selection.selectedNodeId, selection.selectedEdgeId)}
+					title="Edit Label"
+				>
+					Label
+				</button>
+				<button
+					class="toolbar-button"
+					onclick={openGlyphsetImageEditFromSelection}
+					disabled={parseGlyphsetImageEntries(editorState.code || '').length === 0}
+					title="Edit image URLs and labels for picture glyphsets"
+				>
+					Images
+				</button>
+			</div>
 		{:else if isSchematicProfile(editorState.profileName) && canvasState.mode === 'select' && !selection.editingNodeId && !selection.editingEdgeId && (selection.selectedNodeId || selection.selectedEdgeId) && elementToolbarPosition && !canvasContextMenu && !nodeContainerDrag && !schematicPartDrag}
 			<div
 				bind:this={floatingToolbarElement}
@@ -3703,6 +3912,34 @@
 			</div>
 		{/if}
 
+		{#if editorState.profileName === ProfileName.glyphset && glyphsetNodeReorderPreview}
+			<div class="pointer-events-none absolute inset-0 z-[20]">
+				{#if glyphsetNodeReorderPreview.orientation === 'horizontal'}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-vertical"
+						style="left: {glyphsetNodeReorderPreview.x}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-vertical"
+						style="left: {glyphsetNodeReorderPreview.x + 8}px; top: 10px;"
+					>
+						Insert {glyphsetNodeReorderPreview.position}
+					</div>
+				{:else}
+					<div
+						class="sequence-reorder-guide sequence-reorder-guide-horizontal"
+						style="top: {glyphsetNodeReorderPreview.y}px;"
+					></div>
+					<div
+						class="sequence-reorder-badge sequence-reorder-badge-horizontal"
+						style="left: 10px; top: {glyphsetNodeReorderPreview.y + 8}px;"
+					>
+						Insert {glyphsetNodeReorderPreview.position}
+					</div>
+				{/if}
+			</div>
+		{/if}
+
 		{#if nodeContainerDrag}
 			<div class="pointer-events-none absolute inset-0 z-[21]">
 				{#if nodeContainerDrag.hoverContainerRect}
@@ -3824,6 +4061,17 @@
 			<div class="separator"></div>
 			<button onclick={handleDuplicateFromContext} disabled={!elementContextMenu.nodeId}>Duplicate</button>
 			<button class="danger" onclick={handleDeleteFromContext} disabled={!elementContextMenu.nodeId}>Delete</button>
+		{:else if editorState.profileName === ProfileName.glyphset}
+			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button>
+			<button
+				onclick={openGlyphsetImageEditFromContext}
+				disabled={parseGlyphsetImageEntries(editorState.code || '').length === 0}
+			>
+				Edit Images
+			</button>
+			<div class="separator"></div>
+			<button onclick={handleDuplicateFromContext}>Duplicate</button>
+			<button class="danger" onclick={handleDeleteFromContext}>Delete</button>
 		{:else}
 			<button onclick={handleEditLabelFromContext} disabled={!elementContextMenu.nodeId && !elementContextMenu.edgeId}>Edit Label</button>
 			<div class="separator"></div>
@@ -4161,6 +4409,54 @@
 			<div class="context-actions">
 				<button onclick={closeSchematicEditDialog}>Cancel</button>
 				<button onclick={applySchematicEditFromFlyout}>Apply</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if glyphsetImageEditFlyout}
+	<div
+		class="canvas-modal-backdrop"
+		role="button"
+		tabindex="0"
+		aria-label="Close glyphset image editor"
+		onpointerdown={closeGlyphsetImageEditDialog}
+		onkeydown={(event) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				closeGlyphsetImageEditDialog();
+			}
+		}}
+	>
+		<div
+			class="canvas-context-menu canvas-edit-dialog"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Edit glyphset image URLs"
+			tabindex="-1"
+			onpointerdown={(event) => event.stopPropagation()}
+		>
+			<div class="section-label">Edit images</div>
+			{#each glyphsetImageEditFlyout.items as item, index}
+				<div class="context-label">
+					<div class="section-label">Image {index + 1}</div>
+					<label class="context-label">
+						URL
+						<input bind:value={item.url} placeholder="https://..." />
+					</label>
+					<label class="context-label">
+						Label
+						<input bind:value={item.label} placeholder="Optional label" />
+					</label>
+					<label class="context-label">
+						Description
+						<input bind:value={item.description} placeholder="Optional description" />
+					</label>
+				</div>
+			{/each}
+			<div class="context-actions">
+				<button onclick={closeGlyphsetImageEditDialog}>Cancel</button>
+				<button onclick={applyGlyphsetImageEditFromFlyout}>Apply</button>
 			</div>
 		</div>
 	</div>

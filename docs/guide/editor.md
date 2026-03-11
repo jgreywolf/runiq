@@ -129,6 +129,18 @@ The Runiq Editor is a browser-based authoring app for writing DSL, previewing di
   - Drag message lines/labels to reorder message statements.
   - Drag message endpoint handles to retarget `from`/`to`.
 
+### Glyphset Canvas (Current)
+
+- Toolbar actions:
+  - `Add Item` inserts a glyphset-aware statement (for example `item`, `event`, `circle`, `callout`).
+  - `Change Set` converts the current glyphset type.
+  - `Theme`, zoom controls.
+- Inline edits:
+  - Double-click supported glyphset nodes to edit labels inline.
+- Drag reorder support:
+  - Supported: `basicProcess`, `stepProcess`, `basicList`, `events`.
+  - Not currently supported for composite/single-node glyphsets (most process/hierarchy/comparison/relationship glyphsets such as `cycle`, `alternatingProcess`, `equationProcess`, `continuousBlockProcess`, `phasedProcess`, `detailedProcess`, `groupedProcess`, `pictureProcess`, `radialCycle`, `gearCycle`, `segmentedCycle`, `blockCycle`, `spiralCycle`, `orbitCycle`, `pyramid`, `invertedPyramid`).
+
 ### Style Precedence
 
 - Effective precedence:

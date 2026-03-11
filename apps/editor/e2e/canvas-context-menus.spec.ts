@@ -174,6 +174,79 @@ test.describe('Visual canvas context menus', () => {
 		expect(editorContent).toContain('milestone milestone1');
 	});
 
+	test('glyphset toolbar can change set type', async ({ page }) => {
+		const dsl = `glyphset basicList "Key Features" {
+  theme "vibrant"
+  item "Real-time Collaboration"
+  item "Cloud Storage"
+  item "Advanced Security"
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(700);
+
+		const changeSetButton = page.getByRole('button', { name: 'Change Set' });
+		await expect(changeSetButton).toBeVisible();
+		await changeSetButton.click();
+
+		const flyout = page.locator('.theme-flyout:visible').first();
+		await expect(flyout).toBeVisible();
+		await flyout.getByRole('button', { name: 'horizontalList' }).click();
+		await page.waitForTimeout(350);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('glyphset horizontalList "Key Features"');
+	});
+
+	test('glyphset supports inline label edit on canvas', async ({ page }) => {
+		const dsl = `glyphset basicList "Key Features" {
+  theme "vibrant"
+  item "Real-time Collaboration"
+  item "Cloud Storage"
+  item "Advanced Security"
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const firstNode = page.locator('svg [data-node-id]').first();
+		await expect(firstNode).toBeVisible({ timeout: 10000 });
+		await firstNode.dispatchEvent('dblclick', { bubbles: true, cancelable: true });
+
+		const editInput = page.locator('input.edit-input');
+		await expect(editInput).toBeVisible();
+		await editInput.fill('Realtime Collab');
+		await editInput.press('Enter');
+		await page.waitForTimeout(300);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('item "Realtime Collab"');
+	});
+
+	test('glyphset inline edit updates the clicked item, not always the first', async ({ page }) => {
+		const dsl = `glyphset basicList "Key Features" {
+  theme "vibrant"
+  item "First Item"
+  item "Second Item"
+  item "Third Item"
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(900);
+
+		const thirdNode = page.locator('svg [data-node-id]').nth(2);
+		await expect(thirdNode).toBeVisible({ timeout: 10000 });
+		await thirdNode.dispatchEvent('dblclick', { bubbles: true, cancelable: true });
+
+		const editInput = page.locator('input.edit-input');
+		await expect(editInput).toBeVisible();
+		await editInput.fill('Third Updated');
+		await editInput.press('Enter');
+		await page.waitForTimeout(300);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		expect(editorContent).toContain('item "Third Updated"');
+		expect(editorContent).toContain('item "First Item"');
+		expect(editorContent).toContain('item "Second Item"');
+	});
+
 	test('timeline selection toolbar opens details editor', async ({ page }) => {
 		const dsl = `timeline "Launch" {
   event kickoff date:"2024-01-15" label:"Kickoff"

@@ -16,6 +16,7 @@ export function supportsCanvasSelection(profileName: ProfileName | null): boolea
 		profileName === ProfileName.diagram ||
 		profileName === ProfileName.timeline ||
 		profileName === ProfileName.sequence ||
+		profileName === ProfileName.glyphset ||
 		isSchematicProfile(profileName)
 	);
 }
@@ -25,6 +26,7 @@ export function supportsCanvasContextMenus(profileName: ProfileName | null): boo
 		profileName === ProfileName.diagram ||
 		profileName === ProfileName.timeline ||
 		profileName === ProfileName.sequence ||
+		profileName === ProfileName.glyphset ||
 		isSchematicProfile(profileName)
 	);
 }

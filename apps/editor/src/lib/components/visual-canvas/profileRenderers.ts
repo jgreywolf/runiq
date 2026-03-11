@@ -41,6 +41,7 @@ export async function renderProfileSvg(
 	layoutStrategy = 'hierarchical'
 ): Promise<string> {
 	const profileType = getProfileType(profile);
+	const glyphsetId = typeof profile?._glyphsetId === 'string' ? profile._glyphsetId : undefined;
 
 	if (profileType === 'wardley') return renderWardleyMap(profile).svg;
 	if (profileType === 'sequence') return renderSequenceDiagram(profile).svg;
@@ -74,8 +75,10 @@ export async function renderProfileSvg(
 	if (!layoutAlgorithm) {
 		throw new Error(`Layout engine "${layoutEngine}" not found`);
 	}
+	const effectiveLayoutStrategy =
+		glyphsetId === 'stepProcess' ? 'adaptive' : layoutStrategy;
 	const laidOutProfile = await layoutAlgorithm.layout(profile, {
-		algorithm: mapLayoutStrategyToAlgorithm(layoutStrategy)
+		algorithm: mapLayoutStrategyToAlgorithm(effectiveLayoutStrategy)
 	} as any);
 	return renderSvg(profile, laidOutProfile).svg;
 }

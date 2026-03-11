@@ -21,6 +21,7 @@
 		currentDefaultDiagramTheme: string;
 		currentProfileName: ProfileName | null;
 		canChangeLayoutStrategy: boolean;
+		canChangeDefaultCanvasMode: boolean;
 		onSave: (
 			next: Partial<EditorSettingsSnapshot> & {
 				applyThemeToCurrentDiagram: boolean;
@@ -41,6 +42,7 @@
 		currentDefaultDiagramTheme,
 		currentProfileName,
 		canChangeLayoutStrategy,
+		canChangeDefaultCanvasMode,
 		onSave
 	}: Props = $props();
 
@@ -116,7 +118,7 @@
 			defaultLayoutStrategy,
 			defaultDiagramTheme: defaultDiagramTheme.trim() || 'runiq',
 			applyThemeToCurrentDiagram,
-			applyModeNow,
+			applyModeNow: canChangeDefaultCanvasMode ? applyModeNow : false,
 			applyStrategyNow: canChangeLayoutStrategy ? applyStrategyNow : false
 		});
 		open = false;
@@ -209,23 +211,29 @@
 				</div>
 			{/if}
 
-			<div>
-				<label class="mb-1 block text-xs font-medium text-neutral-700" for="default-canvas-mode"
-					>Default canvas mode</label
-				>
-				<select
-					id="default-canvas-mode"
-					bind:value={defaultCanvasMode}
-					class="w-full rounded border border-neutral-300 px-2 py-1.5"
-				>
-					<option value="select">Select</option>
-					<option value="connect">Connect</option>
-				</select>
-				<label class="mt-2 flex items-center gap-2 text-xs text-neutral-600">
-					<input type="checkbox" bind:checked={applyModeNow} />
-					Apply to canvas now
-				</label>
-			</div>
+			{#if canChangeDefaultCanvasMode}
+				<div>
+					<label class="mb-1 block text-xs font-medium text-neutral-700" for="default-canvas-mode"
+						>Default canvas mode</label
+					>
+					<select
+						id="default-canvas-mode"
+						bind:value={defaultCanvasMode}
+						class="w-full rounded border border-neutral-300 px-2 py-1.5"
+					>
+						<option value="select">Select</option>
+						<option value="connect">Connect</option>
+					</select>
+					<label class="mt-2 flex items-center gap-2 text-xs text-neutral-600">
+						<input type="checkbox" bind:checked={applyModeNow} />
+						Apply to canvas now
+					</label>
+				</div>
+			{:else}
+				<div class="rounded border border-neutral-200 bg-neutral-50 p-3 text-xs text-neutral-600">
+					Canvas mode is fixed for this profile and cannot be changed from settings.
+				</div>
+			{/if}
 
 			<div>
 				<label class="mb-1 block text-xs font-medium text-neutral-700" for="default-diagram-theme"

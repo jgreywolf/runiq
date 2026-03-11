@@ -47,6 +47,31 @@ describe('glyphsetConversion', () => {
 			const result = areGlyphsetsCompatible('basicList', 'chevronList');
 			expect(result.compatible).toBe(true);
 		});
+
+		it('should block flat conversions that require multi-key target syntax', () => {
+			const result = areGlyphsetsCompatible('basicList', 'cluster');
+			expect(result.compatible).toBe(false);
+		});
+
+		it('should block nested-to-nested conversions', () => {
+			const result = areGlyphsetsCompatible('orgChart', 'tableHierarchy');
+			expect(result.compatible).toBe(false);
+		});
+
+		it('should allow supported flat-to-nested conversions', () => {
+			const result = areGlyphsetsCompatible('basicProcess', 'groupedProcess');
+			expect(result.compatible).toBe(true);
+		});
+
+		it('should allow process-family conversion to pictureProcess', () => {
+			const result = areGlyphsetsCompatible('basicProcess', 'pictureProcess');
+			expect(result.compatible).toBe(true);
+		});
+
+		it('should allow process-family conversion from pictureProcess', () => {
+			const result = areGlyphsetsCompatible('pictureProcess', 'stepProcess');
+			expect(result.compatible).toBe(true);
+		});
 	});
 
 	describe('convertGlyphset', () => {
@@ -237,6 +262,18 @@ describe('glyphsetConversion', () => {
 			expect(result.newCode).toContain('item "Task 1"');
 			expect(result.newCode).not.toContain('group');
 			expect(result.newCode).not.toContain('mergePoint');
+		});
+
+		it('should return canConvert:false for unsupported conversion routes', () => {
+			const code = `glyphset basicList "List" {
+  item "One"
+  item "Two"
+}`;
+			const result = convertGlyphset(code, 'cluster');
+
+			expect(result.success).toBe(false);
+			expect(result.canConvert).toBe(false);
+			expect(result.errors[0]).toContain('multi-key syntax');
 		});
 	});
 });

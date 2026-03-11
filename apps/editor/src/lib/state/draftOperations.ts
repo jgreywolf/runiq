@@ -1,4 +1,5 @@
 import * as DSL from '../utils/dslCodeManipulation';
+import { getGlyphsetKeywords } from '../utils/glyphsetConversion';
 import type { NodeLocation } from '@runiq/parser-dsl';
 
 export type DraftOperation =
@@ -6,7 +7,12 @@ export type DraftOperation =
 			type: 'edit';
 			targetId: string;
 			property: string;
-			value: string | number | boolean | { x: number; y: number };
+			value:
+				| string
+				| number
+				| boolean
+				| { x: number; y: number }
+				| { from: string; to: string };
 	  }
 	| { type: 'insert-shape'; shapeCode: string }
 	| { type: 'insert-edge'; fromNodeId: string; toNodeId: string }
@@ -47,10 +53,22 @@ export function applyDraftOperation(
 			const { targetId, property, value } = op;
 
 			if (property === 'label') {
-				if (targetId.startsWith('seq-note-')) {
+				if (isGlyphsetCode(code)) {
+					newCode = editGlyphsetItemLabel(code, targetId, String(value));
+				} else if (targetId.startsWith('seq-note-')) {
 					newCode = editSequenceNoteLabel(code, targetId, String(value));
 				} else {
 					newCode = DSL.editLabel(code, targetId, String(value), false, resolveLocation(targetId, false));
+				}
+			} else if (property === 'glyphsetLabel') {
+				if (
+					isGlyphsetCode(code) &&
+					typeof value === 'object' &&
+					value !== null &&
+					'from' in value &&
+					'to' in value
+				) {
+					newCode = editGlyphsetItemLabelByValue(code, String(value.from), String(value.to));
 				}
 			} else if (property === 'edgeLabel') {
 				newCode = DSL.editLabel(code, targetId, String(value), true, resolveLocation(targetId, true));
@@ -148,6 +166,71 @@ function editSequenceNoteLabel(code: string, noteNodeId: string, nextLabel: stri
 		if (!match) return code;
 		const escaped = nextLabel.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 		lines[i] = `${match[1]}"${escaped}"${match[4] || ''}`;
+		return lines.join('\n');
+	}
+	return code;
+}
+
+function isGlyphsetCode(code: string): boolean {
+	return /^\s*glyphset\s+/m.test(code);
+}
+
+function getGlyphsetType(code: string): string | null {
+	const match = code.match(/^\s*glyphset\s+([A-Za-z_][A-Za-z0-9_-]*)\b/m);
+	return match?.[1] ?? null;
+}
+
+function getGlyphsetItemLineIndexes(lines: string[], glyphsetType: string): number[] {
+	const keywords = getGlyphsetKeywords(glyphsetType as any);
+	if (!keywords || keywords.length === 0) return [];
+	const pattern = new RegExp(`^\\s*(?:${keywords.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})\\b`);
+	const indexes: number[] = [];
+	for (let i = 0; i < lines.length; i += 1) {
+		if (pattern.test(lines[i])) indexes.push(i);
+	}
+	return indexes;
+}
+
+function extractNodeIndex(nodeId: string): number | null {
+	const match = nodeId.match(/(\d+)$/);
+	if (!match) return null;
+	const index = Number.parseInt(match[1], 10);
+	if (!Number.isFinite(index) || index <= 0) return null;
+	return index - 1;
+}
+
+function editGlyphsetItemLabel(code: string, nodeId: string, nextLabel: string): string {
+	const glyphsetType = getGlyphsetType(code);
+	if (!glyphsetType) return code;
+	const lines = code.split('\n');
+	const itemLineIndexes = getGlyphsetItemLineIndexes(lines, glyphsetType);
+	if (itemLineIndexes.length === 0) return code;
+	const nodeIndex = extractNodeIndex(nodeId);
+	if (nodeIndex === null || nodeIndex < 0 || nodeIndex >= itemLineIndexes.length) return code;
+	const lineIndex = itemLineIndexes[nodeIndex];
+	const line = lines[lineIndex];
+	const quoted = /"((?:\\.|[^"])*)"/;
+	if (!quoted.test(line)) return code;
+	const escaped = nextLabel.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+	const nextLine = line.replace(quoted, `"${escaped}"`);
+	if (nextLine === line) return code;
+	lines[lineIndex] = nextLine;
+	return lines.join('\n');
+}
+
+function editGlyphsetItemLabelByValue(code: string, previousLabel: string, nextLabel: string): string {
+	const glyphsetType = getGlyphsetType(code);
+	if (!glyphsetType) return code;
+	const lines = code.split('\n');
+	const itemLineIndexes = getGlyphsetItemLineIndexes(lines, glyphsetType);
+	if (itemLineIndexes.length === 0) return code;
+	const escapedPrevious = previousLabel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	const quotedPrevious = new RegExp(`\"${escapedPrevious.replace(/"/g, '\\"')}\"`);
+	const escapedNext = nextLabel.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+	for (const lineIndex of itemLineIndexes) {
+		const line = lines[lineIndex];
+		if (!quotedPrevious.test(line)) continue;
+		lines[lineIndex] = line.replace(quotedPrevious, `"${escapedNext}"`);
 		return lines.join('\n');
 	}
 	return code;

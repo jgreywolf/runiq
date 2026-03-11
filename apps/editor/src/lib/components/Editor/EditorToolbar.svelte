@@ -5,12 +5,19 @@
 		editorRefs,
 		editorState,
 		handleInsertShape,
+		handleReplaceGlyphset,
 		updateCode
 	} from '$lib/state/editorState.svelte';
 	import { canvasState } from '$lib/state';
 	import { ProfileName } from '$lib/types';
 	import * as DSL from '$lib/utils/dslCodeManipulation';
 	import { applyThemeToDsl, extractSvgDimensions } from './editorToolbarActions';
+	import {
+		buildGlyphsetAddItemStatement,
+		getGlyphsetTypeFromCode
+	} from '$lib/utils/glyphsetCanvasSupport';
+	import { areGlyphsetsCompatible } from '$lib/utils/glyphsetConversion/compatibility';
+	import ShapeIcon from '$lib/components/ShapeIcon.svelte';
 	import ContainerPickerFlyout from '$lib/components/ContainerPickerFlyout.svelte';
 	import ImageInsertFlyout from '$lib/components/ImageInsertFlyout.svelte';
 	import ShapePickerFlyout from '$lib/components/ShapePickerFlyout.svelte';
@@ -19,6 +26,8 @@
 		isSchematicProfile,
 		supportsCanvasSelection
 	} from '$lib/components/visual-canvas/interactiveProfiles';
+	import { glyphsetRegistry } from '@runiq/glyphsets';
+	import { isGlyphsetId } from '@runiq/parser-dsl';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -31,11 +40,31 @@
 	let showShapeFlyout = $state(false);
 	let showContainerFlyout = $state(false);
 	let showImageFlyout = $state(false);
+	let showGlyphsetFlyout = $state(false);
 
 	const isDiagramProfile = $derived(editorState.profileName === ProfileName.diagram);
 	const isSequenceProfile = $derived(editorState.profileName === ProfileName.sequence);
 	const isTimelineProfile = $derived(editorState.profileName === ProfileName.timeline);
+	const isGlyphsetProfile = $derived(editorState.profileName === ProfileName.glyphset);
 	const isSchematicCanvasProfile = $derived(isSchematicProfile(editorState.profileName));
+	const glyphsetTypes = $derived(glyphsetRegistry.getAllIds());
+	const currentGlyphsetType = $derived.by(() => {
+		return getGlyphsetTypeFromCode(editorState.code || '') ?? '';
+	});
+	const glyphsetOptions = $derived.by(() => {
+		const currentId = currentGlyphsetType ? isGlyphsetId(currentGlyphsetType) : null;
+		return glyphsetTypes.map((glyphsetType) => {
+			const targetId = isGlyphsetId(glyphsetType);
+			const compatibility =
+				currentId && targetId ? areGlyphsetsCompatible(currentId, targetId) : { compatible: true };
+			return {
+				id: glyphsetType,
+				label: formatGlyphsetLabel(glyphsetType),
+				compatible: compatibility.compatible,
+				reason: compatibility.reason ?? ''
+			};
+		});
+	});
 	const canUseThemeControl = $derived.by(() => {
 		switch (editorState.profileName) {
 			case ProfileName.diagram:
@@ -144,11 +173,12 @@
 		canvasState.mode = newMode;
 	}
 
-	function setFlyoutOpen(flyout: 'theme' | 'shape' | 'container' | 'image' | null) {
+	function setFlyoutOpen(flyout: 'theme' | 'shape' | 'container' | 'image' | 'glyphset' | null) {
 		showThemeFlyout = flyout === 'theme';
 		showShapeFlyout = flyout === 'shape';
 		showContainerFlyout = flyout === 'container';
 		showImageFlyout = flyout === 'image';
+		showGlyphsetFlyout = flyout === 'glyphset';
 	}
 
 	$effect(() => {
@@ -156,6 +186,43 @@
 			showThemeFlyout = false;
 		}
 	});
+
+	function handleChangeGlyphset() {
+		if (!isGlyphsetProfile) return;
+		setFlyoutOpen(showGlyphsetFlyout ? null : 'glyphset');
+	}
+
+	function insertGlyphsetStatement(statement: string) {
+		const code = editorState.code || '';
+		const blockInfo = DSL.findProfileBlock(code);
+		if (!blockInfo) return;
+		const lines = code.split('\n');
+		lines.splice(blockInfo.insertLineIndex, 0, `${blockInfo.indentation}${statement}`);
+		const nextCode = lines.join('\n');
+		if (nextCode === code) return;
+		updateCode(nextCode, true);
+	}
+
+	function handleAddGlyphsetItem() {
+		if (!isGlyphsetProfile) return;
+		const statement = buildGlyphsetAddItemStatement(editorState.code || '');
+		if (!statement) return;
+		insertGlyphsetStatement(statement);
+		canvasState.mode = 'select';
+	}
+
+	function applyGlyphsetType(nextGlyphsetType: string) {
+		if (!nextGlyphsetType || nextGlyphsetType === currentGlyphsetType) return;
+		handleReplaceGlyphset(nextGlyphsetType);
+		setFlyoutOpen(null);
+	}
+
+	function formatGlyphsetLabel(glyphsetType: string): string {
+		return glyphsetType
+			.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+			.replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
+			.replace(/^./, (char) => char.toUpperCase());
+	}
 
 	function handleAddShape() {
 		if (!isDiagramProfile) return;
@@ -502,6 +569,23 @@
 				>
 					<Icon icon={schematicToolbarMeta.netIcon} class="icon" />
 				</button>
+			{:else if isGlyphsetProfile}
+				<button
+					class="toolbar-btn"
+					onclick={handleAddGlyphsetItem}
+					title="Add Item"
+					aria-label="Add Item"
+				>
+					<Icon icon="lucide:list-plus" class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleChangeGlyphset}
+					title="Change Set"
+					aria-label="Change Set"
+				>
+					<Icon icon="lucide:shuffle" class="icon" />
+				</button>
 			{:else if isTimelineProfile}
 				<button
 					class="toolbar-btn"
@@ -678,6 +762,29 @@
 			<ImageInsertFlyout onInsert={insertImageShape} />
 		</div>
 	{/if}
+
+	{#if showGlyphsetFlyout}
+		<div class="theme-flyout">
+			<div class="section-label">Convert Glyphset</div>
+			<div class="glyphset-grid">
+			{#each glyphsetOptions as option}
+				<button
+					class="toolbar-btn glyphset-option-btn"
+					class:active={option.id === currentGlyphsetType}
+					onclick={() => applyGlyphsetType(option.id)}
+					disabled={option.id === currentGlyphsetType || !option.compatible}
+					title={option.compatible
+						? option.label
+						: `${option.label} (Unavailable: ${option.reason})`}
+					aria-label={option.label}
+				>
+					<ShapeIcon shapeId={option.id} profileName={ProfileName.glyphset} size={16} />
+					<span class="glyphset-option-label">{option.label}</span>
+				</button>
+			{/each}
+			</div>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -774,5 +881,32 @@
 
 	:global(.theme-flyout button) {
 		width: 100%;
+	}
+
+	.glyphset-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.25rem;
+	}
+
+	.glyphset-option-btn {
+		justify-content: flex-start;
+		gap: 0.35rem;
+		padding-inline: 0.5rem;
+	}
+
+	.glyphset-option-label {
+		font-size: 0.72rem;
+		line-height: 1.1;
+		text-align: left;
+	}
+
+	.section-label {
+		padding: 4px 8px 6px;
+		font-size: 11px;
+		font-weight: 600;
+		color: hsl(var(--muted-foreground));
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
 	}
 </style>

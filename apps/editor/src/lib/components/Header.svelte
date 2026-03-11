@@ -11,6 +11,7 @@
 	import {
 		editorSettings,
 		getLayoutStrategyPresetForProfile,
+		profileSupportsDefaultCanvasModeSelection,
 		profileSupportsLayoutStrategySelection,
 		type EditorSettingsSnapshot
 	} from '$lib/state/editorSettings.svelte';
@@ -28,6 +29,9 @@
 	let showSettingsDialog = $state(false);
 	const canChangeLayoutStrategy = $derived(
 		profileSupportsLayoutStrategySelection(editorState.profileName)
+	);
+	const canChangeDefaultCanvasMode = $derived(
+		profileSupportsDefaultCanvasModeSelection(editorState.profileName)
 	);
 
 	// Actions
@@ -169,5 +173,6 @@
 	currentDefaultDiagramTheme={editorSettings.defaultDiagramTheme}
 	currentProfileName={editorState.profileName}
 	{canChangeLayoutStrategy}
+	{canChangeDefaultCanvasMode}
 	onSave={handleSaveSettings}
 />

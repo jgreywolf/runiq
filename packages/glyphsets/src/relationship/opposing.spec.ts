@@ -147,8 +147,8 @@ describe('opposingGlyphSet', () => {
       expect(items[0].color).toBeDefined();
       expect(items[1].color).toBeDefined();
       // Professional theme colors
-      expect(items[0].color).toBe('#546E7A');
-      expect(items[1].color).toBe('#607D8B');
+      expect(items[0].color).toBe('#374151');
+      expect(items[1].color).toBe('#4B5563');
     });
 
     it('should support custom theme colors', () => {

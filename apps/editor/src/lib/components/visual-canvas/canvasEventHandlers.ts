@@ -17,7 +17,12 @@ interface CanvasEventHandlerDeps {
 	handleEdit: (
 		nodeOrEdgeId: string,
 		property: string,
-		value: string | number | boolean | { x: number; y: number }
+		value:
+			| string
+			| number
+			| boolean
+			| { x: number; y: number }
+			| { from: string; to: string }
 	) => void;
 	handleInsertShape: (shapeCode: string) => void;
 	handleInsertEdge: (fromNodeId: string, toNodeId: string) => void;
@@ -92,6 +97,18 @@ interface CanvasEventHandlerDeps {
 		position: 'before' | 'after';
 		y: number;
 	} | null) => void;
+	onGlyphsetNodeReorder?: (payload: {
+		sourceNodeId: string;
+		targetNodeId: string;
+		position: 'before' | 'after';
+	}) => void;
+	onGlyphsetNodeReorderPreview?: (preview: {
+		targetNodeId: string;
+		position: 'before' | 'after';
+		x: number;
+		y: number;
+		orientation: 'vertical' | 'horizontal';
+	} | null) => void;
 }
 
 export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
@@ -123,7 +140,9 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		onSequenceRetargetMessageEndpoint,
 		onSequenceDropTargetHover,
 		onSequenceParticipantReorderPreview,
-		onSequenceMessageReorderPreview
+		onSequenceMessageReorderPreview,
+		onGlyphsetNodeReorder,
+		onGlyphsetNodeReorderPreview
 	} = deps;
 	let connectStartNodeId: string | null = null;
 	let nodeDragPending:
@@ -158,6 +177,14 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		  }
 		| null = null;
 	let sequenceMessageDragActiveEdgeId: string | null = null;
+	let glyphsetNodeDragPending:
+		| {
+				nodeId: string;
+				clientX: number;
+				clientY: number;
+		  }
+		| null = null;
+	let glyphsetNodeDragActiveNodeId: string | null = null;
 	let sequenceLifelineConnectStartNodeId: string | null = null;
 	let sequenceMessageEndpointDrag:
 		| {
@@ -169,9 +196,11 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	const SEQUENCE_PARTICIPANT_REORDER_MAX_DISTANCE_PX = 220;
 	const SEQUENCE_MESSAGE_REORDER_MAX_DISTANCE_PX = 120;
 	const SEQUENCE_REORDER_POSITION_DEADZONE_PX = 10;
+	const GLYPHSET_REORDER_MAX_DISTANCE_PX = 220;
 
 	const isDiagramProfile = () => getProfileName() === ProfileName.diagram;
 	const isSequenceProfile = () => getProfileName() === ProfileName.sequence;
+	const isGlyphsetProfile = () => getProfileName() === ProfileName.glyphset;
 	const isSchematicCanvasProfile = () => isSchematicProfile(getProfileName());
 	const isInteractiveProfile = () => supportsCanvasSelection(getProfileName());
 	const isSelectMode = () => getMode() === 'select';
@@ -262,6 +291,10 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	function clearSequenceReorderPreviews() {
 		onSequenceParticipantReorderPreview?.(null);
 		onSequenceMessageReorderPreview?.(null);
+	}
+
+	function clearGlyphsetReorderPreview() {
+		onGlyphsetNodeReorderPreview?.(null);
 	}
 
 	function getContainerCoordinates(event: MouseEvent): { x: number; y: number } | null {
@@ -424,6 +457,82 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		};
 	}
 
+	function getNearestGlyphsetNodeTarget(
+		sourceNodeId: string,
+		clientX: number,
+		clientY: number
+	):
+		| {
+				targetNodeId: string;
+				position: 'before' | 'after';
+				x: number;
+				y: number;
+				orientation: 'vertical' | 'horizontal';
+		  }
+		| null {
+		const svgContainer = getSvgContainer();
+		if (!svgContainer) return null;
+		const nodeElements = Array.from(
+			svgContainer.querySelectorAll('[data-node-id]')
+		) as SVGGraphicsElement[];
+		if (nodeElements.length < 2) return null;
+		const entries = nodeElements
+			.map((element) => {
+				const nodeId = element.getAttribute('data-node-id');
+				if (!nodeId || nodeId === sourceNodeId) return null;
+				const rect = element.getBoundingClientRect();
+				return {
+					nodeId,
+					rect,
+					x: rect.left + rect.width / 2,
+					y: rect.top + rect.height / 2
+				};
+			})
+			.filter(
+				(entry): entry is { nodeId: string; rect: DOMRect; x: number; y: number } => !!entry
+			);
+		if (entries.length === 0) return null;
+
+		let nearest = entries[0];
+		let distance = Math.hypot(clientX - nearest.x, clientY - nearest.y);
+		for (const candidate of entries.slice(1)) {
+			const d = Math.hypot(clientX - candidate.x, clientY - candidate.y);
+			if (d < distance) {
+				nearest = candidate;
+				distance = d;
+			}
+		}
+		if (distance > GLYPHSET_REORDER_MAX_DISTANCE_PX) return null;
+
+		const minX = Math.min(...entries.map((entry) => entry.x));
+		const maxX = Math.max(...entries.map((entry) => entry.x));
+		const minY = Math.min(...entries.map((entry) => entry.y));
+		const maxY = Math.max(...entries.map((entry) => entry.y));
+		const orientation: 'vertical' | 'horizontal' =
+			maxX - minX >= maxY - minY ? 'horizontal' : 'vertical';
+
+		const position: 'before' | 'after' =
+			orientation === 'horizontal' ? (clientX < nearest.x ? 'before' : 'after') : clientY < nearest.y ? 'before' : 'after';
+
+		const containerRect = svgContainer.getBoundingClientRect();
+		const x =
+			orientation === 'horizontal'
+				? (position === 'before' ? nearest.rect.left : nearest.rect.right) - containerRect.left
+				: nearest.x - containerRect.left;
+		const y =
+			orientation === 'vertical'
+				? (position === 'before' ? nearest.rect.top : nearest.rect.bottom) - containerRect.top
+				: nearest.y - containerRect.top;
+
+		return {
+			targetNodeId: nearest.nodeId,
+			position,
+			x,
+			y,
+			orientation
+		};
+	}
+
 	function getSvgCoordinates(event: MouseEvent): { x: number; y: number } | null {
 		const svgContainer = getSvgContainer();
 		if (!svgContainer) return null;
@@ -529,7 +638,14 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		if (!isInteractiveProfile() || !isSelectMode()) return;
 		if (event.key === 'Enter') {
 			if (selection.editingNodeId) {
-				handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
+				if (isGlyphsetProfile()) {
+					handleEdit(selection.editingNodeId, 'glyphsetLabel', {
+						from: selection.editingInitialLabel,
+						to: selection.editingLabel
+					});
+				} else {
+					handleEdit(selection.editingNodeId, 'label', selection.editingLabel);
+				}
 			} else if (selection.editingEdgeId) {
 				handleEdit(selection.editingEdgeId, 'edgeLabel', selection.editingLabel);
 			}
@@ -698,6 +814,22 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				!e.shiftKey
 			) {
 				schematicPartDragPending = {
+					nodeId,
+					clientX: e.clientX,
+					clientY: e.clientY
+				};
+			}
+		}
+		if (isGlyphsetProfile() && isSelectMode() && e.button === 0) {
+			const nodeId = getNodeIdFromEventTarget(target);
+			if (
+				nodeId &&
+				!selection.selectedEdgeId &&
+				!e.ctrlKey &&
+				!e.metaKey &&
+				!e.shiftKey
+			) {
+				glyphsetNodeDragPending = {
 					nodeId,
 					clientX: e.clientX,
 					clientY: e.clientY
@@ -883,6 +1015,35 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				return;
 			}
 		}
+		if (isGlyphsetProfile() && isSelectMode()) {
+			if (glyphsetNodeDragPending && !glyphsetNodeDragActiveNodeId) {
+				const dx = e.clientX - glyphsetNodeDragPending.clientX;
+				const dy = e.clientY - glyphsetNodeDragPending.clientY;
+				const distance = Math.sqrt(dx * dx + dy * dy);
+				if (distance > 6) {
+					glyphsetNodeDragActiveNodeId = glyphsetNodeDragPending.nodeId;
+				}
+			}
+			if (glyphsetNodeDragActiveNodeId) {
+				const target = getNearestGlyphsetNodeTarget(
+					glyphsetNodeDragActiveNodeId,
+					e.clientX,
+					e.clientY
+				);
+				if (target) {
+					onGlyphsetNodeReorderPreview?.({
+						targetNodeId: target.targetNodeId,
+						position: target.position,
+						x: target.x,
+						y: target.y,
+						orientation: target.orientation
+					});
+				} else {
+					onGlyphsetNodeReorderPreview?.(null);
+				}
+				return;
+			}
+		}
 
 		if (selection.isLassoPending || selection.isLassoActive) {
 			selection.updateLasso(viewport.mouseX, viewport.mouseY);
@@ -922,6 +1083,13 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			return;
 		}
 		schematicPartDragPending = null;
+		if (glyphsetNodeDragActiveNodeId) {
+			glyphsetNodeDragPending = null;
+			glyphsetNodeDragActiveNodeId = null;
+			clearGlyphsetReorderPreview();
+			return;
+		}
+		glyphsetNodeDragPending = null;
 
 		if (isConnectMode()) {
 			onConnectPreviewEnd();
@@ -1033,6 +1201,21 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			return;
 		}
 		schematicPartDragPending = null;
+		if (isGlyphsetProfile() && isSelectMode() && glyphsetNodeDragActiveNodeId) {
+			const target = getNearestGlyphsetNodeTarget(glyphsetNodeDragActiveNodeId, e.clientX, e.clientY);
+			if (target) {
+				onGlyphsetNodeReorder?.({
+					sourceNodeId: glyphsetNodeDragActiveNodeId,
+					targetNodeId: target.targetNodeId,
+					position: target.position
+				});
+			}
+			glyphsetNodeDragPending = null;
+			glyphsetNodeDragActiveNodeId = null;
+			clearGlyphsetReorderPreview();
+			return;
+		}
+		glyphsetNodeDragPending = null;
 
 		if (!isInteractiveProfile() || !isConnectMode()) {
 			handleMouseUp();

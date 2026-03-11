@@ -20,6 +20,7 @@ export class SelectionState {
 	editingNodeId = $state<string | null>(null);
 	editingEdgeId = $state<string | null>(null);
 	editingLabel = $state<string>('');
+	editingInitialLabel = $state<string>('');
 	editInputPosition = $state<{ x: number; y: number } | null>(null);
 
 	// Lasso selection state
@@ -156,6 +157,7 @@ export class SelectionState {
 			this.editingNodeId = null;
 		}
 		this.editingLabel = currentLabel;
+		this.editingInitialLabel = currentLabel;
 		this.editInputPosition = position;
 	}
 
@@ -164,6 +166,7 @@ export class SelectionState {
 		this.editingNodeId = null;
 		this.editingEdgeId = null;
 		this.editingLabel = '';
+		this.editingInitialLabel = '';
 		this.editInputPosition = null;
 	}
 

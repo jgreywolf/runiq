@@ -26,7 +26,11 @@ export interface MouseHandlerCallbacks {
 	onselect?: (nodeId: string | null, edgeId: string | null) => void;
 	clearSelection: () => void;
 	updateMultiSelection: () => void;
-	startLabelEdit: (nodeId: string | null, edgeId: string | null) => void;
+	startLabelEdit: (
+		nodeId: string | null,
+		edgeId: string | null,
+		sourceTarget?: EventTarget | null
+	) => void;
 }
 
 const chartShapes = new Set([
@@ -144,9 +148,9 @@ export function handleElementClick(
 	// MouseEvent.detail === 2 indicates the second click of a double-click sequence.
 	if (mouseEvent.detail >= 2) {
 		if (nodeId) {
-			callbacks.startLabelEdit(nodeId, null);
+			callbacks.startLabelEdit(nodeId, null, mouseEvent.target);
 		} else if (edgeId) {
-			callbacks.startLabelEdit(null, edgeId);
+			callbacks.startLabelEdit(null, edgeId, mouseEvent.target);
 		}
 	}
 }
@@ -164,9 +168,9 @@ export function handleElementDoubleClick(
 	const edgeId = target.getAttribute('data-edge-id');
 
 	if (nodeId) {
-		callbacks.startLabelEdit(nodeId, null);
+		callbacks.startLabelEdit(nodeId, null, (event as MouseEvent).target);
 	} else if (edgeId) {
-		callbacks.startLabelEdit(null, edgeId);
+		callbacks.startLabelEdit(null, edgeId, (event as MouseEvent).target);
 	}
 }
 

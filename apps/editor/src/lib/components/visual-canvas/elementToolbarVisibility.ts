@@ -16,6 +16,7 @@ export function shouldClearElementToolbar(params: {
 		(params.profileName !== ProfileName.diagram &&
 			params.profileName !== ProfileName.sequence &&
 			params.profileName !== ProfileName.timeline &&
+			params.profileName !== ProfileName.glyphset &&
 			!isSchematicProfile(params.profileName)) ||
 		params.mode !== 'select'
 	);
@@ -31,6 +32,7 @@ export function shouldRepositionElementToolbar(params: {
 		(params.profileName === ProfileName.diagram ||
 			params.profileName === ProfileName.sequence ||
 			params.profileName === ProfileName.timeline ||
+			params.profileName === ProfileName.glyphset ||
 			isSchematicProfile(params.profileName)) &&
 		params.mode === 'select' &&
 		hasPrimarySelection(params.selectedNodeId, params.selectedEdgeId)

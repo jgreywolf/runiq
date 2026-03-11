@@ -35,7 +35,7 @@ const DEFAULT_SETTINGS: EditorSettingsSnapshot = {
 
 const LAYOUT_STRATEGY_PRESETS: Record<ProfileName, LayoutStrategyId> = {
 	[ProfileName.diagram]: 'hierarchical',
-	[ProfileName.glyphset]: 'adaptive',
+	[ProfileName.glyphset]: 'hierarchical',
 	[ProfileName.electrical]: 'hierarchical',
 	[ProfileName.digital]: 'hierarchical',
 	[ProfileName.control]: 'hierarchical',
@@ -223,15 +223,20 @@ export function getDefaultProfileForSettings(profile: ProfileName | null): Profi
 
 export function profileSupportsLayoutEngineSelection(profile: ProfileName | null): boolean {
 	const effective = getDefaultProfileForSettings(profile);
-	return effective === ProfileName.diagram || effective === ProfileName.glyphset;
+	return effective === ProfileName.diagram;
 }
 
 export function profileSupportsLayoutStrategySelection(profile: ProfileName | null): boolean {
 	const effective = getDefaultProfileForSettings(profile);
-	return effective === ProfileName.diagram || effective === ProfileName.glyphset;
+	return effective === ProfileName.diagram;
 }
 
 export function getLayoutStrategyPresetForProfile(profile: ProfileName | null): LayoutStrategyId {
 	const effective = getDefaultProfileForSettings(profile);
 	return LAYOUT_STRATEGY_PRESETS[effective] ?? DEFAULT_SETTINGS.defaultLayoutStrategy;
+}
+
+export function profileSupportsDefaultCanvasModeSelection(profile: ProfileName | null): boolean {
+	const effective = getDefaultProfileForSettings(profile);
+	return effective !== ProfileName.glyphset;
 }
