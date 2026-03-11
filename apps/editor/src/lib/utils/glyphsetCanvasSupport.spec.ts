@@ -49,6 +49,31 @@ describe('glyphsetCanvasSupport', () => {
 		expect(buildGlyphsetAddItemStatement(code)).toBe('child "New Child"');
 	});
 
+	it('builds callout statement for pictureCallout glyphset', () => {
+		const code = `glyphset pictureCallout "Highlights" {\n  image "https://example.com/a.jpg"\n  callout "Note A"\n}`;
+		expect(buildGlyphsetAddItemStatement(code)).toBe('callout "New Callout"');
+	});
+
+	it('builds member statement for teamHierarchy glyphset', () => {
+		const code = `glyphset teamHierarchy "Team" {\n  team "Product"\n  leader "Alex"\n}`;
+		expect(buildGlyphsetAddItemStatement(code)).toBe('member "New Item"');
+	});
+
+	it('builds person statement for orgChart glyphset', () => {
+		const code = `glyphset orgChart "Org" {\n  person "CEO"\n}`;
+		expect(buildGlyphsetAddItemStatement(code)).toBe('person "New Item"');
+	});
+
+	it('builds item statement for multi-key flat glyphsets that append items', () => {
+		const clusterCode = `glyphset cluster "Ideas" {\n  center "Theme"\n  item "A"\n}`;
+		const divergingCode = `glyphset diverging "Plan" {\n  source "Goal"\n  item "Task 1"\n}`;
+		const convergingCode = `glyphset converging "Plan" {\n  target "Outcome"\n  item "Input 1"\n}`;
+
+		expect(buildGlyphsetAddItemStatement(clusterCode)).toBe('item "New Item"');
+		expect(buildGlyphsetAddItemStatement(divergingCode)).toBe('item "New Item"');
+		expect(buildGlyphsetAddItemStatement(convergingCode)).toBe('item "New Item"');
+	});
+
 	it('reports reorder support for configured glyphsets only', () => {
 		expect(isGlyphsetReorderSupported('basicProcess')).toBe(true);
 		expect(isGlyphsetReorderSupported('events')).toBe(true);

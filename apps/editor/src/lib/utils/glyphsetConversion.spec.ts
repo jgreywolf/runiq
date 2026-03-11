@@ -72,6 +72,30 @@ describe('glyphsetConversion', () => {
 			const result = areGlyphsetsCompatible('pictureProcess', 'stepProcess');
 			expect(result.compatible).toBe(true);
 		});
+
+		it('should enforce compatibility matrix for representative routes', () => {
+			const matrix: Array<{
+				from: Parameters<typeof areGlyphsetsCompatible>[0];
+				to: Parameters<typeof areGlyphsetsCompatible>[1];
+				compatible: boolean;
+			}> = [
+				{ from: 'basicProcess', to: 'pictureProcess', compatible: true },
+				{ from: 'pictureProcess', to: 'basicList', compatible: true },
+				{ from: 'basicProcess', to: 'groupedProcess', compatible: true },
+				{ from: 'groupedProcess', to: 'basicList', compatible: true },
+				{ from: 'basicList', to: 'cluster', compatible: false },
+				{ from: 'converging', to: 'basicList', compatible: false },
+				{ from: 'orgChart', to: 'tableHierarchy', compatible: false },
+				{ from: 'orgChart', to: 'basicList', compatible: false },
+				{ from: 'basicList', to: 'tableHierarchy', compatible: true },
+				{ from: 'tableHierarchy', to: 'pictureProcess', compatible: true }
+			];
+
+			for (const row of matrix) {
+				const result = areGlyphsetsCompatible(row.from, row.to);
+				expect(result.compatible, `${row.from} -> ${row.to}`).toBe(row.compatible);
+			}
+		});
 	});
 
 	describe('convertGlyphset', () => {
