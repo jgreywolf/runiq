@@ -266,6 +266,11 @@
 		y: number;
 		orientation: 'vertical' | 'horizontal';
 	} | null>(null);
+	let timelineNodeReorderPreview = $state<{
+		targetNodeId: string;
+		position: 'before' | 'after';
+		y: number;
+	} | null>(null);
 	let nodeContainerDrag = $state<{
 		nodeId: string;
 		label: string;
@@ -976,10 +981,9 @@
 		handleMouseMove(event);
 	}
 
-	function handleCanvasMouseLeave(event: MouseEvent) {
+	function handleCanvasMouseLeave() {
 		quickConnectBehaviorHint = 'auto';
 		resetQuickConnect();
-		handleMouseUp(event);
 	}
 
 	function resolveContainerUnderPointer(
@@ -1325,6 +1329,52 @@
 		const lineIndex = findTimelineStatementLineIndex(lines, nodeId);
 		if (lineIndex < 0) return false;
 		lines.splice(lineIndex, 1);
+		const nextCode = lines.join('\n');
+		if (nextCode === editorState.code) return false;
+		updateCode(nextCode, true);
+		return true;
+	}
+
+	function parseTimelineStatements(lines: string[]) {
+		const statements: Array<{ lineIndex: number; id: string; line: string }> = [];
+		for (let i = 0; i < lines.length; i += 1) {
+			const match = lines[i].match(/^\s*(event|period|task|milestone)\s+([A-Za-z_][A-Za-z0-9_-]*)\b/);
+			if (!match) continue;
+			statements.push({
+				lineIndex: i,
+				id: match[2],
+				line: lines[i]
+			});
+		}
+		return statements;
+	}
+
+	function reorderTimelineElements(
+		sourceNodeId: string,
+		targetNodeId: string,
+		position: 'before' | 'after'
+	): boolean {
+		if (!sourceNodeId || !targetNodeId || sourceNodeId === targetNodeId) return false;
+		const lines = (editorState.code || '').split('\n');
+		const statements = parseTimelineStatements(lines);
+		if (statements.length < 2) return false;
+		const sourceIndex = statements.findIndex((entry) => entry.id === sourceNodeId);
+		const targetIndex = statements.findIndex((entry) => entry.id === targetNodeId);
+		if (sourceIndex < 0 || targetIndex < 0) return false;
+
+		const reordered = [...statements];
+		const [moved] = reordered.splice(sourceIndex, 1);
+		let insertIndex = targetIndex;
+		if (sourceIndex < targetIndex) insertIndex -= 1;
+		if (position === 'after') insertIndex += 1;
+		if (insertIndex < 0) insertIndex = 0;
+		if (insertIndex > reordered.length) insertIndex = reordered.length;
+		reordered.splice(insertIndex, 0, moved);
+
+		const lineSlots = statements.map((entry) => entry.lineIndex).sort((a, b) => a - b);
+		for (let i = 0; i < lineSlots.length; i += 1) {
+			lines[lineSlots[i]] = reordered[i].line;
+		}
 		const nextCode = lines.join('\n');
 		if (nextCode === editorState.code) return false;
 		updateCode(nextCode, true);
@@ -2863,6 +2913,50 @@
 		closeCanvasContextMenu();
 	}
 
+	function getNextTimelineContextElementId(prefix: string): string {
+		const code = editorState.code || '';
+		const escapedPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const regex = new RegExp(`\\b${escapedPrefix}(\\d+)\\b`, 'g');
+		let maxIndex = 0;
+		for (const match of code.matchAll(regex)) {
+			const value = Number.parseInt(match[1], 10);
+			if (Number.isFinite(value)) maxIndex = Math.max(maxIndex, value);
+		}
+		return `${prefix}${maxIndex + 1}`;
+	}
+
+	function handleContextAddTimelineEvent() {
+		const id = getNextTimelineContextElementId('event');
+		insertShapeFromContext(`event ${id} date:"2026-01-01" label:"New Event"`);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddTimelinePeriod() {
+		const id = getNextTimelineContextElementId('period');
+		insertShapeFromContext(
+			`period ${id} startDate:"2026-01-01" endDate:"2026-01-31" label:"New Period"`
+		);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddTimelineTask() {
+		const id = getNextTimelineContextElementId('task');
+		insertShapeFromContext(
+			`task ${id} startDate:"2026-01-01" endDate:"2026-01-14" label:"New Task"`
+		);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
+	function handleContextAddTimelineMilestone() {
+		const id = getNextTimelineContextElementId('milestone');
+		insertShapeFromContext(`milestone ${id} date:"2026-01-15" label:"New Milestone"`);
+		canvasState.mode = 'select';
+		closeCanvasContextMenu();
+	}
+
 	function handleElementContextAddImage() {
 		if (!elementContextMenu) return;
 		contextShapeFlyout = null;
@@ -3107,6 +3201,7 @@
 			sequenceParticipantReorderPreview = null;
 			sequenceMessageReorderPreview = null;
 			glyphsetNodeReorderPreview = null;
+			timelineNodeReorderPreview = null;
 		},
 		onNodeContainerDragStart: handleNodeContainerDragStart,
 		onNodeContainerDragMove: handleNodeContainerDragMove,
@@ -3147,6 +3242,12 @@
 				return;
 			}
 			glyphsetNodeReorderPreview = preview;
+		},
+		onTimelineNodeReorder: ({ sourceNodeId, targetNodeId, position }) => {
+			reorderTimelineElements(sourceNodeId, targetNodeId, position);
+		},
+		onTimelineNodeReorderPreview: (preview) => {
+			timelineNodeReorderPreview = preview;
 		}
 	});
 
@@ -3454,6 +3555,8 @@
 	});
 </script>
 
+<svelte:window onmousemove={handleCanvasMouseMove} onmouseup={handleMouseUp} />
+
 <div class="flex h-full flex-col">
 	<CanvasStatusBar
 		{isRendering}
@@ -3493,8 +3596,6 @@
 		class="relative flex-1 overflow-hidden bg-white"
 		bind:this={svgContainer}
 		onmousedown={handleMouseDown}
-		onmousemove={handleCanvasMouseMove}
-		onmouseup={handleMouseUp}
 		onmouseleave={handleCanvasMouseLeave}
 		onwheel={handleWheel}
 		onclick={handleCanvasClick}
@@ -3940,6 +4041,21 @@
 			</div>
 		{/if}
 
+		{#if editorState.profileName === ProfileName.timeline && timelineNodeReorderPreview}
+			<div class="pointer-events-none absolute inset-0 z-[20]">
+				<div
+					class="sequence-reorder-guide sequence-reorder-guide-horizontal"
+					style="top: {timelineNodeReorderPreview.y}px;"
+				></div>
+				<div
+					class="sequence-reorder-badge sequence-reorder-badge-horizontal"
+					style="left: 10px; top: {timelineNodeReorderPreview.y + 8}px;"
+				>
+					Insert {timelineNodeReorderPreview.position}
+				</div>
+			</div>
+		{/if}
+
 		{#if nodeContainerDrag}
 			<div class="pointer-events-none absolute inset-0 z-[21]">
 				{#if nodeContainerDrag.hoverContainerRect}
@@ -4035,6 +4151,11 @@
 			<div class="separator"></div>
 		{:else if editorState.profileName === ProfileName.timeline}
 			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>
+			<div class="separator"></div>
+			<button onclick={handleContextAddTimelineEvent}>Add Event</button>
+			<button onclick={handleContextAddTimelinePeriod}>Add Period</button>
+			<button onclick={handleContextAddTimelineTask}>Add Task</button>
+			<button onclick={handleContextAddTimelineMilestone}>Add Milestone</button>
 			<div class="separator"></div>
 		{:else if isSchematicProfile(editorState.profileName)}
 			<button onclick={() => handleContextSetMode('select')}>Select Mode</button>

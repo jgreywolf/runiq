@@ -174,6 +174,46 @@ test.describe('Visual canvas context menus', () => {
 		expect(editorContent).toContain('milestone milestone1');
 	});
 
+	test.fixme('timeline drag reorders event statements', async ({ page }) => {
+		const dsl = `timeline "Launch" {
+  event kickoff date:"2024-01-15" label:"Kickoff"
+  event alpha date:"2024-02-01" label:"Alpha"
+  event launch date:"2024-03-01" label:"Launch"
+  orientation vertical
+}`;
+		await getSyntaxEditor(page).fill(dsl);
+		await page.waitForTimeout(1000);
+
+		const launchCircle = page.locator(
+			'svg [data-node-id="launch"] circle.runiq-timeline-event'
+		).first();
+		const alphaCircle = page.locator('svg [data-node-id="alpha"] circle.runiq-timeline-event').first();
+		await expect(launchCircle).toBeVisible({ timeout: 10000 });
+		await expect(alphaCircle).toBeVisible({ timeout: 10000 });
+
+		const launchBox = await launchCircle.boundingBox();
+		const alphaBox = await alphaCircle.boundingBox();
+		expect(launchBox).not.toBeNull();
+		expect(alphaBox).not.toBeNull();
+
+		const sourceX = (launchBox?.x ?? 0) + (launchBox?.width ?? 0) / 2;
+		const sourceY = (launchBox?.y ?? 0) + (launchBox?.height ?? 0) / 2;
+		const targetX = (alphaBox?.x ?? 0) + (alphaBox?.width ?? 0) / 2;
+		const targetY = (alphaBox?.y ?? 0) + 4;
+		await page.mouse.move(sourceX, sourceY);
+		await page.mouse.down();
+		await page.mouse.move(targetX, targetY, { steps: 18 });
+		await page.mouse.up();
+		await page.waitForTimeout(250);
+
+		const editorContent = (await getSyntaxEditor(page).textContent()) ?? '';
+		const launchIndex = editorContent.indexOf('event launch');
+		const alphaIndex = editorContent.indexOf('event alpha');
+		expect(launchIndex).toBeGreaterThan(-1);
+		expect(alphaIndex).toBeGreaterThan(-1);
+		expect(launchIndex).toBeLessThan(alphaIndex);
+	});
+
 	test('glyphset toolbar can change set type', async ({ page }) => {
 		const dsl = `glyphset basicList "Key Features" {
   theme "vibrant"

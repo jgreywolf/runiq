@@ -109,6 +109,16 @@ interface CanvasEventHandlerDeps {
 		y: number;
 		orientation: 'vertical' | 'horizontal';
 	} | null) => void;
+	onTimelineNodeReorder?: (payload: {
+		sourceNodeId: string;
+		targetNodeId: string;
+		position: 'before' | 'after';
+	}) => void;
+	onTimelineNodeReorderPreview?: (preview: {
+		targetNodeId: string;
+		position: 'before' | 'after';
+		y: number;
+	} | null) => void;
 }
 
 export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
@@ -142,7 +152,9 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		onSequenceParticipantReorderPreview,
 		onSequenceMessageReorderPreview,
 		onGlyphsetNodeReorder,
-		onGlyphsetNodeReorderPreview
+		onGlyphsetNodeReorderPreview,
+		onTimelineNodeReorder,
+		onTimelineNodeReorderPreview
 	} = deps;
 	let connectStartNodeId: string | null = null;
 	let nodeDragPending:
@@ -185,6 +197,14 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		  }
 		| null = null;
 	let glyphsetNodeDragActiveNodeId: string | null = null;
+	let timelineNodeDragPending:
+		| {
+				nodeId: string;
+				clientX: number;
+				clientY: number;
+		  }
+		| null = null;
+	let timelineNodeDragActiveNodeId: string | null = null;
 	let sequenceLifelineConnectStartNodeId: string | null = null;
 	let sequenceMessageEndpointDrag:
 		| {
@@ -197,10 +217,12 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 	const SEQUENCE_MESSAGE_REORDER_MAX_DISTANCE_PX = 120;
 	const SEQUENCE_REORDER_POSITION_DEADZONE_PX = 10;
 	const GLYPHSET_REORDER_MAX_DISTANCE_PX = 220;
+	const TIMELINE_REORDER_MAX_DISTANCE_PX = 160;
 
 	const isDiagramProfile = () => getProfileName() === ProfileName.diagram;
 	const isSequenceProfile = () => getProfileName() === ProfileName.sequence;
 	const isGlyphsetProfile = () => getProfileName() === ProfileName.glyphset;
+	const isTimelineProfile = () => getProfileName() === ProfileName.timeline;
 	const isSchematicCanvasProfile = () => isSchematicProfile(getProfileName());
 	const isInteractiveProfile = () => supportsCanvasSelection(getProfileName());
 	const isSelectMode = () => getMode() === 'select';
@@ -295,6 +317,10 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 
 	function clearGlyphsetReorderPreview() {
 		onGlyphsetNodeReorderPreview?.(null);
+	}
+
+	function clearTimelineReorderPreview() {
+		onTimelineNodeReorderPreview?.(null);
 	}
 
 	function getContainerCoordinates(event: MouseEvent): { x: number; y: number } | null {
@@ -530,6 +556,51 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			x,
 			y,
 			orientation
+		};
+	}
+
+	function getNearestTimelineNodeTarget(
+		sourceNodeId: string,
+		clientY: number
+	): { targetNodeId: string; position: 'before' | 'after'; y: number } | null {
+		const svgContainer = getSvgContainer();
+		if (!svgContainer) return null;
+		const nodeElements = Array.from(
+			svgContainer.querySelectorAll('[data-node-id]')
+		) as SVGGraphicsElement[];
+		if (nodeElements.length < 2) return null;
+		const entries = nodeElements
+			.map((element) => {
+				const nodeId = element.getAttribute('data-node-id');
+				if (!nodeId || nodeId === sourceNodeId) return null;
+				const rect = element.getBoundingClientRect();
+				return {
+					nodeId,
+					rect,
+					y: rect.top + rect.height / 2
+				};
+			})
+			.filter((entry): entry is { nodeId: string; rect: DOMRect; y: number } => !!entry);
+		if (entries.length === 0) return null;
+		let nearest = entries[0];
+		let distance = Math.abs(clientY - nearest.y);
+		for (const candidate of entries.slice(1)) {
+			const d = Math.abs(clientY - candidate.y);
+			if (d < distance) {
+				nearest = candidate;
+				distance = d;
+			}
+		}
+		if (distance > TIMELINE_REORDER_MAX_DISTANCE_PX) return null;
+
+		const position: 'before' | 'after' = clientY < nearest.y ? 'before' : 'after';
+		const containerRect = svgContainer.getBoundingClientRect();
+		const y =
+			(position === 'before' ? nearest.rect.top : nearest.rect.bottom) - containerRect.top;
+		return {
+			targetNodeId: nearest.nodeId,
+			position,
+			y
 		};
 	}
 
@@ -836,6 +907,16 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				};
 			}
 		}
+		if (isTimelineProfile() && isSelectMode() && e.button === 0) {
+			const nodeId = getNodeIdFromEventTarget(target);
+			if (nodeId && !selection.selectedEdgeId && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+				timelineNodeDragPending = {
+					nodeId,
+					clientX: e.clientX,
+					clientY: e.clientY
+				};
+			}
+		}
 		if (target.closest('[data-node-id], [data-edge-id]')) return;
 
 		if (e.button !== 0) return;
@@ -1044,6 +1125,29 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 				return;
 			}
 		}
+		if (isTimelineProfile() && isSelectMode()) {
+			if (timelineNodeDragPending && !timelineNodeDragActiveNodeId) {
+				const dx = e.clientX - timelineNodeDragPending.clientX;
+				const dy = e.clientY - timelineNodeDragPending.clientY;
+				const distance = Math.sqrt(dx * dx + dy * dy);
+				if (distance > 6) {
+					timelineNodeDragActiveNodeId = timelineNodeDragPending.nodeId;
+				}
+			}
+			if (timelineNodeDragActiveNodeId) {
+				const target = getNearestTimelineNodeTarget(timelineNodeDragActiveNodeId, e.clientY);
+				if (target) {
+					onTimelineNodeReorderPreview?.({
+						targetNodeId: target.targetNodeId,
+						position: target.position,
+						y: target.y
+					});
+				} else {
+					onTimelineNodeReorderPreview?.(null);
+				}
+				return;
+			}
+		}
 
 		if (selection.isLassoPending || selection.isLassoActive) {
 			selection.updateLasso(viewport.mouseX, viewport.mouseY);
@@ -1090,6 +1194,13 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			return;
 		}
 		glyphsetNodeDragPending = null;
+		if (timelineNodeDragActiveNodeId) {
+			timelineNodeDragPending = null;
+			timelineNodeDragActiveNodeId = null;
+			clearTimelineReorderPreview();
+			return;
+		}
+		timelineNodeDragPending = null;
 
 		if (isConnectMode()) {
 			onConnectPreviewEnd();
@@ -1216,6 +1327,29 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 			return;
 		}
 		glyphsetNodeDragPending = null;
+		if (isTimelineProfile() && isSelectMode() && timelineNodeDragPending && !timelineNodeDragActiveNodeId) {
+			const dx = e.clientX - timelineNodeDragPending.clientX;
+			const dy = e.clientY - timelineNodeDragPending.clientY;
+			const distance = Math.sqrt(dx * dx + dy * dy);
+			if (distance > 6) {
+				timelineNodeDragActiveNodeId = timelineNodeDragPending.nodeId;
+			}
+		}
+		if (isTimelineProfile() && isSelectMode() && timelineNodeDragActiveNodeId) {
+			const target = getNearestTimelineNodeTarget(timelineNodeDragActiveNodeId, e.clientY);
+			if (target) {
+				onTimelineNodeReorder?.({
+					sourceNodeId: timelineNodeDragActiveNodeId,
+					targetNodeId: target.targetNodeId,
+					position: target.position
+				});
+			}
+			timelineNodeDragPending = null;
+			timelineNodeDragActiveNodeId = null;
+			clearTimelineReorderPreview();
+			return;
+		}
+		timelineNodeDragPending = null;
 
 		if (!isInteractiveProfile() || !isConnectMode()) {
 			handleMouseUp();
