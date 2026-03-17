@@ -30,7 +30,8 @@
       "@runiq/icons-iconify": ["./packages/icons-iconify/src/index.ts"],
       "@runiq/icons-brand": ["./packages/icons-brand/src/index.ts"],
       "@runiq/cli": ["./packages/cli/src"],
-      "@runiq/glyphsets": ["./packages/glyphsets/src"]
+      "@runiq/glyphsets": ["./packages/glyphsets/src"],
+      "@runiq/editor-core": ["./packages/editor-core/src/index.ts"]
     }
   },
   "include": ["packages/*/src/**/*", "apps/*/src/**/*"],

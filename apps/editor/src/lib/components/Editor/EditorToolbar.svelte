@@ -1,9 +1,8 @@
 <script lang="ts">
-	import type { EditorMode } from '$lib/types/editor';
 	import Icon from '@iconify/svelte';
 	import { editorRefs, editorState, updateCode } from '$lib/state/editorState.svelte';
+	import { editorToolbarPreset } from '$lib/state/editorShellConfig';
 	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
-	import { canvasState } from '$lib/state';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -14,21 +13,10 @@
 
 	let showThemeFlyout = $state(false);
 	const availableThemes = getAvailableBaseThemes();
-
-	// Mode handlers
-	function handleModeChange(newMode: EditorMode) {
-		canvasState.mode = newMode;
-	}
-
-	function handleAddShape() {
-		// TODO: Open shape picker flyout
-		console.log('Add shape clicked');
-	}
-
-	function handleAddContainer() {
-		// TODO: Open container picker flyout
-		console.log('Add container clicked');
-	}
+	const toolbarGroups = editorToolbarPreset.groups;
+	const showThemeTools = toolbarGroups.includes('theme');
+	const showExportTools = toolbarGroups.includes('export');
+	const showViewportTools = toolbarGroups.includes('viewport');
 
 	function handleChangeTheme() {
 		showThemeFlyout = !showThemeFlyout;
@@ -110,117 +98,83 @@
 
 <div class="toolbar-wrapper">
 	<div class="editor-toolbar">
-		<!-- Mode Tools -->
-		<div class="toolbar-section">
-			<button
-				class="toolbar-btn"
-				class:active={canvasState.mode === 'select'}
-				onclick={() => handleModeChange('select')}
-				title="Select Mode (V)"
-				aria-label="Select Mode (V)"
-			>
-				<Icon icon="lucide:pointer" class="icon" />
-			</button>
+		{#if showThemeTools || showExportTools}
+			<div class="toolbar-section">
+				{#if showThemeTools}
+					<button
+						class="toolbar-btn"
+						onclick={handleChangeTheme}
+						title="Change Theme"
+						aria-label="Change Theme"
+					>
+						<Icon icon="lucide:palette" class="icon" />
+					</button>
+				{/if}
 
-			<button
-				class="toolbar-btn"
-				class:active={canvasState.mode === 'connect'}
-				onclick={() => handleModeChange('connect')}
-				title="Connect Mode (C)"
-				aria-label="Connect Mode (C)"
-			>
-				<Icon icon="lucide:git-branch" class="icon" />
-			</button>
-		</div>
+				{#if showExportTools}
+					<button
+						class="toolbar-btn"
+						onclick={() => console.log('Export clicked')}
+						title="Export Diagram"
+						aria-label="Export"
+					>
+						<Icon icon="lucide:download" class="icon" />
+					</button>
+				{/if}
+			</div>
 
-		<div class="toolbar-divider"></div>
-
-		<!-- Shape Tools -->
-		<div class="toolbar-section">
-			<button class="toolbar-btn" onclick={handleAddShape} title="Add Shape" aria-label="Add Shape">
-				<Icon icon="lucide:square-plus" class="icon" />
-			</button>
-
-			<button
-				class="toolbar-btn"
-				onclick={handleAddContainer}
-				title="Add Container"
-				aria-label="Add Container"
-			>
-				<Icon icon="lucide:box" class="icon" />
-			</button>
-		</div>
-
-		<div class="toolbar-divider"></div>
-
-		<!-- View Tools -->
-		<div class="toolbar-section">
-			<button
-				class="toolbar-btn"
-				onclick={handleChangeTheme}
-				title="Change Theme"
-				aria-label="Change Theme"
-			>
-				<Icon icon="lucide:palette" class="icon" />
-			</button>
-
-			<button
-				class="toolbar-btn"
-				onclick={() => console.log('Export clicked')}
-				title="Export Diagram"
-				aria-label="Export"
-			>
-				<Icon icon="lucide:download" class="icon" />
-			</button>
-		</div>
-
-		<div class="toolbar-divider"></div>
+			{#if showViewportTools}
+				<div class="toolbar-divider"></div>
+			{/if}
+		{/if}
 
 		<!-- Zoom Tools -->
-		<div class="toolbar-section">
-			<button
-				class="toolbar-btn"
-				onclick={handleZoomIn}
-				title="Zoom In"
-				aria-label="Zoom In"
-				disabled={!editorRefs.viewport}
-			>
-				<Icon icon="lucide:zoom-in" class="icon" />
-			</button>
-			<button
-				class="toolbar-btn"
-				onclick={handleZoomOut}
-				title="Zoom Out"
-				aria-label="Zoom Out"
-				disabled={!editorRefs.viewport}
-			>
-				<Icon icon="lucide:zoom-out" class="icon" />
-			</button>
+		{#if showViewportTools}
+			<div class="toolbar-section">
+				<button
+					class="toolbar-btn"
+					onclick={handleZoomIn}
+					title="Zoom In"
+					aria-label="Zoom In"
+					disabled={!editorRefs.viewport}
+				>
+					<Icon icon="lucide:zoom-in" class="icon" />
+				</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleZoomOut}
+					title="Zoom Out"
+					aria-label="Zoom Out"
+					disabled={!editorRefs.viewport}
+				>
+					<Icon icon="lucide:zoom-out" class="icon" />
+				</button>
 
-			<button
-				class="toolbar-btn"
-				onclick={handleResetZoom}
-				title="Reset Zoom (100%)"
-				aria-label="Reset Zoom"
-				disabled={!editorRefs.viewport}
-			>
-				<Icon icon="lucide:scan" class="icon" />
-			</button>
+				<button
+					class="toolbar-btn"
+					onclick={handleResetZoom}
+					title="Reset Zoom (100%)"
+					aria-label="Reset Zoom"
+					disabled={!editorRefs.viewport}
+				>
+					<Icon icon="lucide:scan" class="icon" />
+				</button>
 
-			<button
-				class="toolbar-btn"
-				onclick={handleFitToScreen}
-				title="Fit to Screen"
-				aria-label="Fit to Screen"
-				disabled={!editorRefs.viewport}
-			>
-				<Icon icon="lucide:maximize" class="size-5" />
-			</button>
-		</div>
+				<button
+					class="toolbar-btn"
+					onclick={handleFitToScreen}
+					title="Fit to Screen"
+					aria-label="Fit to Screen"
+					disabled={!editorRefs.viewport}
+				>
+					<Icon icon="lucide:maximize" class="size-5" />
+				</button>
+			</div>
+		{/if}
 	</div>
 
 	<!-- Theme Flyout -->
-	{#if showThemeFlyout}
+	{#if showThemeTools && showThemeFlyout}
 		<div class="theme-flyout">
 			<div class="mb-1 px-2 py-1">
 				<h3 class="text-xs font-semibold text-neutral-700">Select Theme</h3>
@@ -296,13 +250,6 @@
 		background: hsl(var(--accent));
 		border-color: hsl(var(--border));
 		color: hsl(var(--accent-foreground));
-	}
-
-	.toolbar-btn.active {
-		background: hsl(var(--primary));
-		color: hsl(var(--primary-foreground));
-		border-color: hsl(var(--primary));
-		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 	}
 
 	.toolbar-btn:focus-visible {

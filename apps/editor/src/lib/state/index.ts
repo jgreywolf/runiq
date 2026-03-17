@@ -8,6 +8,11 @@ export { DiagramState, diagramState } from './diagramState.svelte';
 export { StyleState, styleState } from './styleState.svelte';
 export { CanvasState, canvasState } from './canvasState.svelte';
 export {
+	editorHostPreset,
+	editorShellConfig,
+	editorToolbarPreset
+} from './editorShellConfig';
+export {
 	autoSave,
 	detectProfile,
 	editorRefs,
