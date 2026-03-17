@@ -19,7 +19,7 @@
 	} from '$lib/state/glyphsetConversionDialog.svelte';
 
 	// One-time app bootstrapping (registries + state init)
-	bootstrapEditor();
+	const appHost = bootstrapEditor();
 
 	// Local panel state
 	const panelSizes = $state({ ...DEFAULT_PANEL_SIZES });
@@ -37,6 +37,9 @@
 <div class="flex h-screen flex-col overflow-hidden bg-neutral-50" onkeydown={handleKeyDown}>
 	<!-- Header -->
 	<Header
+		brandName={appHost.brandName}
+		productName={appHost.productName}
+		logoSrc={appHost.logoSrc}
 		diagramName={editorState.diagramName}
 		lastSaved={autoSave.lastSaved}
 		isDirty={editorState.isDirty}

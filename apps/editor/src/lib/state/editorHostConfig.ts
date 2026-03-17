@@ -6,6 +6,9 @@ import { editorHostPreset, editorShellConfig, editorToolbarPreset } from './edit
 export interface EditorHostConfig {
 	id: string;
 	label: string;
+	brandName: string;
+	productName: string;
+	logoSrc: string;
 	hostPreset: typeof editorHostPreset;
 	shellConfig: typeof editorShellConfig;
 	toolbarPreset: typeof editorToolbarPreset;
@@ -16,6 +19,9 @@ export interface EditorHostConfig {
 export const editorHostConfig: EditorHostConfig = {
 	id: 'editor-oss',
 	label: 'Runiq OSS Editor',
+	brandName: 'Runiq',
+	productName: 'Diagram Editor',
+	logoSrc: '/images/runiq.at.whiteboard.png',
 	hostPreset: editorHostPreset,
 	shellConfig: editorShellConfig,
 	toolbarPreset: editorToolbarPreset,

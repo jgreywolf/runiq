@@ -6,12 +6,22 @@
 	import HelpMenu from './HelpMenu.svelte';
 
 	interface Props {
+		brandName?: string;
+		productName?: string;
+		logoSrc?: string;
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
 	}
 
-	let { diagramName = 'Untitled Diagram', lastSaved = null, isDirty = false }: Props = $props();
+	let {
+		brandName = 'Runiq',
+		productName = 'Diagram Editor',
+		logoSrc = '/images/runiq.at.whiteboard.png',
+		diagramName = 'Untitled Diagram',
+		lastSaved = null,
+		isDirty = false
+	}: Props = $props();
 
 	let showNewDiagramDialog = $state(false);
 
@@ -51,10 +61,10 @@
 >
 	<!-- Left: Logo & Brand -->
 	<div class="flex items-center gap-3">
-		<img src="/images/runiq.at.whiteboard.png" alt="Runiq" class="h-16 w-auto" />
+		<img src={logoSrc} alt={brandName} class="h-16 w-auto" />
 		<div class="flex flex-col">
-			<span class="text-lg leading-tight font-semibold text-neutral-800">Runiq</span>
-			<span class="text-xs text-neutral-500">Diagram Editor</span>
+			<span class="text-lg leading-tight font-semibold text-neutral-800">{brandName}</span>
+			<span class="text-xs text-neutral-500">{productName}</span>
 		</div>
 	</div>
 
