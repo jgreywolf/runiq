@@ -43,12 +43,7 @@ export const convertLine = (
 	return `${indent}${targetKeyword} "${labelText}"`;
 };
 
-export const convertLineToPictureLine = (
-	line: string,
-	labelText: string,
-	targetKeyword: string,
-	index: number
-): string => {
+export const convertLineToPictureLine = (line: string, labelText: string, targetKeyword: string, index: number): string => {
 	let imageUrl = null;
 
 	// const itemMatch = line.match(standardKeywordRegex);
@@ -65,12 +60,7 @@ export const convertLineToPictureLine = (
 	return `  ${targetKeyword} "${imageUrl}" label "${labelText}"`;
 };
 
-export const convertFromPictureLine = (
-	line: string,
-	labelText: string,
-	targetKeyword: string,
-	indent: string
-): string => {
+export const convertFromPictureLine = (line: string, labelText: string, targetKeyword: string, indent: string): string => {
 	const pictureLineMatch = line.match(imageWithLabelRegex);
 	if (pictureLineMatch) {
 		labelText = pictureLineMatch[1];

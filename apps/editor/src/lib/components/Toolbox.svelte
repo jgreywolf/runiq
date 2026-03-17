@@ -71,7 +71,8 @@
 				{:else if editorState.profileName === ProfileName.hydraulic}
 					<div class="border-b border-teal-200 bg-teal-50 px-4 py-2">
 						<p class="text-xs font-medium text-teal-900">💧 Hydraulic Circuit Mode</p>
-					</div>				{:else if editorState.profileName === ProfileName.hvac}
+					</div>
+				{:else if editorState.profileName === ProfileName.hvac}
 					<div class="border-b border-cyan-200 bg-cyan-50 px-4 py-2">
 						<p class="text-xs font-medium text-cyan-900">HVAC System Mode</p>
 					</div>
@@ -89,8 +90,7 @@
 					<div class="border-b border-neutral-200 p-3">
 						<Button
 							onclick={openSampleBrowser}
-							class="w-full justify-start gap-2 bg-gradient-to-r from-runiq-500 to-runiq-600 text-white hover:from-runiq-600 hover:to-runiq-700"
-						>
+							class="w-full justify-start gap-2 bg-gradient-to-r from-runiq-500 to-runiq-600 text-white hover:from-runiq-600 hover:to-runiq-700">
 							<Icon icon="lucide:file-text" width="16" height="16" />
 							Browse Sample Diagrams
 						</Button>
@@ -138,6 +138,5 @@
 		bind:open={showSampleDialog}
 		onOpenChange={(open) => (showSampleDialog = open)}
 		categories={sampleDiagrams}
-		onInsertSample={handleInsertSample}
-	/>
+		onInsertSample={handleInsertSample} />
 {/if}

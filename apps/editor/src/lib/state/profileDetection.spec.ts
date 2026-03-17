@@ -21,4 +21,3 @@ timeline "T" {
 		expect(detectProfile(code)).toBe(ProfileName.timeline);
 	});
 });
-

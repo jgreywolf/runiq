@@ -142,9 +142,7 @@ test.describe('Bugfix regressions', () => {
 		const svgContent = await diagramSvg.evaluate((el) => el.outerHTML);
 		expect(svgContent).toContain('railroad-arrow');
 
-		const markerFillMatch = svgContent.match(
-			/marker id="railroad-arrow"[\s\S]*?<path d="M0,0 L8,3 L0,6 Z" fill="([^"]+)"/
-		);
+		const markerFillMatch = svgContent.match(/marker id="railroad-arrow"[\s\S]*?<path d="M0,0 L8,3 L0,6 Z" fill="([^"]+)"/);
 		const circleFillMatch = svgContent.match(/<circle[^>]*r="4"[^>]*fill="([^"]+)"/);
 		expect(markerFillMatch).not.toBeNull();
 		expect(circleFillMatch).not.toBeNull();

@@ -1,11 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-	escapeLabel,
-	extractElementData,
-	formatPropertyValue,
-	generateShapeCode,
-	type ClipboardItem
-} from './codeHelpers';
+import { escapeLabel, extractElementData, formatPropertyValue, generateShapeCode, type ClipboardItem } from './codeHelpers';
 
 describe('codeHelpers', () => {
 	describe('generateShapeCode', () => {

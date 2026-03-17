@@ -39,20 +39,13 @@ export class SelectionState {
 
 	// Check if anything is selected
 	get hasSelection(): boolean {
-		return (
-			this.selectedNodeId !== null ||
-			this.selectedEdgeId !== null ||
-			this.selectedNodeIds.size > 0 ||
-			this.selectedEdgeIds.size > 0
-		);
+		return this.selectedNodeId !== null || this.selectedEdgeId !== null || this.selectedNodeIds.size > 0 || this.selectedEdgeIds.size > 0;
 	}
 
 	// Check if multiple items are selected
 	get hasMultiSelection(): boolean {
 		return (
-			this.selectedNodeIds.size > 1 ||
-			this.selectedEdgeIds.size > 1 ||
-			(this.selectedNodeIds.size === 1 && this.selectedEdgeIds.size === 1)
+			this.selectedNodeIds.size > 1 || this.selectedEdgeIds.size > 1 || (this.selectedNodeIds.size === 1 && this.selectedEdgeIds.size === 1)
 		);
 	}
 
@@ -142,12 +135,7 @@ export class SelectionState {
 	}
 
 	// Start label editing
-	startLabelEdit(
-		nodeId: string | null,
-		edgeId: string | null,
-		currentLabel: string,
-		position: { x: number; y: number }
-	): void {
+	startLabelEdit(nodeId: string | null, edgeId: string | null, currentLabel: string, position: { x: number; y: number }): void {
 		if (nodeId) {
 			this.editingNodeId = nodeId;
 			this.editingEdgeId = null;
@@ -197,12 +185,7 @@ export class SelectionState {
 	}
 
 	// Complete lasso selection
-	completeLasso(
-		svgContainer: HTMLElement | null,
-		scale: number,
-		translateX: number,
-		translateY: number
-	): void {
+	completeLasso(svgContainer: HTMLElement | null, scale: number, translateX: number, translateY: number): void {
 		if (!this.isLassoActive || !svgContainer) {
 			this.cancelLasso();
 			return;
@@ -265,11 +248,9 @@ export class SelectionState {
 		if (!svgElement) return;
 
 		// Clear all selection classes
-		svgElement
-			.querySelectorAll('.runiq-selected, .runiq-multi-selected, .runiq-edge-start')
-			.forEach((el) => {
-				el.classList.remove('runiq-selected', 'runiq-multi-selected', 'runiq-edge-start');
-			});
+		svgElement.querySelectorAll('.runiq-selected, .runiq-multi-selected, .runiq-edge-start').forEach((el) => {
+			el.classList.remove('runiq-selected', 'runiq-multi-selected', 'runiq-edge-start');
+		});
 
 		// Single selection
 		if (this.selectedNodeId) {

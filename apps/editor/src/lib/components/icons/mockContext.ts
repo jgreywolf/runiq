@@ -247,14 +247,7 @@ export function createMockContext(shapeId: string): MockContext {
 	};
 
 	// ERD shapes - all use white fill and similar config
-	const erdShapes = [
-		'erdEntity',
-		'erdWeakEntity',
-		'erdRelationship',
-		'erdAttribute',
-		'erdKeyAttribute',
-		'erdMultiValuedAttribute'
-	];
+	const erdShapes = ['erdEntity', 'erdWeakEntity', 'erdRelationship', 'erdAttribute', 'erdKeyAttribute', 'erdMultiValuedAttribute'];
 	erdShapes.forEach((shape) => {
 		const width = shape.includes('Entity') ? 30 : 25;
 		shapeConfigs[shape] = {

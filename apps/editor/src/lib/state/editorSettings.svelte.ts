@@ -47,9 +47,7 @@ class EditorSettingsState {
 	defaultCanvasMode = $state<CanvasDefaultMode>(DEFAULT_EDITOR_SETTINGS.defaultCanvasMode);
 	defaultLayoutEngine = $state<LayoutEngineId>(DEFAULT_EDITOR_SETTINGS.defaultLayoutEngine);
 	defaultLayoutStrategy = $state<LayoutStrategyId>(DEFAULT_EDITOR_SETTINGS.defaultLayoutStrategy);
-	defaultLayoutStrategyByProfile = $state<LayoutStrategyByProfile>(
-		DEFAULT_EDITOR_SETTINGS.defaultLayoutStrategyByProfile
-	);
+	defaultLayoutStrategyByProfile = $state<LayoutStrategyByProfile>(DEFAULT_EDITOR_SETTINGS.defaultLayoutStrategyByProfile);
 	defaultDiagramTheme = $state(DEFAULT_EDITOR_SETTINGS.defaultDiagramTheme);
 
 	constructor() {
@@ -91,10 +89,7 @@ class EditorSettingsState {
 		return this.snapshot;
 	}
 
-	setDefaultLayoutStrategyForProfile(
-		profile: ProfileName | null,
-		strategy: LayoutStrategyId
-	): EditorSettingsSnapshot {
+	setDefaultLayoutStrategyForProfile(profile: ProfileName | null, strategy: LayoutStrategyId): EditorSettingsSnapshot {
 		const effective = getDefaultProfileForSettings(profile);
 		this.defaultLayoutStrategyByProfile = {
 			...this.defaultLayoutStrategyByProfile,
@@ -144,9 +139,7 @@ export function getLayoutStrategyPresetForProfile(profile: ProfileName | null): 
 	return getSharedLayoutStrategyPresetForProfile(profile);
 }
 
-export function getDefaultLayoutStrategyForProfile(
-	profile: ProfileName | null
-): LayoutStrategyId {
+export function getDefaultLayoutStrategyForProfile(profile: ProfileName | null): LayoutStrategyId {
 	return editorSettings.getDefaultLayoutStrategyForProfile(profile);
 }
 

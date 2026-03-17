@@ -9,24 +9,12 @@ interface CanvasEventHandlerDeps {
 	interactionManager: InteractionManager;
 	getSvgContainer: () => HTMLDivElement | null;
 	handleDelete: (nodeId: string | null, edgeId: string | null) => void;
-	handleEdit: (
-		nodeOrEdgeId: string,
-		property: string,
-		value: string | number | boolean | { x: number; y: number }
-	) => void;
+	handleEdit: (nodeOrEdgeId: string, property: string, value: string | number | boolean | { x: number; y: number }) => void;
 	handleInsertShape: (shapeCode: string) => void;
 }
 
 export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
-	const {
-		selection,
-		viewport,
-		interactionManager,
-		getSvgContainer,
-		handleDelete,
-		handleEdit,
-		handleInsertShape
-	} = deps;
+	const { selection, viewport, interactionManager, getSvgContainer, handleDelete, handleEdit, handleInsertShape } = deps;
 
 	function handleCanvasClick(event: MouseEvent) {
 		// Only deselect if clicking on the canvas itself, not on an element
@@ -139,12 +127,7 @@ export function createCanvasEventHandlers(deps: CanvasEventHandlerDeps) {
 		if (!svgContainer) return;
 
 		if (selection.isLassoActive) {
-			selection.completeLasso(
-				svgContainer,
-				viewport.scale,
-				viewport.translateX,
-				viewport.translateY
-			);
+			selection.completeLasso(svgContainer, viewport.scale, viewport.translateX, viewport.translateY);
 		}
 		selection.cancelLasso();
 		viewport.endPan();

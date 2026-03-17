@@ -20,14 +20,7 @@
 		mergeWarnings,
 		updateWarningVisibility
 	} from './visual-canvas/viewModel';
-	import {
-		handleEdit,
-		handleDelete,
-		handleResetStyles,
-		handleInsertShape,
-		editorRefs,
-		handleParse
-	} from '$lib/state/editorState.svelte';
+	import { handleEdit, handleDelete, handleResetStyles, handleInsertShape, editorRefs, handleParse } from '$lib/state/editorState.svelte';
 	import { editorState } from '$lib/state/editorState.svelte';
 
 	let diagramDataId = 'runiq-diagram';
@@ -91,11 +84,7 @@
 	});
 
 	$effect(() => {
-		combinedWarnings = mergeWarnings(
-			warningDetails,
-			diagramState.warnings,
-			editorState.lintWarnings
-		);
+		combinedWarnings = mergeWarnings(warningDetails, diagramState.warnings, editorState.lintWarnings);
 	});
 
 	// Effect to attach interactive handlers when SVG output changes
@@ -264,32 +253,18 @@
 			{#if isRendering}
 				<Badge variant="secondary" class="gap-1">
 					<svg class="h-3 w-3 animate-spin" viewBox="0 0 24 24">
-						<circle
-							class="opacity-25"
-							cx="12"
-							cy="12"
-							r="10"
-							stroke="currentColor"
-							stroke-width="4"
-							fill="none"
-						></circle>
+						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
 						<path
 							class="opacity-75"
 							fill="currentColor"
-							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-						></path>
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 					</svg>
 					Rendering...
 				</Badge>
 			{:else if diagramState.errors.length > 0}
 				<Badge variant="destructive" class="gap-1">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
 					</svg>
 					{diagramState.errors.length} Error{diagramState.errors.length === 1 ? '' : 's'}
 				</Badge>
@@ -299,33 +274,24 @@
 					class="focus:outline-none"
 					onclick={() => {
 						showWarnings = !showWarnings;
-					}}
-				>
+					}}>
 					<Badge variant="outline" class="gap-1 border-warning text-warning">
 						<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-							/>
+								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
 						</svg>
 						{warningDetails.length + combinedWarnings.length}
 						Warning
-						{warningDetails.length + combinedWarnings.length === 1
-							? ''
-							: 's'}
+						{warningDetails.length + combinedWarnings.length === 1 ? '' : 's'}
 					</Badge>
 				</button>
 			{:else if svgOutput}
 				<Badge variant="default" class="gap-1 bg-success text-white">
 					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M5 13l4 4L19 7"
-						/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 					</svg>
 					Ready
 				</Badge>
@@ -344,8 +310,7 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						/>
+							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
 					</svg>
 					Multi-Select: {selection.selectedNodeIds.size + selection.selectedEdgeIds.size} items
 				</Badge>
@@ -356,8 +321,7 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-						/>
+							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
 					</svg>
 					Selected: {selection.selectedNodeId}
 				</Badge>
@@ -368,8 +332,7 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
+							d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
 					Selected: {selection.selectedEdgeId}
 				</Badge>
@@ -377,9 +340,7 @@
 
 			<!-- Multi-select help hint -->
 			{#if !selection.selectedNodeId && !selection.selectedEdgeId && selection.selectedNodeIds.size === 0 && selection.selectedEdgeIds.size === 0}
-				<span class="text-xs text-neutral-400 italic">
-					Tip: Ctrl+Click to multi-select, Ctrl+Drag for lasso
-				</span>
+				<span class="text-xs text-neutral-400 italic"> Tip: Ctrl+Click to multi-select, Ctrl+Drag for lasso </span>
 			{/if}
 		</div>
 
@@ -407,13 +368,9 @@
 											editorState.showCodeEditor = true;
 											editorState.activeTab = 'syntax';
 											tick().then(() => {
-												editorRefs.code?.jumpTo(
-													warning.range.startLine,
-													warning.range.startColumn
-												);
+												editorRefs.code?.jumpTo(warning.range.startLine, warning.range.startColumn);
 											});
-										}}
-									>
+										}}>
 										<span class="mt-0.5 h-1.5 w-1.5 rounded-full bg-warning"></span>
 										<span class="flex-1">
 											<span class="block">{warning.message}</span>
@@ -440,8 +397,7 @@
 					aria-label="Dismiss warnings"
 					onclick={() => {
 						showWarnings = false;
-					}}
-				>
+					}}>
 					<Icon icon="lucide:x" class="size-4" />
 				</button>
 			</div>
@@ -449,10 +405,7 @@
 	{/if}
 
 	<!-- Floating Toolbar -->
-	<div
-		class="absolute left-4 z-10 flex gap-2"
-		style="top: {showWarnings && diagramState.warnings.length > 0 ? '120px' : '66px'};"
-	>
+	<div class="absolute left-4 z-10 flex gap-2" style="top: {showWarnings && diagramState.warnings.length > 0 ? '120px' : '66px'};">
 		<EditorToolbar {svgContainer} {svgOutput} />
 	</div>
 
@@ -476,16 +429,11 @@
 			? 'grabbing'
 			: selection.editingNodeId || selection.editingEdgeId
 				? 'default'
-				: 'grab'}; outline: none;"
-	>
+				: 'grab'}; outline: none;">
 		<!-- Floating Toolbar at Top Center -->
 		{#if selection.selectedNodeId || selection.selectedEdgeId}
 			<div class="floating-toolbar">
-				<button
-					onclick={handleOpenStylePanel}
-					class="toolbar-button"
-					title="Edit Style (colors, fonts, effects)"
-				>
+				<button onclick={handleOpenStylePanel} class="toolbar-button" title="Edit Style (colors, fonts, effects)">
 					<Icon icon="lucide:palette" class="size-4" />
 					<span>Style</span>
 				</button>
@@ -501,8 +449,8 @@
 					selection.lassoEndY
 				)}px; width: {Math.abs(selection.lassoEndX - selection.lassoStartX)}px; height: {Math.abs(
 					selection.lassoEndY - selection.lassoStartY
-				)}px;"
-			></div>
+				)}px;">
+			</div>
 		{/if}
 
 		<!-- Label Edit Input -->
@@ -513,8 +461,7 @@
 				bind:value={selection.editingLabel}
 				onkeydown={handleEditKeyPress}
 				class="edit-input"
-				style="left: {selection.editInputPosition.x}px; top: {selection.editInputPosition.y}px;"
-			/>
+				style="left: {selection.editInputPosition.x}px; top: {selection.editInputPosition.y}px;" />
 		{/if}
 
 		{#if styleState.isVisible}
@@ -524,8 +471,7 @@
 				hasMixedValues={styleState.hasMixedValues}
 				onClose={() => styleState.hide()}
 				onStyleChange={handleStyleChange}
-				onResetStyles={handleResetSelectedStyles}
-			/>
+				onResetStyles={handleResetSelectedStyles} />
 		{/if}
 
 		{#if diagramState.errors.length > 0}
@@ -534,12 +480,7 @@
 				<div class="max-w-2xl rounded-lg border-2 border-error bg-white p-6 shadow-lg">
 					<div class="mb-4 flex items-center gap-2 text-error">
 						<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 						</svg>
 						<h3 class="text-lg font-semibold">Parsing Errors</h3>
 					</div>
@@ -550,17 +491,14 @@
 							</div>
 						{/each}
 					</div>
-					<p class="mt-4 text-sm text-neutral-600">
-						Fix the errors in the code editor to see the preview.
-					</p>
+					<p class="mt-4 text-sm text-neutral-600">Fix the errors in the code editor to see the preview.</p>
 				</div>
 			</div>
 		{:else if svgOutput}
 			<!-- SVG Preview with Pan/Zoom -->
 			<div
 				class="absolute inset-0 flex items-center justify-center transition-transform"
-				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})"
-			>
+				style="transform: translate({viewport.translateX}px, {viewport.translateY}px) scale({viewport.scale})">
 				<div class="rounded-lg border border-neutral-300 bg-white p-4 shadow-sm">
 					{@html svgOutput}
 				</div>
@@ -569,23 +507,15 @@
 			<!-- Empty State -->
 			<div class="absolute inset-0 flex items-center justify-center p-8 text-center">
 				<div class="max-w-md">
-					<svg
-						class="mx-auto mb-4 h-16 w-16 text-neutral-300"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
+					<svg class="mx-auto mb-4 h-16 w-16 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="1.5"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						/>
+							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
 					</svg>
 					<h3 class="mb-2 text-lg font-medium text-neutral-700">No Diagram</h3>
-					<p class="text-sm text-neutral-500">
-						Start typing in the code editor to see your diagram here.
-					</p>
+					<p class="text-sm text-neutral-500">Start typing in the code editor to see your diagram here.</p>
 				</div>
 			</div>
 		{/if}

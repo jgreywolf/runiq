@@ -7,3 +7,9 @@ bun.lockb
 
 # Miscellaneous
 /static/
+/coverage/
+/playwright-report/
+/test-results/
+/.svelte-kit/
+/build/
+e2e-results.txt

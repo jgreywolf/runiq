@@ -101,23 +101,13 @@
 		{#if showThemeTools || showExportTools}
 			<div class="toolbar-section">
 				{#if showThemeTools}
-					<button
-						class="toolbar-btn"
-						onclick={handleChangeTheme}
-						title="Change Theme"
-						aria-label="Change Theme"
-					>
+					<button class="toolbar-btn" onclick={handleChangeTheme} title="Change Theme" aria-label="Change Theme">
 						<Icon icon="lucide:palette" class="icon" />
 					</button>
 				{/if}
 
 				{#if showExportTools}
-					<button
-						class="toolbar-btn"
-						onclick={() => console.log('Export clicked')}
-						title="Export Diagram"
-						aria-label="Export"
-					>
+					<button class="toolbar-btn" onclick={() => console.log('Export clicked')} title="Export Diagram" aria-label="Export">
 						<Icon icon="lucide:download" class="icon" />
 					</button>
 				{/if}
@@ -131,22 +121,10 @@
 		<!-- Zoom Tools -->
 		{#if showViewportTools}
 			<div class="toolbar-section">
-				<button
-					class="toolbar-btn"
-					onclick={handleZoomIn}
-					title="Zoom In"
-					aria-label="Zoom In"
-					disabled={!editorRefs.viewport}
-				>
+				<button class="toolbar-btn" onclick={handleZoomIn} title="Zoom In" aria-label="Zoom In" disabled={!editorRefs.viewport}>
 					<Icon icon="lucide:zoom-in" class="icon" />
 				</button>
-				<button
-					class="toolbar-btn"
-					onclick={handleZoomOut}
-					title="Zoom Out"
-					aria-label="Zoom Out"
-					disabled={!editorRefs.viewport}
-				>
+				<button class="toolbar-btn" onclick={handleZoomOut} title="Zoom Out" aria-label="Zoom Out" disabled={!editorRefs.viewport}>
 					<Icon icon="lucide:zoom-out" class="icon" />
 				</button>
 
@@ -155,8 +133,7 @@
 					onclick={handleResetZoom}
 					title="Reset Zoom (100%)"
 					aria-label="Reset Zoom"
-					disabled={!editorRefs.viewport}
-				>
+					disabled={!editorRefs.viewport}>
 					<Icon icon="lucide:scan" class="icon" />
 				</button>
 
@@ -165,8 +142,7 @@
 					onclick={handleFitToScreen}
 					title="Fit to Screen"
 					aria-label="Fit to Screen"
-					disabled={!editorRefs.viewport}
-				>
+					disabled={!editorRefs.viewport}>
 					<Icon icon="lucide:maximize" class="size-5" />
 				</button>
 			</div>
@@ -184,12 +160,8 @@
 				<button
 					onclick={() => applyTheme(themeId)}
 					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
-					title={theme.description}
-				>
-					<div
-						class="h-4 w-4 rounded border border-neutral-300"
-						style="background-color: {theme.primaryColor};"
-					></div>
+					title={theme.description}>
+					<div class="h-4 w-4 rounded border border-neutral-300" style="background-color: {theme.primaryColor};"></div>
 					<span class="text-xs">{theme.name}</span>
 				</button>
 			{/each}

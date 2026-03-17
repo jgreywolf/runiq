@@ -65,9 +65,7 @@
 	}
 </script>
 
-<header
-	class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm"
->
+<header class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm">
 	<!-- Left: Logo & Brand -->
 	<div class="flex items-center gap-3">
 		<img src={logoSrc} alt={brandName} class="h-16 w-auto" />
@@ -84,8 +82,7 @@
 				type="text"
 				value={diagramName}
 				class="border-b border-transparent bg-transparent px-2 py-1 text-center text-sm font-medium text-neutral-800 transition-colors outline-none hover:border-neutral-300 focus:border-runiq-500"
-				placeholder="Diagram name"
-			/>
+				placeholder="Diagram name" />
 			<span class="text-xs text-neutral-500">
 				{#if isDirty}
 					<span class="inline-flex items-center gap-1">

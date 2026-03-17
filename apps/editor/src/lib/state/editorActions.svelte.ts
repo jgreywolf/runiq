@@ -87,11 +87,7 @@ export function handleParse(success: boolean, parseErrors: string[]) {
 /**
  * Handle edit from visual canvas
  */
-export function handleEdit(
-	nodeOrEdgeId: string,
-	property: string,
-	value: string | number | boolean | { x: number; y: number }
-) {
+export function handleEdit(nodeOrEdgeId: string, property: string, value: string | number | boolean | { x: number; y: number }) {
 	let newCode = editorState.code;
 
 	if (property === 'label') {
@@ -102,17 +98,7 @@ export function handleEdit(
 		if (typeof value === 'object' && 'x' in value && 'y' in value) {
 			newCode = DSL.editPosition(editorState.code, nodeOrEdgeId, value.x, value.y);
 		}
-	} else if (
-		[
-			'fillColor',
-			'strokeColor',
-			'strokeWidth',
-			'fontSize',
-			'textColor',
-			'shadow',
-			'routing'
-		].includes(property)
-	) {
+	} else if (['fillColor', 'strokeColor', 'strokeWidth', 'fontSize', 'textColor', 'shadow', 'routing'].includes(property)) {
 		newCode = DSL.editStyleProperty(editorState.code, nodeOrEdgeId, property, value);
 	}
 

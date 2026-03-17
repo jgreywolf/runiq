@@ -80,11 +80,7 @@
 			return {
 				fillColor: '',
 				strokeColor: element.strokeColor || element.data?.strokeColor || '',
-				strokeWidth: element.strokeWidth
-					? String(element.strokeWidth)
-					: element.data?.strokeWidth
-						? String(element.data.strokeWidth)
-						: '',
+				strokeWidth: element.strokeWidth ? String(element.strokeWidth) : element.data?.strokeWidth ? String(element.data.strokeWidth) : '',
 				textSize: element.fontSize ? String(element.fontSize) : '',
 				textColor: element.textColor || '',
 				shadow: false,
@@ -141,19 +137,17 @@
 								class="color-swatch-button"
 								style="background-color: {styleValues.fillColor || '#ffffff'}"
 								onclick={() => handleColorClick('fillColor', styleValues.fillColor)}
-								title="Click to change color"
-							>
+								title="Click to change color">
 								<span class="sr-only">Pick color</span>
 							</button>
 						</div>
-					<input
-						id="style-fill-color"
-						type="text"
-						value={styleValues.fillColor || ''}
-						onchange={(e) => onStyleChange('fillColor', e.currentTarget.value)}
+						<input
+							id="style-fill-color"
+							type="text"
+							value={styleValues.fillColor || ''}
+							onchange={(e) => onStyleChange('fillColor', e.currentTarget.value)}
 							placeholder="#FFFFFF"
-							class="style-text-input"
-						/>
+							class="style-text-input" />
 					</div>
 				{/if}
 
@@ -166,8 +160,7 @@
 							class="color-swatch-button"
 							style="background-color: {styleValues.strokeColor || '#ffffff'}"
 							onclick={() => handleColorClick('strokeColor', styleValues.strokeColor)}
-							title="Click to change color"
-						>
+							title="Click to change color">
 							<span class="sr-only">Pick color</span>
 						</button>
 					</div>
@@ -177,8 +170,7 @@
 						value={styleValues.strokeColor || ''}
 						onchange={(e) => onStyleChange('strokeColor', e.currentTarget.value)}
 						placeholder="#FFFFFF"
-						class="style-text-input"
-					/>
+						class="style-text-input" />
 				</div>
 
 				<!-- Stroke Width -->
@@ -192,8 +184,7 @@
 						oninput={(e) => onStyleChange('strokeWidth', e.currentTarget.value)}
 						placeholder="2"
 						min="0"
-						step="1"
-					/>
+						step="1" />
 				</div>
 
 				<!-- Text Color -->
@@ -205,8 +196,7 @@
 							class="color-swatch-button"
 							style="background-color: {styleValues.textColor || '#ffffff'}"
 							onclick={() => handleColorClick('textColor', styleValues.textColor)}
-							title="Click to change color"
-						>
+							title="Click to change color">
 							<span class="sr-only">Pick color</span>
 						</button>
 					</div>
@@ -216,8 +206,7 @@
 						value={styleValues.textColor || ''}
 						onchange={(e) => onStyleChange('textColor', e.currentTarget.value)}
 						placeholder="#FFFFFF"
-						class="style-text-input"
-					/>
+						class="style-text-input" />
 				</div>
 
 				{#if !isNode}
@@ -228,8 +217,7 @@
 							id="style-routing"
 							class="style-select"
 							value={styleValues.routing || ''}
-							onchange={(e) => onStyleChange('routing', e.currentTarget.value)}
-						>
+							onchange={(e) => onStyleChange('routing', e.currentTarget.value)}>
 							<option value="">Default</option>
 							<option value="orthogonal">Orthogonal</option>
 							<option value="polyline">Polyline</option>

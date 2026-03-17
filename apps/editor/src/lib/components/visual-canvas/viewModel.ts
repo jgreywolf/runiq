@@ -1,11 +1,7 @@
 import type { WarningDetail } from '@runiq/parser-dsl';
 import type { SelectionState } from './SelectionState.svelte';
 
-export function mergeWarnings(
-	warningDetails: WarningDetail[],
-	diagramWarnings: string[],
-	lintWarnings: string[]
-): string[] {
+export function mergeWarnings(warningDetails: WarningDetail[], diagramWarnings: string[], lintWarnings: string[]): string[] {
 	const detailMessages = new Set(warningDetails.map((warning) => warning.message));
 	const merged = [...diagramWarnings, ...lintWarnings];
 	const unique: string[] = [];

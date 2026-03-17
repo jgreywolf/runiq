@@ -6,11 +6,7 @@ import { convertLine } from './lineConversions';
  * Flatten a level based structure glyphset by removing blocks
  * Converts nested structure into a flat list of items
  */
-export function flattenNestedStructure(
-	lines: string[],
-	oldGlyphsetId: GlyphsetId,
-	newGlyphsetId: GlyphsetId
-): string[] {
+export function flattenNestedStructure(lines: string[], oldGlyphsetId: GlyphsetId, newGlyphsetId: GlyphsetId): string[] {
 	let insideLevel = false;
 	let depth = 0;
 	let itemCount = 0;
@@ -71,11 +67,7 @@ export function flattenNestedStructure(
  * Expand a flat list a nested list by wrapping items in a level
  * Converts flat structure into nested grouped structure
  */
-export function expandToNestedStructure(
-	lines: string[],
-	oldGlyphsetId: GlyphsetId,
-	newGlyphsetId: GlyphsetId
-): string[] {
+export function expandToNestedStructure(lines: string[], oldGlyphsetId: GlyphsetId, newGlyphsetId: GlyphsetId): string[] {
 	let insideMainBlock = false;
 	const newLines: string[] = [];
 	const itemLines: string[] = [];

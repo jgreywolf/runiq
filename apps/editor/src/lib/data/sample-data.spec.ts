@@ -61,7 +61,7 @@ describe('Sample Diagrams Data Structure', () => {
 			category.samples.forEach((sample) => {
 				// Sample code should be non-empty
 				expect(sample.code.trim().length).toBeGreaterThan(0);
-				
+
 				// Should have some valid DSL content (not just comments)
 				const hasContent = sample.code.trim().length > 10;
 				expect(hasContent).toBe(true);
@@ -106,9 +106,7 @@ describe('Sample Diagrams Data Structure', () => {
 	});
 
 	it('should have expected flowchart samples', () => {
-		const flowchartCategory = sampleDiagrams.find((cat) => 
-			cat.id === 'flowchart' || cat.id === 'flowcharts'
-		);
+		const flowchartCategory = sampleDiagrams.find((cat) => cat.id === 'flowchart' || cat.id === 'flowcharts');
 		expect(flowchartCategory).toBeDefined();
 		expect(flowchartCategory!.samples.length).toBeGreaterThan(0);
 	});
@@ -120,9 +118,7 @@ describe('Sample Diagrams Data Structure', () => {
 	});
 
 	it('should have expected container/template samples', () => {
-		const containerCategory = sampleDiagrams.find((cat) => 
-			cat.id === 'containers' || cat.id === 'templates'
-		);
+		const containerCategory = sampleDiagrams.find((cat) => cat.id === 'containers' || cat.id === 'templates');
 		expect(containerCategory).toBeDefined();
 	});
 
@@ -130,7 +126,7 @@ describe('Sample Diagrams Data Structure', () => {
 		sampleDiagrams.forEach((category) => {
 			// Category IDs should be lowercase, kebab-case, or camelCase
 			expect(category.id).toMatch(/^[a-z0-9-A-Z]+$/);
-			
+
 			category.samples.forEach((sample) => {
 				// Sample names should not be empty or just whitespace
 				expect(sample.name.trim()).toBe(sample.name);

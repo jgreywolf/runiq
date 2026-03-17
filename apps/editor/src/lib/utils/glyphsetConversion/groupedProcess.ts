@@ -6,11 +6,7 @@ import { convertLine } from './lineConversions';
  * Flatten a groupedProcess glyphset by removing group blocks and mergePoint
  * Converts nested structure into a flat list of items
  */
-export function flattenGroupedProcess(
-	lines: string[],
-	oldGlyphsetId: GlyphsetId,
-	newGlyphsetId: GlyphsetId
-): string[] {
+export function flattenGroupedProcess(lines: string[], oldGlyphsetId: GlyphsetId, newGlyphsetId: GlyphsetId): string[] {
 	let insideGroup = false;
 	let groupDepth = 0;
 	let itemCount = 0;
@@ -74,11 +70,7 @@ export function flattenGroupedProcess(
  * Expand a flat list glyphset to groupedProcess by wrapping items in a group
  * Converts flat structure into nested grouped structure
  */
-export function expandToGroupedProcess(
-	lines: string[],
-	oldGlyphsetId: GlyphsetId,
-	newGlyphsetId: GlyphsetId
-): string[] {
+export function expandToGroupedProcess(lines: string[], oldGlyphsetId: GlyphsetId, newGlyphsetId: GlyphsetId): string[] {
 	let insideMainBlock = false;
 	let itemCount = 0;
 

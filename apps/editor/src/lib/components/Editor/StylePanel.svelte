@@ -11,14 +11,7 @@
 		onResetStyles?: () => void;
 	}
 
-	let {
-		selectedIds,
-		currentStyles,
-		hasMixedValues = false,
-		onClose,
-		onStyleChange,
-		onResetStyles
-	}: Props = $props();
+	let { selectedIds, currentStyles, hasMixedValues = false, onClose, onStyleChange, onResetStyles }: Props = $props();
 
 	let isVisible = $derived(selectedIds.size > 0);
 	let isMultiSelect = $derived(selectedIds.size > 1);
@@ -80,8 +73,7 @@
 						style="background-color: {currentStyles.fill || '#ffffff'}"
 						onclick={() => handleColorClick('fill', currentStyles.fill)}
 						title="Click to pick color"
-						aria-label="Pick fill color"
-					>
+						aria-label="Pick fill color">
 						<span class="sr-only">Pick fill color</span>
 					</button>
 					<input
@@ -90,8 +82,7 @@
 						value={currentStyles.fill || ''}
 						onchange={(e) => onStyleChange('fill', e.currentTarget.value)}
 						placeholder="#FFFFFF"
-						aria-label="Fill color hex value"
-					/>
+						aria-label="Fill color hex value" />
 				</div>
 			</div>
 
@@ -105,8 +96,7 @@
 						style="background-color: {currentStyles.stroke || '#000000'}"
 						onclick={() => handleColorClick('stroke', currentStyles.stroke)}
 						title="Click to pick color"
-						aria-label="Pick stroke color"
-					>
+						aria-label="Pick stroke color">
 						<span class="sr-only">Pick stroke color</span>
 					</button>
 					<input
@@ -115,8 +105,7 @@
 						value={currentStyles.stroke || ''}
 						onchange={(e) => onStyleChange('stroke', e.currentTarget.value)}
 						placeholder="#000000"
-						aria-label="Stroke color hex value"
-					/>
+						aria-label="Stroke color hex value" />
 				</div>
 			</div>
 
@@ -132,8 +121,7 @@
 					min="0"
 					max="20"
 					step="0.5"
-					aria-label="Stroke width"
-				/>
+					aria-label="Stroke width" />
 			</div>
 
 			<!-- Opacity -->
@@ -150,8 +138,7 @@
 					min="0"
 					max="1"
 					step="0.1"
-					aria-label="Opacity"
-				/>
+					aria-label="Opacity" />
 			</div>
 
 			<!-- Font Size -->
@@ -166,8 +153,7 @@
 					min="8"
 					max="72"
 					step="1"
-					aria-label="Font size"
-				/>
+					aria-label="Font size" />
 			</div>
 
 			<!-- Font Family -->
@@ -178,8 +164,7 @@
 					class="select-input"
 					value={currentStyles.fontFamily || 'inherit'}
 					onchange={(e) => onStyleChange('fontFamily', e.currentTarget.value)}
-					aria-label="Font family"
-				>
+					aria-label="Font family">
 					<option value="inherit">Inherit</option>
 					<option value="Arial">Arial</option>
 					<option value="Helvetica">Helvetica</option>

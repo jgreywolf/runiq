@@ -50,11 +50,7 @@ export function parseGlyphsetDeclaration(code: string): ParsedGlyphset | null {
  * @param newType - New glyphset type to use
  * @returns Array of lines with replaced glyphset type
  */
-export function replaceGlyphsetType(
-	lines: string[],
-	glyphsetLineIndex: number,
-	newType: string
-): string[] {
+export function replaceGlyphsetType(lines: string[], glyphsetLineIndex: number, newType: string): string[] {
 	const newLines: string[] = [];
 	const glyphsetLine = lines[glyphsetLineIndex];
 
@@ -78,10 +74,7 @@ export function replaceGlyphsetType(
  * @param code - Original code
  * @returns ConversionResult with error
  */
-export function createParseError(
-	code: string,
-	error: string = 'No glyphset declaration found'
-): ConversionResult {
+export function createParseError(code: string, error: string = 'No glyphset declaration found'): ConversionResult {
 	return {
 		success: false,
 		newCode: code,

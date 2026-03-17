@@ -27,14 +27,7 @@ export interface MouseHandlerCallbacks {
 	startLabelEdit: (nodeId: string | null, edgeId: string | null) => void;
 }
 
-const chartShapes = new Set([
-	'lineChart',
-	'radarChart',
-	'pieChart',
-	'barChart',
-	'pyramidShape',
-	'sankeyChart'
-]);
+const chartShapes = new Set(['lineChart', 'radarChart', 'pieChart', 'barChart', 'pyramidShape', 'sankeyChart']);
 
 export function handleElementMouseEnter(event: Event, context: MouseHandlerContext): void {
 	const target = event.currentTarget as SVGElement;
@@ -68,11 +61,7 @@ export function handleElementMouseLeave(event: Event, context: MouseHandlerConte
 	target.classList.remove('runiq-hovered');
 }
 
-export function handleElementClick(
-	event: Event,
-	context: MouseHandlerContext,
-	callbacks: MouseHandlerCallbacks
-): void {
+export function handleElementClick(event: Event, context: MouseHandlerContext, callbacks: MouseHandlerCallbacks): void {
 	event.stopPropagation();
 	const target = event.currentTarget as SVGElement;
 	const nodeId = target.getAttribute('data-node-id');
@@ -133,11 +122,7 @@ export function handleElementClick(
 	}
 }
 
-export function handleElementDoubleClick(
-	event: Event,
-	context: MouseHandlerContext,
-	callbacks: MouseHandlerCallbacks
-): void {
+export function handleElementDoubleClick(event: Event, context: MouseHandlerContext, callbacks: MouseHandlerCallbacks): void {
 	event.stopPropagation();
 	const target = event.currentTarget as SVGElement;
 	const nodeId = target.getAttribute('data-node-id');
@@ -159,11 +144,7 @@ export function handlePanStart(event: MouseEvent, context: MouseHandlerContext):
 	}
 }
 
-export function handlePan(
-	event: MouseEvent,
-	context: MouseHandlerContext,
-	setTranslate: (x: number, y: number) => void
-): void {
+export function handlePan(event: MouseEvent, context: MouseHandlerContext, setTranslate: (x: number, y: number) => void): void {
 	if (context.isDragging && context.dragStart) {
 		const dx = event.clientX - context.dragStart.x;
 		const dy = event.clientY - context.dragStart.y;
@@ -177,11 +158,7 @@ export function handlePanEnd(context: MouseHandlerContext): void {
 	context.dragStart = null;
 }
 
-export function handleZoom(
-	event: WheelEvent,
-	context: MouseHandlerContext,
-	setScale: (scale: number) => void
-): void {
+export function handleZoom(event: WheelEvent, context: MouseHandlerContext, setScale: (scale: number) => void): void {
 	event.preventDefault();
 
 	const delta = event.deltaY > 0 ? 0.9 : 1.1;
@@ -200,11 +177,7 @@ export function handleLassoStart(event: MouseEvent, context: MouseHandlerContext
 	}
 }
 
-export function handleLassoDrag(
-	event: MouseEvent,
-	context: MouseHandlerContext,
-	LASSO_THRESHOLD: number
-): void {
+export function handleLassoDrag(event: MouseEvent, context: MouseHandlerContext, LASSO_THRESHOLD: number): void {
 	if (context.isLassoPending || context.isLassoActive) {
 		context.lassoEndX = event.clientX;
 		context.lassoEndY = event.clientY;
@@ -222,10 +195,7 @@ export function handleLassoDrag(
 	}
 }
 
-export function handleLassoEnd(
-	context: MouseHandlerContext,
-	callbacks: MouseHandlerCallbacks
-): void {
+export function handleLassoEnd(context: MouseHandlerContext, callbacks: MouseHandlerCallbacks): void {
 	if (context.isLassoActive) {
 		// Perform lasso selection
 		selectElementsInLasso(context, callbacks);
@@ -234,10 +204,7 @@ export function handleLassoEnd(
 	context.isLassoActive = false;
 }
 
-function selectElementsInLasso(
-	context: MouseHandlerContext,
-	callbacks: MouseHandlerCallbacks
-): void {
+function selectElementsInLasso(context: MouseHandlerContext, callbacks: MouseHandlerCallbacks): void {
 	if (!context.svgContainer) return;
 
 	const svgElement = context.svgContainer.querySelector('svg');

@@ -34,19 +34,14 @@ export class InteractionManager {
 	/**
 	 * Attach interactive event handlers to all elements in the SVG
 	 */
-	attachHandlers(
-		svgContainer: HTMLDivElement | null,
-		getDiagramSvg: () => SVGSVGElement | null
-	): void {
+	attachHandlers(svgContainer: HTMLDivElement | null, getDiagramSvg: () => SVGSVGElement | null): void {
 		if (!svgContainer) return;
 
 		const svgElement = getDiagramSvg();
 		if (!svgElement) return;
 
 		// Add hover handlers to all nodes, edges, and containers
-		const interactiveElements = svgElement.querySelectorAll(
-			'[data-node-id], [data-edge-id], [data-container-id]'
-		);
+		const interactiveElements = svgElement.querySelectorAll('[data-node-id], [data-edge-id], [data-container-id]');
 
 		interactiveElements.forEach((element) => {
 			// Remove existing listeners to avoid duplicates
@@ -66,10 +61,7 @@ export class InteractionManager {
 	/**
 	 * Restore selection styling after SVG re-render
 	 */
-	restoreSelection(
-		svgContainer: HTMLDivElement | null,
-		getDiagramSvg: () => SVGSVGElement | null
-	): void {
+	restoreSelection(svgContainer: HTMLDivElement | null, getDiagramSvg: () => SVGSVGElement | null): void {
 		if (!svgContainer) return;
 
 		const svgElement = getDiagramSvg();
@@ -77,18 +69,14 @@ export class InteractionManager {
 
 		// Re-apply selection to the selected node or edge
 		if (this.selection.selectedNodeId) {
-			const nodeElement = svgElement.querySelector(
-				`[data-node-id="${this.selection.selectedNodeId}"]`
-			);
+			const nodeElement = svgElement.querySelector(`[data-node-id="${this.selection.selectedNodeId}"]`);
 			if (nodeElement) {
 				nodeElement.classList.add('runiq-selected');
 			}
 		}
 
 		if (this.selection.selectedEdgeId) {
-			const edgeElement = svgElement.querySelector(
-				`[data-edge-id="${this.selection.selectedEdgeId}"]`
-			);
+			const edgeElement = svgElement.querySelector(`[data-edge-id="${this.selection.selectedEdgeId}"]`);
 			if (edgeElement) {
 				edgeElement.classList.add('runiq-selected');
 			}

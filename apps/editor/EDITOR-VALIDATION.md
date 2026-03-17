@@ -41,15 +41,11 @@
 const langiumServices = createRuniqServices(EmptyFileSystem).Runiq;
 
 async function runiqLinter(view: EditorView): Promise<Diagnostic[]> {
-	const langiumDoc = langiumServices.shared.workspace.LangiumDocumentFactory.fromString(
-		text,
-		'inmemory://temp.runiq' as any
-	);
+	const langiumDoc = langiumServices.shared.workspace.LangiumDocumentFactory.fromString(text, 'inmemory://temp.runiq' as any);
 
 	await langiumServices.shared.workspace.DocumentBuilder.build([langiumDoc], {});
 
-	const validationDiagnostics =
-		await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
+	const validationDiagnostics = await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
 
 	// Convert LSP → CodeMirror format
 	return convertDiagnostics(validationDiagnostics);
