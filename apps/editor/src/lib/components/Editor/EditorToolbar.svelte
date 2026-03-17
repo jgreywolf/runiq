@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import { editorRefs, editorState, updateCode } from '$lib/state/editorState.svelte';
-	import { editorToolbarPreset } from '$lib/state/editorShellConfig';
+	import { editorHostConfig } from '$lib/state/editorHostConfig';
 	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
 
 	interface Props {
@@ -13,7 +13,7 @@
 
 	let showThemeFlyout = $state(false);
 	const availableThemes = getAvailableBaseThemes();
-	const toolbarGroups = editorToolbarPreset.groups;
+	const toolbarGroups = editorHostConfig.toolbarPreset.groups;
 	const showThemeTools = toolbarGroups.includes('theme');
 	const showExportTools = toolbarGroups.includes('export');
 	const showViewportTools = toolbarGroups.includes('viewport');
