@@ -8,6 +8,15 @@ export { DiagramState, diagramState } from './diagramState.svelte';
 export { StyleState, styleState } from './styleState.svelte';
 export { CanvasState, canvasState } from './canvasState.svelte';
 export {
+	editorSettings,
+	getDefaultLayoutStrategyForProfile,
+	getDefaultProfileForSettings,
+	getLayoutStrategyPresetForProfile,
+	profileSupportsDefaultCanvasModeSelection,
+	profileSupportsLayoutEngineSelection,
+	profileSupportsLayoutStrategySelection
+} from './editorSettings.svelte';
+export {
 	editorHostPreset,
 	editorShellConfig,
 	editorToolbarPreset
