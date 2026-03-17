@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { parse } from '../index';
 
+function getFirstProfile(result: ReturnType<typeof parse>) {
+	const diagram = result.document?.profiles[0];
+	expect(diagram).toBeDefined();
+	if (!diagram) {
+		throw new Error('Expected parsed profile');
+	}
+	return diagram;
+}
+
 describe('GlyphSet Integration', () => {
   describe('Basic Process', () => {
     it('parses horizontal process glyphset with items', () => {
@@ -20,7 +29,7 @@ describe('GlyphSet Integration', () => {
 
       expect(result.success).toBe(true);
       expect(result.document?.profiles).toHaveLength(1);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       expect(diagram.type).toBe('diagram');
       expect(diagram.name).toBe('Software Development');
@@ -45,7 +54,7 @@ describe('GlyphSet Integration', () => {
       `;
 
         const result = parse(dsl);
-        const diagram = result.document?.profiles[0]!;
+        const diagram = getFirstProfile(result);
 
         // verticalProcess generates multiple nodes
         expect(diagram.nodes).toHaveLength(4);
@@ -78,7 +87,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       // cycle generates single custom shape node with steps in data
       expect(diagram.nodes).toHaveLength(1);
@@ -105,7 +114,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       // pyramid generates single custom shape node with level objects
       expect(diagram.nodes).toHaveLength(1);
@@ -134,7 +143,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       // matrix now generates a single composite node, not containers
       expect(diagram.nodes).toHaveLength(1);
@@ -174,7 +183,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       // venn generates single custom shape node
       expect(diagram.nodes).toHaveLength(1);
@@ -200,7 +209,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       // funnel generates single custom shape (invertedPyramid)
       expect(diagram.nodes).toHaveLength(1);
@@ -221,7 +230,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       // events generates multiple nodes
       expect(diagram.nodes).toHaveLength(4);
@@ -273,7 +282,7 @@ describe('GlyphSet Integration', () => {
       `;
 
       const result = parse(dsl);
-      const diagram = result.document?.profiles[0]!;
+      const diagram = getFirstProfile(result);
 
       expect(diagram.type).toBe('diagram');
       expect(diagram.name).toBe('Regular Diagram');

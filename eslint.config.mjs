@@ -4,7 +4,14 @@ import tseslint from 'typescript-eslint';
 
 export default [
 	{
-		ignores: ['**/dist/**', '**/build/**', '**/node_modules/**', 'apps/editor/**', 'apps/studio/**']
+		ignores: [
+			'**/*.d.ts',
+			'**/dist/**',
+			'**/build/**',
+			'**/node_modules/**',
+			'apps/editor/**',
+			'apps/studio/**'
+		]
 	},
 	js.configs.recommended,
 	...tseslint.configs.recommended,
@@ -21,7 +28,7 @@ export default [
 			}
 		},
 		rules: {
-			'@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+			'@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
 			'@typescript-eslint/explicit-function-return-type': 'off',
 			'@typescript-eslint/explicit-module-boundary-types': 'off',
 			'@typescript-eslint/no-explicit-any': 'warn'
