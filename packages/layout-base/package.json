@@ -33,7 +33,6 @@
   "devDependencies": {
     "@runiq/core": "workspace:*",
     "@runiq/parser-dsl": "workspace:*",
-    "@runiq/renderer-svg": "workspace:*",
     "@types/node": "^20.11.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",

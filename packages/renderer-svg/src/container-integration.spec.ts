@@ -1,14 +1,13 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { parse } from '@runiq/parser-dsl';
-import { ElkLayoutEngine } from './elk-adapter.js';
-import { renderSvg } from '@runiq/renderer-svg';
 import { shapeRegistry } from '@runiq/core';
+import { ElkLayoutEngine } from '@runiq/layout-base';
+import { renderSvg } from './index.js';
 
 describe('Container Integration Tests', () => {
   const engine = new ElkLayoutEngine();
 
   beforeEach(() => {
-    // Register test shapes needed for integration tests
     shapeRegistry.register({
       id: 'rounded',
       bounds: (_ctx) => ({ width: 100, height: 60 }),
@@ -31,15 +30,13 @@ describe('Container Integration Tests', () => {
     const ast = parse(dsl);
     expect(ast.errors).toHaveLength(0);
     expect(ast.diagram).toBeDefined();
-    expect(ast.diagram!.nodes).toHaveLength(2); // Parser creates nodes
+    expect(ast.diagram!.nodes).toHaveLength(2);
     expect(ast.diagram!.containers).toHaveLength(1);
 
     const layout = await engine.layout(ast.diagram!);
     expect(layout.containers).toHaveLength(1);
     expect(layout.containers![0].id).toBe('c1');
     expect(layout.containers![0].label).toBe('My Container');
-
-    // All nodes are positioned at the top level (layout.nodes)
     expect(layout.nodes).toHaveLength(2);
 
     const result = renderSvg(ast.diagram!, layout);
