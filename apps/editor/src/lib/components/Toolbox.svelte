@@ -8,6 +8,12 @@
 	import { editorState, handleInsertSample } from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
 
+	interface Props {
+		showSampleBrowser?: boolean;
+		showShapeBrowser?: boolean;
+	}
+
+	let { showSampleBrowser = true, showShapeBrowser = true }: Props = $props();
 	let showSampleDialog = $state(false);
 
 	function openSampleBrowser() {
@@ -79,16 +85,17 @@
 					</div>
 				{/if}
 
-				<!-- Sample Browser Button -->
-				<div class="border-b border-neutral-200 p-3">
-					<Button
-						onclick={openSampleBrowser}
-						class="w-full justify-start gap-2 bg-gradient-to-r from-runiq-500 to-runiq-600 text-white hover:from-runiq-600 hover:to-runiq-700"
-					>
-						<Icon icon="lucide:file-text" width="16" height="16" />
-						Browse Sample Diagrams
-					</Button>
-				</div>
+				{#if showSampleBrowser}
+					<div class="border-b border-neutral-200 p-3">
+						<Button
+							onclick={openSampleBrowser}
+							class="w-full justify-start gap-2 bg-gradient-to-r from-runiq-500 to-runiq-600 text-white hover:from-runiq-600 hover:to-runiq-700"
+						>
+							<Icon icon="lucide:file-text" width="16" height="16" />
+							Browse Sample Diagrams
+						</Button>
+					</div>
+				{/if}
 
 				<!-- Profile-specific Shape Browser -->
 				<div class="flex-1 overflow-auto">
@@ -101,16 +108,24 @@
 								See Sample Diagrams for examples.
 							</p>
 						</div>
-					{:else}
+					{:else if showShapeBrowser}
 						<ShapeBrowser />
+					{:else}
+						<div class="flex h-full items-center justify-center p-4 text-center">
+							<p class="text-sm text-neutral-500">Shape browser is disabled for this host.</p>
+						</div>
 					{/if}
 				</div>
 
 				<div class="mt-auto border-t border-neutral-200 bg-neutral-50 p-3">
 					<p class="text-xs text-neutral-500">
-						{editorState.profileName === ProfileName.wardley
-							? 'Use Sample Diagrams for templates'
-							: 'Click a shape to insert it'}
+						{#if !showShapeBrowser}
+							Use Sample Diagrams to explore supported syntax
+						{:else if editorState.profileName === ProfileName.wardley}
+							Use Sample Diagrams for templates
+						{:else}
+							Click a shape to insert it
+						{/if}
 					</p>
 				</div>
 			</div>
@@ -118,10 +133,11 @@
 	</div>
 </div>
 <!-- Sample Browser Dialog -->
-<SampleBrowserDialog
-	bind:open={showSampleDialog}
-	onOpenChange={(open) => (showSampleDialog = open)}
-	categories={sampleDiagrams}
-	onInsertSample={handleInsertSample}
-/>
-
+{#if showSampleBrowser}
+	<SampleBrowserDialog
+		bind:open={showSampleDialog}
+		onOpenChange={(open) => (showSampleDialog = open)}
+		categories={sampleDiagrams}
+		onInsertSample={handleInsertSample}
+	/>
+{/if}

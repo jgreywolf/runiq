@@ -4,11 +4,14 @@
 	import ExportButton from './ExportButton.svelte';
 	import SettingsButton from './SettingsButton.svelte';
 	import HelpMenu from './HelpMenu.svelte';
+	import type { ExportFormatId, HeaderActionId } from '@runiq/editor-core';
 
 	interface Props {
 		brandName?: string;
 		productName?: string;
 		logoSrc?: string;
+		headerActions?: readonly HeaderActionId[];
+		exportFormats?: readonly ExportFormatId[];
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
@@ -18,12 +21,18 @@
 		brandName = 'Runiq',
 		productName = 'Diagram Editor',
 		logoSrc = '/images/runiq.at.whiteboard.png',
+		headerActions = ['newDiagram', 'export', 'settings', 'help'],
+		exportFormats = ['svg', 'png'],
 		diagramName = 'Untitled Diagram',
 		lastSaved = null,
 		isDirty = false
 	}: Props = $props();
 
 	let showNewDiagramDialog = $state(false);
+	const showNewDiagram = headerActions.includes('newDiagram');
+	const showExport = headerActions.includes('export');
+	const showSettings = headerActions.includes('settings');
+	const showHelp = headerActions.includes('help');
 
 	// Actions
 	function handleNewDiagramClick() {
@@ -95,19 +104,25 @@
 
 	<!-- Right: Actions -->
 	<div class="flex items-center gap-2">
-		<!-- New Diagram Button -->
-		<NewDiagramButton onclick={handleNewDiagramClick} />
+		{#if showNewDiagram}
+			<NewDiagramButton onclick={handleNewDiagramClick} />
+		{/if}
 
-		<!-- Export Button -->
-		<ExportButton />
+		{#if showExport}
+			<ExportButton formats={exportFormats} />
+		{/if}
 
-		<!-- Settings Button -->
-		<SettingsButton onclick={handleSettings} />
+		{#if showSettings}
+			<SettingsButton onclick={handleSettings} />
+		{/if}
 
-		<!-- Help Menu -->
-		<HelpMenu />
+		{#if showHelp}
+			<HelpMenu />
+		{/if}
 	</div>
 </header>
 
 <!-- New Diagram Dialog -->
-<NewDiagramDialog bind:open={showNewDiagramDialog} />
+{#if showNewDiagram}
+	<NewDiagramDialog bind:open={showNewDiagramDialog} />
+{/if}

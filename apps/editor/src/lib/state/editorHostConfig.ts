@@ -12,6 +12,9 @@ export interface EditorHostConfig {
 	hostPreset: typeof editorHostPreset;
 	shellConfig: typeof editorShellConfig;
 	toolbarPreset: typeof editorToolbarPreset;
+	headerPreset: typeof editorShellConfig.headerPreset;
+	toolboxPreset: typeof editorShellConfig.toolboxPreset;
+	exportPreset: typeof editorShellConfig.exportPreset;
 	settings: typeof editorSettings;
 	getCapabilities: (profileName: ProfileName | null) => EditorCapabilitiesSnapshot;
 }
@@ -25,6 +28,9 @@ export const editorHostConfig: EditorHostConfig = {
 	hostPreset: editorHostPreset,
 	shellConfig: editorShellConfig,
 	toolbarPreset: editorToolbarPreset,
+	headerPreset: editorShellConfig.headerPreset,
+	toolboxPreset: editorShellConfig.toolboxPreset,
+	exportPreset: editorShellConfig.exportPreset,
 	settings: editorSettings,
 	getCapabilities(profileName: ProfileName | null) {
 		return resolveEditorCapabilities(profileName, editorSettings.snapshot, editorHostPreset);

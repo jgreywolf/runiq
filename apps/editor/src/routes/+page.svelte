@@ -40,6 +40,8 @@
 		brandName={appHost.brandName}
 		productName={appHost.productName}
 		logoSrc={appHost.logoSrc}
+		headerActions={appHost.headerPreset.actions}
+		exportFormats={appHost.exportPreset.formats}
 		diagramName={editorState.diagramName}
 		lastSaved={autoSave.lastSaved}
 		isDirty={editorState.isDirty}
@@ -61,7 +63,10 @@
 					savePanelSizes(panelSizes);
 				}}
 			>
-				<Toolbox />
+				<Toolbox
+					showSampleBrowser={appHost.toolboxPreset.showSampleBrowser}
+					showShapeBrowser={appHost.toolboxPreset.showShapeBrowser}
+				/>
 			</Pane>
 			{#if editorState.showCodeEditor}
 				<PaneResizer
