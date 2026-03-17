@@ -168,3 +168,12 @@ export const getGlyphsetKeywords = (glyphsetId: GlyphsetId) => {
 	//titleBlock: ['level'],
 	// hub: ['spoke', 'center'],
 };
+
+export function getPrimaryKeyword(glyphsetType: string): string {
+	const glyphsetId = isGlyphsetId(glyphsetType);
+	if (!glyphsetId) {
+		return 'item';
+	}
+
+	return getGlyphsetKeywords(glyphsetId)[0] ?? 'item';
+}

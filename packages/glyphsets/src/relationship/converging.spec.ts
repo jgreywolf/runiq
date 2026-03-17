@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { convergingGlyphSet } from './converging.js';
 import type { DiagramAst } from '@runiq/core';
+import { COLOR_THEMES } from '../themes.js';
 
 describe('convergingGlyphSet', () => {
   describe('metadata', () => {
@@ -151,9 +152,8 @@ describe('convergingGlyphSet', () => {
       expect(sources[0].color).toBeDefined();
       expect(sources[1].color).toBeDefined();
       expect(target.color).toBeDefined();
-      // Professional theme colors
-      expect(sources[0].color).toBe('#546E7A');
-      expect(sources[1].color).toBe('#607D8B');
+      expect(sources[0].color).toBe(COLOR_THEMES.professional[0]);
+      expect(sources[1].color).toBe(COLOR_THEMES.professional[1]);
     });
 
     it('should support custom theme colors', () => {
@@ -164,9 +164,8 @@ describe('convergingGlyphSet', () => {
       }) as DiagramAst;
 
       const sources = result.nodes[0].data?.sources as Array<{ color: string }>;
-      // Vibrant theme colors
-      expect(sources[0].color).toBe('#E74C3C');
-      expect(sources[1].color).toBe('#3498DB');
+      expect(sources[0].color).toBe(COLOR_THEMES.vibrant[0]);
+      expect(sources[1].color).toBe(COLOR_THEMES.vibrant[1]);
     });
 
     it('should use different color for target', () => {

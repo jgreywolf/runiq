@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { balanceGlyphSet } from './balance.js';
 import type { DiagramAst } from '@runiq/core';
+import { COLOR_THEMES } from '../themes.js';
 
 describe('balanceGlyphSet', () => {
   describe('metadata', () => {
@@ -87,9 +88,8 @@ describe('balanceGlyphSet', () => {
       // Check that colors are applied from professional theme
       expect(result.nodes[0].data?.sides[0].color).toBeDefined();
       expect(result.nodes[0].data?.sides[1].color).toBeDefined();
-      // Professional theme colors
-      expect(result.nodes[0].data?.sides[0].color).toBe('#546E7A');
-      expect(result.nodes[0].data?.sides[1].color).toBe('#607D8B');
+      expect(result.nodes[0].data?.sides[0].color).toBe(COLOR_THEMES.professional[0]);
+      expect(result.nodes[0].data?.sides[1].color).toBe(COLOR_THEMES.professional[1]);
     });
 
     it('should support custom theme colors', () => {
@@ -98,9 +98,8 @@ describe('balanceGlyphSet', () => {
         theme: 'vibrant',
       }) as DiagramAst;
 
-      // Check that colors are applied from vibrant theme
-      expect(result.nodes[0].data?.sides[0].color).toBe('#E74C3C');
-      expect(result.nodes[0].data?.sides[1].color).toBe('#3498DB');
+      expect(result.nodes[0].data?.sides[0].color).toBe(COLOR_THEMES.vibrant[0]);
+      expect(result.nodes[0].data?.sides[1].color).toBe(COLOR_THEMES.vibrant[1]);
     });
   });
 

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { opposingGlyphSet } from './opposing.js';
 import type { DiagramAst } from '@runiq/core';
+import { COLOR_THEMES } from '../themes.js';
 
 describe('opposingGlyphSet', () => {
   describe('metadata', () => {
@@ -146,9 +147,8 @@ describe('opposingGlyphSet', () => {
       const items = result.nodes[0].data?.items as Array<{ color: string }>;
       expect(items[0].color).toBeDefined();
       expect(items[1].color).toBeDefined();
-      // Professional theme colors
-      expect(items[0].color).toBe('#546E7A');
-      expect(items[1].color).toBe('#607D8B');
+      expect(items[0].color).toBe(COLOR_THEMES.professional[0]);
+      expect(items[1].color).toBe(COLOR_THEMES.professional[1]);
     });
 
     it('should support custom theme colors', () => {
@@ -158,9 +158,8 @@ describe('opposingGlyphSet', () => {
       }) as DiagramAst;
 
       const items = result.nodes[0].data?.items as Array<{ color: string }>;
-      // Vibrant theme colors
-      expect(items[0].color).toBe('#E74C3C');
-      expect(items[1].color).toBe('#3498DB');
+      expect(items[0].color).toBe(COLOR_THEMES.vibrant[0]);
+      expect(items[1].color).toBe(COLOR_THEMES.vibrant[1]);
     });
   });
 

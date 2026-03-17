@@ -1,5 +1,6 @@
 // Special Shapes
 export { textBlockShape } from './textBlock.js';
+export { imageShape } from './image.js';
 export { braceLeftShape } from './braceLeft.js';
 export { braceRightShape } from './braceRight.js';
 export { lightningBoltShape } from './lightningBolt.js';

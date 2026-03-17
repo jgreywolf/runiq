@@ -62,6 +62,9 @@ describe('Electrical Renderer', () => {
       expect(result.svg).toContain('Simple Resistor');
       expect(result.svg).toContain('data-ref="V1"');
       expect(result.svg).toContain('data-ref="R1"');
+      expect(result.svg).toContain('data-node-id="sch-part-V1"');
+      expect(result.svg).toContain('data-node-id="sch-part-R1"');
+      expect(result.svg).toContain('data-edge-id="sch-net-VCC-0"');
       expect(result.warnings).toHaveLength(0);
     });
 
