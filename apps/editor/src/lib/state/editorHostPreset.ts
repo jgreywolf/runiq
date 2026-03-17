@@ -1,0 +1,1 @@
+export { editorHostPreset } from './editorShellConfig';

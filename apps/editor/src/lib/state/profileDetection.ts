@@ -6,7 +6,13 @@ import { ProfileName } from '$lib/types';
  * hydraulic, hvac, glyphset, timeline, railroad, kanban, gitgraph, treemap, pedigree
  */
 export function detectProfile(code: string): ProfileName {
-	const trimmed = code.trim().toLowerCase();
+	const withoutBlockComments = code.replace(/\/\*[\s\S]*?\*\//g, '\n');
+	const firstMeaningfulLine =
+		withoutBlockComments
+			.split(/\r?\n/)
+			.map((line) => line.trim())
+			.find((line) => line.length > 0 && !line.startsWith('//')) ?? '';
+	const trimmed = firstMeaningfulLine.toLowerCase();
 	if (trimmed.startsWith('digital')) return ProfileName.digital;
 	if (trimmed.startsWith('electrical')) return ProfileName.electrical;
 	if (trimmed.startsWith('control')) return ProfileName.control;

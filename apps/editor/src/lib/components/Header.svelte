@@ -4,16 +4,35 @@
 	import ExportButton from './ExportButton.svelte';
 	import SettingsButton from './SettingsButton.svelte';
 	import HelpMenu from './HelpMenu.svelte';
+	import type { ExportFormatId, HeaderActionId } from '@runiq/editor-core';
 
 	interface Props {
+		brandName?: string;
+		productName?: string;
+		logoSrc?: string;
+		headerActions?: readonly HeaderActionId[];
+		exportFormats?: readonly ExportFormatId[];
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
 	}
 
-	let { diagramName = 'Untitled Diagram', lastSaved = null, isDirty = false }: Props = $props();
+	let {
+		brandName = 'Runiq',
+		productName = 'Diagram Editor',
+		logoSrc = '/images/runiq.at.whiteboard.png',
+		headerActions = ['newDiagram', 'export', 'settings', 'help'],
+		exportFormats = ['svg', 'png'],
+		diagramName = 'Untitled Diagram',
+		lastSaved = null,
+		isDirty = false
+	}: Props = $props();
 
 	let showNewDiagramDialog = $state(false);
+	const showNewDiagram = headerActions.includes('newDiagram');
+	const showExport = headerActions.includes('export');
+	const showSettings = headerActions.includes('settings');
+	const showHelp = headerActions.includes('help');
 
 	// Actions
 	function handleNewDiagramClick() {
@@ -51,10 +70,10 @@
 >
 	<!-- Left: Logo & Brand -->
 	<div class="flex items-center gap-3">
-		<img src="/images/runiq.at.whiteboard.png" alt="Runiq" class="h-16 w-auto" />
+		<img src={logoSrc} alt={brandName} class="h-16 w-auto" />
 		<div class="flex flex-col">
-			<span class="text-lg leading-tight font-semibold text-neutral-800">Runiq</span>
-			<span class="text-xs text-neutral-500">Diagram Editor</span>
+			<span class="text-lg leading-tight font-semibold text-neutral-800">{brandName}</span>
+			<span class="text-xs text-neutral-500">{productName}</span>
 		</div>
 	</div>
 
@@ -85,19 +104,25 @@
 
 	<!-- Right: Actions -->
 	<div class="flex items-center gap-2">
-		<!-- New Diagram Button -->
-		<NewDiagramButton onclick={handleNewDiagramClick} />
+		{#if showNewDiagram}
+			<NewDiagramButton onclick={handleNewDiagramClick} />
+		{/if}
 
-		<!-- Export Button -->
-		<ExportButton />
+		{#if showExport}
+			<ExportButton formats={exportFormats} />
+		{/if}
 
-		<!-- Settings Button -->
-		<SettingsButton onclick={handleSettings} />
+		{#if showSettings}
+			<SettingsButton onclick={handleSettings} />
+		{/if}
 
-		<!-- Help Menu -->
-		<HelpMenu />
+		{#if showHelp}
+			<HelpMenu />
+		{/if}
 	</div>
 </header>
 
 <!-- New Diagram Dialog -->
-<NewDiagramDialog bind:open={showNewDiagramDialog} />
+{#if showNewDiagram}
+	<NewDiagramDialog bind:open={showNewDiagramDialog} />
+{/if}
