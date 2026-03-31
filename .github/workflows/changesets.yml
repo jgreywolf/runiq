@@ -1,18 +1,15 @@
-name: Changesets
+name: Validate Changesets
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - release
   workflow_dispatch:
 
 jobs:
-  version:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: write
-      pull-requests: write
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -34,11 +31,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create version PR
-        uses: changesets/action@v1
-        with:
-          version: pnpm version-packages
-          commit: Version packages
-          title: Version packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch main branch ref
+        run: git fetch origin main:main
+
+      - name: Validate changesets
+        run: pnpm changeset status --verbose
