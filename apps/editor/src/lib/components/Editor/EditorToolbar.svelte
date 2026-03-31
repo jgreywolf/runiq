@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { editorRefs, editorState, updateCode } from '$lib/state/editorState.svelte';
-	import { editorHostConfig } from '$lib/state/editorHostConfig';
-	import { getAvailableBaseThemes, getBaseTheme } from '@runiq/core';
+	import { editorRefs } from '$lib/state/editorState.svelte';
 
 	interface Props {
 		svgContainer?: HTMLDivElement | null;
@@ -10,40 +8,6 @@
 	}
 
 	let { svgContainer, svgOutput }: Props = $props();
-
-	let showThemeFlyout = $state(false);
-	const availableThemes = getAvailableBaseThemes();
-	const toolbarGroups = editorHostConfig.toolbarPreset.groups;
-	const showThemeTools = toolbarGroups.includes('theme');
-	const showExportTools = toolbarGroups.includes('export');
-	const showViewportTools = toolbarGroups.includes('viewport');
-
-	function handleChangeTheme() {
-		showThemeFlyout = !showThemeFlyout;
-	}
-
-	function applyTheme(themeId: string) {
-		// Get current code from editorState
-		const code = editorState.code || '';
-		const lines = code.split('\n');
-
-		if (lines.length === 0) return;
-
-		// Check if second line already has a theme
-		if (lines.length > 1 && lines[1].trim().startsWith('theme ')) {
-			lines[1] = `  theme ${themeId}`;
-		} else {
-			lines.splice(1, 0, `  theme ${themeId}`);
-		}
-
-		const newCode = lines.join('\n');
-
-		// Update the code using centralized updateCode function
-		// Pass true to add to history so theme changes can be undone
-		updateCode(newCode, true);
-
-		showThemeFlyout = false;
-	}
 
 	// Zoom handlers
 	function handleZoomIn() {
@@ -98,75 +62,31 @@
 
 <div class="toolbar-wrapper">
 	<div class="editor-toolbar">
-		{#if showThemeTools || showExportTools}
-			<div class="toolbar-section">
-				{#if showThemeTools}
-					<button class="toolbar-btn" onclick={handleChangeTheme} title="Change Theme" aria-label="Change Theme">
-						<Icon icon="lucide:palette" class="icon" />
-					</button>
-				{/if}
-
-				{#if showExportTools}
-					<button class="toolbar-btn" onclick={() => console.log('Export clicked')} title="Export Diagram" aria-label="Export">
-						<Icon icon="lucide:download" class="icon" />
-					</button>
-				{/if}
-			</div>
-
-			{#if showViewportTools}
-				<div class="toolbar-divider"></div>
-			{/if}
-		{/if}
-
-		<!-- Zoom Tools -->
-		{#if showViewportTools}
-			<div class="toolbar-section">
-				<button class="toolbar-btn" onclick={handleZoomIn} title="Zoom In" aria-label="Zoom In" disabled={!editorRefs.viewport}>
-					<Icon icon="lucide:zoom-in" class="icon" />
-				</button>
-				<button class="toolbar-btn" onclick={handleZoomOut} title="Zoom Out" aria-label="Zoom Out" disabled={!editorRefs.viewport}>
-					<Icon icon="lucide:zoom-out" class="icon" />
-				</button>
-
-				<button
-					class="toolbar-btn"
-					onclick={handleResetZoom}
-					title="Reset Zoom (100%)"
-					aria-label="Reset Zoom"
-					disabled={!editorRefs.viewport}>
-					<Icon icon="lucide:scan" class="icon" />
-				</button>
-
-				<button
-					class="toolbar-btn"
-					onclick={handleFitToScreen}
-					title="Fit to Screen"
-					aria-label="Fit to Screen"
-					disabled={!editorRefs.viewport}>
-					<Icon icon="lucide:maximize" class="size-5" />
-				</button>
-			</div>
-		{/if}
-	</div>
-
-	<!-- Theme Flyout -->
-	{#if showThemeTools && showThemeFlyout}
-		<div class="theme-flyout">
-			<div class="mb-1 px-2 py-1">
-				<h3 class="text-xs font-semibold text-neutral-700">Select Theme</h3>
-			</div>
-			{#each availableThemes as themeId}
-				{@const theme = getBaseTheme(themeId)}
-				<button
-					onclick={() => applyTheme(themeId)}
-					class="flex items-center gap-2 rounded px-2 py-1.5 text-left text-sm transition-colors hover:bg-neutral-100"
-					title={theme.description}>
-					<div class="h-4 w-4 rounded border border-neutral-300" style="background-color: {theme.primaryColor};"></div>
-					<span class="text-xs">{theme.name}</span>
-				</button>
-			{/each}
+		<div class="toolbar-section">
+			<button class="toolbar-btn" onclick={handleZoomIn} title="Zoom In" aria-label="Zoom In" disabled={!editorRefs.viewport}>
+				<Icon icon="lucide:zoom-in" class="icon" />
+			</button>
+			<button class="toolbar-btn" onclick={handleZoomOut} title="Zoom Out" aria-label="Zoom Out" disabled={!editorRefs.viewport}>
+				<Icon icon="lucide:zoom-out" class="icon" />
+			</button>
+			<button
+				class="toolbar-btn"
+				onclick={handleResetZoom}
+				title="Reset Zoom (100%)"
+				aria-label="Reset Zoom"
+				disabled={!editorRefs.viewport}>
+				<Icon icon="lucide:scan" class="icon" />
+			</button>
+			<button
+				class="toolbar-btn"
+				onclick={handleFitToScreen}
+				title="Fit to Screen"
+				aria-label="Fit to Screen"
+				disabled={!editorRefs.viewport}>
+				<Icon icon="lucide:maximize" class="size-5" />
+			</button>
 		</div>
-	{/if}
+	</div>
 </div>
 
 <style>
@@ -194,12 +114,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.25rem;
-	}
-
-	.toolbar-divider {
-		height: 1px;
-		background: hsl(var(--border));
-		margin: 0.5rem 0;
 	}
 
 	.toolbar-btn {
@@ -232,29 +146,5 @@
 	.toolbar-btn:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
-	}
-
-	.theme-flyout {
-		position: absolute;
-		left: 100%;
-		top: 0;
-		margin-left: 0.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		min-width: 180px;
-		max-height: 400px;
-		overflow-y: auto;
-		background: white;
-		border: 1px solid hsl(var(--border));
-		border-radius: 0.5rem;
-		padding: 0.5rem;
-		box-shadow:
-			0 4px 6px -1px rgb(0 0 0 / 0.1),
-			0 2px 4px -2px rgb(0 0 0 / 0.1);
-	}
-
-	:global(.theme-flyout button) {
-		width: 100%;
 	}
 </style>

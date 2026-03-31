@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "pnpm -r build",
-    "build:packages": "pnpm --filter './packages/**' build",
+    "build:packages": "pnpm -r --filter ./packages/* run build",
     "dev": "pnpm --filter runiq-editor dev",
     "dev:editor": "pnpm --filter runiq-editor dev",
     "docs:dev": "vitepress dev docs",
@@ -58,7 +58,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git"
+    "url": "https://github.com/quipolabs/runiq.git"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

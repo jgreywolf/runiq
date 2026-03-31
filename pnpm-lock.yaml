@@ -83,9 +83,6 @@ importers:
       '@runiq/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@runiq/editor-core':
-        specifier: workspace:*
-        version: link:../../packages/editor-core
       '@runiq/glyphsets':
         specifier: workspace:*
         version: link:../../packages/glyphsets
@@ -319,21 +316,6 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.19.20)
-
-  packages/editor-core:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.20
-      tsup:
-        specifier: ^8.0.2
-        version: 8.5.0(typescript@5.9.3)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.9.3
-      vitest:
-        specifier: ^1.2.2
         version: 1.6.1(@types/node@20.19.20)
 
   packages/export-bpmn:

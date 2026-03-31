@@ -3,7 +3,6 @@ import { brandIcons } from '@runiq/icons-brand';
 import { fontAwesome } from '@runiq/icons-fontawesome';
 import { iconify } from '@runiq/icons-iconify';
 import { ElkLayoutEngine } from '@runiq/layout-base';
-import { editorHostConfig, type EditorHostConfig } from './editorHostConfig';
 import { initializeEditor } from './editorState.svelte';
 
 let initialized = false;
@@ -11,8 +10,8 @@ let initialized = false;
 /**
  * One-time editor bootstrapping for shape/layout/icon registries and editor state.
  */
-export function bootstrapEditor(hostConfig: EditorHostConfig = editorHostConfig): EditorHostConfig {
-	if (initialized) return hostConfig;
+export function bootstrapEditor() {
+	if (initialized) return;
 
 	registerDefaultShapes();
 	layoutRegistry.register(new ElkLayoutEngine());
@@ -22,5 +21,4 @@ export function bootstrapEditor(hostConfig: EditorHostConfig = editorHostConfig)
 	initializeEditor();
 
 	initialized = true;
-	return hostConfig;
 }

@@ -16,7 +16,7 @@
 	import { glyphsetConversionDialogState, closeGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
 
 	// One-time app bootstrapping (registries + state init)
-	const appHost = bootstrapEditor();
+	bootstrapEditor();
 
 	// Local panel state
 	const panelSizes = $state({ ...DEFAULT_PANEL_SIZES });
@@ -33,15 +33,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="flex h-screen flex-col overflow-hidden bg-neutral-50" onkeydown={handleKeyDown}>
 	<!-- Header -->
-	<Header
-		brandName={appHost.brandName}
-		productName={appHost.productName}
-		logoSrc={appHost.logoSrc}
-		headerActions={appHost.headerPreset.actions}
-		exportFormats={appHost.exportPreset.formats}
-		diagramName={editorState.diagramName}
-		lastSaved={autoSave.lastSaved}
-		isDirty={editorState.isDirty} />
+	<Header diagramName={editorState.diagramName} lastSaved={autoSave.lastSaved} isDirty={editorState.isDirty} />
 
 	<!-- Welcome Banner (dismissible) -->
 	<WelcomeBanner />
@@ -58,7 +50,7 @@
 					panelSizes.toolbox = size;
 					savePanelSizes(panelSizes);
 				}}>
-				<Toolbox showSampleBrowser={appHost.toolboxPreset.showSampleBrowser} showShapeBrowser={appHost.toolboxPreset.showShapeBrowser} />
+				<Toolbox />
 			</Pane>
 			{#if editorState.showCodeEditor}
 				<PaneResizer class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500" />

@@ -1,16 +1,8 @@
 <script lang="ts">
 	import { handleExport } from '$lib/state/editorState.svelte';
 	import { onMount } from 'svelte';
-	import type { ExportFormatId } from '@runiq/editor-core';
-
-	interface Props {
-		formats?: readonly ExportFormatId[];
-	}
-
-	let { formats = ['svg', 'png'] }: Props = $props();
 
 	let showMenu = $state(false);
-	const exportFormats = formats;
 
 	function handleExportClick(format: 'svg' | 'png') {
 		showMenu = false;
@@ -53,34 +45,30 @@
 
 	{#if showMenu}
 		<div class="absolute top-full right-0 z-50 mt-1 w-40 rounded-md border border-neutral-200 bg-white shadow-lg">
-			{#if exportFormats.includes('svg')}
-				<button
-					onclick={() => handleExportClick('svg')}
-					class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-					</svg>
-					Export as SVG
-				</button>
-			{/if}
-			{#if exportFormats.includes('png')}
-				<button
-					onclick={() => handleExportClick('png')}
-					class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-					</svg>
-					Export as PNG
-				</button>
-			{/if}
+			<button
+				onclick={() => handleExportClick('svg')}
+				class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+				</svg>
+				Export as SVG
+			</button>
+			<button
+				onclick={() => handleExportClick('png')}
+				class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-50">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+				</svg>
+				Export as PNG
+			</button>
 		</div>
 	{/if}
 </div>

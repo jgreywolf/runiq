@@ -1,7 +1,7 @@
 {
   "name": "@runiq/io-json",
   "version": "0.1.0",
-  "description": "JSON ↔ AST conversion for Runiq",
+  "description": "JSON to AST conversion for Runiq",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -39,5 +39,13 @@
     "diagram"
   ],
   "author": "Runiq Team",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/runiq/runiq.git",
+    "directory": "packages/io-json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,38 +1,19 @@
 <script lang="ts">
+	import ExportButton from './ExportButton.svelte';
+	import HelpMenu from './HelpMenu.svelte';
 	import NewDiagramButton from './NewDiagramButton.svelte';
 	import NewDiagramDialog from './NewDiagramDialog.svelte';
-	import ExportButton from './ExportButton.svelte';
 	import SettingsButton from './SettingsButton.svelte';
-	import HelpMenu from './HelpMenu.svelte';
-	import type { ExportFormatId, HeaderActionId } from '@runiq/editor-core';
 
 	interface Props {
-		brandName?: string;
-		productName?: string;
-		logoSrc?: string;
-		headerActions?: readonly HeaderActionId[];
-		exportFormats?: readonly ExportFormatId[];
 		diagramName?: string;
 		lastSaved?: Date | null;
 		isDirty?: boolean;
 	}
 
-	let {
-		brandName = 'Runiq',
-		productName = 'Diagram Editor',
-		logoSrc = '/images/runiq.at.whiteboard.png',
-		headerActions = ['newDiagram', 'export', 'settings', 'help'],
-		exportFormats = ['svg', 'png'],
-		diagramName = 'Untitled Diagram',
-		lastSaved = null,
-		isDirty = false
-	}: Props = $props();
+	let { diagramName = 'Untitled Diagram', lastSaved = null, isDirty = false }: Props = $props();
 
 	let showNewDiagramDialog = $state(false);
-	const showNewDiagram = headerActions.includes('newDiagram');
-	const showExport = headerActions.includes('export');
-	const showSettings = headerActions.includes('settings');
-	const showHelp = headerActions.includes('help');
 
 	// Actions
 	function handleNewDiagramClick() {
@@ -44,11 +25,9 @@
 	}
 
 	function handleSettings() {
-		// TODO: Implement settings modal
 		console.log('Settings clicked');
 	}
 
-	// Format last saved time
 	function formatLastSaved(date: Date | null): string {
 		if (!date) return 'Not saved';
 
@@ -68,10 +47,10 @@
 <header class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm">
 	<!-- Left: Logo & Brand -->
 	<div class="flex items-center gap-3">
-		<img src={logoSrc} alt={brandName} class="h-16 w-auto" />
+		<img src="/images/runiq.at.whiteboard.png" alt="Runiq" class="h-16 w-auto" />
 		<div class="flex flex-col">
-			<span class="text-lg leading-tight font-semibold text-neutral-800">{brandName}</span>
-			<span class="text-xs text-neutral-500">{productName}</span>
+			<span class="text-lg leading-tight font-semibold text-neutral-800">Runiq</span>
+			<span class="text-xs text-neutral-500">Diagram Editor</span>
 		</div>
 	</div>
 
@@ -101,25 +80,17 @@
 
 	<!-- Right: Actions -->
 	<div class="flex items-center gap-2">
-		{#if showNewDiagram}
-			<NewDiagramButton onclick={handleNewDiagramClick} />
-		{/if}
+		<NewDiagramButton onclick={handleNewDiagramClick} />
 
-		{#if showExport}
-			<ExportButton formats={exportFormats} />
-		{/if}
+		<!-- Export Button -->
+		<ExportButton />
 
-		{#if showSettings}
-			<SettingsButton onclick={handleSettings} />
-		{/if}
+		<SettingsButton onclick={handleSettings} />
 
-		{#if showHelp}
-			<HelpMenu />
-		{/if}
+		<!-- Help Menu -->
+		<HelpMenu />
 	</div>
 </header>
 
 <!-- New Diagram Dialog -->
-{#if showNewDiagram}
-	<NewDiagramDialog bind:open={showNewDiagramDialog} />
-{/if}
+<NewDiagramDialog bind:open={showNewDiagramDialog} />
