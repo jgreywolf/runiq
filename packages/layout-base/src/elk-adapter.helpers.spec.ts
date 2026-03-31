@@ -573,7 +573,12 @@ describe('ElkLayoutEngine helper methods', () => {
     expect(engine.findLowestCommonAncestor('parent', 'child', nodeContainerMap)).toBe(
       'parent'
     );
+    expect(engine.findLowestCommonAncestor('parent', 'parent', nodeContainerMap)).toBe(
+      'parent'
+    );
     expect(engine.findLowestCommonAncestor(undefined, 'child', nodeContainerMap)).toBeNull();
+    expect(engine.findLowestCommonAncestor(undefined, undefined, nodeContainerMap)).toBeNull();
+    expect(engine.findLowestCommonAncestor('orphanA', 'orphanB', nodeContainerMap)).toBeNull();
 
     const elkGraph: any = {
       id: 'root',
@@ -593,6 +598,16 @@ describe('ElkLayoutEngine helper methods', () => {
     );
 
     expect(elkGraph.edges.length).toBeGreaterThan(0);
+
+    const fallbackGraph: any = {
+      id: 'root',
+      children: [],
+      edges: [],
+    };
+
+    engine.distributeEdges([{ from: 'A', to: 'B' }], fallbackGraph, nodeContainerMap);
+
+    expect(fallbackGraph.edges).toHaveLength(1);
   });
 
   it('finds elk nodes by id', () => {
