@@ -29,11 +29,7 @@ export function expandToLabeledHierarchy(code: string): ConversionResult {
 			continue;
 		}
 
-		if (
-			trimmed.match(
-				/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation)\s/
-			)
-		) {
+		if (trimmed.match(/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation)\s/)) {
 			newLines.push(line);
 			continue;
 		}
@@ -102,10 +98,7 @@ export function expandToLabeledHierarchy(code: string): ConversionResult {
  * Flatten labeledHierarchy by removing edge labels
  * Converts root + child with edge labels into flat list
  */
-export function flattenLabeledHierarchy(
-	code: string,
-	targetGlyphsetType: string
-): ConversionResult {
+export function flattenLabeledHierarchy(code: string, targetGlyphsetType: string): ConversionResult {
 	// Use shared parsing utilities
 	const parsed = parseGlyphsetDeclaration(code);
 	if (!parsed) {
@@ -137,9 +130,7 @@ export function flattenLabeledHierarchy(
 				const labelText = match[3];
 				// Special handling for pictureProcess
 				if (targetGlyphsetType.includes('picture')) {
-					newLines.push(
-						`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`
-					);
+					newLines.push(`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`);
 					imageCounter++;
 				} else {
 					newLines.push(`  ${targetKeyword} "${labelText}"`);
@@ -215,9 +206,7 @@ export function flattenTableHierarchy(code: string, targetGlyphsetType: string):
 				const labelText = match[2];
 				// Special handling for pictureProcess
 				if (targetGlyphsetType === 'pictureProcess') {
-					newLines.push(
-						`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`
-					);
+					newLines.push(`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`);
 					imageCounter++;
 				} else {
 					newLines.push(`  ${targetKeyword} "${labelText}"`);
@@ -227,11 +216,7 @@ export function flattenTableHierarchy(code: string, targetGlyphsetType: string):
 		}
 
 		// Keep parameters
-		if (
-			trimmed.match(
-				/^(theme|direction|columns|shape|showValues|showConnections|layout|orientation)\s/
-			)
-		) {
+		if (trimmed.match(/^(theme|direction|columns|shape|showValues|showConnections|layout|orientation)\s/)) {
 			newLines.push(line);
 			continue;
 		}

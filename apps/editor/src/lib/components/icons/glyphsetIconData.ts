@@ -133,4 +133,3 @@ export const glyphsetShapeIcons: Record<string, string> = {
 	framedPicture:
 		'<rect x="6" y="8" width="28" height="20" rx="1" fill="#E8E8E8" stroke="#333" stroke-width="0.8"/><circle cx="20" cy="18" r="6" fill="#8B9DC3"/><line x1="6" y1="30" x2="34" y2="30" stroke="#333" stroke-width="0.8"/><line x1="10" y1="32" x2="30" y2="32" stroke="#333" stroke-width="0.8"/>'
 };
-

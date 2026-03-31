@@ -27,8 +27,16 @@
     "circuit",
     "export"
   ],
-  "author": "",
+  "author": "Runiq Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/runiq/runiq.git",
+    "directory": "packages/export-verilog"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@runiq/core": "workspace:*"
   },

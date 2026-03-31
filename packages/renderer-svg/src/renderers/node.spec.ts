@@ -293,9 +293,92 @@ describe('renderNode', () => {
       // Should use explicit style, not theme
       expect(result).toBeTruthy();
     });
+
+    it('should honor fillColor/strokeColor aliases from named style over theme', () => {
+      const theme: DiagramTheme = {
+        nodeColors: ['#ff0000'],
+        edgeColor: '#333333',
+        textColor: '#ffffff',
+        backgroundColor: '#000000',
+      };
+
+      const nodeAst: NodeDeclaration = {
+        id: 'node1',
+        label: 'Test',
+        shape: 'rectangle',
+        style: 'customStyle',
+      };
+
+      const positioned: PositionedNode = {
+        id: 'node1',
+        x: 100,
+        y: 200,
+        width: 150,
+        height: 80,
+      };
+
+      const diagram: DiagramAst = {
+        type: 'diagram',
+        nodes: [nodeAst],
+        edges: [],
+        styles: {
+          customStyle: {
+            fillColor: '#00ff00',
+            strokeColor: '#0000ff',
+          },
+        },
+      };
+
+      const result = renderNode(
+        positioned,
+        diagram,
+        false,
+        warnings,
+        null,
+        theme,
+        0
+      );
+
+      expect(result).toContain('fill="#00ff00"');
+      expect(result).toContain('stroke="#0000ff"');
+      expect(result).not.toContain('fill="#ff0000"');
+    });
   });
 
   describe('Inline Style Properties', () => {
+    it('should apply stroke dasharray from style lineStyle', () => {
+      const nodeAst: NodeDeclaration = {
+        id: 'node1',
+        label: 'Test',
+        shape: 'rectangle',
+        style: 'dashedStyle',
+      };
+
+      const positioned: PositionedNode = {
+        id: 'node1',
+        x: 100,
+        y: 200,
+        width: 150,
+        height: 80,
+      };
+
+      const diagram: DiagramAst = {
+        type: 'diagram',
+        nodes: [nodeAst],
+        edges: [],
+        styles: {
+          dashedStyle: {
+            lineStyle: 'dashed' as any,
+            strokeColor: '#111111',
+          } as any,
+        },
+      };
+
+      const result = renderNode(positioned, diagram, false, warnings);
+      expect(result).toContain('stroke-dasharray="5,5"');
+      expect(result).toContain('stroke-dasharray="5,5" />');
+    });
+
     it('should apply fillColor from node data', () => {
       const nodeAst: NodeDeclaration = {
         id: 'node1',
@@ -320,6 +403,58 @@ describe('renderNode', () => {
       expect(result).toBeTruthy();
     });
 
+    it('should let inline fillColor override style and theme', () => {
+      const theme: DiagramTheme = {
+        nodeColors: ['#ff0000'],
+        edgeColor: '#333333',
+        textColor: '#ffffff',
+        backgroundColor: '#000000',
+      };
+
+      const nodeAst: NodeDeclaration = {
+        id: 'node1',
+        label: 'Test',
+        shape: 'rectangle',
+        style: 'customStyle',
+        data: {
+          fillColor: '#123456',
+        },
+      };
+
+      const positioned: PositionedNode = {
+        id: 'node1',
+        x: 100,
+        y: 200,
+        width: 150,
+        height: 80,
+      };
+
+      const diagram: DiagramAst = {
+        type: 'diagram',
+        nodes: [nodeAst],
+        edges: [],
+        styles: {
+          customStyle: {
+            fillColor: '#00ff00',
+          },
+        },
+      };
+
+      const result = renderNode(
+        positioned,
+        diagram,
+        false,
+        warnings,
+        null,
+        theme,
+        0
+      );
+
+      expect(result).toContain('fill="#123456"');
+      expect(result).not.toContain('fill="#00ff00"');
+      expect(result).not.toContain('fill="#ff0000"');
+    });
+
     it('should apply textColor from node data', () => {
       const nodeAst: NodeDeclaration = {
         id: 'node1',
@@ -341,7 +476,57 @@ describe('renderNode', () => {
       const diagram = createMinimalDiagram([nodeAst]);
       const result = renderNode(positioned, diagram, false, warnings);
 
-      expect(result).toBeTruthy();
+      expect(result).toContain('fill="#ffffff"');
+    });
+
+    it('should let inline textColor override style and theme', () => {
+      const theme: DiagramTheme = {
+        nodeColors: ['#ff0000'],
+        edgeColor: '#333333',
+        textColor: '#ffffff',
+        backgroundColor: '#000000',
+      };
+
+      const nodeAst: NodeDeclaration = {
+        id: 'node1',
+        label: 'Test',
+        shape: 'c4System',
+        style: 'customStyle',
+        data: {
+          textColor: '#ff00ff',
+        },
+      };
+
+      const positioned: PositionedNode = {
+        id: 'node1',
+        x: 100,
+        y: 200,
+        width: 150,
+        height: 80,
+      };
+
+      const diagram: DiagramAst = {
+        type: 'diagram',
+        nodes: [nodeAst],
+        edges: [],
+        styles: {
+          customStyle: {
+            textColor: '#00ff00',
+          },
+        },
+      };
+
+      const result = renderNode(
+        positioned,
+        diagram,
+        false,
+        warnings,
+        null,
+        theme,
+        0
+      );
+
+      expect(result).toContain('fill="#ff00ff"');
     });
 
     it('should apply strokeColor and strokeWidth from node data', () => {

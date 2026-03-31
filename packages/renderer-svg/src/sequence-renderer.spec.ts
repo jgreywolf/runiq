@@ -99,6 +99,27 @@ describe('Sequence Diagram Renderer', () => {
 
       expect(result.svg).toContain('class="participant-box"');
       expect(result.svg).toContain('class="participant-text"');
+      expect(result.svg).toContain('data-node-id="seq-participant-a"');
+    });
+  });
+
+  describe('Interaction metadata', () => {
+    it('adds selectable edge metadata to messages', () => {
+      const profile: SequenceProfile = {
+        type: 'sequence',
+        astVersion: '1.0',
+        title: 'Message Metadata',
+        participants: [
+          { id: 'a', name: 'A' },
+          { id: 'b', name: 'B' },
+        ],
+        messages: [{ from: 'a', to: 'b', label: 'Ping', type: 'sync' }],
+      };
+
+      const result = renderSequenceDiagram(profile);
+      expect(result.svg).toContain('data-edge-id="seq-message-0"');
+      expect(result.svg).toContain('data-edge-from="seq-participant-a"');
+      expect(result.svg).toContain('data-edge-to="seq-participant-b"');
     });
   });
 

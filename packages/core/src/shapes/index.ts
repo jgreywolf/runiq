@@ -98,6 +98,7 @@ export function registerControlSystemShapes(): void {
 
 export function registerSpecialShapes(): void {
   shapeRegistry.register(special.textBlockShape);
+  shapeRegistry.register(special.imageShape);
   shapeRegistry.register(special.braceLeftShape);
   shapeRegistry.register(special.braceRightShape);
   shapeRegistry.register(special.lightningBoltShape);

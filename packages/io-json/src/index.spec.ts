@@ -103,7 +103,7 @@ describe('io-json', () => {
         // Check that JSON is formatted (contains newlines)
         expect(result.data).toContain('\n');
         // Check indentation (2 spaces)
-        expect(result.data).toMatch(/  "astVersion"/);
+		expect(result.data).toMatch(/ {2}"astVersion"/);
       }
     });
 

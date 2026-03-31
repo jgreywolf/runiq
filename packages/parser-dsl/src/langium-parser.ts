@@ -22,6 +22,10 @@ import {
 import * as Langium from './generated/ast.js';
 import { expandGlyphSet, isGlyphSetProfile } from './glyphset-expander.js';
 import { createRuniqServices } from './langium-module.js';
+import {
+  enrichDiagnosticMessage,
+  enrichLexerDiagnosticMessage,
+} from './diagnostics/diagnostic-message.js';
 import { extractNodeLocations, unescapeString } from './utils/index.js';
 
 /**
@@ -77,18 +81,48 @@ export function parse(text: string): ParseResult {
         err.line !== undefined && err.column !== undefined
           ? ` at line ${err.line}, column ${err.column}`
           : '';
-      errors.push(`Lexer error${location}: ${err.message}`);
+      errors.push(
+        `Lexer error${location}: ${enrichLexerDiagnosticMessage(err.message, {
+          text,
+          lineOneBased: err.line,
+        })}`
+      );
     });
 
     parseResult.parserErrors.forEach((err) => {
-      const token = err.token;
+      const token = err.token as any;
+      const previousToken = (err as any).previousToken as any;
+      let line: number | undefined = token?.startLine;
+      let column: number | undefined = token?.startColumn;
+
+      // Common case: parser reports at first token of next line when the previous
+      // line is malformed (missing delimiter/property termination).
+      const canPreferPreviousLine =
+        previousToken &&
+        typeof previousToken.endLine === 'number' &&
+        typeof token?.startLine === 'number' &&
+        token.startLine > previousToken.endLine &&
+        typeof token.startColumn === 'number' &&
+        token.startColumn <= 3;
+
+      if (canPreferPreviousLine) {
+        line = previousToken.endLine;
+        column =
+          typeof previousToken.endColumn === 'number'
+            ? previousToken.endColumn
+            : previousToken.startColumn;
+      }
+
       const location =
-        token &&
-        token.startLine !== undefined &&
-        token.startColumn !== undefined
-          ? ` at line ${token.startLine}, column ${token.startColumn}`
+        line !== undefined && column !== undefined
+          ? ` at line ${line}, column ${column}`
           : '';
-      errors.push(`Parser error${location}: ${err.message}`);
+      const friendly = enrichDiagnosticMessage(err.message, {
+        text,
+        lineOneBased: line,
+        tokenImage: token?.image,
+      });
+      errors.push(`Parser error${location}: ${friendly}`);
     });
 
     return { success: false, errors, warnings: [], warningDetails: [] };

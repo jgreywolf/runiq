@@ -6,8 +6,7 @@
 		variants: {
 			variant: {
 				default: 'bg-primary text-primary-foreground [a&]:hover:bg-primary/90 border-transparent',
-				secondary:
-					'bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 border-transparent',
+				secondary: 'bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 border-transparent',
 				destructive:
 					'bg-destructive [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/70 border-transparent text-white',
 				outline: 'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground'
@@ -43,7 +42,6 @@
 	data-slot="badge"
 	{href}
 	class={cn(badgeVariants({ variant }), className)}
-	{...restProps}
->
+	{...restProps}>
 	{@render children?.()}
 </svelte:element>

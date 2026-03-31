@@ -46,8 +46,7 @@
 			await sharedServices.workspace.DocumentBuilder.build([langiumDoc], {});
 
 			// Get validation diagnostics
-			const validationDiagnostics =
-				await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
+			const validationDiagnostics = await langiumServices.validation.DocumentValidator.validateDocument(langiumDoc);
 
 			// Convert Langium diagnostics to CodeMirror format
 			for (const diagnostic of validationDiagnostics) {
@@ -85,12 +84,7 @@
 	}
 
 	// Extract quick-fix actions from diagnostic messages
-	function extractQuickFixes(
-		diagnostic: LangiumDiagnostic,
-		view: EditorView,
-		from: number,
-		to: number
-	): Action[] {
+	function extractQuickFixes(diagnostic: LangiumDiagnostic, view: EditorView, from: number, to: number): Action[] {
 		const actions: Action[] = [];
 		const message = diagnostic.message;
 
@@ -286,18 +280,12 @@
 				EditorView.updateListener.of((update) => {
 					if (update.docChanged) {
 						const newValue = update.state.doc.toString();
-						const isProgrammatic = update.transactions.some((tr: any) =>
-							tr.annotation(ProgrammaticChange)
-						);
+						const isProgrammatic = update.transactions.some((tr: any) => tr.annotation(ProgrammaticChange));
 						handleCodeChange(newValue, !isProgrammatic);
 
 						runiqLinter(update.view).then((diagnostics) => {
-							const errors = diagnostics
-								.filter((d) => d.severity === 'error')
-								.map((d) => d.message);
-							const warnings = diagnostics
-								.filter((d) => d.severity === 'warning')
-								.map((d) => d.message);
+							const errors = diagnostics.filter((d) => d.severity === 'error').map((d) => d.message);
+							const warnings = diagnostics.filter((d) => d.severity === 'warning').map((d) => d.message);
 							handleEditorErrors(errors);
 							handleEditorWarnings(warnings);
 						});
@@ -342,9 +330,7 @@
 			const lines = text.split('\n');
 
 			// Find the line with the comment
-			const commentLineIndex = lines.findIndex((line) =>
-				line.includes('// Add your shapes and connections here')
-			);
+			const commentLineIndex = lines.findIndex((line) => line.includes('// Add your shapes and connections here'));
 
 			if (commentLineIndex !== -1 && commentLineIndex + 1 < lines.length) {
 				// Position cursor at the start of the line after the comment

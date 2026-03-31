@@ -118,17 +118,10 @@ export const pidShapes: ShapeCategory[] = [...pidSyntaxShapeIcons];
 export const pedigreeShapes: ShapeCategory[] = [...pedigreeSyntaxShapeIcons];
 export const hydraulicShapes: ShapeCategory[] = [...hydraulicShapeIcons];
 export const pneumaticShapes: ShapeCategory[] = [...pneumaticShapeIcons];
-export const electricalShapes: ShapeCategory[] = [
-	...electricalShapeIcons,
-	...logicGateShapeIcons
-];
+export const electricalShapes: ShapeCategory[] = [...electricalShapeIcons, ...logicGateShapeIcons];
 export const controlShapes: ShapeCategory[] = [...controlShapeIcons];
 export const hvacShapes: ShapeCategory[] = [...hvacShapeIcons];
-export const digitalShapes: ShapeCategory[] = [
-	...digitalSyntaxShapeIcons,
-	...digitalLogicGateShapeIcons,
-	...digitalComponentShapeIcons
-];
+export const digitalShapes: ShapeCategory[] = [...digitalSyntaxShapeIcons, ...digitalLogicGateShapeIcons, ...digitalComponentShapeIcons];
 export const railroadShapes: ShapeCategory[] = [...railroadSyntaxShapeIcons];
 
 export const getShapeCategoryByProfile = (profileName: ProfileName): ShapeCategory[] => {

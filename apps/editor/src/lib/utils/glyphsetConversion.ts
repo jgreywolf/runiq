@@ -3,18 +3,10 @@
  * Handles keyword mapping and compatibility checking when switching between glyphset types
  */
 
-import {
-	getGlyphsetStructureType,
-	GlyphsetIds,
-	isGlyphsetId,
-	type GlyphsetId
-} from '@runiq/parser-dsl';
+import { getGlyphsetStructureType, GlyphsetIds, isGlyphsetId, type GlyphsetId } from '@runiq/parser-dsl';
 import { parameterRegEx } from './glyphsetConversion/constants';
 import { expandToGroupedProcess, flattenGroupedProcess } from './glyphsetConversion/groupedProcess';
-import {
-	expandToNestedStructure,
-	flattenNestedStructure
-} from './glyphsetConversion/levelConversions';
+import { expandToNestedStructure, flattenNestedStructure } from './glyphsetConversion/levelConversions';
 import { convertLine } from './glyphsetConversion/lineConversions';
 import { createParseError, parseGlyphsetDeclaration } from './glyphsetConversion/parsing';
 import type { ConversionResult } from './glyphsetConversion/types';
@@ -85,10 +77,7 @@ export function convertGlyphset(code: string, newType: string): ConversionResult
 		}
 		const isSuccess = conversionLines.length > 0;
 		if (!isSuccess) {
-			return createParseError(
-				code,
-				`Unknown error occurred while ${actionType} to ${newGlyphsetId}`
-			);
+			return createParseError(code, `Unknown error occurred while ${actionType} to ${newGlyphsetId}`);
 		}
 
 		newLines.push(...conversionLines);
@@ -105,12 +94,7 @@ export function convertGlyphset(code: string, newType: string): ConversionResult
 		const line = oldLines[i].trimEnd();
 
 		// Skip empty lines, comments, closing braces, and parameter lines
-		if (
-			!line ||
-			line.trim().startsWith('//') ||
-			line.trim().match(parameterRegEx) ||
-			line.trim() === '}'
-		) {
+		if (!line || line.trim().startsWith('//') || line.trim().match(parameterRegEx) || line.trim() === '}') {
 			continue;
 		}
 
@@ -168,3 +152,12 @@ export const getGlyphsetKeywords = (glyphsetId: GlyphsetId) => {
 	//titleBlock: ['level'],
 	// hub: ['spoke', 'center'],
 };
+
+export function getPrimaryKeyword(glyphsetType: string): string {
+	const glyphsetId = isGlyphsetId(glyphsetType);
+	if (!glyphsetId) {
+		return 'item';
+	}
+
+	return getGlyphsetKeywords(glyphsetId)[0] ?? 'item';
+}

@@ -42,8 +42,7 @@ diagram "Simple Mindmap" {
 			},
 			{
 				name: 'Styled Mindmap with Colors',
-				description:
-					'Custom colors override automatic styling - use when you need specific brand colors',
+				description: 'Custom colors override automatic styling - use when you need specific brand colors',
 				code: `// Styled Mindmap - Custom Color Overrides
 // Automatic colors are great, but you can still specify custom colors
 // when needed (e.g., for brand colors or specific themes)

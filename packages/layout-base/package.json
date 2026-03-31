@@ -33,7 +33,6 @@
   "devDependencies": {
     "@runiq/core": "workspace:*",
     "@runiq/parser-dsl": "workspace:*",
-    "@runiq/renderer-svg": "workspace:*",
     "@types/node": "^20.11.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
@@ -46,5 +45,13 @@
     "diagram"
   ],
   "author": "Runiq Team",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/runiq/runiq.git",
+    "directory": "packages/layout-base"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

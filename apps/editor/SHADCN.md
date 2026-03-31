@@ -110,12 +110,7 @@ The components will automatically use our brand colors from `app.css`:
 ```svelte
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import {
-		Accordion,
-		AccordionItem,
-		AccordionTrigger,
-		AccordionContent
-	} from '$lib/components/ui/accordion';
+	import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '$lib/components/ui/accordion';
 </script>
 
 <!-- Button with brand colors -->

@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { JsonDataSource, loadJsonData } from './json-data-source.js';
-import type { DataObject } from './types.js';
 
 describe('JsonDataSource', () => {
   const testDir = path.join(process.cwd(), '__test-data__');

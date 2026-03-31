@@ -364,9 +364,7 @@ All components can be customized with Tailwind classes:
 <Input class="focus-visible:ring-runiq-500" />
 
 <!-- Tab with brand active state -->
-<Tabs.Trigger class="data-[state=active]:bg-runiq-500 data-[state=active]:text-white">
-	Diagram 1
-</Tabs.Trigger>
+<Tabs.Trigger class="data-[state=active]:bg-runiq-500 data-[state=active]:text-white">Diagram 1</Tabs.Trigger>
 ```
 
 ---

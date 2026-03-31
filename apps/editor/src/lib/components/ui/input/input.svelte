@@ -5,8 +5,7 @@
 	type InputType = Exclude<HTMLInputTypeAttribute, 'file'>;
 
 	type Props = WithElementRef<
-		Omit<HTMLInputAttributes, 'type'> &
-			({ type: 'file'; files?: FileList } | { type?: InputType; files?: undefined })
+		Omit<HTMLInputAttributes, 'type'> & ({ type: 'file'; files?: FileList } | { type?: InputType; files?: undefined })
 	>;
 
 	let {
@@ -33,8 +32,7 @@
 		type="file"
 		bind:files
 		bind:value
-		{...restProps}
-	/>
+		{...restProps} />
 {:else}
 	<input
 		bind:this={ref}
@@ -47,6 +45,5 @@
 		)}
 		{type}
 		bind:value
-		{...restProps}
-	/>
+		{...restProps} />
 {/if}

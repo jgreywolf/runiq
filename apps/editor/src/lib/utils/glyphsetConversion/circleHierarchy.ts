@@ -34,9 +34,7 @@ export function flattenCircleHierarchy(code: string, targetGlyphsetType: string)
 			if (match) {
 				const labelText = match[3];
 				if (targetGlyphsetType === 'pictureProcess') {
-					newLines.push(
-						`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`
-					);
+					newLines.push(`  image "https://i.pravatar.cc/200?img=${imageCounter}" label "${labelText}"`);
 					imageCounter++;
 				} else {
 					newLines.push(`  ${targetKeyword} "${labelText}"`);
@@ -98,11 +96,7 @@ export function expandToCircleHierarchy(code: string): ConversionResult {
 			continue;
 		}
 
-		if (
-			trimmed.match(
-				/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation)\s/
-			)
-		) {
+		if (trimmed.match(/^(theme|direction|columns|shape|showValues|showPercentages|layout|orientation)\s/)) {
 			newLines.push(line);
 			continue;
 		}

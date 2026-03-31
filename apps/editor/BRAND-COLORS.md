@@ -11,12 +11,10 @@ This is a professional, trustworthy blue-gray that works well for technical/deve
 ### Runiq Blue Scale (Primary)
 
 ```css
---runiq-50: #f0f5f8 /* Lightest - backgrounds */ --runiq-100: #dce8ef
-	/* Very light - hover states */ --runiq-200: #b9d1df /* Light - borders */ --runiq-300: #96bacf
-	/* Medium light */ --runiq-400: #73a3bf /* Medium */ --runiq-500: #5a819e
-	/* PRIMARY BRAND COLOR */ --runiq-600: #48677e /* Medium dark - text */ --runiq-700: #364d5f
-	/* Dark - headings */ --runiq-800: #24333f /* Very dark */ --runiq-900: #121a20
-	/* Darkest - backgrounds (dark mode) */;
+--runiq-50: #f0f5f8 /* Lightest - backgrounds */ --runiq-100: #dce8ef /* Very light - hover states */ --runiq-200: #b9d1df
+	/* Light - borders */ --runiq-300: #96bacf /* Medium light */ --runiq-400: #73a3bf /* Medium */ --runiq-500: #5a819e
+	/* PRIMARY BRAND COLOR */ --runiq-600: #48677e /* Medium dark - text */ --runiq-700: #364d5f /* Dark - headings */ --runiq-800: #24333f
+	/* Very dark */ --runiq-900: #121a20 /* Darkest - backgrounds (dark mode) */;
 ```
 
 ### Semantic Colors
@@ -50,18 +48,17 @@ This is a professional, trustworthy blue-gray that works well for technical/deve
 **Light Mode**:
 
 ```css
---neutral-50: #f9fafb /* Page background */ --neutral-100: #f3f4f6 /* Panel backgrounds */
-	--neutral-200: #e5e7eb /* Borders */ --neutral-300: #d1d5db /* Disabled states */
-	--neutral-400: #9ca3af /* Placeholder text */ --neutral-500: #6b7280 /* Secondary text */
-	--neutral-600: #4b5563 /* Body text */ --neutral-700: #374151 /* Headings */
-	--neutral-800: #1f2937 --neutral-900: #111827 /* Darkest text */;
+--neutral-50: #f9fafb /* Page background */ --neutral-100: #f3f4f6 /* Panel backgrounds */ --neutral-200: #e5e7eb /* Borders */
+	--neutral-300: #d1d5db /* Disabled states */ --neutral-400: #9ca3af /* Placeholder text */ --neutral-500: #6b7280 /* Secondary text */
+	--neutral-600: #4b5563 /* Body text */ --neutral-700: #374151 /* Headings */ --neutral-800: #1f2937 --neutral-900: #111827
+	/* Darkest text */;
 ```
 
 **Dark Mode**:
 
 ```css
---dark-bg: #0f1419 /* Page background */ --dark-panel: #1a1f26 /* Panel backgrounds */
-	--dark-border: #2d3748 /* Borders */ --dark-text: #e2e8f0 /* Primary text */;
+--dark-bg: #0f1419 /* Page background */ --dark-panel: #1a1f26 /* Panel backgrounds */ --dark-border: #2d3748 /* Borders */
+	--dark-text: #e2e8f0 /* Primary text */;
 ```
 
 ## Usage Examples

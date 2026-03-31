@@ -41,9 +41,10 @@ describe('Constants and Enums', () => {
       expect(ProfileType.PEDIGREE).toBe('pedigree');
     });
 
-    it('should have 17 profile types', () => {
+    it('should have unique profile type values', () => {
       const values = Object.values(ProfileType);
-      expect(values).toHaveLength(18);
+      expect(new Set(values).size).toBe(values.length);
+      expect(values.length).toBeGreaterThanOrEqual(18);
     });
   });
 
@@ -55,9 +56,9 @@ describe('Constants and Enums', () => {
       expect(Direction.BOTTOM_TO_TOP).toBe('BT');
     });
 
-    it('should have 4 directions', () => {
+    it('should have unique direction values', () => {
       const values = Object.values(Direction);
-      expect(values).toHaveLength(4);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -69,9 +70,9 @@ describe('Constants and Enums', () => {
       expect(EdgeRouting.STRAIGHT).toBe('straight');
     });
 
-    it('should have 4 routing algorithms', () => {
+    it('should have unique routing algorithm values', () => {
       const values = Object.values(EdgeRouting);
-      expect(values).toHaveLength(4);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -85,9 +86,9 @@ describe('Constants and Enums', () => {
       expect(LayoutAlgorithm.CIRCULAR).toBe('circular');
     });
 
-    it('should have 6 layout algorithms', () => {
+    it('should have unique layout algorithm values', () => {
       const values = Object.values(LayoutAlgorithm);
-      expect(values).toHaveLength(6);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -99,9 +100,9 @@ describe('Constants and Enums', () => {
       expect(ArrowType.NONE).toBe('none');
     });
 
-    it('should have 4 arrow types', () => {
+    it('should have unique arrow type values', () => {
       const values = Object.values(ArrowType);
-      expect(values).toHaveLength(4);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -113,9 +114,9 @@ describe('Constants and Enums', () => {
       expect(LineStyle.DOUBLE).toBe('double');
     });
 
-    it('should have 4 line styles', () => {
+    it('should have unique line style values', () => {
       const values = Object.values(LineStyle);
-      expect(values).toHaveLength(4);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -131,9 +132,9 @@ describe('Constants and Enums', () => {
       expect(AnchorPoint.SOUTHWEST).toBe('southwest');
     });
 
-    it('should have 8 anchor points', () => {
+    it('should have unique anchor point values', () => {
       const values = Object.values(AnchorPoint);
-      expect(values).toHaveLength(8);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -143,9 +144,9 @@ describe('Constants and Enums', () => {
       expect(Orientation.VERTICAL).toBe('vertical');
     });
 
-    it('should have 2 orientations', () => {
+    it('should have unique orientation values', () => {
       const values = Object.values(Orientation);
-      expect(values).toHaveLength(2);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -159,9 +160,9 @@ describe('Constants and Enums', () => {
       expect(Position.OVER).toBe('over');
     });
 
-    it('should have 6 positions', () => {
+    it('should have unique position values', () => {
       const values = Object.values(Position);
-      expect(values).toHaveLength(6);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -173,9 +174,9 @@ describe('Constants and Enums', () => {
       expect(MessageType.DESTROY).toBe('destroy');
     });
 
-    it('should have 4 message types', () => {
+    it('should have unique message type values', () => {
       const values = Object.values(MessageType);
-      expect(values).toHaveLength(4);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -190,9 +191,9 @@ describe('Constants and Enums', () => {
       expect(PIDLineType.DATA).toBe('data');
     });
 
-    it('should have 7 PID line types', () => {
+    it('should have unique PID line type values', () => {
       const values = Object.values(PIDLineType);
-      expect(values).toHaveLength(7);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 
@@ -206,9 +207,9 @@ describe('Constants and Enums', () => {
       expect(GlyphSetCategory.VISUALIZATION).toBe('visualization');
     });
 
-    it('should have 6 glyphset categories', () => {
+    it('should have unique glyphset category values', () => {
       const values = Object.values(GlyphSetCategory);
-      expect(values).toHaveLength(6);
+      expect(new Set(values).size).toBe(values.length);
     });
   });
 

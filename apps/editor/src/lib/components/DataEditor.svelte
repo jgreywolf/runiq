@@ -75,8 +75,7 @@
 				from: 0,
 				to: text.length,
 				severity: 'error',
-				message:
-					'Mixed JSON and CSV content detected. Please use either JSON or CSV format, not both.'
+				message: 'Mixed JSON and CSV content detected. Please use either JSON or CSV format, not both.'
 			});
 		}
 
@@ -207,18 +206,11 @@
 		<button
 			type="button"
 			onclick={triggerFileUpload}
-			class="inline-flex items-center gap-2 rounded-md bg-runiq-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-runiq-600 focus:ring-2 focus:ring-runiq-500 focus:ring-offset-2 focus:outline-none"
-		>
+			class="inline-flex items-center gap-2 rounded-md bg-runiq-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-runiq-600 focus:ring-2 focus:ring-runiq-500 focus:ring-offset-2 focus:outline-none">
 			<Icon icon="lucide:upload" class="h-4 w-4" />
 			Upload JSON/CSV
 		</button>
-		<input
-			bind:this={fileInput}
-			type="file"
-			accept=".json,.csv"
-			onchange={handleFileUpload}
-			class="hidden"
-		/>
+		<input bind:this={fileInput} type="file" accept=".json,.csv" onchange={handleFileUpload} class="hidden" />
 	</div>
 
 	<!-- Editor -->

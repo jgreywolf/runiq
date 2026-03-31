@@ -4,6 +4,7 @@
 // REFACTORED: Now using symbol-utils.ts for common rendering patterns
 // Reduction: 714 lines → 433 lines (39% reduction)
 
+import { Position } from '@runiq/core';
 import { createSymbol } from '../symbol.ts';
 import {
   renderCircleBody,
@@ -35,7 +36,7 @@ export const pumpFixed = createSymbol(
     return `
       ${renderCircleBody(cx, cy, radius)}
       ${renderClockwiseArrow(cx, cy)}
-      ${renderFixedDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderFixedDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
     `;
   }
@@ -60,7 +61,7 @@ export const pumpVariable = createSymbol(
     return `
       ${renderCircleBody(cx, cy, radius)}
       ${renderClockwiseArrow(cx, cy)}
-      ${renderVariableDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderVariableDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
       ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 2 })}
     `;
@@ -86,7 +87,7 @@ export const pumpGear = createSymbol(
       ${renderCircleBody(cx, cy, radius)}
       ${renderClockwiseArrow(cx, cy)}
       ${renderGearTeeth(cx, cy, radius)}
-      ${renderFixedDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderFixedDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
     `;
   }
@@ -117,7 +118,7 @@ export const pumpVane = createSymbol(
       <line x1="${cx - 7}" y1="${cy - 7}" x2="${cx + 7}" y2="${cy + 7}" stroke="currentColor" stroke-width="1.5"/>
       <line x1="${cx - 7}" y1="${cy + 7}" x2="${cx + 7}" y2="${cy - 7}" stroke="currentColor" stroke-width="1.5"/>
 
-      ${renderFixedDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderFixedDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
     `;
   }
@@ -147,7 +148,7 @@ export const pumpPistonAxial = createSymbol(
       <line x1="${cx}" y1="${cy}" x2="${cx + 6}" y2="${cy - 6}" stroke="currentColor" stroke-width="2"/>
       <line x1="${cx + 8}" y1="${cy}" x2="${cx + 2}" y2="${cy + 8}" stroke="currentColor" stroke-width="2"/>
 
-      ${renderFixedDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderFixedDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
     `;
   }
@@ -179,7 +180,7 @@ export const pumpPistonRadial = createSymbol(
       <line x1="${cx}" y1="${cy}" x2="${cx - 10}" y2="${cy}" stroke="currentColor" stroke-width="2"/>
       <circle cx="${cx}" cy="${cy}" r="3" fill="currentColor"/>
 
-      ${renderFixedDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderFixedDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
     `;
   }
@@ -210,7 +211,7 @@ export const pumpScrew = createSymbol(
       <path d="M ${cx - 10},${cy + 6} Q ${cx - 5},${cy + 2} ${cx},${cy + 6} Q ${cx + 5},${cy + 10} ${cx + 10},${cy + 6}"
         stroke="currentColor" stroke-width="1.5" fill="none"/>
 
-      ${renderFixedDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderFixedDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
     `;
   }
@@ -243,7 +244,7 @@ export const pumpHand = createSymbol(
         stroke="currentColor" stroke-width="3"/>
       <circle cx="${cx + 10}" cy="${cy - radius - 12}" r="3" fill="currentColor"/>
 
-      ${renderFixedDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderFixedDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
     `;
   }
@@ -274,7 +275,7 @@ export const pumpPistonVariable = createSymbol(
       <line x1="${cx}" y1="${cy}" x2="${cx + 6}" y2="${cy - 6}" stroke="currentColor" stroke-width="2"/>
       <line x1="${cx + 8}" y1="${cy}" x2="${cx + 2}" y2="${cy + 8}" stroke="currentColor" stroke-width="2"/>
 
-      ${renderVariableDisplacementIndicator(cx, cy, radius, 'left')}
+      ${renderVariableDisplacementIndicator(cx, cy, radius, Position.LEFT)}
       ${renderHorizontalConnectionLines(cx, cy, radius)}
       ${renderConnectionLine(cx, cy - radius, cx, cy - radius - 7, { strokeWidth: 2 })}
     `;

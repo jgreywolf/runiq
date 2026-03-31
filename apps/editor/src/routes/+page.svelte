@@ -9,14 +9,11 @@
 	import EmptyPreview from '$lib/components/EmptyPreview.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import VisualCanvas from '$lib/components/VisualCanvas.svelte';
-	import { autoSave, editorRefs, editorState, handleKeyDown, handleReplaceGlyphset } from '$lib/state/editorState.svelte';
+	import { autoSave, editorRefs, editorState, handleKeyDown } from '$lib/state/editorState.svelte';
 	import { bootstrapEditor } from '$lib/state/editorBootstrap';
 	import { DEFAULT_PANEL_SIZES, loadPanelSizes, savePanelSizes } from '$lib/state/panelLayout.svelte';
 	import GlyphsetConversionDialog from '$lib/components/GlyphsetConversionDialog.svelte';
-	import {
-		glyphsetConversionDialogState,
-		closeGlyphsetConversionDialog
-	} from '$lib/state/glyphsetConversionDialog.svelte';
+	import { glyphsetConversionDialogState, closeGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
 
 	// One-time app bootstrapping (registries + state init)
 	bootstrapEditor();
@@ -36,11 +33,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="flex h-screen flex-col overflow-hidden bg-neutral-50" onkeydown={handleKeyDown}>
 	<!-- Header -->
-	<Header
-		diagramName={editorState.diagramName}
-		lastSaved={autoSave.lastSaved}
-		isDirty={editorState.isDirty}
-	/>
+	<Header diagramName={editorState.diagramName} lastSaved={autoSave.lastSaved} isDirty={editorState.isDirty} />
 
 	<!-- Welcome Banner (dismissible) -->
 	<WelcomeBanner />
@@ -56,14 +49,11 @@
 				onResize={(size) => {
 					panelSizes.toolbox = size;
 					savePanelSizes(panelSizes);
-				}}
-			>
+				}}>
 				<Toolbox />
 			</Pane>
 			{#if editorState.showCodeEditor}
-				<PaneResizer
-					class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
-				/>
+				<PaneResizer class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500" />
 
 				<!-- Center Panel: Code Editor (40% default) -->
 				<Pane
@@ -73,8 +63,7 @@
 					onResize={(size) => {
 						panelSizes.editor = size;
 						savePanelSizes(panelSizes);
-					}}
-				>
+					}}>
 					<div class="flex h-full flex-col bg-white">
 						<div class="border-b border-runiq-200 bg-runiq-500 px-4 py-3">
 							<h2 class="text-sm font-semibold text-white">Editor</h2>
@@ -82,12 +71,8 @@
 						<div class="flex flex-1 flex-col overflow-hidden">
 							<Tabs.Root bind:value={editorState.activeTab} class="flex flex-1 flex-col">
 								<Tabs.List class="border-b border-neutral-200 bg-neutral-50 px-2">
-									<Tabs.Trigger value="syntax" class="px-4 py-2 text-sm font-medium">
-										Syntax
-									</Tabs.Trigger>
-									<Tabs.Trigger value="data" class="px-4 py-2 text-sm font-medium"
-										>Data</Tabs.Trigger
-									>
+									<Tabs.Trigger value="syntax" class="px-4 py-2 text-sm font-medium">Syntax</Tabs.Trigger>
+									<Tabs.Trigger value="data" class="px-4 py-2 text-sm font-medium">Data</Tabs.Trigger>
 								</Tabs.List>
 								<Tabs.Content value="syntax" class="flex-1 overflow-hidden">
 									<CodeEditor bind:this={editorRefs.code} value={editorState.code} />
@@ -100,9 +85,7 @@
 					</div>
 				</Pane>
 
-				<PaneResizer
-					class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500"
-				/>
+				<PaneResizer class="w-1 bg-neutral-300 transition-colors hover:bg-runiq-400 active:bg-runiq-500" />
 			{/if}
 
 			<!-- Right Panel: Visual Editor (40% default) -->
@@ -112,18 +95,14 @@
 				onResize={(size) => {
 					panelSizes.preview = size;
 					savePanelSizes(panelSizes);
-				}}
-			>
+				}}>
 				<div class="flex h-full flex-col border-l border-neutral-300 bg-neutral-50">
-					<div
-						class="flex items-center justify-between border-b border-runiq-200 bg-runiq-500 px-4 py-3"
-					>
+					<div class="flex items-center justify-between border-b border-runiq-200 bg-runiq-500 px-4 py-3">
 						<h2 class="text-sm font-semibold text-white">Preview</h2>
 						<button
 							onclick={() => (editorState.showCodeEditor = !editorState.showCodeEditor)}
 							class="rounded bg-runiq-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-runiq-700"
-							title={editorState.showCodeEditor ? 'Hide code editor' : 'Show code editor'}
-						>
+							title={editorState.showCodeEditor ? 'Hide code editor' : 'Show code editor'}>
 							{editorState.showCodeEditor ? 'Hide Code' : 'Show Code'}
 						</button>
 					</div>
@@ -148,8 +127,5 @@
 	fromType={glyphsetConversionDialogState.fromType}
 	toType={glyphsetConversionDialogState.toType}
 	reason={glyphsetConversionDialogState.reason}
-	alternatives={glyphsetConversionDialogState.alternatives}
 	canConvert={glyphsetConversionDialogState.canConvert}
-	onSelectAlternative={handleReplaceGlyphset}
-	onCancel={closeGlyphsetConversionDialog}
-/>
+	onCancel={closeGlyphsetConversionDialog} />
