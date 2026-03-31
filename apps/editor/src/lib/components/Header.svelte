@@ -3,7 +3,6 @@
 	import HelpMenu from './HelpMenu.svelte';
 	import NewDiagramButton from './NewDiagramButton.svelte';
 	import NewDiagramDialog from './NewDiagramDialog.svelte';
-	import SettingsButton from './SettingsButton.svelte';
 
 	interface Props {
 		diagramName?: string;
@@ -47,7 +46,7 @@
 <header class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm">
 	<!-- Left: Logo & Brand -->
 	<div class="flex items-center gap-3">
-		<img src="/images/runiq.at.whiteboard.png" alt="Runiq" class="h-16 w-auto" />
+		<img src="/images/runiq.icon.png" alt="Runiq" class="h-16 w-auto" />
 		<div class="flex flex-col">
 			<span class="text-lg leading-tight font-semibold text-neutral-800">Runiq</span>
 			<span class="text-xs text-neutral-500">Diagram Editor</span>
@@ -57,24 +56,8 @@
 	<!-- Center: Diagram Name & Save Status -->
 	<div class="flex items-center gap-4">
 		<div class="flex flex-col items-center">
-			<input
-				type="text"
-				value={diagramName}
-				class="border-b border-transparent bg-transparent px-2 py-1 text-center text-sm font-medium text-neutral-800 transition-colors outline-none hover:border-neutral-300 focus:border-runiq-500"
-				placeholder="Diagram name" />
-			<span class="text-xs text-neutral-500">
-				{#if isDirty}
-					<span class="inline-flex items-center gap-1">
-						<span class="h-1.5 w-1.5 rounded-full bg-warning"></span>
-						Unsaved changes
-					</span>
-				{:else}
-					<span class="inline-flex items-center gap-1">
-						<span class="h-1.5 w-1.5 rounded-full bg-success"></span>
-						{formatLastSaved(lastSaved)}
-					</span>
-				{/if}
-			</span>
+			<!-- New Diagram Dialog -->
+			<NewDiagramDialog bind:open={showNewDiagramDialog} />
 		</div>
 	</div>
 
@@ -85,12 +68,7 @@
 		<!-- Export Button -->
 		<ExportButton />
 
-		<SettingsButton onclick={handleSettings} />
-
 		<!-- Help Menu -->
 		<HelpMenu />
 	</div>
 </header>
-
-<!-- New Diagram Dialog -->
-<NewDiagramDialog bind:open={showNewDiagramDialog} />
