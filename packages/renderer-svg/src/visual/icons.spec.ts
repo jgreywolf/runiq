@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { renderAndSetup } from './utils';
 
 test.describe('Visual Regression - Icon Tests', () => {
@@ -57,9 +57,9 @@ diagram "Inline Icon Syntax" {
   test('should render icon with custom colors', async ({ page }) => {
     const dsl = `
 diagram "Colored Icons" {
-  shape node1 as @rectangle label:"Node 1" icon:fa/heart fill:"#ec4899" strokeColor:"#db2777"
-  shape node2 as @rectangle label:"Node 2" icon:fa/star fill:"#f59e0b" strokeColor:"#d97706"
-  shape node3 as @rectangle label:"Node 3" icon:fa/check fill:"#10b981" strokeColor:"#059669"
+  shape node1 as @rectangle label:"Node 1" icon:fa/heart fillColor:"#ec4899" strokeColor:"#db2777"
+  shape node2 as @rectangle label:"Node 2" icon:fa/star fillColor:"#f59e0b" strokeColor:"#d97706"
+  shape node3 as @rectangle label:"Node 3" icon:fa/check fillColor:"#10b981" strokeColor:"#059669"
   
   node1 -to-> node2
   node2 -to-> node3

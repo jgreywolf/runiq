@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { renderAndSetup } from './utils';
 
 test.describe('Visual Regression - Mindmap Tests', () => {
@@ -84,10 +84,10 @@ diagram "Mindmap with Shapes" {
     const dsl = `
 diagram "Colored Mindmap" {
   container "Mindmap" type:mindmap algorithm:radial spacing:85 {
-    shape core as @circle label:"Core" fill:"#6366f1" strokeColor:"#4338ca" strokeWidth:3
-    shape topic1 as @roundedRectangle label:"Topic 1" fill:"#10b981" strokeColor:"#059669" strokeWidth:2
-    shape topic2 as @roundedRectangle label:"Topic 2" fill:"#3b82f6" strokeColor:"#2563eb" strokeWidth:2
-    shape topic3 as @roundedRectangle label:"Topic 3" fill:"#f59e0b" strokeColor:"#d97706" strokeWidth:2
+    shape core as @circle label:"Core" fillColor:"#6366f1" strokeColor:"#4338ca" strokeWidth:3
+    shape topic1 as @roundedRectangle label:"Topic 1" fillColor:"#10b981" strokeColor:"#059669" strokeWidth:2
+    shape topic2 as @roundedRectangle label:"Topic 2" fillColor:"#3b82f6" strokeColor:"#2563eb" strokeWidth:2
+    shape topic3 as @roundedRectangle label:"Topic 3" fillColor:"#f59e0b" strokeColor:"#d97706" strokeWidth:2
     
     core -to-> topic1
     core -to-> topic2

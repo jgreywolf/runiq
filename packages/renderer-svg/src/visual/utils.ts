@@ -51,7 +51,7 @@ export async function renderDiagram(dslCode: string): Promise<string> {
   const layout = await layoutEngine.layout(parseResult.diagram, {});
 
   // Render to SVG
-  const result = renderSvg(parseResult.diagram, layout);
+  const result = renderSvg(parseResult.diagram, layout, { theme: 'professional' });
   return result.svg;
 }
 
