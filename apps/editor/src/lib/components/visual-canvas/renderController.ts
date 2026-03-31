@@ -1,10 +1,6 @@
 import type { RenderResult } from './renderingUtils';
 
-type RenderDiagramFn = (
-	code: string,
-	dataContent: string,
-	layoutEngine: string
-) => Promise<RenderResult>;
+type RenderDiagramFn = (code: string, dataContent: string, layoutEngine: string) => Promise<RenderResult>;
 
 interface RenderLifecycleOptions {
 	dslCode: string;
@@ -19,17 +15,7 @@ interface RenderLifecycleOptions {
 }
 
 export async function runRenderCycle(options: RenderLifecycleOptions): Promise<void> {
-	const {
-		dslCode,
-		dataContent,
-		layoutEngine,
-		renderDiagram,
-		onEmpty,
-		onStart,
-		onSuccess,
-		onError,
-		onComplete
-	} = options;
+	const { dslCode, dataContent, layoutEngine, renderDiagram, onEmpty, onStart, onSuccess, onError, onComplete } = options;
 
 	if (!dslCode.trim()) {
 		onEmpty();
@@ -50,10 +36,7 @@ export async function runRenderCycle(options: RenderLifecycleOptions): Promise<v
 	}
 }
 
-export function createDebouncedRunner<TArgs extends unknown[]>(
-	delayMs: number,
-	callback: (...args: TArgs) => void
-) {
+export function createDebouncedRunner<TArgs extends unknown[]>(delayMs: number, callback: (...args: TArgs) => void) {
 	let timer: ReturnType<typeof setTimeout> | undefined;
 
 	return {

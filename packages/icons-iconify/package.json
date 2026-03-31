@@ -42,5 +42,13 @@
     "svg"
   ],
   "author": "Runiq Team",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/runiq/runiq.git",
+    "directory": "packages/icons-iconify"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

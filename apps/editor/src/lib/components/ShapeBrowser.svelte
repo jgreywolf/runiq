@@ -2,18 +2,12 @@
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { getShapeCategoryByProfile } from '$lib/data/toolbox-data';
-	import {
-		editorState,
-		handleInsertShape,
-		handleReplaceGlyphset
-	} from '$lib/state/editorState.svelte';
+	import { editorState, handleInsertShape, handleReplaceGlyphset } from '$lib/state/editorState.svelte';
 	import { ProfileName } from '$lib/types';
 	import Icon from '@iconify/svelte';
 	import ShapeIcon from './ShapeIcon.svelte';
 
-	const categories = $derived(
-		editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []
-	);
+	const categories = $derived(editorState.profileName ? getShapeCategoryByProfile(editorState.profileName) : []);
 
 	let searchQuery = $state('');
 	let expandedCategories = $state<string[]>([]);
@@ -28,10 +22,7 @@
 		return categories
 			.map((category) => ({
 				...category,
-				shapes: category.shapes.filter(
-					(shape) =>
-						shape.id.toLowerCase().includes(query) || shape.label.toLowerCase().includes(query)
-				)
+				shapes: category.shapes.filter((shape) => shape.id.toLowerCase().includes(query) || shape.label.toLowerCase().includes(query))
 			}))
 			.filter((category) => category.shapes.length > 0);
 	});
@@ -56,9 +47,7 @@
 	}
 
 	// Determine search placeholder text
-	const itemLabelPlural = $derived(
-		editorState.profileName === ProfileName.glyphset ? 'glyphsets' : 'shapes'
-	);
+	const itemLabelPlural = $derived(editorState.profileName === ProfileName.glyphset ? 'glyphsets' : 'shapes');
 </script>
 
 <div class="flex h-full flex-col">
@@ -70,8 +59,7 @@
 				type="text"
 				placeholder="Search shapes..."
 				bind:value={searchQuery}
-				class="w-full rounded-md border border-neutral-300 py-2 pr-3 pl-9 text-sm ring-runiq-500 outline-none focus:border-runiq-500 focus:ring-1"
-			/>
+				class="w-full rounded-md border border-neutral-300 py-2 pr-3 pl-9 text-sm ring-runiq-500 outline-none focus:border-runiq-500 focus:ring-1" />
 		</div>
 		{#if searchQuery.trim()}
 			<div class="mt-2 text-xs text-gray-500">
@@ -86,34 +74,24 @@
 		<Accordion.Root type="multiple" bind:value={expandedCategories} class="w-full px-2">
 			{#each filteredCategories as category (category.id)}
 				<Accordion.Item value={category.id} class="border-none">
-					<Accordion.Trigger
-						class="flex w-full items-center gap-2 rounded px-2 py-2 text-sm font-medium hover:bg-neutral-100"
-					>
+					<Accordion.Trigger class="flex w-full items-center gap-2 rounded px-2 py-2 text-sm font-medium hover:bg-neutral-100">
 						<div class="flex min-w-0 flex-1 items-center gap-2">
 							<span class="min-w-0 flex-1 truncate">{category.label}</span>
-							<span class="w-10 text-right text-xs text-gray-500 tabular-nums"
-								>({category.shapes.length})</span
-							>
+							<span class="w-10 text-right text-xs text-gray-500 tabular-nums">({category.shapes.length})</span>
 						</div>
 					</Accordion.Trigger>
 					<Accordion.Content class="pb-2">
 						<div
 							class="grid grid-cols-[repeat(auto-fit,minmax(60px,1fr))] gap-2 px-2"
-							style="grid-template-columns: repeat(auto-fit, minmax(60px, calc(25% - 0.5rem))); max-width: 100%;"
-						>
+							style="grid-template-columns: repeat(auto-fit, minmax(60px, calc(25% - 0.5rem))); max-width: 100%;">
 							{#each category.shapes as shape (`${editorState.profileName}-${shape.id}`)}
 								<Tooltip.Root>
 									<Tooltip.Trigger
 										onclick={() => handleShapeClick(shape.code)}
-										class="flex flex-col items-center gap-1 rounded border border-neutral-200 p-2 hover:border-runiq-500 hover:bg-runiq-50 active:scale-95"
-									>
+										class="flex flex-col items-center gap-1 rounded border border-neutral-200 p-2 hover:border-runiq-500 hover:bg-runiq-50 active:scale-95">
 										<ShapeIcon shapeId={shape.id} size={24} profileName={editorState.profileName} />
 									</Tooltip.Trigger>
-									<Tooltip.Content
-										side="right"
-										sideOffset={8}
-										class="max-w-xs bg-slate-900 text-white shadow-lg pointer-events-none"
-									>
+									<Tooltip.Content side="right" sideOffset={8} class="pointer-events-none max-w-xs bg-slate-900 text-white shadow-lg">
 										<p class="text-xs">{shape.label}</p>
 									</Tooltip.Content>
 								</Tooltip.Root>

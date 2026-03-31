@@ -20,7 +20,7 @@ diagram "Microservices Architecture" {
   }
 
   # Data Layer
-  container data "Data Layer" fillColor:"#fff3e0" strokeColor:"#f57c00" strokeWidth:3 {
+  container dataLayer "Data Layer" fillColor:"#fff3e0" strokeColor:"#f57c00" strokeWidth:3 {
     shape db as @cylinder label:"PostgreSQL"
     shape cache as @cylinder label:"Redis"
     shape queue as @rect label:"Message Queue"

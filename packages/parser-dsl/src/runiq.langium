@@ -623,7 +623,7 @@ SequenceProfile:
     '}';
 
 SequenceStatement:
-    SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement | SequenceDurationConstraintStatement;
+    ThemeDeclaration | SequenceParticipantStatement | SequenceMessageStatement | SequenceNoteStatement | SequenceFragmentStatement | SequenceDurationConstraintStatement;
 
 // participant Actor as actor
 // participant "Web Server" as entity
@@ -1273,7 +1273,7 @@ ShapeIdentifier returns string:
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
     | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
-    | 'db' | 'pill' | 'circle' | 'person' | 'callout';
+    | 'db' | 'pill' | 'circle' | 'person' | 'callout' | 'image' | 'card';
 
   NodeProperty:
       LabelProperty

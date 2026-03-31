@@ -42,8 +42,7 @@ export function injectDataIntoCode(syntaxCode: string, data: string): string {
 
 	let modifiedCode = syntaxCode;
 
-	const chartShapePattern =
-		/shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape|sankeyChart)/g;
+	const chartShapePattern = /shape\s+(\w+)\s+as\s+@(lineChart|radarChart|pieChart|barChart|pyramidShape|venn\dShape|sankeyChart)/g;
 
 	let match;
 	const replacements: Array<{ from: number; to: number; replacement: string }> = [];
@@ -60,9 +59,7 @@ export function injectDataIntoCode(syntaxCode: string, data: string): string {
 
 		const afterMatch = syntaxCode.substring(matchStart + fullMatch.length);
 		const endMatch = afterMatch.match(/(?:\r?\n|$)/);
-		const lineEnd = endMatch
-			? matchStart + fullMatch.length + endMatch.index!
-			: syntaxCode.length;
+		const lineEnd = endMatch ? matchStart + fullMatch.length + endMatch.index! : syntaxCode.length;
 
 		const currentLine = syntaxCode.substring(matchStart, lineEnd);
 		const propsMatch = currentLine.match(/as\s+@\w+\s+(.*)$/);
@@ -82,11 +79,7 @@ export function injectDataIntoCode(syntaxCode: string, data: string): string {
 		let chartData: any;
 		let chartLabels: string[] | null = null;
 
-		if (
-			Array.isArray(dataToInject) &&
-			dataToInject.length > 0 &&
-			typeof dataToInject[0] === 'object'
-		) {
+		if (Array.isArray(dataToInject) && dataToInject.length > 0 && typeof dataToInject[0] === 'object') {
 			const firstObj = dataToInject[0];
 			const keys = Object.keys(firstObj);
 			const numericKey = keys.find((k) => typeof firstObj[k] === 'number');
@@ -109,9 +102,7 @@ export function injectDataIntoCode(syntaxCode: string, data: string): string {
 
 		if (chartLabels && chartLabels.length > 0) {
 			const labelsStr = JSON.stringify(chartLabels);
-			newProps = newProps
-				? `${newProps} labels:${labelsStr} data:${dataStr}`
-				: `labels:${labelsStr} data:${dataStr}`;
+			newProps = newProps ? `${newProps} labels:${labelsStr} data:${dataStr}` : `labels:${labelsStr} data:${dataStr}`;
 		} else {
 			newProps = newProps ? `${newProps} data:${dataStr}` : `data:${dataStr}`;
 		}
@@ -131,9 +122,7 @@ export function injectDataIntoCode(syntaxCode: string, data: string): string {
 }
 
 function normalizeDataSourceOptions(
-	options?:
-		| Array<{ name: string; value: string | number | boolean }>
-		| Record<string, unknown>
+	options?: Array<{ name: string; value: string | number | boolean }> | Record<string, unknown>
 ): Record<string, unknown> {
 	const normalized: Record<string, unknown> = {};
 	if (!options) return normalized;
@@ -197,12 +186,8 @@ export function parseCsvToObjects(
 	warnings: string[],
 	sourceKey: string
 ): Array<Record<string, unknown>> | null {
-	const delimiter =
-		(typeof options.sep === 'string' && options.sep) ||
-		(typeof options.delimiter === 'string' && options.delimiter) ||
-		',';
-	const hasHeader =
-		(options.hasHeader === undefined ? options.header : options.hasHeader) ?? true;
+	const delimiter = (typeof options.sep === 'string' && options.sep) || (typeof options.delimiter === 'string' && options.delimiter) || ',';
+	const hasHeader = (options.hasHeader === undefined ? options.header : options.hasHeader) ?? true;
 
 	const rows = parseCsvRows(content, delimiter);
 	if (rows.length === 0) return [];
@@ -294,11 +279,7 @@ export function buildSankeyDataFromRows(
 	return { nodes: Array.from(nodes.values()), links };
 }
 
-function normalizeSankeyData(
-	data: unknown,
-	warnings: string[],
-	sourceKey: string
-): Record<string, unknown> | null {
+function normalizeSankeyData(data: unknown, warnings: string[], sourceKey: string): Record<string, unknown> | null {
 	if (!data) return null;
 
 	if (Array.isArray(data)) {
@@ -321,9 +302,7 @@ function normalizeSankeyData(
 
 			const normalizedNodes = Array.isArray(nodes)
 				? nodes
-				: Array.from(
-						new Set(sanitizedLinks.flatMap((link: any) => [link.source, link.target]).filter(Boolean))
-				  ).map((id) => ({ id }));
+				: Array.from(new Set(sanitizedLinks.flatMap((link: any) => [link.source, link.target]).filter(Boolean))).map((id) => ({ id }));
 
 			return { ...obj, nodes: normalizedNodes, links: sanitizedLinks };
 		}
@@ -333,10 +312,7 @@ function normalizeSankeyData(
 	return null;
 }
 
-function resolveDataSources(
-	profile: any,
-	warnings: string[]
-): Map<string, { format: string; data: unknown }> {
+function resolveDataSources(profile: any, warnings: string[]): Map<string, { format: string; data: unknown }> {
 	const resolved = new Map<string, { format: string; data: unknown }>();
 	const sources = profile?.dataSources;
 	if (!Array.isArray(sources)) return resolved;
@@ -410,25 +386,20 @@ export function applyDataSourcesToCharts(profile: any, warnings: string[]): void
 			continue;
 		}
 
-		node.data = { ...(node.data || {}), values: chartData.values, labels: chartData.labels ?? node.data?.labels };
+		node.data = {
+			...(node.data || {}),
+			values: chartData.values,
+			labels: chartData.labels ?? node.data?.labels
+		};
 	}
 }
 
-function getMappedValue(
-	row: Record<string, unknown>,
-	fields: Record<string, string>,
-	key: string
-): unknown {
+function getMappedValue(row: Record<string, unknown>, fields: Record<string, string>, key: string): unknown {
 	const sourceKey = fields[key] ?? key;
 	return row[sourceKey];
 }
 
-function normalizeDataRows(
-	data: unknown,
-	target: string,
-	warnings: string[],
-	sourceKey: string
-): Array<Record<string, unknown>> | null {
+function normalizeDataRows(data: unknown, target: string, warnings: string[], sourceKey: string): Array<Record<string, unknown>> | null {
 	if (Array.isArray(data)) return data as Array<Record<string, unknown>>;
 	if (data && typeof data === 'object') {
 		const obj = data as Record<string, unknown>;

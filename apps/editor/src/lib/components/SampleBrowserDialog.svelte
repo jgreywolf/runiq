@@ -30,14 +30,7 @@
 			description: 'Flowcharts, containers, templates',
 			color: 'runiq',
 			icon: 'diagram',
-			categoryIds: [
-				'flowcharts',
-				'containers',
-				'templatesPresets',
-				'templates',
-				'network',
-				'c4'
-			]
+			categoryIds: ['flowcharts', 'containers', 'templatesPresets', 'templates', 'network', 'c4']
 		},
 		{
 			id: 'glyphsets',
@@ -68,16 +61,7 @@
 			description: 'Electrical, pneumatic, hydraulic, HVAC',
 			color: 'amber',
 			icon: 'circuit',
-			categoryIds: [
-				'electrical',
-				'control',
-				'digital',
-				'logicGates',
-				'pneumatic',
-				'hydraulic',
-				'hvac',
-				'railroad'
-			]
+			categoryIds: ['electrical', 'control', 'digital', 'logicGates', 'pneumatic', 'hydraulic', 'hvac', 'railroad']
 		},
 		{
 			id: 'data',
@@ -117,9 +101,7 @@
 			.map((cat) => ({
 				...cat,
 				samples: cat.samples.filter(
-					(sample) =>
-						sample.name.toLowerCase().includes(query) ||
-						sample.description.toLowerCase().includes(query)
+					(sample) => sample.name.toLowerCase().includes(query) || sample.description.toLowerCase().includes(query)
 				)
 			}))
 			.filter((cat) => cat.samples.length > 0);
@@ -133,9 +115,7 @@
 			.map((cat) => ({
 				...cat,
 				samples: cat.samples.filter(
-					(sample) =>
-						sample.name.toLowerCase().includes(query) ||
-						sample.description.toLowerCase().includes(query)
+					(sample) => sample.name.toLowerCase().includes(query) || sample.description.toLowerCase().includes(query)
 				)
 			}))
 			.filter((cat) => cat.samples.length > 0);
@@ -185,32 +165,23 @@
 				{selectedProfile ? 'Browse Samples' : 'Sample Diagram Library'}
 			</Dialog.Title>
 			<Dialog.Description class="text-neutral-600">
-				{selectedProfile
-					? 'Click a sample to insert it into your diagram'
-					: 'Choose a category to explore sample diagrams'}
+				{selectedProfile ? 'Click a sample to insert it into your diagram' : 'Choose a category to explore sample diagrams'}
 			</Dialog.Description>
 		</Dialog.Header>
 
 		{#if !selectedProfile}
 			<div class="flex items-center gap-3 py-2">
 				<div class="relative flex-1">
-					<Icon
-						icon="lucide:search"
-						width="16"
-						height="16"
-						class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
-					/>
+					<Icon icon="lucide:search" width="16" height="16" class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400" />
 					<input
 						type="text"
 						bind:value={globalSearchQuery}
 						placeholder="Search all samples..."
-						class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-9 text-sm focus:border-runiq-500 focus:ring-1 focus:ring-runiq-500 focus:outline-none"
-					/>
+						class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-9 text-sm focus:border-runiq-500 focus:ring-1 focus:ring-runiq-500 focus:outline-none" />
 					{#if globalSearchQuery}
 						<button
 							onclick={() => (globalSearchQuery = '')}
-							class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
-						>
+							class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600">
 							<Icon icon="lucide:x" class="h-4 w-4" />
 						</button>
 					{/if}
@@ -223,24 +194,20 @@
 						<div>
 							<h4 class="mb-2 px-1 text-sm font-semibold text-neutral-700">
 								{category.label}
-								<span class="ml-1 text-xs font-normal text-neutral-500"
-									>({category.samples.length})</span
-								>
+								<span class="ml-1 text-xs font-normal text-neutral-500">({category.samples.length})</span>
 							</h4>
 							<div class="grid gap-2 sm:grid-cols-2">
 								{#each category.samples as sample}
 									<button
 										onclick={() => handleInsertSample(sample.code, sample.data)}
-										class="flex cursor-pointer flex-col rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-300 hover:bg-runiq-50"
-									>
+										class="flex cursor-pointer flex-col rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-300 hover:bg-runiq-50">
 										<p class="text-sm font-medium text-neutral-900">{sample.name}</p>
 										<p class="mt-1 text-xs text-neutral-600">{sample.description}</p>
 										{#if sample.badges?.length}
 											<div class="mt-2 flex flex-wrap gap-1">
 												{#each sample.badges as badge}
 													<span
-														class="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-700"
-													>
+														class="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-neutral-700 uppercase">
 														{badge}
 													</span>
 												{/each}
@@ -259,36 +226,28 @@
 					<p class="mt-1 text-xs text-neutral-500">Try a different search term</p>
 				</div>
 			{:else}
-			<!-- Profile Grid View -->
-			<div class="grid grid-cols-2 gap-4 py-4 sm:grid-cols-3">
-				{#each profileGroups as profile}
-					<button
-						onclick={() => selectProfile(profile.id)}
-						class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-{profile.color}-400 hover:bg-{profile.color}-50"
-					>
-						<div
-							class="flex h-12 w-12 items-center justify-center rounded-lg bg-{profile.color}-100 text-{profile.color}-600 transition-colors group-hover:bg-{profile.color}-200"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-6 w-6"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								{@html getIconSvg(profile.icon)}
-							</svg>
-						</div>
-						<div>
-							<h3 class="font-semibold text-neutral-900">{profile.label}</h3>
-							<p class="mt-1 text-xs text-neutral-600">{profile.description}</p>
-							<p class="mt-2 text-xs font-medium text-{profile.color}-600">
-								{categories.filter((cat) => profile.categoryIds.includes(cat.id)).length} categories
-							</p>
-						</div>
-					</button>
-				{/each}
-			</div>
+				<!-- Profile Grid View -->
+				<div class="grid grid-cols-2 gap-4 py-4 sm:grid-cols-3">
+					{#each profileGroups as profile}
+						<button
+							onclick={() => selectProfile(profile.id)}
+							class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-{profile.color}-400 hover:bg-{profile.color}-50">
+							<div
+								class="flex h-12 w-12 items-center justify-center rounded-lg bg-{profile.color}-100 text-{profile.color}-600 transition-colors group-hover:bg-{profile.color}-200">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									{@html getIconSvg(profile.icon)}
+								</svg>
+							</div>
+							<div>
+								<h3 class="font-semibold text-neutral-900">{profile.label}</h3>
+								<p class="mt-1 text-xs text-neutral-600">{profile.description}</p>
+								<p class="mt-2 text-xs font-medium text-{profile.color}-600">
+									{categories.filter((cat) => profile.categoryIds.includes(cat.id)).length} categories
+								</p>
+							</div>
+						</button>
+					{/each}
+				</div>
 			{/if}
 		{:else}
 			<!-- Sample List View -->
@@ -297,23 +256,16 @@
 				<div class="flex items-center gap-3">
 					<Button variant="outline" size="sm" onclick={goBack}>← Back</Button>
 					<div class="relative flex-1">
-						<Icon
-							icon="lucide:search"
-							width="16"
-							height="16"
-							class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
-						/>
+						<Icon icon="lucide:search" width="16" height="16" class="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400" />
 						<input
 							type="text"
 							bind:value={searchQuery}
 							placeholder="Search samples..."
-							class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-9 text-sm focus:border-runiq-500 focus:ring-1 focus:ring-runiq-500 focus:outline-none"
-						/>
+							class="w-full rounded-md border border-neutral-300 py-2 pr-9 pl-9 text-sm focus:border-runiq-500 focus:ring-1 focus:ring-runiq-500 focus:outline-none" />
 						{#if searchQuery}
 							<button
 								onclick={() => (searchQuery = '')}
-								class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
-							>
+								class="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-400 hover:text-neutral-600">
 								<Icon icon="lucide:x" class="h-4 w-4" />
 							</button>
 						{/if}
@@ -333,33 +285,27 @@
 							<div>
 								<h4 class="mb-2 px-1 text-sm font-semibold text-neutral-700">
 									{category.label}
-									<span class="ml-1 text-xs font-normal text-neutral-500"
-										>({category.samples.length})</span
-									>
+									<span class="ml-1 text-xs font-normal text-neutral-500">({category.samples.length})</span>
 								</h4>
 								<div class="grid gap-2 sm:grid-cols-2">
 									{#each category.samples as sample}
 										<button
 											onclick={() => handleInsertSample(sample.code, sample.data)}
-											class="flex cursor-pointer flex-col rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-300 hover:bg-runiq-50"
-										>
+											class="flex cursor-pointer flex-col rounded-md border border-neutral-200 bg-white p-3 text-left transition-colors hover:border-runiq-300 hover:bg-runiq-50">
 											<p class="text-sm font-medium text-neutral-900">{sample.name}</p>
 											<p class="mt-1 text-xs text-neutral-600">{sample.description}</p>
 											{#if sample.badges?.length}
 												<div class="mt-2 flex flex-wrap gap-1">
 													{#each sample.badges as badge}
 														<span
-															class="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-700"
-														>
+															class="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-neutral-700 uppercase">
 															{badge}
 														</span>
 													{/each}
 												</div>
 											{/if}
 											{#if sample.data}
-												<p class="mt-1 text-xs font-medium text-runiq-600">
-													📊 Includes sample data
-												</p>
+												<p class="mt-1 text-xs font-medium text-runiq-600">📊 Includes sample data</p>
 											{/if}
 										</button>
 									{/each}

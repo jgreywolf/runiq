@@ -15,12 +15,7 @@ export interface EditorRefs {
 		zoomIn: () => void;
 		zoomOut: () => void;
 		resetZoom: () => void;
-		fitToScreen: (
-			svgWidth: number,
-			svgHeight: number,
-			containerWidth: number,
-			containerHeight: number
-		) => void;
+		fitToScreen: (svgWidth: number, svgHeight: number, containerWidth: number, containerHeight: number) => void;
 		translateX: number;
 		translateY: number;
 		scale: number;

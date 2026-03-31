@@ -202,12 +202,8 @@ describe('glyphsetConversion', () => {
 			const result = convertGlyphset(code, 'pictureProcess');
 
 			expect(result.success).toBe(true);
-			expect(result.newCode).toContain(
-				'image "https://i.pravatar.cc/200?img=0" label "Plan | Research | Strategy"'
-			);
-			expect(result.newCode).toContain(
-				'image "https://i.pravatar.cc/200?img=1" label "Execute | Build | Test"'
-			);
+			expect(result.newCode).toContain('image "https://i.pravatar.cc/200?img=0" label "Plan | Research | Strategy"');
+			expect(result.newCode).toContain('image "https://i.pravatar.cc/200?img=1" label "Execute | Build | Test"');
 		});
 
 		it('should handle pictureProcess to detailedProcess conversion', () => {

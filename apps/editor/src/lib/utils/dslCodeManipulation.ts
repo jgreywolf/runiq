@@ -65,12 +65,7 @@ export function findProfileBlock(code: string): ProfileBlockInfo | null {
 /**
  * Edit a node or edge label in the DSL
  */
-export function editLabel(
-	code: string,
-	nodeOrEdgeId: string,
-	value: string,
-	isEdge: boolean
-): string {
+export function editLabel(code: string, nodeOrEdgeId: string, value: string, isEdge: boolean): string {
 	const lines = code.split('\n');
 	let lineIndex = -1;
 
@@ -103,9 +98,7 @@ export function editLabel(
 	const line = lines[lineIndex];
 	const hasLabel = /label:\s*"[^"]*"/.test(line);
 
-	lines[lineIndex] = hasLabel
-		? line.replace(/label:\s*"[^"]*"/, `label:"${value}"`)
-		: line.trim() + ` label:"${value}"`;
+	lines[lineIndex] = hasLabel ? line.replace(/label:\s*"[^"]*"/, `label:"${value}"`) : line.trim() + ` label:"${value}"`;
 
 	return lines.join('\n');
 }
@@ -130,9 +123,7 @@ export function editPosition(code: string, nodeId: string, x: number, y: number)
 	const line = lines[lineIndex];
 	const hasPosition = /position:\s*\([^)]+\)/.test(line);
 
-	lines[lineIndex] = hasPosition
-		? line.replace(/position:\s*\([^)]+\)/, `position:(${x},${y})`)
-		: line.trim() + ` position:(${x},${y})`;
+	lines[lineIndex] = hasPosition ? line.replace(/position:\s*\([^)]+\)/, `position:(${x},${y})`) : line.trim() + ` position:(${x},${y})`;
 
 	return lines.join('\n');
 }
@@ -140,12 +131,7 @@ export function editPosition(code: string, nodeId: string, x: number, y: number)
 /**
  * Edit a style property in the DSL
  */
-export function editStyleProperty(
-	code: string,
-	elementId: string,
-	property: string,
-	value: any
-): string {
+export function editStyleProperty(code: string, elementId: string, property: string, value: any): string {
 	const lines = code.split('\n');
 	let lineIndex = -1;
 
@@ -186,10 +172,7 @@ export function editStyleProperty(
 		if (property === 'fontSize' || property === 'strokeWidth') {
 			updatedLine = line.replace(new RegExp(`${property}:\\s*\\d+`), `${property}:${value}`);
 		} else if (property === 'shadow') {
-			updatedLine = line.replace(
-				new RegExp(`${property}:\\s*(true|false)`),
-				`${property}:${value}`
-			);
+			updatedLine = line.replace(new RegExp(`${property}:\\s*(true|false)`), `${property}:${value}`);
 		} else if (property === 'routing') {
 			updatedLine = line.replace(new RegExp(`${property}:\\s*\\w+`), `${property}:${value}`);
 		} else {
@@ -258,9 +241,7 @@ export function deleteElement(code: string, nodeId: string | null, edgeId: strin
 
 		// Remove connected edges
 		for (let i = 0; i < lines.length; i++) {
-			const edgeRegex = new RegExp(
-				`^\\s*(${nodeId}\\s+(-\\w*->|->)\\s+\\w+|\\w+\\s+(-\\w*->|->)\\s+${nodeId})`
-			);
+			const edgeRegex = new RegExp(`^\\s*(${nodeId}\\s+(-\\w*->|->)\\s+\\w+|\\w+\\s+(-\\w*->|->)\\s+${nodeId})`);
 			if (edgeRegex.test(lines[i])) {
 				linesToRemove.push(i);
 			}

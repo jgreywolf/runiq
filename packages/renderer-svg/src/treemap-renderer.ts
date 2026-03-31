@@ -168,7 +168,7 @@ export function renderTreemap(
 
   if (showLegend) {
     const legendX = 20;
-    let legendY = height - 20;
+    const legendY = height - 20;
     const legendItems: Array<{ label: string; color: string }> = [];
     for (const node of profile.nodes) {
       const color =

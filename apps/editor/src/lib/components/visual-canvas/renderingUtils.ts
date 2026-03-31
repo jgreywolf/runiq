@@ -36,11 +36,7 @@ export interface RenderResult {
 	profile?: any;
 }
 
-export async function renderDiagram(
-	code: string,
-	dataContent: string,
-	layoutEngine: string
-): Promise<RenderResult> {
+export async function renderDiagram(code: string, dataContent: string, layoutEngine: string): Promise<RenderResult> {
 	const result: RenderResult = {
 		svg: '',
 		errors: [],
@@ -62,16 +58,12 @@ export async function renderDiagram(
 		result.parseTime = Math.round(performance.now() - parseStart);
 
 		if (parseResult.errors && parseResult.errors.length > 0) {
-			result.errors = parseResult.errors.map((e: any) =>
-				typeof e === 'string' ? e : e.message || String(e)
-			);
+			result.errors = parseResult.errors.map((e: any) => (typeof e === 'string' ? e : e.message || String(e)));
 			return result;
 		}
 
 		if (parseResult.warnings && parseResult.warnings.length > 0) {
-			result.warnings = parseResult.warnings.map((w: any) =>
-				typeof w === 'string' ? w : w.message || String(w)
-			);
+			result.warnings = parseResult.warnings.map((w: any) => (typeof w === 'string' ? w : w.message || String(w)));
 		}
 
 		if (parseResult.warningDetails && parseResult.warningDetails.length > 0) {
@@ -205,9 +197,7 @@ export function attachInteractiveHandlers(
 
 	if (!diagramSvg) return;
 
-	const interactiveElements = diagramSvg.querySelectorAll(
-		'[data-node-id], [data-edge-id], [data-container-id]'
-	);
+	const interactiveElements = diagramSvg.querySelectorAll('[data-node-id], [data-edge-id], [data-container-id]');
 
 	interactiveElements.forEach((element) => {
 		element.addEventListener('mouseenter', handlers.onMouseEnter);

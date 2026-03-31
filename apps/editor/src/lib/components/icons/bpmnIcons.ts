@@ -6,11 +6,7 @@
 /**
  * BPMN Event icons (start, end, intermediate)
  */
-export function getBpmnEventIcon(
-	shapeId: string,
-	size: number,
-	eventType: 'start' | 'end' | 'intermediate'
-): string {
+export function getBpmnEventIcon(shapeId: string, size: number, eventType: 'start' | 'end' | 'intermediate'): string {
 	const cx = size / 2;
 	const cy = size / 2;
 	const r = size * 0.35;
@@ -54,11 +50,7 @@ export function getBpmnEventIcon(
 /**
  * BPMN Gateway icons (exclusive, parallel, inclusive)
  */
-export function getBpmnGatewayIcon(
-	shapeId: string,
-	size: number,
-	gatewayType: 'exclusive' | 'parallel' | 'inclusive'
-): string {
+export function getBpmnGatewayIcon(shapeId: string, size: number, gatewayType: 'exclusive' | 'parallel' | 'inclusive'): string {
 	const cx = size / 2;
 	const cy = size / 2;
 	const r = size * 0.35;

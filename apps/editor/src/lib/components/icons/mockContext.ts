@@ -54,6 +54,7 @@ export function createMockContext(shapeId: string): MockContext {
 			node: {
 				id: '',
 				label: 'Class',
+				shape: 'class',
 				data: {
 					attributes: [{ name: 'attr', type: 'type', visibility: 'public' }],
 					methods: [{ name: 'method', returnType: 'void', visibility: 'public' }]
@@ -69,6 +70,7 @@ export function createMockContext(shapeId: string): MockContext {
 			node: {
 				id: '',
 				label: '',
+				shape: 'pyramid',
 				data: {
 					levels: [
 						{ label: 'Top', value: 50 },
@@ -80,7 +82,7 @@ export function createMockContext(shapeId: string): MockContext {
 			measureText: textMeasure(20, 8)
 		},
 		multiRectangle: {
-			node: { id: '', label: '', data: { offset: 6, stackCount: 3 } },
+			node: { id: '', label: '', shape: 'multiRectangle', data: { offset: 6, stackCount: 3 } },
 			style: { fill: '#f0f0f0', stroke: '#333' } as any,
 			measureText: textMeasure(20, 8)
 		},
@@ -128,6 +130,7 @@ export function createMockContext(shapeId: string): MockContext {
 			node: {
 				id: '',
 				label: '',
+				shape: 'lineChart',
 				data: {
 					values: [
 						{ label: 'A', value: 20 },
@@ -145,6 +148,7 @@ export function createMockContext(shapeId: string): MockContext {
 			node: {
 				id: '',
 				label: '',
+				shape: 'radarChart',
 				data: {
 					values: [
 						{ label: 'A', value: 80 },
@@ -162,6 +166,7 @@ export function createMockContext(shapeId: string): MockContext {
 			node: {
 				id: '',
 				label: '',
+				shape: 'pieChart',
 				data: {
 					values: [
 						{ label: 'A', value: 30 },
@@ -177,6 +182,7 @@ export function createMockContext(shapeId: string): MockContext {
 			node: {
 				id: '',
 				label: '',
+				shape: 'barChart',
 				data: {
 					values: [
 						{ label: 'A', value: 30 },
@@ -194,7 +200,7 @@ export function createMockContext(shapeId: string): MockContext {
 		awsLambda: { style: { fill: '#FF9900', stroke: '#232F3E' } as any },
 		awsRds: { style: { fill: '#3F5BE7', stroke: '#232F3E' } as any },
 		awsVpc: {
-			node: { id: '', label: '', data: { width: 80, height: 60 } },
+			node: { id: '', label: '', shape: 'awsVpc', data: { width: 80, height: 60 } },
 			style: { fill: '#E6F3FF', stroke: '#147EB8' } as any
 		},
 		awsApiGateway: { style: { fill: '#945BB3', stroke: '#232F3E' } as any },
@@ -211,12 +217,12 @@ export function createMockContext(shapeId: string): MockContext {
 		},
 		// Rectangle variants
 		dividedRectangle: {
-			node: { id: '', label: '', data: { minWidth: 32 } },
+			node: { id: '', label: '', shape: 'dividedRectangle', data: { minWidth: 32 } },
 			style: { fill: '#f0f0f0', stroke: '#333' } as any,
 			measureText: textMeasure(20, 8)
 		},
 		linedRectangle: {
-			node: { id: '', label: '', data: { minHeight: 28 } },
+			node: { id: '', label: '', shape: 'linedRectangle', data: { minHeight: 28 } },
 			style: { fill: '#f0f0f0', stroke: '#333' } as any,
 			measureText: textMeasure(18, 8)
 		},
@@ -241,14 +247,7 @@ export function createMockContext(shapeId: string): MockContext {
 	};
 
 	// ERD shapes - all use white fill and similar config
-	const erdShapes = [
-		'erdEntity',
-		'erdWeakEntity',
-		'erdRelationship',
-		'erdAttribute',
-		'erdKeyAttribute',
-		'erdMultiValuedAttribute'
-	];
+	const erdShapes = ['erdEntity', 'erdWeakEntity', 'erdRelationship', 'erdAttribute', 'erdKeyAttribute', 'erdMultiValuedAttribute'];
 	erdShapes.forEach((shape) => {
 		const width = shape.includes('Entity') ? 30 : 25;
 		shapeConfigs[shape] = {

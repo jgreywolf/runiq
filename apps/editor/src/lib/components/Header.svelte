@@ -1,9 +1,9 @@
 <script lang="ts">
+	import ExportButton from './ExportButton.svelte';
+	import HelpMenu from './HelpMenu.svelte';
 	import NewDiagramButton from './NewDiagramButton.svelte';
 	import NewDiagramDialog from './NewDiagramDialog.svelte';
-	import ExportButton from './ExportButton.svelte';
 	import SettingsButton from './SettingsButton.svelte';
-	import HelpMenu from './HelpMenu.svelte';
 
 	interface Props {
 		diagramName?: string;
@@ -25,11 +25,9 @@
 	}
 
 	function handleSettings() {
-		// TODO: Implement settings modal
 		console.log('Settings clicked');
 	}
 
-	// Format last saved time
 	function formatLastSaved(date: Date | null): string {
 		if (!date) return 'Not saved';
 
@@ -46,9 +44,7 @@
 	}
 </script>
 
-<header
-	class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm"
->
+<header class="flex h-20 items-center justify-between border-b border-neutral-200 bg-white px-4 shadow-sm">
 	<!-- Left: Logo & Brand -->
 	<div class="flex items-center gap-3">
 		<img src="/images/runiq.at.whiteboard.png" alt="Runiq" class="h-16 w-auto" />
@@ -65,8 +61,7 @@
 				type="text"
 				value={diagramName}
 				class="border-b border-transparent bg-transparent px-2 py-1 text-center text-sm font-medium text-neutral-800 transition-colors outline-none hover:border-neutral-300 focus:border-runiq-500"
-				placeholder="Diagram name"
-			/>
+				placeholder="Diagram name" />
 			<span class="text-xs text-neutral-500">
 				{#if isDirty}
 					<span class="inline-flex items-center gap-1">
@@ -85,13 +80,11 @@
 
 	<!-- Right: Actions -->
 	<div class="flex items-center gap-2">
-		<!-- New Diagram Button -->
 		<NewDiagramButton onclick={handleNewDiagramClick} />
 
 		<!-- Export Button -->
 		<ExportButton />
 
-		<!-- Settings Button -->
 		<SettingsButton onclick={handleSettings} />
 
 		<!-- Help Menu -->

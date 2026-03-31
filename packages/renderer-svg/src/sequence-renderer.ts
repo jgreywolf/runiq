@@ -195,7 +195,8 @@ export function renderSequenceDiagram(
       participantMap,
       currentY,
       activations,
-      activationBoxWidth
+      activationBoxWidth,
+      i
     );
 
     currentY += messageSpacing;
@@ -203,13 +204,15 @@ export function renderSequenceDiagram(
 
   // Render notes separately
   if (profile.notes && profile.notes.length > 0) {
-    for (const note of profile.notes) {
+    for (let noteIndex = 0; noteIndex < profile.notes.length; noteIndex += 1) {
+      const note = profile.notes[noteIndex];
       svg += renderNote(
         note,
         participantMap,
         currentY,
         noteWidth,
-        participantBoxWidth
+        participantBoxWidth,
+        noteIndex
       );
       currentY += messageSpacing;
     }
@@ -247,6 +250,12 @@ function generateStyles(theme: SequenceTheme): string {
       stroke: ${theme.messageColor};
       stroke-width: 2;
       fill: none;
+    }
+    .message-hit-area {
+      stroke: transparent;
+      stroke-width: 14;
+      fill: none;
+      pointer-events: stroke;
     }
     .message-arrow {
       fill: ${theme.messageColor};
@@ -312,13 +321,13 @@ function renderParticipants(
     const x = participantMap.get(participant.id)!;
     const boxX = x - boxWidth / 2;
     const boxY = PARTICIPANT_BOX_TOP;
+    const nodeId = `seq-participant-${participant.id}`;
 
-    // Participant box
+    svg += `<g data-runiq-node="${escapeXml(nodeId)}" data-node-id="${escapeXml(nodeId)}" data-node-shape="sequenceParticipant">`;
     svg += `<rect x="${boxX}" y="${boxY}" width="${boxWidth}" height="${boxHeight}" class="participant-box" rx="5"/>`;
-
-    // Participant name
     const textY = boxY + boxHeight / 2 + 5;
     svg += `<text x="${x}" y="${textY}" class="participant-text">${escapeXml(participant.name)}</text>`;
+    svg += `</g>`;
   }
 
   return svg;
@@ -337,7 +346,10 @@ function renderLifelines(
 
   for (const participant of participants) {
     const x = participantMap.get(participant.id)!;
-    svg += `<line x1="${x}" y1="${startY}" x2="${x}" y2="${endY}" class="lifeline"/>`;
+    const lifelineId = `seq-participant-${participant.id}`;
+    svg += `<line x1="${x}" y1="${startY}" x2="${x}" y2="${endY}" class="lifeline" data-seq-lifeline="${escapeXml(
+      participant.id
+    )}" data-participant-id="${escapeXml(lifelineId)}"/>`;
   }
 
   return svg;
@@ -351,9 +363,10 @@ function renderMessage(
   participantMap: Map<string, number>,
   y: number,
   activations: Map<string, boolean>,
-  activationBoxWidth: number
+  activationBoxWidth: number,
+  messageIndex: number
 ): string {
-  let svg = '';
+  let messageSvg = '';
 
   // Handle lost and found messages
   const isLostMessage = message.to === 'lost' || message.to === 'found';
@@ -389,7 +402,7 @@ function renderMessage(
   // Handle activation (not for lost/found messages)
   if (message.activate && !activations.get(message.to) && !isLostMessage) {
     activations.set(message.to, true);
-    svg += renderActivationBox(toX, y, activationBoxWidth);
+    messageSvg += renderActivationBox(toX, y, activationBoxWidth);
   }
 
   // Determine line style based on message type
@@ -400,7 +413,8 @@ function renderMessage(
   const strokeDasharray = isDashed ? '5,5' : '';
 
   // Draw line
-  svg += `<line x1="${fromX}" y1="${y}" x2="${toX}" y2="${y}" class="message-line" stroke-dasharray="${strokeDasharray}"/>`;
+  messageSvg += `<line x1="${fromX}" y1="${y}" x2="${toX}" y2="${y}" class="message-hit-area"/>`;
+  messageSvg += `<line x1="${fromX}" y1="${y}" x2="${toX}" y2="${y}" class="message-line" stroke-dasharray="${strokeDasharray}"/>`;
 
   // Draw arrow or markers for lost/found
   const arrowSize = 8;
@@ -409,37 +423,40 @@ function renderMessage(
 
   if (isLostMessage) {
     // Lost message: filled circle at the end
-    svg += `<circle cx="${toX}" cy="${y}" r="5" class="lost-message-end" fill="#333333"/>`;
+    messageSvg += `<circle cx="${toX}" cy="${y}" r="5" class="lost-message-end" fill="#333333"/>`;
   } else if (isFoundMessage) {
     // Found message: filled circle at the start
-    svg += `<circle cx="${fromX}" cy="${y}" r="5" class="found-message-start" fill="#333333"/>`;
+    messageSvg += `<circle cx="${fromX}" cy="${y}" r="5" class="found-message-start" fill="#333333"/>`;
   } else if (message.type === MessageType.RETURN) {
     // Open arrow for return messages
-    svg += `<polyline points="${arrowX},${y - arrowSize / 2} ${toX},${y} ${arrowX},${y + arrowSize / 2}" class="message-arrow" fill="none"/>`;
+    messageSvg += `<polyline points="${arrowX},${y - arrowSize / 2} ${toX},${y} ${arrowX},${y + arrowSize / 2}" class="message-arrow" fill="none"/>`;
   } else {
     // Filled arrow for other messages
-    svg += `<polygon points="${toX},${y} ${arrowX},${y - arrowSize / 2} ${arrowX},${y + arrowSize / 2}" class="message-arrow"/>`;
+    messageSvg += `<polygon points="${toX},${y} ${arrowX},${y - arrowSize / 2} ${arrowX},${y + arrowSize / 2}" class="message-arrow"/>`;
   }
 
   // Guard condition (above arrow)
   if (message.guard) {
     const labelX = (fromX + toX) / 2;
     const guardY = y - 20;
-    svg += `<text x="${labelX}" y="${guardY}" class="message-guard" text-anchor="middle" font-size="10" fill="#666666">[${escapeXml(message.guard)}]</text>`;
+    messageSvg += `<text x="${labelX}" y="${guardY}" class="message-guard" text-anchor="middle" font-size="10" fill="#666666">[${escapeXml(message.guard)}]</text>`;
   }
 
   // Message label
   const labelX = (fromX + toX) / 2;
   const labelY = y - 5;
-  svg += `<text x="${labelX}" y="${labelY}" class="message-text" text-anchor="middle">${escapeXml(message.label)}</text>`;
+  messageSvg += `<text x="${labelX}" y="${labelY}" class="message-text" text-anchor="middle">${escapeXml(message.label)}</text>`;
 
   // Timing constraint (below arrow)
   if (message.timing) {
     const timingY = y + 15;
-    svg += `<text x="${labelX}" y="${timingY}" class="message-timing" text-anchor="middle" font-size="10" fill="#666666">{${escapeXml(message.timing)}}</text>`;
+    messageSvg += `<text x="${labelX}" y="${timingY}" class="message-timing" text-anchor="middle" font-size="10" fill="#666666">{${escapeXml(message.timing)}}</text>`;
   }
 
-  return svg;
+  const edgeId = `seq-message-${messageIndex}`;
+  const edgeFrom = `seq-participant-${message.from}`;
+  const edgeTo = `seq-participant-${message.to}`;
+  return `<g data-runiq-edge="${escapeXml(edgeId)}" data-edge-id="${escapeXml(edgeId)}" data-edge-from="${escapeXml(edgeFrom)}" data-edge-to="${escapeXml(edgeTo)}">${messageSvg}</g>`;
 }
 
 /**
@@ -458,7 +475,8 @@ function renderNote(
   participantMap: Map<string, number>,
   y: number,
   noteWidth: number,
-  _participantBoxWidth: number
+  _participantBoxWidth: number,
+  noteIndex: number
 ): string {
   let svg = '';
 
@@ -492,6 +510,8 @@ function renderNote(
   }
 
   const noteHeight = 40;
+  const noteNodeId = `seq-note-${noteIndex}`;
+  svg += `<g data-runiq-node="${escapeXml(noteNodeId)}" data-node-id="${escapeXml(noteNodeId)}" data-node-shape="sequenceNote">`;
 
   // Note box
   svg += `<rect x="${noteX}" y="${y - 20}" width="${noteWidth}" height="${noteHeight}" class="note-box"/>`;
@@ -503,6 +523,7 @@ function renderNote(
   // Note text (wrap if needed)
   const textY = y + 5;
   svg += `<text x="${noteX + 5}" y="${textY}" class="note-text">${escapeXml(note.text)}</text>`;
+  svg += `</g>`;
 
   return svg;
 }

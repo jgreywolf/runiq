@@ -117,9 +117,7 @@ describe('Toolbox Data Structure', () => {
 
 	it('should include rectangle shape in basic category', () => {
 		const basicCategory = shapeCategories.find((cat) => cat.id === 'basic');
-		const rectShape = basicCategory?.shapes.find(
-			(s) => s.id === 'rect' || s.code.includes('@rect')
-		);
+		const rectShape = basicCategory?.shapes.find((s) => s.id === 'rect' || s.code.includes('@rect'));
 		expect(rectShape).toBeDefined();
 	});
 

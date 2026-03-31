@@ -27,12 +27,7 @@ export const glyphsetConversionDialogState = $state<GlyphsetConversionDialogStat
 /**
  * Open the dialog with conversion incompatibility details
  */
-export function openGlyphsetConversionDialog(
-	fromType: string,
-	toType: string,
-	reason: string,
-	canConvert: boolean = false
-) {
+export function openGlyphsetConversionDialog(fromType: string, toType: string, reason: string, canConvert: boolean = false) {
 	glyphsetConversionDialogState.open = true;
 	glyphsetConversionDialogState.fromType = fromType;
 	glyphsetConversionDialogState.toType = toType;

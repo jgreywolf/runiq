@@ -21,21 +21,17 @@
 	<Dialog.Content class="bg-white sm:max-w-3xl">
 		<Dialog.Header>
 			<Dialog.Title class="text-neutral-900">Create New Diagram</Dialog.Title>
-			<Dialog.Description class="text-neutral-600"
-				>Choose the type of diagram you want to create.</Dialog.Description
-			>
+			<Dialog.Description class="text-neutral-600">Choose the type of diagram you want to create.</Dialog.Description>
 		</Dialog.Header>
 
 		<div class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto py-4 sm:grid-cols-3">
 			<!-- Regular Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.diagram)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-runiq-100 text-runiq-600 transition-colors group-hover:bg-runiq-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-runiq-100 text-runiq-600 transition-colors group-hover:bg-runiq-200">
 						<Icon icon="material-symbols:flowchart-outline-sharp" width="24" height="24" />
 					</div>
 					<div>
@@ -48,12 +44,10 @@
 			<!-- Glyphset "smart art" Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.glyphset)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-runiq-400 hover:bg-runiq-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-runiq-100 text-runiq-600 transition-colors group-hover:bg-runiq-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-runiq-100 text-runiq-600 transition-colors group-hover:bg-runiq-200">
 						<Icon icon="tabler:chart-pie-4-filled" width="24" height="24" />
 					</div>
 					<div>
@@ -66,12 +60,10 @@
 			<!-- Sequence Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.sequence)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-blue-400 hover:bg-blue-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-blue-400 hover:bg-blue-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600 transition-colors group-hover:bg-blue-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600 transition-colors group-hover:bg-blue-200">
 						<Icon icon="tabler:arrows-left-right" width="24" height="24" />
 					</div>
 					<div>
@@ -84,12 +76,10 @@
 			<!-- Timeline Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.timeline)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-indigo-400 hover:bg-indigo-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-indigo-400 hover:bg-indigo-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 transition-colors group-hover:bg-indigo-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 transition-colors group-hover:bg-indigo-200">
 						<Icon icon="tabler:timeline" width="24" height="24" />
 					</div>
 					<div>
@@ -102,12 +92,10 @@
 			<!-- Pedigree Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.pedigree)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-200">
 						<Icon icon="tabler:binary-tree-2" width="24" height="24" />
 					</div>
 					<div>
@@ -120,12 +108,10 @@
 			<!-- Railroad Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.railroad)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-slate-400 hover:bg-slate-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-slate-400 hover:bg-slate-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-colors group-hover:bg-slate-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-colors group-hover:bg-slate-200">
 						<Icon icon="tabler:route" width="24" height="24" />
 					</div>
 					<div>
@@ -138,12 +124,10 @@
 			<!-- Kanban Board Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.kanban)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-rose-400 hover:bg-rose-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-rose-400 hover:bg-rose-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-rose-100 text-rose-600 transition-colors group-hover:bg-rose-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-rose-100 text-rose-600 transition-colors group-hover:bg-rose-200">
 						<Icon icon="tabler:layout-board" width="24" height="24" />
 					</div>
 					<div>
@@ -156,12 +140,10 @@
 			<!-- GitGraph Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.gitgraph)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-slate-400 hover:bg-slate-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-slate-400 hover:bg-slate-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors group-hover:bg-slate-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors group-hover:bg-slate-200">
 						<Icon icon="tabler:git-branch" width="24" height="24" />
 					</div>
 					<div>
@@ -174,12 +156,10 @@
 			<!-- Treemap Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.treemap)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 transition-colors group-hover:bg-amber-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 transition-colors group-hover:bg-amber-200">
 						<Icon icon="tabler:layout-grid" width="24" height="24" />
 					</div>
 					<div>
@@ -192,12 +172,10 @@
 			<!-- Electrical Circuit Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.electrical)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-amber-400 hover:bg-amber-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 transition-colors group-hover:bg-amber-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600 transition-colors group-hover:bg-amber-200">
 						<Icon icon="tabler:bolt" width="24" height="24" />
 					</div>
 					<div>
@@ -210,12 +188,10 @@
 			<!-- Control Logic Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.control)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-orange-400 hover:bg-orange-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-orange-400 hover:bg-orange-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 text-orange-600 transition-colors group-hover:bg-orange-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 text-orange-600 transition-colors group-hover:bg-orange-200">
 						<Icon icon="tabler:switch-2" width="24" height="24" />
 					</div>
 					<div>
@@ -228,12 +204,10 @@
 			<!-- Digital Circuit Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.digital)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-lime-400 hover:bg-lime-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-lime-400 hover:bg-lime-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-lime-100 text-lime-600 transition-colors group-hover:bg-lime-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-lime-100 text-lime-600 transition-colors group-hover:bg-lime-200">
 						<Icon icon="tabler:logic-xor" width="24" height="24" />
 					</div>
 					<div>
@@ -246,12 +220,10 @@
 			<!-- Pneumatic Circuit Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.pneumatic)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-sky-400 hover:bg-sky-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-sky-400 hover:bg-sky-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-sky-600 transition-colors group-hover:bg-sky-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-sky-600 transition-colors group-hover:bg-sky-200">
 						<Icon icon="tabler:arrows-down-up" width="24" height="24" />
 					</div>
 					<div>
@@ -264,12 +236,10 @@
 			<!-- Hydraulic Circuit Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.hydraulic)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-teal-400 hover:bg-teal-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-teal-400 hover:bg-teal-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 transition-colors group-hover:bg-teal-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100 text-teal-600 transition-colors group-hover:bg-teal-200">
 						<Icon icon="tabler:flask-filled" width="24" height="24" />
 					</div>
 					<div>
@@ -282,12 +252,10 @@
 			<!-- HVAC System Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.hvac)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-cyan-400 hover:bg-cyan-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-cyan-400 hover:bg-cyan-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 transition-colors group-hover:bg-cyan-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 transition-colors group-hover:bg-cyan-200">
 						<Icon icon="tabler:wind" width="24" height="24" />
 					</div>
 					<div>
@@ -300,12 +268,10 @@
 			<!-- Wardley Map Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.wardley)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-purple-400 hover:bg-purple-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-purple-400 hover:bg-purple-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 text-purple-600 transition-colors group-hover:bg-purple-200"
-					>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 text-purple-600 transition-colors group-hover:bg-purple-200">
 						<Icon icon="tabler:chart-scatter" width="24" height="24" />
 					</div>
 					<div>
@@ -318,25 +284,16 @@
 			<!-- P&ID Diagram Option -->
 			<button
 				onclick={() => createDiagramClick(ProfileName.pid)}
-				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50"
-			>
+				class="group flex cursor-pointer flex-col items-start gap-2 rounded-lg border-2 border-neutral-300 bg-white p-4 text-left transition-all hover:border-emerald-400 hover:bg-emerald-50">
 				<div class="flex items-center gap-3">
 					<div
-						class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-200"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
+						class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-200">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-								d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-							/>
+								d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
 						</svg>
 					</div>
 					<div>

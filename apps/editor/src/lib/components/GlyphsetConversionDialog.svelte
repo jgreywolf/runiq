@@ -15,15 +15,7 @@
 		onCancel?: () => void;
 	}
 
-	let {
-		open = $bindable(),
-		onOpenChange,
-		fromType,
-		toType,
-		reason,
-		canConvert = false,
-		onCancel
-	}: Props = $props();
+	let { open = $bindable(), onOpenChange, fromType, toType, reason, canConvert = false, onCancel }: Props = $props();
 
 	// Determine the type of conversion
 	const isFlattening = $derived(
@@ -34,9 +26,7 @@
 			fromType === 'tableHierarchy' ||
 			['segmentedMatrix', 'titledMatrix', 'matrix2x2', 'matrix3x3'].includes(fromType)
 	);
-	const isExpanding = $derived(
-		toType === 'groupedProcess' || toType === 'segmentedPyramid' || toType === 'hub'
-	);
+	const isExpanding = $derived(toType === 'groupedProcess' || toType === 'segmentedPyramid' || toType === 'hub');
 
 	// Handle convert with transform
 	function handleConvertWithTransform() {
@@ -186,10 +176,7 @@
 						Current: {getFriendlyName(fromType)}
 					</h3>
 					<div class="overflow-x-auto rounded-lg bg-gray-100 p-3 dark:bg-gray-800">
-						<pre
-							class="font-mono text-xs whitespace-pre text-gray-800 dark:text-gray-200">{getStructureExample(
-								fromType
-							)}</pre>
+						<pre class="font-mono text-xs whitespace-pre text-gray-800 dark:text-gray-200">{getStructureExample(fromType)}</pre>
 					</div>
 				</div>
 
@@ -199,19 +186,12 @@
 						Target: {getFriendlyName(toType)}
 					</h3>
 					<div class="overflow-x-auto rounded-lg bg-gray-100 p-3 dark:bg-gray-800">
-						<pre
-							class="font-mono text-xs whitespace-pre text-gray-800 dark:text-gray-200">{getStructureExample(
-								toType
-							)}</pre>
+						<pre class="font-mono text-xs whitespace-pre text-gray-800 dark:text-gray-200">{getStructureExample(toType)}</pre>
 					</div>
 
 					<!-- Convert Button -->
 					{#if canConvert}
-						<Button
-							variant="default"
-							class="w-full bg-runiq-500 hover:bg-runiq-600"
-							onclick={handleConvertWithTransform}
-						>
+						<Button variant="default" class="w-full bg-runiq-500 hover:bg-runiq-600" onclick={handleConvertWithTransform}>
 							{#if isFlattening}
 								<Icon icon="mdi:unfold-less-horizontal" class="mr-2" width="18" />
 								Flatten and Convert
@@ -243,20 +223,15 @@
 				<ul class="ml-6 list-disc space-y-1 text-sm text-gray-800 dark:text-gray-200">
 					{#if fromType === 'groupedProcess'}
 						<li>
-							Grouped Process uses nested <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
-								>group</code
-							> blocks with items inside
+							Grouped Process uses nested <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">group</code> blocks with items inside
 						</li>
 						<li>Most glyphsets use a flat list of items without grouping</li>
 						<li>
-							The <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">mergePoint</code> feature is
-							unique to Grouped Process
+							The <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">mergePoint</code> feature is unique to Grouped Process
 						</li>
 					{:else if toType === 'groupedProcess'}
 						<li>
-							Grouped Process requires nested structure with <code
-								class="rounded bg-gray-200 px-1 dark:bg-gray-700">group</code
-							> blocks
+							Grouped Process requires nested structure with <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">group</code> blocks
 						</li>
 						<li>Simple item lists cannot be automatically grouped without context</li>
 						<li>Consider which items should belong to which group</li>
@@ -268,45 +243,34 @@
 						<li>Cannot be converted to/from other glyphset types</li>
 					{:else if fromType === 'hub' || toType === 'hub'}
 						<li>
-							Hub requires a central <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
-								>center</code
-							>
+							Hub requires a central <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">center</code>
 							item and <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">spoke</code> items
 						</li>
 						<li>This radial structure differs from sequential or hierarchical layouts</li>
 					{:else if fromType === 'labeledHierarchy' || toType === 'labeledHierarchy'}
 						<li>
-							Labeled Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
-								>root</code
-							>
+							Labeled Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">root</code>
 							and <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">child</code> with edge labels
 						</li>
 						<li>Edge labels define relationships between nodes (e.g., 'manages', 'oversees')</li>
 						<li>Most glyphsets don't support relationship labels</li>
 					{:else if fromType === 'tableHierarchy' || toType === 'tableHierarchy'}
 						<li>
-							Table Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
-								>level</code
-							>
+							Table Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">level</code>
 							items with category tags (e.g., BusinessLogic, DataAccess)
 						</li>
 						<li>Category tags organize items into architectural layers</li>
 						<li>Most glyphsets don't support categorization</li>
 					{:else if fromType === 'circleHierarchy' || toType === 'circleHierarchy'}
 						<li>
-							Circle Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
-								>root</code
-							>
-							and <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">child</code> in a circular
-							layout
+							Circle Hierarchy uses <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">root</code>
+							and <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">child</code> in a circular layout
 						</li>
 						<li>First item is the root (center), others are children (around the circle)</li>
 						<li>This hierarchical structure differs from flat lists</li>
 					{:else if fromType === 'segmentedPyramid' || toType === 'segmentedPyramid'}
 						<li>
-							Segmented Pyramid uses nested <code class="rounded bg-gray-200 px-1 dark:bg-gray-700"
-								>level</code
-							> blocks with items inside
+							Segmented Pyramid uses nested <code class="rounded bg-gray-200 px-1 dark:bg-gray-700">level</code> blocks with items inside
 						</li>
 						<li>Each level can contain multiple items</li>
 						<li>Most glyphsets use a flat list without levels</li>
@@ -321,14 +285,11 @@
 			</div>
 		</div>
 
-		<Dialog.Footer
-			class="flex-col gap-2 border-t border-gray-200 pt-4 sm:flex-row dark:border-gray-700"
-		>
+		<Dialog.Footer class="flex-col gap-2 border-t border-gray-200 pt-4 sm:flex-row dark:border-gray-700">
 			<Button
 				variant="outline"
 				onclick={handleClose}
-				class="flex-1 border-gray-300 bg-white hover:bg-gray-50 sm:flex-none dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700"
-			>
+				class="flex-1 border-gray-300 bg-white hover:bg-gray-50 sm:flex-none dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700">
 				<Icon icon="mdi:close" class="mr-2" width="18" />
 				Cancel
 			</Button>

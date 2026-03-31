@@ -3,7 +3,7 @@
 // ============================================================================
 
 import { createSymbol } from '../symbol.ts';
-import { renderConnectionLine, renderPortCircle } from '../symbol-utils.ts';
+import { renderConnectionLine } from '../symbol-utils.ts';
 
 /**
  * 2/2-Way Valve (2 ports, 2 positions)

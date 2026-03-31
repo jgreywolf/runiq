@@ -56,11 +56,7 @@ export class ViewportState {
 	}
 
 	// Update mouse coordinates
-	updateMousePosition(
-		clientX: number,
-		clientY: number,
-		containerRect: { left: number; top: number }
-	): void {
+	updateMousePosition(clientX: number, clientY: number, containerRect: { left: number; top: number }): void {
 		this.mouseX = Math.round(clientX - containerRect.left);
 		this.mouseY = Math.round(clientY - containerRect.top);
 
@@ -96,13 +92,7 @@ export class ViewportState {
 	}
 
 	// Fit content to screen with padding
-	fitToScreen(
-		svgWidth: number,
-		svgHeight: number,
-		containerWidth: number,
-		containerHeight: number,
-		padding: number = 0.9
-	): void {
+	fitToScreen(svgWidth: number, svgHeight: number, containerWidth: number, containerHeight: number, padding: number = 0.9): void {
 		const scaleX = (containerWidth * padding) / svgWidth;
 		const scaleY = (containerHeight * padding) / svgHeight;
 
@@ -111,11 +101,7 @@ export class ViewportState {
 	}
 
 	// Convert client coordinates to SVG coordinates
-	clientToSvg(
-		clientX: number,
-		clientY: number,
-		containerRect: { left: number; top: number }
-	): { x: number; y: number } {
+	clientToSvg(clientX: number, clientY: number, containerRect: { left: number; top: number }): { x: number; y: number } {
 		const screenX = clientX - containerRect.left;
 		const screenY = clientY - containerRect.top;
 
@@ -126,11 +112,7 @@ export class ViewportState {
 	}
 
 	// Convert SVG coordinates to client coordinates
-	svgToClient(
-		svgX: number,
-		svgY: number,
-		containerRect: { left: number; top: number }
-	): { x: number; y: number } {
+	svgToClient(svgX: number, svgY: number, containerRect: { left: number; top: number }): { x: number; y: number } {
 		return {
 			x: svgX * this.scale + this.translateX + containerRect.left,
 			y: svgY * this.scale + this.translateY + containerRect.top

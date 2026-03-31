@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { renderAndSetup } from './utils';
 
 test.describe('Visual Regression - Container Tests', () => {
@@ -21,7 +21,7 @@ diagram "Basic Container" {
   test('should render a container with fill property', async ({ page }) => {
     const dsl = `
 diagram "Container Fill" {
-  container "Services" fill:"#fff3e0" {
+  container "Services" fillColor:"#fff3e0" {
     shape app as @rectangle label:"Application"
     shape cache as @cylinder label:"Cache"
     app -> cache

@@ -5,8 +5,6 @@
 
 // State management
 export { DiagramState, diagramState } from './diagramState.svelte';
-export { StyleState, styleState } from './styleState.svelte';
-export { CanvasState, canvasState } from './canvasState.svelte';
 export {
 	autoSave,
 	detectProfile,
@@ -16,12 +14,9 @@ export {
 	handleConvertWithTransform,
 	handleDataChange,
 	handleDataErrors,
-	handleDelete,
-	handleEdit,
 	handleEditorErrors,
 	handleEditorWarnings,
 	handleExport,
-	handleInsertEdge,
 	handleInsertSample,
 	handleInsertShape,
 	handleKeyDown,
@@ -39,13 +34,10 @@ export {
 
 // Types
 export type {
-	EditorMode,
-	SelectionState,
 	ViewportState,
 	DiagramElement,
 	DiagramData,
 	StyleProperties,
-	StyleState as StyleStateType,
 	Point,
 	BoundingBox,
 	HistoryState,
