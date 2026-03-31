@@ -6,10 +6,10 @@ Export Runiq diagrams to various external formats for simulation, synthesis, aca
 
 Runiq supports four export formats, each targeting specific domains:
 
-| Format           | Domain                  | Use Cases                            | Package                  |
-| ---------------- | ----------------------- | ------------------------------------ | ------------------------ |
-| **SPICE**        | Analog circuits         | Simulation in LTspice/ngspice/PSpice | `@runiq/export-spice`    |
-| **Verilog HDL**  | Digital circuits        | Synthesis with Vivado/Quartus/Yosys  | `@runiq/export-verilog`  |
+| Format           | Domain                                          | Use Cases                            | Package                  |
+| ---------------- | ----------------------------------------------- | ------------------------------------ | ------------------------ |
+| **SPICE**        | Analog circuits                                 | Simulation in LTspice/ngspice/PSpice | `@runiq/export-spice`    |
+| **Verilog HDL**  | Digital circuits                                | Synthesis with Vivado/Quartus/Yosys  | `@runiq/export-verilog`  |
 | **LaTeX/TikZ**   | Control system block diagrams (diagram profile) | Academic papers and presentations    | `@runiq/export-latex`    |
 | **Simulink MDL** | Control system block diagrams (diagram profile) | MATLAB/Simulink simulation           | `@runiq/export-simulink` |
 
@@ -44,9 +44,10 @@ magick diagram.svg diagram.pdf
 ```
 
 ::: tip Notes
+
 - Inkscape and librsvg generally preserve text and gradients best for SVG conversion.
 - Use higher resolution with ImageMagick: `magick -density 300 diagram.svg diagram.png`.
-:::
+  :::
 
 ---
 
@@ -1354,4 +1355,4 @@ interface SimulinkResult {
 - [Electrical Examples](/examples/electrical) - RC filters, op-amps, power supplies
 - [Digital Examples](/examples/digital) - Counters, ALUs, state machines
 - [Control Logic Diagram Examples](/examples/control-diagrams) - Ladder and function block examples
-- [GitHub Repository](https://github.com/jgreywolf/runiq/tree/main/examples) - All example files
+- [GitHub Repository](https://github.com/quipolabs/runiq/tree/main/examples) - All example files

@@ -11,7 +11,7 @@
 	}
 
 	function openGitHub() {
-		window.open('https://github.com/jgreywolf/runiq', '_blank');
+		window.open('https://github.com/quipolabs/runiq', '_blank');
 	}
 
 	function showKeyboardShortcuts() {

@@ -9,7 +9,7 @@
 ## How to Use These Templates
 
 1. Copy each template below
-2. Create a new GitHub issue at: https://github.com/jgreywolf/runiq/issues/new
+2. Create a new GitHub issue at: https://github.com/quipolabs/runiq/issues/new
 3. Paste the template content
 4. Assign appropriate labels (enhancement, diagram-type, priority, etc.)
 5. Add to project board/milestone as needed

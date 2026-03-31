@@ -507,6 +507,4 @@ diagram "3-Qubit Bit Flip Code" {
 - See [Flowcharts](/examples/flowcharts) for classical algorithm visualization
 - Check [C4 Architecture](/examples/c4-architecture) for system design and architecture diagrams
 - Explore [State Machine Diagrams](/examples/state-machines) for quantum protocol states
-- Browse the [examples/quantum-circuits](https://github.com/jgreywolf/Runiq/tree/main/examples/quantum-circuits) directory for more examples
-
-
+- Browse the [examples/quantum-circuits](https://github.com/quipolabs/Runiq/tree/main/examples/quantum-circuits) directory for more examples

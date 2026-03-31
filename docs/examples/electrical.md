@@ -361,9 +361,9 @@ ngspice rc-filter.cir
 
 ## Download Examples
 
-All example `.runiq` files are available in the [GitHub repository](https://github.com/jgreywolf/runiq/tree/main/examples/electrical).
+All example `.runiq` files are available in the [GitHub repository](https://github.com/quipolabs/runiq/tree/main/examples/electrical).
 
 ```bash
-git clone https://github.com/jgreywolf/runiq.git
+git clone https://github.com/quipolabs/runiq.git
 cd runiq/examples/electrical
 ```

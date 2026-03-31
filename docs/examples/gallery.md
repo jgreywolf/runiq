@@ -430,7 +430,7 @@ Explore additional examples organized by category:
 
 Have a great example to share? We'd love to include it in the gallery!
 
-1. Fork the [Runiq repository](https://github.com/jgreywolf/runiq)
+1. Fork the [Runiq repository](https://github.com/quipolabs/runiq)
 2. Add your `.runiq` file to the appropriate `examples/` subdirectory
 3. Submit a pull request with a brief description
 

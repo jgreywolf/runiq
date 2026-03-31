@@ -149,11 +149,11 @@ part L1 type:LUBRICATOR pins:(REGULATED,OUTPUT)
 
 ### Instrumentation
 
-| Symbol          | Type           | Description                          | Pins |
-| --------------- | -------------- | ------------------------------------ | ---- |
-| **GAUGE_P**     | Pressure Gauge | Displays system pressure             | 1    |
-| **SENSOR_PROX** | Proximity Sensor | Non-contact position detection     | 1    |
-| **SENSOR_PRESS** | Pressure Sensor | Electronic pressure measurement    | 1    |
+| Symbol           | Type             | Description                     | Pins |
+| ---------------- | ---------------- | ------------------------------- | ---- |
+| **GAUGE_P**      | Pressure Gauge   | Displays system pressure        | 1    |
+| **SENSOR_PROX**  | Proximity Sensor | Non-contact position detection  | 1    |
+| **SENSOR_PRESS** | Pressure Sensor  | Electronic pressure measurement | 1    |
 
 **Sensor Usage Example:**
 
@@ -425,7 +425,7 @@ part R2 type:REGULATOR pins:(HIGH_PRESS,LOW_PRESS) doc:"Pilot pressure"
 
 - [Pneumatic Circuits Guide](/guide/pneumatic-circuits)
 - [Hydraulic Circuits](./hydraulic-circuits.md)
-- [Example Files - GitHub](https://github.com/jgreywolf/runiq/tree/main/examples/pneumatic)
+- [Example Files - GitHub](https://github.com/quipolabs/runiq/tree/main/examples/pneumatic)
 
 ## Troubleshooting
 

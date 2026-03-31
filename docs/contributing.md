@@ -20,7 +20,7 @@ node -v
 ## Repository Setup
 
 ```bash
-git clone https://github.com/jgreywolf/runiq.git
+git clone https://github.com/quipolabs/runiq.git
 cd runiq
 pnpm install
 pnpm -r build

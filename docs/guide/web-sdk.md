@@ -759,9 +759,9 @@ export function LiveEditor() {
 
 ## Support
 
-- [GitHub Issues](https://github.com/jgreywolf/runiq/issues) - Report bugs
-- [Discussions](https://github.com/jgreywolf/runiq/discussions) - Ask questions
-- [Examples](https://github.com/jgreywolf/runiq/tree/main/examples) - Sample code
+- [GitHub Issues](https://github.com/quipolabs/runiq/issues) - Report bugs
+- [Discussions](https://github.com/quipolabs/runiq/discussions) - Ask questions
+- [Examples](https://github.com/quipolabs/runiq/tree/main/examples) - Sample code
 
 ---
 

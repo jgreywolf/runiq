@@ -132,14 +132,14 @@ Create logic circuits with gates (AND, OR, XOR, etc.). Export Verilog HDL for sy
 - ✅ Hierarchical containers for complex architectures
 - ✅ 705+ tests passing
 
-[View Full Changelog →](https://github.com/jgreywolf/runiq/blob/main/CHANGELOG.md)
+[View Full Changelog →](https://github.com/quipolabs/runiq/blob/main/CHANGELOG.md)
 
 ## Community & Support
 
-- [GitHub Repository](https://github.com/jgreywolf/runiq)
-- [Report Issues](https://github.com/jgreywolf/runiq/issues)
-- [Contribute](https://github.com/jgreywolf/runiq/pulls)
-- [Discussions](https://github.com/jgreywolf/runiq/discussions)
+- [GitHub Repository](https://github.com/quipolabs/runiq)
+- [Report Issues](https://github.com/quipolabs/runiq/issues)
+- [Contribute](https://github.com/quipolabs/runiq/pulls)
+- [Discussions](https://github.com/quipolabs/runiq/discussions)
 
 ---
 

@@ -367,11 +367,9 @@ Always verify your designs with:
 
 ## Download Examples
 
-All example `.runiq` files are available in the [GitHub repository](https://github.com/jgreywolf/runiq/tree/main/examples/digital).
+All example `.runiq` files are available in the [GitHub repository](https://github.com/quipolabs/runiq/tree/main/examples/digital).
 
 ```bash
-git clone https://github.com/jgreywolf/runiq.git
+git clone https://github.com/quipolabs/runiq.git
 cd runiq/examples/digital
 ```
-
-

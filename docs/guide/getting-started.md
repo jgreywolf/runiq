@@ -7,7 +7,7 @@ lastUpdated: 2025-01-09
 # Getting Started
 
 <div style="text-align:center; margin: 1.5rem 0;">
-  <img src="/images/runiq.waving.png" alt="Runiq waving" style="max-width: 520px; width: 100%;" />
+  <img src="/images/runiq.banner.png" alt="Runiq banner" style="max-width: 520px; width: 100%;" />
   <div style="color:#6b7280; font-size: 0.95rem; margin-top: .5rem;">Say hello to Runiq!</div>
 </div>
 
@@ -45,7 +45,7 @@ document.querySelector('#out')!.innerHTML = svg;
 npm install -g pnpm
 
 # Clone the repository
-git clone https://github.com/jgreywolf/runiq.git
+git clone https://github.com/quipolabs/runiq.git
 cd runiq
 
 # Install dependencies
@@ -312,8 +312,8 @@ pnpm build
 
 ## Getting Help
 
-- [GitHub Issues](https://github.com/jgreywolf/runiq/issues) - Bug reports and feature requests
-- [Discussions](https://github.com/jgreywolf/runiq/discussions) - Questions and community
+- [GitHub Issues](https://github.com/quipolabs/runiq/issues) - Bug reports and feature requests
+- [Discussions](https://github.com/quipolabs/runiq/discussions) - Questions and community
 - [Contributing](/contributing) - How to contribute
 
 ---
