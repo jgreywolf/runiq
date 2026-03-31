@@ -1,19 +1,19 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { PaneGroup, Pane, PaneResizer } from 'paneforge';
-	import Header from '$lib/components/Header.svelte';
-	import WelcomeBanner from '$lib/components/WelcomeBanner.svelte';
-	import Toolbox from '$lib/components/Toolbox.svelte';
 	import CodeEditor from '$lib/components/CodeEditor.svelte';
 	import DataEditor from '$lib/components/DataEditor.svelte';
 	import EmptyPreview from '$lib/components/EmptyPreview.svelte';
+	import GlyphsetConversionDialog from '$lib/components/GlyphsetConversionDialog.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import Toolbox from '$lib/components/Toolbox.svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import VisualCanvas from '$lib/components/VisualCanvas.svelte';
-	import { autoSave, editorRefs, editorState, handleKeyDown } from '$lib/state/editorState.svelte';
+	import WelcomeBanner from '$lib/components/WelcomeBanner.svelte';
 	import { bootstrapEditor } from '$lib/state/editorBootstrap';
+	import { editorRefs, editorState, handleKeyDown } from '$lib/state/editorState.svelte';
+	import { closeGlyphsetConversionDialog, glyphsetConversionDialogState } from '$lib/state/glyphsetConversionDialog.svelte';
 	import { DEFAULT_PANEL_SIZES, loadPanelSizes, savePanelSizes } from '$lib/state/panelLayout.svelte';
-	import GlyphsetConversionDialog from '$lib/components/GlyphsetConversionDialog.svelte';
-	import { glyphsetConversionDialogState, closeGlyphsetConversionDialog } from '$lib/state/glyphsetConversionDialog.svelte';
+	import { Pane, PaneGroup, PaneResizer } from 'paneforge';
+	import { onMount } from 'svelte';
 
 	// One-time app bootstrapping (registries + state init)
 	bootstrapEditor();
@@ -33,7 +33,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="flex h-screen flex-col overflow-hidden bg-neutral-50" onkeydown={handleKeyDown}>
 	<!-- Header -->
-	<Header diagramName={editorState.diagramName} lastSaved={autoSave.lastSaved} isDirty={editorState.isDirty} />
+	<Header isDirty={editorState.isDirty} />
 
 	<!-- Welcome Banner (dismissible) -->
 	<WelcomeBanner />
