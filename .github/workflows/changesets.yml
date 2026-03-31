@@ -32,5 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Fetch main branch ref
+        run: git fetch origin main:main
+
       - name: Validate changesets
         run: pnpm changeset status --verbose
