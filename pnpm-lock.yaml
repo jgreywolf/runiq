@@ -308,6 +308,12 @@ importers:
       '@types/papaparse':
         specifier: ^5.3.14
         version: 5.5.0
+      eslint:
+        specifier: ^9.37.0
+        version: 9.37.0
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
       tsup:
         specifier: ^8.0.1
         version: 8.5.0(typescript@5.9.3)
@@ -384,6 +390,12 @@ importers:
       '@runiq/parser-dsl':
         specifier: workspace:*
         version: link:../parser-dsl
+      eslint:
+        specifier: ^9.37.0
+        version: 9.37.0
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(typescript@5.9.3)
@@ -582,6 +594,12 @@ importers:
       '@runiq/parser-dsl':
         specifier: workspace:*
         version: link:../parser-dsl
+      eslint:
+        specifier: ^9.37.0
+        version: 9.37.0
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(typescript@5.9.3)
