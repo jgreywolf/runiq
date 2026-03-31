@@ -1286,7 +1286,7 @@ Dependencies are built in the correct order:
 
 ```bash
 # Clone repository
-git clone https://github.com/jgreywolf/runiq.git
+git clone https://github.com/quipolabs/runiq.git
 cd runiq
 
 # Install dependencies

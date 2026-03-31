@@ -365,13 +365,13 @@ Use **either** DSL **or** JSON, not both.
 ### Search GitHub Issues
 
 Before opening a new issue, search existing ones:
-https://github.com/jgreywolf/runiq/issues
+https://github.com/quipolabs/runiq/issues
 
 ### Open a New Issue
 
 Found a bug or need help?
 
-1. Go to: https://github.com/jgreywolf/runiq/issues/new
+1. Go to: https://github.com/quipolabs/runiq/issues/new
 2. Choose appropriate template:
    - Bug report
    - Feature request
@@ -385,7 +385,7 @@ Found a bug or need help?
 
 ### Community Support
 
-- **GitHub Discussions**: https://github.com/jgreywolf/runiq/discussions
+- **GitHub Discussions**: https://github.com/quipolabs/runiq/discussions
 - **Discord** (coming soon)
 
 ## Debug Mode
@@ -408,7 +408,7 @@ console.log('AST:', JSON.stringify(parseResult.document, null, 2));
 If none of these solutions work:
 
 1. ✅ Check that you're using latest version: `pnpm list @runiq/*`
-2. ✅ Review [Changelog](https://github.com/jgreywolf/runiq/blob/main/CHANGELOG.md) for breaking changes
+2. ✅ Review [Changelog](https://github.com/quipolabs/runiq/blob/main/CHANGELOG.md) for breaking changes
 3. ✅ Try the [online playground](https://editor.runiq.org) - does it work there?
 4. ✅ Check browser console for JavaScript errors
 5. ✅ Search GitHub issues for similar problems

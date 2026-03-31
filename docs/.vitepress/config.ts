@@ -1,7 +1,7 @@
-import { defineConfig } from 'vitepress';
 import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+import { defineConfig } from 'vitepress';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -193,7 +193,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/jgreywolf/runiq' },
+      { icon: 'github', link: 'https://github.com/quipolabs/runiq' },
     ],
 
     footer: {
@@ -206,7 +206,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/jgreywolf/runiq/edit/main/docs/:path',
+      pattern: 'https://github.com/quipolabs/runiq/edit/main/docs/:path',
       text: 'Edit this page on GitHub',
     },
 
@@ -244,7 +244,10 @@ export default defineConfig({
 
       // Load custom SPICE grammar
       const spiceGrammar = JSON.parse(
-        readFileSync(resolve(__dirname, 'grammars/spice.tmLanguage.json'), 'utf-8')
+        readFileSync(
+          resolve(__dirname, 'grammars/spice.tmLanguage.json'),
+          'utf-8'
+        )
       );
       await shiki.loadLanguage({
         ...spiceGrammar,
@@ -254,7 +257,10 @@ export default defineConfig({
 
       // Load custom Langium grammar
       const langiumGrammar = JSON.parse(
-        readFileSync(resolve(__dirname, 'grammars/langium.tmLanguage.json'), 'utf-8')
+        readFileSync(
+          resolve(__dirname, 'grammars/langium.tmLanguage.json'),
+          'utf-8'
+        )
       );
       await shiki.loadLanguage({
         ...langiumGrammar,
@@ -264,7 +270,10 @@ export default defineConfig({
 
       // Load custom Simulink MDL grammar
       const mdlGrammar = JSON.parse(
-        readFileSync(resolve(__dirname, 'grammars/mdl.tmLanguage.json'), 'utf-8')
+        readFileSync(
+          resolve(__dirname, 'grammars/mdl.tmLanguage.json'),
+          'utf-8'
+        )
       );
       await shiki.loadLanguage({
         ...mdlGrammar,

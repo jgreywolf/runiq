@@ -18,7 +18,7 @@ This directory contains utility scripts for the Runiq project.
 - **Issues #1-46**: Diagram types (Tiers 1-4)
 - **Issues #47-54**: Infrastructure & libraries
 
-View at: https://github.com/jgreywolf/runiq/issues
+View at: https://github.com/quipolabs/runiq/issues
 
 ---
 

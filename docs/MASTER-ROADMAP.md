@@ -2,8 +2,8 @@
 
 **Last Updated:** October 17, 2025  
 **Purpose:** Single source of truth for all Runiq development planning  
-**Note:** Individual diagram type implementations are tracked in [GitHub Issues #1-46](https://github.com/jgreywolf/runiq/issues)  
-**Note:** Infrastructure and library enhancements are tracked in [GitHub Issues #47-54](https://github.com/jgreywolf/runiq/issues)
+**Note:** Individual diagram type implementations are tracked in [GitHub Issues #1-46](https://github.com/quipolabs/runiq/issues)  
+**Note:** Infrastructure and library enhancements are tracked in [GitHub Issues #47-54](https://github.com/quipolabs/runiq/issues)
 
 ---
 
@@ -108,18 +108,18 @@ Start with highest ROI implementations:
 
 | Issue                                               | Diagram Type        | Effort   | Priority      | Value                  |
 | --------------------------------------------------- | ------------------- | -------- | ------------- | ---------------------- |
-| [#1](https://github.com/jgreywolf/runiq/issues/1)   | Mindmap             | 4 hours  | High          | Medium                 |
-| [#2](https://github.com/jgreywolf/runiq/issues/2)   | Circular Flow       | 6 hours  | Medium        | Medium                 |
-| [#3](https://github.com/jgreywolf/runiq/issues/3)   | Graph Theory        | 1-2 days | High          | High                   |
-| [#4](https://github.com/jgreywolf/runiq/issues/4)   | Pneumatic/Hydraulic | 2-3 days | **Very High** | **Very High** 💰💰💰💰 |
-| [#5](https://github.com/jgreywolf/runiq/issues/5)   | Kinematic           | 2-3 days | Medium        | Medium                 |
-| [#6](https://github.com/jgreywolf/runiq/issues/6)   | Control Systems     | 2-3 days | High          | High 💰💰💰            |
-| [#7](https://github.com/jgreywolf/runiq/issues/7)   | HVAC                | 2-3 days | Medium        | Medium                 |
-| [#8](https://github.com/jgreywolf/runiq/issues/8)   | Template Library    | 2-3 days | High          | Medium                 |
-| [#9](https://github.com/jgreywolf/runiq/issues/9)   | User Journey        | 1-2 days | Medium        | Medium                 |
-| [#10](https://github.com/jgreywolf/runiq/issues/10) | Pie Chart           | 1-2 days | Low           | Low                    |
-| [#11](https://github.com/jgreywolf/runiq/issues/11) | Timeline            | 1-2 days | Medium        | Medium                 |
-| [#12](https://github.com/jgreywolf/runiq/issues/12) | Quadrant Chart      | 1-2 days | Medium        | Medium                 |
+| [#1](https://github.com/quipolabs/runiq/issues/1)   | Mindmap             | 4 hours  | High          | Medium                 |
+| [#2](https://github.com/quipolabs/runiq/issues/2)   | Circular Flow       | 6 hours  | Medium        | Medium                 |
+| [#3](https://github.com/quipolabs/runiq/issues/3)   | Graph Theory        | 1-2 days | High          | High                   |
+| [#4](https://github.com/quipolabs/runiq/issues/4)   | Pneumatic/Hydraulic | 2-3 days | **Very High** | **Very High** 💰💰💰💰 |
+| [#5](https://github.com/quipolabs/runiq/issues/5)   | Kinematic           | 2-3 days | Medium        | Medium                 |
+| [#6](https://github.com/quipolabs/runiq/issues/6)   | Control Systems     | 2-3 days | High          | High 💰💰💰            |
+| [#7](https://github.com/quipolabs/runiq/issues/7)   | HVAC                | 2-3 days | Medium        | Medium                 |
+| [#8](https://github.com/quipolabs/runiq/issues/8)   | Template Library    | 2-3 days | High          | Medium                 |
+| [#9](https://github.com/quipolabs/runiq/issues/9)   | User Journey        | 1-2 days | Medium        | Medium                 |
+| [#10](https://github.com/quipolabs/runiq/issues/10) | Pie Chart           | 1-2 days | Low           | Low                    |
+| [#11](https://github.com/quipolabs/runiq/issues/11) | Timeline            | 1-2 days | Medium        | Medium                 |
+| [#12](https://github.com/quipolabs/runiq/issues/12) | Quadrant Chart      | 1-2 days | Medium        | Medium                 |
 
 **Recommended Start Order:**
 
@@ -133,20 +133,20 @@ Start with highest ROI implementations:
 
 | Issue                                               | Diagram Type      | Effort   | Priority      | Value                         |
 | --------------------------------------------------- | ----------------- | -------- | ------------- | ----------------------------- |
-| [#13](https://github.com/jgreywolf/runiq/issues/13) | UML Timing        | 4-6 days | Medium        | Medium                        |
-| [#14](https://github.com/jgreywolf/runiq/issues/14) | **P&ID**          | 3-4 days | **Very High** | **Extremely High** 💰💰💰💰💰 |
-| [#15](https://github.com/jgreywolf/runiq/issues/15) | XY Chart          | 3-5 days | Medium        | Medium                        |
-| [#16](https://github.com/jgreywolf/runiq/issues/16) | Gantt Chart       | 3-5 days | High          | High                          |
-| [#17](https://github.com/jgreywolf/runiq/issues/17) | Treemap           | 2-4 days | Low           | Low                           |
-| [#18](https://github.com/jgreywolf/runiq/issues/18) | Kanban            | 3-5 days | High          | Medium                        |
-| [#19](https://github.com/jgreywolf/runiq/issues/19) | Packet Diagram    | 3-4 days | Medium        | Medium                        |
-| [#20](https://github.com/jgreywolf/runiq/issues/20) | GitGraph          | 3-5 days | Medium        | Medium                        |
-| [#21](https://github.com/jgreywolf/runiq/issues/21) | Requirement       | 2-3 days | Medium        | Medium                        |
-| [#22](https://github.com/jgreywolf/runiq/issues/22) | Mindmap+          | 2-3 days | Medium        | Low                           |
-| [#23](https://github.com/jgreywolf/runiq/issues/23) | Ishikawa Fishbone | 3-4 days | Medium        | Medium                        |
-| [#24](https://github.com/jgreywolf/runiq/issues/24) | Causal Loop       | 3-5 days | Medium        | Medium                        |
-| [#25](https://github.com/jgreywolf/runiq/issues/25) | Threat Modeling   | 4-6 days | Medium        | High                          |
-| [#26](https://github.com/jgreywolf/runiq/issues/26) | N×M Matrix        | 2-3 days | Low           | Low                           |
+| [#13](https://github.com/quipolabs/runiq/issues/13) | UML Timing        | 4-6 days | Medium        | Medium                        |
+| [#14](https://github.com/quipolabs/runiq/issues/14) | **P&ID**          | 3-4 days | **Very High** | **Extremely High** 💰💰💰💰💰 |
+| [#15](https://github.com/quipolabs/runiq/issues/15) | XY Chart          | 3-5 days | Medium        | Medium                        |
+| [#16](https://github.com/quipolabs/runiq/issues/16) | Gantt Chart       | 3-5 days | High          | High                          |
+| [#17](https://github.com/quipolabs/runiq/issues/17) | Treemap           | 2-4 days | Low           | Low                           |
+| [#18](https://github.com/quipolabs/runiq/issues/18) | Kanban            | 3-5 days | High          | Medium                        |
+| [#19](https://github.com/quipolabs/runiq/issues/19) | Packet Diagram    | 3-4 days | Medium        | Medium                        |
+| [#20](https://github.com/quipolabs/runiq/issues/20) | GitGraph          | 3-5 days | Medium        | Medium                        |
+| [#21](https://github.com/quipolabs/runiq/issues/21) | Requirement       | 2-3 days | Medium        | Medium                        |
+| [#22](https://github.com/quipolabs/runiq/issues/22) | Mindmap+          | 2-3 days | Medium        | Low                           |
+| [#23](https://github.com/quipolabs/runiq/issues/23) | Ishikawa Fishbone | 3-4 days | Medium        | Medium                        |
+| [#24](https://github.com/quipolabs/runiq/issues/24) | Causal Loop       | 3-5 days | Medium        | Medium                        |
+| [#25](https://github.com/quipolabs/runiq/issues/25) | Threat Modeling   | 4-6 days | Medium        | High                          |
+| [#26](https://github.com/quipolabs/runiq/issues/26) | N×M Matrix        | 2-3 days | Low           | Low                           |
 
 **High Priority Picks:**
 
@@ -160,23 +160,23 @@ Start with highest ROI implementations:
 
 | Issue                                               | Diagram Type              | Effort    | Priority     | Strategic Value          |
 | --------------------------------------------------- | ------------------------- | --------- | ------------ | ------------------------ |
-| [#27](https://github.com/jgreywolf/runiq/issues/27) | **C4 Architecture**       | 1-2 weeks | **CRITICAL** | 🔑 **Unlocks 10+ types** |
-| [#28](https://github.com/jgreywolf/runiq/issues/28) | BPMN 2.0                  | 2-3 weeks | High         | Industry standard        |
-| [#29](https://github.com/jgreywolf/runiq/issues/29) | Sankey                    | 1-2 weeks | Medium       | Data viz                 |
-| [#30](https://github.com/jgreywolf/runiq/issues/30) | Roadmap Visualization     | 1-2 weeks | Medium       | Product planning         |
-| [#31](https://github.com/jgreywolf/runiq/issues/31) | Wardley Map               | 2-3 weeks | Low          | Strategic planning       |
-| [#32](https://github.com/jgreywolf/runiq/issues/32) | PERT Chart                | 1-2 weeks | Medium       | Project management       |
-| [#33](https://github.com/jgreywolf/runiq/issues/33) | Sequential Function Chart | 1-2 weeks | Medium       | Industrial automation    |
-| [#34](https://github.com/jgreywolf/runiq/issues/34) | Tiers Diagram             | 1 week    | Low          | Architecture viz         |
-| [#35](https://github.com/jgreywolf/runiq/issues/35) | Deployment Diagram+       | 1 week    | Medium       | DevOps                   |
-| [#36](https://github.com/jgreywolf/runiq/issues/36) | Hierarchy Diagram+        | 1 week    | Medium       | Org structures           |
-| [#37](https://github.com/jgreywolf/runiq/issues/37) | Radar/Spider Chart        | 1 week    | Low          | Data viz                 |
-| [#38](https://github.com/jgreywolf/runiq/issues/38) | Structural Equation Model | 2-3 weeks | Low          | Academic research        |
-| [#39](https://github.com/jgreywolf/runiq/issues/39) | Event Modeling            | 1-2 weeks | Medium       | DDD/Event sourcing       |
-| [#40](https://github.com/jgreywolf/runiq/issues/40) | Railroad Diagram          | 1-2 weeks | Low          | Grammar/syntax viz       |
-| [#41](https://github.com/jgreywolf/runiq/issues/41) | Unified Petri Nets        | 2-3 weeks | Low          | Formal methods           |
-| [#42](https://github.com/jgreywolf/runiq/issues/42) | Transit Map               | 1-2 weeks | Low          | Public transport         |
-| [#43](https://github.com/jgreywolf/runiq/issues/43) | Block Diagram+            | 1 week    | Medium       | Engineering              |
+| [#27](https://github.com/quipolabs/runiq/issues/27) | **C4 Architecture**       | 1-2 weeks | **CRITICAL** | 🔑 **Unlocks 10+ types** |
+| [#28](https://github.com/quipolabs/runiq/issues/28) | BPMN 2.0                  | 2-3 weeks | High         | Industry standard        |
+| [#29](https://github.com/quipolabs/runiq/issues/29) | Sankey                    | 1-2 weeks | Medium       | Data viz                 |
+| [#30](https://github.com/quipolabs/runiq/issues/30) | Roadmap Visualization     | 1-2 weeks | Medium       | Product planning         |
+| [#31](https://github.com/quipolabs/runiq/issues/31) | Wardley Map               | 2-3 weeks | Low          | Strategic planning       |
+| [#32](https://github.com/quipolabs/runiq/issues/32) | PERT Chart                | 1-2 weeks | Medium       | Project management       |
+| [#33](https://github.com/quipolabs/runiq/issues/33) | Sequential Function Chart | 1-2 weeks | Medium       | Industrial automation    |
+| [#34](https://github.com/quipolabs/runiq/issues/34) | Tiers Diagram             | 1 week    | Low          | Architecture viz         |
+| [#35](https://github.com/quipolabs/runiq/issues/35) | Deployment Diagram+       | 1 week    | Medium       | DevOps                   |
+| [#36](https://github.com/quipolabs/runiq/issues/36) | Hierarchy Diagram+        | 1 week    | Medium       | Org structures           |
+| [#37](https://github.com/quipolabs/runiq/issues/37) | Radar/Spider Chart        | 1 week    | Low          | Data viz                 |
+| [#38](https://github.com/quipolabs/runiq/issues/38) | Structural Equation Model | 2-3 weeks | Low          | Academic research        |
+| [#39](https://github.com/quipolabs/runiq/issues/39) | Event Modeling            | 1-2 weeks | Medium       | DDD/Event sourcing       |
+| [#40](https://github.com/quipolabs/runiq/issues/40) | Railroad Diagram          | 1-2 weeks | Low          | Grammar/syntax viz       |
+| [#41](https://github.com/quipolabs/runiq/issues/41) | Unified Petri Nets        | 2-3 weeks | Low          | Formal methods           |
+| [#42](https://github.com/quipolabs/runiq/issues/42) | Transit Map               | 1-2 weeks | Low          | Public transport         |
+| [#43](https://github.com/quipolabs/runiq/issues/43) | Block Diagram+            | 1 week    | Medium       | Engineering              |
 
 **Critical Path:**
 
@@ -193,9 +193,9 @@ Start with highest ROI implementations:
 
 | Issue                                               | Diagram Type  | Effort | Use Case                     |
 | --------------------------------------------------- | ------------- | ------ | ---------------------------- |
-| [#44](https://github.com/jgreywolf/runiq/issues/44) | Venn Diagram+ | 1 week | Set theory, logic            |
-| [#45](https://github.com/jgreywolf/runiq/issues/45) | Org Chart+    | 1 week | HR, management               |
-| [#46](https://github.com/jgreywolf/runiq/issues/46) | Concept Maps  | 1 week | Education, knowledge mapping |
+| [#44](https://github.com/quipolabs/runiq/issues/44) | Venn Diagram+ | 1 week | Set theory, logic            |
+| [#45](https://github.com/quipolabs/runiq/issues/45) | Org Chart+    | 1 week | HR, management               |
+| [#46](https://github.com/quipolabs/runiq/issues/46) | Concept Maps  | 1 week | Education, knowledge mapping |
 
 ---
 
@@ -519,8 +519,8 @@ Start with highest ROI implementations:
 
 ### Project Resources
 
-- **GitHub Repository:** https://github.com/jgreywolf/runiq
-- **GitHub Issues:** https://github.com/jgreywolf/runiq/issues
+- **GitHub Repository:** https://github.com/quipolabs/runiq
+- **GitHub Issues:** https://github.com/quipolabs/runiq/issues
 - **Documentation Site:** (VitePress - local)
 
 ### Related Documentation Files
@@ -735,6 +735,6 @@ Let's build the future of code-first diagramming! 🚀
 
 ---
 
-**For specific diagram type implementations, see [GitHub Issues #1-46](https://github.com/jgreywolf/runiq/issues)**
+**For specific diagram type implementations, see [GitHub Issues #1-46](https://github.com/quipolabs/runiq/issues)**
 
 **For detailed implementation templates, see [`GITHUB-ISSUES-TEMPLATES.md`](./GITHUB-ISSUES-TEMPLATES.md)**

@@ -19,7 +19,7 @@
 		<!-- Icon -->
 		<div class="mb-6 flex justify-center">
 			<div class="flex h-20 w-20 items-center justify-center rounded-full bg-runiq-100">
-				<img src="/images/runiq.waving.png" alt="Runiq" class="h-16 w-16" />
+				<img src="/images/runiq.banner.png" alt="Runiq" class="h-16 w-16" />
 			</div>
 		</div>
 

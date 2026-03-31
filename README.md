@@ -13,7 +13,7 @@
 **⚡ NEW**: Mindmap diagrams for brainstorming & knowledge mapping - radial layout, 10 tests! 🧠  
 **⚡ NEW**: Quantum circuit diagrams for quantum computing visualization - 12 gates, IBM Qiskit style! ⚛️
 
-**⚡ NEW**: Pedigree diagrams for family trees - people, spouses, and parentage (including adoption). 🧬  
+**⚡ NEW**: Pedigree diagrams for family trees - people, spouses, and parentage (including adoption). 🧬
 
 **⚡ NEW**: Network topology diagrams - routers, firewalls, load balancers, and more! 🌐  
 **⚡ NEW**: UML relationships - stereotypes (`<<include>>`, `<<extend>>`), line styles, arrow types!  
@@ -153,7 +153,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/jgreywolf/runiq.git
+git clone https://github.com/quipolabs/runiq.git
 cd runiq
 
 # Install dependencies (requires pnpm)
@@ -697,9 +697,9 @@ Schematic profiles use a separate symbol registry (36 electrical/digital symbols
 
 ### Pedigree Diagrams (NEW!)
 
-| Status | Type              | Notes                                                  |
-| ------ | ----------------- | ------------------------------------------------------ |
-| ✅     | Pedigree diagrams | Family trees with spouses, parentage, and adoption     |
+| Status | Type              | Notes                                              |
+| ------ | ----------------- | -------------------------------------------------- |
+| ✅     | Pedigree diagrams | Family trees with spouses, parentage, and adoption |
 
 ## 🚀 What Makes Runiq Unique?
 
@@ -737,4 +737,4 @@ MIT © 2025 Justin Greywolf
 
 ---
 
-**Built with ❤️ using Test-Driven Development** | [Report Issues](https://github.com/jgreywolf/runiq/issues) | [Contribute](https://github.com/jgreywolf/runiq/pulls)
+**Built with ❤️ using Test-Driven Development** | [Report Issues](https://github.com/quipolabs/runiq/issues) | [Contribute](https://github.com/quipolabs/runiq/pulls)

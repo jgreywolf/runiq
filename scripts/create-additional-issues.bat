@@ -44,4 +44,4 @@ echo.
 
 echo.
 echo COMPLETE! Created 8 additional issues.
-echo View at: https://github.com/jgreywolf/runiq/issues
+echo View at: https://github.com/quipolabs/runiq/issues

@@ -387,4 +387,4 @@ Includes:
 
 ---
 
-**Next Steps**: Try creating your first mindmap with the simple example above, then explore the [example files](https://github.com/jgreywolf/runiq/tree/main/examples/mindmaps) for more complex use cases.
+**Next Steps**: Try creating your first mindmap with the simple example above, then explore the [example files](https://github.com/quipolabs/runiq/tree/main/examples/mindmaps) for more complex use cases.
