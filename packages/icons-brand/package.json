@@ -1,6 +1,6 @@
 {
   "name": "@runiq/icons-brand",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Curated brand icon provider for Runiq",
   "type": "module",
   "main": "./dist/index.js",
@@ -25,8 +25,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*",
-    "@runiq/icons-iconify": "workspace:*"
+    "@runiq/core": "^0.1.0",
+    "@runiq/icons-iconify": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
@@ -43,7 +43,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/icons-brand"
   },
   "publishConfig": {

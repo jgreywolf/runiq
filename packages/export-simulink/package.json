@@ -1,6 +1,6 @@
 {
   "name": "@runiq/export-simulink",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Simulink MDL exporter for Runiq Control system block diagrams",
   "type": "module",
   "main": "./dist/index.js",
@@ -32,14 +32,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/export-simulink"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*"
+    "@runiq/core": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",

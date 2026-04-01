@@ -1,6 +1,6 @@
 {
   "name": "@runiq/io-json",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "JSON to AST conversion for Runiq",
   "type": "module",
   "main": "./dist/index.js",
@@ -25,7 +25,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*"
+    "@runiq/core": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
@@ -42,7 +42,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/io-json"
   },
   "publishConfig": {

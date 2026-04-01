@@ -1,6 +1,6 @@
 {
   "name": "@runiq/parser-dsl",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "DSL parser for Runiq diagrams",
   "type": "module",
   "main": "./dist/index.js",
@@ -26,8 +26,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*",
-    "@runiq/glyphsets": "workspace:*",
+    "@runiq/core": "^0.1.0",
+    "@runiq/glyphsets": "^0.1.0",
     "langium": "^4.1.0"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/parser-dsl"
   },
   "publishConfig": {

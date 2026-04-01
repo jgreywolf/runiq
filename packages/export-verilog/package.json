@@ -1,6 +1,6 @@
 {
   "name": "@runiq/export-verilog",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Verilog exporter for Runiq digital circuits",
   "type": "module",
   "main": "./dist/index.js",
@@ -31,14 +31,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/export-verilog"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*"
+    "@runiq/core": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
