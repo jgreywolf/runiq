@@ -1269,7 +1269,7 @@ ShapeIdentifier returns string:
     | 'lifeline' | 'continuation' | 'timeObservation' | 'activity'
     | 'objectNode' | 'centralBuffer' | 'dataStore' | 'component' | 'artifact' | 'node'
     | 'port' | 'module' | 'template' | 'history' | 'pin' | 'assembly'
-    | 'providedInterface' | 'requiredInterface' | 'frame' | 'collaboration'
+    | 'providedInterface' | 'requiredInterface' | 'lollipop' | 'socket' | 'frame' | 'collaboration'
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
     | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
@@ -1453,7 +1453,7 @@ AttributeDecl:
     '{' properties+=AttributeField+ '}';
 
 AttributeField:
-    AttrNameField | AttrTypeField | AttrVisibilityField | AttrDefaultField | AttrStaticField | AttrDerivedField | AttrConstraintsField;
+    AttrNameField | AttrTypeField | AttrVisibilityField | AttrCardinalityField | AttrDefaultField | AttrStaticField | AttrDerivedField | AttrConstraintsField;
 
 AttrNameField:
     'name:' value=STRING;
@@ -1463,6 +1463,9 @@ AttrTypeField:
 
 AttrVisibilityField:
     'visibility:' value=VisibilityValue;
+
+AttrCardinalityField:
+    'cardinality:' value=STRING;
 
 VisibilityValue returns string:
     'public' | 'private' | 'protected' | 'package';

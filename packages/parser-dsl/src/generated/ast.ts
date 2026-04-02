@@ -154,6 +154,7 @@ export type RuniqKeywordNames =
     | "callout"
     | "callouts"
     | "card"
+    | "cardinality:"
     | "carrier:"
     | "cascade"
     | "center"
@@ -466,6 +467,7 @@ export type RuniqKeywordNames =
     | "links"
     | "local"
     | "location:"
+    | "lollipop"
     | "loop"
     | "loop:"
     | "lost"
@@ -688,6 +690,7 @@ export type RuniqKeywordNames =
     | "signal"
     | "size:"
     | "slice-dice"
+    | "socket"
     | "solid"
     | "source"
     | "source:"
@@ -906,6 +909,21 @@ export function isArrowTypeValue(item: unknown): item is ArrowTypeValue {
     return item === 'standard' || item === 'hollow' || item === 'open' || item === 'none';
 }
 
+export interface AttrCardinalityField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrCardinalityField';
+    value: string;
+}
+
+export const AttrCardinalityField = {
+    $type: 'AttrCardinalityField',
+    value: 'value'
+} as const;
+
+export function isAttrCardinalityField(item: unknown): item is AttrCardinalityField {
+    return reflection.isInstance(item, AttrCardinalityField.$type);
+}
+
 export interface AttrConstraintsField extends langium.AstNode {
     readonly $container: AttributeDecl;
     readonly $type: 'AttrConstraintsField';
@@ -966,7 +984,7 @@ export function isAttributeDecl(item: unknown): item is AttributeDecl {
     return reflection.isInstance(item, AttributeDecl.$type);
 }
 
-export type AttributeField = AttrConstraintsField | AttrDefaultField | AttrDerivedField | AttrNameField | AttrStaticField | AttrTypeField | AttrVisibilityField;
+export type AttributeField = AttrCardinalityField | AttrConstraintsField | AttrDefaultField | AttrDerivedField | AttrNameField | AttrStaticField | AttrTypeField | AttrVisibilityField;
 
 export const AttributeField = {
     $type: 'AttributeField'
@@ -5984,10 +6002,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'callout' | 'card' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'image' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'callout' | 'card' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'image' | 'initialState' | 'junction' | 'lifeline' | 'lollipop' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'socket' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || item === 'callout' || item === 'image' || item === 'card' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'lollipop' || item === 'socket' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || item === 'callout' || item === 'image' || item === 'card' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -7344,6 +7362,7 @@ export type RuniqAstType = {
     AffectedProperty: AffectedProperty
     AnalysisStatement: AnalysisStatement
     ArrowTypeProperty: ArrowTypeProperty
+    AttrCardinalityField: AttrCardinalityField
     AttrConstraintsField: AttrConstraintsField
     AttrDefaultField: AttrDefaultField
     AttrDerivedField: AttrDerivedField
@@ -7760,6 +7779,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [EdgeProperty.$type]
+        },
+        AttrCardinalityField: {
+            name: AttrCardinalityField.$type,
+            properties: {
+                value: {
+                    name: AttrCardinalityField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
         },
         AttrConstraintsField: {
             name: AttrConstraintsField.$type,

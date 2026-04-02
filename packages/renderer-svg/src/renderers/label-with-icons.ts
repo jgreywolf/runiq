@@ -1,5 +1,5 @@
 import type { IconRef } from '@runiq/core';
-import { iconRegistry } from '@runiq/core';
+import { escapeXml, iconRegistry } from '@runiq/core';
 
 /**
  * Parses a label string that may contain inline icon references.
@@ -12,6 +12,78 @@ export interface LabelSegment {
   type: 'text' | 'icon';
   content: string;
   iconRef?: IconRef;
+}
+
+interface MarkdownRun {
+  text: string;
+  fontWeight?: string;
+  fontStyle?: string;
+  fontFamily?: string;
+}
+
+function parseMarkdownRuns(text: string): MarkdownRun[] {
+  const runs: MarkdownRun[] = [];
+  const pattern = /(\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)/g;
+
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      runs.push({ text: text.slice(lastIndex, match.index) });
+    }
+
+    const token = match[0];
+    if (token.startsWith('**') && token.endsWith('**')) {
+      runs.push({
+        text: token.slice(2, -2),
+        fontWeight: 'bold',
+      });
+    } else if (token.startsWith('*') && token.endsWith('*')) {
+      runs.push({
+        text: token.slice(1, -1),
+        fontStyle: 'italic',
+      });
+    } else if (token.startsWith('`') && token.endsWith('`')) {
+      runs.push({
+        text: token.slice(1, -1),
+        fontFamily: 'monospace',
+      });
+    }
+
+    lastIndex = match.index + token.length;
+  }
+
+  if (lastIndex < text.length) {
+    runs.push({ text: text.slice(lastIndex) });
+  }
+
+  if (runs.length === 0) {
+    runs.push({ text });
+  }
+
+  return runs;
+}
+
+function stripMarkdownSyntax(text: string): string {
+  return text.replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+}
+
+function renderMarkdownRuns(text: string): string {
+  return parseMarkdownRuns(text)
+    .map((run) => {
+      const attrs = [
+        run.fontWeight ? `font-weight="${run.fontWeight}"` : '',
+        run.fontStyle ? `font-style="${run.fontStyle}"` : '',
+        run.fontFamily ? `font-family="${run.fontFamily}"` : '',
+      ]
+        .filter((attr) => attr)
+        .join(' ');
+
+      const escapedText = escapeXml(run.text);
+      return attrs ? `<tspan ${attrs}>${escapedText}</tspan>` : escapedText;
+    })
+    .join('');
 }
 
 export function parseLabelWithIcons(label: string): LabelSegment[] {
@@ -103,8 +175,11 @@ export function renderLabelWithIcons(
       dominant-baseline="${style.dominantBaseline || 'middle'}"
       font-family="${style.fontFamily || 'sans-serif'}" 
       font-size="${fontSize}"
+      ${style.fontWeight ? `font-weight="${style.fontWeight}"` : ''}
+      ${style.fontStyle ? `font-style="${style.fontStyle}"` : ''}
+      ${style.textDecoration ? `text-decoration="${style.textDecoration}"` : ''}
       fill="${style.fill || 'currentColor'}">
-      ${label}
+      ${renderMarkdownRuns(label)}
     </text>`;
     }
 
@@ -136,7 +211,7 @@ export function renderLabelWithIcons(
     let textElement = `<text ${allAttrs}>`;
     lines.forEach((line, index) => {
       const lineY = startY + index * lineHeight;
-      textElement += `<tspan x="${x}" y="${lineY}">${line}</tspan>`;
+      textElement += `<tspan x="${x}" y="${lineY}">${renderMarkdownRuns(line)}</tspan>`;
     });
     textElement += `</text>`;
 
@@ -171,11 +246,14 @@ export function renderLabelWithIcons(
         dominant-baseline="${style.dominantBaseline || 'middle'}"
         font-family="${style.fontFamily || 'sans-serif'}" 
         font-size="${fontSize}"
+        ${style.fontWeight ? `font-weight="${style.fontWeight}"` : ''}
+        ${style.fontStyle ? `font-style="${style.fontStyle}"` : ''}
+        ${style.textDecoration ? `text-decoration="${style.textDecoration}"` : ''}
         fill="${style.fill || 'currentColor'}">
-        ${seg.content}
+        ${renderMarkdownRuns(seg.content)}
       </text>`;
       // Approximate text width
-      currentX += seg.content.length * (fontSize * 0.6) + iconPadding;
+      currentX += stripMarkdownSyntax(seg.content).length * (fontSize * 0.6) + iconPadding;
     } else if (seg.type === 'icon' && seg.iconRef) {
       const iconData = iconRegistry.getIcon(
         seg.iconRef.provider,
@@ -210,9 +288,9 @@ export function renderLabelWithIcons(
           font-family="${style.fontFamily || 'sans-serif'}" 
           font-size="${fontSize * 0.8}"
           fill="${style.fill || 'currentColor'}">
-          [${seg.content}]
+          ${escapeXml(`[${seg.content}]`)}
         </text>`;
-        currentX += seg.content.length * (fontSize * 0.5) + iconPadding;
+        currentX += stripMarkdownSyntax(seg.content).length * (fontSize * 0.5) + iconPadding;
       }
     }
   });
@@ -239,7 +317,7 @@ export function measureLabelWithIcons(
   segments.forEach((seg) => {
     if (seg.type === 'text') {
       // Approximate: 0.6 * fontSize per character
-      totalWidth += seg.content.length * (fontSize * 0.6);
+      totalWidth += stripMarkdownSyntax(seg.content).length * (fontSize * 0.6);
     } else {
       // Icon size + padding
       totalWidth += fontSize + 4;

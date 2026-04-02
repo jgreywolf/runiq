@@ -47,6 +47,12 @@ export function convertDiagramProfile(
   return diagram;
 }
 
+function normalizeShapeAlias(shape: string): string {
+  if (shape === 'lollipop') return 'providedInterface';
+  if (shape === 'socket') return 'requiredInterface';
+  return shape;
+}
+
 /**
  * Process a single diagram statement
  */
@@ -125,7 +131,7 @@ function processDialogStatement(
     const nodeId = unescapeString(statement.id);
     const node: NodeAst = {
       id: nodeId,
-      shape: statement.shape || 'rounded',
+      shape: normalizeShapeAlias(statement.shape || 'rounded'),
       data: {},
     };
 
@@ -344,6 +350,8 @@ function processNodeProperties(
             attrObj.type = field.value.replace(/^"|"$/g, '');
           } else if (Langium.isAttrVisibilityField(field)) {
             attrObj.visibility = field.value;
+          } else if (Langium.isAttrCardinalityField(field)) {
+            attrObj.cardinality = field.value.replace(/^"|"$/g, '');
           } else if (Langium.isAttrDefaultField(field)) {
             attrObj.defaultValue = field.value.replace(/^"|"$/g, '');
           } else if (Langium.isAttrStaticField(field)) {
@@ -965,7 +973,7 @@ export function convertContainer(
 
       let shape: string;
       if (statement.shape) {
-        shape = statement.shape;
+        shape = normalizeShapeAlias(statement.shape);
       } else if (containerType === 'mindmap') {
         shape = isFirstNode ? 'circ' : 'rounded';
       } else {

@@ -8,6 +8,7 @@ export interface ClassAttribute {
   name: string;
   type?: string; // Can include generics like "List<String>" or "Map<K, V>"
   visibility?: 'public' | 'private' | 'protected' | 'package';
+  cardinality?: string;
   defaultValue?: string;
   isStatic?: boolean;
   isDerived?: boolean; // Computed/calculated attribute (shown with / prefix)
@@ -324,6 +325,10 @@ function formatAttribute(attr: ClassAttribute): string {
 
   if (attr.type) {
     text += `: ${attr.type}`;
+  }
+
+  if (attr.cardinality) {
+    text += ` [${attr.cardinality}]`;
   }
 
   if (attr.defaultValue) {

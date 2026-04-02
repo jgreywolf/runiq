@@ -103,6 +103,26 @@ describe('Component Diagram Additional Shapes', () => {
     expect(iface?.label).toBe('IPayment');
   });
 
+  it('should parse lollipop alias as providedInterface', () => {
+    const dsl = `
+      diagram "Class Interfaces" {
+        shape service as @class label:"PaymentService"
+        shape paymentApi as @lollipop label:"IPayment"
+        
+        service -> paymentApi
+      }
+    `;
+
+    const result = parse(dsl);
+    expect(result.errors).toHaveLength(0);
+
+    const iface = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'paymentApi'
+    );
+    expect(iface?.shape).toBe('providedInterface');
+    expect(iface?.label).toBe('IPayment');
+  });
+
   it('should parse requiredInterface shape (socket notation)', () => {
     const dsl = `
       diagram "Component Dependencies" {
@@ -119,6 +139,26 @@ describe('Component Diagram Additional Shapes', () => {
 
     const required = result.diagram?.nodes?.find(
       (n: NodeAst) => n.id === 'required'
+    );
+    expect(required?.shape).toBe('requiredInterface');
+    expect(required?.label).toBe('IHttpClient');
+  });
+
+  it('should parse socket alias as requiredInterface', () => {
+    const dsl = `
+      diagram "Class Dependencies" {
+        shape client as @class label:"ApiClient"
+        shape httpClient as @socket label:"IHttpClient"
+        
+        client -> httpClient
+      }
+    `;
+
+    const result = parse(dsl);
+    expect(result.errors).toHaveLength(0);
+
+    const required = result.diagram?.nodes?.find(
+      (n: NodeAst) => n.id === 'httpClient'
     );
     expect(required?.shape).toBe('requiredInterface');
     expect(required?.label).toBe('IHttpClient');

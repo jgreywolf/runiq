@@ -80,6 +80,32 @@ diagram "test" {
     }
   });
 
+  it('should parse attribute cardinality', () => {
+    const input = `
+diagram "test" {
+  shape Order as @class label:"Order" 
+    attributes:[
+      {name:"items" type:"LineItem" visibility:private cardinality:"1..*"}
+    ]
+}
+`;
+
+    const result = parse(input);
+    expect(result.success).toBe(true);
+
+    const diagram = result.document!.profiles[0];
+    if (diagram.type === ProfileType.DIAGRAM) {
+      const node = diagram.nodes[0];
+      const attrs = node.data!.attributes as any[];
+      expect(attrs[0]).toEqual({
+        name: 'items',
+        type: 'LineItem',
+        visibility: 'private',
+        cardinality: '1..*',
+      });
+    }
+  });
+
   it('should parse class with methods', () => {
     const input = `
 diagram "test" {
@@ -113,6 +139,33 @@ diagram "test" {
 
       expect(methods[1].name).toBe('clear');
       expect(methods[1].visibility).toBe('private');
+    }
+  });
+
+  it('should parse tuple types in method parameters and return types', () => {
+    const input = `
+diagram "test" {
+  shape Mapper as @class label:"Mapper"
+    methods:[
+      {name:"transform" params:[{name:"input" type:"(string, int)"}] returnType:"(bool, string)" visibility:public}
+    ]
+}
+`;
+
+    const result = parse(input);
+    expect(result.success).toBe(true);
+
+    const diagram = result.document!.profiles[0];
+    if (diagram.type === ProfileType.DIAGRAM) {
+      const node = diagram.nodes[0];
+      const methods = node.data!.methods as any[];
+
+      expect(methods).toHaveLength(1);
+      expect(methods[0].params[0]).toEqual({
+        name: 'input',
+        type: '(string, int)',
+      });
+      expect(methods[0].returnType).toBe('(bool, string)');
     }
   });
 

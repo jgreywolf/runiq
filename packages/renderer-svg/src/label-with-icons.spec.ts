@@ -182,6 +182,53 @@ describe('Label with Icons', () => {
       expect(svg).toContain('text-anchor="start"');
       expect(svg).toContain('dominant-baseline="hanging"');
     });
+
+    it('should render bold and italic markdown in labels', () => {
+      const warnings: string[] = [];
+      const svg = renderLabelWithIcons(
+        '**Bold** and *italic*',
+        100,
+        50,
+        { fontSize: 14 },
+        warnings
+      );
+
+      expect(svg).toContain('<tspan font-weight="bold">Bold</tspan>');
+      expect(svg).toContain('<tspan font-style="italic">italic</tspan>');
+      expect(svg).not.toContain('**Bold**');
+      expect(svg).not.toContain('*italic*');
+      expect(warnings).toHaveLength(0);
+    });
+
+    it('should render inline code markdown in labels', () => {
+      const warnings: string[] = [];
+      const svg = renderLabelWithIcons(
+        'Use `tuple<int,string>` here',
+        100,
+        50,
+        { fontSize: 14 },
+        warnings
+      );
+
+      expect(svg).toContain('<tspan font-family="monospace">tuple&lt;int,string&gt;</tspan>');
+      expect(svg).not.toContain('`tuple<int,string>`');
+      expect(warnings).toHaveLength(0);
+    });
+
+    it('should support markdown in text around icons', () => {
+      const warnings: string[] = [];
+      const svg = renderLabelWithIcons(
+        'fa:fa-twitter **Share** now',
+        100,
+        50,
+        { fontSize: 14 },
+        warnings
+      );
+
+      expect(svg).toContain('<svg');
+      expect(svg).toContain('<tspan font-weight="bold">Share</tspan>');
+      expect(warnings).toHaveLength(0);
+    });
   });
 
   describe('measureLabelWithIcons', () => {
@@ -204,6 +251,13 @@ describe('Label with Icons', () => {
       const double = measureLabelWithIcons('fa:fa-twitter text fa:twitter', 14);
 
       expect(double).toBeGreaterThan(single);
+    });
+
+    it('should ignore markdown markers when measuring text width', () => {
+      const plain = measureLabelWithIcons('Bold', 14);
+      const markdown = measureLabelWithIcons('**Bold**', 14);
+
+      expect(markdown).toBeCloseTo(plain, 1);
     });
   });
 });

@@ -161,6 +161,25 @@ diagram "Interface Pattern" {
 }
 ```
 
+## Lollipop And Socket Interfaces
+
+For class and architecture-style diagrams, you can also use standalone interface symbols directly:
+
+```runiq
+diagram "Service Interfaces" {
+  direction LR
+
+  shape service as @class label: "PaymentService"
+  shape paymentApi as @lollipop label: "IPayment"
+  shape httpClient as @socket label: "IHttpClient"
+
+  service -> paymentApi
+  service -> httpClient relationship: dependency
+}
+```
+
+`@lollipop` is an alias for `@providedInterface`, and `@socket` is an alias for `@requiredInterface`.
+
 ## Composition vs Aggregation
 
 ```runiq
@@ -365,6 +384,7 @@ diagram "Attribute Example" {
         name: "attributeName"      // Required
         type: "TypeName"            // Required (supports generics)
         visibility: private         // public | private | protected | package
+        cardinality: "0..*"        // Optional UML multiplicity for the attribute
         static: true               // Underlined in display
         derived: true              // Prefixed with /
         default: "defaultValue"    // Default value
