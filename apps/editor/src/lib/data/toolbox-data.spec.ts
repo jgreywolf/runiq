@@ -183,6 +183,27 @@ describe('Toolbox Data Structure', () => {
 		expect(networkShapeIds).toContain('modem');
 	});
 
+	it('should include the expanded AWS service symbols', () => {
+		const awsCategory = shapeCategories.find((cat) => cat.id === 'aws');
+		const awsShapeIds = awsCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(awsShapeIds).toContain('awsCloudFront');
+		expect(awsShapeIds).toContain('awsDynamoDb');
+		expect(awsShapeIds).toContain('awsSqs');
+		expect(awsShapeIds).toContain('awsCognito');
+	});
+
+	it('should include the expanded C4 architecture symbols', () => {
+		const c4Category = shapeCategories.find((cat) => cat.id === 'c4');
+		const c4ShapeIds = c4Category?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(c4ShapeIds).toContain('c4ExternalSystem');
+		expect(c4ShapeIds).toContain('c4ExternalPerson');
+		expect(c4ShapeIds).toContain('c4DeploymentNode');
+		expect(c4ShapeIds).toContain('c4ContainerInstance');
+		expect(c4ShapeIds).toContain('c4SystemInstance');
+	});
+
 	it('should include digital syntax and components in digital profile', () => {
 		const categories = getShapeCategoryByProfile(ProfileName.digital);
 		const categoryIds = categories.map((cat) => cat.id);

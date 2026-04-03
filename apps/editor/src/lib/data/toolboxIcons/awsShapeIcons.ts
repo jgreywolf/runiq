@@ -25,7 +25,11 @@ export const awsShapeIcons: ShapeCategory[] = [
 				id: 'awsApiGateway',
 				label: 'API Gateway',
 				code: 'shape id as @awsApiGateway label:"Public API"'
-			}
+			},
+			{ id: 'awsCloudFront', label: 'CloudFront', code: 'shape id as @awsCloudFront label:"CloudFront CDN"' },
+			{ id: 'awsDynamoDb', label: 'DynamoDB', code: 'shape id as @awsDynamoDb label:"Orders Table"' },
+			{ id: 'awsSqs', label: 'SQS Queue', code: 'shape id as @awsSqs label:"Processing Queue"' },
+			{ id: 'awsCognito', label: 'Cognito', code: 'shape id as @awsCognito label:"User Pool"' }
 		]
 	}
 ];

@@ -40,6 +40,11 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('rds', 'awsRds');
   shapeRegistry.registerAlias('vpc', 'awsVpc');
   shapeRegistry.registerAlias('ec2', 'awsEc2');
+  shapeRegistry.registerAlias('cloudFront', 'awsCloudFront');
+  shapeRegistry.registerAlias('cdn', 'awsCloudFront');
+  shapeRegistry.registerAlias('dynamoDb', 'awsDynamoDb');
+  shapeRegistry.registerAlias('sqs', 'awsSqs');
+  shapeRegistry.registerAlias('cognito', 'awsCognito');
 
   // Flowchart Shapes
   shapeRegistry.registerAlias('process', 'rectangle');
@@ -87,8 +92,12 @@ export function registerShapeAliases() {
 
   // C4 Shapes
   shapeRegistry.registerAlias('system', 'c4System');
+  shapeRegistry.registerAlias('externalSystem', 'c4ExternalSystem');
   shapeRegistry.registerAlias('container', 'c4Container');
+  shapeRegistry.registerAlias('containerInstance', 'c4ContainerInstance');
   shapeRegistry.registerAlias('component', 'c4Component');
+  shapeRegistry.registerAlias('deploymentNode', 'c4DeploymentNode');
+  shapeRegistry.registerAlias('systemInstance', 'c4SystemInstance');
 }
 
 /**

@@ -328,9 +328,14 @@ export function registerUMLShapes(): void {
 
 export function registerC4Shapes(): void {
   shapeRegistry.register(c4.c4Person);
+  shapeRegistry.register(c4.c4ExternalPerson);
   shapeRegistry.register(c4.c4System);
+  shapeRegistry.register(c4.c4ExternalSystem);
   shapeRegistry.register(c4.c4Container);
+  shapeRegistry.register(c4.c4ContainerInstance);
   shapeRegistry.register(c4.c4Component);
+  shapeRegistry.register(c4.c4SystemInstance);
+  shapeRegistry.register(c4.c4DeploymentNode);
 }
 
 export function registerBPMNShapes(): void {
@@ -363,6 +368,10 @@ export function registerAWSShapes(): void {
   shapeRegistry.register(aws.awsRdsShape);
   shapeRegistry.register(aws.awsVpcShape);
   shapeRegistry.register(aws.awsApiGatewayShape);
+  shapeRegistry.register(aws.awsCloudFrontShape);
+  shapeRegistry.register(aws.awsDynamoDbShape);
+  shapeRegistry.register(aws.awsSqsShape);
+  shapeRegistry.register(aws.awsCognitoShape);
 }
 
 export function registerERDShapes(): void {

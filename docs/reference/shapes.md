@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (247 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (256 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 247 diagram profile shapes below ->](#all-shapes)
+[See all 256 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -455,18 +455,23 @@ diagram "Use Case Diagram" {
 }
 ```
 
-### 13. C4 Architecture Shapes (4 shapes)
+### 13. C4 Architecture Shapes (9 shapes)
 
 **Profile:** `diagram` (default)
 
 C4 model shapes for software architecture diagrams:
 
-| Shape        | Syntax         | Description                   |
-| ------------ | -------------- | ----------------------------- |
-| C4 Person    | `@c4Person`    | External person/user          |
-| C4 System    | `@c4System`    | Software system               |
-| C4 Container | `@c4Container` | Application/service container |
-| C4 Component | `@c4Component` | Component within container    |
+| Shape                 | Syntax                 | Description                        |
+| --------------------- | ---------------------- | ---------------------------------- |
+| C4 Person             | `@c4Person`            | Internal person/user               |
+| C4 External Person    | `@c4ExternalPerson`    | External actor                     |
+| C4 System             | `@c4System`            | Internal software system           |
+| C4 External System    | `@c4ExternalSystem`    | External system dependency         |
+| C4 Container          | `@c4Container`         | Application/service container      |
+| C4 Container Instance | `@c4ContainerInstance` | Runtime/deployed container         |
+| C4 Component          | `@c4Component`         | Component within container         |
+| C4 System Instance    | `@c4SystemInstance`    | Runtime/deployed system            |
+| C4 Deployment Node    | `@c4DeploymentNode`    | Infrastructure/runtime environment |
 
 **Example:**
 
@@ -523,7 +528,7 @@ diagram "Order Process" {
 }
 ```
 
-### 15. AWS Shapes (6 shapes)
+### 15. AWS Shapes (10 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -537,6 +542,10 @@ Amazon Web Services infrastructure icons:
 | AWS RDS         | `@awsRds`        | RDS database          |
 | AWS VPC         | `@awsVpc`        | Virtual Private Cloud |
 | AWS API Gateway | `@awsApiGateway` | API Gateway           |
+| AWS CloudFront  | `@awsCloudFront` | Content delivery network |
+| AWS DynamoDB    | `@awsDynamoDb`   | NoSQL database        |
+| AWS SQS         | `@awsSqs`        | Queue service         |
+| AWS Cognito     | `@awsCognito`    | Authentication service |
 
 **Example:**
 
@@ -637,14 +646,14 @@ Complete listing organized by category:
 | Network            | 11    | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
-| C4 Architecture    | 4     | Software architecture (C4 model)               |
+| C4 Architecture    | 9     | Software architecture (C4 model)               |
 | BPMN               | 20    | Business process modeling                      |
-| AWS                | 6     | Amazon Web Services infrastructure             |
+| AWS                | 10    | Amazon Web Services infrastructure             |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 247+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 256+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 
