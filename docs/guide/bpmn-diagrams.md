@@ -565,46 +565,6 @@ diagram "Styled BPMN Process" {
 }
 ```
 
-## Best Practices
-
-### 1. Use Pools for Different Organizations
-
-```runiq
-container "Our Company" as @bpmnPool { ... }
-container "Partner Company" as @bpmnPool { ... }
-container "Customer" as @bpmnPool { ... }
-```
-
-### 2. Use Lanes for Departments/Roles
-
-```runiq
-container "Order Fulfillment" as @bpmnPool {
-  container "Sales" as @bpmnLane { ... }
-  container "Warehouse" as @bpmnLane { ... }
-  container "Shipping" as @bpmnLane { ... }
-}
-```
-
-### 3. Label Message Flows Clearly
-
-```runiq
-customerPool_task -> vendorPool_task label: "Purchase Order"
-vendorPool_ship -> customerPool_receive label: "Shipment Notification"
-```
-
-### 4. Choose the Right Gateway
-
-- **Exclusive** (`exclusive`) - Business decisions with one outcome
-- **Parallel** (`parallel`) - Work that must happen concurrently
-- **Inclusive** (`inclusive`) - Multiple possible outcomes
-
-### 5. Use Event Types Appropriately
-
-- **Timer events** for time-based triggers
-- **Message events** for external communication
-- **Error events** for exception handling
-- **Signal events** for broadcast notifications
-
 ## Common Patterns
 
 ### Approval Workflow
@@ -652,6 +612,46 @@ process -> errorEvent label: "[exception]"
 errorEvent -> handleError
 ```
 
+## Best Practices
+
+### 1. Use Pools for Different Organizations
+
+```runiq
+container "Our Company" as @bpmnPool { ... }
+container "Partner Company" as @bpmnPool { ... }
+container "Customer" as @bpmnPool { ... }
+```
+
+### 2. Use Lanes for Departments/Roles
+
+```runiq
+container "Order Fulfillment" as @bpmnPool {
+  container "Sales" as @bpmnLane { ... }
+  container "Warehouse" as @bpmnLane { ... }
+  container "Shipping" as @bpmnLane { ... }
+}
+```
+
+### 3. Label Message Flows Clearly
+
+```runiq
+customerPool_task -> vendorPool_task label: "Purchase Order"
+vendorPool_ship -> customerPool_receive label: "Shipment Notification"
+```
+
+### 4. Choose the Right Gateway
+
+- **Exclusive** (`exclusive`) - Business decisions with one outcome
+- **Parallel** (`parallel`) - Work that must happen concurrently
+- **Inclusive** (`inclusive`) - Multiple possible outcomes
+
+### 5. Use Event Types Appropriately
+
+- **Timer events** for time-based triggers
+- **Message events** for external communication
+- **Error events** for exception handling
+- **Signal events** for broadcast notifications
+
 ## Comparison with Other Tools
 
 How do Runiq BPMN diagrams compare to other business process modeling tools?
@@ -671,7 +671,7 @@ How do Runiq BPMN diagrams compare to other business process modeling tools?
 | **Free/Open Source**         | ✅    | ✅       | ❌         | ✅      | ✅              | ❌     |
 | **Learning Curve**           | Low   | Med      | Med        | Low     | Med             | Med    |
 
-**Why choose Runiq for BPMN?**
+**Key Advantages of Runiq:**
 
 - **Documentation as code** - Version control your process models
 - **Unified language** - Mix BPMN with ERD, sequence diagrams, architecture diagrams
@@ -679,6 +679,12 @@ How do Runiq BPMN diagrams compare to other business process modeling tools?
 - **Simple syntax** - Focus on process logic, not drawing
 - **Quick prototyping** - Rapidly iterate on process designs
 - **Standards compliance** - BPMN 2.0 core elements supported
+
+**When to Use Alternatives:**
+
+- **Camunda Modeler**: Executable BPMN workflows and runtime integration
+- **Bizagi**: Business-process modeling with enterprise workflow tooling
+- **Lucidchart/Draw.io**: Workshop-style process mapping with less emphasis on text-based versioning
 
 ## See Also
 

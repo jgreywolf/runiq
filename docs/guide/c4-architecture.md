@@ -267,7 +267,7 @@ diagram "Styled C4 Diagram" {
 | **Learning Curve**           | ⚠️ Moderate (DSL)          | ✅ Low         | ⚠️ Moderate    | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate     |
 | **Open Source**              | ✅ MIT License             | ✅ MIT         | ✅ Apache 2.0  | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freemium     |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **C4 native shapes** - Dedicated `@c4Person`, `@c4System`, `@c4Container`, `@c4Component`
 - **Unified language** - Use same DSL for C4, UML, flowcharts, BPMN, and 15+ diagram types
@@ -278,12 +278,12 @@ diagram "Styled C4 Diagram" {
 - **ELK layout engine** - Superior hierarchical layouts for context and container diagrams
 - **Profile system** - Consistent with other diagram types
 
-**Use Structurizr when:**
+**When to Use Alternatives:**
 
-- You need the official C4 tooling with Simon Brown's endorsement
-- Workspace management for large enterprise architectures
-- ADR (Architecture Decision Records) integration
-- Multiple related diagrams with shared model
+- **Structurizr**: Official C4 tooling with shared-model workspaces and ADR-style architecture workflows
+- **Lucidchart / Draw.io**: GUI-first collaboration when the audience is less DSL-oriented
+- **Mermaid**: Lightweight markdown embedding when only basic C4 structure is needed
+- **PlantUML**: Text-based C4 diagrams when you already standardize on C4-PlantUML
 
 ## Related
 

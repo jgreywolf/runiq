@@ -608,7 +608,7 @@ How do Runiq charts compare to other diagramming tools?
 | **Auto-Layout**              | ✅    | ✅      | ✅         | ❌      | ❌    |
 | **Learning Curve**           | Low   | Low     | Med        | Low     | High  |
 
-**Why choose Runiq for charts?**
+**Key Advantages of Runiq:**
 
 - **Unified language** - Charts use the same DSL as all other diagram types
 - **Seamless integration** - Combine charts with flowcharts, architecture diagrams, etc.
@@ -616,6 +616,13 @@ How do Runiq charts compare to other diagramming tools?
 - **Data flexibility** - Simple arrays for DSL, complex objects for JSON imports
 - **Modern features** - Per-point colors, axis flipping, custom labels out of the box
 - **Extensible** - Add custom chart types via the shape system
+
+**When to Use Alternatives:**
+
+- **Mermaid**: Quick markdown-native charts when you only need the limited built-in set
+- **Lucidchart**: Collaborative visual editing for business users who prefer a GUI
+- **Draw.io**: Free drag-and-drop charting in mixed office environments
+- **D3.js**: Fully custom interactive data visualization in web applications
 
 ## Examples
 

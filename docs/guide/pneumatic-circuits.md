@@ -679,7 +679,6 @@ pneumatic "Styled Circuit" {
 - **FluidSIM/Automation Studio**: Need interactive simulation and validation
 - **Festo FluidDraw**: Educational purposes with interactive training modules
 - **Lucidchart**: Real-time collaboration with non-technical stakeholders
-- **Mermaid/PlantUML**: Simple pneumatic concepts in existing markdown docs
 
 ## Examples
 

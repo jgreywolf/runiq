@@ -214,30 +214,29 @@ Use diagram profiles instead when you need:
 
 | Feature                      | Runiq Glyphsets | PowerPoint SmartArt | Mermaid     | PlantUML       | Lucidchart    |
 | ---------------------------- | --------------- | ------------------- | ----------- | -------------- | ------------- |
-| **Text-based DSL**           | ✅ DSL+JSON     | ❌ GUI              | ✅ Yes      | ✅ Yes         | ❌ GUI        |
-| **Version control friendly** | ✅ Git-friendly | ❌ Binary files     | ✅ Yes      | ✅ Yes         | ❌ Cloud      |
-| **Template library**         | ✅ 61 types    | ✅ 200+ types       | ❌ No       | ❌ No          | ✅ 100+ types |
-| **Custom themes**            | ✅ 9 themes     | ✅ Many themes      | ⚠️ Limited  | ⚠️ Colors only | ✅ Yes        |
-| **Data-driven**              | ✅ JSON support | ⚠️ Excel link       | ❌ No       | ❌ No          | ⚠️ CSV import |
-| **Programmatic API**         | ✅ Full SDK     | ⚠️ VBA/COM          | ❌ No       | ❌ No          | ⚠️ API        |
-| **Automatic layout**         | ✅ ELK engine   | ✅ Built-in         | ⚠️ Limited  | ✅ Yes         | ⚠️ Assisted   |
-| **Pure SVG output**          | ✅ Yes          | ⚠️ Export only      | ✅ Yes      | ✅ Yes         | ✅ Export     |
-| **Learning curve**           | 📚 Easy         | 📚 Easy             | 📖 Moderate | 📖 Moderate    | 📚 Easy       |
+| **Text-based DSL**           | ? DSL+JSON     | ? GUI              | ? Yes      | ? Yes         | ? GUI        |
+| **Version control friendly** | ? Git-friendly | ? Binary files     | ? Yes      | ? Yes         | ? Cloud      |
+| **Template library**         | ? 61 types     | ? 200+ types       | ? No       | ? No          | ? 100+ types |
+| **Custom themes**            | ? 9 themes     | ? Many themes      | ?? Limited  | ?? Colors only | ? Yes        |
+| **Data-driven**              | ? JSON support | ?? Excel link       | ? No       | ? No          | ?? CSV import |
+| **Programmatic API**         | ? Full SDK     | ?? VBA/COM          | ? No       | ? No          | ?? API        |
+| **Automatic layout**         | ? ELK engine   | ? Built-in         | ?? Limited  | ? Yes         | ?? Assisted   |
+| **Pure SVG output**          | ? Yes          | ?? Export only      | ? Yes      | ? Yes         | ? Export     |
+| **Learning curve**           | Easy            | Easy                | Moderate    | Moderate       | Easy          |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
-- ✅ **Text-based workflow** - Perfect for developers, version control, CI/CD
-- ✅ **Programmatic generation** - Create diagrams from databases, APIs, computed data
-- ✅ **Dual format** - Both human-friendly DSL and machine-friendly JSON
-- ✅ **PowerPoint familiarity** - Same mental model as SmartArt
-- ✅ **Professional output** - Clean, accessible SVG graphics
+- ? **Text-based workflow** - Perfect for developers, version control, CI/CD
+- ? **Programmatic generation** - Create diagrams from databases, APIs, computed data
+- ? **Dual format** - Both human-friendly DSL and machine-friendly JSON
+- ? **PowerPoint familiarity** - Same mental model as SmartArt
+- ? **Professional output** - Clean, accessible SVG graphics
 
-**When to use PowerPoint SmartArt instead:**
+**When to Use Alternatives:**
 
-- Need more template variety (200+ vs 61)
-- Working exclusively in Microsoft Office
-- Prefer GUI-based editing
-- Don't need version control or programmatic generation
+- **PowerPoint SmartArt**: Office-native presentations when GUI editing matters more than version control
+- **Lucidchart**: Collaborative visual editing with broader business-diagram tooling
+- **Mermaid / PlantUML**: Text-based diagrams when you do not need template-driven glyphset layouts
 
 ## Next Steps
 

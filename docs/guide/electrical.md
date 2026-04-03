@@ -59,23 +59,23 @@ Standard SPICE suffixes: f, p, n, u, m, k, Meg, G
 
 | Feature                      | Runiq                     | Lucidchart         | Draw.io       | LTspice          | KiCad            |
 | ---------------------------- | ------------------------- | ------------------ | ------------- | ---------------- | ---------------- |
-| **Text-Based DSL**           | ✅                        | ❌(GUI)            | ❌(GUI)       | ⚠️ Netlist only  | ❌(GUI)          |
-| **Version Control Friendly** | ✅                        | ⚠️ Limited         | ⚠️ Limited    | ⚠️ Netlist only  | ⚠️ Complex files |
-| **Automatic Layout**         | ✅ ELK                    | ⚠️ Manual          | ⚠️ Manual     | ⚠️ Manual        | ⚠️ Manual        |
-| **IEEE Standard Symbols**    | ✅                        | ✅                 | ✅            | ✅               | ✅               |
-| **SPICE Export**             | ✅ Native netlist         | ❌                 | ❌            | ✅               | ✅               |
-| **Circuit Simulation**       | ⚠️ Via SPICE export       | ❌                 | ❌            | ✅ Built-in      | ⚠️ Via ngspice   |
-| **Component Library**        | ✅ R, L, C, V, I, D, Q, M | ✅ Extensive       | ✅ Extensive  | ✅ Extensive     | ✅ Massive       |
-| **Analysis Types**           | ✅ op, tran, ac, dc       | ❌                 | ❌            | ✅ All types     | ✅ All types     |
-| **Net Naming**               | ✅ Descriptive names      | ✅ Manual          | ✅ Manual     | ✅ Node numbers  | ✅ Net names     |
-| **PCB Design**               | ❌                        | ⚠️ Basic           | ⚠️ Basic      | ❌               | ✅ Full support  |
-| **Schematic Capture**        | ✅ Text-based             | ✅ GUI             | ✅ GUI        | ✅ GUI           | ✅ GUI           |
-| **Export Formats**           | ✅ SVG, PNG, SPICE        | ✅ Many formats    | ✅ Many       | ✅ PNG, PDF      | ✅ Many          |
-| **Collaboration**            | ✅ Git-based              | ✅ Cloud (Paid)    | ✅ Cloud      | ❌ Desktop-based | ✅ Git-friendly  |
-| **Learning Curve**           | ⚠️ Moderate (DSL)         | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate      | ❌ High          |
-| **Open Source**              | ✅ MIT License            | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freeware      | ✅ GPL           |
+| **Text-Based DSL**           | ?                        | ? GUI             | ? GUI        | ?? Netlist only  | ? GUI           |
+| **Version Control Friendly** | ?                        | ?? Limited         | ?? Limited    | ?? Netlist only  | ?? Complex files |
+| **Automatic Layout**         | ? ELK                    | ?? Manual          | ?? Manual     | ?? Manual        | ?? Manual        |
+| **IEEE Standard Symbols**    | ?                        | ?                 | ?            | ?               | ?               |
+| **SPICE Export**             | ? Native netlist         | ?                 | ?            | ?               | ?               |
+| **Circuit Simulation**       | ?? Via SPICE export       | ?                 | ?            | ? Built-in      | ?? Via ngspice   |
+| **Component Library**        | ? R, L, C, V, I, D, Q, M | ? Extensive       | ? Extensive  | ? Extensive     | ? Massive       |
+| **Analysis Types**           | ? op, tran, ac, dc       | ?                 | ?            | ? All types     | ? All types     |
+| **Net Naming**               | ? Descriptive names      | ? Manual          | ? Manual     | ? Node numbers  | ? Net names     |
+| **PCB Design**               | ?                        | ?? Basic           | ?? Basic      | ?               | ? Full support  |
+| **Schematic Capture**        | ? Text-based             | ? GUI             | ? GUI        | ? GUI           | ? GUI           |
+| **Export Formats**           | ? SVG, PNG, SPICE        | ? Many formats    | ? Many       | ? PNG, PDF      | ? Many          |
+| **Collaboration**            | ? Git-based              | ? Cloud (Paid)    | ? Cloud      | ? Desktop-based | ? Git-friendly  |
+| **Learning Curve**           | ?? Moderate (DSL)         | ? Low (GUI)       | ? Low        | ?? Moderate      | ? High          |
+| **Open Source**              | ? MIT License            | ? Commercial only | ? Apache 2.0 | ?? Freeware      | ? GPL           |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **Text-based schematic design** - Version control friendly, perfect for documentation
 - **SPICE netlist export** - Seamless integration with simulation tools
@@ -85,12 +85,11 @@ Standard SPICE suffixes: f, p, n, u, m, k, Meg, G
 - **Auto-layout** - ELK engine for clean circuit layouts
 - **Documentation focus** - Ideal for papers, tutorials, educational materials
 
-**Use LTspice/KiCad when:**
+**When to Use Alternatives:**
 
-- You need interactive simulation with waveform viewing
-- PCB design is required
-- Working with complex component libraries (thousands of parts)
-- Professional EDA workflow needed
+- **LTspice**: Interactive simulation with waveform analysis and deeper SPICE workflows
+- **KiCad**: Schematic capture tied directly to PCB design and manufacturing workflows
+- **Lucidchart / Draw.io**: GUI-first documentation for simpler visual communication with non-EDA users
 
 ## Examples
 

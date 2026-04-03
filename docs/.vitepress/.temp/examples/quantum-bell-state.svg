@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="618" height="147" 
+    viewBox="0 0 618 147"
+    role="img" aria-labelledby="diagram-title"><title id="diagram-title">Bell State Circuit</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-edge="q0-H0"><defs>
+      <marker id="arrow-standard-q0-H0" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 62 116.5 L 137 116.5 L 137 117 L 212 117" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-q0-H0)" /></g><g data-runiq-edge="H0-control0"><defs>
+      <marker id="arrow-standard-H0-control0" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 232 117 L 317.5 117 L 317.5 117 L 403 117" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-H0-control0)" /></g><g data-runiq-edge="q1-target1"><defs>
+      <marker id="arrow-standard-q1-target1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 432 12.5 L 467 12.5 L 467 111 L 582 114" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-q1-target1)" /></g><g data-runiq-edge="control0-target1"><defs>
+      <marker id="arrow-standard-control0-target1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,6 9,3" fill="#333" />
+      </marker></defs><path d="M 411 117 L 496.5 117 L 496.5 114 L 582 114" fill="none" stroke="#333" stroke-width="1" marker-end="url(#arrow-standard-control0-target1)" /></g><g data-runiq-node="q0"><g><line x1="12" y1="116" x2="62" y2="116" stroke="#000000" stroke-width="1" /></g></g><g data-runiq-node="q1"><g><line x1="382" y1="12" x2="432" y2="12" stroke="#000000" stroke-width="1" /></g></g><g data-runiq-node="H0"><g><rect x="212" y="107" width="20" height="20" fill="#e8f5e9" stroke="#000" stroke-width="2" rx="2" /><text x="222" y="121" text-anchor="middle" font-size="14" font-weight="bold" fill="#000">H</text></g></g><g data-runiq-node="control0"><g><circle cx="407" cy="117" r="4" fill="#000" stroke="none" /></g></g><g data-runiq-node="target1"><g><circle cx="590" cy="114" r="8" fill="#fff" stroke="#000" stroke-width="2" /><line x1="584" y1="114" x2="596" y2="114" stroke="#000" stroke-width="2" /><line x1="590" y1="108" x2="590" y2="120" stroke="#000" stroke-width="2" /></g></g></svg>

@@ -315,7 +315,7 @@ How do Runiq AWS diagrams compare to other cloud diagramming tools?
 | **Free/Open Source**         | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
 | **Learning Curve**           | Low   | Low             | Med      | Low        | Med        | Low     |
 
-**Why choose Runiq for AWS diagrams?**
+**Key Advantages of Runiq:**
 
 - **Version control friendly** - Text-based DSL works with Git
 - **Unified language** - Same syntax for AWS, UML, BPMN, and other diagram types
@@ -323,6 +323,13 @@ How do Runiq AWS diagrams compare to other cloud diagramming tools?
 - **Documentation as code** - Keep architecture diagrams with your IaC
 - **Quick prototyping** - Rapidly sketch architecture ideas
 - **Integration** - Combine AWS diagrams with sequence diagrams, ERDs, etc.
+
+**When to Use Alternatives:**
+
+- **Cloudcraft**: Cost-aware AWS visualization with cloud-specific pricing workflows
+- **Lucidchart**: GUI-driven collaboration for mixed technical and business audiences
+- **Diagrams.net**: Free drag-and-drop editing for general-purpose cloud documentation
+- **PlantUML**: Text-based AWS diagrams when you already standardize on PlantUML elsewhere
 
 ## Related
 

@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="572" height="212" 
+    viewBox="0 0 572 212"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="detailedProcess" data-node-id="detailedProcess" data-node-shape="detailedProcess">
+          <rect x="12" y="12" 
+                width="140" height="60"
+                rx="6" ry="6"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="82" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Design
+    </text>
+        
+            <rect x="32" y="92" 
+                  width="100" height="40"
+                  rx="4" ry="4"
+                  fill="#A5A5A5" stroke="#48677e" stroke-width="1.5" />
+            
+            <text x="82" y="112" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Wireframes
+    </text>
+          
+              <line x1="82" y1="72" 
+                    x2="82" y2="92"
+                    stroke="#48677e" stroke-width="1.5" 
+                    stroke-dasharray="4,2" />
+            
+            <rect x="32" y="142" 
+                  width="100" height="40"
+                  rx="4" ry="4"
+                  fill="#A5A5A5" stroke="#48677e" stroke-width="1.5" />
+            
+            <text x="82" y="162" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Prototypes
+    </text>
+          
+            <defs>
+              <marker id="arrowhead-detailed-0" markerWidth="10" markerHeight="10" 
+                      refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#48677e" />
+              </marker>
+            </defs>
+            
+            <line x1="152" y1="42" 
+                  x2="212" y2="42"
+                  stroke="#48677e" stroke-width="2"
+                  marker-end="url(#arrowhead-detailed-0)" />
+          
+          <rect x="212" y="12" 
+                width="140" height="60"
+                rx="6" ry="6"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="282" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Build
+    </text>
+        
+            <rect x="232" y="92" 
+                  width="100" height="40"
+                  rx="4" ry="4"
+                  fill="#A5A5A5" stroke="#48677e" stroke-width="1.5" />
+            
+            <text x="282" y="112" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Frontend
+    </text>
+          
+              <line x1="282" y1="72" 
+                    x2="282" y2="92"
+                    stroke="#48677e" stroke-width="1.5" 
+                    stroke-dasharray="4,2" />
+            
+            <rect x="232" y="142" 
+                  width="100" height="40"
+                  rx="4" ry="4"
+                  fill="#A5A5A5" stroke="#48677e" stroke-width="1.5" />
+            
+            <text x="282" y="162" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Backend
+    </text>
+          
+            <defs>
+              <marker id="arrowhead-detailed-1" markerWidth="10" markerHeight="10" 
+                      refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#48677e" />
+              </marker>
+            </defs>
+            
+            <line x1="352" y1="42" 
+                  x2="412" y2="42"
+                  stroke="#48677e" stroke-width="2"
+                  marker-end="url(#arrowhead-detailed-1)" />
+          
+          <rect x="412" y="12" 
+                width="140" height="60"
+                rx="6" ry="6"
+                fill="#5a819e" stroke="#48677e" stroke-width="2" />
+          
+          <text x="482" y="42" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="14"
+      fill="#FFFFFF">
+      Test
+    </text>
+        
+            <rect x="432" y="92" 
+                  width="100" height="40"
+                  rx="4" ry="4"
+                  fill="#A5A5A5" stroke="#48677e" stroke-width="1.5" />
+            
+            <text x="482" y="112" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      Unit Tests
+    </text>
+          
+              <line x1="482" y1="72" 
+                    x2="482" y2="92"
+                    stroke="#48677e" stroke-width="1.5" 
+                    stroke-dasharray="4,2" />
+            
+            <rect x="432" y="142" 
+                  width="100" height="40"
+                  rx="4" ry="4"
+                  fill="#A5A5A5" stroke="#48677e" stroke-width="1.5" />
+            
+            <text x="482" y="162" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#333">
+      QA
+    </text>
+          </g></svg>

@@ -177,7 +177,7 @@ diagram "Styled Flowchart" {
 | **Real-Time Collaboration**  | ⚠️ Via Git        | ⚠️ Via tools  | ⚠️ Via tools | ✅              | ✅            | ⚠️ SharePoint only |
 | **Open Source**              | ✅ MIT License    | ✅ MIT        | ✅ GPL       | ❌              | ✅ Apache 2.0 | ❌                 |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **Unified language** for flowcharts, sequence, class, BPMN, and 15+ diagram types
 - **ISO 5807 compliance** with all standard flowchart symbols
@@ -185,6 +185,12 @@ diagram "Styled Flowchart" {
 - **ELK layout engine** for superior hierarchical layouts
 - **Version control native** - perfect for CI/CD pipelines
 - **Profile system** for diagram-specific conventions (flowchart, bpmn, sequence, etc.)
+
+**When to Use Alternatives:**
+
+- **Lucidchart/Draw.io**: Real-time workshop collaboration with non-technical teams
+- **Visio**: Organizations already standardized on Microsoft diagramming workflows
+- **PlantUML/Mermaid**: Simpler flowcharting when teams are already committed to those DSLs
 
 ## Examples
 

@@ -30,6 +30,20 @@ See the [Shape Reference - UML Shapes](/reference/shapes#_10-uml-shapes-22-shape
 | Extend         | `useCaseA -> useCaseB`          | Conditionally extends behavior (optional) |
 | Generalization | `specificActor -> generalActor` | Actor inheritance                         |
 
+## Include vs Extend
+
+**Use `<<include>>` when:**
+
+- The behavior is always required
+- It's a mandatory step in the use case
+- Example: "Login" always includes "Authenticate"
+
+**Use `<<extend>>` when:**
+
+- The behavior is optional
+- It adds extra functionality under certain conditions
+- Example: "Place Order" optionally extends to "Apply Discount"
+
 ## Simple Use Case Diagram
 
 ```runiq
@@ -75,17 +89,17 @@ diagram "E-commerce Platform" {
   customer -> search
   customer -> addCart
   customer -> checkout
-  checkout -> processPayment label: "«include»"
+  checkout -> processPayment label: "<<include>>"
   processPayment -> payment
   admin -> manageOrders
   admin -> manageProducts
-  browse -> search label: "«include»"
+  browse -> search label: "<<include>>"
 }
 ```
 
 ## Include Relationship
 
-Use `«include»` for mandatory sub-functionality:
+Use `<<include>>` for mandatory sub-functionality:
 
 ```runiq
 diagram "Login System" {
@@ -97,14 +111,14 @@ diagram "Login System" {
   shape validateCredentials as @ellipseWide label: "Validate Credentials"
 
   user -> login
-  login -> authenticate label: "«include»" relationship: dependency
-  authenticate -> validateCredentials label: "«include»" relationship: dependency
+  login -> authenticate label: "<<include>>" relationship: dependency
+  authenticate -> validateCredentials label: "<<include>>" relationship: dependency
 }
 ```
 
 ## Extend Relationship
 
-Use `«extend»` for optional behavior:
+Use `<<extend>>` for optional behavior:
 
 ```runiq
 diagram "Order System" {
@@ -116,8 +130,8 @@ diagram "Order System" {
   shape giftWrap as @ellipseWide label: "Add Gift Wrapping"
 
   customer -> placeOrder
-  applyDiscount -> placeOrder label: "«extend»" relationship: dependency lineStyle: "dashed"
-  giftWrap -> placeOrder label: "«extend»" relationship: dependency lineStyle: "dashed"
+  applyDiscount -> placeOrder label: "<<extend>>" relationship: dependency lineStyle: "dashed"
+  giftWrap -> placeOrder label: "<<extend>>" relationship: dependency lineStyle: "dashed"
 }
 ```
 
@@ -176,7 +190,7 @@ diagram "Healthcare System" {
   patient -> viewRecords
   doctor -> prescribe
   doctor -> viewRecords
-  bookAppointment -> checkInsurance label: "«include»" relationship: dependency
+  bookAppointment -> checkInsurance label: "<<include>>" relationship: dependency
   checkInsurance -> insurance
   doctor -> submitClaim
   submitClaim -> insurance
@@ -277,7 +291,7 @@ diagram "ATM Withdrawal" {
 
 **Don't use extension points for:**
 
-- Required functionality (use «include» instead)
+- Required functionality (use `<<include>>` instead)
 - General alternatives without specific conditions
 - Core behavior variations (consider separate use cases)
 
@@ -297,7 +311,7 @@ diagram "Styled Use Case" {
   }
 
   user -> useCase1 strokeColor: "#3b82f6" strokeWidth: 2
-  useCase2 -> useCase1 label: "«extend»" relationship: dependency strokeColor: "#f59e0b" lineStyle: "dashed"
+  useCase2 -> useCase1 label: "<<extend>>" relationship: dependency strokeColor: "#f59e0b" lineStyle: "dashed"
 }
 ```
 
@@ -310,20 +324,6 @@ diagram "Styled Use Case" {
 5. **Actor placement** - Primary actors on left, secondary actors on right
 6. **Keep it high-level** - Don't include implementation details
 7. **Use notes sparingly** - Add clarification only when needed
-
-## Include vs Extend
-
-**Use «include» when:**
-
-- The behavior is always required
-- It's a mandatory step in the use case
-- Example: "Login" always includes "Authenticate"
-
-**Use «extend» when:**
-
-- The behavior is optional
-- It adds extra functionality under certain conditions
-- Example: "Place Order" optionally extends to "Apply Discount"
 
 ## Comparison with Other Tools
 
@@ -350,7 +350,7 @@ diagram "Styled Use Case" {
 
 **Key Advantages of Runiq:**
 
-- **UML Compliant**: Proper stereotypes for «include» and «extend» relationships
+- **UML Compliant**: Proper stereotypes for `<<include>>` and `<<extend>>` relationships
 - **Version Control**: Track requirements evolution in Git with product code
 - **Unified Language**: Consistent syntax with other UML diagrams
 - **Clear Syntax**: Simple actor and use case notation

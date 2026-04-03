@@ -322,6 +322,149 @@ diagram "Emergency Shutdown" {
 }
 ```
 
+## Advanced Transition Syntax
+
+UML 2.5 defines comprehensive transition syntax: **event [guard] / effect**
+
+All three components are optional, allowing flexible transition modeling.
+
+### Event-Only Transitions
+
+Simple trigger-based transitions:
+
+```runiq
+diagram "Event Example" {
+  idle -> active event:"buttonPressed"
+  active -> complete event:"taskFinished"
+}
+```
+
+### Guard-Only Transitions
+
+Conditional transitions without explicit events (evaluated continuously):
+
+```runiq
+diagram "Guard Example" {
+  processing -> complete guard:"[progress >= 100]"
+  waiting -> timeout guard:"[elapsedTime > maxWait]"
+}
+```
+
+### Effect-Only Transitions
+
+Actions without events or guards:
+
+```runiq
+diagram "Effect Example" {
+  start -> initialized effect:"loadConfig(); setupLogger()"
+}
+```
+
+### Combining Event, Guard, and Effect
+
+Full UML transition syntax:
+
+```runiq
+diagram "ATM Withdrawal" {
+  shape idle as @state label:"Idle"
+  shape verifying as @state label:"Verifying"
+  shape dispensing as @state label:"Dispensing"
+  shape error as @state label:"Error"
+
+  idle -> verifying
+    event:"cardInserted"
+    effect:"readCard(); startSession()"
+
+  verifying -> dispensing
+    event:"pinEntered"
+    guard:"[pinValid && balance >= amount]"
+    effect:"deductAmount(); logTransaction()"
+
+  verifying -> error
+    event:"pinEntered"
+    guard:"[!pinValid || attempts >= 3]"
+    effect:"incrementAttempts(); showError()"
+}
+```
+
+### Complex Guard Conditions
+
+Guards support logical operators and comparisons:
+
+```runiq
+diagram "Complex Guards" {
+  idle -> ready
+    guard:"[temperature > 20 && temperature < 80 && pressure == nominal]"
+
+  ready -> running
+    guard:"[fuel >= minFuel || batteryLevel > 0.5]"
+
+  running -> emergency
+    event:"alert"
+    guard:"[errorCount >= threshold && !maintenanceMode]"
+}
+```
+
+### Multiple Effect Actions
+
+Use semicolons to separate multiple actions:
+
+```runiq
+diagram "Multiple Effects" {
+  processing -> complete
+    event:"finished"
+    effect:"saveResults(); notifyUser(); cleanup(); logCompletion()"
+}
+```
+
+### Self-Transitions
+
+Transitions can return to the same state (executes exit then entry):
+
+```runiq
+diagram "Self-Transition" {
+  shape active as @state
+    label:"Active"
+    entry:"resetCounter()"
+    exit:"saveState()"
+
+  active -> active
+    event:"refresh"
+    effect:"reloadData()"
+}
+```
+
+### Transition Best Practices
+
+1. **Events** - Name clearly what triggers the transition:
+   - Good: `"paymentReceived"`, `"timeout"`, `"userCancelled"`
+   - Avoid: Generic names like `"event1"`, `"trigger"`
+
+2. **Guards** - Always enclose in square brackets `[...]`:
+   - Include the brackets in the string: `guard:"[balance > 0]"`
+   - Use clear boolean expressions
+   - Keep conditions simple and testable
+
+3. **Effects** - Use imperative action names:
+   - Good: `"startTimer()"`, `"logError()"`, `"sendNotification()"`
+   - Show method calls with parentheses
+   - Separate multiple actions with semicolons
+
+4. **Completeness** - Use appropriate combinations:
+   - Simple trigger: event only
+   - Conditional: guard (with or without event)
+   - Action-required: always include effect
+   - Full syntax: all three for complex business logic
+
+5. **Documentation** - Comment complex transitions:
+   ```runiq
+   // Validate payment and authorize transaction
+   pending -> authorized
+     event:"paymentProcessed"
+     guard:"[amount <= creditLimit && !fraudDetected]"
+     effect:"reserveFunds(); sendConfirmation()"
+   ```
+
 ## Complete Example
 
 Here's a comprehensive state machine showing all features:
@@ -408,95 +551,6 @@ diagram "Complete State Machine - Door Lock" {
   locked -> end event: "powerOff"
 }
 ```
-
-## Best Practices
-
-### 1. State Naming
-
-- Use **noun phrases** for state names: "Locked", "Processing", "Waiting"
-- Avoid verb phrases unless necessary: "StartingUp" is okay
-
-### 2. Transition Labels
-
-- **Event names**: Use past tense or imperative: "buttonPressed", "timeout", "start"
-- **Guards**: Always use square brackets: `[condition]`
-- **Effects**: Always prefix with `/`: `/ action()`
-
-### 3. State Behaviors
-
-- **Entry actions**: Setup, initialization, notifications
-- **Do activities**: Continuous operations that can be interrupted
-- **Exit actions**: Cleanup, resource release, logging
-
-### 4. Pseudo-state Usage
-
-- Use **choice** for runtime decisions based on dynamic data
-- Use **junction** for static branching based on constants
-- Use **history** when substates need to be restored after interruption
-
-### 5. Diagram Organization
-
-- Use `direction LR` for wide, flat state machines
-- Use `direction TB` for hierarchical state machines with many levels
-- Group related states visually with spacing or containers
-
-## UML 2.5 Compliance
-
-Runiq's state machine diagrams are compliant with UML 2.5:
-
-| Feature                | Support    | Notes                                   |
-| ---------------------- | ---------- | --------------------------------------- |
-| States                 | ✅ Full    | With entry/exit/doActivity              |
-| Initial/Final States   | ✅ Full    | Standard UML notation                   |
-| Transitions            | ✅ Full    | event [guard] / effect syntax           |
-| Choice Pseudo-state    | ✅ Full    | Dynamic branching                       |
-| Junction Pseudo-state  | ✅ Full    | Static branching                        |
-| Fork/Join              | ✅ Full    | Parallel regions                        |
-| History (Shallow/Deep) | ✅ Full    | State restoration                       |
-| Entry/Exit Points      | ✅ Full    | Composite state boundaries              |
-| Terminate              | ✅ Full    | State machine termination               |
-| Composite States       | ⚠️ Partial | Use containers (future: proper nesting) |
-
-## Tips
-
-::: tip State Behavior Format
-The behavior syntax automatically adds the UML format:
-
-- `entry: "action()"` renders as `entry / action()`
-- `doActivity: "task()"` renders as `do / task()`
-- `exit: "cleanup()"` renders as `exit / cleanup()`
-  :::
-
-::: tip Transition Syntax
-You can use any combination of event, guard, and effect:
-
-```runiq
-# Event only
-idle -> processing event: "start"
-
-# Event + Guard
-idle -> processing event: "start" guard: "[ready]"
-
-# Event + Effect
-idle -> processing event: "start" effect: "/ initialize()"
-
-# All three
-idle -> processing
-  event: "start"
-  guard: "[ready]"
-  effect: "/ initialize()"
-```
-
-:::
-
-::: tip History Restoration
-When using history pseudo-states, they must have an outgoing transition to the default state (in case no history exists):
-
-```runiq
-hist -> defaultState  # Required default transition
-```
-
-:::
 
 ## Common Patterns
 
@@ -673,148 +727,94 @@ diagram "Traffic Light State Machine" {
    - Good: `"startTimer(30)"`, `"count++"`
    - Avoid: Complex multi-line code
 
-## Advanced Transition Syntax
+## UML 2.5 Compliance
 
-UML 2.5 defines comprehensive transition syntax: **event [guard] / effect**
+Runiq's state machine diagrams are compliant with UML 2.5:
 
-All three components are optional, allowing flexible transition modeling.
+| Feature                | Support    | Notes                                   |
+| ---------------------- | ---------- | --------------------------------------- |
+| States                 | ✅ Full    | With entry/exit/doActivity              |
+| Initial/Final States   | ✅ Full    | Standard UML notation                   |
+| Transitions            | ✅ Full    | event [guard] / effect syntax           |
+| Choice Pseudo-state    | ✅ Full    | Dynamic branching                       |
+| Junction Pseudo-state  | ✅ Full    | Static branching                        |
+| Fork/Join              | ✅ Full    | Parallel regions                        |
+| History (Shallow/Deep) | ✅ Full    | State restoration                       |
+| Entry/Exit Points      | ✅ Full    | Composite state boundaries              |
+| Terminate              | ✅ Full    | State machine termination               |
+| Composite States       | ⚠️ Partial | Use containers (future: proper nesting) |
 
-### Event-Only Transitions
+## Tips
 
-Simple trigger-based transitions:
+::: tip State Behavior Format
+The behavior syntax automatically adds the UML format:
 
-```runiq
-diagram "Event Example" {
-  idle -> active event:"buttonPressed"
-  active -> complete event:"taskFinished"
-}
-```
+- `entry: "action()"` renders as `entry / action()`
+- `doActivity: "task()"` renders as `do / task()`
+- `exit: "cleanup()"` renders as `exit / cleanup()`
+  :::
 
-### Guard-Only Transitions
-
-Conditional transitions without explicit events (evaluated continuously):
-
-```runiq
-diagram "Guard Example" {
-  processing -> complete guard:"[progress >= 100]"
-  waiting -> timeout guard:"[elapsedTime > maxWait]"
-}
-```
-
-### Effect-Only Transitions
-
-Actions without events or guards:
+::: tip Transition Syntax
+You can use any combination of event, guard, and effect:
 
 ```runiq
-diagram "Effect Example" {
-  start -> initialized effect:"loadConfig(); setupLogger()"
-}
+# Event only
+idle -> processing event: "start"
+
+# Event + Guard
+idle -> processing event: "start" guard: "[ready]"
+
+# Event + Effect
+idle -> processing event: "start" effect: "/ initialize()"
+
+# All three
+idle -> processing
+  event: "start"
+  guard: "[ready]"
+  effect: "/ initialize()"
 ```
 
-### Combining Event, Guard, and Effect
+:::
 
-Full UML transition syntax:
+::: tip History Restoration
+When using history pseudo-states, they must have an outgoing transition to the default state (in case no history exists):
 
 ```runiq
-diagram "ATM Withdrawal" {
-  shape idle as @state label:"Idle"
-  shape verifying as @state label:"Verifying"
-  shape dispensing as @state label:"Dispensing"
-  shape error as @state label:"Error"
-
-  idle -> verifying
-    event:"cardInserted"
-    effect:"readCard(); startSession()"
-
-  verifying -> dispensing
-    event:"pinEntered"
-    guard:"[pinValid && balance >= amount]"
-    effect:"deductAmount(); logTransaction()"
-
-  verifying -> error
-    event:"pinEntered"
-    guard:"[!pinValid || attempts >= 3]"
-    effect:"incrementAttempts(); showError()"
-}
+hist -> defaultState  # Required default transition
 ```
 
-### Complex Guard Conditions
+:::
 
-Guards support logical operators and comparisons:
+## Best Practices
 
-```runiq
-diagram "Complex Guards" {
-  idle -> ready
-    guard:"[temperature > 20 && temperature < 80 && pressure == nominal]"
+### 1. State Naming
 
-  ready -> running
-    guard:"[fuel >= minFuel || batteryLevel > 0.5]"
+- Use **noun phrases** for state names: "Locked", "Processing", "Waiting"
+- Avoid verb phrases unless necessary: "StartingUp" is okay
 
-  running -> emergency
-    event:"alert"
-    guard:"[errorCount >= threshold && !maintenanceMode]"
-}
-```
+### 2. Transition Labels
 
-### Multiple Effect Actions
+- **Event names**: Use past tense or imperative: "buttonPressed", "timeout", "start"
+- **Guards**: Always use square brackets: `[condition]`
+- **Effects**: Always prefix with `/`: `/ action()`
 
-Use semicolons to separate multiple actions:
+### 3. State Behaviors
 
-```runiq
-diagram "Multiple Effects" {
-  processing -> complete
-    event:"finished"
-    effect:"saveResults(); notifyUser(); cleanup(); logCompletion()"
-}
-```
+- **Entry actions**: Setup, initialization, notifications
+- **Do activities**: Continuous operations that can be interrupted
+- **Exit actions**: Cleanup, resource release, logging
 
-### Self-Transitions
+### 4. Pseudo-state Usage
 
-Transitions can return to the same state (executes exit then entry):
+- Use **choice** for runtime decisions based on dynamic data
+- Use **junction** for static branching based on constants
+- Use **history** when substates need to be restored after interruption
 
-```runiq
-diagram "Self-Transition" {
-  shape active as @state
-    label:"Active"
-    entry:"resetCounter()"
-    exit:"saveState()"
+### 5. Diagram Organization
 
-  active -> active
-    event:"refresh"
-    effect:"reloadData()"
-}
-```
-
-### Transition Best Practices
-
-1. **Events** - Name clearly what triggers the transition:
-   - Good: `"paymentReceived"`, `"timeout"`, `"userCancelled"`
-   - Avoid: Generic names like `"event1"`, `"trigger"`
-
-2. **Guards** - Always enclose in square brackets `[...]`:
-   - Include the brackets in the string: `guard:"[balance > 0]"`
-   - Use clear boolean expressions
-   - Keep conditions simple and testable
-
-3. **Effects** - Use imperative action names:
-   - Good: `"startTimer()"`, `"logError()"`, `"sendNotification()"`
-   - Show method calls with parentheses
-   - Separate multiple actions with semicolons
-
-4. **Completeness** - Use appropriate combinations:
-   - Simple trigger: event only
-   - Conditional: guard (with or without event)
-   - Action-required: always include effect
-   - Full syntax: all three for complex business logic
-
-5. **Documentation** - Comment complex transitions:
-   ```runiq
-   // Validate payment and authorize transaction
-   pending -> authorized
-     event:"paymentProcessed"
-     guard:"[amount <= creditLimit && !fraudDetected]"
-     effect:"reserveFunds(); sendConfirmation()"
-   ```
+- Use `direction LR` for wide, flat state machines
+- Use `direction TB` for hierarchical state machines with many levels
+- Group related states visually with spacing or containers
 
 ## Comparison with Other Tools
 
@@ -859,9 +859,4 @@ diagram "Self-Transition" {
 - [Class Diagrams](/guide/class-diagrams) - UML class modeling
 - [Sequence Diagrams](/guide/sequence-diagrams) - Interaction modeling
 - [Use Case Diagrams](/guide/use-case-diagrams) - System functionality
-- [Activity Diagrams](/guide/activity-diagrams) - Process modeling (coming soon)
-
----
-
-**Last Updated:** October 31, 2025  
-**Specification Compliance:** UML 2.5 State Machines (~85% coverage)
+- [Activity Diagrams](/guide/activity-diagrams) - Process modeling

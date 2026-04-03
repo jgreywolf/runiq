@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="492" height="492" 
+    viewBox="0 0 492 492"
+    role="img" aria-labelledby="diagram-title" data-id="runiq-diagram">
+<title id="diagram-title">Diagram</title><defs><style type="text/css"><![CDATA[.runiq-node-text { font-family: sans-serif; font-size: 14px; }.runiq-edge-text { font-family: sans-serif; font-size: 12px; }.runiq-container-label { font-family: sans-serif; font-size: 16px; font-weight: bold; fill: #666; }]]></style><pattern id="pedigree-half-fill" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="40" fill="#000"/><rect x="20" y="0" width="20" height="40" fill="#fff"/></pattern></defs><g data-runiq-node="radialCycle" data-node-id="radialCycle" data-node-shape="radialCycle">
+        <line x1="242" y1="242" 
+              x2="242" y2="92"
+              stroke="#48677e" stroke-width="2" 
+              stroke-dasharray="5,3" />
+      
+        <line x1="242" y1="242" 
+              x2="371.9038105676658" y2="317"
+              stroke="#48677e" stroke-width="2" 
+              stroke-dasharray="5,3" />
+      
+        <line x1="242" y1="242" 
+              x2="112.09618943233423" y2="317.00000000000006"
+              stroke="#48677e" stroke-width="2" 
+              stroke-dasharray="5,3" />
+      
+      <circle cx="242" cy="242" r="50"
+              fill="#70AD47" stroke="#48677e" stroke-width="3" />
+      
+      <text x="242" y="242" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="13"
+      fill="#FFFFFF">
+      Core
+    </text>
+    
+        <rect x="192" y="62" 
+              width="100" height="60"
+              rx="6" ry="6"
+              fill="#5B9BD5" stroke="#48677e" stroke-width="2" />
+        
+        <text x="242" y="92" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Alpha
+    </text>
+      
+        <rect x="321.9038105676658" y="287" 
+              width="100" height="60"
+              rx="6" ry="6"
+              fill="#70AD47" stroke="#48677e" stroke-width="2" />
+        
+        <text x="371.9038105676658" y="317" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Beta
+    </text>
+      
+        <rect x="62.09618943233423" y="287.00000000000006" 
+              width="100" height="60"
+              rx="6" ry="6"
+              fill="#FFC000" stroke="#48677e" stroke-width="2" />
+        
+        <text x="112.09618943233423" y="317.00000000000006" 
+      text-anchor="middle" 
+      dominant-baseline="middle"
+      font-family="sans-serif" 
+      font-size="12"
+      fill="#FFFFFF">
+      Gamma
+    </text>
+      </g></svg>
