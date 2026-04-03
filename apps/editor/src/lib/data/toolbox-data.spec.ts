@@ -154,6 +154,8 @@ describe('Toolbox Data Structure', () => {
 		const bpmnCategory = shapeCategories.find((cat) => cat.id === 'bpmn');
 		const bpmnShapeIds = bpmnCategory?.shapes.map((shape) => shape.id) ?? [];
 
+		expect(bpmnShapeIds).toContain('bpmnStartNonInterrupting');
+		expect(bpmnShapeIds).toContain('bpmnIntermediateNonInterrupting');
 		expect(bpmnShapeIds).toContain('bpmnBoundaryTimer');
 		expect(bpmnShapeIds).toContain('bpmnBoundaryMessage');
 		expect(bpmnShapeIds).toContain('bpmnEventMultiple');
@@ -167,6 +169,8 @@ describe('Toolbox Data Structure', () => {
 
 		expect(bpmnShapeIds).toContain('bpmnSubProcessExpanded');
 		expect(bpmnShapeIds).toContain('bpmnChoreographyTaskLabeled');
+		expect(bpmnShapeIds).toContain('bpmnCallActivityDetailed');
+		expect(bpmnShapeIds).toContain('bpmnConversationMultiParty');
 	});
 
 	it('should include digital syntax and components in digital profile', () => {

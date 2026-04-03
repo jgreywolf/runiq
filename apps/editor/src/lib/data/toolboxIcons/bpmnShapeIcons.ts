@@ -50,7 +50,7 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 			{
 				id: 'bpmnSubProcessExpanded',
 				label: 'Expanded Subprocess',
-				code: 'shape id as @bpmnSubProcess label:"Fulfillment" data:[{"expanded":true}]'
+				code: 'shape id as @bpmnSubProcess label:"Fulfillment" data:[{"expanded":"true"}]'
 			},
 			{
 				id: 'bpmnChoreographyTask',
@@ -138,6 +138,16 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @bpmnEvent label:"Parallel" data:[{"eventType":"intermediate-parallelMultiple"}]'
 			},
 			{
+				id: 'bpmnStartNonInterrupting',
+				label: 'Non-Interrupting Start Event',
+				code: 'shape id as @startNonInterfering label:"Signal Start"'
+			},
+			{
+				id: 'bpmnIntermediateNonInterrupting',
+				label: 'Non-Interrupting Intermediate Event',
+				code: 'shape id as @intermediateNonInterfering label:"Escalate"'
+			},
+			{
 				id: 'bpmnBoundaryTimer',
 				label: 'Boundary Timer Event',
 				code: 'shape id as @bpmnBoundaryEvent label:"Timeout" data:[{"eventType":"timer"}]'
@@ -223,9 +233,19 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @callActivity label:"Call Activity"'
 			},
 			{
+				id: 'bpmnCallActivityDetailed',
+				label: 'Call Activity With Called Element',
+				code: 'shape id as @callActivity label:"Review Contract" data:[{"calledElement":"ReviewWorkflow"}]'
+			},
+			{
 				id: 'bpmnConversation',
 				label: 'Conversation',
 				code: 'shape id as @conversation label:"Conversation"'
+			},
+			{
+				id: 'bpmnConversationMultiParty',
+				label: 'Multi-Party Conversation',
+				code: 'shape id as @conversation label:"Vendor Sync" data:[{"participantA":"Buyer"},{"participantB":"Vendor"},{"multiParty":true}]'
 			},
 			{
 				id: 'bpmnAnnotation',

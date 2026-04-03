@@ -404,14 +404,22 @@ shape subprocess as @eventSubProcess label: "Escalation"
 
 # Call activity (thick border)
 shape callProc as @callActivity label: "Call Subprocess"
+shape callProcDetailed as @callActivity label: "Review Contract"
+  data: [{"calledElement":"ReviewWorkflow"}]
 
 # Conversation (hexagon)
 shape convo as @conversation label: "Vendor Sync"
+shape multiParty as @conversation label: "Partner Handoff"
+  data: [{"participantA":"Buyer"},{"participantB":"Vendor"},{"multiParty":true}]
 
 # Choreography task (participant bands)
 shape choreo as @bpmnChoreographyTask label: "Approve Contract"
 shape choreoDetailed as @bpmnChoreographyTask label: "Approve Contract"
   data: [{"initiatingParticipant":"Buyer"},{"receivingParticipant":"Vendor"}]
+
+# Non-interrupting standalone event shapes
+shape startSignal as @startNonInterfering label: "Signal Start"
+shape midSignal as @intermediateNonInterfering label: "Escalate"
 
 # Annotation (left bracket)
 shape note as @annotation label: "Requires audit trail"
@@ -466,6 +474,9 @@ diagram "Subprocess And Choreography" {
 - Set `data:[{"expanded":true}]` when you want the expanded subprocess visual treatment.
 - Use `@eventSubProcess` for event-triggered subprocesses with dashed borders.
 - Add `initiatingParticipant` and `receivingParticipant` data values on `@bpmnChoreographyTask` to label the interaction bands.
+- Add `calledElement` on `@callActivity` to identify the invoked reusable process.
+- Add `participantA`, `participantB`, and `multiParty:true` on `@conversation` for richer collaboration notation.
+- Use `@startNonInterfering` and `@intermediateNonInterfering` when you want standalone non-interrupting event notation outside a boundary-event context.
 
 ## Message Flows
 

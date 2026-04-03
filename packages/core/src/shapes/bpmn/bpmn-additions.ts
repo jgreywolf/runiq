@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { getDataProperty } from '../../types/index.js';
 import { extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
@@ -129,14 +130,34 @@ export const callActivityShape: ShapeDefinition = {
     const bounds = this.bounds(ctx);
     const { x, y } = position;
     const radius = 8;
+    const calledElement = getDataProperty<string>(ctx.node.data, 'calledElement');
 
     const { fill, stroke } = extractBasicStyles(ctx);
+    const markerX = x + 12;
+    const markerY = y + 12;
+    const subtitleStyle = {
+      ...ctx.style,
+      fontSize: Math.max(10, (ctx.style.fontSize || 14) - 3),
+    };
 
     return `
       <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="${radius}"
             fill="${fill}" stroke="${stroke}" stroke-width="3" />
+      <path d="M ${markerX - 4} ${markerY} L ${markerX + 2} ${markerY - 4} L ${markerX + 2} ${markerY - 1} L ${markerX + 8} ${markerY - 1} L ${markerX + 8} ${markerY + 1} L ${markerX + 2} ${markerY + 1} L ${markerX + 2} ${markerY + 4} Z"
+            fill="none" stroke="${stroke}" stroke-width="1.2" />
       
-      ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + bounds.width / 2, y + bounds.height / 2)}
+      ${renderShapeLabel(
+        ctx,
+        ctx.node.label || ctx.node.id,
+        x + bounds.width / 2,
+        calledElement ? y + bounds.height / 2 - 8 : y + bounds.height / 2
+      )}
+      ${calledElement ? renderShapeLabel(
+        { ...ctx, style: subtitleStyle },
+        `Call: ${calledElement}`,
+        x + bounds.width / 2,
+        y + bounds.height / 2 + 14
+      ) : ''}
     `;
   },
 };
@@ -253,6 +274,9 @@ export const conversationShape: ShapeDefinition = {
     const { x, y } = position;
     const w = bounds.width;
     const h = bounds.height;
+    const participantA = getDataProperty<string>(ctx.node.data, 'participantA');
+    const participantB = getDataProperty<string>(ctx.node.data, 'participantB');
+    const multiParty = getDataProperty<boolean>(ctx.node.data, 'multiParty', false);
 
     const { fill, stroke, strokeWidth } = extractBasicStyles(ctx, {
       defaultStrokeWidth: 2,
@@ -265,11 +289,37 @@ export const conversationShape: ShapeDefinition = {
                       L ${x} ${y + h / 2}
                       Z`;
 
+    const participantStyle = {
+      ...ctx.style,
+      fontSize: Math.max(10, (ctx.style.fontSize || 14) - 3),
+    };
+    const markerPath = !multiParty
+      ? ''
+      : `<path d="M ${x + w / 2} ${y + h + 6}
+                 L ${x + w / 2 + 8} ${y + h + 16}
+                 L ${x + w / 2 + 4} ${y + h + 28}
+                 L ${x + w / 2 - 4} ${y + h + 28}
+                 L ${x + w / 2 - 8} ${y + h + 16}
+                 Z"
+               fill="none" stroke="${stroke}" stroke-width="1"/>`;
+
     return `
       <path d="${pathData}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />
-      
+      ${participantA ? renderShapeLabel(
+        { ...ctx, style: participantStyle },
+        participantA,
+        x - 8,
+        y + h / 2
+      ) : ''}
+      ${participantB ? renderShapeLabel(
+        { ...ctx, style: participantStyle },
+        participantB,
+        x + w + 8,
+        y + h / 2
+      ) : ''}
       ${renderShapeLabel(ctx, ctx.node.label || ctx.node.id, x + w / 2, y + h / 2)}
+      ${markerPath}
     `;
   },
 };
