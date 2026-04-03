@@ -43,6 +43,26 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @bpmnTask label:"Check Policy" data:[{"taskType":"businessRule"}]'
 			},
 			{
+				id: 'bpmnSubProcess',
+				label: 'Subprocess',
+				code: 'shape id as @bpmnSubProcess label:"Fulfillment"'
+			},
+			{
+				id: 'bpmnSubProcessExpanded',
+				label: 'Expanded Subprocess',
+				code: 'shape id as @bpmnSubProcess label:"Fulfillment" data:[{"expanded":true}]'
+			},
+			{
+				id: 'bpmnChoreographyTask',
+				label: 'Choreography Task',
+				code: 'shape id as @bpmnChoreographyTask label:"Approve Contract"'
+			},
+			{
+				id: 'bpmnChoreographyTaskLabeled',
+				label: 'Choreography Task With Participants',
+				code: 'shape id as @bpmnChoreographyTask label:"Approve Contract" data:[{"initiatingParticipant":"Buyer"},{"receivingParticipant":"Vendor"}]'
+			},
+			{
 				id: 'bpmnEventStart',
 				label: 'Start Event',
 				code: 'shape id as @bpmnEvent label:"Start" data:[{"eventType":"start"}]'
@@ -116,6 +136,26 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				id: 'bpmnEventParallelMultiple',
 				label: 'Parallel Multiple Event',
 				code: 'shape id as @bpmnEvent label:"Parallel" data:[{"eventType":"intermediate-parallelMultiple"}]'
+			},
+			{
+				id: 'bpmnBoundaryTimer',
+				label: 'Boundary Timer Event',
+				code: 'shape id as @bpmnBoundaryEvent label:"Timeout" data:[{"eventType":"timer"}]'
+			},
+			{
+				id: 'bpmnBoundaryMessage',
+				label: 'Boundary Message Event',
+				code: 'shape id as @bpmnBoundaryEvent label:"Message" data:[{"eventType":"message"}]'
+			},
+			{
+				id: 'bpmnBoundaryError',
+				label: 'Boundary Error Event',
+				code: 'shape id as @bpmnBoundaryEvent label:"Error" data:[{"eventType":"error"}]'
+			},
+			{
+				id: 'bpmnBoundarySignalNonInterrupting',
+				label: 'Boundary Signal Event (Non-Interrupting)',
+				code: 'shape id as @bpmnBoundaryEvent label:"Signal" data:[{"eventType":"signal"},{"interrupting":false}]'
 			},
 			{
 				id: 'bpmnGatewayExclusive',

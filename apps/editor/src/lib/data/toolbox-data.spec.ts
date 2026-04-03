@@ -150,6 +150,25 @@ describe('Toolbox Data Structure', () => {
 		expect(bpmnShapeIds).toContain('bpmnDataOutput');
 	});
 
+	it('should include boundary events and expanded BPMN markers', () => {
+		const bpmnCategory = shapeCategories.find((cat) => cat.id === 'bpmn');
+		const bpmnShapeIds = bpmnCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(bpmnShapeIds).toContain('bpmnBoundaryTimer');
+		expect(bpmnShapeIds).toContain('bpmnBoundaryMessage');
+		expect(bpmnShapeIds).toContain('bpmnEventMultiple');
+		expect(bpmnShapeIds).toContain('bpmnEventParallelMultiple');
+		expect(bpmnShapeIds).toContain('bpmnTaskBusinessRule');
+	});
+
+	it('should include expanded subprocess and labeled choreography BPMN variants', () => {
+		const bpmnCategory = shapeCategories.find((cat) => cat.id === 'bpmn');
+		const bpmnShapeIds = bpmnCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(bpmnShapeIds).toContain('bpmnSubProcessExpanded');
+		expect(bpmnShapeIds).toContain('bpmnChoreographyTaskLabeled');
+	});
+
 	it('should include digital syntax and components in digital profile', () => {
 		const categories = getShapeCategoryByProfile(ProfileName.digital);
 		const categoryIds = categories.map((cat) => cat.id);

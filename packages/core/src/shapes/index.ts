@@ -331,7 +331,10 @@ export function registerC4Shapes(): void {
 
 export function registerBPMNShapes(): void {
   shapeRegistry.register(bpmn.bpmnTaskShape);
+  shapeRegistry.register(bpmn.bpmnSubProcessShape);
+  shapeRegistry.register(bpmn.bpmnChoreographyTaskShape);
   shapeRegistry.register(bpmn.bpmnEventShape);
+  shapeRegistry.register(bpmn.bpmnBoundaryEventShape);
   shapeRegistry.register(bpmn.bpmnGatewayShape);
   shapeRegistry.register(bpmn.bpmnDataObjectShape);
   shapeRegistry.register(bpmn.bpmnDataStoreShape);

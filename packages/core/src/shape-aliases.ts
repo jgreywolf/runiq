@@ -59,9 +59,12 @@ export function registerShapeAliases() {
 
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');
+  shapeRegistry.registerAlias('subProcess', 'bpmnSubProcess');
+  shapeRegistry.registerAlias('choreographyTask', 'bpmnChoreographyTask');
   shapeRegistry.registerAlias('gateway', 'bpmnGateway');
   shapeRegistry.registerAlias('xor', 'bpmnGateway');
   shapeRegistry.registerAlias('event', 'bpmnEvent');
+  shapeRegistry.registerAlias('boundaryEvent', 'bpmnBoundaryEvent');
   shapeRegistry.registerAlias('message', 'bpmnMessage');
   shapeRegistry.registerAlias('pool', 'bpmnPool');
   shapeRegistry.registerAlias('dataObject', 'bpmnDataObject');

@@ -95,7 +95,10 @@ export const DIAGRAM_TYPE_CONSTRAINTS: Record<
     description: 'BPMN diagrams with pools, lanes, events, gateways, and tasks',
     allowedShapes: [
       'bpmnTask',
+      'bpmnSubProcess',
+      'bpmnChoreographyTask',
       'bpmnEvent',
+      'bpmnBoundaryEvent',
       'bpmnGateway',
       'bpmnDataObject',
       'bpmnDataStore',

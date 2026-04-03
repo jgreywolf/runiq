@@ -170,6 +170,10 @@ shape error as @bpmnEvent label: "Handle Error" data: [{"eventType": "error"}]
 shape signal as @bpmnEvent label: "Broadcast" data: [{"eventType": "signal"}]
 shape cancel as @bpmnEvent label: "Cancel" data: [{"eventType": "intermediate-cancel"}]
 shape terminate as @bpmnEvent label: "Terminate" data: [{"eventType": "end-terminate"}]
+
+# Boundary event attached to an activity
+shape timeout as @bpmnBoundaryEvent label: "Timeout" data: [{"eventType": "timer"}]
+shape reminder as @bpmnBoundaryEvent label: "Reminder" data: [{"eventType": "message"},{"interrupting":false}]
 ```
 
 ### Common Event Types
@@ -190,6 +194,8 @@ shape terminate as @bpmnEvent label: "Terminate" data: [{"eventType": "end-termi
 | `intermediate-multiple` | Multiple triggers | Pentagon marker |
 | `intermediate-parallelMultiple` | Parallel triggers | Plus/X marker |
 | `end-terminate` | Immediate termination | Filled circle |
+
+Boundary events use `@bpmnBoundaryEvent` and support the same marker types as intermediate events. Set `interrupting:false` for non-interrupting boundary events with dashed rings.
 
 Example with multiple event types:
 
@@ -387,6 +393,12 @@ shape outbound as @bpmnDataOutput label: "Invoice"
 # Transaction (double border)
 shape tx as @transaction label: "Payment Transaction"
 
+# Collapsed subprocess (plus marker)
+shape sub as @bpmnSubProcess label: "Fulfillment"
+
+# Expanded subprocess (no plus marker, room for embedded flow semantics)
+shape expanded as @bpmnSubProcess label: "Fulfillment Detail" data: [{"expanded": true}]
+
 # Event subprocess (dashed border)
 shape subprocess as @eventSubProcess label: "Escalation"
 
@@ -396,9 +408,64 @@ shape callProc as @callActivity label: "Call Subprocess"
 # Conversation (hexagon)
 shape convo as @conversation label: "Vendor Sync"
 
+# Choreography task (participant bands)
+shape choreo as @bpmnChoreographyTask label: "Approve Contract"
+shape choreoDetailed as @bpmnChoreographyTask label: "Approve Contract"
+  data: [{"initiatingParticipant":"Buyer"},{"receivingParticipant":"Vendor"}]
+
 # Annotation (left bracket)
 shape note as @annotation label: "Requires audit trail"
 ```
+
+## Boundary Events
+
+Boundary events model interrupts or side channels attached to an activity boundary.
+
+```runiq
+diagram "Boundary Events" {
+  direction LR
+
+  container "Claims Process" as @bpmnPool {
+    shape assess as @bpmnTask label: "Assess Claim" data: [{"taskType":"user"}]
+    shape timeout as @bpmnBoundaryEvent label: "Timeout" data: [{"eventType":"timer"}]
+    shape reminder as @bpmnBoundaryEvent label: "Reminder" data: [{"eventType":"message"},{"interrupting":false}]
+    shape escalate as @bpmnTask label: "Escalate"
+    shape notify as @bpmnTask label: "Send Reminder"
+
+    assess -> escalate label: "[timeout]"
+    reminder -> notify
+  }
+}
+```
+
+## Subprocesses And Collaboration
+
+Use dedicated subprocess and choreography shapes when you need more BPMN-specific notation than a plain task.
+
+```runiq
+diagram "Subprocess And Choreography" {
+  direction TB
+
+  container "Partner Workflow" as @bpmnPool {
+    shape intake as @bpmnTask label: "Receive Request"
+    shape fulfill as @bpmnSubProcess label: "Fulfillment"
+    shape detail as @bpmnSubProcess label: "Fulfillment Detail" data: [{"expanded": true}]
+    shape sync as @bpmnChoreographyTask label: "Approve Contract"
+      data: [{"initiatingParticipant":"Buyer"},{"receivingParticipant":"Vendor"}]
+    shape done as @bpmnEvent label: "Done" data: [{"eventType":"end"}]
+
+    intake -> fulfill
+    fulfill -> detail
+    detail -> sync
+    sync -> done
+  }
+}
+```
+
+- Use `@bpmnSubProcess` by default for collapsed subprocesses.
+- Set `data:[{"expanded":true}]` when you want the expanded subprocess visual treatment.
+- Use `@eventSubProcess` for event-triggered subprocesses with dashed borders.
+- Add `initiatingParticipant` and `receivingParticipant` data values on `@bpmnChoreographyTask` to label the interaction bands.
 
 ## Message Flows
 

@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (233 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (236 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 233 diagram profile shapes below ->](#all-shapes)
+[See all 236 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -477,7 +477,7 @@ diagram "C4 System Context" {
 }
 ```
 
-### 14. BPMN Shapes (10 shapes)
+### 14. BPMN Shapes (13 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -486,7 +486,10 @@ Business Process Model and Notation (BPMN) 2.0 elements:
 | Shape            | Syntax            | Description                  |
 | ---------------- | ----------------- | ---------------------------- |
 | BPMN Task        | `@bpmnTask`       | Process task/activity        |
+| BPMN SubProcess  | `@bpmnSubProcess` | Collapsed subprocess/activity |
+| BPMN Choreography Task | `@bpmnChoreographyTask` | Choreography interaction task |
 | BPMN Event       | `@bpmnEvent`      | Start/end/intermediate event |
+| BPMN Boundary Event | `@bpmnBoundaryEvent` | Interrupting or non-interrupting boundary event |
 | BPMN Gateway     | `@bpmnGateway`    | Decision/merge gateway       |
 | BPMN Data Object | `@bpmnDataObject` | Data object/artifact         |
 | BPMN Data Store  | `@bpmnDataStore`  | Persistent business data     |
@@ -624,13 +627,13 @@ Complete listing organized by category:
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
-| BPMN               | 10    | Business process modeling                      |
+| BPMN               | 13    | Business process modeling                      |
 | AWS                | 6     | Amazon Web Services infrastructure             |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 233+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 236+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 
