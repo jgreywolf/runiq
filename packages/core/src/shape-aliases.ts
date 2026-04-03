@@ -44,6 +44,14 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('output', 'parallelogram');
   shapeRegistry.registerAlias('io', 'parallelogram');
   shapeRegistry.registerAlias('doc', 'document');
+  shapeRegistry.registerAlias('connector', 'onPageConnector');
+  shapeRegistry.registerAlias('onPage', 'onPageConnector');
+  shapeRegistry.registerAlias('manualOperation', 'manualOperation');
+  shapeRegistry.registerAlias('manualOp', 'manualOperation');
+  shapeRegistry.registerAlias('collate', 'collate');
+  shapeRegistry.registerAlias('extract', 'extract');
+  shapeRegistry.registerAlias('merge', 'merge');
+  shapeRegistry.registerAlias('sort', 'sort');
 
   // Decorative Shapes
   shapeRegistry.registerAlias('callout', 'captionBox');
@@ -56,6 +64,10 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('event', 'bpmnEvent');
   shapeRegistry.registerAlias('message', 'bpmnMessage');
   shapeRegistry.registerAlias('pool', 'bpmnPool');
+  shapeRegistry.registerAlias('dataObject', 'bpmnDataObject');
+  shapeRegistry.registerAlias('dataStore', 'bpmnDataStore');
+  shapeRegistry.registerAlias('dataInput', 'bpmnDataInput');
+  shapeRegistry.registerAlias('dataOutput', 'bpmnDataOutput');
 
   // UML Shapes
   shapeRegistry.registerAlias('class', 'class');

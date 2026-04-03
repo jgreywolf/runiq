@@ -143,6 +143,27 @@ export const bpmnEventShape: ShapeDefinition = {
         // Terminate: Filled circle
         icon = `<circle cx="${cx}" cy="${cy}" r="${iconSize / 2}" fill="${stroke}"/>`;
         break;
+
+      case 'multiple':
+        // Multiple: small pentagon/star-like marker
+        icon = `
+          <path d="M ${cx} ${cy - iconSize / 2}
+                   L ${cx + iconSize * 0.48} ${cy - iconSize * 0.15}
+                   L ${cx + iconSize * 0.3} ${cy + iconSize / 2}
+                   L ${cx - iconSize * 0.3} ${cy + iconSize / 2}
+                   L ${cx - iconSize * 0.48} ${cy - iconSize * 0.15}
+                   Z"
+                fill="none" stroke="${stroke}" stroke-width="1"/>`;
+        break;
+
+      case 'parallelMultiple':
+        // Parallel multiple: plus sign with X overlay
+        icon = `
+          <line x1="${cx - iconSize / 2}" y1="${cy}" x2="${cx + iconSize / 2}" y2="${cy}" stroke="${stroke}" stroke-width="1.2"/>
+          <line x1="${cx}" y1="${cy - iconSize / 2}" x2="${cx}" y2="${cy + iconSize / 2}" stroke="${stroke}" stroke-width="1.2"/>
+          <line x1="${cx - iconSize * 0.35}" y1="${cy - iconSize * 0.35}" x2="${cx + iconSize * 0.35}" y2="${cy + iconSize * 0.35}" stroke="${stroke}" stroke-width="1.2"/>
+          <line x1="${cx + iconSize * 0.35}" y1="${cy - iconSize * 0.35}" x2="${cx - iconSize * 0.35}" y2="${cy + iconSize * 0.35}" stroke="${stroke}" stroke-width="1.2"/>`;
+        break;
     }
 
     svg += icon;

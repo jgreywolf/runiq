@@ -167,6 +167,9 @@ shape end as @bpmnEvent label: "End" data: [{"eventType": "end"}]
 shape timer as @bpmnEvent label: "Wait 5 Days" data: [{"eventType": "timer"}]
 shape msg as @bpmnEvent label: "Receive Approval" data: [{"eventType": "message"}]
 shape error as @bpmnEvent label: "Handle Error" data: [{"eventType": "error"}]
+shape signal as @bpmnEvent label: "Broadcast" data: [{"eventType": "signal"}]
+shape cancel as @bpmnEvent label: "Cancel" data: [{"eventType": "intermediate-cancel"}]
+shape terminate as @bpmnEvent label: "Terminate" data: [{"eventType": "end-terminate"}]
 ```
 
 ### Common Event Types
@@ -180,6 +183,13 @@ shape error as @bpmnEvent label: "Handle Error" data: [{"eventType": "error"}]
 | `error`       | Error handling      | Lightning bolt |
 | `signal`      | Signal broadcast    | Triangle       |
 | `conditional` | Condition-based     | Document icon  |
+| `escalation`  | Escalation path     | Upward chevron |
+| `compensation`| Compensation step   | Double rewind  |
+| `intermediate-cancel` | Transaction cancel | X marker |
+| `intermediate-link` | Link to another event | Arrow marker |
+| `intermediate-multiple` | Multiple triggers | Pentagon marker |
+| `intermediate-parallelMultiple` | Parallel triggers | Plus/X marker |
+| `end-terminate` | Immediate termination | Filled circle |
 
 Example with multiple event types:
 
@@ -318,16 +328,25 @@ diagram "Task Types" {
     shape start as @bpmnEvent label: "Start" data: [{"eventType": "start"}]
 
     # User task - human interaction
-    shape reviewTask as @bpmnTask label: "Review Order (User)"
+    shape reviewTask as @bpmnTask label: "Review Order" data: [{"taskType": "user"}]
 
     # Service task - automated
-    shape validateTask as @bpmnTask label: "Validate Data (Service)"
+    shape validateTask as @bpmnTask label: "Validate Data" data: [{"taskType": "service"}]
 
     # Script task - code execution
-    shape calculateTask as @bpmnTask label: "Calculate Total (Script)"
+    shape calculateTask as @bpmnTask label: "Calculate Total" data: [{"taskType": "script"}]
 
     # Manual task - outside system
-    shape packTask as @bpmnTask label: "Pack Items (Manual)"
+    shape packTask as @bpmnTask label: "Pack Items" data: [{"taskType": "manual"}]
+
+    # Receive task - incoming message
+    shape receiveApproval as @bpmnTask label: "Receive Approval" data: [{"taskType": "receive"}]
+
+    # Send task - outgoing message
+    shape sendConfirmation as @bpmnTask label: "Send Confirmation" data: [{"taskType": "send"}]
+
+    # Business rule task - decision table / rule engine
+    shape rulesCheck as @bpmnTask label: "Apply Rules" data: [{"taskType": "businessRule"}]
 
     shape end as @bpmnEvent label: "End" data: [{"eventType": "end"}]
 
@@ -335,16 +354,36 @@ diagram "Task Types" {
     reviewTask -> validateTask
     validateTask -> calculateTask
     calculateTask -> packTask
-    packTask -> end
+    packTask -> receiveApproval
+    receiveApproval -> sendConfirmation
+    sendConfirmation -> rulesCheck
+    rulesCheck -> end
   }
 }
 ```
+
+### Task Marker Types
+
+| Task Type | Usage | Marker |
+| --------- | ----- | ------ |
+| `user` | Human-performed work | Person marker |
+| `service` | Automated service call | Gear marker |
+| `manual` | Manual work outside the system | Manual task marker |
+| `script` | Inline script execution | Script/document marker |
+| `receive` | Wait for incoming message | Open envelope |
+| `send` | Send outgoing message | Filled envelope |
+| `businessRule` | Rule engine / decision table | Table/grid marker |
 
 ## Additional BPMN Shapes
 
 Use these shapes for richer BPMN notation beyond basic tasks/events:
 
 ```runiq
+# Data artifacts
+shape dataStore as @bpmnDataStore label: "Customer Master"
+shape inbound as @bpmnDataInput label: "Order Form"
+shape outbound as @bpmnDataOutput label: "Invoice"
+
 # Transaction (double border)
 shape tx as @transaction label: "Payment Transaction"
 

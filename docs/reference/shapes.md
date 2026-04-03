@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (224 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (233 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 224 diagram profile shapes below ->](#all-shapes)
+[See all 233 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -73,7 +73,7 @@ diagram "Basic Shapes" {
 }
 ```
 
-### 2. Flowchart Shapes (14 shapes)
+### 2. Flowchart Shapes (20 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -88,10 +88,16 @@ Specialized flowchart symbols following ISO 5807 standard:
 | Predefined Process | `@predefinedProcess` | Subprocess box                 |
 | Preparation Alt    | `@preparationAlt`    | Alternative preparation        |
 | Manual Input       | `@manualInput`       | Keyboard/manual entry          |
+| Manual Operation   | `@manualOperation`   | Manual operation step          |
 | Decision Manual    | `@decisionManual`    | Manual decision diamond        |
 | Delay              | `@delay`             | Time delay symbol              |
 | Display            | `@display`           | Screen/monitor output          |
+| On-Page Connector  | `@onPageConnector`   | Continuation on same page      |
 | Off-Page Connector | `@offPageConnector`  | Continuation to another page   |
+| Merge              | `@merge`             | Merge multiple paths           |
+| Sort               | `@sort`              | Sort or classify data          |
+| Collate            | `@collate`           | Collate grouped outputs        |
+| Extract            | `@extract`           | Extract or isolate output      |
 | Card               | `@card`              | Punch card (legacy)            |
 | Paper Tape         | `@paperTape`         | Paper tape (legacy)            |
 | Lean Left          | `@leanLeft`          | Lean left parallelogram        |
@@ -471,7 +477,7 @@ diagram "C4 System Context" {
 }
 ```
 
-### 14. BPMN Shapes (7 shapes)
+### 14. BPMN Shapes (10 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -483,6 +489,9 @@ Business Process Model and Notation (BPMN) 2.0 elements:
 | BPMN Event       | `@bpmnEvent`      | Start/end/intermediate event |
 | BPMN Gateway     | `@bpmnGateway`    | Decision/merge gateway       |
 | BPMN Data Object | `@bpmnDataObject` | Data object/artifact         |
+| BPMN Data Store  | `@bpmnDataStore`  | Persistent business data     |
+| BPMN Data Input  | `@bpmnDataInput`  | Input artifact               |
+| BPMN Data Output | `@bpmnDataOutput` | Output artifact              |
 | BPMN Message     | `@bpmnMessage`    | Message/communication        |
 | BPMN Pool        | `@bpmnPool`       | Process pool/participant     |
 | BPMN Lane        | `@bpmnLane`       | Pool subdivision/lane        |
@@ -604,7 +613,7 @@ Complete listing organized by category:
 | Category           | Count | Common Uses                                    |
 | ------------------ | ----- | ---------------------------------------------- |
 | Basic Shapes       | 22    | General-purpose geometric shapes               |
-| Flowchart          | 14    | Process flows, ISO 5807 standard               |
+| Flowchart          | 20    | Process flows, ISO 5807 standard               |
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
 | Control Systems (legacy) | 10 | Control system block diagrams |
@@ -615,13 +624,13 @@ Complete listing organized by category:
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
-| BPMN               | 7     | Business process modeling                      |
+| BPMN               | 10    | Business process modeling                      |
 | AWS                | 6     | Amazon Web Services infrastructure             |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 220+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 233+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

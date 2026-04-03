@@ -58,9 +58,15 @@ export function registerFlowchartShapes(): void {
   shapeRegistry.register(flowchart.delayShape);
   shapeRegistry.register(flowchart.displayShape);
   shapeRegistry.register(flowchart.offPageConnectorShape);
+  shapeRegistry.register(flowchart.onPageConnectorShape);
   shapeRegistry.register(flowchart.cardShape);
   shapeRegistry.register(flowchart.paperTapeShape);
   shapeRegistry.register(flowchart.leanLeftShape);
+  shapeRegistry.register(flowchart.manualOperationShape);
+  shapeRegistry.register(flowchart.mergeShape);
+  shapeRegistry.register(flowchart.collateShape);
+  shapeRegistry.register(flowchart.extractShape);
+  shapeRegistry.register(flowchart.sortShape);
 }
 
 export function registerStorageShapes(): void {
@@ -328,6 +334,9 @@ export function registerBPMNShapes(): void {
   shapeRegistry.register(bpmn.bpmnEventShape);
   shapeRegistry.register(bpmn.bpmnGatewayShape);
   shapeRegistry.register(bpmn.bpmnDataObjectShape);
+  shapeRegistry.register(bpmn.bpmnDataStoreShape);
+  shapeRegistry.register(bpmn.bpmnDataInputShape);
+  shapeRegistry.register(bpmn.bpmnDataOutputShape);
   shapeRegistry.register(bpmn.bpmnMessageShape);
   shapeRegistry.register(bpmn.bpmnPoolShape);
   shapeRegistry.register(bpmn.bpmnLaneShape);

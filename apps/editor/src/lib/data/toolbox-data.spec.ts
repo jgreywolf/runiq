@@ -129,6 +129,27 @@ describe('Toolbox Data Structure', () => {
 		expect(diamondShape).toBeDefined();
 	});
 
+	it('should include the expanded ISO flowchart symbols', () => {
+		const flowchartCategory = shapeCategories.find((cat) => cat.id === 'flowchart');
+		const flowchartShapeIds = flowchartCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(flowchartShapeIds).toContain('manualOperation');
+		expect(flowchartShapeIds).toContain('onPageConnector');
+		expect(flowchartShapeIds).toContain('merge');
+		expect(flowchartShapeIds).toContain('sort');
+		expect(flowchartShapeIds).toContain('collate');
+		expect(flowchartShapeIds).toContain('extract');
+	});
+
+	it('should include the expanded BPMN data artifacts', () => {
+		const bpmnCategory = shapeCategories.find((cat) => cat.id === 'bpmn');
+		const bpmnShapeIds = bpmnCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(bpmnShapeIds).toContain('bpmnDataStore');
+		expect(bpmnShapeIds).toContain('bpmnDataInput');
+		expect(bpmnShapeIds).toContain('bpmnDataOutput');
+	});
+
 	it('should include digital syntax and components in digital profile', () => {
 		const categories = getShapeCategoryByProfile(ProfileName.digital);
 		const categoryIds = categories.map((cat) => cat.id);
