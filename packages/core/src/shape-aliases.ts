@@ -46,6 +46,23 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('sqs', 'awsSqs');
   shapeRegistry.registerAlias('cognito', 'awsCognito');
 
+  // Azure Shapes
+  shapeRegistry.registerAlias('azureVm', 'azureVm');
+  shapeRegistry.registerAlias('vm', 'azureVm');
+  shapeRegistry.registerAlias('blobStorage', 'azureBlobStorage');
+  shapeRegistry.registerAlias('azureFunctions', 'azureFunctions');
+  shapeRegistry.registerAlias('functions', 'azureFunctions');
+  shapeRegistry.registerAlias('sqlDatabase', 'azureSqlDatabase');
+  shapeRegistry.registerAlias('virtualNetwork', 'azureVirtualNetwork');
+  shapeRegistry.registerAlias('vnet', 'azureVirtualNetwork');
+  shapeRegistry.registerAlias('resourceGroup', 'azureResourceGroup');
+  shapeRegistry.registerAlias('subscription', 'azureSubscription');
+  shapeRegistry.registerAlias('apiManagement', 'azureApiManagement');
+  shapeRegistry.registerAlias('azureCdn', 'azureCdn');
+  shapeRegistry.registerAlias('cosmosDb', 'azureCosmosDb');
+  shapeRegistry.registerAlias('serviceBus', 'azureServiceBus');
+  shapeRegistry.registerAlias('entraId', 'azureEntraId');
+
   // Flowchart Shapes
   shapeRegistry.registerAlias('process', 'rectangle');
   shapeRegistry.registerAlias('terminator', 'stadium');

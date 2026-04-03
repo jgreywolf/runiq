@@ -3,6 +3,7 @@ import { registerShapeAliases } from '../shape-aliases.js';
 
 // Import from category folders
 import * as aws from './aws/index.js';
+import * as azure from './azure/index.js';
 import * as basic from './basic/index.js';
 import * as bpmn from './bpmn/index.js';
 import * as c4 from './c4/index.js';
@@ -374,6 +375,21 @@ export function registerAWSShapes(): void {
   shapeRegistry.register(aws.awsCognitoShape);
 }
 
+export function registerAzureShapes(): void {
+  shapeRegistry.register(azure.azureVmShape);
+  shapeRegistry.register(azure.azureBlobStorageShape);
+  shapeRegistry.register(azure.azureFunctionsShape);
+  shapeRegistry.register(azure.azureSqlDatabaseShape);
+  shapeRegistry.register(azure.azureVirtualNetworkShape);
+  shapeRegistry.register(azure.azureResourceGroupShape);
+  shapeRegistry.register(azure.azureSubscriptionShape);
+  shapeRegistry.register(azure.azureApiManagementShape);
+  shapeRegistry.register(azure.azureCdnShape);
+  shapeRegistry.register(azure.azureCosmosDbShape);
+  shapeRegistry.register(azure.azureServiceBusShape);
+  shapeRegistry.register(azure.azureEntraIdShape);
+}
+
 export function registerERDShapes(): void {
   shapeRegistry.register(erd.erdEntityShape);
   shapeRegistry.register(erd.erdWeakEntityShape);
@@ -411,6 +427,7 @@ export function registerDefaultShapes(): void {
   registerC4Shapes();
   registerBPMNShapes();
   registerAWSShapes();
+  registerAzureShapes();
   registerERDShapes();
   registerDataFlowShapes();
   registerGlyphsets();
@@ -422,6 +439,7 @@ export function registerDefaultShapes(): void {
 
 // Re-export all shapes from category folders
 export * from './aws/index.js';
+export * from './azure/index.js';
 export * from './basic/index.js';
 export * from './bpmn/index.js';
 export * from './c4/index.js';

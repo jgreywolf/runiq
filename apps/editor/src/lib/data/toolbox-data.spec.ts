@@ -193,6 +193,24 @@ describe('Toolbox Data Structure', () => {
 		expect(awsShapeIds).toContain('awsCognito');
 	});
 
+	it('should include the Azure cloud service symbols', () => {
+		const azureCategory = shapeCategories.find((cat) => cat.id === 'azure');
+		const azureShapeIds = azureCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(azureShapeIds).toContain('azureVm');
+		expect(azureShapeIds).toContain('azureBlobStorage');
+		expect(azureShapeIds).toContain('azureFunctions');
+		expect(azureShapeIds).toContain('azureSqlDatabase');
+		expect(azureShapeIds).toContain('azureVirtualNetwork');
+		expect(azureShapeIds).toContain('azureResourceGroup');
+		expect(azureShapeIds).toContain('azureSubscription');
+		expect(azureShapeIds).toContain('azureApiManagement');
+		expect(azureShapeIds).toContain('azureCdn');
+		expect(azureShapeIds).toContain('azureCosmosDb');
+		expect(azureShapeIds).toContain('azureServiceBus');
+		expect(azureShapeIds).toContain('azureEntraId');
+	});
+
 	it('should include the expanded C4 architecture symbols', () => {
 		const c4Category = shapeCategories.find((cat) => cat.id === 'c4');
 		const c4ShapeIds = c4Category?.shapes.map((shape) => shape.id) ?? [];

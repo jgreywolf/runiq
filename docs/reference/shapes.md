@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (256 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (268 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 256 diagram profile shapes below ->](#all-shapes)
+[See all 268 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -561,7 +561,43 @@ diagram "AWS Architecture" {
 }
 ```
 
-### 16. ERD Shapes (6 shapes)
+### 16. Azure Shapes (12 shapes)
+
+**Profile:** `diagram` (default)
+
+Microsoft Azure infrastructure icons:
+
+| Shape                 | Syntax                 | Description                   |
+| --------------------- | ---------------------- | ----------------------------- |
+| Azure Virtual Machine | `@azureVm`             | Azure compute workload        |
+| Azure Blob Storage    | `@azureBlobStorage`    | Object storage                |
+| Azure Functions       | `@azureFunctions`      | Serverless function           |
+| Azure SQL Database    | `@azureSqlDatabase`    | Managed SQL database          |
+| Azure Virtual Network | `@azureVirtualNetwork` | Virtual network boundary      |
+| Azure Resource Group  | `@azureResourceGroup`  | Resource grouping boundary    |
+| Azure Subscription    | `@azureSubscription`   | Subscription-level boundary   |
+| Azure API Management  | `@azureApiManagement`  | API facade and gateway        |
+| Azure CDN             | `@azureCdn`            | Content delivery network      |
+| Azure Cosmos DB       | `@azureCosmosDb`       | NoSQL database                |
+| Azure Service Bus     | `@azureServiceBus`     | Queue and messaging service   |
+| Azure Entra ID        | `@azureEntraId`        | Identity and authentication   |
+
+**Example:**
+
+```runiq
+diagram "Azure Architecture" {
+  shape vm as @azureVm label: "Web VM"
+  shape api as @azureApiManagement label: "Public API"
+  shape db as @azureSqlDatabase label: "Application DB"
+  shape identity as @azureEntraId label: "Entra ID"
+
+  vm -> api
+  api -> db
+  api -> identity
+}
+```
+
+### 17. ERD Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -590,7 +626,7 @@ diagram "Database Schema" {
 }
 ```
 
-### 17. Data Flow Diagram Shapes (6 shapes)
+### 18. Data Flow Diagram Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -618,7 +654,7 @@ diagram "Order Processing DFD" {
 }
 ```
 
-### 18. Electrical & Digital Shapes
+### 19. Electrical & Digital Shapes
 
 **Profiles:** `electrical`, `digital`, `pneumatic`, `hydraulic`
 
@@ -649,11 +685,12 @@ Complete listing organized by category:
 | C4 Architecture    | 9     | Software architecture (C4 model)               |
 | BPMN               | 20    | Business process modeling                      |
 | AWS                | 10    | Amazon Web Services infrastructure             |
+| Azure              | 12    | Microsoft Azure infrastructure                 |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 256+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 268+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

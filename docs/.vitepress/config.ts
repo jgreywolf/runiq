@@ -113,6 +113,7 @@ export default defineConfig({
             { text: 'Charts & Graphs', link: '/guide/charts' },
             { text: 'Network Diagrams', link: '/guide/network-diagrams' },
             { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
+            { text: 'Azure Diagrams', link: '/guide/azure-diagrams' },
           ],
         },
         {
