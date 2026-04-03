@@ -15,6 +15,10 @@ export const networkShapeIcons: ShapeCategory[] = [
 				label: 'Load Balancer',
 				code: 'shape id as @loadBalancer label:"Load Balancer"'
 			},
+			{ id: 'workstation', label: 'Workstation', code: 'shape id as @workstation label:"Client PC"' },
+			{ id: 'accessPoint', label: 'Access Point', code: 'shape id as @accessPoint label:"Wi-Fi AP"' },
+			{ id: 'vpnGateway', label: 'VPN Gateway', code: 'shape id as @vpnGateway label:"VPN Gateway"' },
+			{ id: 'modem', label: 'Modem', code: 'shape id as @modem label:"Cable Modem"' },
 			{ id: 'cloud', label: 'Cloud', code: 'shape id as @cloud label:"Cloud"' },
 			{ id: 'storage', label: 'Storage', code: 'shape id as @storage label:"Storage"' }
 		]

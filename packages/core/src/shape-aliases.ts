@@ -27,6 +27,12 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('api', 'server');
   shapeRegistry.registerAlias('browser', 'display');
   shapeRegistry.registerAlias('client', 'display');
+  shapeRegistry.registerAlias('desktop', 'workstation');
+  shapeRegistry.registerAlias('workstation', 'workstation');
+  shapeRegistry.registerAlias('wifi', 'accessPoint');
+  shapeRegistry.registerAlias('wirelessAp', 'accessPoint');
+  shapeRegistry.registerAlias('vpn', 'vpnGateway');
+  shapeRegistry.registerAlias('modem', 'modem');
 
   // AWS Shapes
   shapeRegistry.registerAlias('s3', 'awsS3');

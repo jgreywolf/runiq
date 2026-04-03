@@ -173,6 +173,16 @@ describe('Toolbox Data Structure', () => {
 		expect(bpmnShapeIds).toContain('bpmnConversationMultiParty');
 	});
 
+	it('should include the expanded network infrastructure symbols', () => {
+		const networkCategory = shapeCategories.find((cat) => cat.id === 'network');
+		const networkShapeIds = networkCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(networkShapeIds).toContain('workstation');
+		expect(networkShapeIds).toContain('accessPoint');
+		expect(networkShapeIds).toContain('vpnGateway');
+		expect(networkShapeIds).toContain('modem');
+	});
+
 	it('should include digital syntax and components in digital profile', () => {
 		const categories = getShapeCategoryByProfile(ProfileName.digital);
 		const categoryIds = categories.map((cat) => cat.id);

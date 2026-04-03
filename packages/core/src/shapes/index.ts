@@ -244,6 +244,10 @@ export function registerNetworkShapes(): void {
   shapeRegistry.register(network.loadBalancerShape);
   shapeRegistry.register(network.cloudShape);
   shapeRegistry.register(network.storageShape);
+  shapeRegistry.register(network.workstationShape);
+  shapeRegistry.register(network.accessPointShape);
+  shapeRegistry.register(network.vpnGatewayShape);
+  shapeRegistry.register(network.modemShape);
 }
 
 export function registerQuantumShapes(): void {

@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (243 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (247 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 243 diagram profile shapes below ->](#all-shapes)
+[See all 247 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -345,7 +345,7 @@ diagram "Data Visualization" {
 }
 ```
 
-### 9. Network Shapes (7 shapes)
+### 9. Network Shapes (11 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -358,6 +358,10 @@ Network topology and infrastructure components:
 | Switch        | `@switch`       | Network switch         |
 | Firewall      | `@firewall`     | Firewall device        |
 | Load Balancer | `@loadBalancer` | Load balancer          |
+| Workstation   | `@workstation`  | End-user workstation   |
+| Access Point  | `@accessPoint`  | Wireless access point  |
+| VPN Gateway   | `@vpnGateway`   | VPN concentrator/gateway |
+| Modem         | `@modem`        | ISP modem or edge handoff |
 | Cloud         | `@cloud`        | Cloud service          |
 | Storage       | `@storage`      | Network storage device |
 
@@ -630,7 +634,7 @@ Complete listing organized by category:
 | Kinematic          | 25    | Joints, links, and actuators                   |
 | Special            | 32    | Decorative accents, badges, and symbols        |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |
-| Network            | 7     | Infrastructure, topology diagrams              |
+| Network            | 11    | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
 | C4 Architecture    | 4     | Software architecture (C4 model)               |
@@ -640,7 +644,7 @@ Complete listing organized by category:
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 243+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 247+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 
