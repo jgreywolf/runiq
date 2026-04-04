@@ -4,6 +4,7 @@ import {
   and3Gate,
   // Logic gates (2-input)
   andGate,
+  battery,
   bufferGate,
   capacitor,
   currentSource,
@@ -14,10 +15,12 @@ import {
   dFlipFlop,
   // Semiconductors
   diode,
+  fuse,
   ground,
   inductor,
   jkFlipFlop,
   junction,
+  lamp,
   led,
   // Multiplexers
   mux4to1,
@@ -41,6 +44,8 @@ import {
   register8,
   // Passive components
   resistor,
+  switchSpdt,
+  switchSpst,
   tFlipFlop,
   transformer,
   // Sources
@@ -157,6 +162,20 @@ describe('electricalSymbols', () => {
       });
     });
 
+    describe('battery', () => {
+      it('should have correct symbol definition', () => {
+        expect(battery.id).toBe('battery');
+        expect(battery.width).toBe(50);
+        expect(battery.height).toBe(30);
+        expect(battery.terminals).toHaveLength(2);
+      });
+
+      it('should render SVG with cell plates', () => {
+        const svg = battery.render(0, 0);
+        expect(svg).toContain('<line');
+      });
+    });
+
     describe('ground', () => {
       it('should have correct symbol definition', () => {
         expect(ground.id).toBe('ground');
@@ -228,6 +247,35 @@ describe('electricalSymbols', () => {
         const svg = junction.render(0, 0);
         expect(svg).toContain('<circle');
         expect(svg).toContain('fill="currentColor"');
+      });
+    });
+
+    describe('fuse', () => {
+      it('should have correct symbol definition', () => {
+        expect(fuse.id).toBe('fuse');
+        expect(fuse.width).toBe(50);
+        expect(fuse.height).toBe(20);
+        expect(fuse.terminals).toHaveLength(2);
+      });
+
+      it('should render SVG with fuse body', () => {
+        const svg = fuse.render(0, 0);
+        expect(svg).toContain('<rect');
+      });
+    });
+
+    describe('lamp', () => {
+      it('should have correct symbol definition', () => {
+        expect(lamp.id).toBe('lamp');
+        expect(lamp.width).toBe(40);
+        expect(lamp.height).toBe(40);
+        expect(lamp.terminals).toHaveLength(2);
+      });
+
+      it('should render SVG with circular lamp body', () => {
+        const svg = lamp.render(0, 0);
+        expect(svg).toContain('<circle');
+        expect(svg).toContain('<path');
       });
     });
   });
@@ -365,6 +413,36 @@ describe('electricalSymbols', () => {
 
       it('should render SVG with two coils', () => {
         const svg = transformer.render(0, 0);
+        expect(svg).toContain('<path');
+      });
+    });
+
+    describe('switchSpst', () => {
+      it('should have correct symbol definition', () => {
+        expect(switchSpst.id).toBe('switch-spst');
+        expect(switchSpst.width).toBe(50);
+        expect(switchSpst.height).toBe(28);
+        expect(switchSpst.terminals).toHaveLength(2);
+      });
+
+      it('should render SVG with open switch contact', () => {
+        const svg = switchSpst.render(0, 0);
+        expect(svg).toContain('<circle');
+        expect(svg).toContain('<path');
+      });
+    });
+
+    describe('switchSpdt', () => {
+      it('should have correct symbol definition', () => {
+        expect(switchSpdt.id).toBe('switch-spdt');
+        expect(switchSpdt.width).toBe(60);
+        expect(switchSpdt.height).toBe(36);
+        expect(switchSpdt.terminals).toHaveLength(3);
+      });
+
+      it('should render SVG with two throws', () => {
+        const svg = switchSpdt.render(0, 0);
+        expect(svg).toContain('<circle');
         expect(svg).toContain('<path');
       });
     });

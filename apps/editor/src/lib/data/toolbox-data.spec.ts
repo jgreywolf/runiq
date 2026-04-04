@@ -244,6 +244,41 @@ describe('Toolbox Data Structure', () => {
 		expect(categoryIds).toContain('controlLadder');
 	});
 
+	it('should include the expanded electrical starter symbols', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.electrical);
+		const electricalCategory = categories.find((cat) => cat.id === 'electrical');
+		const electricalShapeIds = electricalCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(electricalShapeIds).toContain('battery');
+		expect(electricalShapeIds).toContain('fuse');
+		expect(electricalShapeIds).toContain('lamp');
+		expect(electricalShapeIds).toContain('switchSpst');
+		expect(electricalShapeIds).toContain('switchSpdt');
+	});
+
+	it('should include the full HVAC renderer-backed starter set', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.hvac);
+		const shapeIds = categories.flatMap((category) => category.shapes.map((shape) => shape.id));
+
+		expect(shapeIds).toContain('hvac-fan-return');
+		expect(shapeIds).toContain('hvac-fan-exhaust');
+		expect(shapeIds).toContain('hvac-filter');
+		expect(shapeIds).toContain('hvac-heating-coil');
+		expect(shapeIds).toContain('hvac-humidifier');
+		expect(shapeIds).toContain('hvac-dehumidifier');
+		expect(shapeIds).toContain('hvac-diffuser-return');
+		expect(shapeIds).toContain('hvac-damper-motorized');
+		expect(shapeIds).toContain('hvac-damper-manual');
+		expect(shapeIds).toContain('hvac-damper-fire');
+		expect(shapeIds).toContain('hvac-temp-sensor');
+		expect(shapeIds).toContain('hvac-pressure-sensor');
+		expect(shapeIds).toContain('hvac-chiller');
+		expect(shapeIds).toContain('hvac-boiler');
+		expect(shapeIds).toContain('hvac-cooling-tower');
+		expect(shapeIds).toContain('hvac-pump');
+		expect(shapeIds).toContain('hvac-heat-exchanger');
+	});
+
 	it('should include railroad snippets in railroad profile', () => {
 		const categories = getShapeCategoryByProfile(ProfileName.railroad);
 		const categoryIds = categories.map((cat) => cat.id);

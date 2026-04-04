@@ -513,6 +513,155 @@ export const transformer = createSymbol(
   }
 );
 
+/**
+ * Battery (multi-cell DC source)
+ */
+export const battery = createSymbol(
+  'battery',
+  50,
+  30,
+  [
+    { x: 0, y: 15, name: 'negative' },
+    { x: 50, y: 15, name: 'positive' },
+  ],
+  (cx, cy) => {
+    const left = cx - 25;
+    const right = cx + 25;
+    const shortLeft = cx - 8;
+    const shortRight = cx + 4;
+    const tallLeft = cx - 2;
+    const tallRight = cx + 10;
+
+    return `
+      ${renderConnectionLine(left, cy, shortLeft, cy, { strokeWidth: 2 })}
+      ${renderConnectionLine(tallRight, cy, right, cy, { strokeWidth: 2 })}
+      ${renderConnectionLine(shortLeft, cy - 6, shortLeft, cy + 6, { strokeWidth: 2 })}
+      ${renderConnectionLine(tallLeft, cy - 11, tallLeft, cy + 11, { strokeWidth: 2 })}
+      ${renderConnectionLine(shortRight, cy - 6, shortRight, cy + 6, { strokeWidth: 2 })}
+      ${renderConnectionLine(tallRight, cy - 11, tallRight, cy + 11, { strokeWidth: 2 })}
+    `;
+  }
+);
+
+/**
+ * Fuse
+ */
+export const fuse = createSymbol(
+  'fuse',
+  50,
+  20,
+  [
+    { x: 0, y: 10, name: 'left' },
+    { x: 50, y: 10, name: 'right' },
+  ],
+  (cx, cy) => {
+    const left = cx - 25;
+    const right = cx + 25;
+
+    return `
+      ${renderConnectionLine(left, cy, cx - 12, cy, { strokeWidth: 2 })}
+      <rect x="${cx - 12}" y="${cy - 6}" width="24" height="12"
+        stroke="currentColor"
+        stroke-width="2"
+        fill="none"/>
+      ${renderConnectionLine(cx + 12, cy, right, cy, { strokeWidth: 2 })}
+      <path d="M ${cx - 8},${cy + 4} L ${cx + 8},${cy - 4}"
+        stroke="currentColor"
+        stroke-width="1.5"
+        fill="none"/>
+    `;
+  }
+);
+
+/**
+ * Lamp / indicator lamp
+ */
+export const lamp = createSymbol(
+  'lamp',
+  40,
+  40,
+  [
+    { x: 0, y: 20, name: 'left' },
+    { x: 40, y: 20, name: 'right' },
+  ],
+  (cx, cy) => {
+    const radius = 12;
+    const left = cx - 20;
+    const right = cx + 20;
+
+    return `
+      ${renderConnectionLine(left, cy, cx - radius, cy, { strokeWidth: 2 })}
+      ${renderConnectionLine(cx + radius, cy, right, cy, { strokeWidth: 2 })}
+      ${renderCircleBody(cx, cy, radius, { strokeWidth: 2 })}
+      <path d="M ${cx - 7},${cy - 7} L ${cx + 7},${cy + 7} M ${cx + 7},${cy - 7} L ${cx - 7},${cy + 7}"
+        stroke="currentColor"
+        stroke-width="1.5"
+        fill="none"/>
+    `;
+  }
+);
+
+/**
+ * SPST switch (normally open)
+ */
+export const switchSpst = createSymbol(
+  'switch-spst',
+  50,
+  28,
+  [
+    { x: 0, y: 14, name: 'left' },
+    { x: 50, y: 14, name: 'right' },
+  ],
+  (cx, cy) => {
+    const left = cx - 25;
+    const right = cx + 25;
+
+    return `
+      ${renderConnectionLine(left, cy, cx - 10, cy, { strokeWidth: 2 })}
+      <circle cx="${cx - 10}" cy="${cy}" r="2.5" fill="currentColor"/>
+      <circle cx="${cx + 10}" cy="${cy}" r="2.5" fill="currentColor"/>
+      <path d="M ${cx - 10},${cy} L ${cx + 5},${cy - 9}"
+        stroke="currentColor"
+        stroke-width="2"
+        fill="none"/>
+      ${renderConnectionLine(cx + 10, cy, right, cy, { strokeWidth: 2 })}
+    `;
+  }
+);
+
+/**
+ * SPDT switch
+ */
+export const switchSpdt = createSymbol(
+  'switch-spdt',
+  60,
+  36,
+  [
+    { x: 0, y: 18, name: 'common' },
+    { x: 60, y: 8, name: 'throwA' },
+    { x: 60, y: 28, name: 'throwB' },
+  ],
+  (cx, cy) => {
+    const left = cx - 30;
+    const right = cx + 30;
+    const commonX = cx - 12;
+    const throwX = cx + 12;
+
+    return `
+      ${renderConnectionLine(left, cy, commonX, cy, { strokeWidth: 2 })}
+      <circle cx="${commonX}" cy="${cy}" r="2.5" fill="currentColor"/>
+      <circle cx="${throwX}" cy="${cy - 10}" r="2.5" fill="currentColor"/>
+      <circle cx="${throwX}" cy="${cy + 10}" r="2.5" fill="currentColor"/>
+      <path d="M ${commonX},${cy} L ${throwX - 4},${cy - 8}"
+        stroke="currentColor"
+        stroke-width="2"
+        fill="none"/>
+      ${renderConnectionLine(throwX, cy - 10, right, cy - 10, { strokeWidth: 2 })}
+      ${renderConnectionLine(throwX, cy + 10, right, cy + 10, { strokeWidth: 2 })}
+    `;
+  }
+);
+
 // ============================================================================
 // Digital Logic Gates (IEEE/ANSI standard symbols)
 // ============================================================================
