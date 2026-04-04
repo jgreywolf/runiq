@@ -35,6 +35,21 @@ export const controlShapeIcons: ShapeCategory[] = [
 				id: 'control-timer-on',
 				label: 'Timer On (TON)',
 				code: 'part T1 type:TIMER_ON pins:(M2,L2) preset:500'
+			},
+			{
+				id: 'control-timer-off',
+				label: 'Timer Off (TOF)',
+				code: 'part T2 type:TIMER_OFF pins:(M2,L2) preset:500'
+			},
+			{
+				id: 'control-counter-up',
+				label: 'Counter Up (CTU)',
+				code: 'part C1 type:COUNTER_UP pins:(M2,L2) preset:10'
+			},
+			{
+				id: 'control-counter-down',
+				label: 'Counter Down (CTD)',
+				code: 'part C2 type:COUNTER_DOWN pins:(M2,L2) preset:10'
 			}
 		]
 	}

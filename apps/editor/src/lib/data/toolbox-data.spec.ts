@@ -241,7 +241,11 @@ describe('Toolbox Data Structure', () => {
 	it('should include control ladder snippets in control profile', () => {
 		const categories = getShapeCategoryByProfile(ProfileName.control);
 		const categoryIds = categories.map((cat) => cat.id);
+		const controlShapeIds = categories.flatMap((category) => category.shapes.map((shape) => shape.id));
 		expect(categoryIds).toContain('controlLadder');
+		expect(controlShapeIds).toContain('control-timer-off');
+		expect(controlShapeIds).toContain('control-counter-up');
+		expect(controlShapeIds).toContain('control-counter-down');
 	});
 
 	it('should include the expanded electrical starter symbols', () => {

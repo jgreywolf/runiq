@@ -112,3 +112,45 @@ export const timerOn: SymbolDefinition = createSymbol(
       <text x="${cx}" y="${cy}" font-size="10" text-anchor="middle" dominant-baseline="middle" fill="${stroke}">TON</text>
     `
 );
+
+export const timerOff: SymbolDefinition = createSymbol(
+  'TIMER_OFF',
+  80,
+  30,
+  [
+    { x: 0, y: 15, name: 'left' },
+    { x: 80, y: 15, name: 'right' },
+  ],
+  (cx, cy) => `
+      <rect x="${cx - 30}" y="${cy - 12}" width="60" height="24" rx="3" ry="3" stroke="${stroke}" stroke-width="${strokeWidth}" fill="none" />
+      <text x="${cx}" y="${cy}" font-size="10" text-anchor="middle" dominant-baseline="middle" fill="${stroke}">TOF</text>
+    `
+);
+
+export const counterUp: SymbolDefinition = createSymbol(
+  'COUNTER_UP',
+  80,
+  30,
+  [
+    { x: 0, y: 15, name: 'left' },
+    { x: 80, y: 15, name: 'right' },
+  ],
+  (cx, cy) => `
+      <rect x="${cx - 30}" y="${cy - 12}" width="60" height="24" rx="3" ry="3" stroke="${stroke}" stroke-width="${strokeWidth}" fill="none" />
+      <text x="${cx}" y="${cy}" font-size="10" text-anchor="middle" dominant-baseline="middle" fill="${stroke}">CTU</text>
+    `
+);
+
+export const counterDown: SymbolDefinition = createSymbol(
+  'COUNTER_DOWN',
+  80,
+  30,
+  [
+    { x: 0, y: 15, name: 'left' },
+    { x: 80, y: 15, name: 'right' },
+  ],
+  (cx, cy) => `
+      <rect x="${cx - 30}" y="${cy - 12}" width="60" height="24" rx="3" ry="3" stroke="${stroke}" stroke-width="${strokeWidth}" fill="none" />
+      <text x="${cx}" y="${cy}" font-size="10" text-anchor="middle" dominant-baseline="middle" fill="${stroke}">CTD</text>
+    `
+);

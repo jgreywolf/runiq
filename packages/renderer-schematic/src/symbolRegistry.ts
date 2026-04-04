@@ -207,8 +207,11 @@ import {
   coil,
   contactNC,
   contactNO,
+  counterDown,
+  counterUp,
   resetCoil,
   setCoil,
+  timerOff,
   timerOn,
 } from './control/controlSymbols.ts';
 import { SymbolDefinition } from './symbol.ts';
@@ -278,6 +281,9 @@ export const symbolRegistry = new Map<string, SymbolDefinition>([
   ['SET_COIL', setCoil],
   ['RESET_COIL', resetCoil],
   ['TIMER_ON', timerOn],
+  ['TIMER_OFF', timerOff],
+  ['COUNTER_UP', counterUp],
+  ['COUNTER_DOWN', counterDown],
 ]);
 
 // Pneumatic symbols

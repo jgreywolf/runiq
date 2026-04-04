@@ -158,6 +158,14 @@ describe('symbolRegistry', () => {
       expect(symbolRegistry.has('SET_COIL')).toBe(true);
       expect(symbolRegistry.has('RESET_COIL')).toBe(true);
       expect(symbolRegistry.has('TIMER_ON')).toBe(true);
+      expect(symbolRegistry.has('TIMER_OFF')).toBe(true);
+      expect(symbolRegistry.has('COUNTER_UP')).toBe(true);
+      expect(symbolRegistry.has('COUNTER_DOWN')).toBe(true);
+      expect(symbolRegistry.has('NC_CONTACT')).toBe(true);
+      expect(symbolRegistry.has('COIL')).toBe(true);
+      expect(symbolRegistry.has('SET_COIL')).toBe(true);
+      expect(symbolRegistry.has('RESET_COIL')).toBe(true);
+      expect(symbolRegistry.has('TIMER_ON')).toBe(true);
     });
 
     it('should contain Phase 2 hydraulic symbols (pressure control)', () => {
