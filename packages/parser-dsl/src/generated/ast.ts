@@ -411,6 +411,7 @@ export type RuniqKeywordNames =
     | "indent"
     | "inertia:"
     | "initialState"
+    | "innerRadius:"
     | "input"
     | "inputPins:"
     | "inst"
@@ -683,6 +684,7 @@ export type RuniqKeywordNames =
     | "showLegend:"
     | "showMetrics:"
     | "showPercentages"
+    | "showPointLabels:"
     | "showValues"
     | "showValues:"
     | "side"
@@ -2121,10 +2123,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'chart' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'events' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'links' | 'loop' | 'm' | 'member' | 'milestones' | 'mobile' | 'name' | 'node' | 'nodes' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'sankey' | 'series' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'tasks' | 'team' | 'temperature' | 'to' | 'treemap' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'chart' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'events' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'links' | 'loop' | 'm' | 'member' | 'milestones' | 'mobile' | 'name' | 'node' | 'nodes' | 'options' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'sankey' | 'series' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'tasks' | 'team' | 'temperature' | 'to' | 'treemap' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'tasks' || item === 'milestones' || item === 'events' || item === 'nodes' || item === 'links' || item === 'series' || item === 'treemap' || item === 'sankey' || item === 'chart' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'options' || item === 'tasks' || item === 'milestones' || item === 'events' || item === 'nodes' || item === 'links' || item === 'series' || item === 'treemap' || item === 'sankey' || item === 'chart' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -3147,6 +3149,21 @@ export function isIconSizeProperty(item: unknown): item is IconSizeProperty {
     return reflection.isInstance(item, IconSizeProperty.$type);
 }
 
+export interface InnerRadiusProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'InnerRadiusProperty';
+    value: string;
+}
+
+export const InnerRadiusProperty = {
+    $type: 'InnerRadiusProperty',
+    value: 'value'
+} as const;
+
+export function isInnerRadiusProperty(item: unknown): item is InnerRadiusProperty {
+    return reflection.isInstance(item, InnerRadiusProperty.$type);
+}
+
 export interface InputPinsProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'InputPinsProperty';
@@ -4066,7 +4083,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InputPinsProperty | IntersectionsProperty | LabelColorsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InnerRadiusProperty | InputPinsProperty | IntersectionsProperty | LabelColorsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowPointLabelsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -6038,6 +6055,21 @@ export function isShowMetricsProperty(item: unknown): item is ShowMetricsPropert
     return reflection.isInstance(item, ShowMetricsProperty.$type);
 }
 
+export interface ShowPointLabelsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ShowPointLabelsProperty';
+    value: BooleanValue;
+}
+
+export const ShowPointLabelsProperty = {
+    $type: 'ShowPointLabelsProperty',
+    value: 'value'
+} as const;
+
+export function isShowPointLabelsProperty(item: unknown): item is ShowPointLabelsProperty {
+    return reflection.isInstance(item, ShowPointLabelsProperty.$type);
+}
+
 export interface ShowValuesProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'ShowValuesProperty';
@@ -7485,6 +7517,7 @@ export type RuniqAstType = {
     IconColorProperty: IconColorProperty
     IconProperty: IconProperty
     IconSizeProperty: IconSizeProperty
+    InnerRadiusProperty: InnerRadiusProperty
     InputPinsProperty: InputPinsProperty
     InstMapProperty: InstMapProperty
     InstOfProperty: InstOfProperty
@@ -7664,6 +7697,7 @@ export type RuniqAstType = {
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     ShowMetricsProperty: ShowMetricsProperty
+    ShowPointLabelsProperty: ShowPointLabelsProperty
     ShowValuesProperty: ShowValuesProperty
     StackedProperty: StackedProperty
     StateInvariantProperty: StateInvariantProperty
@@ -9294,6 +9328,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 size: {
                     name: IconSizeProperty.size
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        InnerRadiusProperty: {
+            name: InnerRadiusProperty.$type,
+            properties: {
+                value: {
+                    name: InnerRadiusProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]
@@ -11062,6 +11105,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 value: {
                     name: ShowMetricsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        ShowPointLabelsProperty: {
+            name: ShowPointLabelsProperty.$type,
+            properties: {
+                value: {
+                    name: ShowPointLabelsProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]

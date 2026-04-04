@@ -8,6 +8,12 @@ export { hourglassShape } from './hourglass.js';
 export { forkJoinShape } from './forkJoin.js';
 export { orShape } from './or.js';
 export {
+  architectureLayerShape,
+  subsystemBlockShape,
+  platformBlockShape,
+  externalSystemBlockShape,
+} from './architecture.js';
+export {
   hRuleShape,
   vRuleShape,
   bracketLeftShape,

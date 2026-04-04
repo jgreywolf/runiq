@@ -22,6 +22,18 @@ import {
   unescapeString,
 } from '../utils/index.js';
 
+function isShowPointLabelsProperty(
+  prop: Langium.NodeProperty
+): prop is Langium.ShowPointLabelsProperty {
+  return prop.$type === 'ShowPointLabelsProperty';
+}
+
+function isInnerRadiusProperty(
+  prop: Langium.NodeProperty
+): prop is Langium.InnerRadiusProperty {
+  return prop.$type === 'InnerRadiusProperty';
+}
+
 /**
  * Convert DiagramProfile from Langium AST to core AST format
  */
@@ -453,6 +465,9 @@ function processNodeProperties(
     if (Langium.isShowLegendProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.showLegend = prop.value === 'true';
+    } else if (isShowPointLabelsProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.showPointLabels = prop.value === 'true';
     } else if (Langium.isShowValuesProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.showValues = prop.value === 'true';
@@ -483,6 +498,9 @@ function processNodeProperties(
           item.replace(/^"|"$/g, '')
         );
       }
+    } else if (isInnerRadiusProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.innerRadius = Number(prop.value);
     } else if (Langium.isTitleProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.title = prop.value.replace(/^"|"$/g, '');

@@ -19,6 +19,7 @@ import { digitalSyntaxShapeIcons } from './toolboxIcons/digitalSyntaxShapeIcons'
 import { railroadSyntaxShapeIcons } from './toolboxIcons/railroadSyntaxShapeIcons';
 import { awsShapeIcons } from './toolboxIcons/awsShapeIcons';
 import { azureShapeIcons } from './toolboxIcons/azureShapeIcons';
+import { architectureShapeIcons } from './toolboxIcons/architectureShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
@@ -65,6 +66,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...azureShapeIcons,
+	...architectureShapeIcons,
 	...networkShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,
@@ -103,6 +105,7 @@ export const diagramShapes: ShapeCategory[] = [
 	...kinematicShapeIcons,
 	...awsShapeIcons,
 	...azureShapeIcons,
+	...architectureShapeIcons,
 	...networkShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,

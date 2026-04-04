@@ -78,6 +78,7 @@ export enum LineStyle {
   DASHED = 'dashed',
   DOTTED = 'dotted',
   DOUBLE = 'double',
+  BLOCK = 'block',
 }
 
 /**

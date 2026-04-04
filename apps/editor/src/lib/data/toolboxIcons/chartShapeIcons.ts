@@ -3,7 +3,7 @@ import type { ShapeCategory } from '../toolbox-data';
 export const chartShapeIcons: ShapeCategory[] = [
 	{
 		id: 'charts',
-		label: 'Charts & Diagrams',
+		label: 'Charts',
 		profiles: ['diagram'],
 		shapes: [
 			{
@@ -22,9 +22,19 @@ export const chartShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @pieChart label:"Sales" data:[30,20,50]'
 			},
 			{
+				id: 'ringChart',
+				label: 'Ring Chart',
+				code: 'shape id as @ringChart label:"Revenue Mix" data:[42,38,20] labels:["Services","Subscriptions","Support"]'
+			},
+			{
 				id: 'barChart',
 				label: 'Bar Chart',
 				code: 'shape id as @barChart label:"Data" data:[10,20,15]'
+			},
+			{
+				id: 'scatterChart',
+				label: 'Scatter Chart',
+				code: 'shape id as @scatterChart label:"Cost vs Latency" data:[{"x":20,"y":120,"label":"A"},{"x":55,"y":60,"label":"B"},{"x":80,"y":210,"label":"C"}] showPointLabels:true'
 			},
 			{
 				id: 'venn',

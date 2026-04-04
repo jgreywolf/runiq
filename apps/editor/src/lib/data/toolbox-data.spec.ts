@@ -115,6 +115,14 @@ describe('Toolbox Data Structure', () => {
 		expect(flowchartCategory!.shapes.length).toBeGreaterThan(0);
 	});
 
+	it('should include ring and scatter chart shapes', () => {
+		const chartCategory = shapeCategories.find((cat) => cat.id === 'charts');
+		const chartShapeIds = chartCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(chartShapeIds).toContain('ringChart');
+		expect(chartShapeIds).toContain('scatterChart');
+	});
+
 	it('should include rectangle shape in basic category', () => {
 		const basicCategory = shapeCategories.find((cat) => cat.id === 'basic');
 		const rectShape = basicCategory?.shapes.find((s) => s.id === 'rect' || s.code.includes('@rect'));
@@ -209,6 +217,16 @@ describe('Toolbox Data Structure', () => {
 		expect(azureShapeIds).toContain('azureCosmosDb');
 		expect(azureShapeIds).toContain('azureServiceBus');
 		expect(azureShapeIds).toContain('azureEntraId');
+	});
+
+	it('should include the architecture diagram starter shapes', () => {
+		const architectureCategory = shapeCategories.find((cat) => cat.id === 'architecture');
+		const architectureShapeIds = architectureCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(architectureShapeIds).toContain('architectureLayer');
+		expect(architectureShapeIds).toContain('subsystemBlock');
+		expect(architectureShapeIds).toContain('platformBlock');
+		expect(architectureShapeIds).toContain('externalSystemBlock');
 	});
 
 	it('should include the expanded C4 architecture symbols', () => {

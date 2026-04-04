@@ -112,6 +112,10 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.hourglassShape);
   shapeRegistry.register(special.forkJoinShape);
   shapeRegistry.register(special.orShape);
+  shapeRegistry.register(special.architectureLayerShape);
+  shapeRegistry.register(special.subsystemBlockShape);
+  shapeRegistry.register(special.platformBlockShape);
+  shapeRegistry.register(special.externalSystemBlockShape);
   shapeRegistry.register(special.hRuleShape);
   shapeRegistry.register(special.vRuleShape);
   shapeRegistry.register(special.bracketLeftShape);
@@ -141,8 +145,10 @@ export function registerSpecialShapes(): void {
 
 export function registerChartShapes(): void {
   shapeRegistry.register(charts.pieChart);
+  shapeRegistry.register(charts.ringChart);
   shapeRegistry.register(charts.barChart);
   shapeRegistry.register(charts.lineChart);
+  shapeRegistry.register(charts.scatterChart);
   shapeRegistry.register(charts.radarChart);
   shapeRegistry.register(charts.vennShape); // Unified venn diagram
   shapeRegistry.register(charts.sankeyChart);

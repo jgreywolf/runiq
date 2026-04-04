@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (268 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (272 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 268 diagram profile shapes below ->](#all-shapes)
+[See all 272 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -320,7 +320,33 @@ diagram "Decorative Shapes" {
 }
 ```
 
-### 8. Chart Shapes (7 shapes)
+### 8. Architecture Shapes (4 shapes)
+
+**Profile:** `diagram` (default)
+
+Layered and block-oriented shapes for architecture diagrams:
+
+| Shape                 | Syntax                  | Description                         |
+| --------------------- | ----------------------- | ----------------------------------- |
+| Architecture Layer    | `@architectureLayer`    | Layered container with title band   |
+| Subsystem Block       | `@subsystemBlock`       | Subsystem or service block          |
+| Platform Block        | `@platformBlock`        | Platform/service block              |
+| External System Block | `@externalSystemBlock`  | External system or hardware block   |
+
+**Example:**
+
+```runiq
+diagram "Architecture" {
+  container app "Application Layer" as @architectureLayer {
+    shape api as @subsystemBlock label:"API"
+  }
+
+  shape hardware as @externalSystemBlock label:"Hardware"
+  api -> hardware lineStyle:"block"
+}
+```
+
+### 9. Chart Shapes (7 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -345,7 +371,7 @@ diagram "Data Visualization" {
 }
 ```
 
-### 9. Network Shapes (11 shapes)
+### 10. Network Shapes (11 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -376,7 +402,7 @@ diagram "Network Topology" {
 }
 ```
 
-### 10. Quantum Circuit Shapes (12 shapes)
+### 11. Quantum Circuit Shapes (12 shapes)
 
 **Profile:** `diagram` (default, but designed for quantum circuits)
 
@@ -414,7 +440,7 @@ diagram "Bell State" {
 See the [Quantum Circuits Guide](../guide/quantum-circuits.md) for comprehensive documentation on quantum computing diagrams.
 :::
 
-### 11. UML Shapes (52 shapes)
+### 12. UML Shapes (52 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -677,7 +703,8 @@ Complete listing organized by category:
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
 | Control Systems (legacy) | 10 | Control system block diagrams |
 | Kinematic          | 25    | Joints, links, and actuators                   |
-| Special            | 32    | Decorative accents, badges, and symbols        |
+| Special            | 36    | Decorative accents, badges, and symbols        |
+| Architecture       | 4     | Layered block and subsystem diagrams           |
 | Charts             | 7     | Data visualization (pie, bar, Venn)            |
 | Network            | 11    | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
@@ -690,7 +717,7 @@ Complete listing organized by category:
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 268+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 272+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

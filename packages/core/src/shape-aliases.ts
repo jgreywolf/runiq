@@ -80,10 +80,20 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('extract', 'extract');
   shapeRegistry.registerAlias('merge', 'merge');
   shapeRegistry.registerAlias('sort', 'sort');
+  shapeRegistry.registerAlias('donut', 'ringChart');
+  shapeRegistry.registerAlias('ring', 'ringChart');
+  shapeRegistry.registerAlias('scatter', 'scatterChart');
 
   // Decorative Shapes
   shapeRegistry.registerAlias('callout', 'captionBox');
   shapeRegistry.registerAlias('calloutBox', 'captionBox');
+  shapeRegistry.registerAlias('architectureLayer', 'architectureLayer');
+  shapeRegistry.registerAlias('layer', 'architectureLayer');
+  shapeRegistry.registerAlias('subsystem', 'subsystemBlock');
+  shapeRegistry.registerAlias('subsystemBlock', 'subsystemBlock');
+  shapeRegistry.registerAlias('platformBlock', 'platformBlock');
+  shapeRegistry.registerAlias('externalBlock', 'externalSystemBlock');
+  shapeRegistry.registerAlias('externalSystemBlock', 'externalSystemBlock');
 
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');

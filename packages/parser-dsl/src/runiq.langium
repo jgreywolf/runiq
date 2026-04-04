@@ -1325,7 +1325,9 @@ ShapeIdentifier returns string:
     | GatewayTypeProperty
     | ShowMetricsProperty
     | MetricTypeProperty
-    | MetricPositionProperty;
+    | MetricPositionProperty
+    | ShowPointLabelsProperty
+    | InnerRadiusProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -1364,6 +1366,9 @@ LabelsProperty:
 ShowLegendProperty:
     'showLegend:' value=BooleanValue;
 
+ShowPointLabelsProperty:
+    'showPointLabels:' value=BooleanValue;
+
 ShowValuesProperty:
     'showValues:' value=BooleanValue;
 
@@ -1384,6 +1389,9 @@ IntersectionsProperty:
 
 FlipAxesProperty:
     'flipAxes:' value=BooleanValue;
+
+InnerRadiusProperty:
+    'innerRadius:' value=NUMBER;
 
 TitleProperty:
     'title:' value=STRING;
@@ -1909,8 +1917,9 @@ TemplateVariablePath:
 FlexibleID returns string:
     ID 
     // Data-driven keywords (excluding 'template' which is a Phase 5 keyword)
-    | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
-    | 'tasks' | 'milestones' | 'events' | 'nodes' | 'links' | 'series'
+      | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
+      | 'options'
+      | 'tasks' | 'milestones' | 'events' | 'nodes' | 'links' | 'series'
     | 'treemap' | 'sankey' | 'chart'
     // Property keywords  
     | 'label' | 'name' | 'id' | 'type' | 'value' | 'format' | 'color' | 'header' | 'delimiter'
