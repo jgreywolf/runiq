@@ -64,11 +64,11 @@ Note: In the editor toolbox, electrical shapes insert `part ... pins:(...)` snip
 | --------------------- | -------------------- | ------------------------ |
 | **Use Case**          | Simple gate circuits | Hierarchical design      |
 | **Component Keyword** | `part`               | `inst` (instance)        |
-| **Module Definition** | ❌ No                | ✅ Yes (`module`)        |
+| **Module Definition** | No                   | Yes (`module`)           |
 | **Port Mapping**      | Simple pin lists     | Named port mapping       |
-| **Bus Notation**      | ❌ No                | ✅ Yes `[7:0]`           |
+| **Bus Notation**      | No                   | Yes `[7:0]`              |
 | **Parameters**        | Basic properties     | Full parameter overrides |
-| **Mixed Analog**      | ✅ Yes               | ❌ No (digital only)     |
+| **Mixed Analog**      | Yes                  | No (digital only)        |
 | **Export**            | SPICE, Verilog       | Verilog (hierarchical)   |
 
 ## Comparison with Other Tools

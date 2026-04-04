@@ -15,13 +15,11 @@ Runiq supports creating **ISA-5.1 compliant** Piping & Instrumentation Diagrams 
 ```runiq
 pid "Simple Process Flow" {
   // Equipment
-  equipment T-101 type:storageTank volume:1000 unit:L material:CS rating:150#
-  equipment P-101 type:pumpCentrifugal flowRate:50 unit:m³/h material:CS
+  equipment P-101 type:pumpCentrifugal flowRate:50 unit:m^3/h material:CS
   equipment FCV-101 type:valveControl rating:150#
 
-  // Instruments
-  instrument FT-101 type:flowTransmitter range:(0,100) unit:m³/h loop:101 location:field
-  instrument FIC-101 type:flowIndicatorController range:(0,100) unit:m³/h loop:101 location:panel
+  instrument FT-101 type:flowTransmitter range:(0,100) unit:m^3/h loop:101 location:field
+  instrument FIC-101 type:flowIndicatorController range:(0,100) unit:m^3/h loop:101 location:panel
   instrument LT-401 type:levelTransmitter range:(0,100) unit:% loop:401 location:field
   instrument LIC-401 type:levelIndicatorController range:(0,100) unit:% loop:401 location:panel
 
@@ -34,21 +32,18 @@ pid "Simple Process Flow" {
   line signal from:FT-101 to:FIC-101
   line signal from:FIC-101 to:FCV-101
   line signal from:LT-401 to:LIC-401
-
   // Control Loops
-  loop 101 controlled_variable:flow setpoint:40 unit:m³/h controller:FIC-101 mode:auto
+  loop 101 controlled_variable:flow setpoint:40 unit:m^3/h controller:FIC-101 mode:auto
   loop 401 controlled_variable:level setpoint:70 unit:% controller:LIC-401 mode:auto
-
   // Process Specifications
-  fluid biodegradable
+  flowRate 50 m^3/h
   pressure 6 bar operating
-  flowRate 50 m³/h
 }
 ```
 
 ## Equipment Types
 
-P&IDs support **87 symbols** across multiple categories:
+P&IDs support a broad equipment and instrumentation symbol set across multiple categories:
 
 ### Vessels & Process Equipment
 
@@ -145,7 +140,7 @@ equipment E-101 type:heatExchangerShellTube
 
 ## Instrument Types
 
-P&IDs support **27+ instrument types** following ISA-5.1 tag notation:
+P&IDs support a broad set of instrument types following ISA-5.1 tag notation:
 
 ### Transmitters (Measurement Devices)
 

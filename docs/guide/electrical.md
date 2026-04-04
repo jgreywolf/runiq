@@ -93,21 +93,21 @@ Standard SPICE suffixes: f, p, n, u, m, k, Meg, G
 
 | Feature                      | Runiq                     | Lucidchart         | Draw.io       | LTspice          | KiCad            |
 | ---------------------------- | ------------------------- | ------------------ | ------------- | ---------------- | ---------------- |
-| **Text-Based DSL**           | ?                        | ? GUI             | ? GUI        | ?? Netlist only  | ? GUI           |
-| **Version Control Friendly** | ?                        | ?? Limited         | ?? Limited    | ?? Netlist only  | ?? Complex files |
-| **Automatic Layout**         | ? ELK                    | ?? Manual          | ?? Manual     | ?? Manual        | ?? Manual        |
-| **IEEE Standard Symbols**    | ?                        | ?                 | ?            | ?               | ?               |
-| **SPICE Export**             | ? Native netlist         | ?                 | ?            | ?               | ?               |
-| **Circuit Simulation**       | ?? Via SPICE export       | ?                 | ?            | ? Built-in      | ?? Via ngspice   |
-| **Component Library**        | ? R, L, C, V, I, Battery, Fuse, Switches, Lamps, D, Q, M | ? Extensive       | ? Extensive  | ? Extensive     | ? Massive       |
-| **Analysis Types**           | ? op, tran, ac, dc       | ?                 | ?            | ? All types     | ? All types     |
-| **Net Naming**               | ? Descriptive names      | ? Manual          | ? Manual     | ? Node numbers  | ? Net names     |
-| **PCB Design**               | ?                        | ?? Basic           | ?? Basic      | ?               | ? Full support  |
-| **Schematic Capture**        | ? Text-based             | ? GUI             | ? GUI        | ? GUI           | ? GUI           |
-| **Export Formats**           | ? SVG, PNG, SPICE        | ? Many formats    | ? Many       | ? PNG, PDF      | ? Many          |
-| **Collaboration**            | ? Git-based              | ? Cloud (Paid)    | ? Cloud      | ? Desktop-based | ? Git-friendly  |
-| **Learning Curve**           | ?? Moderate (DSL)         | ? Low (GUI)       | ? Low        | ?? Moderate      | ? High          |
-| **Open Source**              | ? MIT License            | ? Commercial only | ? Apache 2.0 | ?? Freeware      | ? GPL           |
+| **Text-Based DSL**           | Yes                      | No GUI            | No GUI       | Netlist-first   | No GUI          |
+| **Version Control Friendly** | Yes                      | Limited           | Limited      | Netlist-first   | Complex files   |
+| **Automatic Layout**         | Yes, ELK                 | Manual            | Manual       | Manual          | Manual          |
+| **IEEE Standard Symbols**    | Yes, core set            | Partial           | Partial      | Yes             | Yes             |
+| **SPICE Export**             | Yes, native netlist      | No                | No           | Native          | Via tools       |
+| **Circuit Simulation**       | Via SPICE export         | No                | No           | Built-in        | Via ngspice     |
+| **Component Library**        | Core analog and mixed-signal set | Extensive          | Extensive    | Extensive       | Massive         |
+| **Analysis Types**           | `op`, `tran`, `ac`, `dc` | No                | No           | Broad           | Broad           |
+| **Net Naming**               | Descriptive names        | Manual            | Manual       | Node-centric    | Net names       |
+| **PCB Design**               | No                       | Basic             | Basic        | No              | Full support    |
+| **Schematic Capture**        | Text-based               | GUI               | GUI          | GUI             | GUI             |
+| **Export Formats**           | SVG, PNG, SPICE          | Many formats      | Many         | PNG, PDF        | Many            |
+| **Collaboration**            | Git-based                | Cloud (Paid)      | Cloud        | Desktop-based   | Git-friendly    |
+| **Learning Curve**           | Moderate (DSL)           | Low (GUI)         | Low          | Moderate        | High            |
+| **Open Source**              | MIT License              | Commercial only   | Apache 2.0   | Freeware        | GPL             |
 
 **Key Advantages of Runiq:**
 
