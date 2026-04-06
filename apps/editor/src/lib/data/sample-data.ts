@@ -6,6 +6,7 @@ import { containerSampleDiagrams } from './toolboxSamples/containerSampleDiagram
 import { controlSampleDiagrams } from './toolboxSamples/controlSampleDiagrams';
 import { digitalSampleDiagrams } from './toolboxSamples/digitalSampleDiagrams';
 import { electricalSampleDiagrams } from './toolboxSamples/electricalSampleDiagrams';
+import { faultTreeSampleDiagrams } from './toolboxSamples/faultTreeSampleDiagrams';
 import { flowchartSampleDiagrams } from './toolboxSamples/flowchartSampleDiagrams';
 import { gitgraphSampleDiagrams } from './toolboxSamples/gitgraphSampleDiagrams';
 import { hydraulicSampleDiagrams } from './toolboxSamples/hydraulicSampleDiagrams';
@@ -52,6 +53,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...stateMachineSampleDiagrams,
 	...sequenceSampleDiagrams,
 	...timelineSampleDiagrams,
+	...faultTreeSampleDiagrams,
 	...mindmapSampleDiagrams,
 	...networkSampleDiagrams,
 	...pedigreeSampleDiagrams,

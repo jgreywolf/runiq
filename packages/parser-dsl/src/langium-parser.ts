@@ -6,6 +6,7 @@ import {
   convertControlProfile,
   convertDigitalProfile,
   convertElectricalProfile,
+  convertFaultTreeProfile,
   convertGitGraphProfile,
   convertHvacProfile,
   convertHydraulicProfile,
@@ -200,6 +201,8 @@ function convertToRuniqDocument(document: Langium.Document): RuniqDocument {
       runiqDoc.profiles.push(convertPIDProfile(profile));
     } else if (Langium.isTimelineProfile(profile)) {
       runiqDoc.profiles.push(convertTimelineProfile(profile));
+    } else if (Langium.isFaultTreeProfile(profile)) {
+      runiqDoc.profiles.push(convertFaultTreeProfile(profile));
     } else if (Langium.isKanbanProfile(profile)) {
       runiqDoc.profiles.push(convertKanbanProfile(profile));
     } else if (Langium.isGitGraphProfile(profile)) {

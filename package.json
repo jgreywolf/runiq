@@ -10,8 +10,8 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "pnpm -r build",
-    "build:packages": "pnpm -r --filter ./packages/* run build",
+    "build": "pnpm -r --workspace-concurrency=1 build",
+    "build:packages": "pnpm -r --workspace-concurrency=1 --filter ./packages/* run build",
     "dev": "pnpm --filter runiq-editor dev",
     "dev:editor": "pnpm --filter runiq-editor dev",
     "docs:dev": "vitepress dev docs",

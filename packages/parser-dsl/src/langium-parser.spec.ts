@@ -203,6 +203,19 @@ describe('langium-parser', () => {
       expect(result.document?.profiles[0]?.type).toBe(ProfileType.TIMELINE);
     });
 
+    it('should route fault tree profile correctly', () => {
+      const dsl = `
+        faultTree "Brake Failure" {
+          topEvent loss "Brake system fails"
+          gate g1 type:or under:loss
+          event hydLoss "Hydraulic pressure lost" under:g1
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.document?.profiles[0]?.type).toBe(ProfileType.FAULT_TREE);
+    });
+
     it('should route wardley profile correctly', () => {
       const dsl = `
         wardley "Strategy Map" {

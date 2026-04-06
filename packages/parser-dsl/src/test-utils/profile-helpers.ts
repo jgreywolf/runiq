@@ -7,6 +7,7 @@ import type {
   DiagramProfile,
   DigitalProfile,
   ElectricalProfile,
+  FaultTreeProfile,
   HydraulicProfile,
   PIDProfile,
   PneumaticProfile,
@@ -82,6 +83,13 @@ export function parseSequenceProfile(input: string): SequenceProfile {
  */
 export function parseTimelineProfile(input: string): TimelineProfile {
   return parseProfile<TimelineProfile>(input, 'timeline');
+}
+
+/**
+ * Parse a fault tree profile with common assertions
+ */
+export function parseFaultTreeProfile(input: string): FaultTreeProfile {
+  return parseProfile<FaultTreeProfile>(input, 'faultTree');
 }
 
 /**

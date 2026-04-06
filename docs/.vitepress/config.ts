@@ -142,6 +142,7 @@ export default defineConfig({
               text: 'Control system Diagrams',
               link: '/guide/control-diagrams',
             },
+            { text: 'Fault Tree Diagrams', link: '/guide/fault-tree-diagrams' },
             { text: 'Kinematic Diagrams', link: '/guide/kinematic-diagrams' },
             { text: 'Electrical Circuits', link: '/guide/electrical' },
             { text: 'Digital Circuits', link: '/guide/digital-circuits' },

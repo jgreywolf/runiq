@@ -314,6 +314,7 @@ export type RuniqKeywordNames =
     | "false"
     | "families"
     | "fan"
+    | "faultTree"
     | "fbd"
     | "feedforward"
     | "female"
@@ -365,6 +366,7 @@ export type RuniqKeywordNames =
     | "gal/min"
     | "gap"
     | "gap:"
+    | "gate"
     | "gates:"
     | "gatewayType:"
     | "generalization"
@@ -607,6 +609,7 @@ export type RuniqKeywordNames =
     | "pressureTransmitter"
     | "priority:"
     | "private"
+    | "probability:"
     | "process"
     | "professional"
     | "protected"
@@ -779,6 +782,7 @@ export type RuniqKeywordNames =
     | "top"
     | "top-left"
     | "top-right"
+    | "topEvent"
     | "topSide"
     | "tran"
     | "treemap"
@@ -786,6 +790,8 @@ export type RuniqKeywordNames =
     | "turbineSteam"
     | "type"
     | "type:"
+    | "under:"
+    | "undevelopedEvent"
     | "unit:"
     | "units"
     | "unknown"
@@ -2109,6 +2115,144 @@ export const ExtensionPointsProperty = {
 
 export function isExtensionPointsProperty(item: unknown): item is ExtensionPointsProperty {
     return reflection.isInstance(item, ExtensionPointsProperty.$type);
+}
+
+export type FaultTreeEventKind = 'event' | 'undevelopedEvent';
+
+export function isFaultTreeEventKind(item: unknown): item is FaultTreeEventKind {
+    return item === 'event' || item === 'undevelopedEvent';
+}
+
+export type FaultTreeEventProperty = FaultTreeProbabilityProperty | FaultTreeUnderProperty;
+
+export const FaultTreeEventProperty = {
+    $type: 'FaultTreeEventProperty'
+} as const;
+
+export function isFaultTreeEventProperty(item: unknown): item is FaultTreeEventProperty {
+    return reflection.isInstance(item, FaultTreeEventProperty.$type);
+}
+
+export interface FaultTreeEventStatement extends langium.AstNode {
+    readonly $container: FaultTreeProfile;
+    readonly $type: 'FaultTreeEventStatement';
+    id: ProfileIdentifier;
+    kind: FaultTreeEventKind;
+    label: string;
+    properties: Array<FaultTreeEventProperty>;
+}
+
+export const FaultTreeEventStatement = {
+    $type: 'FaultTreeEventStatement',
+    id: 'id',
+    kind: 'kind',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isFaultTreeEventStatement(item: unknown): item is FaultTreeEventStatement {
+    return reflection.isInstance(item, FaultTreeEventStatement.$type);
+}
+
+export interface FaultTreeGateStatement extends langium.AstNode {
+    readonly $container: FaultTreeProfile;
+    readonly $type: 'FaultTreeGateStatement';
+    gateType: FaultTreeGateType;
+    id: ProfileIdentifier;
+    under: ProfileIdentifier;
+}
+
+export const FaultTreeGateStatement = {
+    $type: 'FaultTreeGateStatement',
+    gateType: 'gateType',
+    id: 'id',
+    under: 'under'
+} as const;
+
+export function isFaultTreeGateStatement(item: unknown): item is FaultTreeGateStatement {
+    return reflection.isInstance(item, FaultTreeGateStatement.$type);
+}
+
+export type FaultTreeGateType = 'and' | 'or';
+
+export function isFaultTreeGateType(item: unknown): item is FaultTreeGateType {
+    return item === 'and' || item === 'or';
+}
+
+export interface FaultTreeProbabilityProperty extends langium.AstNode {
+    readonly $container: FaultTreeEventStatement | FaultTreeTopEventStatement;
+    readonly $type: 'FaultTreeProbabilityProperty';
+    probability: string;
+}
+
+export const FaultTreeProbabilityProperty = {
+    $type: 'FaultTreeProbabilityProperty',
+    probability: 'probability'
+} as const;
+
+export function isFaultTreeProbabilityProperty(item: unknown): item is FaultTreeProbabilityProperty {
+    return reflection.isInstance(item, FaultTreeProbabilityProperty.$type);
+}
+
+export interface FaultTreeProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'FaultTreeProfile';
+    name: string;
+    statements: Array<FaultTreeStatement>;
+}
+
+export const FaultTreeProfile = {
+    $type: 'FaultTreeProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isFaultTreeProfile(item: unknown): item is FaultTreeProfile {
+    return reflection.isInstance(item, FaultTreeProfile.$type);
+}
+
+export type FaultTreeStatement = FaultTreeEventStatement | FaultTreeGateStatement | FaultTreeTopEventStatement | ThemeDeclaration;
+
+export const FaultTreeStatement = {
+    $type: 'FaultTreeStatement'
+} as const;
+
+export function isFaultTreeStatement(item: unknown): item is FaultTreeStatement {
+    return reflection.isInstance(item, FaultTreeStatement.$type);
+}
+
+export interface FaultTreeTopEventStatement extends langium.AstNode {
+    readonly $container: FaultTreeProfile;
+    readonly $type: 'FaultTreeTopEventStatement';
+    id: ProfileIdentifier;
+    label: string;
+    properties: Array<FaultTreeEventProperty>;
+}
+
+export const FaultTreeTopEventStatement = {
+    $type: 'FaultTreeTopEventStatement',
+    id: 'id',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isFaultTreeTopEventStatement(item: unknown): item is FaultTreeTopEventStatement {
+    return reflection.isInstance(item, FaultTreeTopEventStatement.$type);
+}
+
+export interface FaultTreeUnderProperty extends langium.AstNode {
+    readonly $container: FaultTreeEventStatement | FaultTreeTopEventStatement;
+    readonly $type: 'FaultTreeUnderProperty';
+    under: ProfileIdentifier;
+}
+
+export const FaultTreeUnderProperty = {
+    $type: 'FaultTreeUnderProperty',
+    under: 'under'
+} as const;
+
+export function isFaultTreeUnderProperty(item: unknown): item is FaultTreeUnderProperty {
+    return reflection.isInstance(item, FaultTreeUnderProperty.$type);
 }
 
 export interface FillColorProperty extends langium.AstNode {
@@ -5122,7 +5266,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PedigreeProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
+export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | FaultTreeProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PedigreeProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -6517,7 +6661,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile;
+    readonly $container: ContainerBlock | DiagramProfile | FaultTreeProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -7457,6 +7601,14 @@ export type RuniqAstType = {
     EventProperty: EventProperty
     ExitProperty: ExitProperty
     ExtensionPointsProperty: ExtensionPointsProperty
+    FaultTreeEventProperty: FaultTreeEventProperty
+    FaultTreeEventStatement: FaultTreeEventStatement
+    FaultTreeGateStatement: FaultTreeGateStatement
+    FaultTreeProbabilityProperty: FaultTreeProbabilityProperty
+    FaultTreeProfile: FaultTreeProfile
+    FaultTreeStatement: FaultTreeStatement
+    FaultTreeTopEventStatement: FaultTreeTopEventStatement
+    FaultTreeUnderProperty: FaultTreeUnderProperty
     FillColorProperty: FillColorProperty
     FlipAxesProperty: FlipAxesProperty
     FlowRateStatement: FlowRateStatement
@@ -8674,6 +8826,99 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        FaultTreeEventProperty: {
+            name: FaultTreeEventProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        FaultTreeEventStatement: {
+            name: FaultTreeEventStatement.$type,
+            properties: {
+                id: {
+                    name: FaultTreeEventStatement.id
+                },
+                kind: {
+                    name: FaultTreeEventStatement.kind
+                },
+                label: {
+                    name: FaultTreeEventStatement.label
+                },
+                properties: {
+                    name: FaultTreeEventStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [FaultTreeStatement.$type]
+        },
+        FaultTreeGateStatement: {
+            name: FaultTreeGateStatement.$type,
+            properties: {
+                gateType: {
+                    name: FaultTreeGateStatement.gateType
+                },
+                id: {
+                    name: FaultTreeGateStatement.id
+                },
+                under: {
+                    name: FaultTreeGateStatement.under
+                }
+            },
+            superTypes: [FaultTreeStatement.$type]
+        },
+        FaultTreeProbabilityProperty: {
+            name: FaultTreeProbabilityProperty.$type,
+            properties: {
+                probability: {
+                    name: FaultTreeProbabilityProperty.probability
+                }
+            },
+            superTypes: [FaultTreeEventProperty.$type]
+        },
+        FaultTreeProfile: {
+            name: FaultTreeProfile.$type,
+            properties: {
+                name: {
+                    name: FaultTreeProfile.name
+                },
+                statements: {
+                    name: FaultTreeProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        FaultTreeStatement: {
+            name: FaultTreeStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        FaultTreeTopEventStatement: {
+            name: FaultTreeTopEventStatement.$type,
+            properties: {
+                id: {
+                    name: FaultTreeTopEventStatement.id
+                },
+                label: {
+                    name: FaultTreeTopEventStatement.label
+                },
+                properties: {
+                    name: FaultTreeTopEventStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [FaultTreeStatement.$type]
+        },
+        FaultTreeUnderProperty: {
+            name: FaultTreeUnderProperty.$type,
+            properties: {
+                under: {
+                    name: FaultTreeUnderProperty.under
+                }
+            },
+            superTypes: [FaultTreeEventProperty.$type]
         },
         FillColorProperty: {
             name: FillColorProperty.$type,
@@ -11425,7 +11670,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, SequenceStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
+            superTypes: [DiagramStatement.$type, FaultTreeStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, SequenceStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,

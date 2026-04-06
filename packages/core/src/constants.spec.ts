@@ -24,6 +24,7 @@ describe('Constants and Enums', () => {
       expect(ProfileType.DIAGRAM).toBe('diagram');
       expect(ProfileType.SEQUENCE).toBe('sequence');
       expect(ProfileType.TIMELINE).toBe('timeline');
+      expect(ProfileType.FAULT_TREE).toBe('faultTree');
       expect(ProfileType.ELECTRICAL).toBe('electrical');
       expect(ProfileType.DIGITAL).toBe('digital');
       expect(ProfileType.BLOCK_DIAGRAM).toBe('blockDiagram');

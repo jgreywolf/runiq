@@ -31,6 +31,12 @@ export {
   type TimelineRenderResult,
 } from './timeline-renderer.js';
 
+export {
+  renderFaultTree,
+  type FaultTreeRenderOptions,
+  type FaultTreeRenderResult,
+} from './fault-tree-renderer.js';
+
 // Re-export Railroad renderer
 export {
   renderRailroadDiagram,

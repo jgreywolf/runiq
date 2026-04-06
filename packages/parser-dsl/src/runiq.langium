@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile | PedigreeProfile;
+    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | FaultTreeProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile | PedigreeProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -730,6 +730,46 @@ SequenceDurationToProperty:
 
 SequenceDurationConstraintValueProperty:
     'constraint:' constraint=STRING;
+
+// ============================================================================
+// Fault Tree Profile - Reliability and failure analysis
+// ============================================================================
+
+FaultTreeProfile:
+    'faultTree' name=STRING '{'
+        statements+=FaultTreeStatement*
+    '}';
+
+FaultTreeStatement:
+    FaultTreeTopEventStatement
+    | FaultTreeGateStatement
+    | FaultTreeEventStatement
+    | ThemeDeclaration;
+
+FaultTreeTopEventStatement:
+    'topEvent' id=ProfileIdentifier label=STRING properties+=FaultTreeEventProperty*;
+
+FaultTreeEventStatement:
+    kind=FaultTreeEventKind id=ProfileIdentifier label=STRING properties+=FaultTreeEventProperty*;
+
+FaultTreeEventKind returns string:
+    'event' | 'undevelopedEvent';
+
+FaultTreeGateStatement:
+    'gate' id=ProfileIdentifier 'type:' gateType=FaultTreeGateType 'under:' under=ProfileIdentifier;
+
+FaultTreeEventProperty:
+    FaultTreeUnderProperty
+    | FaultTreeProbabilityProperty;
+
+FaultTreeGateType returns string:
+    'and' | 'or';
+
+FaultTreeUnderProperty:
+    'under:' under=ProfileIdentifier;
+
+FaultTreeProbabilityProperty:
+    'probability:' probability=NUMBER;
 
 // ============================================================================
 // Timeline Profile - Chronological events and milestones

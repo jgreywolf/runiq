@@ -56,6 +56,7 @@ export type Profile =
   | BlockDiagramProfile
   | WardleyProfile
   | SequenceProfile
+  | FaultTreeProfile
   | HvacProfile
   | PneumaticProfile
   | HydraulicProfile
@@ -570,6 +571,33 @@ export interface RailroadToken {
 export interface RailroadReference {
   type: 'reference';
   name: string;
+}
+
+// ============================================================================
+// Fault Tree Profile Types
+// ============================================================================
+
+export interface FaultTreeProfile {
+  type: 'faultTree';
+  astVersion: string;
+  title: string;
+  theme?: string;
+  events: FaultTreeEvent[];
+  gates: FaultTreeGate[];
+}
+
+export interface FaultTreeEvent {
+  id: string;
+  label: string;
+  kind: 'topEvent' | 'event' | 'undevelopedEvent';
+  under?: string;
+  probability?: number;
+}
+
+export interface FaultTreeGate {
+  id: string;
+  gateType: 'and' | 'or';
+  under: string;
 }
 
 // ============================================================================
