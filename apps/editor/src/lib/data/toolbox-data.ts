@@ -20,6 +20,7 @@ import { railroadSyntaxShapeIcons } from './toolboxIcons/railroadSyntaxShapeIcon
 import { awsShapeIcons } from './toolboxIcons/awsShapeIcons';
 import { azureShapeIcons } from './toolboxIcons/azureShapeIcons';
 import { architectureShapeIcons } from './toolboxIcons/architectureShapeIcons';
+import { fileTreeShapeIcons } from './toolboxIcons/fileTreeShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
@@ -67,6 +68,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...awsShapeIcons,
 	...azureShapeIcons,
 	...architectureShapeIcons,
+	...fileTreeShapeIcons,
 	...networkShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,
@@ -106,6 +108,7 @@ export const diagramShapes: ShapeCategory[] = [
 	...awsShapeIcons,
 	...azureShapeIcons,
 	...architectureShapeIcons,
+	...fileTreeShapeIcons,
 	...networkShapeIcons,
 	...chartShapeIcons,
 	...quantumShapeIcons,

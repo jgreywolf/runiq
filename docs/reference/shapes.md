@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (272 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (277 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 272 diagram profile shapes below ->](#all-shapes)
+[See all 277 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -328,7 +328,7 @@ Layered and block-oriented shapes for architecture diagrams:
 
 | Shape                 | Syntax                  | Description                         |
 | --------------------- | ----------------------- | ----------------------------------- |
-| Architecture Layer    | `@architectureLayer`    | Layered container with title band   |
+| Architecture Layer    | `@architectureLayer`    | Layered container with top label divider |
 | Subsystem Block       | `@subsystemBlock`       | Subsystem or service block          |
 | Platform Block        | `@platformBlock`        | Platform/service block              |
 | External System Block | `@externalSystemBlock`  | External system or hardware block   |
@@ -346,7 +346,33 @@ diagram "Architecture" {
 }
 ```
 
-### 9. Chart Shapes (7 shapes)
+### 9. File Tree Shapes (3 shapes)
+
+**Profile:** `diagram` (default)
+
+Tree-oriented shapes for repository layouts and nested file hierarchies:
+
+| Shape          | Syntax       | Description                       |
+| -------------- | ------------ | --------------------------------- |
+| File Tree Root | `@fileTree`  | Root container for a file tree    |
+| Folder         | `@folder`    | Folder container or folder leaf   |
+| File           | `@file`      | File/document leaf                |
+
+**Example:**
+
+```runiq
+diagram "Repository Layout" {
+  container repo "runiq" as @fileTree {
+    container apps "apps" as @folder {
+      shape editor as @folder label:"editor"
+    }
+
+    shape readme as @file label:"README.md"
+  }
+}
+```
+
+### 10. Chart Shapes (9 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -355,8 +381,10 @@ Data visualization and chart components:
 | Shape                | Syntax                | Description               |
 | -------------------- | --------------------- | ------------------------- |
 | Pie Chart            | `@pieChart`           | Circular pie chart        |
+| Ring Chart           | `@ringChart`          | Donut/ring chart          |
 | Bar Chart Vertical   | `@barChartVertical`   | Vertical bar chart        |
 | Bar Chart Horizontal | `@barChartHorizontal` | Horizontal bar chart      |
+| Scatter Chart        | `@scatterChart`       | XY scatter plot           |
 | Pyramid              | `@pyramid`            | Pyramid/hierarchy chart   |
 | Venn 2               | `@venn2`              | Two-circle Venn diagram   |
 | Venn 3               | `@venn3`              | Three-circle Venn diagram |
@@ -371,7 +399,7 @@ diagram "Data Visualization" {
 }
 ```
 
-### 10. Network Shapes (11 shapes)
+### 11. Network Shapes (11 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -402,7 +430,7 @@ diagram "Network Topology" {
 }
 ```
 
-### 11. Quantum Circuit Shapes (12 shapes)
+### 12. Quantum Circuit Shapes (12 shapes)
 
 **Profile:** `diagram` (default, but designed for quantum circuits)
 
@@ -440,7 +468,7 @@ diagram "Bell State" {
 See the [Quantum Circuits Guide](../guide/quantum-circuits.md) for comprehensive documentation on quantum computing diagrams.
 :::
 
-### 12. UML Shapes (52 shapes)
+### 13. UML Shapes (52 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -481,7 +509,7 @@ diagram "Use Case Diagram" {
 }
 ```
 
-### 13. C4 Architecture Shapes (9 shapes)
+### 14. C4 Architecture Shapes (9 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -512,7 +540,7 @@ diagram "C4 System Context" {
 }
 ```
 
-### 14. BPMN Shapes (20 shapes)
+### 15. BPMN Shapes (20 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -554,7 +582,7 @@ diagram "Order Process" {
 }
 ```
 
-### 15. AWS Shapes (10 shapes)
+### 16. AWS Shapes (10 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -587,7 +615,7 @@ diagram "AWS Architecture" {
 }
 ```
 
-### 16. Azure Shapes (12 shapes)
+### 17. Azure Shapes (12 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -623,7 +651,7 @@ diagram "Azure Architecture" {
 }
 ```
 
-### 17. ERD Shapes (6 shapes)
+### 18. ERD Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -652,7 +680,7 @@ diagram "Database Schema" {
 }
 ```
 
-### 18. Data Flow Diagram Shapes (6 shapes)
+### 19. Data Flow Diagram Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -705,7 +733,8 @@ Complete listing organized by category:
 | Kinematic          | 25    | Joints, links, and actuators                   |
 | Special            | 36    | Decorative accents, badges, and symbols        |
 | Architecture       | 4     | Layered block and subsystem diagrams           |
-| Charts             | 7     | Data visualization (pie, bar, Venn)            |
+| File Tree          | 3     | Repository and nested file hierarchies         |
+| Charts             | 9     | Data visualization (pie, ring, bar, scatter, Venn) |
 | Network            | 11    | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
@@ -717,7 +746,7 @@ Complete listing organized by category:
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 272+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 277+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

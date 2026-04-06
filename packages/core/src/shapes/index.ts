@@ -116,6 +116,9 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.subsystemBlockShape);
   shapeRegistry.register(special.platformBlockShape);
   shapeRegistry.register(special.externalSystemBlockShape);
+  shapeRegistry.register(special.fileTreeShape);
+  shapeRegistry.register(special.folderShape);
+  shapeRegistry.register(special.fileShape);
   shapeRegistry.register(special.hRuleShape);
   shapeRegistry.register(special.vRuleShape);
   shapeRegistry.register(special.bracketLeftShape);

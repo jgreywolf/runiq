@@ -694,6 +694,7 @@ export function convertContainer(
     id,
     label: block.label.replace(/^"|"$/g, ''),
     children: [],
+    contentOrder: [],
   };
 
   let styleRef: string | undefined;
@@ -724,6 +725,8 @@ export function convertContainer(
         container.badge = prop.badge.replace(/^"|"$/g, '');
       } else if (prop.collapsible !== undefined) {
         container.collapsible = prop.collapsible === 'true';
+      } else if (prop.expanded !== undefined) {
+        container.collapsed = prop.expanded !== 'true';
       } else if (prop.collapsed !== undefined) {
         container.collapsed = prop.collapsed === 'true';
       }
@@ -988,6 +991,10 @@ export function convertContainer(
   for (const statement of block.statements) {
     if (Langium.isShapeDeclaration(statement)) {
       container.children.push(unescapeString(statement.id));
+      container.contentOrder!.push({
+        kind: 'node',
+        id: unescapeString(statement.id),
+      });
 
       let shape: string;
       if (statement.shape) {
@@ -1062,7 +1069,15 @@ export function convertContainer(
         container.containers = [];
       }
       container.containers.push(nestedContainer);
+      container.contentOrder!.push({
+        kind: 'container',
+        id: nestedContainer.id || '',
+      });
     }
+  }
+
+  if (container.contentOrder && container.contentOrder.length === 0) {
+    delete container.contentOrder;
   }
 
   return container;

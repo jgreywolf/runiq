@@ -306,6 +306,7 @@ export type RuniqKeywordNames =
     | "exhaust-fan"
     | "exit:"
     | "exitPoint"
+    | "expanded:"
     | "expanding"
     | "extends:"
     | "extensionPoints:"
@@ -1276,6 +1277,7 @@ export interface ContainerMetadataProperty extends langium.AstNode {
     collapseSummary?: string;
     collapseTransitionState?: CollapseTransitionValue;
     collapsible?: BooleanValue;
+    expanded?: BooleanValue;
     header?: string;
     icon?: string;
 }
@@ -1296,6 +1298,7 @@ export const ContainerMetadataProperty = {
     collapseSummary: 'collapseSummary',
     collapseTransitionState: 'collapseTransitionState',
     collapsible: 'collapsible',
+    expanded: 'expanded',
     header: 'header',
     icon: 'icon'
 } as const;
@@ -8062,6 +8065,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 collapsible: {
                     name: ContainerMetadataProperty.collapsible
+                },
+                expanded: {
+                    name: ContainerMetadataProperty.expanded
                 },
                 header: {
                     name: ContainerMetadataProperty.header

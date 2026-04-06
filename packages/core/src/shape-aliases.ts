@@ -94,6 +94,9 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('platformBlock', 'platformBlock');
   shapeRegistry.registerAlias('externalBlock', 'externalSystemBlock');
   shapeRegistry.registerAlias('externalSystemBlock', 'externalSystemBlock');
+  shapeRegistry.registerAlias('fileTree', 'fileTree');
+  shapeRegistry.registerAlias('folder', 'folder');
+  shapeRegistry.registerAlias('file', 'file');
 
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');

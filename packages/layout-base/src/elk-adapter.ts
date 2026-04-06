@@ -2122,6 +2122,60 @@ export class ElkLayoutEngine implements LayoutEngine {
     direction: string
   ): Promise<void> {
     for (const container of containers) {
+      if (this.isFileTreeContainer(container)) {
+        if (container.containers && container.containers.length > 0) {
+          await this.calculateContainerSizesRecursively(
+            container.containers,
+            diagram,
+            measureText,
+            containerPlaceholders,
+            spacing,
+            direction
+          );
+        }
+
+        const padding = this.getFileTreePadding(container);
+        const treeIndent = this.getFileTreeIndent(container);
+        const itemGap = this.getFileTreeGap(container);
+        const rowWidth = Math.max(
+          measureText(container.label || container.id || '', {}).width + 76,
+          108
+        );
+        const rowHeight = 26;
+        const items = this.getOrderedFileTreeItems(
+          container,
+          diagram,
+          measureText,
+          containerPlaceholders
+        );
+
+        let contentWidth = 180;
+        let contentHeight = 0;
+
+        for (const item of items) {
+          contentWidth = Math.max(contentWidth, treeIndent + item.width);
+          contentHeight += item.height;
+        }
+
+        if (items.length > 1) {
+          contentHeight += itemGap * (items.length - 1);
+        }
+
+        if (container.shape === 'folder' && (container.collapsed || items.length === 0)) {
+          containerPlaceholders.set(container.id!, {
+            width: rowWidth,
+            height: rowHeight,
+          });
+          continue;
+        }
+
+        containerPlaceholders.set(container.id!, {
+          width: Math.max(rowWidth, padding.left + contentWidth + padding.right),
+          height: Math.max(46, padding.top + contentHeight + padding.bottom),
+        });
+        continue;
+      }
+
       const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
@@ -2337,6 +2391,77 @@ export class ElkLayoutEngine implements LayoutEngine {
   ): Promise<void> {
     // layout containers and contents
     for (const container of containers) {
+      if (this.isFileTreeContainer(container)) {
+        const padding = this.getFileTreePadding(container);
+        const containerPos = containerPositions.get(container.id!) || {
+          x: 0,
+          y: 0,
+        };
+        const placeholder = containerPlaceholders.get(container.id!);
+        const containerWidth = placeholder?.width || 240;
+        const containerHeight = placeholder?.height || 120;
+        const itemGap = this.getFileTreeGap(container);
+        const treeIndent = this.getFileTreeIndent(container);
+        const orderedItems = this.getOrderedFileTreeItems(
+          container,
+          diagram,
+          measureText,
+          containerPlaceholders
+        );
+        const nestedPositions = new Map<string, { x: number; y: number }>();
+
+        let currentY = containerPos.y + padding.top;
+        const contentX = containerPos.x + padding.left + treeIndent;
+
+        for (const item of orderedItems) {
+          if (item.kind === 'node') {
+            nodes.push({
+              id: item.id,
+              x: contentX,
+              y: currentY,
+              width: item.width,
+              height: item.height,
+            });
+          } else {
+            nestedPositions.set(item.id, {
+              x: contentX,
+              y: currentY,
+            });
+          }
+
+          currentY += item.height + itemGap;
+        }
+
+        const nestedContainers: PositionedContainer[] = [];
+        if (!container.collapsed && container.containers && container.containers.length > 0) {
+          await this.layoutContainersWithNodes(
+            container.containers,
+            diagram,
+            measureText,
+            nodeContainerMap,
+            nestedPositions,
+            containerPlaceholders,
+            spacing,
+            direction,
+            nodes,
+            edges,
+            nestedContainers,
+            hasSwimlanes
+          );
+        }
+
+        result.push({
+          id: container.id || '',
+          x: containerPos.x,
+          y: containerPos.y,
+          width: containerWidth,
+          height: containerHeight,
+          label: container.label,
+          containers: nestedContainers.length > 0 ? nestedContainers : undefined,
+        });
+        continue;
+      }
+
       // process one container
       const basePadding =
         container.containerStyle?.padding !== undefined
@@ -2618,6 +2743,104 @@ export class ElkLayoutEngine implements LayoutEngine {
         nodeContainerMap
       );
     }
+  }
+
+  private isFileTreeContainer(container: ContainerDeclaration): boolean {
+    return container.shape === 'fileTree' || container.shape === 'folder';
+  }
+
+  private getFileTreeIndent(container: ContainerDeclaration): number {
+    return container.shape === 'fileTree' ? 28 : 24;
+  }
+
+  private getFileTreeGap(container: ContainerDeclaration): number {
+    return container.shape === 'fileTree' ? 4 : 3;
+  }
+
+  private getFileTreePadding(container: ContainerDeclaration): {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  } {
+    const explicitPadding = container.containerStyle?.padding;
+    const isRoot = container.shape === 'fileTree';
+
+    const fallbackLeft = explicitPadding ?? (isRoot ? 10 : 4);
+    const fallbackRight = explicitPadding ?? (isRoot ? 10 : 4);
+    const fallbackTop = explicitPadding ?? (isRoot ? 36 : 26);
+    const fallbackBottom = explicitPadding ?? (isRoot ? 10 : 2);
+
+    return {
+      left: container.containerStyle?.paddingLeft ?? fallbackLeft,
+      right: container.containerStyle?.paddingRight ?? fallbackRight,
+      top: container.containerStyle?.paddingTop ?? fallbackTop,
+      bottom: container.containerStyle?.paddingBottom ?? fallbackBottom,
+    };
+  }
+
+  private getOrderedFileTreeItems(
+    container: ContainerDeclaration,
+    diagram: DiagramAst,
+    measureText: ReturnType<typeof createTextMeasurer>,
+    containerPlaceholders: Map<string, { width: number; height: number }>
+  ): Array<{ kind: 'node' | 'container'; id: string; width: number; height: number }> {
+    if (container.collapsed) {
+      return [];
+    }
+
+    const fallbackOrder = [
+      ...container.children.map((id) => ({ kind: 'node' as const, id })),
+      ...(container.containers ?? []).map((nested) => ({
+        kind: 'container' as const,
+        id: nested.id || '',
+      })),
+    ];
+    const ordered = (
+      container.contentOrder && container.contentOrder.length > 0
+        ? container.contentOrder
+        : fallbackOrder
+    ).slice();
+
+    ordered.sort((left, right) => {
+      if (left.kind === right.kind) {
+        return 0;
+      }
+
+      return left.kind === 'container' ? -1 : 1;
+    });
+
+    return ordered
+      .map((item) => {
+        if (item.kind === 'node') {
+          const node = diagram.nodes.find((candidate) => candidate.id === item.id);
+          if (!node) return null;
+          const shapeImpl = shapeRegistry.get(node.shape);
+          if (!shapeImpl) return null;
+          const style = node.style ? diagram.styles?.[node.style] || {} : {};
+          const bounds = shapeImpl.bounds({ node, style, measureText });
+          return { kind: 'node' as const, id: item.id, width: bounds.width, height: bounds.height };
+        }
+
+        const nestedSize = containerPlaceholders.get(item.id);
+        if (!nestedSize) return null;
+        return {
+          kind: 'container' as const,
+          id: item.id,
+          width: nestedSize.width,
+          height: nestedSize.height,
+        };
+      })
+      .filter(
+        (
+          item
+        ): item is {
+          kind: 'node' | 'container';
+          id: string;
+          width: number;
+          height: number;
+        } => item !== null
+      );
   }
 
   /**

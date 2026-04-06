@@ -1734,6 +1734,7 @@ ContainerMetadataProperty:
     | 'icon:' icon=STRING
     | 'badge:' badge=STRING
     | 'collapsible:' collapsible=BooleanValue
+    | 'expanded:' expanded=BooleanValue
     | 'collapsed:' collapsed=BooleanValue
     | 'collapseMode:' collapseMode=CollapseModeValue
     | 'collapseRedirectEdges:' collapseRedirectEdges=BooleanValue

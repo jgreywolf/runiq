@@ -1,6 +1,7 @@
 import type {
   ContainerStyle,
   DiagramAst,
+  LaidOutDiagram,
   PositionedContainer,
 } from '@runiq/core';
 import { createTextMeasurer, LineStyle, shapeRegistry } from '@runiq/core';
@@ -10,7 +11,8 @@ import { escapeXml } from './utils.js';
 export function renderContainer(
   container: PositionedContainer,
   diagram: DiagramAst,
-  strict: boolean
+  strict: boolean,
+  layout?: LaidOutDiagram
 ): string {
   const { x, y, width, height, label, id } = container;
 
@@ -62,6 +64,10 @@ export function renderContainer(
       const shapeData: Record<string, unknown> = {
         width,
         height,
+        collapsed: containerAst.collapsed === true,
+        hasChildren:
+          containerAst.children.length > 0 ||
+          (containerAst.containers?.length ?? 0) > 0,
       };
 
       const ctx = {
@@ -91,16 +97,98 @@ export function renderContainer(
     }
   }
 
+  if (layout && (containerAst?.shape === 'fileTree' || containerAst?.shape === 'folder')) {
+    markup += renderFileTreeGuides(container, containerAst, layout);
+  }
+
   // Recursively render nested containers
   if (container.containers) {
     for (const nested of container.containers) {
-      markup += renderContainer(nested, diagram, strict);
+      markup += renderContainer(nested, diagram, strict, layout);
     }
   }
 
   markup += '</g>';
 
   return markup;
+}
+
+function renderFileTreeGuides(
+  container: PositionedContainer,
+  containerAst: import('@runiq/core').ContainerDeclaration,
+  layout: LaidOutDiagram
+): string {
+  if (containerAst.collapsed) {
+    return '';
+  }
+
+  const orderedItems = (
+    containerAst.contentOrder && containerAst.contentOrder.length > 0
+      ? containerAst.contentOrder
+      : [
+          ...containerAst.children.map((id) => ({ kind: 'node' as const, id })),
+          ...((containerAst.containers ?? []).map((nested) => ({
+            kind: 'container' as const,
+            id: nested.id || '',
+          })) ?? []),
+        ]
+  ).slice();
+
+  orderedItems.sort((left, right) => {
+    if (left.kind === right.kind) {
+      return 0;
+    }
+
+    return left.kind === 'container' ? -1 : 1;
+  });
+
+  const nestedById = new Map(
+    (container.containers ?? []).map((nested) => [nested.id, nested])
+  );
+  const nodeById = new Map(layout.nodes.map((node) => [node.id, node]));
+  const isRoot = containerAst.shape === 'fileTree';
+  const guideX = container.x + (isRoot ? 18 : 22);
+  const startY = container.y + (isRoot ? 22 : 14);
+  const rows = orderedItems
+    .map((item) => {
+      if (item.kind === 'node') {
+        const node = nodeById.get(item.id);
+        if (!node) return null;
+        return {
+          x: node.x,
+          y: node.y + Math.min(13, node.height / 2),
+        };
+      }
+
+      const nested = nestedById.get(item.id);
+      if (!nested) return null;
+      return {
+        x: nested.x,
+        y: nested.y + 13,
+      };
+    })
+    .filter((row): row is { x: number; y: number } => row !== null)
+    .sort((left, right) => left.y - right.y);
+
+  if (rows.length === 0) {
+    return '';
+  }
+
+  const endY = rows[rows.length - 1].y;
+  let guides = `
+    <g class="file-tree-guides">
+      <line x1="${guideX}" y1="${startY}" x2="${guideX}" y2="${endY}" stroke="#cbd5e1" stroke-width="1" />
+  `;
+
+  for (const row of rows) {
+    const branchEndX = Math.max(guideX + 12, row.x - 8);
+    guides += `
+      <line x1="${guideX}" y1="${row.y}" x2="${branchEndX}" y2="${row.y}" stroke="#cbd5e1" stroke-width="1" />
+    `;
+  }
+
+  guides += '</g>';
+  return guides;
 }
 
 function renderDefaultContainerBackground(

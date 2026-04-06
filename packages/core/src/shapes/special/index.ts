@@ -14,6 +14,11 @@ export {
   externalSystemBlockShape,
 } from './architecture.js';
 export {
+  fileTreeShape,
+  folderShape,
+  fileShape,
+} from './fileTree.js';
+export {
   hRuleShape,
   vRuleShape,
   bracketLeftShape,

@@ -52,7 +52,6 @@ export const architectureLayerShape: ShapeDefinition = {
       defaultStrokeWidth: 2,
     });
     const labelBandHeight = 34;
-    const bandFill = (ctx.node.data as any)?.headerFill || '#d7e3fb';
     const dashAttr = strokeDasharray
       ? ` stroke-dasharray="${strokeDasharray}"`
       : '';
@@ -77,8 +76,7 @@ export const architectureLayerShape: ShapeDefinition = {
 
     return `
       <g class="architecture-layer">
-        <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" rx="10" ry="10" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"${dashAttr} />
-        <rect x="${x}" y="${y}" width="${bounds.width}" height="${labelBandHeight}" rx="10" ry="10" fill="${bandFill}" stroke="${stroke}" stroke-width="${strokeWidth}"${dashAttr} />
+        <rect x="${x}" y="${y}" width="${bounds.width}" height="${bounds.height}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"${dashAttr} />
         <line x1="${x}" y1="${y + labelBandHeight}" x2="${x + bounds.width}" y2="${y + labelBandHeight}" stroke="${stroke}" stroke-width="${strokeWidth}"${dashAttr} />
         ${labelSvg}
       </g>

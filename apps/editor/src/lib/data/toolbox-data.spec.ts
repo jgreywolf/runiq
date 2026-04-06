@@ -229,6 +229,15 @@ describe('Toolbox Data Structure', () => {
 		expect(architectureShapeIds).toContain('externalSystemBlock');
 	});
 
+	it('should include the file tree starter shapes', () => {
+		const fileTreeCategory = shapeCategories.find((cat) => cat.id === 'fileTree');
+		const fileTreeShapeIds = fileTreeCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(fileTreeShapeIds).toContain('fileTree');
+		expect(fileTreeShapeIds).toContain('folder');
+		expect(fileTreeShapeIds).toContain('file');
+	});
+
 	it('should include the expanded C4 architecture symbols', () => {
 		const c4Category = shapeCategories.find((cat) => cat.id === 'c4');
 		const c4ShapeIds = c4Category?.shapes.map((shape) => shape.id) ?? [];

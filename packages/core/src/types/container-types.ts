@@ -37,7 +37,13 @@ export interface ContainerDeclaration {
   containerStyle?: ContainerStyle;
   children: string[]; // Node IDs that belong to this container
   containers?: ContainerDeclaration[]; // Nested containers
+  contentOrder?: ContainerContentItem[]; // Preserves mixed node/container declaration order
   layoutOptions?: ContainerLayoutOptions;
+}
+
+export interface ContainerContentItem {
+  kind: 'node' | 'container';
+  id: string;
 }
 
 /**

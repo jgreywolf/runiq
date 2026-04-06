@@ -106,6 +106,7 @@ export default defineConfig({
           text: 'General Diagrams',
           items: [
             { text: 'Architecture Diagrams', link: '/guide/architecture-diagrams' },
+            { text: 'File Tree Diagrams', link: '/guide/file-tree-diagrams' },
             { text: 'Flowcharts', link: '/guide/flowcharts' },
             { text: 'Mindmap Diagrams', link: '/guide/mindmap-diagrams' },
             { text: 'Venn Diagrams', link: '/guide/venn-diagrams' },

@@ -143,7 +143,7 @@ export function renderSvg(
   // Render containers (as backgrounds for contained nodes)
   if (layout.containers) {
     for (const container of layout.containers) {
-      svg += renderContainer(container, diagram, strict);
+      svg += renderContainer(container, diagram, strict, layout);
     }
   }
 
