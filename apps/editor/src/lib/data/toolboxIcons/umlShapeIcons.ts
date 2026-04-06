@@ -29,13 +29,6 @@ export const umlShapeIcons: ShapeCategory[] = [
 			{ id: 'note', label: 'Note', code: 'shape noteId as @note label:"Important note here"' },
 			// Use Case Diagrams
 			{ id: 'actor', label: 'Actor', code: 'shape actorId as @actor label:"Actor"' },
-			{
-				id: 'systemBoundary',
-				label: 'System Boundary',
-				code: `container boundary1 "System" as @systemBoundary {
-  shape usecase1 as @ellipseWide label:"Use Case"
-}`
-			},
 			// Sequence Diagrams
 			{
 				id: 'lifeline',
@@ -82,11 +75,6 @@ export const umlShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @centralBuffer label:"Buffer"'
 			},
 			{ id: 'dataStore', label: 'Data Store', code: 'shape id as @dataStore label:"Database"' },
-			{
-				id: 'swimlane',
-				label: 'Swimlane',
-				code: 'shape id as @swimlane label:"Department" data:[{orientation:"vertical"}]'
-			},
 			{
 				id: 'sendSignal',
 				label: 'Send Signal',

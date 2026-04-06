@@ -252,20 +252,7 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				label: 'Annotation',
 				code: 'shape id as @annotation label:"Note"'
 			},
-			{
-				id: 'bpmnPool',
-				label: 'Pool',
-				code: `container pool1 "Customer" as @bpmnPool {
-  shape task1 as @bpmnTask label:"Task"
-}`
-			},
-			{
-				id: 'bpmnLane',
-				label: 'Lane',
-				code: `container lane1 "Sales" as @bpmnLane {
-  shape task1 as @bpmnTask label:"Review Order"
-}`
-			}
+			
 		]
 	}
 ];

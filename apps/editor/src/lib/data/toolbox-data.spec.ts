@@ -115,6 +115,42 @@ describe('Toolbox Data Structure', () => {
 		expect(flowchartCategory!.shapes.length).toBeGreaterThan(0);
 	});
 
+	it('should keep a curated diagram toolbox order', () => {
+		const diagramCategoryIds = getShapeCategoryByProfile(ProfileName.diagram).map((cat) => cat.id);
+		expect(diagramCategoryIds).toEqual([
+			'basic',
+			'flowchart',
+			'containers',
+			'charts',
+			'partitions',
+			'uml',
+			'erd',
+			'bpmn',
+			'c4',
+			'architecture',
+			'storage',
+			'network',
+			'aws',
+			'azure',
+			'fileTree',
+			'kinematic',
+			'quantum',
+			'special',
+			'decorative'
+		]);
+	});
+
+	it('should expose swimlanes and BPMN partitions in a dedicated category', () => {
+		const partitionCategory = shapeCategories.find((cat) => cat.id === 'partitions');
+		const partitionShapeIds = partitionCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(partitionCategory?.label).toBe('Lanes & Boundaries');
+		expect(partitionShapeIds).toContain('swimlane');
+		expect(partitionShapeIds).toContain('systemBoundary');
+		expect(partitionShapeIds).toContain('bpmnPool');
+		expect(partitionShapeIds).toContain('bpmnLane');
+	});
+
 	it('should include ring and scatter chart shapes', () => {
 		const chartCategory = shapeCategories.find((cat) => cat.id === 'charts');
 		const chartShapeIds = chartCategory?.shapes.map((shape) => shape.id) ?? [];

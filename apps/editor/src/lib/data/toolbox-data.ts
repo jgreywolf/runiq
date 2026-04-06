@@ -26,6 +26,7 @@ import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
 import { quantumShapeIcons } from './toolboxIcons/quantumShapeIcons';
 import { containerTemplateShapeIcons } from './toolboxIcons/containerTemplateShapeIcons';
+import { partitionShapeIcons } from './toolboxIcons/partitionShapeIcons';
 import { sequenceShapeIcons } from './toolboxIcons/sequenceShapeIcons';
 import { glyphsetIcons } from './toolboxIcons/glyphsetIcons';
 import { timelineSyntaxShapeIcons } from './toolboxIcons/timelineSyntaxShapeIcons';
@@ -59,18 +60,19 @@ export const shapeCategories: ShapeCategory[] = [
 	...basicShapeIcons,
 	...flowchartShapeIcons,
 	...containerTemplateShapeIcons,
+	...chartShapeIcons,
+	...partitionShapeIcons,
 	...umlShapeIcons,
 	...erdShapeIcons,
-	...storageShapeIcons,
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
-	...kinematicShapeIcons,
+	...architectureShapeIcons,
+	...storageShapeIcons,
+	...networkShapeIcons,
 	...awsShapeIcons,
 	...azureShapeIcons,
-	...architectureShapeIcons,
 	...fileTreeShapeIcons,
-	...networkShapeIcons,
-	...chartShapeIcons,
+	...kinematicShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
 	...decorativeShapeIcons,
@@ -99,18 +101,19 @@ export const diagramShapes: ShapeCategory[] = [
 	...basicShapeIcons,
 	...flowchartShapeIcons,
 	...containerTemplateShapeIcons,
+	...chartShapeIcons,
+	...partitionShapeIcons,
 	...umlShapeIcons,
 	...erdShapeIcons,
-	...storageShapeIcons,
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
-	...kinematicShapeIcons,
+	...architectureShapeIcons,
+	...storageShapeIcons,
+	...networkShapeIcons,
 	...awsShapeIcons,
 	...azureShapeIcons,
-	...architectureShapeIcons,
 	...fileTreeShapeIcons,
-	...networkShapeIcons,
-	...chartShapeIcons,
+	...kinematicShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
 	...decorativeShapeIcons

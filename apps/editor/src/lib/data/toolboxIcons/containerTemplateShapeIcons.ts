@@ -3,7 +3,7 @@ import type { ShapeCategory } from '../toolbox-data';
 export const containerTemplateShapeIcons: ShapeCategory[] = [
 	{
 		id: 'containers',
-		label: 'Containers & Templates',
+		label: 'Containers & Reuse',
 		profiles: ['diagram'],
 		shapes: [
 			{
