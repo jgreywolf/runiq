@@ -323,7 +323,9 @@ export function renderEdge(
 
   // Stereotype text (rendered above the line in guillemets)
   if ((edgeAst as any).stereotype) {
-    const stereotypeText = `<<${(edgeAst as any).stereotype}>>`;
+    const stereotypeText = formatStereotypeText(
+      String((edgeAst as any).stereotype)
+    );
     edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 15}" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">${escapeXml(stereotypeText)}</text>`;
   }
 
@@ -468,6 +470,17 @@ function getEdgeLabelPoint(
   }
 
   return points[Math.floor(points.length / 2)];
+}
+
+function formatStereotypeText(stereotype: string): string {
+  const trimmed = stereotype.trim();
+  if (trimmed.startsWith('«') && trimmed.endsWith('»')) {
+    return trimmed;
+  }
+  if (trimmed.startsWith('<<') && trimmed.endsWith('>>')) {
+    return `«${trimmed.slice(2, -2).trim()}»`;
+  }
+  return `«${trimmed}»`;
 }
 
 function isOrthogonalElbow(points: { x: number; y: number }[]): boolean {

@@ -824,7 +824,7 @@ describe('renderEdge', () => {
       const diagram = createMinimalDiagram([edgeAst]);
       const result = renderEdge(routed, diagram, false, warnings);
 
-      expect(result).toContain('&lt;&lt;create&gt;&gt;');
+      expect(result).toContain('«create»');
       expect(result).toContain('runiq-edge-stereotype');
     });
 
@@ -848,7 +848,7 @@ describe('renderEdge', () => {
       const diagram = createMinimalDiagram([edgeAst]);
       const result = renderEdge(routed, diagram, false, warnings);
 
-      expect(result).toContain('&lt;&lt;create&gt;&gt;');
+      expect(result).toContain('«create»');
       expect(result).toContain('Edge Label');
     });
   });

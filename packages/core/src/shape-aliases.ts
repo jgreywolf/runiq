@@ -108,6 +108,11 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('wbsDeliverable', 'wbsDeliverable');
   shapeRegistry.registerAlias('workPackage', 'wbsWorkPackage');
   shapeRegistry.registerAlias('wbsWorkPackage', 'wbsWorkPackage');
+  shapeRegistry.registerAlias('requirementPackage', 'requirementPackage');
+  shapeRegistry.registerAlias('requirementsPackage', 'requirementPackage');
+  shapeRegistry.registerAlias('requirement', 'requirement');
+  shapeRegistry.registerAlias('req', 'requirement');
+  shapeRegistry.registerAlias('testCase', 'testCase');
 
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');

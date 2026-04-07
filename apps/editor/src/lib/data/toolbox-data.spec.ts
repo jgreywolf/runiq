@@ -135,6 +135,7 @@ describe('Toolbox Data Structure', () => {
 			'threatModel',
 			'fileTree',
 			'wbs',
+			'requirements',
 			'kinematic',
 			'quantum',
 			'special',
@@ -172,6 +173,16 @@ describe('Toolbox Data Structure', () => {
 		expect(wbsShapeIds).toContain('wbs');
 		expect(wbsShapeIds).toContain('wbsDeliverable');
 		expect(wbsShapeIds).toContain('wbsWorkPackage');
+	});
+
+	it('should include requirements starter shapes', () => {
+		const requirementsCategory = shapeCategories.find((cat) => cat.id === 'requirements');
+		const requirementsShapeIds = requirementsCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(requirementsCategory?.label).toBe('Requirements');
+		expect(requirementsShapeIds).toContain('requirementPackage');
+		expect(requirementsShapeIds).toContain('requirement');
+		expect(requirementsShapeIds).toContain('testCase');
 	});
 
 	it('should include ring and scatter chart shapes', () => {

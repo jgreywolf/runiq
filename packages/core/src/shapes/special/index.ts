@@ -30,6 +30,11 @@ export {
   wbsWorkPackageShape,
 } from './wbs.js';
 export {
+  requirementPackageShape,
+  requirementShape,
+  testCaseShape,
+} from './requirements.js';
+export {
   hRuleShape,
   vRuleShape,
   bracketLeftShape,

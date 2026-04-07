@@ -23,6 +23,7 @@ import { architectureShapeIcons } from './toolboxIcons/architectureShapeIcons';
 import { fileTreeShapeIcons } from './toolboxIcons/fileTreeShapeIcons';
 import { threatModelShapeIcons } from './toolboxIcons/threatModelShapeIcons';
 import { wbsShapeIcons } from './toolboxIcons/wbsShapeIcons';
+import { requirementsShapeIcons } from './toolboxIcons/requirementsShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
@@ -76,6 +77,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...threatModelShapeIcons,
 	...fileTreeShapeIcons,
 	...wbsShapeIcons,
+	...requirementsShapeIcons,
 	...kinematicShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
@@ -119,6 +121,7 @@ export const diagramShapes: ShapeCategory[] = [
 	...threatModelShapeIcons,
 	...fileTreeShapeIcons,
 	...wbsShapeIcons,
+	...requirementsShapeIcons,
 	...kinematicShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,

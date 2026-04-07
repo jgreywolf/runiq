@@ -1916,6 +1916,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         direction = 'RIGHT';
       } else if (container.shape === 'wbsDeliverable') {
         direction = 'DOWN';
+      } else if (container.shape === 'requirementPackage') {
+        direction = 'DOWN';
       } else if (container.shape === 'bpmnPool') {
         // BPMN pools default to horizontal flow
         direction = 'RIGHT';
@@ -2227,6 +2229,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         containerDirection = 'RIGHT';
       } else if (container.shape === 'wbsDeliverable') {
         containerDirection = 'DOWN';
+      } else if (container.shape === 'requirementPackage') {
+        containerDirection = 'DOWN';
       } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT';
       } else if (container.shape === 'bpmnLane') {
@@ -2514,6 +2518,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         containerDirection = 'RIGHT';
       } else if (container.shape === 'wbsDeliverable') {
         containerDirection = 'DOWN';
+      } else if (container.shape === 'requirementPackage') {
+        containerDirection = 'DOWN';
       } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
       } else if (container.shape === 'bpmnLane') {
@@ -2777,6 +2783,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       return 8;
     }
 
+    if (container.shape === 'requirementPackage') {
+      return 18;
+    }
+
     return LayoutDefaults.CONTAINER_PADDING;
   }
 
@@ -2790,6 +2800,10 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     if (container.shape === 'wbsDeliverable') {
       return Math.max(20, Math.round(spacing * 0.28));
+    }
+
+    if (container.shape === 'requirementPackage') {
+      return Math.max(26, Math.round(spacing * 0.32));
     }
 
     return spacing;

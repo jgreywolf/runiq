@@ -126,6 +126,9 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.wbsShape);
   shapeRegistry.register(special.wbsDeliverableShape);
   shapeRegistry.register(special.wbsWorkPackageShape);
+  shapeRegistry.register(special.requirementPackageShape);
+  shapeRegistry.register(special.requirementShape);
+  shapeRegistry.register(special.testCaseShape);
   shapeRegistry.register(special.hRuleShape);
   shapeRegistry.register(special.vRuleShape);
   shapeRegistry.register(special.bracketLeftShape);

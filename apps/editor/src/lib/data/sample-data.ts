@@ -29,6 +29,7 @@ import { treemapSampleDiagrams } from './toolboxSamples/treemapSampleDiagrams';
 import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
 import { wbsSampleDiagrams } from './toolboxSamples/wbsSampleDiagrams';
+import { requirementsSampleDiagrams } from './toolboxSamples/requirementsSampleDiagrams';
 import { glyphsetSampleDiagrams } from './toolboxSamples/glyphsetSampleDiagrams';
 
 export interface Sample {
@@ -60,6 +61,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...networkSampleDiagrams,
 	...threatModelSampleDiagrams,
 	...wbsSampleDiagrams,
+	...requirementsSampleDiagrams,
 	...pedigreeSampleDiagrams,
 	...c4SampleDiagrams,
 	...controlSampleDiagrams,

@@ -108,6 +108,7 @@ export default defineConfig({
             { text: 'Architecture Diagrams', link: '/guide/architecture-diagrams' },
             { text: 'File Tree Diagrams', link: '/guide/file-tree-diagrams' },
             { text: 'Work Breakdown Structures', link: '/guide/wbs-diagrams' },
+            { text: 'Requirement Diagrams', link: '/guide/requirements-diagrams' },
             { text: 'Flowcharts', link: '/guide/flowcharts' },
             { text: 'Mindmap Diagrams', link: '/guide/mindmap-diagrams' },
             { text: 'Threat Model Diagrams', link: '/guide/threat-model-diagrams' },
