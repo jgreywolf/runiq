@@ -1,17 +1,18 @@
 ---
 title: Profiles
-description: Understand Runiq's 17 diagram profiles - Diagram, GlyphSet, Sequence, Timeline, Pedigree, Kanban, GitGraph, Treemap, Electrical, Digital, Control, Wardley, Railroad, Pneumatic, Hydraulic, HVAC, and P&ID with specialized syntax and rendering.
+description: Understand Runiq's 18 diagram profiles - Diagram, GlyphSet, Sequence, Timeline, Fault Tree, Pedigree, Kanban, GitGraph, Treemap, Electrical, Digital, Control, Wardley, Railroad, Pneumatic, Hydraulic, HVAC, and P&ID with specialized syntax and rendering.
 lastUpdated: 2026-02-08
 ---
 
 # Profiles
 
-Runiq supports **17 primary profiles** for different diagramming needs:
+Runiq supports **18 primary profiles** for different diagramming needs:
 
 - **Diagram profile**: General-purpose diagrams (flowcharts, UML, architecture, kinematic diagrams, mind maps, org charts, etc.). You can freely mix any supported shapes in a single diagram.
 - **GlyphSet profile**: SmartArt-style pre-built diagram templates (pyramids, matrices, cycles, org charts) with 61 glyphsets across 6 categories.
 - **Sequence profile**: UML sequence diagrams showing interactions between participants over time. Perfect for documenting API flows, authentication sequences, and system interactions.
 - **Timeline profile**: Timeline diagrams and Gantt-style visualizations for project planning, roadmaps, and chronological events.
+- **Fault Tree profile**: Reliability and failure-analysis trees with top events, gates, and causal decomposition.
 - **Pedigree profile**: Family trees with people, spouse relationships, and parentage (including adoption).
 - **Kanban profile**: Columns and cards for work tracking, WIP limits, and swimlanes.
 - **GitGraph profile**: Branch, commit, merge, and tag visualization for release flows.

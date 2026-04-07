@@ -8,6 +8,61 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 		shapes: [
 			{ id: 'bpmnTask', label: 'Task', code: 'shape id as @bpmnTask label:"Process Order"' },
 			{
+				id: 'bpmnTaskUser',
+				label: 'User Task',
+				code: 'shape id as @bpmnTask label:"Review Order" data:[{"taskType":"user"}]'
+			},
+			{
+				id: 'bpmnTaskService',
+				label: 'Service Task',
+				code: 'shape id as @bpmnTask label:"Validate Data" data:[{"taskType":"service"}]'
+			},
+			{
+				id: 'bpmnTaskManual',
+				label: 'Manual Task',
+				code: 'shape id as @bpmnTask label:"Pack Items" data:[{"taskType":"manual"}]'
+			},
+			{
+				id: 'bpmnTaskScript',
+				label: 'Script Task',
+				code: 'shape id as @bpmnTask label:"Calculate Total" data:[{"taskType":"script"}]'
+			},
+			{
+				id: 'bpmnTaskReceive',
+				label: 'Receive Task',
+				code: 'shape id as @bpmnTask label:"Receive Approval" data:[{"taskType":"receive"}]'
+			},
+			{
+				id: 'bpmnTaskSend',
+				label: 'Send Task',
+				code: 'shape id as @bpmnTask label:"Send Confirmation" data:[{"taskType":"send"}]'
+			},
+			{
+				id: 'bpmnTaskBusinessRule',
+				label: 'Business Rule Task',
+				code: 'shape id as @bpmnTask label:"Check Policy" data:[{"taskType":"businessRule"}]'
+			},
+			{
+				id: 'bpmnSubProcess',
+				label: 'Subprocess',
+				code: 'shape id as @bpmnSubProcess label:"Fulfillment"'
+			},
+			{
+				id: 'bpmnSubProcessExpanded',
+				label: 'Expanded Subprocess',
+				code: 'shape id as @bpmnSubProcess label:"Fulfillment" data:[{"expanded":"true"}]'
+			},
+			{
+				id: 'bpmnChoreographyTask',
+				label: 'Choreography Task',
+				code: 'shape id as @bpmnChoreographyTask label:"Approve Contract"'
+			},
+			{
+				id: 'bpmnChoreographyTaskLabeled',
+				label: 'Choreography Task With Participants',
+				code: 'shape id as @bpmnChoreographyTask label:"Approve Contract" data:[{"initiatingParticipant":"Buyer"},{"receivingParticipant":"Vendor"}]'
+			},
+			{
 				id: 'bpmnEventStart',
 				label: 'Start Event',
 				code: 'shape id as @bpmnEvent label:"Start" data:[{"eventType":"start"}]'
@@ -36,6 +91,81 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				id: 'bpmnEventError',
 				label: 'Error Event',
 				code: 'shape id as @bpmnEvent label:"Error" data:[{"eventType":"error"}]'
+			},
+			{
+				id: 'bpmnEventSignal',
+				label: 'Signal Event',
+				code: 'shape id as @bpmnEvent label:"Signal" data:[{"eventType":"signal"}]'
+			},
+			{
+				id: 'bpmnEventConditional',
+				label: 'Conditional Event',
+				code: 'shape id as @bpmnEvent label:"Conditional" data:[{"eventType":"conditional"}]'
+			},
+			{
+				id: 'bpmnEventEscalation',
+				label: 'Escalation Event',
+				code: 'shape id as @bpmnEvent label:"Escalate" data:[{"eventType":"escalation"}]'
+			},
+			{
+				id: 'bpmnEventCompensation',
+				label: 'Compensation Event',
+				code: 'shape id as @bpmnEvent label:"Compensate" data:[{"eventType":"compensation"}]'
+			},
+			{
+				id: 'bpmnEventCancel',
+				label: 'Cancel Event',
+				code: 'shape id as @bpmnEvent label:"Cancel" data:[{"eventType":"intermediate-cancel"}]'
+			},
+			{
+				id: 'bpmnEventLink',
+				label: 'Link Event',
+				code: 'shape id as @bpmnEvent label:"Link" data:[{"eventType":"intermediate-link"}]'
+			},
+			{
+				id: 'bpmnEventTerminate',
+				label: 'Terminate Event',
+				code: 'shape id as @bpmnEvent label:"Terminate" data:[{"eventType":"end-terminate"}]'
+			},
+			{
+				id: 'bpmnEventMultiple',
+				label: 'Multiple Event',
+				code: 'shape id as @bpmnEvent label:"Multiple" data:[{"eventType":"intermediate-multiple"}]'
+			},
+			{
+				id: 'bpmnEventParallelMultiple',
+				label: 'Parallel Multiple Event',
+				code: 'shape id as @bpmnEvent label:"Parallel" data:[{"eventType":"intermediate-parallelMultiple"}]'
+			},
+			{
+				id: 'bpmnStartNonInterrupting',
+				label: 'Non-Interrupting Start Event',
+				code: 'shape id as @startNonInterfering label:"Signal Start"'
+			},
+			{
+				id: 'bpmnIntermediateNonInterrupting',
+				label: 'Non-Interrupting Intermediate Event',
+				code: 'shape id as @intermediateNonInterfering label:"Escalate"'
+			},
+			{
+				id: 'bpmnBoundaryTimer',
+				label: 'Boundary Timer Event',
+				code: 'shape id as @bpmnBoundaryEvent label:"Timeout" data:[{"eventType":"timer"}]'
+			},
+			{
+				id: 'bpmnBoundaryMessage',
+				label: 'Boundary Message Event',
+				code: 'shape id as @bpmnBoundaryEvent label:"Message" data:[{"eventType":"message"}]'
+			},
+			{
+				id: 'bpmnBoundaryError',
+				label: 'Boundary Error Event',
+				code: 'shape id as @bpmnBoundaryEvent label:"Error" data:[{"eventType":"error"}]'
+			},
+			{
+				id: 'bpmnBoundarySignalNonInterrupting',
+				label: 'Boundary Signal Event (Non-Interrupting)',
+				code: 'shape id as @bpmnBoundaryEvent label:"Signal" data:[{"eventType":"signal"},{"interrupting":false}]'
 			},
 			{
 				id: 'bpmnGatewayExclusive',
@@ -68,6 +198,21 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @bpmnDataObject label:"Customer Data"'
 			},
 			{
+				id: 'bpmnDataStore',
+				label: 'Data Store',
+				code: 'shape id as @bpmnDataStore label:"Customer DB"'
+			},
+			{
+				id: 'bpmnDataInput',
+				label: 'Data Input',
+				code: 'shape id as @bpmnDataInput label:"Order Form"'
+			},
+			{
+				id: 'bpmnDataOutput',
+				label: 'Data Output',
+				code: 'shape id as @bpmnDataOutput label:"Invoice"'
+			},
+			{
 				id: 'bpmnMessage',
 				label: 'Message',
 				code: 'shape id as @bpmnMessage label:"Email"'
@@ -88,29 +233,26 @@ export const bpmnShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @callActivity label:"Call Activity"'
 			},
 			{
+				id: 'bpmnCallActivityDetailed',
+				label: 'Call Activity With Called Element',
+				code: 'shape id as @callActivity label:"Review Contract" data:[{"calledElement":"ReviewWorkflow"}]'
+			},
+			{
 				id: 'bpmnConversation',
 				label: 'Conversation',
 				code: 'shape id as @conversation label:"Conversation"'
+			},
+			{
+				id: 'bpmnConversationMultiParty',
+				label: 'Multi-Party Conversation',
+				code: 'shape id as @conversation label:"Vendor Sync" data:[{"participantA":"Buyer"},{"participantB":"Vendor"},{"multiParty":true}]'
 			},
 			{
 				id: 'bpmnAnnotation',
 				label: 'Annotation',
 				code: 'shape id as @annotation label:"Note"'
 			},
-			{
-				id: 'bpmnPool',
-				label: 'Pool',
-				code: `container pool1 "Customer" as @bpmnPool {
-  shape task1 as @bpmnTask label:"Task"
-}`
-			},
-			{
-				id: 'bpmnLane',
-				label: 'Lane',
-				code: `container lane1 "Sales" as @bpmnLane {
-  shape task1 as @bpmnTask label:"Review Order"
-}`
-			}
+			
 		]
 	}
 ];

@@ -1,6 +1,6 @@
 {
   "name": "@runiq/icons-iconify",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "description": "Iconify-style icon provider for Runiq",
   "type": "module",
   "main": "./dist/index.js",
@@ -26,7 +26,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*"
+    "@runiq/core": "^1.2.0"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.10",
@@ -45,7 +45,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/icons-iconify"
   },
   "publishConfig": {

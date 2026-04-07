@@ -18,11 +18,18 @@ import { digitalLogicGateShapeIcons } from './toolboxIcons/digitalLogicGateShape
 import { digitalSyntaxShapeIcons } from './toolboxIcons/digitalSyntaxShapeIcons';
 import { railroadSyntaxShapeIcons } from './toolboxIcons/railroadSyntaxShapeIcons';
 import { awsShapeIcons } from './toolboxIcons/awsShapeIcons';
+import { azureShapeIcons } from './toolboxIcons/azureShapeIcons';
+import { architectureShapeIcons } from './toolboxIcons/architectureShapeIcons';
+import { fileTreeShapeIcons } from './toolboxIcons/fileTreeShapeIcons';
+import { threatModelShapeIcons } from './toolboxIcons/threatModelShapeIcons';
+import { wbsShapeIcons } from './toolboxIcons/wbsShapeIcons';
+import { requirementsShapeIcons } from './toolboxIcons/requirementsShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
 import { quantumShapeIcons } from './toolboxIcons/quantumShapeIcons';
 import { containerTemplateShapeIcons } from './toolboxIcons/containerTemplateShapeIcons';
+import { partitionShapeIcons } from './toolboxIcons/partitionShapeIcons';
 import { sequenceShapeIcons } from './toolboxIcons/sequenceShapeIcons';
 import { glyphsetIcons } from './toolboxIcons/glyphsetIcons';
 import { timelineSyntaxShapeIcons } from './toolboxIcons/timelineSyntaxShapeIcons';
@@ -52,22 +59,35 @@ export interface ShapeCategory {
 	profiles?: string[];
 }
 
-export const shapeCategories: ShapeCategory[] = [
+const diagramCategoryGroups: ShapeCategory[] = [
 	...basicShapeIcons,
 	...flowchartShapeIcons,
 	...containerTemplateShapeIcons,
+	...chartShapeIcons,
+	...partitionShapeIcons,
 	...umlShapeIcons,
 	...erdShapeIcons,
-	...storageShapeIcons,
 	...bpmnShapeIcons,
 	...c4ShapeIcons,
-	...kinematicShapeIcons,
-	...awsShapeIcons,
+	...architectureShapeIcons,
+	...storageShapeIcons,
 	...networkShapeIcons,
-	...chartShapeIcons,
+	...awsShapeIcons,
+	...azureShapeIcons,
+	...threatModelShapeIcons,
+	...fileTreeShapeIcons,
+	...wbsShapeIcons,
+	...requirementsShapeIcons,
+	...kinematicShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
-	...decorativeShapeIcons,
+	...decorativeShapeIcons
+];
+
+export const diagramShapes: ShapeCategory[] = [...diagramCategoryGroups];
+
+export const shapeCategories: ShapeCategory[] = [
+	...diagramCategoryGroups,
 	...sequenceShapeIcons,
 	...wardleySyntaxShapeIcons,
 	...timelineSyntaxShapeIcons,
@@ -87,24 +107,6 @@ export const shapeCategories: ShapeCategory[] = [
 	...hydraulicShapeIcons,
 	...hvacShapeIcons,
 	...glyphsetIcons
-];
-
-export const diagramShapes: ShapeCategory[] = [
-	...basicShapeIcons,
-	...flowchartShapeIcons,
-	...containerTemplateShapeIcons,
-	...umlShapeIcons,
-	...erdShapeIcons,
-	...storageShapeIcons,
-	...bpmnShapeIcons,
-	...c4ShapeIcons,
-	...kinematicShapeIcons,
-	...awsShapeIcons,
-	...networkShapeIcons,
-	...chartShapeIcons,
-	...quantumShapeIcons,
-	...specialShapeIcons,
-	...decorativeShapeIcons
 ];
 
 export const glyphsets: ShapeCategory[] = [...glyphsetIcons];

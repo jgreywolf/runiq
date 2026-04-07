@@ -50,6 +50,7 @@ coverage/
 # Temp directories
 .tmp/
 temp/
+docs/.vitepress/.temp/
 
 # SvelteKit
 .svelte-kit
@@ -57,3 +58,4 @@ temp/
 # Playwright
 playwright-report/
 test-results/
+./claude/

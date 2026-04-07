@@ -86,6 +86,34 @@ describe('Class Diagram Shape', () => {
       expect(svg).toContain('age');
       expect(svg).toContain('int');
     });
+
+    it('should render attribute cardinality after the type', () => {
+      const shape = classShape;
+      const node: NodeAst = {
+        id: 'Order',
+        shape: 'class',
+        label: 'Order',
+        data: {
+          attributes: [
+            {
+              name: 'items',
+              type: 'LineItem',
+              visibility: 'private',
+              cardinality: '1..*',
+            },
+          ],
+        },
+      };
+
+      const ctx: ShapeRenderContext = {
+        node,
+        style: { fill: '#fff', stroke: '#000', strokeWidth: 1 },
+        measureText: mockMeasureText,
+      };
+
+      const svg = shape.render(ctx, { x: 0, y: 0 });
+      expect(svg).toContain('items: LineItem [1..*]');
+    });
   });
 
   describe('Class with Methods', () => {

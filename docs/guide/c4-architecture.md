@@ -20,11 +20,16 @@ The C4 model provides a hierarchical approach to documenting software architectu
 ## Key Shapes
 
 - **C4 Person**: `@c4Person` - Users or actors
+- **C4 External Person**: `@c4ExternalPerson` - External people/actors
 - **C4 System**: `@c4System` - Software systems
+- **C4 External System**: `@c4ExternalSystem` - External dependencies
 - **C4 Container**: `@c4Container` - Applications, databases, services
+- **C4 Container Instance**: `@c4ContainerInstance` - Runtime/deployed container instance
 - **C4 Component**: `@c4Component` - Components within containers
+- **C4 System Instance**: `@c4SystemInstance` - Runtime/deployed system instance
+- **C4 Deployment Node**: `@c4DeploymentNode` - Infrastructure/runtime node
 
-See the [Shape Reference - C4 Shapes](/reference/shapes#_12-c4-architecture-shapes-4-shapes) for the complete list.
+See the [Shape Reference - C4 Shapes](/reference/shapes#_13-c4-architecture-shapes-9-shapes) for the complete list.
 
 ## Level 1: System Context
 
@@ -208,6 +213,30 @@ diagram "Styled C4 Diagram" {
 - Container: `#438dd5` (light blue)
 - Component: `#85bbf0` (lighter blue)
 
+## Deployment View
+
+Use deployment nodes and runtime instances when documenting where systems and containers run:
+
+```runiq
+diagram "C4 Deployment View" {
+  direction TB
+
+  shape ops as @c4ExternalPerson label: "Operations Team"
+  shape mobile as @c4ExternalSystem label: "Mobile Clients"
+
+  shape prod as @c4DeploymentNode label: "Production Kubernetes Cluster"
+  shape banking as @c4SystemInstance label: "Banking Platform"
+  shape web as @c4ContainerInstance label: "Web API\n[Node.js]"
+  shape worker as @c4ContainerInstance label: "Worker\n[Go]"
+
+  ops -> prod label: "Manages"
+  mobile -> web label: "Calls"
+  prod -> banking label: "Hosts"
+  banking -> web
+  banking -> worker
+}
+```
+
 ## Diagram Levels
 
 ### When to use each level:
@@ -267,9 +296,9 @@ diagram "Styled C4 Diagram" {
 | **Learning Curve**           | ⚠️ Moderate (DSL)          | ✅ Low         | ⚠️ Moderate    | ✅ Low (GUI)       | ✅ Low        | ⚠️ Moderate     |
 | **Open Source**              | ✅ MIT License             | ✅ MIT         | ✅ Apache 2.0  | ❌ Commercial only | ✅ Apache 2.0 | ⚠️ Freemium     |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
-- **C4 native shapes** - Dedicated `@c4Person`, `@c4System`, `@c4Container`, `@c4Component`
+- **C4 native shapes** - Dedicated people, systems, containers, components, deployment nodes, and instance shapes
 - **Unified language** - Use same DSL for C4, UML, flowcharts, BPMN, and 15+ diagram types
 - **Technology annotations** - Built-in support for `[Technology Stack]` labels
 - **System boundaries** - Use containers with custom styling
@@ -278,16 +307,16 @@ diagram "Styled C4 Diagram" {
 - **ELK layout engine** - Superior hierarchical layouts for context and container diagrams
 - **Profile system** - Consistent with other diagram types
 
-**Use Structurizr when:**
+**When to Use Alternatives:**
 
-- You need the official C4 tooling with Simon Brown's endorsement
-- Workspace management for large enterprise architectures
-- ADR (Architecture Decision Records) integration
-- Multiple related diagrams with shared model
+- **Structurizr**: Official C4 tooling with shared-model workspaces and ADR-style architecture workflows
+- **Lucidchart / Draw.io**: GUI-first collaboration when the audience is less DSL-oriented
+- **Mermaid**: Lightweight markdown embedding when only basic C4 structure is needed
+- **PlantUML**: Text-based C4 diagrams when you already standardize on C4-PlantUML
 
 ## Related
 
-- [Shape Reference - C4 Shapes](/reference/shapes#_12-c4-architecture-shapes-4-shapes)
+- [Shape Reference - C4 Shapes](/reference/shapes#_13-c4-architecture-shapes-9-shapes)
 - [Containers](/guide/containers)
 - [Network Diagrams](/guide/network-diagrams)
 - [AWS Diagrams](/guide/aws-diagrams)

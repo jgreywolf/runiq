@@ -1,6 +1,6 @@
 {
   "name": "@runiq/renderer-schematic",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "description": "Electrical schematic renderer for Runiq with IEEE/IEC standard symbols",
   "type": "module",
   "main": "./dist/index.js",
@@ -33,17 +33,17 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/renderer-schematic"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@runiq/core": "workspace:*"
+    "@runiq/core": "^1.2.0"
   },
   "devDependencies": {
-    "@runiq/parser-dsl": "workspace:*",
+    "@runiq/parser-dsl": "^1.2.0",
     "eslint": "^9.37.0",
     "rimraf": "^5.0.5",
     "tsup": "^8.5.0",

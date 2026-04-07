@@ -43,10 +43,11 @@ describe('Edge Enhancements - Stereotypes and Line Styles', () => {
     });
 
     it('should support all line styles', () => {
-      const styles: Array<'solid' | 'dashed' | 'dotted'> = [
+      const styles: Array<'solid' | 'dashed' | 'dotted' | 'block'> = [
         'solid',
         'dashed',
         'dotted',
+        'block',
       ];
 
       styles.forEach((lineStyle) => {

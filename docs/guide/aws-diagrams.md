@@ -20,8 +20,12 @@ AWS diagrams visualize cloud infrastructure using AWS service icons. Runiq provi
 - **AWS RDS**: `@awsRds` - Relational Database Service
 - **AWS VPC**: `@awsVpc` - Virtual Private Cloud
 - **AWS API Gateway**: `@awsApiGateway` - API management
+- **AWS CloudFront**: `@awsCloudFront` - Content delivery network
+- **AWS DynamoDB**: `@awsDynamoDb` - NoSQL key-value database
+- **AWS SQS**: `@awsSqs` - Queueing and decoupled messaging
+- **AWS Cognito**: `@awsCognito` - User identity and authentication
 
-See the [Shape Reference - AWS Shapes](/reference/shapes#_14-aws-shapes-6-shapes) for the complete list.
+See the [Shape Reference - AWS Shapes](/reference/shapes#_15-aws-shapes-10-shapes) for the complete list.
 
 ## Basic AWS Architecture
 
@@ -53,9 +57,9 @@ diagram "Serverless API" {
   shape client as @actor label: "Mobile App"
   shape api as @awsApiGateway label: "API Gateway"
   shape lambda as @awsLambda label: "Lambda\nFunction"
-  shape dynamodb as @awsRds label: "DynamoDB"
+  shape dynamodb as @awsDynamoDb label: "DynamoDB"
   shape s3 as @awsS3 label: "S3\nStorage"
-  shape cognito as @cloud label: "Cognito\nAuth"
+  shape cognito as @awsCognito label: "Cognito\nAuth"
 
   client -> api label: "HTTPS"
   api -> cognito label: "Authenticate"
@@ -111,7 +115,7 @@ diagram "ECS Microservices" {
   direction TB
 
   shape users as @cloud label: "Users"
-  shape cloudfront as @cloud label: "CloudFront\nCDN"
+  shape cloudfront as @awsCloudFront label: "CloudFront\nCDN"
 
   container vpc "VPC" as @awsVpc {
     shape alb as @loadBalancer label: "ALB"
@@ -124,7 +128,7 @@ diagram "ECS Microservices" {
 
     shape rds as @awsRds label: "RDS"
     shape elasticache as @storage label: "ElastiCache\nRedis"
-    shape sqs as @storage label: "SQS Queue"
+    shape sqs as @awsSqs label: "SQS Queue"
   }
 
   shape s3 as @awsS3 label: "S3\nAssets"
@@ -315,7 +319,7 @@ How do Runiq AWS diagrams compare to other cloud diagramming tools?
 | **Free/Open Source**         | ✅    | ✅              | ✅       | ❌         | ❌         | ✅      |
 | **Learning Curve**           | Low   | Low             | Med      | Low        | Med        | Low     |
 
-**Why choose Runiq for AWS diagrams?**
+**Key Advantages of Runiq:**
 
 - **Version control friendly** - Text-based DSL works with Git
 - **Unified language** - Same syntax for AWS, UML, BPMN, and other diagram types
@@ -323,6 +327,13 @@ How do Runiq AWS diagrams compare to other cloud diagramming tools?
 - **Documentation as code** - Keep architecture diagrams with your IaC
 - **Quick prototyping** - Rapidly sketch architecture ideas
 - **Integration** - Combine AWS diagrams with sequence diagrams, ERDs, etc.
+
+**When to Use Alternatives:**
+
+- **Cloudcraft**: Cost-aware AWS visualization with cloud-specific pricing workflows
+- **Lucidchart**: GUI-driven collaboration for mixed technical and business audiences
+- **Diagrams.net**: Free drag-and-drop editing for general-purpose cloud documentation
+- **PlantUML**: Text-based AWS diagrams when you already standardize on PlantUML elsewhere
 
 ## Related
 

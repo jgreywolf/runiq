@@ -9,6 +9,7 @@ interface AbstractAttribute {
   name: string;
   type?: string;
   visibility?: 'public' | 'private' | 'protected' | 'package';
+  cardinality?: string;
   defaultValue?: string;
   isStatic?: boolean;
   isDerived?: boolean;
@@ -35,6 +36,7 @@ function formatAttribute(attr: AbstractAttribute): string {
   const derivedPrefix = attr.isDerived ? '/' : '';
   let text = `${visibility} ${derivedPrefix}${attr.name}`;
   if (attr.type) text += `: ${attr.type}`;
+  if (attr.cardinality) text += ` [${attr.cardinality}]`;
   if (attr.defaultValue) text += ` = ${attr.defaultValue}`;
   return text;
 }

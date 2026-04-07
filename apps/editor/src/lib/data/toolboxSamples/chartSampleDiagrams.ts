@@ -10,8 +10,19 @@ export const chartSampleDiagrams: SampleCategory[] = [
 				description: 'Multiple chart types',
 				code: `diagram "Sales Dashboard" {
 shape pieChart as @pieChart label:"Market Share" data:[35,25,40]
+shape ringChart as @ringChart label:"Revenue Mix" data:[42,38,20] labels:["Services","Subscriptions","Support"]
 shape barVert as @barChart label:"Quarterly Sales" data:[120,150,180,200]
 shape pyramid as @pyramid label:"Sales Funnel" data:[{"label":"Leads","value":1000},{"label":"Qualified","value":500},{"label":"Closed","value":150}]
+}`
+			},
+			{
+				name: 'Scatter Analysis',
+				description: 'Cost and latency comparison with labeled points',
+				code: `diagram "Cost vs Latency" {
+  shape options as @scatterChart
+    label:"Cost vs Latency"
+    data:[{"x":20,"y":120,"label":"Option A"},{"x":55,"y":60,"label":"Option B"},{"x":80,"y":210,"label":"Option C"}]
+    showPointLabels:true
 }`
 			},
 			{

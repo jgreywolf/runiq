@@ -10,7 +10,7 @@ entry Document:
 
 // Profile types - keyword determines which grammar rules apply
 Profile:
-    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile | PedigreeProfile;
+    DiagramProfile | ElectricalProfile | ControlProfile | DigitalProfile | RailroadProfile | WardleyProfile | SequenceProfile | PneumaticProfile | HydraulicProfile | HvacProfile | PIDProfile | TimelineProfile | FaultTreeProfile | GlyphSetProfile | KanbanProfile | GitGraphProfile | TreemapProfile | PedigreeProfile;
 
 // ============================================================================
 // Visual Diagram Profile (existing functionality)
@@ -732,6 +732,46 @@ SequenceDurationConstraintValueProperty:
     'constraint:' constraint=STRING;
 
 // ============================================================================
+// Fault Tree Profile - Reliability and failure analysis
+// ============================================================================
+
+FaultTreeProfile:
+    'faultTree' name=STRING '{'
+        statements+=FaultTreeStatement*
+    '}';
+
+FaultTreeStatement:
+    FaultTreeTopEventStatement
+    | FaultTreeGateStatement
+    | FaultTreeEventStatement
+    | ThemeDeclaration;
+
+FaultTreeTopEventStatement:
+    'topEvent' id=ProfileIdentifier label=STRING properties+=FaultTreeEventProperty*;
+
+FaultTreeEventStatement:
+    kind=FaultTreeEventKind id=ProfileIdentifier label=STRING properties+=FaultTreeEventProperty*;
+
+FaultTreeEventKind returns string:
+    'event' | 'undevelopedEvent';
+
+FaultTreeGateStatement:
+    'gate' id=ProfileIdentifier 'type:' gateType=FaultTreeGateType 'under:' under=ProfileIdentifier;
+
+FaultTreeEventProperty:
+    FaultTreeUnderProperty
+    | FaultTreeProbabilityProperty;
+
+FaultTreeGateType returns string:
+    'and' | 'or';
+
+FaultTreeUnderProperty:
+    'under:' under=ProfileIdentifier;
+
+FaultTreeProbabilityProperty:
+    'probability:' probability=NUMBER;
+
+// ============================================================================
 // Timeline Profile - Chronological events and milestones
 // ============================================================================
 
@@ -1269,7 +1309,7 @@ ShapeIdentifier returns string:
     | 'lifeline' | 'continuation' | 'timeObservation' | 'activity'
     | 'objectNode' | 'centralBuffer' | 'dataStore' | 'component' | 'artifact' | 'node'
     | 'port' | 'module' | 'template' | 'history' | 'pin' | 'assembly'
-    | 'providedInterface' | 'requiredInterface' | 'frame' | 'collaboration'
+    | 'providedInterface' | 'requiredInterface' | 'lollipop' | 'socket' | 'frame' | 'collaboration'
     | 'submachine' | 'loop' | 'verticalFork' | 'sendSignal' | 'receiveSignal' | 'acceptEvent'
     | 'activityFinal' | 'flowFinal' | 'initialState' | 'finalState'
     | 'historyShallow' | 'historyDeep' | 'junction' | 'entryPoint' | 'exitPoint' | 'terminate'
@@ -1325,7 +1365,9 @@ ShapeIdentifier returns string:
     | GatewayTypeProperty
     | ShowMetricsProperty
     | MetricTypeProperty
-    | MetricPositionProperty;
+    | MetricPositionProperty
+    | ShowPointLabelsProperty
+    | InnerRadiusProperty;
 
 LabelProperty:
     'label:' value=STRING;
@@ -1364,6 +1406,9 @@ LabelsProperty:
 ShowLegendProperty:
     'showLegend:' value=BooleanValue;
 
+ShowPointLabelsProperty:
+    'showPointLabels:' value=BooleanValue;
+
 ShowValuesProperty:
     'showValues:' value=BooleanValue;
 
@@ -1384,6 +1429,9 @@ IntersectionsProperty:
 
 FlipAxesProperty:
     'flipAxes:' value=BooleanValue;
+
+InnerRadiusProperty:
+    'innerRadius:' value=NUMBER;
 
 TitleProperty:
     'title:' value=STRING;
@@ -1453,7 +1501,7 @@ AttributeDecl:
     '{' properties+=AttributeField+ '}';
 
 AttributeField:
-    AttrNameField | AttrTypeField | AttrVisibilityField | AttrDefaultField | AttrStaticField | AttrDerivedField | AttrConstraintsField;
+    AttrNameField | AttrTypeField | AttrVisibilityField | AttrCardinalityField | AttrDefaultField | AttrStaticField | AttrDerivedField | AttrConstraintsField;
 
 AttrNameField:
     'name:' value=STRING;
@@ -1463,6 +1511,9 @@ AttrTypeField:
 
 AttrVisibilityField:
     'visibility:' value=VisibilityValue;
+
+AttrCardinalityField:
+    'cardinality:' value=STRING;
 
 VisibilityValue returns string:
     'public' | 'private' | 'protected' | 'package';
@@ -1723,6 +1774,7 @@ ContainerMetadataProperty:
     | 'icon:' icon=STRING
     | 'badge:' badge=STRING
     | 'collapsible:' collapsible=BooleanValue
+    | 'expanded:' expanded=BooleanValue
     | 'collapsed:' collapsed=BooleanValue
     | 'collapseMode:' collapseMode=CollapseModeValue
     | 'collapseRedirectEdges:' collapseRedirectEdges=BooleanValue
@@ -1906,8 +1958,9 @@ TemplateVariablePath:
 FlexibleID returns string:
     ID 
     // Data-driven keywords (excluding 'template' which is a Phase 5 keyword)
-    | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
-    | 'tasks' | 'milestones' | 'events' | 'nodes' | 'links' | 'series'
+      | 'data' | 'from' | 'to' | 'key' | 'source' | 'filter' | 'limit'
+      | 'options'
+      | 'tasks' | 'milestones' | 'events' | 'nodes' | 'links' | 'series'
     | 'treemap' | 'sankey' | 'chart'
     // Property keywords  
     | 'label' | 'name' | 'id' | 'type' | 'value' | 'format' | 'color' | 'header' | 'delimiter'

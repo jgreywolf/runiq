@@ -46,10 +46,10 @@ shape ClassName as @class label: "ClassName"
   genericTypes: ["T", "K", "V"]
   attributes: [
     {name: "fieldName" type: "string" visibility: private static: true},
-    {name: "count" type: "int" visibility: protected default: "0"}
+    {name: "count" type: "int" visibility: protected default: "0" cardinality: "0..1"}
   ]
   methods: [
-    {name: "methodName" params: [{name: "arg" type: "T"}] returnType: "void" visibility: public},
+    {name: "methodName" params: [{name: "arg" type: "(T, int)"}] returnType: "void" visibility: public},
     {name: "staticMethod" returnType: "bool" visibility: public static: true abstract: true}
   ]
 ```
@@ -160,6 +160,69 @@ diagram "Interface Pattern" {
   rectangle -> drawable relationship: realization
 }
 ```
+
+## Lollipop And Socket Interfaces
+
+For class and architecture-style diagrams, you can also use standalone interface symbols directly:
+
+```runiq
+diagram "Service Interfaces" {
+  direction LR
+
+  shape service as @class label: "PaymentService"
+  shape paymentApi as @lollipop label: "IPayment"
+  shape httpClient as @socket label: "IHttpClient"
+
+  service -> paymentApi
+  service -> httpClient relationship: dependency
+}
+```
+
+`@lollipop` is an alias for `@providedInterface`, and `@socket` is an alias for `@requiredInterface`.
+
+## Member-Level Connections
+
+Runiq can connect edges to individual fields and methods instead of only the class box:
+
+```runiq
+diagram "Member Links" {
+  direction LR
+
+  shape order as @class label: "Order"
+    attributes: [
+      {name: "customerId" type: "UUID" visibility: private}
+    ]
+    methods: [
+      {name: "loadCustomer" params: [{name: "id" type: "UUID"}] returnType: "Customer" visibility: public}
+    ]
+
+  shape customer as @class label: "Customer"
+    attributes: [
+      {name: "id" type: "UUID" visibility: private}
+    ]
+
+  order.customerId -> customer.id
+  order.loadCustomer -> customer.id relationship: dependency
+}
+```
+
+Use `ClassName.memberName` on either side of the edge. Runiq anchors the edge to the specific attribute or method.
+
+## Attribute Cardinalities And Defaults
+
+Attributes can include both a default value and a UML-style cardinality:
+
+```runiq
+diagram "Inventory Model" {
+  shape catalog as @class label: "Catalog"
+    attributes: [
+      {name: "items" type: "Product" visibility: private cardinality: "0..*" default: "[]"},
+      {name: "status" type: "CatalogStatus" visibility: private default: "\"draft\""}
+    ]
+}
+```
+
+This renders as `items: Product [0..*] = []` and `status: CatalogStatus = "draft"` inside the class body.
 
 ## Composition vs Aggregation
 
@@ -365,6 +428,7 @@ diagram "Attribute Example" {
         name: "attributeName"      // Required
         type: "TypeName"            // Required (supports generics)
         visibility: private         // public | private | protected | package
+        cardinality: "0..*"        // Optional UML multiplicity for the attribute
         static: true               // Underlined in display
         derived: true              // Prefixed with /
         default: "defaultValue"    // Default value
@@ -447,6 +511,19 @@ diagram "Language-Specific Generics" {
   shape scalaClass as @class label: "ScalaClass"
     attributes: [
       {name: "optional" type: "List[Option[Int]]" visibility: private}         // Scala
+    ]
+}
+```
+
+### Tuple Types
+
+Method parameter and return types are plain strings, so tuple signatures work directly:
+
+```runiq
+diagram "Tuple Example" {
+  shape mapper as @class label: "Mapper"
+    methods: [
+      {name: "transform" params: [{name: "input" type: "(string, int)"}] returnType: "(bool, string)" visibility: public}
     ]
 }
 ```
@@ -615,7 +692,7 @@ diagram "Association Class" {
 | **Learning Curve**            | ⚠️ Moderate (DSL) | ✅ Low       | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
 | **Open Source**               | ✅ MIT License    | ✅ MIT       | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **UML 2.5 compliant** with full relationship type support
 - **Unified language** for class, sequence, use case, state machine, and 15+ diagram types
@@ -624,7 +701,15 @@ diagram "Association Class" {
 - **Version control native** - perfect for documenting APIs in repositories
 - **ELK layout engine** for superior layered layouts
 - **Association classes** with proper dotted-line notation
+- **Member-level edge anchors** for fields and methods
+- **Attribute cardinalities** and tuple-friendly method signatures
 - **Profile system** for diagram-specific conventions
+
+**When to Use Alternatives:**
+
+- **Enterprise Architect**: Full enterprise-model governance, traceability, and repository workflows
+- **Lucidchart / Draw.io**: GUI-based collaborative modeling for mixed audiences
+- **PlantUML**: Text-based UML when you already rely on PlantUML for the rest of your documentation stack
 
 ## Examples
 

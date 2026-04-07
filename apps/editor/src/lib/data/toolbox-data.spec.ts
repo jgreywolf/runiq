@@ -115,6 +115,84 @@ describe('Toolbox Data Structure', () => {
 		expect(flowchartCategory!.shapes.length).toBeGreaterThan(0);
 	});
 
+	it('should keep a curated diagram toolbox order', () => {
+		const diagramCategoryIds = getShapeCategoryByProfile(ProfileName.diagram).map((cat) => cat.id);
+		expect(diagramCategoryIds).toEqual([
+			'basic',
+			'flowchart',
+			'containers',
+			'charts',
+			'partitions',
+			'uml',
+			'erd',
+			'bpmn',
+			'c4',
+			'architecture',
+			'storage',
+			'network',
+			'aws',
+			'azure',
+			'threatModel',
+			'fileTree',
+			'wbs',
+			'requirements',
+			'kinematic',
+			'quantum',
+			'special',
+			'decorative'
+		]);
+	});
+
+	it('should expose swimlanes and BPMN partitions in a dedicated category', () => {
+		const partitionCategory = shapeCategories.find((cat) => cat.id === 'partitions');
+		const partitionShapeIds = partitionCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(partitionCategory?.label).toBe('Lanes & Boundaries');
+		expect(partitionShapeIds).toContain('swimlane');
+		expect(partitionShapeIds).toContain('systemBoundary');
+		expect(partitionShapeIds).toContain('bpmnPool');
+		expect(partitionShapeIds).toContain('bpmnLane');
+	});
+
+	it('should include threat modeling starter shapes', () => {
+		const threatModelCategory = shapeCategories.find((cat) => cat.id === 'threatModel');
+		const threatModelShapeIds = threatModelCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(threatModelCategory?.label).toBe('Threat Modeling');
+		expect(threatModelShapeIds).toContain('trustBoundary');
+		expect(threatModelShapeIds).toContain('threat');
+		expect(threatModelShapeIds).toContain('mitigation');
+		expect(threatModelShapeIds).toContain('securityControl');
+	});
+
+	it('should include work breakdown starter shapes', () => {
+		const wbsCategory = shapeCategories.find((cat) => cat.id === 'wbs');
+		const wbsShapeIds = wbsCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(wbsCategory?.label).toBe('Work Breakdown');
+		expect(wbsShapeIds).toContain('wbs');
+		expect(wbsShapeIds).toContain('wbsDeliverable');
+		expect(wbsShapeIds).toContain('wbsWorkPackage');
+	});
+
+	it('should include requirements starter shapes', () => {
+		const requirementsCategory = shapeCategories.find((cat) => cat.id === 'requirements');
+		const requirementsShapeIds = requirementsCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(requirementsCategory?.label).toBe('Requirements');
+		expect(requirementsShapeIds).toContain('requirementPackage');
+		expect(requirementsShapeIds).toContain('requirement');
+		expect(requirementsShapeIds).toContain('testCase');
+	});
+
+	it('should include ring and scatter chart shapes', () => {
+		const chartCategory = shapeCategories.find((cat) => cat.id === 'charts');
+		const chartShapeIds = chartCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(chartShapeIds).toContain('ringChart');
+		expect(chartShapeIds).toContain('scatterChart');
+	});
+
 	it('should include rectangle shape in basic category', () => {
 		const basicCategory = shapeCategories.find((cat) => cat.id === 'basic');
 		const rectShape = basicCategory?.shapes.find((s) => s.id === 'rect' || s.code.includes('@rect'));
@@ -127,6 +205,118 @@ describe('Toolbox Data Structure', () => {
 			(s) => s.id === 'diamond' || s.code.includes('@rhombus') || s.code.includes('@diamond')
 		);
 		expect(diamondShape).toBeDefined();
+	});
+
+	it('should include the expanded ISO flowchart symbols', () => {
+		const flowchartCategory = shapeCategories.find((cat) => cat.id === 'flowchart');
+		const flowchartShapeIds = flowchartCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(flowchartShapeIds).toContain('manualOperation');
+		expect(flowchartShapeIds).toContain('onPageConnector');
+		expect(flowchartShapeIds).toContain('merge');
+		expect(flowchartShapeIds).toContain('sort');
+		expect(flowchartShapeIds).toContain('collate');
+		expect(flowchartShapeIds).toContain('extract');
+	});
+
+	it('should include the expanded BPMN data artifacts', () => {
+		const bpmnCategory = shapeCategories.find((cat) => cat.id === 'bpmn');
+		const bpmnShapeIds = bpmnCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(bpmnShapeIds).toContain('bpmnDataStore');
+		expect(bpmnShapeIds).toContain('bpmnDataInput');
+		expect(bpmnShapeIds).toContain('bpmnDataOutput');
+	});
+
+	it('should include boundary events and expanded BPMN markers', () => {
+		const bpmnCategory = shapeCategories.find((cat) => cat.id === 'bpmn');
+		const bpmnShapeIds = bpmnCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(bpmnShapeIds).toContain('bpmnStartNonInterrupting');
+		expect(bpmnShapeIds).toContain('bpmnIntermediateNonInterrupting');
+		expect(bpmnShapeIds).toContain('bpmnBoundaryTimer');
+		expect(bpmnShapeIds).toContain('bpmnBoundaryMessage');
+		expect(bpmnShapeIds).toContain('bpmnEventMultiple');
+		expect(bpmnShapeIds).toContain('bpmnEventParallelMultiple');
+		expect(bpmnShapeIds).toContain('bpmnTaskBusinessRule');
+	});
+
+	it('should include expanded subprocess and labeled choreography BPMN variants', () => {
+		const bpmnCategory = shapeCategories.find((cat) => cat.id === 'bpmn');
+		const bpmnShapeIds = bpmnCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(bpmnShapeIds).toContain('bpmnSubProcessExpanded');
+		expect(bpmnShapeIds).toContain('bpmnChoreographyTaskLabeled');
+		expect(bpmnShapeIds).toContain('bpmnCallActivityDetailed');
+		expect(bpmnShapeIds).toContain('bpmnConversationMultiParty');
+	});
+
+	it('should include the expanded network infrastructure symbols', () => {
+		const networkCategory = shapeCategories.find((cat) => cat.id === 'network');
+		const networkShapeIds = networkCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(networkShapeIds).toContain('workstation');
+		expect(networkShapeIds).toContain('accessPoint');
+		expect(networkShapeIds).toContain('vpnGateway');
+		expect(networkShapeIds).toContain('modem');
+	});
+
+	it('should include the expanded AWS service symbols', () => {
+		const awsCategory = shapeCategories.find((cat) => cat.id === 'aws');
+		const awsShapeIds = awsCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(awsShapeIds).toContain('awsCloudFront');
+		expect(awsShapeIds).toContain('awsDynamoDb');
+		expect(awsShapeIds).toContain('awsSqs');
+		expect(awsShapeIds).toContain('awsCognito');
+	});
+
+	it('should include the Azure cloud service symbols', () => {
+		const azureCategory = shapeCategories.find((cat) => cat.id === 'azure');
+		const azureShapeIds = azureCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(azureShapeIds).toContain('azureVm');
+		expect(azureShapeIds).toContain('azureBlobStorage');
+		expect(azureShapeIds).toContain('azureFunctions');
+		expect(azureShapeIds).toContain('azureSqlDatabase');
+		expect(azureShapeIds).toContain('azureVirtualNetwork');
+		expect(azureShapeIds).toContain('azureResourceGroup');
+		expect(azureShapeIds).toContain('azureSubscription');
+		expect(azureShapeIds).toContain('azureApiManagement');
+		expect(azureShapeIds).toContain('azureCdn');
+		expect(azureShapeIds).toContain('azureCosmosDb');
+		expect(azureShapeIds).toContain('azureServiceBus');
+		expect(azureShapeIds).toContain('azureEntraId');
+	});
+
+	it('should include the architecture diagram starter shapes', () => {
+		const architectureCategory = shapeCategories.find((cat) => cat.id === 'architecture');
+		const architectureShapeIds = architectureCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(architectureShapeIds).toContain('architectureLayer');
+		expect(architectureShapeIds).toContain('subsystemBlock');
+		expect(architectureShapeIds).toContain('platformBlock');
+		expect(architectureShapeIds).toContain('externalSystemBlock');
+	});
+
+	it('should include the file tree starter shapes', () => {
+		const fileTreeCategory = shapeCategories.find((cat) => cat.id === 'fileTree');
+		const fileTreeShapeIds = fileTreeCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(fileTreeShapeIds).toContain('fileTree');
+		expect(fileTreeShapeIds).toContain('folder');
+		expect(fileTreeShapeIds).toContain('file');
+	});
+
+	it('should include the expanded C4 architecture symbols', () => {
+		const c4Category = shapeCategories.find((cat) => cat.id === 'c4');
+		const c4ShapeIds = c4Category?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(c4ShapeIds).toContain('c4ExternalSystem');
+		expect(c4ShapeIds).toContain('c4ExternalPerson');
+		expect(c4ShapeIds).toContain('c4DeploymentNode');
+		expect(c4ShapeIds).toContain('c4ContainerInstance');
+		expect(c4ShapeIds).toContain('c4SystemInstance');
 	});
 
 	it('should include digital syntax and components in digital profile', () => {
@@ -148,7 +338,46 @@ describe('Toolbox Data Structure', () => {
 	it('should include control ladder snippets in control profile', () => {
 		const categories = getShapeCategoryByProfile(ProfileName.control);
 		const categoryIds = categories.map((cat) => cat.id);
+		const controlShapeIds = categories.flatMap((category) => category.shapes.map((shape) => shape.id));
 		expect(categoryIds).toContain('controlLadder');
+		expect(controlShapeIds).toContain('control-timer-off');
+		expect(controlShapeIds).toContain('control-counter-up');
+		expect(controlShapeIds).toContain('control-counter-down');
+	});
+
+	it('should include the expanded electrical starter symbols', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.electrical);
+		const electricalCategory = categories.find((cat) => cat.id === 'electrical');
+		const electricalShapeIds = electricalCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(electricalShapeIds).toContain('battery');
+		expect(electricalShapeIds).toContain('fuse');
+		expect(electricalShapeIds).toContain('lamp');
+		expect(electricalShapeIds).toContain('switchSpst');
+		expect(electricalShapeIds).toContain('switchSpdt');
+	});
+
+	it('should include the full HVAC renderer-backed starter set', () => {
+		const categories = getShapeCategoryByProfile(ProfileName.hvac);
+		const shapeIds = categories.flatMap((category) => category.shapes.map((shape) => shape.id));
+
+		expect(shapeIds).toContain('hvac-fan-return');
+		expect(shapeIds).toContain('hvac-fan-exhaust');
+		expect(shapeIds).toContain('hvac-filter');
+		expect(shapeIds).toContain('hvac-heating-coil');
+		expect(shapeIds).toContain('hvac-humidifier');
+		expect(shapeIds).toContain('hvac-dehumidifier');
+		expect(shapeIds).toContain('hvac-diffuser-return');
+		expect(shapeIds).toContain('hvac-damper-motorized');
+		expect(shapeIds).toContain('hvac-damper-manual');
+		expect(shapeIds).toContain('hvac-damper-fire');
+		expect(shapeIds).toContain('hvac-temp-sensor');
+		expect(shapeIds).toContain('hvac-pressure-sensor');
+		expect(shapeIds).toContain('hvac-chiller');
+		expect(shapeIds).toContain('hvac-boiler');
+		expect(shapeIds).toContain('hvac-cooling-tower');
+		expect(shapeIds).toContain('hvac-pump');
+		expect(shapeIds).toContain('hvac-heat-exchanger');
 	});
 
 	it('should include railroad snippets in railroad profile', () => {

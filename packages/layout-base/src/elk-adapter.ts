@@ -12,6 +12,7 @@ import type {
 import {
   ArrowType,
   createTextMeasurer,
+  getOrderedContainerContentItems,
   LayoutAlgorithm,
   LayoutDefaults,
   Orientation,
@@ -1720,7 +1721,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : this.getDefaultContainerPadding(container);
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
       const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
       const innerWidth = Math.max(
@@ -1900,19 +1901,14 @@ export class ElkLayoutEngine implements LayoutEngine {
       );
       const containerSpacing =
         container.layoutOptions?.spacing?.toString() ??
-        LayoutDefaults.NODE_SPACING.toString();
+        this.getContainerSpacing(
+          container,
+          LayoutDefaults.NODE_SPACING
+        ).toString();
 
       // Determine layout direction based on container options or shape
       // Priority: container.layoutOptions.direction > container.shape override > default
-      let direction = 'DOWN'; // Default: vertical
-
-      if (container.layoutOptions?.direction) {
-        // Use explicit direction if specified
-        direction = this.mapDirectionToElk(container.layoutOptions.direction);
-      } else if (container.shape === 'bpmnPool') {
-        // BPMN pools default to horizontal flow
-        direction = 'RIGHT';
-      }
+      const direction = this.getContainerDirection(container, 'DOWN');
 
       // For radial/mindmap layouts, use straight lines instead of orthogonal routing
       const isRadialLayout =
@@ -2050,7 +2046,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : LayoutDefaults.CONTAINER_PADDING;
+          : this.getDefaultContainerPadding(container);
       const hasHeader = Boolean(container.label || container.header);
       const labelOffset = hasHeader ? 24 : 0;
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
@@ -2122,10 +2118,64 @@ export class ElkLayoutEngine implements LayoutEngine {
     direction: string
   ): Promise<void> {
     for (const container of containers) {
+      if (this.isFileTreeContainer(container)) {
+        if (container.containers && container.containers.length > 0) {
+          await this.calculateContainerSizesRecursively(
+            container.containers,
+            diagram,
+            measureText,
+            containerPlaceholders,
+            spacing,
+            direction
+          );
+        }
+
+        const padding = this.getFileTreePadding(container);
+        const treeIndent = this.getFileTreeIndent(container);
+        const itemGap = this.getFileTreeGap(container);
+        const rowWidth = Math.max(
+          measureText(container.label || container.id || '', {}).width + 76,
+          108
+        );
+        const rowHeight = 26;
+        const items = this.getOrderedFileTreeItems(
+          container,
+          diagram,
+          measureText,
+          containerPlaceholders
+        );
+
+        let contentWidth = 180;
+        let contentHeight = 0;
+
+        for (const item of items) {
+          contentWidth = Math.max(contentWidth, treeIndent + item.width);
+          contentHeight += item.height;
+        }
+
+        if (items.length > 1) {
+          contentHeight += itemGap * (items.length - 1);
+        }
+
+        if (container.shape === 'folder' && (container.collapsed || items.length === 0)) {
+          containerPlaceholders.set(container.id!, {
+            width: rowWidth,
+            height: rowHeight,
+          });
+          continue;
+        }
+
+        containerPlaceholders.set(container.id!, {
+          width: Math.max(rowWidth, padding.left + contentWidth + padding.right),
+          height: Math.max(46, padding.top + contentHeight + padding.bottom),
+        });
+        continue;
+      }
+
       const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : LayoutDefaults.CONTAINER_PADDING;
+          : this.getDefaultContainerPadding(container);
       const hasHeader = Boolean(container.label || container.header);
       const labelOffset = hasHeader ? 24 : 0;
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
@@ -2154,26 +2204,21 @@ export class ElkLayoutEngine implements LayoutEngine {
       const algorithm = this.mapAlgorithmToElk(
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
+      const containerSpacing = this.getContainerSpacing(container, spacing);
 
       // Determine container direction: explicit option > shape override > parent direction
-      let containerDirection = direction;
-      if (container.layoutOptions?.direction) {
-        containerDirection = this.mapDirectionToElk(
-          container.layoutOptions.direction
-        );
-      } else if (container.shape === 'bpmnPool') {
-        containerDirection = 'RIGHT';
-      } else if (container.shape === 'bpmnLane') {
-        containerDirection = 'RIGHT';
-      }
+      const containerDirection = this.getContainerDirection(
+        container,
+        direction
+      );
 
       const containerGraph: ElkNode = {
         id: `container_${container.id}`,
         layoutOptions: {
           'elk.algorithm': algorithm,
           'elk.direction': containerDirection,
-          'elk.spacing.nodeNode': spacing.toString(),
-          'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+          'elk.spacing.nodeNode': containerSpacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers': containerSpacing.toString(),
           // Force pure orthogonal routing
           'elk.edgeRouting': 'ORTHOGONAL',
           'elk.layered.unnecessaryBendpoints': 'true',
@@ -2271,7 +2316,8 @@ export class ElkLayoutEngine implements LayoutEngine {
             : this.arrangeSiblingContainers(
                 container.containers,
                 spacing,
-                containerPlaceholders
+                containerPlaceholders,
+                containerDirection
               );
 
         // Adjust Y positions to start after direct children
@@ -2337,6 +2383,77 @@ export class ElkLayoutEngine implements LayoutEngine {
   ): Promise<void> {
     // layout containers and contents
     for (const container of containers) {
+      if (this.isFileTreeContainer(container)) {
+        const padding = this.getFileTreePadding(container);
+        const containerPos = containerPositions.get(container.id!) || {
+          x: 0,
+          y: 0,
+        };
+        const placeholder = containerPlaceholders.get(container.id!);
+        const containerWidth = placeholder?.width || 240;
+        const containerHeight = placeholder?.height || 120;
+        const itemGap = this.getFileTreeGap(container);
+        const treeIndent = this.getFileTreeIndent(container);
+        const orderedItems = this.getOrderedFileTreeItems(
+          container,
+          diagram,
+          measureText,
+          containerPlaceholders
+        );
+        const nestedPositions = new Map<string, { x: number; y: number }>();
+
+        let currentY = containerPos.y + padding.top;
+        const contentX = containerPos.x + padding.left + treeIndent;
+
+        for (const item of orderedItems) {
+          if (item.kind === 'node') {
+            nodes.push({
+              id: item.id,
+              x: contentX,
+              y: currentY,
+              width: item.width,
+              height: item.height,
+            });
+          } else {
+            nestedPositions.set(item.id, {
+              x: contentX,
+              y: currentY,
+            });
+          }
+
+          currentY += item.height + itemGap;
+        }
+
+        const nestedContainers: PositionedContainer[] = [];
+        if (!container.collapsed && container.containers && container.containers.length > 0) {
+          await this.layoutContainersWithNodes(
+            container.containers,
+            diagram,
+            measureText,
+            nodeContainerMap,
+            nestedPositions,
+            containerPlaceholders,
+            spacing,
+            direction,
+            nodes,
+            edges,
+            nestedContainers,
+            hasSwimlanes
+          );
+        }
+
+        result.push({
+          id: container.id || '',
+          x: containerPos.x,
+          y: containerPos.y,
+          width: containerWidth,
+          height: containerHeight,
+          label: container.label,
+          containers: nestedContainers.length > 0 ? nestedContainers : undefined,
+        });
+        continue;
+      }
+
       // process one container
       const basePadding =
         container.containerStyle?.padding !== undefined
@@ -2364,26 +2481,21 @@ export class ElkLayoutEngine implements LayoutEngine {
       const algorithm = this.mapAlgorithmToElk(
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
+      const containerSpacing = this.getContainerSpacing(container, spacing);
 
       // Determine container direction: explicit option > shape override > parent direction
-      let containerDirection = direction; // Default: use diagram direction
-      if (container.layoutOptions?.direction) {
-        containerDirection = this.mapDirectionToElk(
-          container.layoutOptions.direction
-        );
-      } else if (container.shape === 'bpmnPool') {
-        containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
-      } else if (container.shape === 'bpmnLane') {
-        containerDirection = 'RIGHT'; // Horizontal flow for BPMN lanes
-      }
+      const containerDirection = this.getContainerDirection(
+        container,
+        direction
+      );
 
       const containerGraph: ElkNode = {
         id: `container_${container.id}`,
         layoutOptions: {
           'elk.algorithm': algorithm,
           'elk.direction': containerDirection, // Use container-specific direction
-          'elk.spacing.nodeNode': spacing.toString(),
-          'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+          'elk.spacing.nodeNode': containerSpacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers': containerSpacing.toString(),
           // Force pure orthogonal (right-angle) routing - no diagonals
           'elk.edgeRouting': 'ORTHOGONAL',
           // Orthogonal edge routing specific options
@@ -2525,7 +2637,8 @@ export class ElkLayoutEngine implements LayoutEngine {
             : this.arrangeSiblingContainers(
                 container.containers,
                 spacing,
-                containerPlaceholders
+                containerPlaceholders,
+                containerDirection
               );
 
         // Adjust positions to start after direct children
@@ -2618,6 +2731,135 @@ export class ElkLayoutEngine implements LayoutEngine {
         nodeContainerMap
       );
     }
+  }
+
+  private isFileTreeContainer(container: ContainerDeclaration): boolean {
+    return container.shape === 'fileTree' || container.shape === 'folder';
+  }
+
+  private getContainerDirection(
+    container: ContainerDeclaration,
+    fallbackDirection: string
+  ): string {
+    if (container.layoutOptions?.direction) {
+      return this.mapDirectionToElk(container.layoutOptions.direction);
+    }
+
+    switch (container.shape) {
+      case 'wbs':
+      case 'bpmnPool':
+      case 'bpmnLane':
+        return 'RIGHT';
+      case 'wbsDeliverable':
+      case 'requirementPackage':
+        return 'DOWN';
+      default:
+        return fallbackDirection;
+    }
+  }
+
+  private getDefaultContainerPadding(container: ContainerDeclaration): number {
+    switch (container.shape) {
+      case 'wbs':
+        return 12;
+      case 'wbsDeliverable':
+        return 8;
+      case 'requirementPackage':
+        return 18;
+      default:
+        return LayoutDefaults.CONTAINER_PADDING;
+    }
+  }
+
+  private getContainerSpacing(
+    container: ContainerDeclaration,
+    spacing: number
+  ): number {
+    switch (container.shape) {
+      case 'wbs':
+        return Math.max(36, Math.round(spacing * 0.45));
+      case 'wbsDeliverable':
+        return Math.max(20, Math.round(spacing * 0.28));
+      case 'requirementPackage':
+        return Math.max(26, Math.round(spacing * 0.32));
+      default:
+        return spacing;
+    }
+  }
+
+  private getFileTreeIndent(container: ContainerDeclaration): number {
+    return container.shape === 'fileTree' ? 28 : 24;
+  }
+
+  private getFileTreeGap(container: ContainerDeclaration): number {
+    return container.shape === 'fileTree' ? 4 : 3;
+  }
+
+  private getFileTreePadding(container: ContainerDeclaration): {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  } {
+    const explicitPadding = container.containerStyle?.padding;
+    const isRoot = container.shape === 'fileTree';
+
+    const fallbackLeft = explicitPadding ?? (isRoot ? 10 : 4);
+    const fallbackRight = explicitPadding ?? (isRoot ? 10 : 4);
+    const fallbackTop = explicitPadding ?? (isRoot ? 36 : 26);
+    const fallbackBottom = explicitPadding ?? (isRoot ? 10 : 2);
+
+    return {
+      left: container.containerStyle?.paddingLeft ?? fallbackLeft,
+      right: container.containerStyle?.paddingRight ?? fallbackRight,
+      top: container.containerStyle?.paddingTop ?? fallbackTop,
+      bottom: container.containerStyle?.paddingBottom ?? fallbackBottom,
+    };
+  }
+
+  private getOrderedFileTreeItems(
+    container: ContainerDeclaration,
+    diagram: DiagramAst,
+    measureText: ReturnType<typeof createTextMeasurer>,
+    containerPlaceholders: Map<string, { width: number; height: number }>
+  ): Array<{ kind: 'node' | 'container'; id: string; width: number; height: number }> {
+    if (container.collapsed) {
+      return [];
+    }
+
+    const ordered = getOrderedContainerContentItems(container);
+
+    return ordered
+      .map((item) => {
+        if (item.kind === 'node') {
+          const node = diagram.nodes.find((candidate) => candidate.id === item.id);
+          if (!node) return null;
+          const shapeImpl = shapeRegistry.get(node.shape);
+          if (!shapeImpl) return null;
+          const style = node.style ? diagram.styles?.[node.style] || {} : {};
+          const bounds = shapeImpl.bounds({ node, style, measureText });
+          return { kind: 'node' as const, id: item.id, width: bounds.width, height: bounds.height };
+        }
+
+        const nestedSize = containerPlaceholders.get(item.id);
+        if (!nestedSize) return null;
+        return {
+          kind: 'container' as const,
+          id: item.id,
+          width: nestedSize.width,
+          height: nestedSize.height,
+        };
+      })
+      .filter(
+        (
+          item
+        ): item is {
+          kind: 'node' | 'container';
+          id: string;
+          width: number;
+          height: number;
+        } => item !== null
+      );
   }
 
   /**

@@ -10,7 +10,7 @@ Create professional flowcharts using ISO 5807 standard symbols with Runiq's diag
 
 ## Overview
 
-Flowcharts visualize processes, algorithms, and workflows using standardized symbols. Runiq provides 14+ specialized flowchart shapes including documents, manual input, delays, displays, and more.
+Flowcharts visualize processes, algorithms, and workflows using standardized symbols. Runiq provides 20+ specialized flowchart shapes including documents, connectors, manual operations, delays, displays, and more.
 
 ## Key Shapes
 
@@ -23,9 +23,12 @@ Flowcharts use a combination of basic shapes and specialized flowchart symbols:
 - **Input/Output**: `@parallelogram`, `@manualInput`
 - **Display**: `@display`
 - **Delay**: `@delay`
+- **On-Page Connector**: `@onPageConnector`
 - **Off-Page Connector**: `@offPageConnector`
+- **Manual Operation**: `@manualOperation`
+- **Sort / Merge / Extract / Collate**: `@sort`, `@merge`, `@extract`, `@collate`
 
-See the [Shape Reference - Flowchart Shapes](/reference/shapes#_2-flowchart-shapes-14-shapes) for the complete list.
+See the [Shape Reference - Flowchart Shapes](/reference/shapes#_2-flowchart-shapes-20-shapes) for the complete list.
 
 ## Basic Flowchart
 
@@ -166,7 +169,7 @@ diagram "Styled Flowchart" {
 | **Version Control Friendly** | ✅                | ✅            | ✅           | ⚠️ Limited      | ⚠️ Limited    | ❌                 |
 | **Automatic Layout**         | ✅ ELK            | ✅ Dagre, ELK | ✅ GraphViz  | ✅+Auto         | ✅+Auto       | ✅+Auto            |
 | **ISO 5807 Compliance**      | ✅                | ⚠️ Basic      | ⚠️ Basic     | ✅              | ✅            | ✅                 |
-| **14+ Flowchart Shapes**     | ✅                | ✅            | ⚠️ 8 shapes  | ✅ 20+          | ✅ 20+        | ✅ 30+             |
+| **20+ Flowchart Shapes**     | ✅                | ✅            | ⚠️ 8 shapes  | ✅ 20+          | ✅ 20+        | ✅ 30+             |
 | **Custom Styling**           | ✅                | ✅            | ⚠️ Limited   | ✅              | ✅            | ✅                 |
 | **Edge Labels**              | ✅                | ✅            | ✅           | ✅              | ✅            | ✅                 |
 | **Conditional Branching**    | ✅                | ✅            | ✅           | ✅              | ✅            | ✅                 |
@@ -177,14 +180,20 @@ diagram "Styled Flowchart" {
 | **Real-Time Collaboration**  | ⚠️ Via Git        | ⚠️ Via tools  | ⚠️ Via tools | ✅              | ✅            | ⚠️ SharePoint only |
 | **Open Source**              | ✅ MIT License    | ✅ MIT        | ✅ GPL       | ❌              | ✅ Apache 2.0 | ❌                 |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **Unified language** for flowcharts, sequence, class, BPMN, and 15+ diagram types
 - **ISO 5807 compliance** with all standard flowchart symbols
-- **Advanced shapes** like `@multiDocument`, `@display`, `@delay`, `@offPageConnector`
+- **Advanced shapes** like `@multiDocument`, `@display`, `@delay`, `@onPageConnector`, `@manualOperation`, and `@offPageConnector`
 - **ELK layout engine** for superior hierarchical layouts
 - **Version control native** - perfect for CI/CD pipelines
 - **Profile system** for diagram-specific conventions (flowchart, bpmn, sequence, etc.)
+
+**When to Use Alternatives:**
+
+- **Lucidchart/Draw.io**: Real-time workshop collaboration with non-technical teams
+- **Visio**: Organizations already standardized on Microsoft diagramming workflows
+- **PlantUML/Mermaid**: Simpler flowcharting when teams are already committed to those DSLs
 
 ## Examples
 
@@ -197,7 +206,7 @@ See the [examples/flowcharts](../examples/flowcharts) directory for more complet
 
 ## Related
 
-- [Shape Reference - Flowchart Shapes](/reference/shapes#_2-flowchart-shapes-14-shapes)
+- [Shape Reference - Flowchart Shapes](/reference/shapes#_2-flowchart-shapes-20-shapes)
 - [Shape Reference - Basic Shapes](/reference/shapes#_1-basic-shapes-19-shapes)
 - [Edges & Connections](/guide/edges)
 - [Styling](/guide/styling)

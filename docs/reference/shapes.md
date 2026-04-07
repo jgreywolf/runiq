@@ -1,6 +1,6 @@
 # Shape Reference
 
-Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (224 shapes).
+Runiq provides a broad shape library across profiles. This reference focuses on the diagram profile shape catalog (277 shapes).
 
 ## Quick Reference
 
@@ -22,7 +22,7 @@ Runiq provides a broad shape library across profiles. This reference focuses on 
 | Octagon           | `@octagon`  | Stop, halt                       |
 | Star              | `@star`     | Special events                   |
 
-[See all 224 diagram profile shapes below ->](#all-shapes)
+[See all 277 diagram profile shapes below ->](#all-shapes)
 
 ## Shape Categories by Profile
 
@@ -73,7 +73,7 @@ diagram "Basic Shapes" {
 }
 ```
 
-### 2. Flowchart Shapes (14 shapes)
+### 2. Flowchart Shapes (20 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -88,10 +88,16 @@ Specialized flowchart symbols following ISO 5807 standard:
 | Predefined Process | `@predefinedProcess` | Subprocess box                 |
 | Preparation Alt    | `@preparationAlt`    | Alternative preparation        |
 | Manual Input       | `@manualInput`       | Keyboard/manual entry          |
+| Manual Operation   | `@manualOperation`   | Manual operation step          |
 | Decision Manual    | `@decisionManual`    | Manual decision diamond        |
 | Delay              | `@delay`             | Time delay symbol              |
 | Display            | `@display`           | Screen/monitor output          |
+| On-Page Connector  | `@onPageConnector`   | Continuation on same page      |
 | Off-Page Connector | `@offPageConnector`  | Continuation to another page   |
+| Merge              | `@merge`             | Merge multiple paths           |
+| Sort               | `@sort`              | Sort or classify data          |
+| Collate            | `@collate`           | Collate grouped outputs        |
+| Extract            | `@extract`           | Extract or isolate output      |
 | Card               | `@card`              | Punch card (legacy)            |
 | Paper Tape         | `@paperTape`         | Paper tape (legacy)            |
 | Lean Left          | `@leanLeft`          | Lean left parallelogram        |
@@ -314,7 +320,59 @@ diagram "Decorative Shapes" {
 }
 ```
 
-### 8. Chart Shapes (7 shapes)
+### 8. Architecture Shapes (4 shapes)
+
+**Profile:** `diagram` (default)
+
+Layered and block-oriented shapes for architecture diagrams:
+
+| Shape                 | Syntax                  | Description                         |
+| --------------------- | ----------------------- | ----------------------------------- |
+| Architecture Layer    | `@architectureLayer`    | Layered container with top label divider |
+| Subsystem Block       | `@subsystemBlock`       | Subsystem or service block          |
+| Platform Block        | `@platformBlock`        | Platform/service block              |
+| External System Block | `@externalSystemBlock`  | External system or hardware block   |
+
+**Example:**
+
+```runiq
+diagram "Architecture" {
+  container app "Application Layer" as @architectureLayer {
+    shape api as @subsystemBlock label:"API"
+  }
+
+  shape hardware as @externalSystemBlock label:"Hardware"
+  api -> hardware lineStyle:"block"
+}
+```
+
+### 9. File Tree Shapes (3 shapes)
+
+**Profile:** `diagram` (default)
+
+Tree-oriented shapes for repository layouts and nested file hierarchies:
+
+| Shape          | Syntax       | Description                       |
+| -------------- | ------------ | --------------------------------- |
+| File Tree Root | `@fileTree`  | Root container for a file tree    |
+| Folder         | `@folder`    | Folder container or folder leaf   |
+| File           | `@file`      | File/document leaf                |
+
+**Example:**
+
+```runiq
+diagram "Repository Layout" {
+  container repo "runiq" as @fileTree {
+    container apps "apps" as @folder {
+      shape editor as @folder label:"editor"
+    }
+
+    shape readme as @file label:"README.md"
+  }
+}
+```
+
+### 10. Chart Shapes (9 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -323,8 +381,10 @@ Data visualization and chart components:
 | Shape                | Syntax                | Description               |
 | -------------------- | --------------------- | ------------------------- |
 | Pie Chart            | `@pieChart`           | Circular pie chart        |
+| Ring Chart           | `@ringChart`          | Donut/ring chart          |
 | Bar Chart Vertical   | `@barChartVertical`   | Vertical bar chart        |
 | Bar Chart Horizontal | `@barChartHorizontal` | Horizontal bar chart      |
+| Scatter Chart        | `@scatterChart`       | XY scatter plot           |
 | Pyramid              | `@pyramid`            | Pyramid/hierarchy chart   |
 | Venn 2               | `@venn2`              | Two-circle Venn diagram   |
 | Venn 3               | `@venn3`              | Three-circle Venn diagram |
@@ -339,7 +399,7 @@ diagram "Data Visualization" {
 }
 ```
 
-### 9. Network Shapes (7 shapes)
+### 11. Network Shapes (11 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -352,6 +412,10 @@ Network topology and infrastructure components:
 | Switch        | `@switch`       | Network switch         |
 | Firewall      | `@firewall`     | Firewall device        |
 | Load Balancer | `@loadBalancer` | Load balancer          |
+| Workstation   | `@workstation`  | End-user workstation   |
+| Access Point  | `@accessPoint`  | Wireless access point  |
+| VPN Gateway   | `@vpnGateway`   | VPN concentrator/gateway |
+| Modem         | `@modem`        | ISP modem or edge handoff |
 | Cloud         | `@cloud`        | Cloud service          |
 | Storage       | `@storage`      | Network storage device |
 
@@ -366,7 +430,7 @@ diagram "Network Topology" {
 }
 ```
 
-### 10. Quantum Circuit Shapes (12 shapes)
+### 12. Quantum Circuit Shapes (12 shapes)
 
 **Profile:** `diagram` (default, but designed for quantum circuits)
 
@@ -404,7 +468,7 @@ diagram "Bell State" {
 See the [Quantum Circuits Guide](../guide/quantum-circuits.md) for comprehensive documentation on quantum computing diagrams.
 :::
 
-### 11. UML Shapes (52 shapes)
+### 13. UML Shapes (52 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -445,18 +509,23 @@ diagram "Use Case Diagram" {
 }
 ```
 
-### 13. C4 Architecture Shapes (4 shapes)
+### 14. C4 Architecture Shapes (9 shapes)
 
 **Profile:** `diagram` (default)
 
 C4 model shapes for software architecture diagrams:
 
-| Shape        | Syntax         | Description                   |
-| ------------ | -------------- | ----------------------------- |
-| C4 Person    | `@c4Person`    | External person/user          |
-| C4 System    | `@c4System`    | Software system               |
-| C4 Container | `@c4Container` | Application/service container |
-| C4 Component | `@c4Component` | Component within container    |
+| Shape                 | Syntax                 | Description                        |
+| --------------------- | ---------------------- | ---------------------------------- |
+| C4 Person             | `@c4Person`            | Internal person/user               |
+| C4 External Person    | `@c4ExternalPerson`    | External actor                     |
+| C4 System             | `@c4System`            | Internal software system           |
+| C4 External System    | `@c4ExternalSystem`    | External system dependency         |
+| C4 Container          | `@c4Container`         | Application/service container      |
+| C4 Container Instance | `@c4ContainerInstance` | Runtime/deployed container         |
+| C4 Component          | `@c4Component`         | Component within container         |
+| C4 System Instance    | `@c4SystemInstance`    | Runtime/deployed system            |
+| C4 Deployment Node    | `@c4DeploymentNode`    | Infrastructure/runtime environment |
 
 **Example:**
 
@@ -471,7 +540,7 @@ diagram "C4 System Context" {
 }
 ```
 
-### 14. BPMN Shapes (7 shapes)
+### 15. BPMN Shapes (20 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -480,12 +549,25 @@ Business Process Model and Notation (BPMN) 2.0 elements:
 | Shape            | Syntax            | Description                  |
 | ---------------- | ----------------- | ---------------------------- |
 | BPMN Task        | `@bpmnTask`       | Process task/activity        |
+| BPMN SubProcess  | `@bpmnSubProcess` | Collapsed subprocess/activity |
+| BPMN Choreography Task | `@bpmnChoreographyTask` | Choreography interaction task |
 | BPMN Event       | `@bpmnEvent`      | Start/end/intermediate event |
+| BPMN Boundary Event | `@bpmnBoundaryEvent` | Interrupting or non-interrupting boundary event |
 | BPMN Gateway     | `@bpmnGateway`    | Decision/merge gateway       |
 | BPMN Data Object | `@bpmnDataObject` | Data object/artifact         |
+| BPMN Data Store  | `@bpmnDataStore`  | Persistent business data     |
+| BPMN Data Input  | `@bpmnDataInput`  | Input artifact               |
+| BPMN Data Output | `@bpmnDataOutput` | Output artifact              |
 | BPMN Message     | `@bpmnMessage`    | Message/communication        |
 | BPMN Pool        | `@bpmnPool`       | Process pool/participant     |
 | BPMN Lane        | `@bpmnLane`       | Pool subdivision/lane        |
+| BPMN Transaction | `@transaction`    | Transaction activity         |
+| BPMN Event SubProcess | `@eventSubProcess` | Event-triggered subprocess |
+| BPMN Call Activity | `@callActivity` | Reusable called process      |
+| BPMN Start Non-Interrupting | `@startNonInterfering` | Dashed start event |
+| BPMN Intermediate Non-Interrupting | `@intermediateNonInterfering` | Dashed intermediate event |
+| BPMN Conversation | `@conversation`  | Conversation node            |
+| BPMN Annotation   | `@annotation`    | Text annotation artifact     |
 
 **Example:**
 
@@ -500,7 +582,7 @@ diagram "Order Process" {
 }
 ```
 
-### 15. AWS Shapes (6 shapes)
+### 16. AWS Shapes (10 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -514,6 +596,10 @@ Amazon Web Services infrastructure icons:
 | AWS RDS         | `@awsRds`        | RDS database          |
 | AWS VPC         | `@awsVpc`        | Virtual Private Cloud |
 | AWS API Gateway | `@awsApiGateway` | API Gateway           |
+| AWS CloudFront  | `@awsCloudFront` | Content delivery network |
+| AWS DynamoDB    | `@awsDynamoDb`   | NoSQL database        |
+| AWS SQS         | `@awsSqs`        | Queue service         |
+| AWS Cognito     | `@awsCognito`    | Authentication service |
 
 **Example:**
 
@@ -529,7 +615,43 @@ diagram "AWS Architecture" {
 }
 ```
 
-### 16. ERD Shapes (6 shapes)
+### 17. Azure Shapes (12 shapes)
+
+**Profile:** `diagram` (default)
+
+Microsoft Azure infrastructure icons:
+
+| Shape                 | Syntax                 | Description                   |
+| --------------------- | ---------------------- | ----------------------------- |
+| Azure Virtual Machine | `@azureVm`             | Azure compute workload        |
+| Azure Blob Storage    | `@azureBlobStorage`    | Object storage                |
+| Azure Functions       | `@azureFunctions`      | Serverless function           |
+| Azure SQL Database    | `@azureSqlDatabase`    | Managed SQL database          |
+| Azure Virtual Network | `@azureVirtualNetwork` | Virtual network boundary      |
+| Azure Resource Group  | `@azureResourceGroup`  | Resource grouping boundary    |
+| Azure Subscription    | `@azureSubscription`   | Subscription-level boundary   |
+| Azure API Management  | `@azureApiManagement`  | API facade and gateway        |
+| Azure CDN             | `@azureCdn`            | Content delivery network      |
+| Azure Cosmos DB       | `@azureCosmosDb`       | NoSQL database                |
+| Azure Service Bus     | `@azureServiceBus`     | Queue and messaging service   |
+| Azure Entra ID        | `@azureEntraId`        | Identity and authentication   |
+
+**Example:**
+
+```runiq
+diagram "Azure Architecture" {
+  shape vm as @azureVm label: "Web VM"
+  shape api as @azureApiManagement label: "Public API"
+  shape db as @azureSqlDatabase label: "Application DB"
+  shape identity as @azureEntraId label: "Entra ID"
+
+  vm -> api
+  api -> db
+  api -> identity
+}
+```
+
+### 18. ERD Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -558,7 +680,7 @@ diagram "Database Schema" {
 }
 ```
 
-### 17. Data Flow Diagram Shapes (6 shapes)
+### 19. Data Flow Diagram Shapes (6 shapes)
 
 **Profile:** `diagram` (default)
 
@@ -586,7 +708,7 @@ diagram "Order Processing DFD" {
 }
 ```
 
-### 18. Electrical & Digital Shapes
+### 19. Electrical & Digital Shapes
 
 **Profiles:** `electrical`, `digital`, `pneumatic`, `hydraulic`
 
@@ -604,24 +726,27 @@ Complete listing organized by category:
 | Category           | Count | Common Uses                                    |
 | ------------------ | ----- | ---------------------------------------------- |
 | Basic Shapes       | 22    | General-purpose geometric shapes               |
-| Flowchart          | 14    | Process flows, ISO 5807 standard               |
+| Flowchart          | 20    | Process flows, ISO 5807 standard               |
 | Storage            | 7     | Databases, data persistence                    |
 | Rectangle Variants | 7     | Emphasis, organization, styling                |
 | Control Systems (legacy) | 10 | Control system block diagrams |
 | Kinematic          | 25    | Joints, links, and actuators                   |
-| Special            | 32    | Decorative accents, badges, and symbols        |
-| Charts             | 7     | Data visualization (pie, bar, Venn)            |
-| Network            | 7     | Infrastructure, topology diagrams              |
+| Special            | 36    | Decorative accents, badges, and symbols        |
+| Architecture       | 4     | Layered block and subsystem diagrams           |
+| File Tree          | 3     | Repository and nested file hierarchies         |
+| Charts             | 9     | Data visualization (pie, ring, bar, scatter, Venn) |
+| Network            | 11    | Infrastructure, topology diagrams              |
 | Quantum            | 12    | Quantum computing circuits                     |
 | UML                | 52    | Software modeling, class/sequence diagrams     |
-| C4 Architecture    | 4     | Software architecture (C4 model)               |
-| BPMN               | 7     | Business process modeling                      |
-| AWS                | 6     | Amazon Web Services infrastructure             |
+| C4 Architecture    | 9     | Software architecture (C4 model)               |
+| BPMN               | 20    | Business process modeling                      |
+| AWS                | 10    | Amazon Web Services infrastructure             |
+| Azure              | 12    | Microsoft Azure infrastructure                 |
 | ERD                | 6     | Database entity-relationship diagrams          |
 | Data Flow          | 6     | DFD process/data flows (Gane-Sarson)           |
 | Electrical/Digital (schematic) | 36    | Circuits (resistors, gates, transistors, etc.) |
 
-**Total: 220+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
+**Total: 277+ diagram profile shapes** (excluding electrical/digital circuit components; see README for full cross-profile count)
 
 ## Shape Properties
 

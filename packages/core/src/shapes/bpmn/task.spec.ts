@@ -66,6 +66,52 @@ describe('BPMN Task', () => {
     expect(svg).toContain('User Task');
   });
 
+  it('should render service task marker', () => {
+    const ctx = createMockContext('Service Task', { taskType: 'service' });
+    const svg = bpmnTaskShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<circle');
+  });
+
+  it('should render manual task marker', () => {
+    const ctx = createMockContext('Manual Task', { taskType: 'manual' });
+    const svg = bpmnTaskShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<path');
+  });
+
+  it('should render script task marker', () => {
+    const ctx = createMockContext('Script Task', { taskType: 'script' });
+    const svg = bpmnTaskShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<rect');
+    expect(svg).toContain('<line');
+  });
+
+  it('should render receive task marker', () => {
+    const ctx = createMockContext('Receive Task', { taskType: 'receive' });
+    const svg = bpmnTaskShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<rect');
+    expect(svg).toContain('<path');
+  });
+
+  it('should render send task marker', () => {
+    const ctx = createMockContext('Send Task', { taskType: 'send' });
+    const svg = bpmnTaskShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<rect');
+    expect(svg).toContain('<path');
+  });
+
+  it('should render business rule task marker', () => {
+    const ctx = createMockContext('Business Rule Task', { taskType: 'businessRule' });
+    const svg = bpmnTaskShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<rect');
+    expect(svg).toContain('<line');
+  });
+
   it('should handle empty labels', () => {
     const ctx = createMockContext('');
     const bounds = bpmnTaskShape.bounds(ctx);

@@ -88,6 +88,8 @@
 								<Tooltip.Root>
 									<Tooltip.Trigger
 										onclick={() => handleShapeClick(shape.code)}
+										aria-label={shape.label}
+										title={shape.label}
 										class="flex flex-col items-center gap-1 rounded border border-neutral-200 p-2 hover:border-runiq-500 hover:bg-runiq-50 active:scale-95">
 										<ShapeIcon shapeId={shape.id} size={24} profileName={editorState.profileName} />
 									</Tooltip.Trigger>

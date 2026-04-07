@@ -154,6 +154,7 @@ export type RuniqKeywordNames =
     | "callout"
     | "callouts"
     | "card"
+    | "cardinality:"
     | "carrier:"
     | "cascade"
     | "center"
@@ -305,6 +306,7 @@ export type RuniqKeywordNames =
     | "exhaust-fan"
     | "exit:"
     | "exitPoint"
+    | "expanded:"
     | "expanding"
     | "extends:"
     | "extensionPoints:"
@@ -312,6 +314,7 @@ export type RuniqKeywordNames =
     | "false"
     | "families"
     | "fan"
+    | "faultTree"
     | "fbd"
     | "feedforward"
     | "female"
@@ -363,6 +366,7 @@ export type RuniqKeywordNames =
     | "gal/min"
     | "gap"
     | "gap:"
+    | "gate"
     | "gates:"
     | "gatewayType:"
     | "generalization"
@@ -410,6 +414,7 @@ export type RuniqKeywordNames =
     | "indent"
     | "inertia:"
     | "initialState"
+    | "innerRadius:"
     | "input"
     | "inputPins:"
     | "inst"
@@ -466,6 +471,7 @@ export type RuniqKeywordNames =
     | "links"
     | "local"
     | "location:"
+    | "lollipop"
     | "loop"
     | "loop:"
     | "lost"
@@ -603,6 +609,7 @@ export type RuniqKeywordNames =
     | "pressureTransmitter"
     | "priority:"
     | "private"
+    | "probability:"
     | "process"
     | "professional"
     | "protected"
@@ -681,6 +688,7 @@ export type RuniqKeywordNames =
     | "showLegend:"
     | "showMetrics:"
     | "showPercentages"
+    | "showPointLabels:"
     | "showValues"
     | "showValues:"
     | "side"
@@ -688,6 +696,7 @@ export type RuniqKeywordNames =
     | "signal"
     | "size:"
     | "slice-dice"
+    | "socket"
     | "solid"
     | "source"
     | "source:"
@@ -773,6 +782,7 @@ export type RuniqKeywordNames =
     | "top"
     | "top-left"
     | "top-right"
+    | "topEvent"
     | "topSide"
     | "tran"
     | "treemap"
@@ -780,6 +790,8 @@ export type RuniqKeywordNames =
     | "turbineSteam"
     | "type"
     | "type:"
+    | "under:"
+    | "undevelopedEvent"
     | "unit:"
     | "units"
     | "unknown"
@@ -906,6 +918,21 @@ export function isArrowTypeValue(item: unknown): item is ArrowTypeValue {
     return item === 'standard' || item === 'hollow' || item === 'open' || item === 'none';
 }
 
+export interface AttrCardinalityField extends langium.AstNode {
+    readonly $container: AttributeDecl;
+    readonly $type: 'AttrCardinalityField';
+    value: string;
+}
+
+export const AttrCardinalityField = {
+    $type: 'AttrCardinalityField',
+    value: 'value'
+} as const;
+
+export function isAttrCardinalityField(item: unknown): item is AttrCardinalityField {
+    return reflection.isInstance(item, AttrCardinalityField.$type);
+}
+
 export interface AttrConstraintsField extends langium.AstNode {
     readonly $container: AttributeDecl;
     readonly $type: 'AttrConstraintsField';
@@ -966,7 +993,7 @@ export function isAttributeDecl(item: unknown): item is AttributeDecl {
     return reflection.isInstance(item, AttributeDecl.$type);
 }
 
-export type AttributeField = AttrConstraintsField | AttrDefaultField | AttrDerivedField | AttrNameField | AttrStaticField | AttrTypeField | AttrVisibilityField;
+export type AttributeField = AttrCardinalityField | AttrConstraintsField | AttrDefaultField | AttrDerivedField | AttrNameField | AttrStaticField | AttrTypeField | AttrVisibilityField;
 
 export const AttributeField = {
     $type: 'AttributeField'
@@ -1256,6 +1283,7 @@ export interface ContainerMetadataProperty extends langium.AstNode {
     collapseSummary?: string;
     collapseTransitionState?: CollapseTransitionValue;
     collapsible?: BooleanValue;
+    expanded?: BooleanValue;
     header?: string;
     icon?: string;
 }
@@ -1276,6 +1304,7 @@ export const ContainerMetadataProperty = {
     collapseSummary: 'collapseSummary',
     collapseTransitionState: 'collapseTransitionState',
     collapsible: 'collapsible',
+    expanded: 'expanded',
     header: 'header',
     icon: 'icon'
 } as const;
@@ -2088,6 +2117,144 @@ export function isExtensionPointsProperty(item: unknown): item is ExtensionPoint
     return reflection.isInstance(item, ExtensionPointsProperty.$type);
 }
 
+export type FaultTreeEventKind = 'event' | 'undevelopedEvent';
+
+export function isFaultTreeEventKind(item: unknown): item is FaultTreeEventKind {
+    return item === 'event' || item === 'undevelopedEvent';
+}
+
+export type FaultTreeEventProperty = FaultTreeProbabilityProperty | FaultTreeUnderProperty;
+
+export const FaultTreeEventProperty = {
+    $type: 'FaultTreeEventProperty'
+} as const;
+
+export function isFaultTreeEventProperty(item: unknown): item is FaultTreeEventProperty {
+    return reflection.isInstance(item, FaultTreeEventProperty.$type);
+}
+
+export interface FaultTreeEventStatement extends langium.AstNode {
+    readonly $container: FaultTreeProfile;
+    readonly $type: 'FaultTreeEventStatement';
+    id: ProfileIdentifier;
+    kind: FaultTreeEventKind;
+    label: string;
+    properties: Array<FaultTreeEventProperty>;
+}
+
+export const FaultTreeEventStatement = {
+    $type: 'FaultTreeEventStatement',
+    id: 'id',
+    kind: 'kind',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isFaultTreeEventStatement(item: unknown): item is FaultTreeEventStatement {
+    return reflection.isInstance(item, FaultTreeEventStatement.$type);
+}
+
+export interface FaultTreeGateStatement extends langium.AstNode {
+    readonly $container: FaultTreeProfile;
+    readonly $type: 'FaultTreeGateStatement';
+    gateType: FaultTreeGateType;
+    id: ProfileIdentifier;
+    under: ProfileIdentifier;
+}
+
+export const FaultTreeGateStatement = {
+    $type: 'FaultTreeGateStatement',
+    gateType: 'gateType',
+    id: 'id',
+    under: 'under'
+} as const;
+
+export function isFaultTreeGateStatement(item: unknown): item is FaultTreeGateStatement {
+    return reflection.isInstance(item, FaultTreeGateStatement.$type);
+}
+
+export type FaultTreeGateType = 'and' | 'or';
+
+export function isFaultTreeGateType(item: unknown): item is FaultTreeGateType {
+    return item === 'and' || item === 'or';
+}
+
+export interface FaultTreeProbabilityProperty extends langium.AstNode {
+    readonly $container: FaultTreeEventStatement | FaultTreeTopEventStatement;
+    readonly $type: 'FaultTreeProbabilityProperty';
+    probability: string;
+}
+
+export const FaultTreeProbabilityProperty = {
+    $type: 'FaultTreeProbabilityProperty',
+    probability: 'probability'
+} as const;
+
+export function isFaultTreeProbabilityProperty(item: unknown): item is FaultTreeProbabilityProperty {
+    return reflection.isInstance(item, FaultTreeProbabilityProperty.$type);
+}
+
+export interface FaultTreeProfile extends langium.AstNode {
+    readonly $container: Document;
+    readonly $type: 'FaultTreeProfile';
+    name: string;
+    statements: Array<FaultTreeStatement>;
+}
+
+export const FaultTreeProfile = {
+    $type: 'FaultTreeProfile',
+    name: 'name',
+    statements: 'statements'
+} as const;
+
+export function isFaultTreeProfile(item: unknown): item is FaultTreeProfile {
+    return reflection.isInstance(item, FaultTreeProfile.$type);
+}
+
+export type FaultTreeStatement = FaultTreeEventStatement | FaultTreeGateStatement | FaultTreeTopEventStatement | ThemeDeclaration;
+
+export const FaultTreeStatement = {
+    $type: 'FaultTreeStatement'
+} as const;
+
+export function isFaultTreeStatement(item: unknown): item is FaultTreeStatement {
+    return reflection.isInstance(item, FaultTreeStatement.$type);
+}
+
+export interface FaultTreeTopEventStatement extends langium.AstNode {
+    readonly $container: FaultTreeProfile;
+    readonly $type: 'FaultTreeTopEventStatement';
+    id: ProfileIdentifier;
+    label: string;
+    properties: Array<FaultTreeEventProperty>;
+}
+
+export const FaultTreeTopEventStatement = {
+    $type: 'FaultTreeTopEventStatement',
+    id: 'id',
+    label: 'label',
+    properties: 'properties'
+} as const;
+
+export function isFaultTreeTopEventStatement(item: unknown): item is FaultTreeTopEventStatement {
+    return reflection.isInstance(item, FaultTreeTopEventStatement.$type);
+}
+
+export interface FaultTreeUnderProperty extends langium.AstNode {
+    readonly $container: FaultTreeEventStatement | FaultTreeTopEventStatement;
+    readonly $type: 'FaultTreeUnderProperty';
+    under: ProfileIdentifier;
+}
+
+export const FaultTreeUnderProperty = {
+    $type: 'FaultTreeUnderProperty',
+    under: 'under'
+} as const;
+
+export function isFaultTreeUnderProperty(item: unknown): item is FaultTreeUnderProperty {
+    return reflection.isInstance(item, FaultTreeUnderProperty.$type);
+}
+
 export interface FillColorProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'FillColorProperty';
@@ -2103,10 +2270,10 @@ export function isFillColorProperty(item: unknown): item is FillColorProperty {
     return reflection.isInstance(item, FillColorProperty.$type);
 }
 
-export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'chart' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'events' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'links' | 'loop' | 'm' | 'member' | 'milestones' | 'mobile' | 'name' | 'node' | 'nodes' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'sankey' | 'series' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'tasks' | 'team' | 'temperature' | 'to' | 'treemap' | 'type' | 'value' | string;
+export type FlexibleID = 'action' | 'api' | 'branch' | 'cache' | 'call' | 'center' | 'central' | 'chart' | 'child' | 'color' | 'composition' | 'conductivity' | 'config' | 'data' | 'db' | 'delimiter' | 'detail' | 'done' | 'e' | 'end' | 'events' | 'f' | 'filter' | 'flow' | 'for' | 'format' | 'from' | 'header' | 'hub' | 'id' | 'if' | 'in' | 'input' | 'key' | 'label' | 'leader' | 'leaf' | 'left' | 'level' | 'limit' | 'links' | 'loop' | 'm' | 'member' | 'milestones' | 'mobile' | 'name' | 'node' | 'nodes' | 'options' | 'output' | 'ph' | 'pressure' | 'process' | 'queue' | 'right' | 'root' | 'sankey' | 'series' | 'settings' | 'source' | 'speed' | 'spoke' | 'start' | 'step' | 'tasks' | 'team' | 'temperature' | 'to' | 'treemap' | 'type' | 'value' | string;
 
 export function isFlexibleID(item: unknown): item is FlexibleID {
-    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'tasks' || item === 'milestones' || item === 'events' || item === 'nodes' || item === 'links' || item === 'series' || item === 'treemap' || item === 'sankey' || item === 'chart' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'data' || item === 'from' || item === 'to' || item === 'key' || item === 'source' || item === 'filter' || item === 'limit' || item === 'options' || item === 'tasks' || item === 'milestones' || item === 'events' || item === 'nodes' || item === 'links' || item === 'series' || item === 'treemap' || item === 'sankey' || item === 'chart' || item === 'label' || item === 'name' || item === 'id' || item === 'type' || item === 'value' || item === 'format' || item === 'color' || item === 'header' || item === 'delimiter' || item === 'for' || item === 'in' || item === 'if' || item === 'loop' || item === 'call' || item === 'start' || item === 'end' || item === 'done' || item === 'process' || item === 'mobile' || item === 'm' || item === 'f' || item === 'e' || item === 'step' || item === 'action' || item === 'input' || item === 'output' || item === 'config' || item === 'settings' || item === 'api' || item === 'db' || item === 'cache' || item === 'queue' || item === 'root' || item === 'child' || item === 'branch' || item === 'leaf' || item === 'node' || item === 'center' || item === 'central' || item === 'hub' || item === 'left' || item === 'right' || item === 'team' || item === 'leader' || item === 'member' || item === 'detail' || item === 'spoke' || item === 'flow' || item === 'temperature' || item === 'pressure' || item === 'level' || item === 'composition' || item === 'ph' || item === 'conductivity' || item === 'speed' || (typeof item === 'string' && (/[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface FlipAxesProperty extends langium.AstNode {
@@ -3129,6 +3296,21 @@ export function isIconSizeProperty(item: unknown): item is IconSizeProperty {
     return reflection.isInstance(item, IconSizeProperty.$type);
 }
 
+export interface InnerRadiusProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'InnerRadiusProperty';
+    value: string;
+}
+
+export const InnerRadiusProperty = {
+    $type: 'InnerRadiusProperty',
+    value: 'value'
+} as const;
+
+export function isInnerRadiusProperty(item: unknown): item is InnerRadiusProperty {
+    return reflection.isInstance(item, InnerRadiusProperty.$type);
+}
+
 export interface InputPinsProperty extends langium.AstNode {
     readonly $container: ShapeDeclaration;
     readonly $type: 'InputPinsProperty';
@@ -4048,7 +4230,7 @@ export function isNetStatement(item: unknown): item is NetStatement {
     return reflection.isInstance(item, NetStatement.$type);
 }
 
-export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InputPinsProperty | IntersectionsProperty | LabelColorsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
+export type NodeProperty = AffectedProperty | AttributesProperty | BorderRadiusProperty | CarrierProperty | ColorsProperty | DataProperty | DataSourceRefProperty | DeceasedProperty | DoActivityProperty | EntryProperty | ExitProperty | ExtensionPointsProperty | FillColorProperty | FlipAxesProperty | FontFamilyProperty | FontSizeProperty | FontWeightProperty | GatewayTypeProperty | GenericTypesProperty | IconColorProperty | IconProperty | IconSizeProperty | InnerRadiusProperty | InputPinsProperty | IntersectionsProperty | LabelColorsProperty | LabelProperty | LabelsProperty | LegendPositionProperty | LinkProperty | MethodsProperty | MetricPositionProperty | MetricTypeProperty | OpacityProperty | OutputPinsProperty | PositionProperty | ShowLegendProperty | ShowMetricsProperty | ShowPointLabelsProperty | ShowValuesProperty | StackedProperty | StateInvariantProperty | StereotypeProperty | StrokeColorProperty | StrokeWidthProperty | StyleRefProperty | TextAlignProperty | TextColorProperty | TitleProperty | TooltipProperty | XLabelProperty | YLabelProperty;
 
 export const NodeProperty = {
     $type: 'NodeProperty'
@@ -5084,7 +5266,7 @@ export function isPressureUnit(item: unknown): item is PressureUnit {
     return item === 'bar' || item === 'psi' || item === 'kPa' || item === 'MPa';
 }
 
-export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PedigreeProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
+export type Profile = ControlProfile | DiagramProfile | DigitalProfile | ElectricalProfile | FaultTreeProfile | GitGraphProfile | GlyphSetProfile | HvacProfile | HydraulicProfile | KanbanProfile | PIDProfile | PedigreeProfile | PneumaticProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile | WardleyProfile;
 
 export const Profile = {
     $type: 'Profile'
@@ -5984,10 +6166,10 @@ export function isShapeDeclaration(item: unknown): item is ShapeDeclaration {
     return reflection.isInstance(item, ShapeDeclaration.$type);
 }
 
-export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'callout' | 'card' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'image' | 'initialState' | 'junction' | 'lifeline' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
+export type ShapeIdentifier = 'acceptEvent' | 'activity' | 'activityFinal' | 'actor' | 'artifact' | 'assembly' | 'boundary' | 'callout' | 'card' | 'centralBuffer' | 'circle' | 'collaboration' | 'component' | 'continuation' | 'control' | 'dataStore' | 'database' | 'db' | 'entity' | 'entryPoint' | 'exitPoint' | 'finalState' | 'flowFinal' | 'frame' | 'history' | 'historyDeep' | 'historyShallow' | 'image' | 'initialState' | 'junction' | 'lifeline' | 'lollipop' | 'loop' | 'module' | 'node' | 'note' | 'objectNode' | 'person' | 'pill' | 'pin' | 'port' | 'providedInterface' | 'receiveSignal' | 'requiredInterface' | 'sendSignal' | 'socket' | 'submachine' | 'template' | 'terminate' | 'timeObservation' | 'verticalFork' | string;
 
 export function isShapeIdentifier(item: unknown): item is ShapeIdentifier {
-    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || item === 'callout' || item === 'image' || item === 'card' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
+    return item === 'actor' || item === 'entity' || item === 'boundary' || item === 'control' || item === 'database' || item === 'note' || item === 'lifeline' || item === 'continuation' || item === 'timeObservation' || item === 'activity' || item === 'objectNode' || item === 'centralBuffer' || item === 'dataStore' || item === 'component' || item === 'artifact' || item === 'node' || item === 'port' || item === 'module' || item === 'template' || item === 'history' || item === 'pin' || item === 'assembly' || item === 'providedInterface' || item === 'requiredInterface' || item === 'lollipop' || item === 'socket' || item === 'frame' || item === 'collaboration' || item === 'submachine' || item === 'loop' || item === 'verticalFork' || item === 'sendSignal' || item === 'receiveSignal' || item === 'acceptEvent' || item === 'activityFinal' || item === 'flowFinal' || item === 'initialState' || item === 'finalState' || item === 'historyShallow' || item === 'historyDeep' || item === 'junction' || item === 'entryPoint' || item === 'exitPoint' || item === 'terminate' || item === 'db' || item === 'pill' || item === 'circle' || item === 'person' || item === 'callout' || item === 'image' || item === 'card' || (typeof item === 'string' && (/[a-z_][a-zA-Z0-9_]*-[a-zA-Z0-9_-]*/.test(item) || /[a-zA-Z_][a-zA-Z0-9_]*/.test(item)));
 }
 
 export interface ShowLegendProperty extends langium.AstNode {
@@ -6018,6 +6200,21 @@ export const ShowMetricsProperty = {
 
 export function isShowMetricsProperty(item: unknown): item is ShowMetricsProperty {
     return reflection.isInstance(item, ShowMetricsProperty.$type);
+}
+
+export interface ShowPointLabelsProperty extends langium.AstNode {
+    readonly $container: ShapeDeclaration;
+    readonly $type: 'ShowPointLabelsProperty';
+    value: BooleanValue;
+}
+
+export const ShowPointLabelsProperty = {
+    $type: 'ShowPointLabelsProperty',
+    value: 'value'
+} as const;
+
+export function isShowPointLabelsProperty(item: unknown): item is ShowPointLabelsProperty {
+    return reflection.isInstance(item, ShowPointLabelsProperty.$type);
 }
 
 export interface ShowValuesProperty extends langium.AstNode {
@@ -6464,7 +6661,7 @@ export function isTextColorProperty(item: unknown): item is TextColorProperty {
 }
 
 export interface ThemeDeclaration extends langium.AstNode {
-    readonly $container: ContainerBlock | DiagramProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile;
+    readonly $container: ContainerBlock | DiagramProfile | FaultTreeProfile | GitGraphProfile | GroupBlock | KanbanProfile | RailroadProfile | SequenceProfile | TimelineProfile | TreemapProfile;
     readonly $type: 'ThemeDeclaration';
     value: ThemeValue;
 }
@@ -7344,6 +7541,7 @@ export type RuniqAstType = {
     AffectedProperty: AffectedProperty
     AnalysisStatement: AnalysisStatement
     ArrowTypeProperty: ArrowTypeProperty
+    AttrCardinalityField: AttrCardinalityField
     AttrConstraintsField: AttrConstraintsField
     AttrDefaultField: AttrDefaultField
     AttrDerivedField: AttrDerivedField
@@ -7403,6 +7601,14 @@ export type RuniqAstType = {
     EventProperty: EventProperty
     ExitProperty: ExitProperty
     ExtensionPointsProperty: ExtensionPointsProperty
+    FaultTreeEventProperty: FaultTreeEventProperty
+    FaultTreeEventStatement: FaultTreeEventStatement
+    FaultTreeGateStatement: FaultTreeGateStatement
+    FaultTreeProbabilityProperty: FaultTreeProbabilityProperty
+    FaultTreeProfile: FaultTreeProfile
+    FaultTreeStatement: FaultTreeStatement
+    FaultTreeTopEventStatement: FaultTreeTopEventStatement
+    FaultTreeUnderProperty: FaultTreeUnderProperty
     FillColorProperty: FillColorProperty
     FlipAxesProperty: FlipAxesProperty
     FlowRateStatement: FlowRateStatement
@@ -7466,6 +7672,7 @@ export type RuniqAstType = {
     IconColorProperty: IconColorProperty
     IconProperty: IconProperty
     IconSizeProperty: IconSizeProperty
+    InnerRadiusProperty: InnerRadiusProperty
     InputPinsProperty: InputPinsProperty
     InstMapProperty: InstMapProperty
     InstOfProperty: InstOfProperty
@@ -7645,6 +7852,7 @@ export type RuniqAstType = {
     ShapeDeclaration: ShapeDeclaration
     ShowLegendProperty: ShowLegendProperty
     ShowMetricsProperty: ShowMetricsProperty
+    ShowPointLabelsProperty: ShowPointLabelsProperty
     ShowValuesProperty: ShowValuesProperty
     StackedProperty: StackedProperty
     StateInvariantProperty: StateInvariantProperty
@@ -7760,6 +7968,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [EdgeProperty.$type]
+        },
+        AttrCardinalityField: {
+            name: AttrCardinalityField.$type,
+            properties: {
+                value: {
+                    name: AttrCardinalityField.value
+                }
+            },
+            superTypes: [AttributeField.$type]
         },
         AttrConstraintsField: {
             name: AttrConstraintsField.$type,
@@ -8000,6 +8217,9 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 },
                 collapsible: {
                     name: ContainerMetadataProperty.collapsible
+                },
+                expanded: {
+                    name: ContainerMetadataProperty.expanded
                 },
                 header: {
                     name: ContainerMetadataProperty.header
@@ -8606,6 +8826,99 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                 }
             },
             superTypes: [NodeProperty.$type]
+        },
+        FaultTreeEventProperty: {
+            name: FaultTreeEventProperty.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        FaultTreeEventStatement: {
+            name: FaultTreeEventStatement.$type,
+            properties: {
+                id: {
+                    name: FaultTreeEventStatement.id
+                },
+                kind: {
+                    name: FaultTreeEventStatement.kind
+                },
+                label: {
+                    name: FaultTreeEventStatement.label
+                },
+                properties: {
+                    name: FaultTreeEventStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [FaultTreeStatement.$type]
+        },
+        FaultTreeGateStatement: {
+            name: FaultTreeGateStatement.$type,
+            properties: {
+                gateType: {
+                    name: FaultTreeGateStatement.gateType
+                },
+                id: {
+                    name: FaultTreeGateStatement.id
+                },
+                under: {
+                    name: FaultTreeGateStatement.under
+                }
+            },
+            superTypes: [FaultTreeStatement.$type]
+        },
+        FaultTreeProbabilityProperty: {
+            name: FaultTreeProbabilityProperty.$type,
+            properties: {
+                probability: {
+                    name: FaultTreeProbabilityProperty.probability
+                }
+            },
+            superTypes: [FaultTreeEventProperty.$type]
+        },
+        FaultTreeProfile: {
+            name: FaultTreeProfile.$type,
+            properties: {
+                name: {
+                    name: FaultTreeProfile.name
+                },
+                statements: {
+                    name: FaultTreeProfile.statements,
+                    defaultValue: []
+                }
+            },
+            superTypes: [Profile.$type]
+        },
+        FaultTreeStatement: {
+            name: FaultTreeStatement.$type,
+            properties: {
+            },
+            superTypes: []
+        },
+        FaultTreeTopEventStatement: {
+            name: FaultTreeTopEventStatement.$type,
+            properties: {
+                id: {
+                    name: FaultTreeTopEventStatement.id
+                },
+                label: {
+                    name: FaultTreeTopEventStatement.label
+                },
+                properties: {
+                    name: FaultTreeTopEventStatement.properties,
+                    defaultValue: []
+                }
+            },
+            superTypes: [FaultTreeStatement.$type]
+        },
+        FaultTreeUnderProperty: {
+            name: FaultTreeUnderProperty.$type,
+            properties: {
+                under: {
+                    name: FaultTreeUnderProperty.under
+                }
+            },
+            superTypes: [FaultTreeEventProperty.$type]
         },
         FillColorProperty: {
             name: FillColorProperty.$type,
@@ -9266,6 +9579,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             properties: {
                 size: {
                     name: IconSizeProperty.size
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
+        InnerRadiusProperty: {
+            name: InnerRadiusProperty.$type,
+            properties: {
+                value: {
+                    name: InnerRadiusProperty.value
                 }
             },
             superTypes: [NodeProperty.$type]
@@ -11038,6 +11360,15 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
             },
             superTypes: [NodeProperty.$type]
         },
+        ShowPointLabelsProperty: {
+            name: ShowPointLabelsProperty.$type,
+            properties: {
+                value: {
+                    name: ShowPointLabelsProperty.value
+                }
+            },
+            superTypes: [NodeProperty.$type]
+        },
         ShowValuesProperty: {
             name: ShowValuesProperty.$type,
             properties: {
@@ -11339,7 +11670,7 @@ export class RuniqAstReflection extends langium.AbstractAstReflection {
                     name: ThemeDeclaration.value
                 }
             },
-            superTypes: [DiagramStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, SequenceStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
+            superTypes: [DiagramStatement.$type, FaultTreeStatement.$type, GitGraphStatement.$type, KanbanStatement.$type, RailroadStatement.$type, SequenceStatement.$type, TimelineStatement.$type, TreemapStatement.$type]
         },
         TimelineColorProperty: {
             name: TimelineColorProperty.$type,

@@ -54,7 +54,7 @@ pneumatic "Circuit Name" {
 
 ## Complete Component Catalog
 
-Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into the following categories:
+Runiq provides a broad ISO 1219-1 oriented pneumatic component set organized into the following categories:
 
 - **Air Preparation**: 8 components for air supply, filtering, regulation, and conditioning
 - **Directional Control Valves**: 7 valve types (2/2 through 5/3 configurations)
@@ -71,9 +71,9 @@ Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into t
 | Air Compressor     | `COMPRESSOR` | Generates compressed air               | 10-500 CFM         |
 | Air Filter         | `FILTER`     | Removes particles (5-40 micron)        | 5 micron standard  |
 | Pressure Regulator | `REGULATOR`  | Controls downstream pressure           | 0-12 bar           |
-| Lubricator         | `LUBRICATOR` | Adds oil mist for lubrication          | 1-3 drops/m³       |
+| Lubricator         | `LUBRICATOR` | Adds oil mist for lubrication          | 1-3 drops/m^3      |
 | FRL Unit           | `FRL`        | Combined filter, regulator, lubricator | 4-8 bar working    |
-| Air Dryer          | `AIR_DRYER`  | Removes moisture                       | -40°C pressure dew |
+| Air Dryer          | `AIR_DRYER`  | Removes moisture                       | -40 C pressure dew |
 | Pressure Gauge     | `GAUGE_P`    | Visual pressure indication             | 0-10 bar typical   |
 
 ### Directional Control Valves
@@ -115,7 +115,7 @@ Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into t
 | Double-Acting Cylinder | `CYL_DA`           | Powered both directions              | 20-10000 N @ 6 bar   |
 | Rodless Cylinder       | `CYL_RODLESS`      | Magnetic or cable coupling           | Long stroke (1-10 m) |
 | Telescopic Cylinder    | `CYL_TELESCOPIC_P` | Multi-stage for compact installation | 2-5 stages           |
-| Rotary Actuator        | `ROTARY_ACTUATOR`  | Limited rotation (90°, 180°, 270°)   | 1-1000 Nm            |
+| Rotary Actuator        | `ROTARY_ACTUATOR`  | Limited rotation (90 deg, 180 deg, 270 deg) | 1-1000 Nm      |
 | Pneumatic Motor        | `MOTOR_PNEUMATIC`  | Continuous rotation                  | 0.1-20 kW            |
 | Parallel Gripper       | `GRIPPER_PARALLEL` | Two-jaw parallel grip                | 50-2000 N grip       |
 | Angular Gripper        | `GRIPPER_ANGULAR`  | Pivoting jaw grip                    | 20-500 N grip        |
@@ -149,20 +149,20 @@ Runiq provides **55 ISO 1219-1 compliant pneumatic components** organized into t
 **Extend Force (double-acting):**
 
 ```
-F_extend (N) = Pressure (bar) × π × (Bore²/4) × 10
+F_extend (N) = Pressure (bar) x pi x (Bore^2/4) x 10
 ```
 
 **Retract Force (double-acting):**
 
 ```
-F_retract (N) = Pressure (bar) × π × ((Bore² - Rod²)/4) × 10
+F_retract (N) = Pressure (bar) x pi x ((Bore^2 - Rod^2)/4) x 10
 ```
 
 **Example:** 50 mm bore, 20 mm rod, 6 bar pressure
 
 ```
-F_extend = 6 × 3.14159 × (50²/4) × 10 = 11,781 N (1,178 kg)
-F_retract = 6 × 3.14159 × ((50² - 20²)/4) × 10 = 9,896 N (989 kg)
+F_extend = 6 x 3.14159 x (50^2/4) x 10 = 11,781 N (1,178 kg)
+F_retract = 6 x 3.14159 x ((50^2 - 20^2)/4) x 10 = 9,896 N (989 kg)
 ```
 
 ### Cylinder Selection Chart
@@ -189,23 +189,19 @@ F_retract = 6 × 3.14159 × ((50² - 20²)/4) × 10 = 9,896 N (989 kg)
 **Air Consumption:**
 
 ```
-Q (L/min) = (π × Bore² × Stroke) / (4 × 1000) × Cycles/min × Compression Ratio
+Q (L/min) = (pi x Bore^2 x Stroke) / (4 x 1000) x Cycles/min x Compression Ratio
 ```
 
 **Where Compression Ratio = (Pressure + 1 bar) / 1 bar**
 
-**Example:** 50 mm bore, 200 mm stroke, 10 cycles/min, 6 bar:
-
 ```
-Q = (3.14 × 50² × 200) / 4000 × 10 × 7 = 275 L/min free air
+Q = (3.14 x 50^2 x 200) / 4000 x 10 x 7 = 275 L/min free air
 ```
 
 ### Stroke Speed Calculation
 
-**Extend Speed:**
-
 ```
-v (mm/s) = (Q_supply × 1000) / (π × Bore² / 4) × Pressure_factor
+v (mm/s) = (Q_supply x 1000) / (pi x Bore^2 / 4) x Pressure_factor
 ```
 
 **Typical Speeds:**
@@ -679,7 +675,6 @@ pneumatic "Styled Circuit" {
 - **FluidSIM/Automation Studio**: Need interactive simulation and validation
 - **Festo FluidDraw**: Educational purposes with interactive training modules
 - **Lucidchart**: Real-time collaboration with non-technical stakeholders
-- **Mermaid/PlantUML**: Simple pneumatic concepts in existing markdown docs
 
 ## Examples
 

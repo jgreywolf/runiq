@@ -6,10 +6,6 @@ lastUpdated: 2025-01-09
 
 # Quantum Circuits Guide
 
-**Status**: Production Ready  
-**Last Updated**: October 17, 2025  
-**Visual Standard**: IBM Qiskit
-
 ## Overview
 
 Runiq supports quantum circuit diagrams in the style of IBM Qiskit, the industry-leading quantum computing framework. Quantum circuits visualize quantum algorithms by showing quantum gates operating on qubits over time.
@@ -679,18 +675,18 @@ A: No hard limit, but readability decreases beyond 5-6 qubits. For large circuit
 
 | Feature                      | Runiq          | Lucidchart  | IBM Qiskit | Cirq       | Q# QDK | Quirk       |
 | ---------------------------- | -------------- | ----------- | ---------- | ---------- | ------ | ----------- |
-| **Text-based DSL**           | ✅             | ❌          | ✅ Python  | ✅ Python  | ✅ Q#  | ❌          |
-| **Version control friendly** | ✅             | ⚠️ Partial  | ✅         | ✅         | ✅     | ❌          |
-| **Automatic layout**         | ✅             | ❌          | ✅         | ✅         | ✅     | ✅          |
-| **Quantum gates**            | ✅             | ⚠️ Custom   | ✅         | ✅         | ✅     | ✅          |
-| **Multi-qubit gates**        | ✅             | ⚠️ Custom   | ✅         | ✅         | ✅     | ✅          |
-| **Measurement**              | ✅             | ⚠️ Custom   | ✅         | ✅         | ✅     | ✅          |
-| **Barriers**                 | ✅             | ❌          | ✅         | ✅         | ❌     | ❌          |
-| **Circuit simulation**       | ❌             | ❌          | ✅         | ✅         | ✅     | ✅          |
-| **Hardware execution**       | ❌             | ❌          | ✅         | ✅         | ✅     | ❌          |
-| **Visual editing**           | ❌             | ✅          | ⚠️ Jupyter | ⚠️ Jupyter | ❌     | ✅          |
-| **Documentation generation** | ✅             | ⚠️ Partial  | ✅         | ✅         | ✅     | ❌          |
-| **Algorithm library**        | ❌             | ❌          | ✅         | ✅         | ✅     | ⚠️ Examples |
+| **Text-based DSL**           | ?             | ?          | ? Python  | ? Python  | ? Q#  | ?          |
+| **Version control friendly** | ?             | ?? Partial  | ?         | ?         | ?     | ?          |
+| **Automatic layout**         | ?             | ?          | ?         | ?         | ?     | ?          |
+| **Quantum gates**            | ?             | ?? Custom   | ?         | ?         | ?     | ?          |
+| **Multi-qubit gates**        | ?             | ?? Custom   | ?         | ?         | ?     | ?          |
+| **Measurement**              | ?             | ?? Custom   | ?         | ?         | ?     | ?          |
+| **Barriers**                 | ?             | ?          | ?         | ?         | ?     | ?          |
+| **Circuit simulation**       | ?             | ?          | ?         | ?         | ?     | ?          |
+| **Hardware execution**       | ?             | ?          | ?         | ?         | ?     | ?          |
+| **Visual editing**           | ?             | ?          | ?? Jupyter | ?? Jupyter | ?     | ?          |
+| **Documentation generation** | ?             | ?? Partial  | ?         | ?         | ?     | ?          |
+| **Algorithm library**        | ?             | ?          | ?         | ?         | ?     | ?? Examples |
 | **Export formats**           | SVG, PNG       | Multiple    | Multiple   | Multiple   | Image  | PNG         |
 | **Learning curve**           | Low            | Low         | High       | High       | High   | Very Low    |
 | **Cost**                     | Free           | Paid        | Free       | Free       | Free   | Free        |
@@ -710,9 +706,3 @@ A: No hard limit, but readability decreases beyond 5-6 qubits. For large circuit
 - **Quirk**: Interactive drag-and-drop quantum circuit sandbox for education
 - **Lucidchart**: Real-time collaboration on quantum algorithm concepts
 
----
-
-**Last Updated**: October 17, 2025  
-**Runiq Version**: 0.1.0+  
-**Visual Standard**: IBM Qiskit  
-**Maintained by**: Justin Greywolf

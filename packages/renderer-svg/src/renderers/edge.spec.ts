@@ -447,6 +447,30 @@ describe('renderEdge', () => {
       const pathCount = (result.match(/<path/g) || []).length;
       expect(pathCount).toBeGreaterThan(2); // Hit area + 2 parallel lines
     });
+
+    it('should render block-style architecture connector', () => {
+      const edgeAst: EdgeDeclaration = {
+        from: 'node1',
+        to: 'node2',
+      };
+      (edgeAst as any).lineStyle = 'block';
+
+      const routed: RoutedEdge = {
+        from: 'node1',
+        to: 'node2',
+        points: [
+          { x: 100, y: 200 },
+          { x: 300, y: 200 },
+        ],
+      };
+
+      const diagram = createMinimalDiagram([edgeAst]);
+      const result = renderEdge(routed, diagram, false, warnings);
+
+      expect(result).toContain('stroke-width="8"');
+      expect(result).toContain('stroke-linecap="square"');
+      expect(result).toContain('marker-end');
+    });
   });
 
   describe('Arrow Types', () => {
@@ -800,7 +824,7 @@ describe('renderEdge', () => {
       const diagram = createMinimalDiagram([edgeAst]);
       const result = renderEdge(routed, diagram, false, warnings);
 
-      expect(result).toContain('&lt;&lt;create&gt;&gt;');
+      expect(result).toContain('«create»');
       expect(result).toContain('runiq-edge-stereotype');
     });
 
@@ -824,7 +848,7 @@ describe('renderEdge', () => {
       const diagram = createMinimalDiagram([edgeAst]);
       const result = renderEdge(routed, diagram, false, warnings);
 
-      expect(result).toContain('&lt;&lt;create&gt;&gt;');
+      expect(result).toContain('«create»');
       expect(result).toContain('Edge Label');
     });
   });

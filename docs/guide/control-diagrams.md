@@ -10,8 +10,9 @@ The control profile targets PLC-style ladder and function block diagrams using t
 
 ## Supported elements
 
-- Contacts and coils: normally open, normally closed, set/reset coils
-- Timers: timer-on (TON) blocks
+- Contacts and coils: normally open, normally closed, standard coils, set/reset coils
+- Timers: timer-on (TON) and timer-off (TOF) blocks
+- Counters: count-up (CTU) and count-down (CTD) blocks
 - Nets: named rails and rungs
 
 ## Example: Ladder rung
@@ -37,6 +38,32 @@ control "Timer Enable" {
   part Enable type:NO_CONTACT pins:(L1,EN) doc:"Enable"
   part Timer type:TIMER_ON pins:(EN,DONE) doc:"TON 2s"
   part Coil type:COIL pins:(DONE,L2) doc:"Output"
+}
+```
+
+## Example: Counter logic
+
+```runiq
+control "Batch Counter" {
+  variant ladder
+  net L1, L2, PULSE, COUNTED, DONE
+
+  part Pulse type:NO_CONTACT pins:(L1,PULSE) doc:"Part sensor"
+  part Counter type:COUNTER_UP pins:(PULSE,COUNTED) preset:10 doc:"Count ten parts"
+  part Output type:COIL pins:(COUNTED,L2) doc:"Batch complete"
+}
+```
+
+## Example: Off-delay logic
+
+```runiq
+control "Fan Overrun" {
+  variant fbd
+  net L1, L2, ENABLE, DELAYED
+
+  part Run type:NO_CONTACT pins:(L1,ENABLE) doc:"Call for fan"
+  part Delay type:TIMER_OFF pins:(ENABLE,DELAYED) preset:3000 doc:"3 second overrun"
+  part Fan type:COIL pins:(DELAYED,L2) doc:"Fan coil"
 }
 ```
 

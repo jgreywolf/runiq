@@ -622,7 +622,7 @@ How do Runiq ERD diagrams compare to other database modeling tools?
 | **Free/Open Source**    | ✅    | ✅      | ✅       | ❌         | ✅      | ✅           | ✅              |
 | **Learning Curve**      | Low   | Low     | Med      | Med        | Low     | Low          | Med             |
 
-**Why choose Runiq for ERD?**
+**Key Advantages of Runiq:**
 
 - **Classic Chen notation** - Academic and conceptual modeling standard
 - **Version control friendly** - Text-based format works with Git
@@ -631,6 +631,13 @@ How do Runiq ERD diagrams compare to other database modeling tools?
 - **Documentation as code** - Keep data models with your application code
 - **Quick iteration** - Rapidly refine your data model
 - **Educational** - Excellent for teaching database design concepts
+
+**When to Use Alternatives:**
+
+- **dbdiagram.io**: SQL-oriented schema authoring with direct database-model workflows
+- **MySQL Workbench**: Reverse engineering and database-first modeling for MySQL projects
+- **Lucidchart**: Collaborative GUI editing for broader business documentation
+- **PlantUML**: Lightweight text-based ERDs if you already use PlantUML for the rest of your docs
 
 ## Next Steps
 

@@ -1,16 +1,23 @@
 import type {
   ContainerStyle,
   DiagramAst,
+  LaidOutDiagram,
   PositionedContainer,
 } from '@runiq/core';
-import { createTextMeasurer, LineStyle, shapeRegistry } from '@runiq/core';
+import {
+  createTextMeasurer,
+  getOrderedContainerContentItems,
+  LineStyle,
+  shapeRegistry,
+} from '@runiq/core';
 import { resolveContainerStyle } from './style-resolver.js';
 import { escapeXml } from './utils.js';
 
 export function renderContainer(
   container: PositionedContainer,
   diagram: DiagramAst,
-  strict: boolean
+  strict: boolean,
+  layout?: LaidOutDiagram
 ): string {
   const { x, y, width, height, label, id } = container;
 
@@ -62,6 +69,10 @@ export function renderContainer(
       const shapeData: Record<string, unknown> = {
         width,
         height,
+        collapsed: containerAst.collapsed === true,
+        hasChildren:
+          containerAst.children.length > 0 ||
+          (containerAst.containers?.length ?? 0) > 0,
       };
 
       const ctx = {
@@ -91,16 +102,163 @@ export function renderContainer(
     }
   }
 
+  if (layout && (containerAst?.shape === 'fileTree' || containerAst?.shape === 'folder')) {
+    markup += renderFileTreeGuides(container, containerAst, layout);
+  }
+
+  if (
+    layout &&
+    (containerAst?.shape === 'wbs' || containerAst?.shape === 'wbsDeliverable')
+  ) {
+    markup += renderWbsGuides(container, containerAst, layout);
+  }
+
   // Recursively render nested containers
   if (container.containers) {
     for (const nested of container.containers) {
-      markup += renderContainer(nested, diagram, strict);
+      markup += renderContainer(nested, diagram, strict, layout);
     }
   }
 
   markup += '</g>';
 
   return markup;
+}
+
+function renderFileTreeGuides(
+  container: PositionedContainer,
+  containerAst: import('@runiq/core').ContainerDeclaration,
+  layout: LaidOutDiagram
+): string {
+  if (containerAst.collapsed) {
+    return '';
+  }
+
+  const orderedItems = getOrderedContainerContentItems(containerAst);
+
+  const nestedById = new Map(
+    (container.containers ?? []).map((nested) => [nested.id, nested])
+  );
+  const nodeById = new Map(layout.nodes.map((node) => [node.id, node]));
+  const isRoot = containerAst.shape === 'fileTree';
+  const guideX = container.x + (isRoot ? 18 : 22);
+  const startY = container.y + (isRoot ? 22 : 14);
+  const rows = orderedItems
+    .map((item) => {
+      if (item.kind === 'node') {
+        const node = nodeById.get(item.id);
+        if (!node) return null;
+        return {
+          x: node.x,
+          y: node.y + Math.min(13, node.height / 2),
+        };
+      }
+
+      const nested = nestedById.get(item.id);
+      if (!nested) return null;
+      return {
+        x: nested.x,
+        y: nested.y + 13,
+      };
+    })
+    .filter((row): row is { x: number; y: number } => row !== null)
+    .sort((left, right) => left.y - right.y);
+
+  if (rows.length === 0) {
+    return '';
+  }
+
+  const endY = rows[rows.length - 1].y;
+  let guides = `
+    <g class="file-tree-guides">
+      <line x1="${guideX}" y1="${startY}" x2="${guideX}" y2="${endY}" stroke="#cbd5e1" stroke-width="1" />
+  `;
+
+  for (const row of rows) {
+    const branchEndX = Math.max(guideX + 12, row.x - 8);
+    guides += `
+      <line x1="${guideX}" y1="${row.y}" x2="${branchEndX}" y2="${row.y}" stroke="#cbd5e1" stroke-width="1" />
+    `;
+  }
+
+  guides += '</g>';
+  return guides;
+}
+
+function renderWbsGuides(
+  container: PositionedContainer,
+  containerAst: import('@runiq/core').ContainerDeclaration,
+  layout: LaidOutDiagram
+): string {
+  if (containerAst.collapsed) {
+    return '';
+  }
+
+  const nestedById = new Map(
+    (container.containers ?? []).map((nested) => [nested.id, nested])
+  );
+  const nodeById = new Map(layout.nodes.map((node) => [node.id, node]));
+  const childTargets = [
+    ...(containerAst.containers ?? [])
+      .map((nested) => nestedById.get(nested.id || ''))
+      .filter(
+        (nested): nested is PositionedContainer => nested !== undefined
+      )
+      .map((nested) => ({
+        x: nested.x + nested.width / 2,
+        y: nested.y,
+      })),
+    ...containerAst.children
+      .map((id) => nodeById.get(id))
+      .filter((node): node is (typeof layout.nodes)[number] => node !== undefined)
+      .map((node) => ({
+        x: node.x + node.width / 2,
+        y: node.y,
+      })),
+  ];
+
+  if (childTargets.length === 0) {
+    return '';
+  }
+
+  const parentX = container.x + container.width / 2;
+  const parentY =
+    containerAst.shape === 'wbs' ? container.y + 32 : container.y + 28;
+  const minX = Math.min(...childTargets.map((target) => target.x));
+  const maxX = Math.max(...childTargets.map((target) => target.x));
+  const minY = Math.min(...childTargets.map((target) => target.y));
+  const maxY = Math.max(...childTargets.map((target) => target.y));
+  const horizontalLayout = maxX - minX > maxY - minY;
+
+  let guides = `<g class="wbs-guides">`;
+
+  if (horizontalLayout) {
+    const busY = Math.max(parentY + 12, minY - 16);
+    guides += `
+      <line x1="${parentX}" y1="${parentY}" x2="${parentX}" y2="${busY}" stroke="#cbd5e1" stroke-width="1.4" />
+      <line x1="${minX}" y1="${busY}" x2="${maxX}" y2="${busY}" stroke="#cbd5e1" stroke-width="1.4" />
+    `;
+
+    for (const target of childTargets) {
+      guides += `
+        <line x1="${target.x}" y1="${busY}" x2="${target.x}" y2="${target.y}" stroke="#cbd5e1" stroke-width="1.4" />
+      `;
+    }
+  } else {
+    const busX = parentX;
+    guides += `
+      <line x1="${busX}" y1="${parentY}" x2="${busX}" y2="${maxY}" stroke="#cbd5e1" stroke-width="1.4" />
+    `;
+
+    for (const target of childTargets) {
+      guides += `
+        <line x1="${busX}" y1="${target.y}" x2="${target.x}" y2="${target.y}" stroke="#cbd5e1" stroke-width="1.4" />
+      `;
+    }
+  }
+
+  guides += '</g>';
+  return guides;
 }
 
 function renderDefaultContainerBackground(

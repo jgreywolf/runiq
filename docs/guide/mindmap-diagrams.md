@@ -349,18 +349,32 @@ Mindmaps scale well with proper structure:
 
 | Feature                      | Runiq             | Mermaid      | PlantUML        | MindMup         | XMind    |
 | ---------------------------- | ----------------- | ------------ | --------------- | --------------- | -------- |
-| **Text-Based DSL**           | ✅                | ✅           | ✅              | ❌              | ❌       |
-| **Version control friendly** | ✅ Git-friendly   | ✅           | ✅              | ❌              | ❌       |
-| **Auto-layout**              | ✅                | ✅           | ✅              | ✅              | ✅       |
-| **Mixed shapes**             | ✅                | ⚠️ Limited   | ⚠️ Circles only | ⚠️ Limited      | ✅       |
-| **Hierarchical edges**       | ✅                | ✅           | ⚠️ Auto-only    | ✅              | ✅       |
-| **Custom styling**           | ✅ Full CSS-like  | ⚠️ Limited   | ⚠️ Colors only  | ✅              | ✅       |
-| **Container support**        | ✅                | ❌           | ❌              | ❌              | ❌       |
-| **Export formats**           | SVG, PNG          | SVG, PNG     | SVG             | ✅              | ✅       |
-| **Collaboration**            | ✅ Git-based      | ✅ Git-based | ✅ Git-based    | ✅ Cloud (Paid) | ✅ Cloud |
-| **Learning Curve**           | ⚠️ Moderate (DSL) | ✅ Low       | ⚠️ Moderate     | ✅ Low (GUI)    | ✅ Low   |
-| **Real-Time Collaboration**  | ⚠️ Via Git        | ⚠️ Via tools | ⚠️ Via tools    | ✅              | ✅       |
-| **Open Source**              | ✅ MIT License    | ✅ MIT       | ✅ GPL          | ❌              | ❌       |
+| **Text-Based DSL**           | ?                | ?           | ?              | ?              | ?       |
+| **Version control friendly** | ? Git-friendly   | ?           | ?              | ?              | ?       |
+| **Auto-layout**              | ?                | ?           | ?              | ?              | ?       |
+| **Mixed shapes**             | ?                | ?? Limited   | ?? Circles only | ?? Limited      | ?       |
+| **Hierarchical edges**       | ?                | ?           | ?? Auto-only    | ?              | ?       |
+| **Custom styling**           | ? Full CSS-like  | ?? Limited   | ?? Colors only  | ?              | ?       |
+| **Container support**        | ?                | ?           | ?              | ?              | ?       |
+| **Export formats**           | SVG, PNG          | SVG, PNG     | SVG             | ?              | ?       |
+| **Collaboration**            | ? Git-based      | ? Git-based | ? Git-based    | ? Cloud (Paid) | ? Cloud |
+| **Learning Curve**           | ?? Moderate (DSL) | ? Low       | ?? Moderate     | ? Low (GUI)    | ? Low   |
+| **Real-Time Collaboration**  | ?? Via Git        | ?? Via tools | ?? Via tools    | ?              | ?       |
+| **Open Source**              | ? MIT License    | ? MIT       | ? GPL          | ?              | ?       |
+
+**Key Advantages of Runiq:**
+
+- **Text-based structure** - Version-control-friendly brainstorming and knowledge maps
+- **Auto-layout** - Radial mindmaps without manual positioning
+- **Mixed diagram vocabulary** - Combine mindmaps with other diagram families in the same DSL
+- **Container support** - Group branches and related concepts more flexibly than dedicated mindmap tools
+- **SVG-first output** - Easy to embed in docs, sites, and repositories
+
+**When to Use Alternatives:**
+
+- **MindMup / XMind**: GUI-first ideation sessions with rich interactive editing
+- **Mermaid**: Simple markdown-native mindmaps when you only need lightweight structure
+- **PlantUML**: Text-based mindmaps if you already standardize on PlantUML elsewhere
 
 ## Examples
 

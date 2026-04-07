@@ -330,6 +330,119 @@ export const storageShape: ShapeDefinition = {
   },
 };
 
+export const workstationShape: ShapeDefinition = {
+  id: 'workstation',
+  bounds: () => ({ width: 70, height: 62 }),
+  anchors: () => [
+    { x: 35, y: 0, name: 'top' },
+    { x: 70, y: 31, name: 'right' },
+    { x: 35, y: 62, name: 'bottom' },
+    { x: 0, y: 31, name: 'left' },
+  ],
+  render: (ctx: ShapeRenderContext, position: { x: number; y: number }) => {
+    const { x, y } = position;
+    const fill = ctx.style?.fill || '#f5f5f5';
+    const stroke = ctx.style?.stroke || '#455a64';
+    const label = ctx.node.label || '';
+
+    let svg = '<g>';
+    svg += `<rect x="${x + 8}" y="${y + 4}" width="54" height="34" rx="3" ry="3" fill="${fill}" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<rect x="${x + 14}" y="${y + 10}" width="42" height="22" fill="#ffffff" stroke="${stroke}" stroke-width="1" opacity="0.8" />`;
+    svg += `<line x1="${x + 35}" y1="${y + 38}" x2="${x + 35}" y2="${y + 48}" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<line x1="${x + 24}" y1="${y + 52}" x2="${x + 46}" y2="${y + 52}" stroke="${stroke}" stroke-width="2" />`;
+    if (label) {
+      svg += renderShapeLabel(ctx, label, x + 35, y + 57);
+    }
+    svg += '</g>';
+    return svg;
+  },
+};
+
+export const accessPointShape: ShapeDefinition = {
+  id: 'accessPoint',
+  bounds: () => ({ width: 60, height: 60 }),
+  anchors: () => [
+    { x: 30, y: 0, name: 'top' },
+    { x: 60, y: 30, name: 'right' },
+    { x: 30, y: 60, name: 'bottom' },
+    { x: 0, y: 30, name: 'left' },
+  ],
+  render: (ctx: ShapeRenderContext, position: { x: number; y: number }) => {
+    const { x, y } = position;
+    const fill = ctx.style?.fill || '#e8f5e9';
+    const stroke = ctx.style?.stroke || '#2e7d32';
+    const label = ctx.node.label || '';
+
+    let svg = '<g>';
+    svg += `<rect x="${x + 10}" y="${y + 30}" width="40" height="16" rx="4" ry="4" fill="${fill}" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<circle cx="${x + 30}" cy="${y + 38}" r="2" fill="${stroke}" />`;
+    svg += `<path d="M ${x + 22} ${y + 28} Q ${x + 30} ${y + 18} ${x + 38} ${y + 28}" fill="none" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<path d="M ${x + 16} ${y + 24} Q ${x + 30} ${y + 8} ${x + 44} ${y + 24}" fill="none" stroke="${stroke}" stroke-width="2" />`;
+    if (label) {
+      svg += renderShapeLabel(ctx, label, x + 30, y + 54);
+    }
+    svg += '</g>';
+    return svg;
+  },
+};
+
+export const vpnGatewayShape: ShapeDefinition = {
+  id: 'vpnGateway',
+  bounds: () => ({ width: 72, height: 64 }),
+  anchors: () => [
+    { x: 36, y: 0, name: 'top' },
+    { x: 72, y: 32, name: 'right' },
+    { x: 36, y: 64, name: 'bottom' },
+    { x: 0, y: 32, name: 'left' },
+  ],
+  render: (ctx: ShapeRenderContext, position: { x: number; y: number }) => {
+    const { x, y } = position;
+    const fill = ctx.style?.fill || '#ede7f6';
+    const stroke = ctx.style?.stroke || '#5e35b1';
+    const label = ctx.node.label || '';
+
+    let svg = '<g>';
+    svg += `<path d="M ${x + 36} ${y + 8} L ${x + 52} ${y + 14} L ${x + 52} ${y + 30} Q ${x + 52} ${y + 42} ${x + 36} ${y + 50} Q ${x + 20} ${y + 42} ${x + 20} ${y + 30} L ${x + 20} ${y + 14} Z" fill="${fill}" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<path d="M ${x + 28} ${y + 28} Q ${x + 36} ${y + 20} ${x + 44} ${y + 28}" fill="none" stroke="${stroke}" stroke-width="1.8" />`;
+    svg += `<path d="M ${x + 28} ${y + 32} Q ${x + 36} ${y + 40} ${x + 44} ${y + 32}" fill="none" stroke="${stroke}" stroke-width="1.8" />`;
+    if (label) {
+      svg += renderShapeLabel(ctx, label, x + 36, y + 58);
+    }
+    svg += '</g>';
+    return svg;
+  },
+};
+
+export const modemShape: ShapeDefinition = {
+  id: 'modem',
+  bounds: () => ({ width: 64, height: 42 }),
+  anchors: () => [
+    { x: 32, y: 0, name: 'top' },
+    { x: 64, y: 21, name: 'right' },
+    { x: 32, y: 42, name: 'bottom' },
+    { x: 0, y: 21, name: 'left' },
+  ],
+  render: (ctx: ShapeRenderContext, position: { x: number; y: number }) => {
+    const { x, y } = position;
+    const fill = ctx.style?.fill || '#fff8e1';
+    const stroke = ctx.style?.stroke || '#ef6c00';
+    const label = ctx.node.label || '';
+
+    let svg = '<g>';
+    svg += `<rect x="${x + 4}" y="${y + 8}" width="56" height="20" rx="4" ry="4" fill="${fill}" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<line x1="${x + 16}" y1="${y + 8}" x2="${x + 16}" y2="${y + 2}" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<line x1="${x + 48}" y1="${y + 8}" x2="${x + 48}" y2="${y + 2}" stroke="${stroke}" stroke-width="2" />`;
+    svg += `<circle cx="${x + 20}" cy="${y + 18}" r="1.5" fill="${stroke}" />`;
+    svg += `<circle cx="${x + 28}" cy="${y + 18}" r="1.5" fill="${stroke}" />`;
+    svg += `<circle cx="${x + 36}" cy="${y + 18}" r="1.5" fill="${stroke}" />`;
+    if (label) {
+      svg += renderShapeLabel(ctx, label, x + 32, y + 38);
+    }
+    svg += '</g>';
+    return svg;
+  },
+};
+
 // ============================================================================
 // Database Shape (alias to cylinder - already exists)
 // ============================================================================

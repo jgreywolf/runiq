@@ -11,6 +11,7 @@ export enum ProfileType {
   DIAGRAM = 'diagram',
   SEQUENCE = 'sequence',
   TIMELINE = 'timeline',
+  FAULT_TREE = 'faultTree',
   ELECTRICAL = 'electrical',
   DIGITAL = 'digital',
   BLOCK_DIAGRAM = 'blockDiagram',
@@ -78,6 +79,7 @@ export enum LineStyle {
   DASHED = 'dashed',
   DOTTED = 'dotted',
   DOUBLE = 'double',
+  BLOCK = 'block',
 }
 
 /**

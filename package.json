@@ -1,6 +1,6 @@
 {
   "name": "runiq",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "A markdown-friendly diagram DSL with JSON twin that compiles to standards-compliant SVG",
   "type": "module",
   "private": true,
@@ -10,8 +10,8 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "pnpm -r build",
-    "build:packages": "pnpm -r --filter ./packages/* run build",
+    "build": "pnpm -r --workspace-concurrency=1 build",
+    "build:packages": "pnpm -r --workspace-concurrency=1 --filter ./packages/* run build",
     "dev": "pnpm --filter runiq-editor dev",
     "dev:editor": "pnpm --filter runiq-editor dev",
     "docs:dev": "vitepress dev docs",

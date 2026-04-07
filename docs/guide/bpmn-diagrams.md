@@ -167,6 +167,13 @@ shape end as @bpmnEvent label: "End" data: [{"eventType": "end"}]
 shape timer as @bpmnEvent label: "Wait 5 Days" data: [{"eventType": "timer"}]
 shape msg as @bpmnEvent label: "Receive Approval" data: [{"eventType": "message"}]
 shape error as @bpmnEvent label: "Handle Error" data: [{"eventType": "error"}]
+shape signal as @bpmnEvent label: "Broadcast" data: [{"eventType": "signal"}]
+shape cancel as @bpmnEvent label: "Cancel" data: [{"eventType": "intermediate-cancel"}]
+shape terminate as @bpmnEvent label: "Terminate" data: [{"eventType": "end-terminate"}]
+
+# Boundary event attached to an activity
+shape timeout as @bpmnBoundaryEvent label: "Timeout" data: [{"eventType": "timer"}]
+shape reminder as @bpmnBoundaryEvent label: "Reminder" data: [{"eventType": "message"},{"interrupting":false}]
 ```
 
 ### Common Event Types
@@ -180,6 +187,15 @@ shape error as @bpmnEvent label: "Handle Error" data: [{"eventType": "error"}]
 | `error`       | Error handling      | Lightning bolt |
 | `signal`      | Signal broadcast    | Triangle       |
 | `conditional` | Condition-based     | Document icon  |
+| `escalation`  | Escalation path     | Upward chevron |
+| `compensation`| Compensation step   | Double rewind  |
+| `intermediate-cancel` | Transaction cancel | X marker |
+| `intermediate-link` | Link to another event | Arrow marker |
+| `intermediate-multiple` | Multiple triggers | Pentagon marker |
+| `intermediate-parallelMultiple` | Parallel triggers | Plus/X marker |
+| `end-terminate` | Immediate termination | Filled circle |
+
+Boundary events use `@bpmnBoundaryEvent` and support the same marker types as intermediate events. Set `interrupting:false` for non-interrupting boundary events with dashed rings.
 
 Example with multiple event types:
 
@@ -318,16 +334,25 @@ diagram "Task Types" {
     shape start as @bpmnEvent label: "Start" data: [{"eventType": "start"}]
 
     # User task - human interaction
-    shape reviewTask as @bpmnTask label: "Review Order (User)"
+    shape reviewTask as @bpmnTask label: "Review Order" data: [{"taskType": "user"}]
 
     # Service task - automated
-    shape validateTask as @bpmnTask label: "Validate Data (Service)"
+    shape validateTask as @bpmnTask label: "Validate Data" data: [{"taskType": "service"}]
 
     # Script task - code execution
-    shape calculateTask as @bpmnTask label: "Calculate Total (Script)"
+    shape calculateTask as @bpmnTask label: "Calculate Total" data: [{"taskType": "script"}]
 
     # Manual task - outside system
-    shape packTask as @bpmnTask label: "Pack Items (Manual)"
+    shape packTask as @bpmnTask label: "Pack Items" data: [{"taskType": "manual"}]
+
+    # Receive task - incoming message
+    shape receiveApproval as @bpmnTask label: "Receive Approval" data: [{"taskType": "receive"}]
+
+    # Send task - outgoing message
+    shape sendConfirmation as @bpmnTask label: "Send Confirmation" data: [{"taskType": "send"}]
+
+    # Business rule task - decision table / rule engine
+    shape rulesCheck as @bpmnTask label: "Apply Rules" data: [{"taskType": "businessRule"}]
 
     shape end as @bpmnEvent label: "End" data: [{"eventType": "end"}]
 
@@ -335,31 +360,123 @@ diagram "Task Types" {
     reviewTask -> validateTask
     validateTask -> calculateTask
     calculateTask -> packTask
-    packTask -> end
+    packTask -> receiveApproval
+    receiveApproval -> sendConfirmation
+    sendConfirmation -> rulesCheck
+    rulesCheck -> end
   }
 }
 ```
+
+### Task Marker Types
+
+| Task Type | Usage | Marker |
+| --------- | ----- | ------ |
+| `user` | Human-performed work | Person marker |
+| `service` | Automated service call | Gear marker |
+| `manual` | Manual work outside the system | Manual task marker |
+| `script` | Inline script execution | Script/document marker |
+| `receive` | Wait for incoming message | Open envelope |
+| `send` | Send outgoing message | Filled envelope |
+| `businessRule` | Rule engine / decision table | Table/grid marker |
 
 ## Additional BPMN Shapes
 
 Use these shapes for richer BPMN notation beyond basic tasks/events:
 
 ```runiq
+# Data artifacts
+shape dataStore as @bpmnDataStore label: "Customer Master"
+shape inbound as @bpmnDataInput label: "Order Form"
+shape outbound as @bpmnDataOutput label: "Invoice"
+
 # Transaction (double border)
 shape tx as @transaction label: "Payment Transaction"
+
+# Collapsed subprocess (plus marker)
+shape sub as @bpmnSubProcess label: "Fulfillment"
+
+# Expanded subprocess (no plus marker, room for embedded flow semantics)
+shape expanded as @bpmnSubProcess label: "Fulfillment Detail" data: [{"expanded": true}]
 
 # Event subprocess (dashed border)
 shape subprocess as @eventSubProcess label: "Escalation"
 
 # Call activity (thick border)
 shape callProc as @callActivity label: "Call Subprocess"
+shape callProcDetailed as @callActivity label: "Review Contract"
+  data: [{"calledElement":"ReviewWorkflow"}]
 
 # Conversation (hexagon)
 shape convo as @conversation label: "Vendor Sync"
+shape multiParty as @conversation label: "Partner Handoff"
+  data: [{"participantA":"Buyer"},{"participantB":"Vendor"},{"multiParty":true}]
+
+# Choreography task (participant bands)
+shape choreo as @bpmnChoreographyTask label: "Approve Contract"
+shape choreoDetailed as @bpmnChoreographyTask label: "Approve Contract"
+  data: [{"initiatingParticipant":"Buyer"},{"receivingParticipant":"Vendor"}]
+
+# Non-interrupting standalone event shapes
+shape startSignal as @startNonInterfering label: "Signal Start"
+shape midSignal as @intermediateNonInterfering label: "Escalate"
 
 # Annotation (left bracket)
 shape note as @annotation label: "Requires audit trail"
 ```
+
+## Boundary Events
+
+Boundary events model interrupts or side channels attached to an activity boundary.
+
+```runiq
+diagram "Boundary Events" {
+  direction LR
+
+  container "Claims Process" as @bpmnPool {
+    shape assess as @bpmnTask label: "Assess Claim" data: [{"taskType":"user"}]
+    shape timeout as @bpmnBoundaryEvent label: "Timeout" data: [{"eventType":"timer"}]
+    shape reminder as @bpmnBoundaryEvent label: "Reminder" data: [{"eventType":"message"},{"interrupting":false}]
+    shape escalate as @bpmnTask label: "Escalate"
+    shape notify as @bpmnTask label: "Send Reminder"
+
+    assess -> escalate label: "[timeout]"
+    reminder -> notify
+  }
+}
+```
+
+## Subprocesses And Collaboration
+
+Use dedicated subprocess and choreography shapes when you need more BPMN-specific notation than a plain task.
+
+```runiq
+diagram "Subprocess And Choreography" {
+  direction TB
+
+  container "Partner Workflow" as @bpmnPool {
+    shape intake as @bpmnTask label: "Receive Request"
+    shape fulfill as @bpmnSubProcess label: "Fulfillment"
+    shape detail as @bpmnSubProcess label: "Fulfillment Detail" data: [{"expanded": true}]
+    shape sync as @bpmnChoreographyTask label: "Approve Contract"
+      data: [{"initiatingParticipant":"Buyer"},{"receivingParticipant":"Vendor"}]
+    shape done as @bpmnEvent label: "Done" data: [{"eventType":"end"}]
+
+    intake -> fulfill
+    fulfill -> detail
+    detail -> sync
+    sync -> done
+  }
+}
+```
+
+- Use `@bpmnSubProcess` by default for collapsed subprocesses.
+- Set `data:[{"expanded":true}]` when you want the expanded subprocess visual treatment.
+- Use `@eventSubProcess` for event-triggered subprocesses with dashed borders.
+- Add `initiatingParticipant` and `receivingParticipant` data values on `@bpmnChoreographyTask` to label the interaction bands.
+- Add `calledElement` on `@callActivity` to identify the invoked reusable process.
+- Add `participantA`, `participantB`, and `multiParty:true` on `@conversation` for richer collaboration notation.
+- Use `@startNonInterfering` and `@intermediateNonInterfering` when you want standalone non-interrupting event notation outside a boundary-event context.
 
 ## Message Flows
 
@@ -565,46 +682,6 @@ diagram "Styled BPMN Process" {
 }
 ```
 
-## Best Practices
-
-### 1. Use Pools for Different Organizations
-
-```runiq
-container "Our Company" as @bpmnPool { ... }
-container "Partner Company" as @bpmnPool { ... }
-container "Customer" as @bpmnPool { ... }
-```
-
-### 2. Use Lanes for Departments/Roles
-
-```runiq
-container "Order Fulfillment" as @bpmnPool {
-  container "Sales" as @bpmnLane { ... }
-  container "Warehouse" as @bpmnLane { ... }
-  container "Shipping" as @bpmnLane { ... }
-}
-```
-
-### 3. Label Message Flows Clearly
-
-```runiq
-customerPool_task -> vendorPool_task label: "Purchase Order"
-vendorPool_ship -> customerPool_receive label: "Shipment Notification"
-```
-
-### 4. Choose the Right Gateway
-
-- **Exclusive** (`exclusive`) - Business decisions with one outcome
-- **Parallel** (`parallel`) - Work that must happen concurrently
-- **Inclusive** (`inclusive`) - Multiple possible outcomes
-
-### 5. Use Event Types Appropriately
-
-- **Timer events** for time-based triggers
-- **Message events** for external communication
-- **Error events** for exception handling
-- **Signal events** for broadcast notifications
-
 ## Common Patterns
 
 ### Approval Workflow
@@ -652,6 +729,46 @@ process -> errorEvent label: "[exception]"
 errorEvent -> handleError
 ```
 
+## Best Practices
+
+### 1. Use Pools for Different Organizations
+
+```runiq
+container "Our Company" as @bpmnPool { ... }
+container "Partner Company" as @bpmnPool { ... }
+container "Customer" as @bpmnPool { ... }
+```
+
+### 2. Use Lanes for Departments/Roles
+
+```runiq
+container "Order Fulfillment" as @bpmnPool {
+  container "Sales" as @bpmnLane { ... }
+  container "Warehouse" as @bpmnLane { ... }
+  container "Shipping" as @bpmnLane { ... }
+}
+```
+
+### 3. Label Message Flows Clearly
+
+```runiq
+customerPool_task -> vendorPool_task label: "Purchase Order"
+vendorPool_ship -> customerPool_receive label: "Shipment Notification"
+```
+
+### 4. Choose the Right Gateway
+
+- **Exclusive** (`exclusive`) - Business decisions with one outcome
+- **Parallel** (`parallel`) - Work that must happen concurrently
+- **Inclusive** (`inclusive`) - Multiple possible outcomes
+
+### 5. Use Event Types Appropriately
+
+- **Timer events** for time-based triggers
+- **Message events** for external communication
+- **Error events** for exception handling
+- **Signal events** for broadcast notifications
+
 ## Comparison with Other Tools
 
 How do Runiq BPMN diagrams compare to other business process modeling tools?
@@ -671,7 +788,7 @@ How do Runiq BPMN diagrams compare to other business process modeling tools?
 | **Free/Open Source**         | ✅    | ✅       | ❌         | ✅      | ✅              | ❌     |
 | **Learning Curve**           | Low   | Med      | Med        | Low     | Med             | Med    |
 
-**Why choose Runiq for BPMN?**
+**Key Advantages of Runiq:**
 
 - **Documentation as code** - Version control your process models
 - **Unified language** - Mix BPMN with ERD, sequence diagrams, architecture diagrams
@@ -679,6 +796,12 @@ How do Runiq BPMN diagrams compare to other business process modeling tools?
 - **Simple syntax** - Focus on process logic, not drawing
 - **Quick prototyping** - Rapidly iterate on process designs
 - **Standards compliance** - BPMN 2.0 core elements supported
+
+**When to Use Alternatives:**
+
+- **Camunda Modeler**: Executable BPMN workflows and runtime integration
+- **Bizagi**: Business-process modeling with enterprise workflow tooling
+- **Lucidchart/Draw.io**: Workshop-style process mapping with less emphasis on text-based versioning
 
 ## See Also
 

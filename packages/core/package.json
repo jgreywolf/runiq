@@ -1,6 +1,6 @@
 {
   "name": "@runiq/core",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "description": "Core AST types, registries, and interfaces for Runiq",
   "type": "module",
   "main": "./dist/index.js",
@@ -106,7 +106,7 @@
     }
   },
   "devDependencies": {
-    "@runiq/data-loader": "workspace:*",
+    "@runiq/data-loader": "^1.2.0",
     "@types/node": "^20.11.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
@@ -123,7 +123,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/runiq/runiq.git",
+    "url": "https://github.com/quipolabs/runiq.git",
     "directory": "packages/core"
   },
   "publishConfig": {

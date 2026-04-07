@@ -61,6 +61,11 @@ function getGlyphsetIcon(shapeId: string, size: number): string | null {
  * Get diagram profile icon (diagram, sequence, electrical, pneumatic, hydraulic, hvac)
  */
 function getDiagramProfileIcon(shapeId: string, size: number): string | null {
+	const chartPreviewIcon = getChartPreviewIcon(shapeId, size);
+	if (chartPreviewIcon) {
+		return chartPreviewIcon;
+	}
+
 	// Check for entry/exit point special icons
 	const entryExitIcon = getEntryExitIcon(shapeId, size);
 	if (entryExitIcon) {
@@ -84,6 +89,51 @@ function getDiagramProfileIcon(shapeId: string, size: number): string | null {
 
 	// Try to render from shape registry
 	return renderShapeFromRegistry(shapeId, size);
+}
+
+function getChartPreviewIcon(shapeId: string, size: number): string | null {
+	const stroke = '#48677e';
+	const axis = '#cbd5e1';
+	const px = (value: number) => Number(((value / 48) * size).toFixed(2));
+	const displaySize = size * 3;
+	const wrap = (content: string) =>
+		`<svg viewBox="0 0 ${size} ${size}" width="${displaySize}" height="${displaySize}" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+			${content}
+		</svg>`;
+
+	switch (shapeId) {
+		case 'lineChart':
+			return wrap(`
+				<line x1="${px(8)}" y1="${px(38)}" x2="${px(40)}" y2="${px(38)}" stroke="${axis}" stroke-width="${px(1.5)}" />
+				<line x1="${px(10)}" y1="${px(8)}" x2="${px(10)}" y2="${px(40)}" stroke="${axis}" stroke-width="${px(1.5)}" />
+				<polyline points="${px(10)},${px(30)} ${px(18)},${px(24)} ${px(25)},${px(27)} ${px(33)},${px(17)} ${px(40)},${px(21)}" fill="none" stroke="${stroke}" stroke-width="${px(2.25)}" stroke-linecap="round" stroke-linejoin="round" />
+				<circle cx="${px(18)}" cy="${px(24)}" r="${px(1.8)}" fill="${stroke}" />
+				<circle cx="${px(25)}" cy="${px(27)}" r="${px(1.8)}" fill="${stroke}" />
+				<circle cx="${px(33)}" cy="${px(17)}" r="${px(1.8)}" fill="${stroke}" />
+				<circle cx="${px(40)}" cy="${px(21)}" r="${px(1.8)}" fill="${stroke}" />
+			`);
+		case 'ringChart':
+			return wrap(`
+				<circle cx="${size / 2}" cy="${size / 2}" r="${px(12)}" fill="none" stroke="#60a5fa" stroke-width="${px(7)}" stroke-dasharray="${px(22)} ${px(10)} ${px(14)} ${px(6)} ${px(18)} ${px(30)}" transform="rotate(-90 ${size / 2} ${size / 2})" />
+				<circle cx="${size / 2}" cy="${size / 2}" r="${px(7)}" fill="white" />
+			`);
+		case 'scatterChart':
+			return wrap(`
+				<line x1="${px(8)}" y1="${px(38)}" x2="${px(40)}" y2="${px(38)}" stroke="${axis}" stroke-width="${px(1.5)}" />
+				<line x1="${px(10)}" y1="${px(8)}" x2="${px(10)}" y2="${px(40)}" stroke="${axis}" stroke-width="${px(1.5)}" />
+				<circle cx="${px(17)}" cy="${px(28)}" r="${px(2.5)}" fill="#60a5fa" />
+				<circle cx="${px(26)}" cy="${px(21)}" r="${px(2.5)}" fill="#34d399" />
+				<circle cx="${px(34)}" cy="${px(14)}" r="${px(2.5)}" fill="#f59e0b" />
+				<circle cx="${px(40)}" cy="${px(25)}" r="${px(2.5)}" fill="#f97316" />
+			`);
+		case 'venn':
+			return wrap(`
+				<circle cx="${px(20)}" cy="${px(24)}" r="${px(9)}" fill="#93c5fd" fill-opacity="0.75" stroke="${stroke}" stroke-width="${px(1)}" />
+				<circle cx="${px(28)}" cy="${px(24)}" r="${px(9)}" fill="#86efac" fill-opacity="0.75" stroke="${stroke}" stroke-width="${px(1)}" />
+			`);
+		default:
+			return null;
+	}
 }
 
 /**
@@ -130,7 +180,7 @@ function renderShapeFromRegistry(shapeId: string, size: number): string | null {
 	const shapeContent = shape.render(mockContext, { x: 0, y: 0 });
 
 	// Chart shapes need larger display size
-	const isChartShape = ['pieChart', 'barChart', 'pyramid'].includes(shapeId);
+	const isChartShape = ['pieChart', 'barChart', 'pyramid', 'radarChart'].includes(shapeId);
 	const displaySize = isChartShape ? size * 3 : size;
 
 	return `

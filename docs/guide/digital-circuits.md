@@ -64,34 +64,31 @@ Note: In the editor toolbox, electrical shapes insert `part ... pins:(...)` snip
 | --------------------- | -------------------- | ------------------------ |
 | **Use Case**          | Simple gate circuits | Hierarchical design      |
 | **Component Keyword** | `part`               | `inst` (instance)        |
-| **Module Definition** | ❌ No                | ✅ Yes (`module`)        |
+| **Module Definition** | No                   | Yes (`module`)           |
 | **Port Mapping**      | Simple pin lists     | Named port mapping       |
-| **Bus Notation**      | ❌ No                | ✅ Yes `[7:0]`           |
+| **Bus Notation**      | No                   | Yes `[7:0]`              |
 | **Parameters**        | Basic properties     | Full parameter overrides |
-| **Mixed Analog**      | ✅ Yes               | ❌ No (digital only)     |
+| **Mixed Analog**      | Yes                  | No (digital only)        |
 | **Export**            | SPICE, Verilog       | Verilog (hierarchical)   |
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq                 | Mermaid        | PlantUML       | Lucidchart  | Logisim        | Digital        | Quartus       | Vivado        |
-| ---------------------------- | --------------------- | -------------- | -------------- | ----------- | -------------- | -------------- | ------------- | ------------- |
-| **Basic Support**            | ✅                    | ❌             | ❌             | ✅          | ✅             | ❌             | ✅            | ✅            |
-| **Gate-level design**        | ✅                    | ❌             | ❌             | ✅          | ✅             | ✅             | ✅            | ✅            |
-| **Hierarchical modules**     | ✅                    | ❌             | ❌             | ⚠️ Manual   | ✅             | ✅             | ✅            | ✅            |
-| **Interactive simulation**   | ❌                    | ❌             | ❌             | ❌          | ✅             | ✅             | ✅            | ✅            |
-| **Timing analysis**          | ❌                    | ❌             | ❌             | ❌          | ⚠️ Basic       | ⚠️ Basic       | ✅            | ✅            |
-| **FPGA synthesis**           | ❌                    | ❌             | ❌             | ❌          | ❌             | ❌             | ✅            | ✅            |
-| **HDL export**               | ✅ Verilog            | ❌             | ❌             | ❌          | ⚠️ VHDL        | ⚠️ VHDL        | ✅            | ✅            |
-| **Standard libraries**       | ✅                    | ❌             | ❌             | ⚠️ Basic    | ✅             | ✅             | ✅            | ✅            |
-| **Automatic layout**         | ✅                    | ✅             | ✅             | ❌          | ❌             | ⚠️ Auto-route  | ❌            | ❌            |
-| **Documentation generation** | ✅                    | ✅             | ✅             | ⚠️ Partial  | ❌             | ❌             | ⚠️ Partial    | ⚠️ Partial    |
-| **Multi-profile support**    | ✅ Electrical/Digital | ❌             | ❌             | ✅          | ❌             | ❌             | ❌            | ❌            |
-| **Export formats**           | SVG, PNG              | SVG, PNG       | SVG, PNG       | Multiple    | Image          | Image          | PDF, Image    | PDF, Image    |
-| **Text-based DSL**           | ✅                    | ✅             | ✅             | ❌          | ❌             | ❌             | ⚠️ TCL        | ⚠️ XDC        |
-| **Version control friendly** | ✅                    | ✅             | ✅             | ❌          | ❌             | ❌             | ⚠️ Partial    | ⚠️ Partial    |
-| **Learning curve**           | Low                   | Low            | Medium         | Low         | Medium         | Low            | High          | High          |
-| **Cost**                     | Free                  | Free           | Free           | Paid        | Free           | Free           | Paid          | Paid          |
-| **Platform**                 | Cross-platform        | Cross-platform | Cross-platform | Web/Desktop | Cross-platform | Cross-platform | Windows/Linux | Windows/Linux |
+| Feature                      | Runiq                 | Lucidchart         | Logisim        | Digital        | Quartus       | Vivado        |
+| ---------------------------- | --------------------- | ------------------ | -------------- | -------------- | ------------- | ------------- |
+| **Basic Support**            | Yes                   | Yes                | Yes            | Yes            | Yes           | Yes           |
+| **Gate-level design**        | Yes                   | Manual             | Yes            | Yes            | Yes           | Yes           |
+| **Hierarchical modules**     | Yes                   | Manual             | Limited        | Yes            | Yes           | Yes           |
+| **Interactive simulation**   | No                    | No                 | Yes            | Yes            | Yes           | Yes           |
+| **Timing analysis**          | No                    | No                 | Basic          | Basic          | Yes           | Yes           |
+| **FPGA synthesis**           | No                    | No                 | No             | No             | Yes           | Yes           |
+| **HDL export**               | Yes, Verilog          | No                 | Limited        | Limited        | Yes           | Yes           |
+| **Automatic layout**         | Yes                   | No                 | No             | Auto-route     | No            | No            |
+| **Documentation generation** | Yes                   | Partial            | No             | No             | Partial       | Partial       |
+| **Text-based DSL**           | Yes                   | No                 | No             | No             | Limited (TCL) | Limited (XDC) |
+| **Version control friendly** | Yes                   | No                 | No             | No             | Partial       | Partial       |
+| **Learning curve**           | Low                   | Low                | Medium         | Low            | High          | High          |
+| **Cost**                     | Free                  | Paid               | Free           | Free           | Paid          | Paid          |
+| **Platform**                 | Cross-platform        | Web/Desktop        | Cross-platform | Cross-platform | Windows/Linux | Windows/Linux |
 
 **Key Advantages of Runiq:**
 
@@ -105,7 +102,6 @@ Note: In the editor toolbox, electrical shapes insert `part ... pins:(...)` snip
 - **Logisim/Digital**: Interactive circuit design and simulation for education
 - **Quartus/Vivado**: Professional FPGA development with synthesis and implementation
 - **Lucidchart**: Real-time collaboration with non-technical stakeholders
-- **Mermaid/PlantUML**: Simple logic diagrams in existing documentation
 
 ## Examples
 

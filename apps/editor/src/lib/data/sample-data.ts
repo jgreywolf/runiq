@@ -6,6 +6,7 @@ import { containerSampleDiagrams } from './toolboxSamples/containerSampleDiagram
 import { controlSampleDiagrams } from './toolboxSamples/controlSampleDiagrams';
 import { digitalSampleDiagrams } from './toolboxSamples/digitalSampleDiagrams';
 import { electricalSampleDiagrams } from './toolboxSamples/electricalSampleDiagrams';
+import { faultTreeSampleDiagrams } from './toolboxSamples/faultTreeSampleDiagrams';
 import { flowchartSampleDiagrams } from './toolboxSamples/flowchartSampleDiagrams';
 import { gitgraphSampleDiagrams } from './toolboxSamples/gitgraphSampleDiagrams';
 import { hydraulicSampleDiagrams } from './toolboxSamples/hydraulicSampleDiagrams';
@@ -22,10 +23,13 @@ import { railroadSampleDiagrams } from './toolboxSamples/railroadSampleDiagrams'
 import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
 import { stateMachineSampleDiagrams } from './toolboxSamples/stateMachineSampleDiagrams';
 import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSampleDiagrams';
+import { threatModelSampleDiagrams } from './toolboxSamples/threatModelSampleDiagrams';
 import { timelineSampleDiagrams } from './toolboxSamples/timelineSampleDiagrams';
 import { treemapSampleDiagrams } from './toolboxSamples/treemapSampleDiagrams';
 import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
 import { wardleySampleDiagrams } from './toolboxSamples/wardleySampleDiagrams';
+import { wbsSampleDiagrams } from './toolboxSamples/wbsSampleDiagrams';
+import { requirementsSampleDiagrams } from './toolboxSamples/requirementsSampleDiagrams';
 import { glyphsetSampleDiagrams } from './toolboxSamples/glyphsetSampleDiagrams';
 
 export interface Sample {
@@ -52,8 +56,12 @@ export const sampleDiagrams: SampleCategory[] = [
 	...stateMachineSampleDiagrams,
 	...sequenceSampleDiagrams,
 	...timelineSampleDiagrams,
+	...faultTreeSampleDiagrams,
 	...mindmapSampleDiagrams,
 	...networkSampleDiagrams,
+	...threatModelSampleDiagrams,
+	...wbsSampleDiagrams,
+	...requirementsSampleDiagrams,
 	...pedigreeSampleDiagrams,
 	...c4SampleDiagrams,
 	...controlSampleDiagrams,

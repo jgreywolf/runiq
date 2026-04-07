@@ -5,6 +5,10 @@ export {
   switchShape,
   firewallShape,
   loadBalancerShape,
-  storageShape
+  storageShape,
+  workstationShape,
+  accessPointShape,
+  vpnGatewayShape,
+  modemShape,
 } from './networkTopology.js';
 export { cloudShape } from './cloud.js';

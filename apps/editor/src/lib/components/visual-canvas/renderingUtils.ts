@@ -6,6 +6,7 @@ import { renderDigital, renderPID, renderSchematic } from '@runiq/renderer-schem
 import {
 	renderGitGraph,
 	renderKanban,
+	renderFaultTree,
 	renderPedigree,
 	renderRailroadDiagram,
 	renderSequenceDiagram,
@@ -125,6 +126,8 @@ export async function renderDiagram(code: string, dataContent: string, layoutEng
 			result.svg = renderSequenceDiagram(diagramProfile).svg;
 		} else if (profileType === 'timeline') {
 			result.svg = renderTimeline(diagramProfile).svg;
+		} else if (profileType === 'faultTree') {
+			result.svg = renderFaultTree(diagramProfile).svg;
 		} else if (profileType === 'kanban') {
 			result.svg = renderKanban(diagramProfile).svg;
 		} else if (profileType === 'gitgraph') {

@@ -307,67 +307,67 @@ Runiq is built as a **monorepo** with modular packages:
 
 ## Comparison with Other Tools
 
-### Text-Based & Code Tools
+### Text-Based And Code Tools
 
 | Feature                   | Runiq                              | Mermaid         | PlantUML          | Graphviz      | D2            | Draw.io          |
 | ------------------------- | ---------------------------------- | --------------- | ----------------- | ------------- | ------------- | ---------------- |
 | **Format**                | DSL + JSON                         | Markdown        | Text              | DOT           | Text          | GUI + XML        |
 | **Output**                | Pure SVG                           | SVG + HTML      | PNG/SVG           | SVG/PNG       | SVG/PNG       | SVG/PNG/XML      |
 | **Layout Engine**         | ELK (5 algorithms)                 | Dagre/ELK       | GraphViz          | Built-in      | Custom        | Manual + Auto    |
-| **Version Control**       | ✅ Text-based                      | ✅ Text-based   | ✅ Text-based     | ✅ Text-based | ✅ Text-based | ⚠️ XML binary    |
-| **Glyphsets/SmartArt**    | ✅ 61 templates                   | ❌              | ❌                | ❌            | ❌            | ⚠️ Limited       |
-| **Shape Library**         | ✅ 192 shapes                     | ⚠️ ~30 shapes   | ⚠️ ~50 shapes     | ⚠️ Basic      | ⚠️ ~40 shapes | ✅ Thousands     |
-| **Containers**            | ✅ Full support                    | ⚠️ Limited      | ✅ Subgraphs      | ⚠️ Limited    | ✅ Yes        | ✅ Full          |
-| **UML Support**           | ✅ Most types                      | ✅ Most types   | ✅ Full UML suite | ❌            | ⚠️ Basic      | ✅ Via templates |
-| **Flowcharts**            | ✅ ISO 5807                        | ✅ Yes          | ✅ Yes            | ✅ Yes        | ✅ Yes        | ✅ Full          |
-| **BPMN**                  | ✅ Full support                    | ⚠️ Basic        | ⚠️ Limited        | ❌            | ❌            | ✅ Full          |
-| **Electrical Circuits**   | ✅ Analog + Digital                | ❌              | ❌                | ❌            | ❌            | ⚠️ Basic         |
-| **Wardley Maps**          | ✅ Native                          | ⚠️ Plugin       | ❌                | ❌            | ⚠️ Manual     | ⚠️ Manual        |
-| **Network Diagrams**      | ✅ Weighted, Force, Stress         | ✅ Basic        | ✅ Basic          | ✅ Strong     | ✅ Yes        | ✅ Full          |
-| **Timeline/Gantt**        | ⚠️ Timeline                        | ⚠️ Gantt        | ✅ Gantt          | ❌            | ⚠️ Limited    | ✅ Gantt         |
-| **Git Graphs**            | ?o. Yes                             | ?o. Yes          | ??O                | ??O            | ??O            | ??O               |
-| **User Journey**          | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
-| **Quadrant Charts**       | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
-| **Requirement Diagrams**  | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
-| **ZenUML**                | ❌                                 | ✅ Yes          | ❌                | ❌            | ❌            | ❌               |
-| **Data Viz**              | ?o. Sankey, Treemap, Pyramid, Venn   | ?s??,? Sankey, Pie  | ??O                | ??O            | ??O            | ?s??,? Charts        |
-| **C4 Architecture**       | ✅ Full C4                         | ✅ Yes          | ✅ Yes            | ❌            | ✅ Yes        | ⚠️ Manual        |
-| **Mind Maps**             | ✅ Radial layout                   | ✅ Yes          | ✅ Yes            | ❌            | ❌            | ✅ Yes           |
-| **Deployment Diagrams**   | ❌                                 | ❌              | ✅ Yes            | ❌            | ❌            | ⚠️ Manual        |
-| **Object Diagrams**       | ❌                                 | ❌              | ✅ Yes            | ❌            | ❌            | ⚠️ Manual        |
-| **Timing Diagrams**       | ❌                                 | ❌              | ✅ Yes            | ❌            | ❌            | ❌               |
-| **ER Diagrams**           | ✅ Crow's foot                     | ✅ Yes          | ✅ Yes            | ❌            | ⚠️ Basic      | ✅ Full          |
-| **Control Systems**       | ✅ Block diagrams                  | ❌              | ❌                | ❌            | ❌            | ⚠️ Basic         |
-| **Styling**               | ✅ Themes + inline                 | ✅ CSS + themes | ⚠️ Limited        | ⚠️ Attrs      | ✅ Strong     | ✅ Full GUI      |
-| **Export Formats**        | ✅ SPICE, Verilog, LaTeX, Simulink | ❌ Code         | ❌ Code           | ❌ Code       | ❌ Code       | ⚠️ Limited       |
-| **TypeScript/JavaScript** | ✅ Native                          | ✅ Yes          | ❌ Java           | ❌ C          | ❌ Go         | ✅ Web only      |
-| **Browser SDK**           | ✅ @runiq/web                      | ✅ Yes          | ⚠️ Via server     | ❌            | ✅ WASM       | ✅ Embed         |
-| **CLI Tool**              | ✅ Yes                             | ✅ Yes          | ✅ Yes            | ✅ Yes        | ✅ Yes        | ⚠️ Desktop       |
-| **Extensibility**         | ✅ Plugin system                   | ⚠️ Limited      | ⚠️ Macros         | ❌            | ⚠️ Limited    | ✅ Plugins       |
-| **Real-time Collab**      | ❌ (planned)                       | ❌              | ❌                | ❌            | ❌            | ❌               |
+| **Version Control**       | ? Text-based                      | ? Text-based   | ? Text-based     | ? Text-based | ? Text-based | ?? XML-heavy     |
+| **Glyphsets/SmartArt**    | ? 61 templates                    | ?              | ?                | ?            | ?            | ?? Limited       |
+| **Shape Library**         | ? 192 shapes                      | ?? ~30 shapes   | ?? ~50 shapes     | ?? Basic      | ?? ~40 shapes | ? Thousands     |
+| **Containers**            | ? Full support                    | ?? Limited      | ? Subgraphs      | ?? Limited    | ? Yes        | ? Full          |
+| **UML Support**           | ? Most types                      | ? Most types   | ? Full UML suite | ?            | ?? Basic      | ? Via templates |
+| **Flowcharts**            | ? ISO 5807                        | ? Yes          | ? Yes            | ? Yes        | ? Yes        | ? Full          |
+| **BPMN**                  | ? Full support                    | ?? Basic        | ?? Limited        | ?            | ?            | ? Full          |
+| **Electrical Circuits**   | ? Analog + Digital                | ?              | ?                | ?            | ?            | ?? Basic         |
+| **Wardley Maps**          | ? Native                          | ?? Plugin       | ?                | ?            | ?? Manual     | ?? Manual        |
+| **Network Diagrams**      | ? Weighted, Force, Stress         | ? Basic        | ? Basic          | ? Strong     | ? Yes        | ? Full          |
+| **Timeline/Gantt**        | ?? Timeline                        | ?? Gantt        | ? Gantt          | ?            | ?? Limited    | ? Gantt         |
+| **Git Graphs**            | ? Yes                             | ? Yes          | ?                | ?            | ?            | ?               |
+| **User Journey**          | ?                                 | ? Yes          | ?                | ?            | ?            | ?               |
+| **Quadrant Charts**       | ?                                 | ? Yes          | ?                | ?            | ?            | ?               |
+| **Requirement Diagrams**  | ?                                 | ? Yes          | ?                | ?            | ?            | ?               |
+| **ZenUML**                | ?                                 | ? Yes          | ?                | ?            | ?            | ?               |
+| **Data Visualization**    | ? Sankey, Treemap, Pyramid, Venn  | ?? Sankey, Pie  | ?                | ?            | ?            | ?? Charts        |
+| **C4 Architecture**       | ? Full C4                         | ? Yes          | ? Yes            | ?            | ? Yes        | ?? Manual        |
+| **Mind Maps**             | ? Radial layout                   | ? Yes          | ? Yes            | ?            | ?            | ? Yes           |
+| **Deployment Diagrams**   | ?                                 | ?              | ? Yes            | ?            | ?            | ?? Manual        |
+| **Object Diagrams**       | ?                                 | ?              | ? Yes            | ?            | ?            | ?? Manual        |
+| **Timing Diagrams**       | ?                                 | ?              | ? Yes            | ?            | ?            | ?               |
+| **ER Diagrams**           | ? Crow's foot                     | ? Yes          | ? Yes            | ?            | ?? Basic      | ? Full          |
+| **Control Systems**       | ? Block diagrams                  | ?              | ?                | ?            | ?            | ?? Basic         |
+| **Styling**               | ? Themes + inline                 | ? CSS + themes | ?? Limited        | ?? Attrs      | ? Strong     | ? Full GUI      |
+| **Export Formats**        | ? SPICE, Verilog, LaTeX, Simulink | ? Code         | ? Code           | ? Code       | ? Code       | ?? Limited       |
+| **TypeScript/JavaScript** | ? Native                          | ? Yes          | ? Java           | ? C          | ? Go         | ? Web only      |
+| **Browser SDK**           | ? `@runiq/web`                    | ? Yes          | ?? Via server     | ?            | ? WASM       | ? Embed         |
+| **CLI Tool**              | ? Yes                             | ? Yes          | ? Yes            | ? Yes        | ? Yes        | ?? Desktop       |
+| **Extensibility**         | ? Plugin system                   | ?? Limited      | ?? Macros         | ?            | ?? Limited    | ? Plugins       |
+| **Real-time Collab**      | ? Planned                         | ?              | ?                | ?            | ?            | ?               |
 | **License**               | MIT                                | MIT             | GPL/Commercial    | EPL           | MPL-2.0       | Apache 2.0       |
 
-### Visual & Commercial Tools
+### Visual And Commercial Tools
 
 | Feature                 | Runiq                                | Visio         | Lucidchart    | Creately      | Gliffy      | Cacoo         |
 | ----------------------- | ------------------------------------ | ------------- | ------------- | ------------- | ----------- | ------------- |
 | **Editing**             | Code                                 | GUI           | GUI           | GUI           | GUI         | GUI           |
 | **Pricing**             | Free (MIT)                           | $280/yr       | $7.95-20/mo   | $5-89/mo      | $8/mo       | $6-18/mo      |
-| **Version Control**     | ✅ Native Git                        | ❌ Manual     | ⚠️ Built-in   | ⚠️ Built-in   | ⚠️ Cloud    | ⚠️ Cloud      |
-| **Offline Mode**        | ✅ Full                              | ✅ Desktop    | ❌ Web only   | ⚠️ Limited    | ❌ Web only | ❌ Web only   |
-| **Automation**          | ✅ CLI + SDK                         | ⚠️ VBA        | ⚠️ API        | ⚠️ API        | ⚠️ Limited  | ⚠️ API        |
-| **Shape Library**       | ✅ 192 shapes                       | ✅ Thousands  | ✅ Thousands  | ✅ Thousands  | ✅ Hundreds | ✅ Thousands  |
-| **Templates**           | ✅ 61 glyphsets                     | ✅ Hundreds   | ✅ Hundreds   | ✅ Hundreds   | ✅ Dozens   | ✅ Hundreds   |
-| **UML**                 | ✅ 6 types                           | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Full     | ✅ Full       |
-| **BPMN**                | ✅ Yes                               | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Yes      | ✅ Yes        |
-| **Flowcharts**          | ✅ ISO 5807                          | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Full     | ✅ Full       |
-| **Network Diagrams**    | ✅ Yes                               | ✅ Full       | ✅ Full       | ✅ Full       | ✅ Yes      | ✅ Yes        |
-| **ER Diagrams**         | ✅ Yes                               | ✅ Yes        | ✅ Yes        | ✅ Yes        | ✅ Yes      | ✅ Yes        |
-| **Electrical Circuits** | ✅ SPICE + Verilog                   | ⚠️ Basic      | ⚠️ Basic      | ⚠️ Basic      | ❌          | ❌            |
-| **Control Systems**     | ✅ LaTeX + Simulink                  | ❌            | ❌            | ❌            | ❌          | ❌            |
-| **Code Generation**     | ✅ SPICE, Verilog, LaTeX, Simulink   | ❌            | ❌            | ❌            | ❌          | ❌            |
-| **Data Import**         | ✅ JSON                              | ✅ CSV, DB    | ✅ CSV, API   | ✅ CSV        | ⚠️ Limited  | ⚠️ Limited    |
-| **Real-time Collab**    | ❌ (planned)                         | ⚠️ Limited    | ✅ Yes        | ✅ Yes        | ✅ Yes      | ✅ Yes        |
+| **Version Control**     | ? Native Git                        | ? Manual     | ?? Built-in   | ?? Built-in   | ?? Cloud    | ?? Cloud      |
+| **Offline Mode**        | ? Full                              | ? Desktop    | ? Web only   | ?? Limited    | ? Web only | ? Web only   |
+| **Automation**          | ? CLI + SDK                         | ?? VBA        | ?? API        | ?? API        | ?? Limited  | ?? API        |
+| **Shape Library**       | ? 192 shapes                        | ? Thousands  | ? Thousands  | ? Thousands  | ? Hundreds | ? Thousands  |
+| **Templates**           | ? 61 glyphsets                      | ? Hundreds   | ? Hundreds   | ? Hundreds   | ? Dozens   | ? Hundreds   |
+| **UML**                 | ? 6 types                           | ? Full       | ? Full       | ? Full       | ? Full     | ? Full       |
+| **BPMN**                | ? Yes                               | ? Full       | ? Full       | ? Full       | ? Yes      | ? Yes        |
+| **Flowcharts**          | ? ISO 5807                          | ? Full       | ? Full       | ? Full       | ? Full     | ? Full       |
+| **Network Diagrams**    | ? Yes                               | ? Full       | ? Full       | ? Full       | ? Yes      | ? Yes        |
+| **ER Diagrams**         | ? Yes                               | ? Yes        | ? Yes        | ? Yes        | ? Yes      | ? Yes        |
+| **Electrical Circuits** | ? SPICE + Verilog                   | ?? Basic      | ?? Basic      | ?? Basic      | ?          | ?            |
+| **Control Systems**     | ? LaTeX + Simulink                  | ?            | ?            | ?            | ?          | ?            |
+| **Code Generation**     | ? SPICE, Verilog, LaTeX, Simulink   | ?            | ?            | ?            | ?          | ?            |
+| **Data Import**         | ? JSON                              | ? CSV, DB    | ? CSV, API   | ? CSV        | ?? Limited  | ?? Limited    |
+| **Real-time Collab**    | ? Planned                           | ?? Limited    | ? Yes        | ? Yes        | ? Yes      | ? Yes        |
 | **Platform**            | Cross-platform                       | Windows/Mac   | Web           | Web           | Web         | Web           |
 | **Export Formats**      | SVG, SPICE, Verilog, LaTeX, Simulink | PNG, SVG, PDF | PNG, PDF, SVG | PNG, PDF, SVG | PNG, SVG    | PNG, PDF, SVG |
 
@@ -375,40 +375,40 @@ Runiq is built as a **monorepo** with modular packages:
 
 **Choose Runiq if you need:**
 
-- ✅ **Version control friendly** - Plain text, perfect for Git
-- ✅ **Automation & CI/CD** - Generate diagrams in pipelines
-- ✅ **Engineering exports** - SPICE netlists, Verilog HDL, LaTeX, Simulink
-- ✅ **No vendor lock-in** - Open source, MIT license
-- ✅ **Developer workflow** - TypeScript types, CLI tools, SDK
-- ✅ **Quick diagrams** - 61 SmartArt-style glyphsets
-- ✅ **Technical diagrams** - Circuits, control systems, block diagrams
+- ? **Version control friendly** - Plain text, perfect for Git
+- ? **Automation and CI/CD** - Generate diagrams in pipelines
+- ? **Engineering exports** - SPICE netlists, Verilog HDL, LaTeX, Simulink
+- ? **No vendor lock-in** - Open source, MIT license
+- ? **Developer workflow** - TypeScript types, CLI tools, SDK
+- ? **Quick diagrams** - 61 SmartArt-style glyphsets
+- ? **Technical diagrams** - Circuits, control systems, block diagrams
 
 **Choose Mermaid if you need:**
 
-- ✅ Markdown integration
-- ✅ GitHub/GitLab native rendering
-- ✅ Simple syntax for basic diagrams
+- ? Markdown integration
+- ? GitHub and GitLab native rendering
+- ? Simple syntax for basic diagrams
 
 **Choose PlantUML if you need:**
 
-- ✅ Comprehensive UML suite
-- ✅ Large community and examples
-- ✅ Mature, stable tool
+- ? Comprehensive UML suite
+- ? Large community and examples
+- ? Mature, stable tool
 
-**Choose Visio/Lucidchart if you need:**
+**Choose Visio or Lucidchart if you need:**
 
-- ✅ Non-technical users
-- ✅ Rich GUI editing
-- ✅ Real-time collaboration
-- ✅ Extensive template libraries
-- ✅ Business diagrams over technical
+- ? Non-technical users
+- ? Rich GUI editing
+- ? Real-time collaboration
+- ? Extensive template libraries
+- ? Business diagrams over technical
 
 **Choose Draw.io if you need:**
 
-- ✅ Free GUI tool
-- ✅ Desktop + web versions
-- ✅ No subscription required
-- ✅ Massive shape library
+- ? Free GUI tool
+- ? Desktop and web versions
+- ? No subscription required
+- ? Massive shape library
 
 ::: tip Future Integration
 The documentation site currently uses VitePress for speed and simplicity. In the future, we plan to integrate the **SvelteKit editor** for live, interactive diagram editing directly in the docs. Stay tuned!

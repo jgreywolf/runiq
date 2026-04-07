@@ -1,12 +1,12 @@
 ---
 title: Charts & Graphs
-description: Create data visualizations with bar charts, line charts, pie charts, radar charts, Venn diagrams, and force-directed network graphs.
+description: Create data visualizations with bar charts, line charts, pie charts, ring charts, scatter charts, radar charts, Venn diagrams, and force-directed network graphs.
 lastUpdated: 2025-01-09
 ---
 
 # Charts & Graphs
 
-Create data visualization diagrams including pie charts, bar charts, Venn diagrams, and pyramids with Runiq's diagram profile.
+Create data visualization diagrams including pie charts, ring charts, scatter charts, bar charts, Venn diagrams, and pyramids with Runiq's diagram profile.
 
 ## Overview
 
@@ -15,7 +15,9 @@ Runiq provides specialized chart shapes for data visualization and conceptual di
 ## Key Shapes
 
 - **Pie Chart**: `@pieChart` - Circular sector chart
+- **Ring Chart**: `@ringChart` - Donut-style proportional chart
 - **Bar Chart**: `@barChart` - Vertical or horizontal bars (use `flipAxes:true` for horizontal)
+- **Scatter Chart**: `@scatterChart` - X/Y point plotting with optional labels
 - **Line Chart**: `@lineChart` - Time series and trend lines
 - **Radar Chart**: `@radarChart` - Multi-dimensional spider chart
 - **Pyramid**: `@pyramid` - Hierarchical pyramid
@@ -121,6 +123,43 @@ diagram "Market Share" {
 | `showLegend`     | boolean      | false     | Show legend                              |
 | `legendPosition` | string       | "right"   | Legend placement (right/left/top/bottom) |
 
+## Ring Charts
+
+Ring charts use the same proportional model as pie charts, but leave an empty center so the chart reads better in dashboards and summary views.
+
+### Basic Ring Chart
+
+```runiq
+diagram "Revenue Mix" {
+  shape revenue as @ringChart
+    label:"Revenue Mix"
+    data:[42, 38, 20]
+    labels:["Services", "Subscriptions", "Support"]
+}
+```
+
+### Custom Inner Radius
+
+Use `innerRadius` to control how thick or thin the ring should be. Values typically work best between `0.45` and `0.75`.
+
+```runiq
+diagram "Operating Margin" {
+  shape margin as @ringChart
+    label:"Operating Margin"
+    data:[72, 28]
+    labels:["Healthy", "At Risk"]
+    innerRadius:0.68
+}
+```
+
+### Ring Chart Properties
+
+Ring charts support the same `data`, `labels`, `colors`, `showLegend`, and `legendPosition` options as pie charts, plus:
+
+| Property      | Type   | Default | Description                          |
+| ------------- | ------ | ------- | ------------------------------------ |
+| `innerRadius` | number | `0.58`  | Relative donut hole size (0.05-0.85) |
+
 ### Dimensions
 
 - Fixed size: 400×300 pixels
@@ -206,9 +245,10 @@ diagram "Dashboard Overview" {
   shape title as @textBlock label: "Q4 Business Metrics"
 
   container metrics as @systemBoundary label: "Key Performance Indicators" {
-    shape revenue as @barChart label:"Revenue" data:[120, 150, 180, 210]
-    shape market as @pieChart label:"Market Share" data:[30, 20, 50]
-    shape conversion as @pyramid label:"Conversion Funnel"
+  shape revenue as @barChart label:"Revenue" data:[120, 150, 180, 210]
+  shape market as @pieChart label:"Market Share" data:[30, 20, 50]
+  shape options as @scatterChart label:"Cost vs Latency" data:[{"x":20,"y":120},{"x":55,"y":60},{"x":80,"y":210}]
+  shape conversion as @pyramid label:"Conversion Funnel"
   }
 
   shape analysis as @rectangle label: "Detailed Analysis Report"
@@ -240,6 +280,48 @@ diagram "Styled Charts" {
     colors:["#3b82f6", "#10b981", "#ed8936"]
 }
 ```
+
+## Scatter Charts
+
+Scatter charts plot independent points on numeric X and Y axes. They work well for portfolio comparisons, benchmarking, cost-versus-performance analysis, and other relationship-based datasets.
+
+### Basic Scatter Chart
+
+```runiq
+diagram "Cost vs Latency" {
+  shape options as @scatterChart
+    label:"Cost vs Latency"
+    data:[{"x":20,"y":120,"label":"Option A"},{"x":55,"y":60,"label":"Option B"},{"x":80,"y":210,"label":"Option C"}]
+    showPointLabels:true
+}
+```
+
+### Multi-Series Scatter Chart
+
+```runiq
+diagram "Current vs Target" {
+  shape compare as @scatterChart
+    label:"Current vs Target"
+    data:{
+      showLegend:true,
+      series:[
+        {label:"Current", points:[{x:15,y:40},{x:25,y:58}]},
+        {label:"Target", points:[{x:45,y:22},{x:60,y:30}]}
+      ]
+    }
+}
+```
+
+### Scatter Chart Properties
+
+| Property          | Type      | Default | Description                                |
+| ----------------- | --------- | ------- | ------------------------------------------ |
+| `data`            | array     | -       | Array of points or `series` object         |
+| `showGrid`        | boolean   | true    | Show X/Y grid lines                        |
+| `showLegend`      | boolean   | false   | Show series legend                         |
+| `showPointLabels` | boolean   | false   | Show labels next to individual data points |
+| `colors`          | string[]  | palette | Series or point colors                     |
+| `labels`          | string[]  | -       | Fallback point labels                      |
 
 ## Best Practices
 
@@ -608,7 +690,7 @@ How do Runiq charts compare to other diagramming tools?
 | **Auto-Layout**              | ✅    | ✅      | ✅         | ❌      | ❌    |
 | **Learning Curve**           | Low   | Low     | Med        | Low     | High  |
 
-**Why choose Runiq for charts?**
+**Key Advantages of Runiq:**
 
 - **Unified language** - Charts use the same DSL as all other diagram types
 - **Seamless integration** - Combine charts with flowcharts, architecture diagrams, etc.
@@ -616,6 +698,13 @@ How do Runiq charts compare to other diagramming tools?
 - **Data flexibility** - Simple arrays for DSL, complex objects for JSON imports
 - **Modern features** - Per-point colors, axis flipping, custom labels out of the box
 - **Extensible** - Add custom chart types via the shape system
+
+**When to Use Alternatives:**
+
+- **Mermaid**: Quick markdown-native charts when you only need the limited built-in set
+- **Lucidchart**: Collaborative visual editing for business users who prefer a GUI
+- **Draw.io**: Free drag-and-drop charting in mixed office environments
+- **D3.js**: Fully custom interactive data visualization in web applications
 
 ## Examples
 

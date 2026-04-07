@@ -61,6 +61,25 @@ describe('langium-parser', () => {
       expect(result.warnings.length).toBeGreaterThan(0);
       expect(result.warnings.join('\n')).toContain('Missing railroad diagram references: Missing');
     });
+
+    it('should warn on duplicate IDs in file-tree style diagrams', () => {
+      const dsl = `
+        diagram "Repo" {
+          container repo "repo" as @fileTree {
+            container apps "apps" as @folder {
+              shape readme as @file label:"README.md"
+            }
+            container packages "packages" as @folder {
+              shape readme as @file label:"README.md"
+            }
+          }
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      expect(result.warnings.some((warning) => warning.includes('Duplicate node ID: readme'))).toBe(true);
+    });
   });
   describe('parse() - Error Handling', () => {
     it('should return errors for invalid syntax', () => {
@@ -201,6 +220,19 @@ describe('langium-parser', () => {
       const result = parse(dsl);
 
       expect(result.document?.profiles[0]?.type).toBe(ProfileType.TIMELINE);
+    });
+
+    it('should route fault tree profile correctly', () => {
+      const dsl = `
+        faultTree "Brake Failure" {
+          topEvent loss "Brake system fails"
+          gate g1 type:or under:loss
+          event hydLoss "Hydraulic pressure lost" under:g1
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.document?.profiles[0]?.type).toBe(ProfileType.FAULT_TREE);
     });
 
     it('should route wardley profile correctly', () => {

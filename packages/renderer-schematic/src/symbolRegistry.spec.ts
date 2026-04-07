@@ -83,9 +83,14 @@ describe('symbolRegistry', () => {
       expect(symbolRegistry.has('R')).toBe(true); // Resistor
       expect(symbolRegistry.has('C')).toBe(true); // Capacitor
       expect(symbolRegistry.has('L')).toBe(true); // Inductor
+      expect(symbolRegistry.has('BATTERY')).toBe(true);
+      expect(symbolRegistry.has('FUSE')).toBe(true);
+      expect(symbolRegistry.has('LAMP')).toBe(true);
       expect(symbolRegistry.has('D')).toBe(true); // Diode
       expect(symbolRegistry.has('LED')).toBe(true);
       expect(symbolRegistry.has('GND')).toBe(true);
+      expect(symbolRegistry.has('SW_SPST')).toBe(true);
+      expect(symbolRegistry.has('SW_SPDT')).toBe(true);
     });
 
     it('should contain digital logic gates', () => {
@@ -148,6 +153,14 @@ describe('symbolRegistry', () => {
 
     it('should contain control system symbols', () => {
       expect(symbolRegistry.has('NO_CONTACT')).toBe(true);
+      expect(symbolRegistry.has('NC_CONTACT')).toBe(true);
+      expect(symbolRegistry.has('COIL')).toBe(true);
+      expect(symbolRegistry.has('SET_COIL')).toBe(true);
+      expect(symbolRegistry.has('RESET_COIL')).toBe(true);
+      expect(symbolRegistry.has('TIMER_ON')).toBe(true);
+      expect(symbolRegistry.has('TIMER_OFF')).toBe(true);
+      expect(symbolRegistry.has('COUNTER_UP')).toBe(true);
+      expect(symbolRegistry.has('COUNTER_DOWN')).toBe(true);
       expect(symbolRegistry.has('NC_CONTACT')).toBe(true);
       expect(symbolRegistry.has('COIL')).toBe(true);
       expect(symbolRegistry.has('SET_COIL')).toBe(true);

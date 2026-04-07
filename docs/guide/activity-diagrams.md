@@ -22,28 +22,6 @@ Activity diagrams are ideal for:
 - **Data Flow Analysis** - Object nodes, central buffers, data stores
 - **Cross-Functional Workflows** - Horizontal and vertical swimlanes
 
-## Basic Structure
-
-```runiq
-diagram "Basic Activity Flow" {
-  direction TB
-
-  shape start as @initialState
-  shape activity1 as @activity label: "Process Data"
-  shape decision as @diamond
-  shape activity2 as @activity label: "Handle Success"
-  shape activity3 as @activity label: "Handle Error"
-  shape end as @activityFinal
-
-  start -> activity1
-  activity1 -> decision
-  decision -> activity2 label: "[valid]"
-  decision -> activity3 label: "[invalid]"
-  activity2 -> end
-  activity3 -> end
-}
-```
-
 ## Key Shapes
 
 ### Activity Nodes
@@ -99,6 +77,28 @@ split -> task2
 task1 -> merge
 task2 -> merge
 merge -> done
+```
+
+## Basic Structure
+
+```runiq
+diagram "Basic Activity Flow" {
+  direction TB
+
+  shape start as @initialState
+  shape activity1 as @activity label: "Process Data"
+  shape decision as @diamond
+  shape activity2 as @activity label: "Handle Success"
+  shape activity3 as @activity label: "Handle Error"
+  shape end as @activityFinal
+
+  start -> activity1
+  activity1 -> decision
+  decision -> activity2 label: "[valid]"
+  decision -> activity3 label: "[invalid]"
+  activity2 -> end
+  activity3 -> end
+}
 ```
 
 ## Action Pins
@@ -179,9 +179,9 @@ diagram "Object Flow Example" {
   saveData -> final
 
   # Object flow (data movement)
-  readInput -> userInput label: "«output»"
-  userInput -> processData label: "«input»"
-  processData -> processedData label: "«output»"
+  readInput -> userInput label: "<<output>>"
+  userInput -> processData label: "<<input>>"
+  processData -> processedData label: "<<output>>"
   processedData -> dataQueue label: "enqueue"
   dataQueue -> saveData label: "dequeue"
   saveData -> dataStoreShape label: "store"
@@ -192,7 +192,7 @@ diagram "Object Flow Example" {
 
 - **Control Flow** (solid arrow) - Sequencing of activities
 - **Object Flow** (dashed arrow) - Movement of data between activities
-- Use `label: "«input»"` or `label: "«output»"` to annotate data direction
+- Use `label: "<<input>>"` or `label: "<<output>>"` to annotate data direction
   :::
 
 ## Swimlanes
@@ -365,11 +365,11 @@ activity2 -> activity3
 Represents data passing between activities and object nodes:
 
 ```runiq
-activity -> dataObject label: "«output»"
-dataObject -> nextActivity label: "«input»"
+activity -> dataObject label: "<<output>>"
+dataObject -> nextActivity label: "<<input>>"
 ```
 
-Use stereotypes like `«input»`, `«output»`, `«parameter»` to annotate object flows.
+Use stereotypes like `<<input>>`, `<<output>>`, `<<parameter>>` to annotate object flows.
 
 ## Complete Example: Order Processing
 
@@ -442,56 +442,14 @@ diagram "E-Commerce Order Processing" {
   sendNotification -> receiveOrder
 
   # Object flows
-  checkout -> orderData label: "«output»"
+  checkout -> orderData label: "<<output>>"
   orderData -> orderQueue label: "enqueue"
-  orderQueue -> validateOrder label: "«input»"
+  orderQueue -> validateOrder label: "<<input>>"
   reserveItems -> orderDb label: "store"
 
   # Error handling
   refund -> end
 }
-```
-
-## Best Practices
-
-### 1. Use Meaningful Labels
-
-```runiq
-# Good - Clear and action-oriented
-shape validate as @activity label: "Validate Customer Data"
-
-# Avoid - Vague or technical
-shape step1 as @activity label: "Step 1"
-```
-
-### 2. Group Related Activities with Swimlanes
-
-Use swimlanes to show responsibility boundaries:
-
-```runiq
-container "User"
-container "System"
-container "Database"
-```
-
-### 3. Distinguish Control Flow from Object Flow
-
-- Use object nodes (`@objectNode`, `@centralBuffer`, `@dataStore`) for data
-- Use action pins for complex data transformations
-- Label object flows with stereotypes: `«input»`, `«output»`
-
-### 4. Choose the Right Final Node
-
-- Use `@activityFinal` to end the entire activity
-- Use `@flowFinal` to end one branch while others continue
-
-### 5. Document Decision Criteria
-
-Always label decision branches with conditions:
-
-```runiq
-decision -> successPath label: "[amount < $1000]"
-decision -> approvalPath label: "[amount >= $1000]"
 ```
 
 ## Common Patterns
@@ -553,6 +511,48 @@ container "Production System"
 }
 ```
 
+## Best Practices
+
+### 1. Use Meaningful Labels
+
+```runiq
+# Good - Clear and action-oriented
+shape validate as @activity label: "Validate Customer Data"
+
+# Avoid - Vague or technical
+shape step1 as @activity label: "Step 1"
+```
+
+### 2. Group Related Activities with Swimlanes
+
+Use swimlanes to show responsibility boundaries:
+
+```runiq
+container "User"
+container "System"
+container "Database"
+```
+
+### 3. Distinguish Control Flow from Object Flow
+
+- Use object nodes (`@objectNode`, `@centralBuffer`, `@dataStore`) for data
+- Use action pins for complex data transformations
+- Label object flows with stereotypes: `<<input>>`, `<<output>>`
+
+### 4. Choose the Right Final Node
+
+- Use `@activityFinal` to end the entire activity
+- Use `@flowFinal` to end one branch while others continue
+
+### 5. Document Decision Criteria
+
+Always label decision branches with conditions:
+
+```runiq
+decision -> successPath label: "[amount < $1000]"
+decision -> approvalPath label: "[amount >= $1000]"
+```
+
 ## Comparison with Other Tools
 
 | Feature                      | Runiq                              | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
@@ -576,7 +576,7 @@ container "Production System"
 | **Learning Curve**           | ⚠️ Moderate (DSL)                  | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
 | **Open Source**              | ✅ MIT License                     | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **UML 2.5 compliant** with all activity diagram elements
 - **Unified language** for activity, sequence, class, state machine, and 15+ diagram types
@@ -587,6 +587,12 @@ container "Production System"
 - **Version control native** - perfect for process documentation in repositories
 - **ELK layout engine** for superior layered layouts
 - **Profile system** for diagram-specific conventions
+
+**When to Use Alternatives:**
+
+- **Enterprise Architect**: Full UML repository/model management with broader enterprise traceability
+- **PlantUML**: Established text-based UML workflow for teams already standardized on it
+- **Lucidchart/Draw.io**: Faster ad hoc collaboration with non-technical stakeholders
 
 ## See Also
 

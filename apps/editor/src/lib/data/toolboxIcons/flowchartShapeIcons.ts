@@ -35,9 +35,9 @@ export const flowchartShapeIcons: ShapeCategory[] = [
 				code: 'shape id as @manualInput label:"Manual Input"'
 			},
 			{
-				id: 'trapezoid',
+				id: 'manualOperation',
 				label: 'Manual Operation',
-				code: 'shape id as @trapezoid label:"Manual"'
+				code: 'shape id as @manualOperation label:"Manual"'
 			},
 			{
 				id: 'decisionManual',
@@ -73,9 +73,34 @@ export const flowchartShapeIcons: ShapeCategory[] = [
 			{ id: 'display', label: 'Display', code: 'shape id as @display label:"Display"' },
 			{ id: 'delay', label: 'Delay', code: 'shape id as @delay label:"Wait"' },
 			{
+				id: 'onPageConnector',
+				label: 'On-Page Connector',
+				code: 'shape id as @onPageConnector label:"A"'
+			},
+			{
 				id: 'offPageConnector',
 				label: 'Off-Page Connector',
 				code: 'shape id as @offPageConnector label:"A"'
+			},
+			{
+				id: 'merge',
+				label: 'Merge',
+				code: 'shape id as @merge label:"Merge"'
+			},
+			{
+				id: 'sort',
+				label: 'Sort',
+				code: 'shape id as @sort label:"Sort"'
+			},
+			{
+				id: 'collate',
+				label: 'Collate',
+				code: 'shape id as @collate label:"Collate"'
+			},
+			{
+				id: 'extract',
+				label: 'Extract',
+				code: 'shape id as @extract label:"Extract"'
 			},
 			{
 				id: 'doubleCircle',

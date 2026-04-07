@@ -22,6 +22,18 @@ import {
   unescapeString,
 } from '../utils/index.js';
 
+function isShowPointLabelsProperty(
+  prop: Langium.NodeProperty
+): prop is Langium.ShowPointLabelsProperty {
+  return prop.$type === 'ShowPointLabelsProperty';
+}
+
+function isInnerRadiusProperty(
+  prop: Langium.NodeProperty
+): prop is Langium.InnerRadiusProperty {
+  return prop.$type === 'InnerRadiusProperty';
+}
+
 /**
  * Convert DiagramProfile from Langium AST to core AST format
  */
@@ -45,6 +57,12 @@ export function convertDiagramProfile(
   applyBpmnMessageFlowDefaults(diagram);
 
   return diagram;
+}
+
+function normalizeShapeAlias(shape: string): string {
+  if (shape === 'lollipop') return 'providedInterface';
+  if (shape === 'socket') return 'requiredInterface';
+  return shape;
 }
 
 /**
@@ -125,7 +143,7 @@ function processDialogStatement(
     const nodeId = unescapeString(statement.id);
     const node: NodeAst = {
       id: nodeId,
-      shape: statement.shape || 'rounded',
+      shape: normalizeShapeAlias(statement.shape || 'rounded'),
       data: {},
     };
 
@@ -344,6 +362,8 @@ function processNodeProperties(
             attrObj.type = field.value.replace(/^"|"$/g, '');
           } else if (Langium.isAttrVisibilityField(field)) {
             attrObj.visibility = field.value;
+          } else if (Langium.isAttrCardinalityField(field)) {
+            attrObj.cardinality = field.value.replace(/^"|"$/g, '');
           } else if (Langium.isAttrDefaultField(field)) {
             attrObj.defaultValue = field.value.replace(/^"|"$/g, '');
           } else if (Langium.isAttrStaticField(field)) {
@@ -445,6 +465,9 @@ function processNodeProperties(
     if (Langium.isShowLegendProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.showLegend = prop.value === 'true';
+    } else if (isShowPointLabelsProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.showPointLabels = prop.value === 'true';
     } else if (Langium.isShowValuesProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.showValues = prop.value === 'true';
@@ -475,6 +498,9 @@ function processNodeProperties(
           item.replace(/^"|"$/g, '')
         );
       }
+    } else if (isInnerRadiusProperty(prop)) {
+      if (!node.data) node.data = {};
+      node.data.innerRadius = Number(prop.value);
     } else if (Langium.isTitleProperty(prop)) {
       if (!node.data) node.data = {};
       node.data.title = prop.value.replace(/^"|"$/g, '');
@@ -668,6 +694,7 @@ export function convertContainer(
     id,
     label: block.label.replace(/^"|"$/g, ''),
     children: [],
+    contentOrder: [],
   };
 
   let styleRef: string | undefined;
@@ -698,6 +725,8 @@ export function convertContainer(
         container.badge = prop.badge.replace(/^"|"$/g, '');
       } else if (prop.collapsible !== undefined) {
         container.collapsible = prop.collapsible === 'true';
+      } else if (prop.expanded !== undefined) {
+        container.collapsed = prop.expanded !== 'true';
       } else if (prop.collapsed !== undefined) {
         container.collapsed = prop.collapsed === 'true';
       }
@@ -962,10 +991,14 @@ export function convertContainer(
   for (const statement of block.statements) {
     if (Langium.isShapeDeclaration(statement)) {
       container.children.push(unescapeString(statement.id));
+      container.contentOrder!.push({
+        kind: 'node',
+        id: unescapeString(statement.id),
+      });
 
       let shape: string;
       if (statement.shape) {
-        shape = statement.shape;
+        shape = normalizeShapeAlias(statement.shape);
       } else if (containerType === 'mindmap') {
         shape = isFirstNode ? 'circ' : 'rounded';
       } else {
@@ -1036,7 +1069,15 @@ export function convertContainer(
         container.containers = [];
       }
       container.containers.push(nestedContainer);
+      container.contentOrder!.push({
+        kind: 'container',
+        id: nestedContainer.id || '',
+      });
     }
+  }
+
+  if (container.contentOrder && container.contentOrder.length === 0) {
+    delete container.contentOrder;
   }
 
   return container;

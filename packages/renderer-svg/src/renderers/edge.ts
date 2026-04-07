@@ -62,6 +62,10 @@ export function renderEdge(
   const lineStyle = (edgeAst as any).lineStyle || styleLineStyle || LineStyle.SOLID;
   let strokeDasharray = '';
   let isDoubleLine = false;
+  const isBlockLine = lineStyle === LineStyle.BLOCK || lineStyle === 'block';
+  const effectiveStrokeWidth = isBlockLine
+    ? Math.max(Number(strokeWidth) || 1, 8)
+    : strokeWidth;
 
   if (lineStyle === LineStyle.DASHED) {
     strokeDasharray = ' stroke-dasharray="5,3"';
@@ -115,6 +119,8 @@ export function renderEdge(
       ? ArrowType.HOLLOW
       : edgeType === 'dependency'
         ? ArrowType.OPEN
+        : isBlockLine
+          ? ArrowType.STANDARD
         : (edgeAst as any).arrowType || ArrowType.STANDARD;
   const isBidirectional = !!(edgeAst as any).bidirectional;
   const navigability = (edgeAst as any).navigability; // UML navigability direction
@@ -168,7 +174,12 @@ export function renderEdge(
       useMarkerStart = true;
     } else if (arrowType === ArrowType.STANDARD) {
       // Filled triangle (association, standard arrow)
-      edgeMarkup += `
+      edgeMarkup += isBlockLine
+        ? `
+      <marker id="${arrowId}" markerWidth="14" markerHeight="14" refX="12" refY="5" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0,0 0,10 12,5" fill="${stroke}" />
+      </marker>`
+        : `
       <marker id="${arrowId}" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="0,0 0,6 9,3" fill="${stroke}" />
       </marker>`;
@@ -176,7 +187,12 @@ export function renderEdge(
 
       // For bidirectional arrows, create a reversed marker for the start
       if (isBidirectional) {
-        edgeMarkup += `
+        edgeMarkup += isBlockLine
+          ? `
+      <marker id="${arrowIdStart}" markerWidth="14" markerHeight="14" refX="0" refY="5" orient="auto" markerUnits="strokeWidth">
+        <polygon points="12,0 12,10 0,5" fill="${stroke}" />
+      </marker>`
+          : `
       <marker id="${arrowIdStart}" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
         <polygon points="9,0 9,6 0,3" fill="${stroke}" />
       </marker>`;
@@ -299,7 +315,7 @@ export function renderEdge(
     }
   } else {
     // Single line (standard)
-    edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}"${strokeDasharray}${markerAttr} pointer-events="none" />`;
+    edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${effectiveStrokeWidth}"${strokeDasharray}${markerAttr}${isBlockLine ? ' stroke-linecap="square" stroke-linejoin="miter"' : ''} pointer-events="none" />`;
   }
 
   // Calculate midpoint for labels along the routed path length
@@ -307,7 +323,9 @@ export function renderEdge(
 
   // Stereotype text (rendered above the line in guillemets)
   if ((edgeAst as any).stereotype) {
-    const stereotypeText = `<<${(edgeAst as any).stereotype}>>`;
+    const stereotypeText = formatStereotypeText(
+      String((edgeAst as any).stereotype)
+    );
     edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 15}" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">${escapeXml(stereotypeText)}</text>`;
   }
 
@@ -452,6 +470,17 @@ function getEdgeLabelPoint(
   }
 
   return points[Math.floor(points.length / 2)];
+}
+
+function formatStereotypeText(stereotype: string): string {
+  const trimmed = stereotype.trim();
+  if (trimmed.startsWith('«') && trimmed.endsWith('»')) {
+    return trimmed;
+  }
+  if (trimmed.startsWith('<<') && trimmed.endsWith('>>')) {
+    return `«${trimmed.slice(2, -2).trim()}»`;
+  }
+  return `«${trimmed}»`;
 }
 
 function isOrthogonalElbow(points: { x: number; y: number }[]): boolean {

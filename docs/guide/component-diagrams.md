@@ -686,25 +686,25 @@ diagram "Deployment Topology" {
 
 | Feature                      | Runiq                      | PlantUML     | Lucidchart         | Draw.io       | Enterprise Architect |
 | ---------------------------- | -------------------------- | ------------ | ------------------ | ------------- | -------------------- |
-| **Text-Based DSL**           | ✅                         | ✅           | ❌(GUI)            | ❌(GUI)       | ⚠️ Hybrid            |
-| **Version Control Friendly** | ✅                         | ✅           | ⚠️ Limited         | ⚠️ Limited    | ❌                   |
-| **Automatic Layout**         | ✅ ELK (Layered)           | ✅ GraphViz  | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **UML 2.5 Compliance**       | ✅                         | ✅           | ⚠️ Partial         | ⚠️ Partial    | ✅                   |
-| **Provided Interfaces**      | ✅ Lollipop notation       | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
-| **Required Interfaces**      | ✅ Socket notation         | ✅           | ✅ Manual          | ✅ Manual     | ✅                   |
-| **Ports**                    | ✅ Named port support      | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Assembly Connectors**      | ✅ Ball-and-socket pattern | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Dependencies**             | ✅ Dashed arrows           | ✅           | ✅ Manual styling  | ✅ Manual     | ✅                   |
-| **Delegation Connectors**    | ✅ Internal wiring syntax  | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Subsystems/Packages**      | ✅ Via containers          | ✅           | ✅                 | ✅            | ✅                   |
-| **Artifacts (JARs, WARs)**   | ✅ `@artifact` shape       | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Nodes (Servers)**          | ✅ `@node` 3D cube         | ✅           | ⚠️ Manual          | ⚠️ Manual     | ✅                   |
-| **Export Formats**           | ✅ SVG, PNG, PDF           | ✅ PNG, SVG  | ✅ Many formats    | ✅ Many       | ✅ Many              |
-| **Collaboration**            | ✅ Git-based               | ✅ Git-based | ✅ Cloud (Paid)    | ✅ Cloud      | ⚠️ Database-based    |
-| **Learning Curve**           | ⚠️ Moderate (DSL)          | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
-| **Open Source**              | ✅ MIT License             | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
+| **Text-Based DSL**           | ?                         | ?           | ? GUI             | ? GUI        | ?? Hybrid            |
+| **Version Control Friendly** | ?                         | ?           | ?? Limited         | ?? Limited    | ?                   |
+| **Automatic Layout**         | ? ELK (Layered)           | ? GraphViz  | ?? Manual          | ?? Manual     | ?                   |
+| **UML 2.5 Compliance**       | ?                         | ?           | ?? Partial         | ?? Partial    | ?                   |
+| **Provided Interfaces**      | ? Lollipop notation       | ?           | ? Manual          | ? Manual     | ?                   |
+| **Required Interfaces**      | ? Socket notation         | ?           | ? Manual          | ? Manual     | ?                   |
+| **Ports**                    | ? Named port support      | ?           | ?? Manual          | ?? Manual     | ?                   |
+| **Assembly Connectors**      | ? Ball-and-socket pattern | ?           | ?? Manual          | ?? Manual     | ?                   |
+| **Dependencies**             | ? Dashed arrows           | ?           | ? Manual styling  | ? Manual     | ?                   |
+| **Delegation Connectors**    | ? Internal wiring syntax  | ?           | ?? Manual          | ?? Manual     | ?                   |
+| **Subsystems/Packages**      | ? Via containers          | ?           | ?                 | ?            | ?                   |
+| **Artifacts (JARs, WARs)**   | ? `@artifact` shape       | ?           | ?? Manual          | ?? Manual     | ?                   |
+| **Nodes (Servers)**          | ? `@node` 3D cube         | ?           | ?? Manual          | ?? Manual     | ?                   |
+| **Export Formats**           | ? SVG, PNG, PDF           | ? PNG, SVG  | ? Many formats    | ? Many       | ? Many              |
+| **Collaboration**            | ? Git-based               | ? Git-based | ? Cloud (Paid)    | ? Cloud      | ?? Database-based    |
+| **Learning Curve**           | ?? Moderate (DSL)          | ?? Moderate  | ? Low (GUI)       | ? Low        | ? High              |
+| **Open Source**              | ? MIT License             | ? GPL       | ? Commercial only | ? Apache 2.0 | ? Commercial only   |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **UML 2.5 compliant** with full component diagram notation
 - **Unified language** for component, class, sequence, and 15+ diagram types
@@ -715,7 +715,11 @@ diagram "Deployment Topology" {
 - **ELK layout engine** for superior layered layouts
 - **Profile system** for diagram-specific conventions
 
----
+**When to Use Alternatives:**
+
+- **Enterprise Architect**: Full enterprise UML modeling with repository-backed teams and deeper modeling governance
+- **Lucidchart / Draw.io**: GUI-first component sketches for mixed technical and business audiences
+- **PlantUML**: Text-based component diagrams when you already standardize on PlantUML across the organization
 
 ## Related Resources
 

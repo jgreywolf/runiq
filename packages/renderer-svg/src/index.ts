@@ -31,6 +31,12 @@ export {
   type TimelineRenderResult,
 } from './timeline-renderer.js';
 
+export {
+  renderFaultTree,
+  type FaultTreeRenderOptions,
+  type FaultTreeRenderResult,
+} from './fault-tree-renderer.js';
+
 // Re-export Railroad renderer
 export {
   renderRailroadDiagram,
@@ -143,7 +149,7 @@ export function renderSvg(
   // Render containers (as backgrounds for contained nodes)
   if (layout.containers) {
     for (const container of layout.containers) {
-      svg += renderContainer(container, diagram, strict);
+      svg += renderContainer(container, diagram, strict, layout);
     }
   }
 

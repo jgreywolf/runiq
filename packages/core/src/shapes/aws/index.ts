@@ -4,3 +4,7 @@ export { awsLambdaShape } from './lambda.js';
 export { awsRdsShape } from './rds.js';
 export { awsVpcShape } from './vpc.js';
 export { awsApiGatewayShape } from './apiGateway.js';
+export { awsCloudFrontShape } from './cloudFront.js';
+export { awsDynamoDbShape } from './dynamoDb.js';
+export { awsSqsShape } from './sqs.js';
+export { awsCognitoShape } from './cognito.js';

@@ -71,6 +71,36 @@ describe('BPMN Event', () => {
     expect(circleMatches!.length).toBeGreaterThanOrEqual(2);
   });
 
+  it('should render multiple event marker', () => {
+    const ctx = createMockContext('Multi', { eventType: 'intermediate-multiple' });
+    const svg = bpmnEventShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<path');
+    expect(svg).toContain('Multi');
+  });
+
+  it('should render parallel multiple event marker', () => {
+    const ctx = createMockContext('Parallel', { eventType: 'intermediate-parallelMultiple' });
+    const svg = bpmnEventShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<line');
+    expect(svg).toContain('Parallel');
+  });
+
+  it('should render cancel event marker', () => {
+    const ctx = createMockContext('', { eventType: 'intermediate-cancel' });
+    const svg = bpmnEventShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<line');
+  });
+
+  it('should render terminate event marker', () => {
+    const ctx = createMockContext('', { eventType: 'end-terminate' });
+    const svg = bpmnEventShape.render(ctx, { x: 0, y: 0 });
+
+    expect(svg).toContain('<circle');
+  });
+
   it('should escape XML special characters', () => {
     const ctx = createMockContext('Start & <Event>');
     const svg = bpmnEventShape.render(ctx, { x: 0, y: 0 });

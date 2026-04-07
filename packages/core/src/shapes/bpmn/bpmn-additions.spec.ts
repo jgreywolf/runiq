@@ -10,11 +10,12 @@ import {
 } from './bpmn-additions.js';
 import type { ShapeRenderContext } from '../../types/index.js';
 
-function createMockContext(label = 'Test'): ShapeRenderContext {
+function createMockContext(label = 'Test', data?: Record<string, unknown>): ShapeRenderContext {
   return {
     node: {
       id: 'test-node',
       label,
+      data,
     },
     style: {
       fill: '#f0f0f0',
@@ -75,6 +76,14 @@ describe('BPMN Additions', () => {
       expect(svg).toContain('rx="'); // Rounded corners
       expect(svg).toContain('Call Activity');
     });
+
+    it('should render called element metadata when provided', () => {
+      const ctx = createMockContext('Review Contract', { calledElement: 'ReviewWorkflow' });
+      const svg = callActivityShape.render(ctx, { x: 0, y: 0 });
+
+      expect(svg).toContain('Review Contract');
+      expect(svg).toContain('Call: ReviewWorkflow');
+    });
   });
 
   describe('startNonInterferingShape', () => {
@@ -123,6 +132,19 @@ describe('BPMN Additions', () => {
 
       expect(svg).toContain('<path');
       expect(svg).toContain('Conversation');
+    });
+
+    it('should render participant labels and multi-party marker when provided', () => {
+      const ctx = createMockContext('Vendor Sync', {
+        participantA: 'Buyer',
+        participantB: 'Vendor',
+        multiParty: true,
+      });
+      const svg = conversationShape.render(ctx, { x: 0, y: 0 });
+
+      expect(svg).toContain('Buyer');
+      expect(svg).toContain('Vendor');
+      expect(svg).toContain('Vendor Sync');
     });
   });
 

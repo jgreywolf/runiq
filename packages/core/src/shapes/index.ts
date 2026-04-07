@@ -3,6 +3,7 @@ import { registerShapeAliases } from '../shape-aliases.js';
 
 // Import from category folders
 import * as aws from './aws/index.js';
+import * as azure from './azure/index.js';
 import * as basic from './basic/index.js';
 import * as bpmn from './bpmn/index.js';
 import * as c4 from './c4/index.js';
@@ -58,9 +59,15 @@ export function registerFlowchartShapes(): void {
   shapeRegistry.register(flowchart.delayShape);
   shapeRegistry.register(flowchart.displayShape);
   shapeRegistry.register(flowchart.offPageConnectorShape);
+  shapeRegistry.register(flowchart.onPageConnectorShape);
   shapeRegistry.register(flowchart.cardShape);
   shapeRegistry.register(flowchart.paperTapeShape);
   shapeRegistry.register(flowchart.leanLeftShape);
+  shapeRegistry.register(flowchart.manualOperationShape);
+  shapeRegistry.register(flowchart.mergeShape);
+  shapeRegistry.register(flowchart.collateShape);
+  shapeRegistry.register(flowchart.extractShape);
+  shapeRegistry.register(flowchart.sortShape);
 }
 
 export function registerStorageShapes(): void {
@@ -105,6 +112,23 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.hourglassShape);
   shapeRegistry.register(special.forkJoinShape);
   shapeRegistry.register(special.orShape);
+  shapeRegistry.register(special.architectureLayerShape);
+  shapeRegistry.register(special.subsystemBlockShape);
+  shapeRegistry.register(special.platformBlockShape);
+  shapeRegistry.register(special.externalSystemBlockShape);
+  shapeRegistry.register(special.fileTreeShape);
+  shapeRegistry.register(special.folderShape);
+  shapeRegistry.register(special.fileShape);
+  shapeRegistry.register(special.trustBoundaryShape);
+  shapeRegistry.register(special.threatShape);
+  shapeRegistry.register(special.mitigationShape);
+  shapeRegistry.register(special.securityControlShape);
+  shapeRegistry.register(special.wbsShape);
+  shapeRegistry.register(special.wbsDeliverableShape);
+  shapeRegistry.register(special.wbsWorkPackageShape);
+  shapeRegistry.register(special.requirementPackageShape);
+  shapeRegistry.register(special.requirementShape);
+  shapeRegistry.register(special.testCaseShape);
   shapeRegistry.register(special.hRuleShape);
   shapeRegistry.register(special.vRuleShape);
   shapeRegistry.register(special.bracketLeftShape);
@@ -134,8 +158,10 @@ export function registerSpecialShapes(): void {
 
 export function registerChartShapes(): void {
   shapeRegistry.register(charts.pieChart);
+  shapeRegistry.register(charts.ringChart);
   shapeRegistry.register(charts.barChart);
   shapeRegistry.register(charts.lineChart);
+  shapeRegistry.register(charts.scatterChart);
   shapeRegistry.register(charts.radarChart);
   shapeRegistry.register(charts.vennShape); // Unified venn diagram
   shapeRegistry.register(charts.sankeyChart);
@@ -238,6 +264,10 @@ export function registerNetworkShapes(): void {
   shapeRegistry.register(network.loadBalancerShape);
   shapeRegistry.register(network.cloudShape);
   shapeRegistry.register(network.storageShape);
+  shapeRegistry.register(network.workstationShape);
+  shapeRegistry.register(network.accessPointShape);
+  shapeRegistry.register(network.vpnGatewayShape);
+  shapeRegistry.register(network.modemShape);
 }
 
 export function registerQuantumShapes(): void {
@@ -318,16 +348,27 @@ export function registerUMLShapes(): void {
 
 export function registerC4Shapes(): void {
   shapeRegistry.register(c4.c4Person);
+  shapeRegistry.register(c4.c4ExternalPerson);
   shapeRegistry.register(c4.c4System);
+  shapeRegistry.register(c4.c4ExternalSystem);
   shapeRegistry.register(c4.c4Container);
+  shapeRegistry.register(c4.c4ContainerInstance);
   shapeRegistry.register(c4.c4Component);
+  shapeRegistry.register(c4.c4SystemInstance);
+  shapeRegistry.register(c4.c4DeploymentNode);
 }
 
 export function registerBPMNShapes(): void {
   shapeRegistry.register(bpmn.bpmnTaskShape);
+  shapeRegistry.register(bpmn.bpmnSubProcessShape);
+  shapeRegistry.register(bpmn.bpmnChoreographyTaskShape);
   shapeRegistry.register(bpmn.bpmnEventShape);
+  shapeRegistry.register(bpmn.bpmnBoundaryEventShape);
   shapeRegistry.register(bpmn.bpmnGatewayShape);
   shapeRegistry.register(bpmn.bpmnDataObjectShape);
+  shapeRegistry.register(bpmn.bpmnDataStoreShape);
+  shapeRegistry.register(bpmn.bpmnDataInputShape);
+  shapeRegistry.register(bpmn.bpmnDataOutputShape);
   shapeRegistry.register(bpmn.bpmnMessageShape);
   shapeRegistry.register(bpmn.bpmnPoolShape);
   shapeRegistry.register(bpmn.bpmnLaneShape);
@@ -347,6 +388,25 @@ export function registerAWSShapes(): void {
   shapeRegistry.register(aws.awsRdsShape);
   shapeRegistry.register(aws.awsVpcShape);
   shapeRegistry.register(aws.awsApiGatewayShape);
+  shapeRegistry.register(aws.awsCloudFrontShape);
+  shapeRegistry.register(aws.awsDynamoDbShape);
+  shapeRegistry.register(aws.awsSqsShape);
+  shapeRegistry.register(aws.awsCognitoShape);
+}
+
+export function registerAzureShapes(): void {
+  shapeRegistry.register(azure.azureVmShape);
+  shapeRegistry.register(azure.azureBlobStorageShape);
+  shapeRegistry.register(azure.azureFunctionsShape);
+  shapeRegistry.register(azure.azureSqlDatabaseShape);
+  shapeRegistry.register(azure.azureVirtualNetworkShape);
+  shapeRegistry.register(azure.azureResourceGroupShape);
+  shapeRegistry.register(azure.azureSubscriptionShape);
+  shapeRegistry.register(azure.azureApiManagementShape);
+  shapeRegistry.register(azure.azureCdnShape);
+  shapeRegistry.register(azure.azureCosmosDbShape);
+  shapeRegistry.register(azure.azureServiceBusShape);
+  shapeRegistry.register(azure.azureEntraIdShape);
 }
 
 export function registerERDShapes(): void {
@@ -386,6 +446,7 @@ export function registerDefaultShapes(): void {
   registerC4Shapes();
   registerBPMNShapes();
   registerAWSShapes();
+  registerAzureShapes();
   registerERDShapes();
   registerDataFlowShapes();
   registerGlyphsets();
@@ -397,6 +458,7 @@ export function registerDefaultShapes(): void {
 
 // Re-export all shapes from category folders
 export * from './aws/index.js';
+export * from './azure/index.js';
 export * from './basic/index.js';
 export * from './bpmn/index.js';
 export * from './c4/index.js';

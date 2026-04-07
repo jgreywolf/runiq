@@ -103,48 +103,65 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Diagram Profile',
+          text: 'General Diagrams',
           items: [
+            { text: 'Architecture Diagrams', link: '/guide/architecture-diagrams' },
+            { text: 'File Tree Diagrams', link: '/guide/file-tree-diagrams' },
+            { text: 'Work Breakdown Structures', link: '/guide/wbs-diagrams' },
+            { text: 'Requirement Diagrams', link: '/guide/requirements-diagrams' },
             { text: 'Flowcharts', link: '/guide/flowcharts' },
             { text: 'Mindmap Diagrams', link: '/guide/mindmap-diagrams' },
+            { text: 'Threat Model Diagrams', link: '/guide/threat-model-diagrams' },
             { text: 'Venn Diagrams', link: '/guide/venn-diagrams' },
             { text: 'Pyramid Diagrams', link: '/guide/pyramid-diagrams' },
             { text: 'Data Flow Diagrams', link: '/guide/dfd-diagrams' },
+            { text: 'Charts & Graphs', link: '/guide/charts' },
+            { text: 'Network Diagrams', link: '/guide/network-diagrams' },
+            { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
+            { text: 'Azure Diagrams', link: '/guide/azure-diagrams' },
+          ],
+        },
+        {
+          text: 'UML And Software Design',
+          items: [
             { text: 'UML Class Diagrams', link: '/guide/class-diagrams' },
-            { text: 'Component Diagrams', link: '/guide/component-diagrams' },
-            { text: 'ERD Diagrams', link: '/guide/erd-diagrams' },
+            { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
+            { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
             {
               text: 'State Machine Diagrams',
               link: '/guide/state-machine-diagrams',
             },
             { text: 'Activity Diagrams', link: '/guide/activity-diagrams' },
             { text: 'BPMN Diagrams', link: '/guide/bpmn-diagrams' },
-            { text: 'Use Case Diagrams', link: '/guide/use-case-diagrams' },
+            { text: 'Component Diagrams', link: '/guide/component-diagrams' },
             { text: 'C4 Architecture', link: '/guide/c4-architecture' },
+            { text: 'ERD Diagrams', link: '/guide/erd-diagrams' },
+          ],
+        },
+        {
+          text: 'Engineering And Technical Systems',
+          items: [
             {
               text: 'Control system Diagrams',
               link: '/guide/control-diagrams',
             },
+            { text: 'Fault Tree Diagrams', link: '/guide/fault-tree-diagrams' },
             { text: 'Kinematic Diagrams', link: '/guide/kinematic-diagrams' },
-            { text: 'Network Diagrams', link: '/guide/network-diagrams' },
-            { text: 'AWS Diagrams', link: '/guide/aws-diagrams' },
-            { text: 'Charts & Graphs', link: '/guide/charts' },
+            { text: 'Electrical Circuits', link: '/guide/electrical' },
+            { text: 'Digital Circuits', link: '/guide/digital-circuits' },
+            { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
+            { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
+            { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
             { text: 'Quantum Circuits', link: '/guide/quantum-circuits' },
           ],
         },
         {
-          text: 'Specialized Profiles',
+          text: 'Specialized Strategy And Domain Views',
           items: [
-            { text: 'Electrical Circuits', link: '/guide/electrical' },
-            { text: 'Digital Circuits', link: '/guide/digital-circuits' },
             { text: 'Wardley Maps', link: '/guide/wardley-maps' },
-            { text: 'Sequence Diagrams', link: '/guide/sequence-diagrams' },
             { text: 'Timeline Diagrams', link: '/guide/timeline-diagrams' },
             { text: 'Railroad Diagrams', link: '/guide/railroad-diagrams' },
             { text: 'Pedigree Diagrams', link: '/guide/pedigree-diagrams' },
-            { text: 'Pneumatic Circuits', link: '/guide/pneumatic-circuits' },
-            { text: 'Hydraulic Circuits', link: '/guide/hydraulic-circuits' },
-            { text: 'P&ID Diagrams', link: '/guide/pid-diagrams' },
           ],
         },
         {
@@ -198,7 +215,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2025 Justin Greywolf',
+      copyright: 'Copyright (c) 2025 Justin Greywolf',
     },
 
     search: {

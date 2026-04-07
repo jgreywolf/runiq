@@ -10,7 +10,7 @@ Create network topology and infrastructure diagrams with Runiq's diagram profile
 
 ## Overview
 
-Network diagrams visualize computer networks, infrastructure layouts, and system connectivity. Runiq provides specialized shapes for servers, routers, switches, firewalls, and cloud services.
+Network diagrams visualize computer networks, infrastructure layouts, and system connectivity. Runiq provides specialized shapes for servers, routers, switches, firewalls, wireless infrastructure, remote-access gateways, and cloud services.
 
 ## Key Shapes
 
@@ -19,10 +19,14 @@ Network diagrams visualize computer networks, infrastructure layouts, and system
 - **Switch**: `@switch` - Network switches
 - **Firewall**: `@firewall` - Security appliances
 - **Load Balancer**: `@loadBalancer` - Traffic distribution
+- **Workstation**: `@workstation` - End-user desktop or client machine
+- **Access Point**: `@accessPoint` - Wireless access point
+- **VPN Gateway**: `@vpnGateway` - Remote-access or site-to-site VPN termination
+- **Modem**: `@modem` - ISP handoff or broadband modem
 - **Cloud**: `@cloud` - Cloud services
 - **Storage**: `@storage` - Network storage devices
 
-See the [Shape Reference - Network Shapes](/reference/shapes#_8-network-shapes-7-shapes) for the complete list.
+See the [Shape Reference - Network Shapes](/reference/shapes#_9-network-shapes-11-shapes) for the complete list.
 
 ## Basic Network Topology
 
@@ -31,19 +35,25 @@ diagram "Office Network" {
   direction TB
 
   shape internet as @cloud label: "Internet"
+  shape modem as @modem label: "ISP Modem"
   shape router as @router label: "Router"
   shape firewall as @firewall label: "Firewall"
   shape switch as @switch label: "Core Switch"
   shape server1 as @server label: "Web Server"
   shape server2 as @server label: "DB Server"
   shape storage as @storage label: "NAS"
+  shape wifi as @accessPoint label: "Wi-Fi AP"
+  shape client as @workstation label: "Support PC"
 
-  internet -> router
+  internet -> modem
+  modem -> router
   router -> firewall
   firewall -> switch
   switch -> server1
   switch -> server2
   switch -> storage
+  switch -> wifi
+  wifi -> client
 }
 ```
 
@@ -165,7 +175,7 @@ diagram "Remote Access VPN" {
   direction LR
 
   shape remote as @server label: "Remote\nWorker"
-  shape vpn as @cloud label: "VPN Gateway"
+    shape vpn as @vpnGateway label: "VPN Gateway"
   shape fw as @firewall label: "Corporate\nFirewall"
   shape router as @router label: "Core Router"
 
@@ -279,37 +289,37 @@ diagram "Styled Network" {
 
 ## Comparison with Other Tools
 
-| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Visio       | Draw.io     | NetBrain   | Diagrams.net |
-| ---------------------------- | -------------- | -------------- | -------------- | ----------- | ----------- | ----------- | ---------- | ------------ |
-| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ❌          | ❌          | ❌         | ⚠️ XML       |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ❌          | ⚠️ Partial  | ❌         | ⚠️ Partial   |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ❌          | ⚠️ Smart    | ❌         | ⚠️ Smart     |
-| **Network topology**         | ✅             | ⚠️ Basic       | ⚠️ Basic       | ✅          | ✅          | ✅          | ✅         | ✅           |
-| **Infrastructure icons**     | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
-| **Layered architecture**     | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ⚠️ Basic   | ✅           |
-| **Custom shapes**            | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ⚠️ Limited | ✅           |
-| **Live network discovery**   | ❌             | ❌             | ❌             | ❌          | ❌          | ❌          | ✅         | ❌           |
-| **IP addressing**            | ✅ Via labels  | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
-| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial  | ⚠️ Partial  | ✅         | ⚠️ Partial   |
-| **Cloud provider symbols**   | ✅             | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
-| **Learning curve**           | Low            | Low            | Medium         | Low         | Medium      | Low         | High       | Low          |
-| **Real-time collaboration**  | ✅ Via Git     | ❌             | ❌             | ✅          | ✅          | ✅          | ✅         | ✅           |
-| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple    | Multiple    | PDF, Image | Multiple     |
-| **Cost**                     | Free           | Free           | Free           | Paid        | Paid        | Free        | Paid       | Free         |
-| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows/Mac | Web/Desktop | Windows    | Web/Desktop  |
+| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Visio       | Diagrams.net | NetBrain   |
+| ---------------------------- | -------------- | -------------- | -------------- | ----------- | ----------- | ------------ | ---------- |
+| **Text-based DSL**           | ?             | ?             | ?             | ?          | ?          | ?? XML       | ?         |
+| **Version control friendly** | ?             | ?             | ?             | ?? Partial  | ?          | ?? Partial   | ?         |
+| **Automatic layout**         | ?             | ?             | ?             | ?          | ?          | ?? Smart     | ?         |
+| **Network topology**         | ?             | ?? Basic       | ?? Basic       | ?          | ?          | ?           | ?         |
+| **Infrastructure icons**     | ?             | ?             | ?             | ?          | ?          | ?           | ?         |
+| **Layered architecture**     | ?             | ?             | ?             | ?          | ?          | ?           | ?? Basic   |
+| **Custom shapes**            | ?             | ?             | ?             | ?          | ?          | ?           | ?? Limited |
+| **Live network discovery**   | ?             | ?             | ?             | ?          | ?          | ?           | ?         |
+| **IP addressing**            | ? Via labels  | ?             | ?             | ?          | ?          | ?           | ?         |
+| **Documentation generation** | ?             | ?             | ?             | ?? Partial  | ?? Partial  | ?? Partial   | ?         |
+| **Cloud provider symbols**   | ?             | ?             | ?             | ?          | ?          | ?           | ?         |
+| **Learning curve**           | Low            | Low            | Medium         | Low         | Medium      | Low          | High       |
+| **Real-time collaboration**  | ? Via Git     | ?             | ?             | ?          | ?          | ?           | ?         |
+| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple    | Multiple     | PDF, Image |
+| **Cost**                     | Free           | Free           | Free           | Paid        | Paid        | Free         | Paid       |
+| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows/Mac | Web/Desktop  | Windows    |
 
 **Key Advantages of Runiq:**
 
 - **Infrastructure as Code**: Perfect for documenting network architectures alongside IaC
 - **Version Control**: Track network changes over time with Git
 - **Automation**: Generate diagrams from network inventory systems
-- **Cloud-Native**: Strong support for AWS, Azure, GCP symbols
+- **Topology breadth**: Covers common edge, access, wireless, and remote-access infrastructure symbols
 
 **When to Use Alternatives:**
 
 - **NetBrain**: Live network discovery and automated documentation from production networks
 - **Visio**: Enterprise standard with extensive template libraries
-- **Draw.io**: Free collaborative editing with less technical users
+- **Diagrams.net**: Free collaborative editing with less technical users
 - **Lucidchart**: Real-time collaboration with built-in presentation mode
 
 ## Related

@@ -96,9 +96,9 @@ hydraulic "Circuit Name" {
 | 3/2 Valve          | `@valve_32`           | 3 ports, 2 pos | Single-acting cylinder control         | 10-300 L/min  |
 | 4/2 Valve          | `@valve_42`           | 4 ports, 2 pos | Double-acting, no center position      | 20-800 L/min  |
 | 4/3 Closed Center  | `@valve_43_closed`    | 4 ports, 3 pos | All ports blocked in center            | 20-1000 L/min |
-| 4/3 Open Center    | `@valve_43_open`      | 4 ports, 3 pos | P→T in center (unloads pump)           | 20-1000 L/min |
-| 4/3 Tandem Center  | `@valve_43_tandem`    | 4 ports, 3 pos | P→T, A/B blocked (holds load)          | 20-1000 L/min |
-| 4/3 Float Center   | `@valve_43_float`     | 4 ports, 3 pos | A/B→T, P blocked (free float)          | 20-1000 L/min |
+| 4/3 Open Center    | `@valve_43_open`      | 4 ports, 3 pos | P->T in center (unloads pump)            | 20-1000 L/min |
+| 4/3 Tandem Center  | `@valve_43_tandem`    | 4 ports, 3 pos | P->T, A/B blocked (holds load)           | 20-1000 L/min |
+| 4/3 Float Center   | `@valve_43_float`     | 4 ports, 3 pos | A/B->T, P blocked (free float)           | 20-1000 L/min |
 | Proportional Valve | `@valve_proportional` | Variable       | Electronic infinitely variable control | 10-600 L/min  |
 | Servo Valve        | `@valve_servo`        | Variable       | High precision, closed-loop control    | 1-200 L/min   |
 
@@ -115,24 +115,24 @@ hydraulic "Circuit Name" {
 
 | Valve Type            | Symbol ID         | Description                            | Pressure Range | Accuracy |
 | --------------------- | ----------------- | -------------------------------------- | -------------- | -------- |
-| Relief Valve (Direct) | `@relief_direct`  | Limits maximum pressure, direct-acting | 10-350 bar     | ±5-10%   |
-| Relief Valve (Pilot)  | `@relief_pilot`   | High flow, pilot-operated              | 50-400 bar     | ±3-5%    |
-| Unloading Valve       | `@unloading`      | Vents pump to tank at low pressure     | 10-300 bar     | ±5%      |
-| Sequence Valve        | `@sequence`       | Enables second function at setpoint    | 20-350 bar     | ±5-10%   |
-| Counterbalance Valve  | `@counterbalance` | Holds vertical load, prevents runaway  | 50-400 bar     | ±3-5%    |
-| Pressure Reducing     | `@reducing`       | Lowers downstream pressure             | 10-250 bar     | ±2-5%    |
-| Brake Valve           | `@brake`          | Prevents motor overspeed               | 50-350 bar     | ±5%      |
+| Relief Valve (Direct) | `@relief_direct`  | Limits maximum pressure, direct-acting | 10-350 bar     | +/-5-10% |
+| Relief Valve (Pilot)  | `@relief_pilot`   | High flow, pilot-operated              | 50-400 bar     | +/-3-5%  |
+| Unloading Valve       | `@unloading`      | Vents pump to tank at low pressure     | 10-300 bar     | +/-5%    |
+| Sequence Valve        | `@sequence`       | Enables second function at setpoint    | 20-350 bar     | +/-5-10% |
+| Counterbalance Valve  | `@counterbalance` | Holds vertical load, prevents runaway  | 50-400 bar     | +/-3-5%  |
+| Pressure Reducing     | `@reducing`       | Lowers downstream pressure             | 10-250 bar     | +/-2-5%  |
+| Brake Valve           | `@brake`          | Prevents motor overspeed               | 50-350 bar     | +/-5%    |
 
 ### Flow Control Valves
 
 | Valve Type              | Symbol ID           | Description                              | Flow Range   | Accuracy |
 | ----------------------- | ------------------- | ---------------------------------------- | ------------ | -------- |
-| Throttle Valve          | `@throttle`         | Fixed orifice, flow varies with pressure | 1-500 L/min  | ±15-20%  |
-| Needle Valve            | `@needle`           | Fine adjustment, metering                | 0.1-50 L/min | ±10%     |
-| Pressure Compensated    | `@flow_compensated` | Constant flow despite pressure change    | 1-600 L/min  | ±5%      |
-| Temperature Compensated | `@flow_temp_comp`   | Compensates for viscosity changes        | 1-400 L/min  | ±3-5%    |
-| Priority Valve          | `@priority`         | Ensures flow to critical circuit first   | 10-400 L/min | ±5%      |
-| Flow Divider            | `@flow_divider`     | Splits flow equally (synchronization)    | 10-400 L/min | ±2-5%    |
+| Throttle Valve          | `@throttle`         | Fixed orifice, flow varies with pressure | 1-500 L/min  | +/-15-20% |
+| Needle Valve            | `@needle`           | Fine adjustment, metering                | 0.1-50 L/min | +/-10%    |
+| Pressure Compensated    | `@flow_compensated` | Constant flow despite pressure change    | 1-600 L/min  | +/-5%     |
+| Temperature Compensated | `@flow_temp_comp`   | Compensates for viscosity changes        | 1-400 L/min  | +/-3-5%   |
+| Priority Valve          | `@priority`         | Ensures flow to critical circuit first   | 10-400 L/min | +/-5%     |
+| Flow Divider            | `@flow_divider`     | Splits flow equally (synchronization)    | 10-400 L/min | +/-2-5%   |
 
 ### Check Valves
 
@@ -159,10 +159,10 @@ hydraulic "Circuit Name" {
 
 | Actuator Type          | Symbol ID        | Description                      | Rotation Range        | Torque Range  |
 | ---------------------- | ---------------- | -------------------------------- | --------------------- | ------------- |
-| Vane Rotary Actuator   | `@rotary_vane`   | Limited rotation, compact        | 90°, 180°, 270°, 360° | 10-50000 Nm   |
-| Piston Rotary Actuator | `@rotary_piston` | High torque, precise positioning | 90°, 180°, 270°       | 100-500000 Nm |
+| Vane Rotary Actuator   | `@rotary_vane`   | Limited rotation, compact        | 90 deg, 180 deg, 270 deg, 360 deg | 10-50000 Nm   |
+| Piston Rotary Actuator | `@rotary_piston` | High torque, precise positioning | 90 deg, 180 deg, 270 deg          | 100-500000 Nm |
 | Rack & Pinion          | `@rack_pinion`   | Converts linear to rotary        | Variable              | 50-5000 Nm    |
-| Helical Actuator       | `@helical`       | Smooth rotation, high torque     | 90°-360° typical      | 100-10000 Nm  |
+| Helical Actuator       | `@helical`       | Smooth rotation, high torque     | 90 deg-360 deg typical            | 100-10000 Nm  |
 
 ### Accumulators
 
@@ -211,14 +211,14 @@ hydraulic "Circuit Name" {
 **Sizing:**
 
 ```
-Heat Generation (kW) = (Pump Pressure × Flow × (1 - Efficiency)) / 600
+Heat Generation (kW) = (Pump Pressure x Flow x (1 - Efficiency)) / 600
 ```
 
 **Target Temperature:**
 
-- Continuous operation: 40-60°C
-- Maximum: 70-80°C (mineral oil)
-- Alarm: 75°C, Shutdown: 80°C
+- Continuous operation: 40-60 C
+- Maximum: 70-80 C (mineral oil)
+- Alarm: 75 C, Shutdown: 80 C
 
 ### Reservoirs
 

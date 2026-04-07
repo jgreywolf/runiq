@@ -406,13 +406,19 @@ diagram "User Registration" {
 | **Real-Time Collaboration**  | ⚠️ Via Git        | ⚠️ Via tools  | ⚠️ Via tools | ✅              | ✅              |
 | **Open Source**              | ✅ MIT License    | ✅ MIT        | ✅ GPL       | ❌              | ❌              |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
-- ✅ **Complete Gane-Sarson** - All standard DFD shape variations
-- ✅ **Text-based workflow** - Perfect for version control and CI/CD
-- ✅ **Automatic layout** - Eclipse Layout Kernel handles positioning
-- ✅ **Programmatic generation** - Create DFDs from database schemas
-- ✅ **Clean SVG output** - Professional, accessible diagrams
+- ? **Complete Gane-Sarson** - All standard DFD shape variations
+- ? **Text-based workflow** - Perfect for version control and CI/CD
+- ? **Automatic layout** - Eclipse Layout Kernel handles positioning
+- ? **Programmatic generation** - Create DFDs from database schemas
+- ? **Clean SVG output** - Professional, accessible diagrams
+
+**When to Use Alternatives:**
+
+- **Lucidchart / Visual Paradigm**: GUI-first DFD creation for business analysts and workshop settings
+- **Mermaid**: Lightweight markdown diagrams when a full DFD notation is not required
+- **PlantUML**: Text-based diagrams if you already standardize on PlantUML across your documentation stack
 
 ## Related Documentation
 

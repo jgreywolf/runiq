@@ -655,7 +655,7 @@ sequence "Numbered Messages" {
 | **Learning Curve**           | ⚠️ Moderate (DSL)             | ✅ Low       | ⚠️ Moderate  | ✅ Low (GUI)       | ✅ Low        | ❌ High              |
 | **Open Source**              | ✅ MIT License                | ✅ MIT       | ✅ GPL       | ❌ Commercial only | ✅ Apache 2.0 | ❌ Commercial only   |
 
-**Runiq Advantages:**
+**Key Advantages of Runiq:**
 
 - **UML 2.5 compliant** with all advanced features (gates, invariants, duration constraints)
 - **Unified language** for sequence, class, use case, state machine, and 15+ diagram types
@@ -664,35 +664,6 @@ sequence "Numbered Messages" {
 - **Version control native** - perfect for API documentation in repositories
 - **Clear message syntax** with 5 distinct types
 - **Profile system** for diagram-specific conventions
-
-## Comparison with Other Tools
-
-| Feature                      | Runiq          | Mermaid        | PlantUML       | Lucidchart  | Enterprise Architect | Visual Paradigm | WebSequenceDiagrams |
-| ---------------------------- | -------------- | -------------- | -------------- | ----------- | -------------------- | --------------- | ------------------- |
-| **Text-based DSL**           | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
-| **Version control friendly** | ✅             | ✅             | ✅             | ⚠️ Partial  | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
-| **UML 2.5 compliance**       | ✅             | ⚠️ Partial     | ✅             | ⚠️ Basic    | ✅                   | ✅              | ⚠️ Basic            |
-| **Combined fragments**       | ✅ 12 types    | ⚠️ 4 types     | ✅             | ⚠️ Limited  | ✅                   | ✅              | ⚠️ Limited          |
-| **Interaction use**          | ✅             | ❌             | ✅             | ❌          | ✅                   | ✅              | ❌                  |
-| **Duration constraints**     | ✅             | ❌             | ⚠️ Limited     | ❌          | ✅                   | ✅              | ❌                  |
-| **State invariants**         | ✅             | ❌             | ⚠️ Limited     | ❌          | ✅                   | ✅              | ❌                  |
-| **Gates**                    | ✅             | ❌             | ❌             | ❌          | ✅                   | ✅              | ❌                  |
-| **Continuations**            | ✅             | ❌             | ❌             | ❌          | ✅                   | ✅              | ❌                  |
-| **Message types**            | ✅ 5 types     | ⚠️ 3 types     | ✅             | ⚠️ Basic    | ✅                   | ✅              | ⚠️ 3 types          |
-| **Documentation generation** | ✅             | ✅             | ✅             | ⚠️ Partial  | ✅                   | ✅              | ❌                  |
-| **Model integration**        | ❌             | ❌             | ❌             | ⚠️ Limited  | ✅                   | ✅              | ❌                  |
-| **Automatic layout**         | ✅             | ✅             | ✅             | ❌          | ⚠️ Partial           | ⚠️ Partial      | ✅                  |
-| **Export formats**           | SVG, PNG       | SVG, PNG       | SVG, PNG       | Multiple    | Multiple             | Multiple        | PNG                 |
-| **Learning curve**           | Low            | Low            | Medium         | Low         | High                 | High            | Low                 |
-| **Cost**                     | Free           | Free           | Free           | Paid        | Paid                 | Paid            | Free/Paid           |
-| **Platform**                 | Cross-platform | Cross-platform | Cross-platform | Web/Desktop | Windows/Mac          | Cross-platform  | Web                 |
-
-**Key Advantages of Runiq:**
-
-- **Full UML 2.5**: Complete support for advanced features (gates, invariants, constraints)
-- **Version Control**: Perfect for API documentation in Git repositories
-- **Unified Language**: Consistent syntax with other UML diagram types
-- **Clear Syntax**: Readable message and fragment notation
 
 **When to Use Alternatives:**
 
@@ -717,3 +688,4 @@ See the [examples/sequence](/examples/sequence-diagrams) directory for complete 
 - [UML 2.5 Specification](https://www.omg.org/spec/UML/2.5/)
 - [Sequence Diagram Tutorial](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-sequence-diagram/)
 - [OMG UML](https://www.omg.org/spec/UML/)
+
