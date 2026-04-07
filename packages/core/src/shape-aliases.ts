@@ -97,6 +97,12 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('fileTree', 'fileTree');
   shapeRegistry.registerAlias('folder', 'folder');
   shapeRegistry.registerAlias('file', 'file');
+  shapeRegistry.registerAlias('trustBoundary', 'trustBoundary');
+  shapeRegistry.registerAlias('boundary', 'trustBoundary');
+  shapeRegistry.registerAlias('threat', 'threat');
+  shapeRegistry.registerAlias('mitigation', 'mitigation');
+  shapeRegistry.registerAlias('securityControl', 'securityControl');
+  shapeRegistry.registerAlias('control', 'securityControl');
 
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');

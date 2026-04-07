@@ -19,6 +19,12 @@ export {
   fileShape,
 } from './fileTree.js';
 export {
+  trustBoundaryShape,
+  threatShape,
+  mitigationShape,
+  securityControlShape,
+} from './threatModel.js';
+export {
   hRuleShape,
   vRuleShape,
   bracketLeftShape,

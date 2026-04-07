@@ -23,6 +23,7 @@ import { railroadSampleDiagrams } from './toolboxSamples/railroadSampleDiagrams'
 import { sequenceSampleDiagrams } from './toolboxSamples/sequenceSampleDiagrams';
 import { stateMachineSampleDiagrams } from './toolboxSamples/stateMachineSampleDiagrams';
 import { templatePresetSampleDiagrams } from './toolboxSamples/templatePresetSampleDiagrams';
+import { threatModelSampleDiagrams } from './toolboxSamples/threatModelSampleDiagrams';
 import { timelineSampleDiagrams } from './toolboxSamples/timelineSampleDiagrams';
 import { treemapSampleDiagrams } from './toolboxSamples/treemapSampleDiagrams';
 import { umlSampleDiagrams } from './toolboxSamples/umlSampleDiagrams';
@@ -56,6 +57,7 @@ export const sampleDiagrams: SampleCategory[] = [
 	...faultTreeSampleDiagrams,
 	...mindmapSampleDiagrams,
 	...networkSampleDiagrams,
+	...threatModelSampleDiagrams,
 	...pedigreeSampleDiagrams,
 	...c4SampleDiagrams,
 	...controlSampleDiagrams,

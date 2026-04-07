@@ -109,6 +109,7 @@ export default defineConfig({
             { text: 'File Tree Diagrams', link: '/guide/file-tree-diagrams' },
             { text: 'Flowcharts', link: '/guide/flowcharts' },
             { text: 'Mindmap Diagrams', link: '/guide/mindmap-diagrams' },
+            { text: 'Threat Model Diagrams', link: '/guide/threat-model-diagrams' },
             { text: 'Venn Diagrams', link: '/guide/venn-diagrams' },
             { text: 'Pyramid Diagrams', link: '/guide/pyramid-diagrams' },
             { text: 'Data Flow Diagrams', link: '/guide/dfd-diagrams' },

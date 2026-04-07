@@ -132,6 +132,7 @@ describe('Toolbox Data Structure', () => {
 			'network',
 			'aws',
 			'azure',
+			'threatModel',
 			'fileTree',
 			'kinematic',
 			'quantum',
@@ -149,6 +150,17 @@ describe('Toolbox Data Structure', () => {
 		expect(partitionShapeIds).toContain('systemBoundary');
 		expect(partitionShapeIds).toContain('bpmnPool');
 		expect(partitionShapeIds).toContain('bpmnLane');
+	});
+
+	it('should include threat modeling starter shapes', () => {
+		const threatModelCategory = shapeCategories.find((cat) => cat.id === 'threatModel');
+		const threatModelShapeIds = threatModelCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(threatModelCategory?.label).toBe('Threat Modeling');
+		expect(threatModelShapeIds).toContain('trustBoundary');
+		expect(threatModelShapeIds).toContain('threat');
+		expect(threatModelShapeIds).toContain('mitigation');
+		expect(threatModelShapeIds).toContain('securityControl');
 	});
 
 	it('should include ring and scatter chart shapes', () => {
