@@ -232,31 +232,31 @@ importers:
   packages/cli:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
       '@runiq/icons-brand':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../icons-brand
       '@runiq/icons-fontawesome':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../icons-fontawesome
       '@runiq/icons-iconify':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../icons-iconify
       '@runiq/io-json':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../io-json
       '@runiq/layout-base':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../layout-base
       '@runiq/parser-dsl':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../parser-dsl
       '@runiq/renderer-schematic':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../renderer-schematic
       '@runiq/renderer-svg':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../renderer-svg
       commander:
         specifier: ^11.1.0
@@ -278,7 +278,7 @@ importers:
   packages/core:
     devDependencies:
       '@runiq/data-loader':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../data-loader
       '@types/node':
         specifier: ^20.11.0
@@ -327,7 +327,7 @@ importers:
   packages/export-bpmn:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@types/node':
@@ -346,7 +346,7 @@ importers:
   packages/export-latex:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@types/node':
@@ -365,7 +365,7 @@ importers:
   packages/export-simulink:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@types/node':
@@ -384,11 +384,11 @@ importers:
   packages/export-spice:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@runiq/parser-dsl':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../parser-dsl
       eslint:
         specifier: ^9.37.0
@@ -409,7 +409,7 @@ importers:
   packages/export-verilog:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@types/node':
@@ -428,7 +428,7 @@ importers:
   packages/glyphsets:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@types/node':
@@ -450,10 +450,10 @@ importers:
   packages/icons-brand:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
       '@runiq/icons-iconify':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../icons-iconify
     devDependencies:
       '@types/node':
@@ -472,7 +472,7 @@ importers:
   packages/icons-fontawesome:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@types/node':
@@ -491,7 +491,7 @@ importers:
   packages/icons-iconify:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@iconify-json/logos':
@@ -516,7 +516,7 @@ importers:
   packages/io-json:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@types/node':
@@ -539,10 +539,10 @@ importers:
         version: 0.9.3
     devDependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
       '@runiq/parser-dsl':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../parser-dsl
       '@types/node':
         specifier: ^20.11.0
@@ -560,10 +560,10 @@ importers:
   packages/parser-dsl:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
       '@runiq/glyphsets':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../glyphsets
       langium:
         specifier: ^4.1.0
@@ -588,11 +588,11 @@ importers:
   packages/renderer-schematic:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
     devDependencies:
       '@runiq/parser-dsl':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../parser-dsl
       eslint:
         specifier: ^9.37.0
@@ -613,26 +613,26 @@ importers:
   packages/renderer-svg:
     dependencies:
       '@runiq/parser-dsl':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../parser-dsl
     devDependencies:
       '@playwright/test':
         specifier: ^1.55.1
         version: 1.56.0
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
       '@runiq/icons-brand':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../icons-brand
       '@runiq/icons-fontawesome':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../icons-fontawesome
       '@runiq/icons-iconify':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../icons-iconify
       '@runiq/layout-base':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../layout-base
       '@types/node':
         specifier: ^20.11.0
@@ -653,16 +653,16 @@ importers:
   packages/web:
     dependencies:
       '@runiq/core':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../core
       '@runiq/layout-base':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../layout-base
       '@runiq/parser-dsl':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../parser-dsl
       '@runiq/renderer-svg':
-        specifier: ^0.1.0
+        specifier: ^1.2.0
         version: link:../renderer-svg
     devDependencies:
       '@types/node':
