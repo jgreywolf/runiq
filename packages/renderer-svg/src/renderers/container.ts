@@ -101,6 +101,13 @@ export function renderContainer(
     markup += renderFileTreeGuides(container, containerAst, layout);
   }
 
+  if (
+    layout &&
+    (containerAst?.shape === 'wbs' || containerAst?.shape === 'wbsDeliverable')
+  ) {
+    markup += renderWbsGuides(container, containerAst, layout);
+  }
+
   // Recursively render nested containers
   if (container.containers) {
     for (const nested of container.containers) {
@@ -185,6 +192,82 @@ function renderFileTreeGuides(
     guides += `
       <line x1="${guideX}" y1="${row.y}" x2="${branchEndX}" y2="${row.y}" stroke="#cbd5e1" stroke-width="1" />
     `;
+  }
+
+  guides += '</g>';
+  return guides;
+}
+
+function renderWbsGuides(
+  container: PositionedContainer,
+  containerAst: import('@runiq/core').ContainerDeclaration,
+  layout: LaidOutDiagram
+): string {
+  if (containerAst.collapsed) {
+    return '';
+  }
+
+  const nestedById = new Map(
+    (container.containers ?? []).map((nested) => [nested.id, nested])
+  );
+  const nodeById = new Map(layout.nodes.map((node) => [node.id, node]));
+  const childTargets = [
+    ...(containerAst.containers ?? [])
+      .map((nested) => nestedById.get(nested.id || ''))
+      .filter(
+        (nested): nested is PositionedContainer => nested !== undefined
+      )
+      .map((nested) => ({
+        x: nested.x + nested.width / 2,
+        y: nested.y,
+      })),
+    ...containerAst.children
+      .map((id) => nodeById.get(id))
+      .filter((node): node is (typeof layout.nodes)[number] => node !== undefined)
+      .map((node) => ({
+        x: node.x + node.width / 2,
+        y: node.y,
+      })),
+  ];
+
+  if (childTargets.length === 0) {
+    return '';
+  }
+
+  const parentX = container.x + container.width / 2;
+  const parentY =
+    containerAst.shape === 'wbs' ? container.y + 32 : container.y + 28;
+  const minX = Math.min(...childTargets.map((target) => target.x));
+  const maxX = Math.max(...childTargets.map((target) => target.x));
+  const minY = Math.min(...childTargets.map((target) => target.y));
+  const maxY = Math.max(...childTargets.map((target) => target.y));
+  const horizontalLayout = maxX - minX > maxY - minY;
+
+  let guides = `<g class="wbs-guides">`;
+
+  if (horizontalLayout) {
+    const busY = Math.max(parentY + 12, minY - 16);
+    guides += `
+      <line x1="${parentX}" y1="${parentY}" x2="${parentX}" y2="${busY}" stroke="#cbd5e1" stroke-width="1.4" />
+      <line x1="${minX}" y1="${busY}" x2="${maxX}" y2="${busY}" stroke="#cbd5e1" stroke-width="1.4" />
+    `;
+
+    for (const target of childTargets) {
+      guides += `
+        <line x1="${target.x}" y1="${busY}" x2="${target.x}" y2="${target.y}" stroke="#cbd5e1" stroke-width="1.4" />
+      `;
+    }
+  } else {
+    const busX = parentX;
+    guides += `
+      <line x1="${busX}" y1="${parentY}" x2="${busX}" y2="${maxY}" stroke="#cbd5e1" stroke-width="1.4" />
+    `;
+
+    for (const target of childTargets) {
+      guides += `
+        <line x1="${busX}" y1="${target.y}" x2="${target.x}" y2="${target.y}" stroke="#cbd5e1" stroke-width="1.4" />
+      `;
+    }
   }
 
   guides += '</g>';

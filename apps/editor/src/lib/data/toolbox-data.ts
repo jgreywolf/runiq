@@ -22,6 +22,7 @@ import { azureShapeIcons } from './toolboxIcons/azureShapeIcons';
 import { architectureShapeIcons } from './toolboxIcons/architectureShapeIcons';
 import { fileTreeShapeIcons } from './toolboxIcons/fileTreeShapeIcons';
 import { threatModelShapeIcons } from './toolboxIcons/threatModelShapeIcons';
+import { wbsShapeIcons } from './toolboxIcons/wbsShapeIcons';
 import { networkShapeIcons } from './toolboxIcons/networkShapeIcons';
 import { erdShapeIcons } from './toolboxIcons/erdShapeIcons';
 import { chartShapeIcons } from './toolboxIcons/chartShapeIcons';
@@ -74,6 +75,7 @@ export const shapeCategories: ShapeCategory[] = [
 	...azureShapeIcons,
 	...threatModelShapeIcons,
 	...fileTreeShapeIcons,
+	...wbsShapeIcons,
 	...kinematicShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,
@@ -116,6 +118,7 @@ export const diagramShapes: ShapeCategory[] = [
 	...azureShapeIcons,
 	...threatModelShapeIcons,
 	...fileTreeShapeIcons,
+	...wbsShapeIcons,
 	...kinematicShapeIcons,
 	...quantumShapeIcons,
 	...specialShapeIcons,

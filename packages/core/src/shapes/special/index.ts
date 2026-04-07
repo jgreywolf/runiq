@@ -25,6 +25,11 @@ export {
   securityControlShape,
 } from './threatModel.js';
 export {
+  wbsShape,
+  wbsDeliverableShape,
+  wbsWorkPackageShape,
+} from './wbs.js';
+export {
   hRuleShape,
   vRuleShape,
   bracketLeftShape,

@@ -1720,7 +1720,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : 30;
+          : this.getDefaultContainerPadding(container);
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
       const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
       const innerWidth = Math.max(
@@ -1900,7 +1900,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       );
       const containerSpacing =
         container.layoutOptions?.spacing?.toString() ??
-        LayoutDefaults.NODE_SPACING.toString();
+        this.getContainerSpacing(
+          container,
+          LayoutDefaults.NODE_SPACING
+        ).toString();
 
       // Determine layout direction based on container options or shape
       // Priority: container.layoutOptions.direction > container.shape override > default
@@ -1909,6 +1912,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (container.layoutOptions?.direction) {
         // Use explicit direction if specified
         direction = this.mapDirectionToElk(container.layoutOptions.direction);
+      } else if (container.shape === 'wbs') {
+        direction = 'RIGHT';
+      } else if (container.shape === 'wbsDeliverable') {
+        direction = 'DOWN';
       } else if (container.shape === 'bpmnPool') {
         // BPMN pools default to horizontal flow
         direction = 'RIGHT';
@@ -2050,7 +2057,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : LayoutDefaults.CONTAINER_PADDING;
+          : this.getDefaultContainerPadding(container);
       const hasHeader = Boolean(container.label || container.header);
       const labelOffset = hasHeader ? 24 : 0;
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
@@ -2179,7 +2186,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const basePadding =
         container.containerStyle?.padding !== undefined
           ? container.containerStyle.padding
-          : LayoutDefaults.CONTAINER_PADDING;
+          : this.getDefaultContainerPadding(container);
       const hasHeader = Boolean(container.label || container.header);
       const labelOffset = hasHeader ? 24 : 0;
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
@@ -2208,6 +2215,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const algorithm = this.mapAlgorithmToElk(
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
+      const containerSpacing = this.getContainerSpacing(container, spacing);
 
       // Determine container direction: explicit option > shape override > parent direction
       let containerDirection = direction;
@@ -2215,6 +2223,10 @@ export class ElkLayoutEngine implements LayoutEngine {
         containerDirection = this.mapDirectionToElk(
           container.layoutOptions.direction
         );
+      } else if (container.shape === 'wbs') {
+        containerDirection = 'RIGHT';
+      } else if (container.shape === 'wbsDeliverable') {
+        containerDirection = 'DOWN';
       } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT';
       } else if (container.shape === 'bpmnLane') {
@@ -2226,8 +2238,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         layoutOptions: {
           'elk.algorithm': algorithm,
           'elk.direction': containerDirection,
-          'elk.spacing.nodeNode': spacing.toString(),
-          'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+          'elk.spacing.nodeNode': containerSpacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers': containerSpacing.toString(),
           // Force pure orthogonal routing
           'elk.edgeRouting': 'ORTHOGONAL',
           'elk.layered.unnecessaryBendpoints': 'true',
@@ -2325,7 +2337,8 @@ export class ElkLayoutEngine implements LayoutEngine {
             : this.arrangeSiblingContainers(
                 container.containers,
                 spacing,
-                containerPlaceholders
+                containerPlaceholders,
+                containerDirection
               );
 
         // Adjust Y positions to start after direct children
@@ -2489,6 +2502,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const algorithm = this.mapAlgorithmToElk(
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
+      const containerSpacing = this.getContainerSpacing(container, spacing);
 
       // Determine container direction: explicit option > shape override > parent direction
       let containerDirection = direction; // Default: use diagram direction
@@ -2496,6 +2510,10 @@ export class ElkLayoutEngine implements LayoutEngine {
         containerDirection = this.mapDirectionToElk(
           container.layoutOptions.direction
         );
+      } else if (container.shape === 'wbs') {
+        containerDirection = 'RIGHT';
+      } else if (container.shape === 'wbsDeliverable') {
+        containerDirection = 'DOWN';
       } else if (container.shape === 'bpmnPool') {
         containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
       } else if (container.shape === 'bpmnLane') {
@@ -2507,8 +2525,8 @@ export class ElkLayoutEngine implements LayoutEngine {
         layoutOptions: {
           'elk.algorithm': algorithm,
           'elk.direction': containerDirection, // Use container-specific direction
-          'elk.spacing.nodeNode': spacing.toString(),
-          'elk.layered.spacing.nodeNodeBetweenLayers': spacing.toString(),
+          'elk.spacing.nodeNode': containerSpacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers': containerSpacing.toString(),
           // Force pure orthogonal (right-angle) routing - no diagonals
           'elk.edgeRouting': 'ORTHOGONAL',
           // Orthogonal edge routing specific options
@@ -2650,7 +2668,8 @@ export class ElkLayoutEngine implements LayoutEngine {
             : this.arrangeSiblingContainers(
                 container.containers,
                 spacing,
-                containerPlaceholders
+                containerPlaceholders,
+                containerDirection
               );
 
         // Adjust positions to start after direct children
@@ -2747,6 +2766,33 @@ export class ElkLayoutEngine implements LayoutEngine {
 
   private isFileTreeContainer(container: ContainerDeclaration): boolean {
     return container.shape === 'fileTree' || container.shape === 'folder';
+  }
+
+  private getDefaultContainerPadding(container: ContainerDeclaration): number {
+    if (container.shape === 'wbs') {
+      return 12;
+    }
+
+    if (container.shape === 'wbsDeliverable') {
+      return 8;
+    }
+
+    return LayoutDefaults.CONTAINER_PADDING;
+  }
+
+  private getContainerSpacing(
+    container: ContainerDeclaration,
+    spacing: number
+  ): number {
+    if (container.shape === 'wbs') {
+      return Math.max(36, Math.round(spacing * 0.45));
+    }
+
+    if (container.shape === 'wbsDeliverable') {
+      return Math.max(20, Math.round(spacing * 0.28));
+    }
+
+    return spacing;
   }
 
   private getFileTreeIndent(container: ContainerDeclaration): number {

@@ -103,6 +103,11 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('mitigation', 'mitigation');
   shapeRegistry.registerAlias('securityControl', 'securityControl');
   shapeRegistry.registerAlias('control', 'securityControl');
+  shapeRegistry.registerAlias('wbs', 'wbs');
+  shapeRegistry.registerAlias('deliverable', 'wbsDeliverable');
+  shapeRegistry.registerAlias('wbsDeliverable', 'wbsDeliverable');
+  shapeRegistry.registerAlias('workPackage', 'wbsWorkPackage');
+  shapeRegistry.registerAlias('wbsWorkPackage', 'wbsWorkPackage');
 
   // BPMN Shapes
   shapeRegistry.registerAlias('task', 'bpmnTask');

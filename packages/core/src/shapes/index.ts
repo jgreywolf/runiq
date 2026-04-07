@@ -123,6 +123,9 @@ export function registerSpecialShapes(): void {
   shapeRegistry.register(special.threatShape);
   shapeRegistry.register(special.mitigationShape);
   shapeRegistry.register(special.securityControlShape);
+  shapeRegistry.register(special.wbsShape);
+  shapeRegistry.register(special.wbsDeliverableShape);
+  shapeRegistry.register(special.wbsWorkPackageShape);
   shapeRegistry.register(special.hRuleShape);
   shapeRegistry.register(special.vRuleShape);
   shapeRegistry.register(special.bracketLeftShape);

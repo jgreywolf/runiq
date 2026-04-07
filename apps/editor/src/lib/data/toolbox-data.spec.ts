@@ -134,6 +134,7 @@ describe('Toolbox Data Structure', () => {
 			'azure',
 			'threatModel',
 			'fileTree',
+			'wbs',
 			'kinematic',
 			'quantum',
 			'special',
@@ -161,6 +162,16 @@ describe('Toolbox Data Structure', () => {
 		expect(threatModelShapeIds).toContain('threat');
 		expect(threatModelShapeIds).toContain('mitigation');
 		expect(threatModelShapeIds).toContain('securityControl');
+	});
+
+	it('should include work breakdown starter shapes', () => {
+		const wbsCategory = shapeCategories.find((cat) => cat.id === 'wbs');
+		const wbsShapeIds = wbsCategory?.shapes.map((shape) => shape.id) ?? [];
+
+		expect(wbsCategory?.label).toBe('Work Breakdown');
+		expect(wbsShapeIds).toContain('wbs');
+		expect(wbsShapeIds).toContain('wbsDeliverable');
+		expect(wbsShapeIds).toContain('wbsWorkPackage');
 	});
 
 	it('should include ring and scatter chart shapes', () => {

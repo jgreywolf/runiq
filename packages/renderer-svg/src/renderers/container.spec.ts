@@ -340,6 +340,58 @@ describe('renderContainer', () => {
     });
   });
 
+  describe('Specialized Container Guides', () => {
+    it('should render WBS guide lines for nested deliverables', () => {
+      const containerAst = createContainer('launch', {
+        shape: 'wbs',
+        containers: [
+          createContainer('discovery', { label: 'Discovery' }),
+          createContainer('design', { label: 'Design' }),
+        ],
+      });
+
+      const container: PositionedContainer = {
+        id: 'launch',
+        x: 0,
+        y: 0,
+        width: 360,
+        height: 220,
+        label: 'Website Launch',
+        containers: [
+          {
+            id: 'discovery',
+            x: 20,
+            y: 70,
+            width: 120,
+            height: 40,
+            label: 'Discovery',
+          },
+          {
+            id: 'design',
+            x: 220,
+            y: 70,
+            width: 120,
+            height: 40,
+            label: 'Design',
+          },
+        ],
+      };
+
+      const diagram = createMinimalDiagram([containerAst]);
+      const layout = {
+        nodes: [],
+        edges: [],
+        containers: [container],
+        size: { width: 360, height: 220 },
+      };
+
+      const result = renderContainer(container, diagram, false, layout as any);
+
+      expect(result).toContain('wbs-guides');
+      expect(result).toContain('<line');
+    });
+  });
+
   describe('Nested Container Rendering', () => {
     it('should recursively render nested containers', () => {
       const nested: PositionedContainer = {
