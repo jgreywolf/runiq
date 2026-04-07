@@ -59,51 +59,7 @@ export interface ShapeCategory {
 	profiles?: string[];
 }
 
-export const shapeCategories: ShapeCategory[] = [
-	...basicShapeIcons,
-	...flowchartShapeIcons,
-	...containerTemplateShapeIcons,
-	...chartShapeIcons,
-	...partitionShapeIcons,
-	...umlShapeIcons,
-	...erdShapeIcons,
-	...bpmnShapeIcons,
-	...c4ShapeIcons,
-	...architectureShapeIcons,
-	...storageShapeIcons,
-	...networkShapeIcons,
-	...awsShapeIcons,
-	...azureShapeIcons,
-	...threatModelShapeIcons,
-	...fileTreeShapeIcons,
-	...wbsShapeIcons,
-	...requirementsShapeIcons,
-	...kinematicShapeIcons,
-	...quantumShapeIcons,
-	...specialShapeIcons,
-	...decorativeShapeIcons,
-	...sequenceShapeIcons,
-	...wardleySyntaxShapeIcons,
-	...timelineSyntaxShapeIcons,
-	...kanbanSyntaxShapeIcons,
-	...gitgraphSyntaxShapeIcons,
-	...treemapSyntaxShapeIcons,
-	...pidSyntaxShapeIcons,
-	...pedigreeSyntaxShapeIcons,
-	...electricalShapeIcons,
-	...logicGateShapeIcons,
-	...controlShapeIcons,
-	...digitalComponentShapeIcons,
-	...digitalLogicGateShapeIcons,
-	...digitalSyntaxShapeIcons,
-	...railroadSyntaxShapeIcons,
-	...pneumaticShapeIcons,
-	...hydraulicShapeIcons,
-	...hvacShapeIcons,
-	...glyphsetIcons
-];
-
-export const diagramShapes: ShapeCategory[] = [
+const diagramCategoryGroups: ShapeCategory[] = [
 	...basicShapeIcons,
 	...flowchartShapeIcons,
 	...containerTemplateShapeIcons,
@@ -126,6 +82,31 @@ export const diagramShapes: ShapeCategory[] = [
 	...quantumShapeIcons,
 	...specialShapeIcons,
 	...decorativeShapeIcons
+];
+
+export const diagramShapes: ShapeCategory[] = [...diagramCategoryGroups];
+
+export const shapeCategories: ShapeCategory[] = [
+	...diagramCategoryGroups,
+	...sequenceShapeIcons,
+	...wardleySyntaxShapeIcons,
+	...timelineSyntaxShapeIcons,
+	...kanbanSyntaxShapeIcons,
+	...gitgraphSyntaxShapeIcons,
+	...treemapSyntaxShapeIcons,
+	...pidSyntaxShapeIcons,
+	...pedigreeSyntaxShapeIcons,
+	...electricalShapeIcons,
+	...logicGateShapeIcons,
+	...controlShapeIcons,
+	...digitalComponentShapeIcons,
+	...digitalLogicGateShapeIcons,
+	...digitalSyntaxShapeIcons,
+	...railroadSyntaxShapeIcons,
+	...pneumaticShapeIcons,
+	...hydraulicShapeIcons,
+	...hvacShapeIcons,
+	...glyphsetIcons
 ];
 
 export const glyphsets: ShapeCategory[] = [...glyphsetIcons];

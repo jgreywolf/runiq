@@ -1907,21 +1907,7 @@ export class ElkLayoutEngine implements LayoutEngine {
 
       // Determine layout direction based on container options or shape
       // Priority: container.layoutOptions.direction > container.shape override > default
-      let direction = 'DOWN'; // Default: vertical
-
-      if (container.layoutOptions?.direction) {
-        // Use explicit direction if specified
-        direction = this.mapDirectionToElk(container.layoutOptions.direction);
-      } else if (container.shape === 'wbs') {
-        direction = 'RIGHT';
-      } else if (container.shape === 'wbsDeliverable') {
-        direction = 'DOWN';
-      } else if (container.shape === 'requirementPackage') {
-        direction = 'DOWN';
-      } else if (container.shape === 'bpmnPool') {
-        // BPMN pools default to horizontal flow
-        direction = 'RIGHT';
-      }
+      const direction = this.getContainerDirection(container, 'DOWN');
 
       // For radial/mindmap layouts, use straight lines instead of orthogonal routing
       const isRadialLayout =
@@ -2220,22 +2206,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       const containerSpacing = this.getContainerSpacing(container, spacing);
 
       // Determine container direction: explicit option > shape override > parent direction
-      let containerDirection = direction;
-      if (container.layoutOptions?.direction) {
-        containerDirection = this.mapDirectionToElk(
-          container.layoutOptions.direction
-        );
-      } else if (container.shape === 'wbs') {
-        containerDirection = 'RIGHT';
-      } else if (container.shape === 'wbsDeliverable') {
-        containerDirection = 'DOWN';
-      } else if (container.shape === 'requirementPackage') {
-        containerDirection = 'DOWN';
-      } else if (container.shape === 'bpmnPool') {
-        containerDirection = 'RIGHT';
-      } else if (container.shape === 'bpmnLane') {
-        containerDirection = 'RIGHT';
-      }
+      const containerDirection = this.getContainerDirection(
+        container,
+        direction
+      );
 
       const containerGraph: ElkNode = {
         id: `container_${container.id}`,
@@ -2509,22 +2483,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       const containerSpacing = this.getContainerSpacing(container, spacing);
 
       // Determine container direction: explicit option > shape override > parent direction
-      let containerDirection = direction; // Default: use diagram direction
-      if (container.layoutOptions?.direction) {
-        containerDirection = this.mapDirectionToElk(
-          container.layoutOptions.direction
-        );
-      } else if (container.shape === 'wbs') {
-        containerDirection = 'RIGHT';
-      } else if (container.shape === 'wbsDeliverable') {
-        containerDirection = 'DOWN';
-      } else if (container.shape === 'requirementPackage') {
-        containerDirection = 'DOWN';
-      } else if (container.shape === 'bpmnPool') {
-        containerDirection = 'RIGHT'; // Horizontal flow for BPMN pools
-      } else if (container.shape === 'bpmnLane') {
-        containerDirection = 'RIGHT'; // Horizontal flow for BPMN lanes
-      }
+      const containerDirection = this.getContainerDirection(
+        container,
+        direction
+      );
 
       const containerGraph: ElkNode = {
         id: `container_${container.id}`,
@@ -2774,39 +2736,54 @@ export class ElkLayoutEngine implements LayoutEngine {
     return container.shape === 'fileTree' || container.shape === 'folder';
   }
 
+  private getContainerDirection(
+    container: ContainerDeclaration,
+    fallbackDirection: string
+  ): string {
+    if (container.layoutOptions?.direction) {
+      return this.mapDirectionToElk(container.layoutOptions.direction);
+    }
+
+    switch (container.shape) {
+      case 'wbs':
+      case 'bpmnPool':
+      case 'bpmnLane':
+        return 'RIGHT';
+      case 'wbsDeliverable':
+      case 'requirementPackage':
+        return 'DOWN';
+      default:
+        return fallbackDirection;
+    }
+  }
+
   private getDefaultContainerPadding(container: ContainerDeclaration): number {
-    if (container.shape === 'wbs') {
-      return 12;
+    switch (container.shape) {
+      case 'wbs':
+        return 12;
+      case 'wbsDeliverable':
+        return 8;
+      case 'requirementPackage':
+        return 18;
+      default:
+        return LayoutDefaults.CONTAINER_PADDING;
     }
-
-    if (container.shape === 'wbsDeliverable') {
-      return 8;
-    }
-
-    if (container.shape === 'requirementPackage') {
-      return 18;
-    }
-
-    return LayoutDefaults.CONTAINER_PADDING;
   }
 
   private getContainerSpacing(
     container: ContainerDeclaration,
     spacing: number
   ): number {
-    if (container.shape === 'wbs') {
-      return Math.max(36, Math.round(spacing * 0.45));
+    switch (container.shape) {
+      case 'wbs':
+        return Math.max(36, Math.round(spacing * 0.45));
+      case 'wbsDeliverable':
+        return Math.max(20, Math.round(spacing * 0.28));
+      case 'requirementPackage':
+        return Math.max(26, Math.round(spacing * 0.32));
+      default:
+        return spacing;
     }
-
-    if (container.shape === 'wbsDeliverable') {
-      return Math.max(20, Math.round(spacing * 0.28));
-    }
-
-    if (container.shape === 'requirementPackage') {
-      return Math.max(26, Math.round(spacing * 0.32));
-    }
-
-    return spacing;
   }
 
   private getFileTreeIndent(container: ContainerDeclaration): number {
