@@ -1,6 +1,6 @@
 {
   "name": "@runiq/export-simulink",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Simulink MDL exporter for Runiq Control system block diagrams",
   "type": "module",
   "main": "./dist/index.js",
@@ -39,7 +39,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@runiq/core": "^0.1.0"
+    "@runiq/core": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",

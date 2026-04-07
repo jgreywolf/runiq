@@ -1,4 +1,10 @@
-import type { DiagramAst, RailroadExpression, RailroadProfile, RuniqDocument } from '@runiq/core';
+import type {
+  DiagramAst,
+  DiagramProfile,
+  RailroadExpression,
+  RailroadProfile,
+  RuniqDocument,
+} from '@runiq/core';
 import { ProfileType } from '@runiq/core';
 import { EmptyFileSystem, type AstNode } from 'langium';
 import {
@@ -268,7 +274,7 @@ function mergeWarnings(...groups: string[][]): string[] {
   return Array.from(merged);
 }
 
-function collectDiagramWarnings(profile: DiagramAst): string[] {
+function collectDiagramWarnings(profile: DiagramProfile): string[] {
   const warnings: string[] = [];
   const seenIds = new Set<string>();
 

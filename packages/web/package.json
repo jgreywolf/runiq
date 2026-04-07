@@ -1,6 +1,6 @@
 {
   "name": "@runiq/web",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Browser-friendly SDK to parse, layout, and render Runiq diagrams to SVG",
   "type": "module",
   "main": "./dist/index.js",
@@ -25,10 +25,10 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@runiq/core": "^0.1.0",
-    "@runiq/parser-dsl": "^0.1.0",
-    "@runiq/layout-base": "^0.1.0",
-    "@runiq/renderer-svg": "^0.1.0"
+    "@runiq/core": "^1.2.0",
+    "@runiq/parser-dsl": "^1.2.0",
+    "@runiq/layout-base": "^1.2.0",
+    "@runiq/renderer-svg": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
