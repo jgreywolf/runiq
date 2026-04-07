@@ -12,6 +12,7 @@ import type {
 import {
   ArrowType,
   createTextMeasurer,
+  getOrderedContainerContentItems,
   LayoutAlgorithm,
   LayoutDefaults,
   Orientation,
@@ -2826,26 +2827,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       return [];
     }
 
-    const fallbackOrder = [
-      ...container.children.map((id) => ({ kind: 'node' as const, id })),
-      ...(container.containers ?? []).map((nested) => ({
-        kind: 'container' as const,
-        id: nested.id || '',
-      })),
-    ];
-    const ordered = (
-      container.contentOrder && container.contentOrder.length > 0
-        ? container.contentOrder
-        : fallbackOrder
-    ).slice();
-
-    ordered.sort((left, right) => {
-      if (left.kind === right.kind) {
-        return 0;
-      }
-
-      return left.kind === 'container' ? -1 : 1;
-    });
+    const ordered = getOrderedContainerContentItems(container);
 
     return ordered
       .map((item) => {

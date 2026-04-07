@@ -76,6 +76,11 @@ describe('Shape Alias System', () => {
       expect(shape).toBeDefined();
       expect(shape?.id).toBe('display');
     });
+
+    it('should not resolve generic "vm" to a vendor-specific shape', () => {
+      const shape = shapeRegistry.get('vm');
+      expect(shape).toBeUndefined();
+    });
   });
 
   describe('AWS Aliases', () => {
@@ -95,6 +100,11 @@ describe('Shape Alias System', () => {
       const shape = shapeRegistry.get('rds');
       expect(shape).toBeDefined();
       expect(shape?.id).toBe('awsRds');
+    });
+
+    it('should not resolve generic "cdn" to a vendor-specific shape', () => {
+      const shape = shapeRegistry.get('cdn');
+      expect(shape).toBeUndefined();
     });
   });
 

@@ -4,7 +4,12 @@ import type {
   LaidOutDiagram,
   PositionedContainer,
 } from '@runiq/core';
-import { createTextMeasurer, LineStyle, shapeRegistry } from '@runiq/core';
+import {
+  createTextMeasurer,
+  getOrderedContainerContentItems,
+  LineStyle,
+  shapeRegistry,
+} from '@runiq/core';
 import { resolveContainerStyle } from './style-resolver.js';
 import { escapeXml } from './utils.js';
 
@@ -129,25 +134,7 @@ function renderFileTreeGuides(
     return '';
   }
 
-  const orderedItems = (
-    containerAst.contentOrder && containerAst.contentOrder.length > 0
-      ? containerAst.contentOrder
-      : [
-          ...containerAst.children.map((id) => ({ kind: 'node' as const, id })),
-          ...((containerAst.containers ?? []).map((nested) => ({
-            kind: 'container' as const,
-            id: nested.id || '',
-          })) ?? []),
-        ]
-  ).slice();
-
-  orderedItems.sort((left, right) => {
-    if (left.kind === right.kind) {
-      return 0;
-    }
-
-    return left.kind === 'container' ? -1 : 1;
-  });
+  const orderedItems = getOrderedContainerContentItems(containerAst);
 
   const nestedById = new Map(
     (container.containers ?? []).map((nested) => [nested.id, nested])

@@ -41,17 +41,14 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('vpc', 'awsVpc');
   shapeRegistry.registerAlias('ec2', 'awsEc2');
   shapeRegistry.registerAlias('cloudFront', 'awsCloudFront');
-  shapeRegistry.registerAlias('cdn', 'awsCloudFront');
   shapeRegistry.registerAlias('dynamoDb', 'awsDynamoDb');
   shapeRegistry.registerAlias('sqs', 'awsSqs');
   shapeRegistry.registerAlias('cognito', 'awsCognito');
 
   // Azure Shapes
   shapeRegistry.registerAlias('azureVm', 'azureVm');
-  shapeRegistry.registerAlias('vm', 'azureVm');
   shapeRegistry.registerAlias('blobStorage', 'azureBlobStorage');
   shapeRegistry.registerAlias('azureFunctions', 'azureFunctions');
-  shapeRegistry.registerAlias('functions', 'azureFunctions');
   shapeRegistry.registerAlias('sqlDatabase', 'azureSqlDatabase');
   shapeRegistry.registerAlias('virtualNetwork', 'azureVirtualNetwork');
   shapeRegistry.registerAlias('vnet', 'azureVirtualNetwork');
@@ -102,7 +99,6 @@ export function registerShapeAliases() {
   shapeRegistry.registerAlias('threat', 'threat');
   shapeRegistry.registerAlias('mitigation', 'mitigation');
   shapeRegistry.registerAlias('securityControl', 'securityControl');
-  shapeRegistry.registerAlias('control', 'securityControl');
   shapeRegistry.registerAlias('wbs', 'wbs');
   shapeRegistry.registerAlias('deliverable', 'wbsDeliverable');
   shapeRegistry.registerAlias('wbsDeliverable', 'wbsDeliverable');

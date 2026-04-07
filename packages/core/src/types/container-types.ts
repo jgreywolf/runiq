@@ -46,6 +46,34 @@ export interface ContainerContentItem {
   id: string;
 }
 
+export function getOrderedContainerContentItems(
+  container: ContainerDeclaration
+): ContainerContentItem[] {
+  const fallbackOrder: ContainerContentItem[] = [
+    ...container.children.map((id) => ({ kind: 'node', id }) as const),
+    ...((container.containers ?? []).map((nested) => ({
+      kind: 'container',
+      id: nested.id || '',
+    })) as ContainerContentItem[]),
+  ];
+
+  const ordered = (
+    container.contentOrder && container.contentOrder.length > 0
+      ? container.contentOrder
+      : fallbackOrder
+  ).slice();
+
+  ordered.sort((left, right) => {
+    if (left.kind === right.kind) {
+      return 0;
+    }
+
+    return left.kind === 'container' ? -1 : 1;
+  });
+
+  return ordered;
+}
+
 /**
  * Visual styling specific to containers
  */

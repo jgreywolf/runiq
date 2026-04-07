@@ -61,6 +61,25 @@ describe('langium-parser', () => {
       expect(result.warnings.length).toBeGreaterThan(0);
       expect(result.warnings.join('\n')).toContain('Missing railroad diagram references: Missing');
     });
+
+    it('should warn on duplicate IDs in file-tree style diagrams', () => {
+      const dsl = `
+        diagram "Repo" {
+          container repo "repo" as @fileTree {
+            container apps "apps" as @folder {
+              shape readme as @file label:"README.md"
+            }
+            container packages "packages" as @folder {
+              shape readme as @file label:"README.md"
+            }
+          }
+        }
+      `;
+      const result = parse(dsl);
+
+      expect(result.success).toBe(true);
+      expect(result.warnings.some((warning) => warning.includes('Duplicate node ID: readme'))).toBe(true);
+    });
   });
   describe('parse() - Error Handling', () => {
     it('should return errors for invalid syntax', () => {

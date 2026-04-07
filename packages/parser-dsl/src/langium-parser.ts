@@ -231,6 +231,8 @@ function collectParseWarnings(document: RuniqDocument): string[] {
   for (const profile of document.profiles) {
     if (profile.type === ProfileType.RAILROAD) {
       warnings.push(...collectRailroadWarnings(profile));
+    } else if (profile.type === ProfileType.DIAGRAM) {
+      warnings.push(...collectDiagramWarnings(profile));
     }
   }
 
@@ -248,6 +250,7 @@ function collectParseWarningsFromLangium(
     } else if (Langium.isPIDProfile(profile)) {
       warnings.push(...collectPidWarnings(profile));
     } else if (Langium.isDiagramProfile(profile)) {
+      warnings.push(...collectDiagramWarningMessages(profile));
       warnings.push(...collectDataWarnings(profile, 'diagram'));
     } else if (Langium.isTimelineProfile(profile)) {
       warnings.push(...collectDataWarnings(profile, 'timeline'));
@@ -263,6 +266,74 @@ function mergeWarnings(...groups: string[][]): string[] {
   const merged = new Set<string>();
   groups.flat().forEach((warning) => merged.add(warning));
   return Array.from(merged);
+}
+
+function collectDiagramWarnings(profile: DiagramAst): string[] {
+  const warnings: string[] = [];
+  const seenIds = new Set<string>();
+
+  for (const node of profile.nodes) {
+    if (seenIds.has(node.id)) {
+      warnings.push(
+        `Duplicate node ID: ${node.id}. File-tree style diagrams should keep IDs unique and use label:"..." for repeated filenames.`
+      );
+    }
+    seenIds.add(node.id);
+  }
+
+  return warnings;
+}
+
+function getContainerBlockId(block: Langium.ContainerBlock): string {
+  return (
+    (block.id ? unescapeString(block.id) : undefined) ||
+    block.label
+      .replace(/^"|"$/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+  );
+}
+
+function collectDiagramWarningMessages(profile: Langium.DiagramProfile): string[] {
+  const warnings: string[] = [];
+  const hasFileTree = profile.statements.some(
+    (statement) =>
+      Langium.isContainerBlock(statement) &&
+      (statement.shape === 'fileTree' || statement.shape === 'folder')
+  );
+
+  if (!hasFileTree) {
+    return warnings;
+  }
+
+  const seenShapeIds = new Set<string>();
+  const seenContainerIds = new Set<string>();
+
+  const visitStatements = (statements: Langium.DiagramStatement[]) => {
+    for (const statement of statements) {
+      if (Langium.isShapeDeclaration(statement)) {
+        const id = unescapeString(statement.id);
+        if (seenShapeIds.has(id)) {
+          warnings.push(
+            `Duplicate node ID: ${id}. File-tree style diagrams should keep IDs unique and use label:"..." for repeated filenames.`
+          );
+        }
+        seenShapeIds.add(id);
+      } else if (Langium.isContainerBlock(statement)) {
+        const id = getContainerBlockId(statement);
+        if (seenContainerIds.has(id)) {
+          warnings.push(
+            `Duplicate container ID: ${id}. File-tree style diagrams should keep folder IDs unique and use labels for repeated names.`
+          );
+        }
+        seenContainerIds.add(id);
+        visitStatements(statement.statements);
+      }
+    }
+  };
+
+  visitStatements(profile.statements);
+  return warnings;
 }
 
 function collectRailroadWarnings(profile: RailroadProfile): string[] {
@@ -319,6 +390,7 @@ function collectParseWarningDetails(
     } else if (Langium.isPIDProfile(profile)) {
       warnings.push(...collectPidWarningDetails(profile));
     } else if (Langium.isDiagramProfile(profile)) {
+      warnings.push(...collectDiagramWarningDetails(profile));
       warnings.push(...collectDataWarningDetails(profile, 'diagram'));
     } else if (Langium.isTimelineProfile(profile)) {
       warnings.push(...collectDataWarningDetails(profile, 'timeline'));
@@ -588,6 +660,66 @@ function collectRailroadWarningDetails(
   });
 
   return warningDetails;
+}
+
+function collectDiagramWarningDetails(
+  profile: Langium.DiagramProfile
+): WarningDetail[] {
+  const warnings: WarningDetail[] = [];
+  const seenShapeIds = new Set<string>();
+  const seenContainerIds = new Set<string>();
+  const hasFileTree = profile.statements.some(
+    (statement) =>
+      Langium.isContainerBlock(statement) &&
+      (statement.shape === 'fileTree' || statement.shape === 'folder')
+  );
+
+  if (!hasFileTree) {
+    return warnings;
+  }
+
+  const addWarning = (message: string, node?: AstNode) => {
+    const range = node?.$cstNode?.range;
+    if (!range) return;
+
+    warnings.push({
+      message,
+      range: {
+        startLine: range.start.line + 1,
+        startColumn: range.start.character + 1,
+        endLine: range.end.line + 1,
+        endColumn: range.end.character + 1,
+      },
+    });
+  };
+
+  const visitStatements = (statements: Langium.DiagramStatement[]) => {
+    for (const statement of statements) {
+      if (Langium.isShapeDeclaration(statement)) {
+        const id = unescapeString(statement.id);
+        if (seenShapeIds.has(id)) {
+          addWarning(
+            `Duplicate node ID: ${id}. File-tree style diagrams should keep IDs unique and use label:"..." for repeated filenames.`,
+            statement
+          );
+        }
+        seenShapeIds.add(id);
+      } else if (Langium.isContainerBlock(statement)) {
+        const id = getContainerBlockId(statement);
+        if (seenContainerIds.has(id)) {
+          addWarning(
+            `Duplicate container ID: ${id}. File-tree style diagrams should keep folder IDs unique and use labels for repeated names.`,
+            statement
+          );
+        }
+        seenContainerIds.add(id);
+        visitStatements(statement.statements);
+      }
+    }
+  };
+
+  visitStatements(profile.statements);
+  return warnings;
 }
 
 const DEFAULT_HVAC_PORTS = ['in', 'out'] as const;
