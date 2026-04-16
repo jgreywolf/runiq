@@ -279,6 +279,66 @@ describe('ElkLayoutEngine helper methods', () => {
     expect(edge.points[2]).toEqual({ x: 40, y: 110 });
   });
 
+  it('projects automatic target endpoints along the reached shape side', () => {
+    const engine = new ElkLayoutEngine() as any;
+    const edge: RoutedEdge = {
+      from: 'A',
+      to: 'B',
+      points: [
+        { x: 254, y: 51.4 },
+        { x: 266, y: 51.4 },
+        { x: 266, y: 359.8 },
+        { x: 237.8, y: 359.8 },
+        { x: 237.8, y: 369.8 },
+      ],
+    };
+
+    engine.projectEndpointOntoAnchorSide(
+      edge,
+      'end',
+      { x: 95.8, y: 0, name: 'top' },
+      { id: 'B', x: 142, y: 369.8, width: 191.6, height: 83.6 }
+    );
+    engine.simplifyTerminalDoglegs(
+      edge,
+      { x: 0, y: 0, name: 'right' },
+      { x: 95.8, y: 0, name: 'top' }
+    );
+
+    expect(edge.points).toEqual([
+      { x: 254, y: 51.4 },
+      { x: 266, y: 51.4 },
+      { x: 266, y: 369.8 },
+    ]);
+  });
+
+  it('does not project endpoints when the route misses the shape side span', () => {
+    const engine = new ElkLayoutEngine() as any;
+    const edge: RoutedEdge = {
+      from: 'A',
+      to: 'B',
+      points: [
+        { x: 254, y: 51.4 },
+        { x: 390, y: 51.4 },
+        { x: 390, y: 359.8 },
+        { x: 237.8, y: 359.8 },
+        { x: 237.8, y: 369.8 },
+      ],
+    };
+
+    engine.projectEndpointOntoAnchorSide(
+      edge,
+      'end',
+      { x: 95.8, y: 0, name: 'top' },
+      { id: 'B', x: 142, y: 369.8, width: 191.6, height: 83.6 }
+    );
+
+    expect(edge.points[edge.points.length - 1]).toEqual({
+      x: 237.8,
+      y: 369.8,
+    });
+  });
+
   it('arranges sibling containers with swimlane orientation', () => {
     const engine = new ElkLayoutEngine() as any;
     const containers: ContainerDeclaration[] = [

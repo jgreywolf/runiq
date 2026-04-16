@@ -833,14 +833,20 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Get the diagram node definitions to access shape info
       const fromNodeDef = diagram.nodes.find((n) => n.id === fromNodeId);
       const toNodeDef = diagram.nodes.find((n) => n.id === toNodeId);
+      const edgeAst =
+        edge.edgeIndex !== undefined
+          ? diagram.edges[edge.edgeIndex]
+          : diagram.edges.find((e) => e.from === edge.from && e.to === edge.to);
 
-      if (!fromNodeDef || !toNodeDef) continue;
+      if (!fromNodeDef || !toNodeDef || !edgeAst) continue;
 
       // Get shape implementations
       const fromShape = shapeRegistry.get(fromNodeDef.shape);
       const toShape = shapeRegistry.get(toNodeDef.shape);
 
       if (!fromShape || !toShape) continue;
+      const explicitStartAnchor = edgeAst.anchorFrom;
+      const explicitEndAnchor = edgeAst.anchorTo;
 
       // Get styles
       const fromStyle = fromNodeDef.style
@@ -861,15 +867,24 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const firstPoint = edge.points[0];
-        startAnchor = hasElkRoutedPath
-          ? this.findNearestAnchor(firstPoint, anchors, fromNode)
-          : this.findPreferredAnchor(
-              anchors,
-              fromNode,
-              toNode,
-              firstPoint,
-              direction
-            );
+        startAnchor = explicitStartAnchor
+          ? this.findAnchorByName(anchors, explicitStartAnchor)
+          : hasElkRoutedPath
+            ? this.findBestRoutedAnchor(
+                edge,
+                'start',
+                anchors,
+                fromNode,
+                toNode,
+                direction
+              )
+            : this.findPreferredAnchor(
+                anchors,
+                fromNode,
+                toNode,
+                firstPoint,
+                direction
+              );
         if (startAnchor) {
           newStartPoint = {
             x: fromNode.x + startAnchor.x,
@@ -888,15 +903,24 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const lastPoint = edge.points[edge.points.length - 1];
-        endAnchor = hasElkRoutedPath
-          ? this.findNearestAnchor(lastPoint, anchors, toNode)
-          : this.findPreferredTargetAnchor(
-              anchors,
-              fromNode,
-              toNode,
-              lastPoint,
-              direction
-            );
+        endAnchor = explicitEndAnchor
+          ? this.findAnchorByName(anchors, explicitEndAnchor)
+          : hasElkRoutedPath
+            ? this.findBestRoutedAnchor(
+                edge,
+                'end',
+                anchors,
+                toNode,
+                fromNode,
+                direction
+              )
+            : this.findPreferredTargetAnchor(
+                anchors,
+                fromNode,
+                toNode,
+                lastPoint,
+                direction
+              );
         if (endAnchor) {
           newEndPoint = {
             x: toNode.x + endAnchor.x,
@@ -916,7 +940,19 @@ export class ElkLayoutEngine implements LayoutEngine {
           fromNode,
           toNode
         );
+        if (!explicitStartAnchor) {
+          this.projectEndpointOntoAnchorSide(
+            edge,
+            'start',
+            startAnchor,
+            fromNode
+          );
+        }
+        if (!explicitEndAnchor) {
+          this.projectEndpointOntoAnchorSide(edge, 'end', endAnchor, toNode);
+        }
         this.simplifySideBranchEdge(edge, startAnchor, endAnchor, direction);
+        this.simplifyTerminalDoglegs(edge, startAnchor, endAnchor);
       }
     }
   }
@@ -989,6 +1025,173 @@ export class ElkLayoutEngine implements LayoutEngine {
     }
 
     return nearestAnchor;
+  }
+
+  private findAnchorByName(
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    anchorName: string
+  ): { x: number; y: number; name?: string } | null {
+    const desired = this.normalizeAnchorSide(anchorName);
+    return (
+      anchors.find(
+        (anchor) =>
+          anchor.name === anchorName ||
+          (desired !== null && this.anchorMatches(anchor.name, desired))
+      ) ?? null
+    );
+  }
+
+  private findBestRoutedAnchor(
+    edge: RoutedEdge,
+    which: 'start' | 'end',
+    anchors: Array<{ x: number; y: number; name?: string }>,
+    node: PositionedNode,
+    otherNode: PositionedNode,
+    direction: string
+  ): { x: number; y: number; name?: string } | null {
+    if (anchors.length === 0) return null;
+    if (!edge.points || edge.points.length < 2) return anchors[0];
+
+    const endpoint =
+      which === 'start' ? edge.points[0] : edge.points[edge.points.length - 1];
+    const neighbor =
+      which === 'start' ? edge.points[1] : edge.points[edge.points.length - 2];
+    const geometrySide = this.getSideTowardNode(node, otherNode, direction);
+    const routeSide = this.getRouteApproachSide(node, neighbor, which);
+
+    let bestAnchor = anchors[0];
+    let bestScore = Number.POSITIVE_INFINITY;
+
+    for (const anchor of anchors) {
+      const anchorPoint = {
+        x: node.x + anchor.x,
+        y: node.y + anchor.y,
+      };
+      const side = this.normalizeAnchorSide(anchor.name);
+      const distance =
+        Math.abs(endpoint.x - anchorPoint.x) +
+        Math.abs(endpoint.y - anchorPoint.y);
+      const dogleg = this.getTerminalDoglegCost(
+        anchorPoint,
+        neighbor,
+        side,
+        which
+      );
+      const geometryPenalty =
+        geometrySide && side && geometrySide !== side ? 55 : 0;
+      const routePenalty = routeSide && side && routeSide !== side ? 130 : 0;
+      const flowPenalty = this.getFlowSidePenalty(side, direction, which);
+      const score =
+        dogleg * 8 +
+        distance * 0.25 +
+        geometryPenalty +
+        routePenalty +
+        flowPenalty;
+
+      if (score < bestScore) {
+        bestScore = score;
+        bestAnchor = anchor;
+      }
+    }
+
+    return bestAnchor;
+  }
+
+  private getTerminalDoglegCost(
+    anchorPoint: { x: number; y: number },
+    neighbor: { x: number; y: number },
+    side: 'left' | 'right' | 'top' | 'bottom' | null,
+    _which: 'start' | 'end'
+  ): number {
+    if (side === 'left' || side === 'right') {
+      return Math.abs(neighbor.y - anchorPoint.y);
+    }
+    if (side === 'top' || side === 'bottom') {
+      return Math.abs(neighbor.x - anchorPoint.x);
+    }
+    return (
+      Math.abs(neighbor.x - anchorPoint.x) +
+      Math.abs(neighbor.y - anchorPoint.y)
+    );
+  }
+
+  private getSideTowardNode(
+    node: PositionedNode,
+    otherNode: PositionedNode,
+    direction: string
+  ): 'left' | 'right' | 'top' | 'bottom' | null {
+    const center = {
+      x: node.x + node.width / 2,
+      y: node.y + node.height / 2,
+    };
+    const otherCenter = {
+      x: otherNode.x + otherNode.width / 2,
+      y: otherNode.y + otherNode.height / 2,
+    };
+    const dx = otherCenter.x - center.x;
+    const dy = otherCenter.y - center.y;
+    const verticalLayout = direction === 'DOWN' || direction === 'UP';
+    const horizontalLayout = direction === 'RIGHT' || direction === 'LEFT';
+
+    if (verticalLayout && Math.abs(dx) > node.width * 0.25) {
+      return dx >= 0 ? 'right' : 'left';
+    }
+    if (horizontalLayout && Math.abs(dy) > node.height * 0.25) {
+      return dy >= 0 ? 'bottom' : 'top';
+    }
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      return dx >= 0 ? 'right' : 'left';
+    }
+    return dy >= 0 ? 'bottom' : 'top';
+  }
+
+  private getRouteApproachSide(
+    node: PositionedNode,
+    neighbor: { x: number; y: number },
+    _which: 'start' | 'end'
+  ): 'left' | 'right' | 'top' | 'bottom' | null {
+    const margin = 2;
+
+    if (neighbor.x < node.x - margin) return 'left';
+    if (neighbor.x > node.x + node.width + margin) return 'right';
+    if (neighbor.y < node.y - margin) return 'top';
+    if (neighbor.y > node.y + node.height + margin) return 'bottom';
+
+    const center = {
+      x: node.x + node.width / 2,
+      y: node.y + node.height / 2,
+    };
+    const dx = neighbor.x - center.x;
+    const dy = neighbor.y - center.y;
+
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      return dx >= 0 ? 'right' : 'left';
+    }
+    return dy >= 0 ? 'bottom' : 'top';
+  }
+
+  private getFlowSidePenalty(
+    side: 'left' | 'right' | 'top' | 'bottom' | null,
+    direction: string,
+    which: 'start' | 'end'
+  ): number {
+    if (!side) return 0;
+
+    if (direction === 'DOWN') {
+      if (which === 'start' && side === 'top') return 35;
+      if (which === 'end' && side === 'bottom') return 35;
+    } else if (direction === 'UP') {
+      if (which === 'start' && side === 'bottom') return 35;
+      if (which === 'end' && side === 'top') return 35;
+    } else if (direction === 'RIGHT') {
+      if (which === 'start' && side === 'left') return 35;
+      if (which === 'end' && side === 'right') return 35;
+    } else if (direction === 'LEFT') {
+      if (which === 'start' && side === 'right') return 35;
+      if (which === 'end' && side === 'left') return 35;
+    }
+
+    return 0;
   }
 
   /**
@@ -1212,6 +1415,167 @@ export class ElkLayoutEngine implements LayoutEngine {
       this.alignEndSegmentToAnchor(edge, endAnchor.name);
       this.ensureOrthogonalPath(edge);
     }
+  }
+
+  private projectEndpointOntoAnchorSide(
+    edge: RoutedEdge,
+    which: 'start' | 'end',
+    anchor: { x: number; y: number; name?: string } | null,
+    node: PositionedNode
+  ): void {
+    if (!anchor?.name || edge.points.length < 4) return;
+
+    const side = this.normalizeAnchorSide(anchor.name);
+    if (!side) return;
+
+    if (which === 'end') {
+      const lastIndex = edge.points.length - 1;
+      const routePoint = edge.points[lastIndex - 2];
+      const end = edge.points[lastIndex];
+
+      if (
+        (side === 'top' || side === 'bottom') &&
+        routePoint.x >= node.x &&
+        routePoint.x <= node.x + node.width
+      ) {
+        edge.points[lastIndex] = { x: routePoint.x, y: end.y };
+        edge.points[lastIndex - 1] = {
+          x: routePoint.x,
+          y: edge.points[lastIndex - 1].y,
+        };
+      } else if (
+        (side === 'left' || side === 'right') &&
+        routePoint.y >= node.y &&
+        routePoint.y <= node.y + node.height
+      ) {
+        edge.points[lastIndex] = { x: end.x, y: routePoint.y };
+        edge.points[lastIndex - 1] = {
+          x: edge.points[lastIndex - 1].x,
+          y: routePoint.y,
+        };
+      }
+    } else {
+      const routePoint = edge.points[2];
+      const start = edge.points[0];
+
+      if (
+        (side === 'top' || side === 'bottom') &&
+        routePoint.x >= node.x &&
+        routePoint.x <= node.x + node.width
+      ) {
+        edge.points[0] = { x: routePoint.x, y: start.y };
+        edge.points[1] = { x: routePoint.x, y: edge.points[1].y };
+      } else if (
+        (side === 'left' || side === 'right') &&
+        routePoint.y >= node.y &&
+        routePoint.y <= node.y + node.height
+      ) {
+        edge.points[0] = { x: start.x, y: routePoint.y };
+        edge.points[1] = { x: edge.points[1].x, y: routePoint.y };
+      }
+    }
+
+    this.removeRedundantEdgePoints(edge);
+  }
+
+  private simplifyTerminalDoglegs(
+    edge: RoutedEdge,
+    startAnchor: { x: number; y: number; name?: string } | null,
+    endAnchor: { x: number; y: number; name?: string } | null
+  ): void {
+    this.removeRedundantEdgePoints(edge);
+    this.collapseSmallTerminalDogleg(edge, 'start', startAnchor);
+    this.collapseSmallTerminalDogleg(edge, 'end', endAnchor);
+    this.removeRedundantEdgePoints(edge);
+  }
+
+  private collapseSmallTerminalDogleg(
+    edge: RoutedEdge,
+    which: 'start' | 'end',
+    anchor: { x: number; y: number; name?: string } | null
+  ): void {
+    if (!anchor?.name || edge.points.length < 4) return;
+
+    const side = this.normalizeAnchorSide(anchor.name);
+    if (!side) return;
+
+    const maxJog = 16;
+
+    if (which === 'end') {
+      const endIndex = edge.points.length - 1;
+      const beforeDogleg = edge.points[endIndex - 2];
+      const dogleg = edge.points[endIndex - 1];
+      const end = edge.points[endIndex];
+
+      if (
+        (side === 'top' || side === 'bottom') &&
+        dogleg.x === end.x &&
+        dogleg.y === beforeDogleg.y &&
+        Math.abs(beforeDogleg.x - end.x) <= maxJog
+      ) {
+        edge.points[endIndex - 2] = { x: end.x, y: beforeDogleg.y };
+        edge.points.splice(endIndex - 1, 1);
+      } else if (
+        (side === 'left' || side === 'right') &&
+        dogleg.y === end.y &&
+        dogleg.x === beforeDogleg.x &&
+        Math.abs(beforeDogleg.y - end.y) <= maxJog
+      ) {
+        edge.points[endIndex - 2] = { x: beforeDogleg.x, y: end.y };
+        edge.points.splice(endIndex - 1, 1);
+      }
+    } else {
+      const start = edge.points[0];
+      const dogleg = edge.points[1];
+      const afterDogleg = edge.points[2];
+
+      if (
+        (side === 'top' || side === 'bottom') &&
+        dogleg.x === start.x &&
+        dogleg.y === afterDogleg.y &&
+        Math.abs(afterDogleg.x - start.x) <= maxJog
+      ) {
+        edge.points[2] = { x: start.x, y: afterDogleg.y };
+        edge.points.splice(1, 1);
+      } else if (
+        (side === 'left' || side === 'right') &&
+        dogleg.y === start.y &&
+        dogleg.x === afterDogleg.x &&
+        Math.abs(afterDogleg.y - start.y) <= maxJog
+      ) {
+        edge.points[2] = { x: afterDogleg.x, y: start.y };
+        edge.points.splice(1, 1);
+      }
+    }
+  }
+
+  private removeRedundantEdgePoints(edge: RoutedEdge): void {
+    if (!edge.points || edge.points.length < 3) return;
+
+    const deduped: Array<{ x: number; y: number }> = [];
+    for (const point of edge.points) {
+      const previous = deduped[deduped.length - 1];
+      if (!previous || previous.x !== point.x || previous.y !== point.y) {
+        deduped.push(point);
+      }
+    }
+
+    const simplified: Array<{ x: number; y: number }> = [];
+    for (const point of deduped) {
+      simplified.push(point);
+      while (simplified.length >= 3) {
+        const a = simplified[simplified.length - 3];
+        const b = simplified[simplified.length - 2];
+        const c = simplified[simplified.length - 1];
+        if ((a.x === b.x && b.x === c.x) || (a.y === b.y && b.y === c.y)) {
+          simplified.splice(simplified.length - 2, 1);
+        } else {
+          break;
+        }
+      }
+    }
+
+    edge.points = simplified;
   }
 
   /**
