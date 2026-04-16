@@ -24,6 +24,7 @@ export interface RoutedEdge {
   to: string;
   points: { x: number; y: number }[];
   edgeIndex?: number; // Index in diagram.edges array to handle multiple edges between same nodes
+  labelPosition?: { x: number; y: number; width: number; height: number };
 }
 
 export interface PositionedContainer {

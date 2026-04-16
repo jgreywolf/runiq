@@ -27,6 +27,111 @@ export interface SimpleBoundsConfig {
   extraWidth?: number;
   /** Additional height to add */
   extraHeight?: number;
+  /** Maximum text width before labels wrap */
+  maxTextWidth?: number;
+  /** Whether long labels should wrap (default: true) */
+  wrap?: boolean;
+}
+
+const WRAPPED_LABEL_KEY = '__runiqWrappedLabel';
+const WRAPPED_LABEL_SOURCE_KEY = '__runiqWrappedLabelSource';
+const DEFAULT_MAX_TEXT_WIDTH = 180;
+
+function getLineHeight(ctx: ShapeRenderContext): number {
+  return (ctx.style.fontSize || 14) * 1.2;
+}
+
+function setWrappedLabel(
+  ctx: ShapeRenderContext,
+  label: string,
+  lines: string[]
+) {
+  if (!ctx.node.data) {
+    ctx.node.data = {};
+  }
+
+  const data = ctx.node.data as Record<string, unknown>;
+  if (lines.length > 1) {
+    data[WRAPPED_LABEL_KEY] = lines.join('\n');
+    data[WRAPPED_LABEL_SOURCE_KEY] = label;
+  } else {
+    delete data[WRAPPED_LABEL_KEY];
+    delete data[WRAPPED_LABEL_SOURCE_KEY];
+  }
+}
+
+function splitLongWord(
+  ctx: ShapeRenderContext,
+  word: string,
+  maxTextWidth: number
+): string[] {
+  const parts: string[] = [];
+  let current = '';
+
+  for (const char of word) {
+    const candidate = `${current}${char}`;
+    if (current && ctx.measureText(candidate, ctx.style).width > maxTextWidth) {
+      parts.push(current);
+      current = char;
+    } else {
+      current = candidate;
+    }
+  }
+
+  if (current) {
+    parts.push(current);
+  }
+
+  return parts;
+}
+
+function wrapSegment(
+  ctx: ShapeRenderContext,
+  segment: string,
+  maxTextWidth: number
+): string[] {
+  if (!segment) {
+    return [''];
+  }
+
+  const words = segment.trim().split(/\s+/);
+  const lines: string[] = [];
+  let current = '';
+
+  for (const word of words) {
+    if (ctx.measureText(word, ctx.style).width > maxTextWidth) {
+      if (current) {
+        lines.push(current);
+        current = '';
+      }
+      lines.push(...splitLongWord(ctx, word, maxTextWidth));
+      continue;
+    }
+
+    const candidate = current ? `${current} ${word}` : word;
+    if (current && ctx.measureText(candidate, ctx.style).width > maxTextWidth) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = candidate;
+    }
+  }
+
+  if (current) {
+    lines.push(current);
+  }
+
+  return lines.length > 0 ? lines : [''];
+}
+
+function wrapLabel(
+  ctx: ShapeRenderContext,
+  label: string,
+  maxTextWidth: number
+): string[] {
+  return label
+    .split('\n')
+    .flatMap((segment) => wrapSegment(ctx, segment, maxTextWidth));
 }
 
 /**
@@ -52,15 +157,31 @@ export function calculateSimpleBounds(
     minHeight,
     extraWidth = 0,
     extraHeight = 0,
+    maxTextWidth: configuredMaxTextWidth,
+    wrap = true,
   } = config;
 
   const padding = ctx.style.padding ?? ShapeDefaults.PADDING;
   const label = ctx.node.label || defaultLabel || ctx.node.id;
-  const textSize = ctx.measureText(label, ctx.style);
+  const maxTextWidth =
+    configuredMaxTextWidth ?? ctx.style.maxTextWidth ?? DEFAULT_MAX_TEXT_WIDTH;
+  const lines = wrap ? wrapLabel(ctx, label, maxTextWidth) : label.split('\n');
+  setWrappedLabel(ctx, label, lines);
 
-  let width = textSize.width + padding * widthPaddingMultiplier + extraWidth;
-  let height =
-    textSize.height + padding * heightPaddingMultiplier + extraHeight;
+  let maxLineWidth = 0;
+  let maxLineHeight = 0;
+  for (const line of lines) {
+    const textSize = ctx.measureText(line, ctx.style);
+    maxLineWidth = Math.max(maxLineWidth, textSize.width);
+    maxLineHeight = Math.max(maxLineHeight, textSize.height);
+  }
+  const textHeight =
+    lines.length > 1
+      ? lines.length * Math.max(getLineHeight(ctx), maxLineHeight)
+      : maxLineHeight;
+
+  let width = maxLineWidth + padding * widthPaddingMultiplier + extraWidth;
+  let height = textHeight + padding * heightPaddingMultiplier + extraHeight;
 
   if (minWidth !== undefined) {
     width = Math.max(width, minWidth);

@@ -7,9 +7,11 @@ export const rhombusShape: ShapeDefinition = {
   id: 'rhombus',
   bounds(ctx) {
     return calculateSimpleBounds(ctx, {
-      widthPaddingMultiplier: 3,
-      minWidth: 80,
-      minHeight: 60,
+      widthPaddingMultiplier: 4,
+      heightPaddingMultiplier: 3,
+      maxTextWidth: 120,
+      minWidth: 100,
+      minHeight: 70,
     });
   },
 

@@ -3,6 +3,7 @@ import {
   calculateRectangularAnchors,
   extractBasicStyles,
 } from '../utils/index.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
 /**
@@ -16,7 +17,11 @@ export const activityShape: ShapeDefinition = {
   bounds(ctx) {
     const padding = ctx.style.padding || 12;
     const fontSize = ctx.style.fontSize || 14;
-    const nameSize = ctx.measureText(ctx.node.label || '', ctx.style);
+    const labelBounds = calculateSimpleBounds(ctx, {
+      maxTextWidth: 160,
+      minWidth: 100,
+      minHeight: 50,
+    });
 
     // Calculate pin label sizes if present
     const inputPins = ctx.node.inputPins || [];
@@ -37,11 +42,8 @@ export const activityShape: ShapeDefinition = {
       }
     }
 
-    const width = Math.max(
-      nameSize.width + padding * 2,
-      maxPinWidth + padding * 2
-    );
-    const height = nameSize.height + padding * 2;
+    const width = Math.max(labelBounds.width, maxPinWidth + padding * 2);
+    const height = labelBounds.height;
 
     return { width: Math.max(width, 100), height: Math.max(height, 50) };
   },

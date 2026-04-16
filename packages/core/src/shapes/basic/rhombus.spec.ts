@@ -66,6 +66,19 @@ describe('rhombusShape', () => {
     expect(svg).toContain('Decision');
   });
 
+  it('should wrap longer decision labels instead of growing indefinitely', () => {
+    const ctx = createMockContext(
+      'Should the user provide a different payment method?'
+    );
+    const bounds = rhombusShape.bounds(ctx);
+    const svg = rhombusShape.render(ctx, { x: 0, y: 0 });
+
+    expect(bounds.width).toBeLessThan(260);
+    expect(bounds.height).toBeGreaterThan(70);
+    expect(svg).toContain('<tspan');
+    expect(svg).toContain('payment method');
+  });
+
   it('should position text at center of diamond', () => {
     const ctx = createMockContext('Valid?');
     const bounds = rhombusShape.bounds(ctx);

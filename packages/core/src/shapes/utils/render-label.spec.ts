@@ -54,6 +54,51 @@ describe('render-label utility', () => {
       expect(result).toContain('</text>');
     });
 
+    it('should render the wrapped label stored during bounds calculation', () => {
+      const ctx = {
+        node: {
+          id: 'test',
+          label: 'Long label',
+          data: {
+            __runiqWrappedLabel: 'Long\nlabel',
+            __runiqWrappedLabelSource: 'Long label',
+          },
+        },
+        style: { fontSize: 14 },
+      } as unknown as ShapeRenderContext;
+
+      const result = renderShapeLabel(ctx, 'Long label', 50, 50);
+
+      expect(result).toContain('<tspan');
+      expect(result).toContain('Long');
+      expect(result).toContain('label');
+    });
+
+    it('should pass the wrapped label to renderLabel when available', () => {
+      const mockRenderLabel = vi.fn(() => '<text>Mock rendered</text>');
+      const ctx = {
+        node: {
+          id: 'test',
+          label: 'Long label',
+          data: {
+            __runiqWrappedLabel: 'Long\nlabel',
+            __runiqWrappedLabelSource: 'Long label',
+          },
+        },
+        style: { fontSize: 14 },
+        renderLabel: mockRenderLabel,
+      } as unknown as ShapeRenderContext;
+
+      renderShapeLabel(ctx, 'Long label', 50, 50);
+
+      expect(mockRenderLabel).toHaveBeenCalledWith(
+        'Long\nlabel',
+        expect.any(Number),
+        expect.any(Number),
+        expect.any(Object)
+      );
+    });
+
     it('should use default color when not specified', () => {
       const ctx = {
         style: {},

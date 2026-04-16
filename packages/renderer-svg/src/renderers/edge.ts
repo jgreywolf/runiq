@@ -59,7 +59,8 @@ export function renderEdge(
 
   // Determine line style
   const styleLineStyle = (style as any).lineStyle as string | undefined;
-  const lineStyle = (edgeAst as any).lineStyle || styleLineStyle || LineStyle.SOLID;
+  const lineStyle =
+    (edgeAst as any).lineStyle || styleLineStyle || LineStyle.SOLID;
   let strokeDasharray = '';
   let isDoubleLine = false;
   const isBlockLine = lineStyle === LineStyle.BLOCK || lineStyle === 'block';
@@ -121,7 +122,7 @@ export function renderEdge(
         ? ArrowType.OPEN
         : isBlockLine
           ? ArrowType.STANDARD
-        : (edgeAst as any).arrowType || ArrowType.STANDARD;
+          : (edgeAst as any).arrowType || ArrowType.STANDARD;
   const isBidirectional = !!(edgeAst as any).bidirectional;
   const navigability = (edgeAst as any).navigability; // UML navigability direction
   const edgeSuffix =
@@ -318,15 +319,28 @@ export function renderEdge(
     edgeMarkup += `<path d="${pathData}" fill="none" stroke="${stroke}" stroke-width="${effectiveStrokeWidth}"${strokeDasharray}${markerAttr}${isBlockLine ? ' stroke-linecap="square" stroke-linejoin="miter"' : ''} pointer-events="none" />`;
   }
 
-  // Calculate midpoint for labels along the routed path length
-  const midPoint = getEdgeLabelPoint(points);
+  // Prefer a readable segment for labels. In orthogonal layouts, the geometric
+  // midpoint often lands on a shared vertical trunk, which makes labels
+  // ambiguous.
+  const labelAnchor = routed.labelPosition
+    ? getOffsetLabelAnchor(routed.labelPosition, routed.points, parallelOffset)
+    : getEdgeLabelAnchor(points);
 
   // Stereotype text (rendered above the line in guillemets)
   if ((edgeAst as any).stereotype) {
     const stereotypeText = formatStereotypeText(
       String((edgeAst as any).stereotype)
     );
-    edgeMarkup += `<text x="${midPoint.x}" y="${midPoint.y - 15}" text-anchor="middle" font-size="11" font-style="italic" class="runiq-edge-stereotype">${escapeXml(stereotypeText)}</text>`;
+    edgeMarkup += renderLabelWithBackground(
+      stereotypeText,
+      labelAnchor.x,
+      labelAnchor.y - 15,
+      {
+        className: 'runiq-edge-stereotype',
+        fontSize: 11,
+        fontStyle: 'italic',
+      }
+    );
   }
 
   // State machine transition label: event [guard] / effect
@@ -355,13 +369,17 @@ export function renderEdge(
   const displayLabel = transitionLabel || (edgeAst as any).label;
   if (displayLabel) {
     const labelY = (edgeAst as any).stereotype
-      ? midPoint.y + 10 // Below stereotype
-      : midPoint.y; // Centered on edge
-    edgeMarkup += renderMultilineText(displayLabel, midPoint.x, labelY, {
-      textAnchor: 'middle',
-      dominantBaseline: 'middle',
-      className: 'runiq-edge-text',
-    });
+      ? labelAnchor.y + 10 // Below stereotype
+      : labelAnchor.y; // Centered on edge
+    edgeMarkup += renderLabelWithBackground(
+      displayLabel,
+      labelAnchor.x,
+      labelY,
+      {
+        className: 'runiq-edge-text',
+        fontSize: 12,
+      }
+    );
   }
 
   // UML Constraints (rendered below the label/edge in braces)
@@ -369,11 +387,11 @@ export function renderEdge(
     const constraints = (edgeAst as any).constraints as string[];
     const constraintText = `{${constraints.join(', ')}}`;
     const constraintY = displayLabel
-      ? midPoint.y + 15 // Below label (whether it's a transition label or explicit label)
+      ? labelAnchor.y + 15 // Below label (whether it's a transition label or explicit label)
       : (edgeAst as any).stereotype
-        ? midPoint.y + 25 // Below stereotype
-        : midPoint.y + 10; // Below edge
-    edgeMarkup += `<text x="${midPoint.x}" y="${constraintY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">${escapeXml(constraintText)}</text>`;
+        ? labelAnchor.y + 25 // Below stereotype
+        : labelAnchor.y + 10; // Below edge
+    edgeMarkup += `<text x="${labelAnchor.x}" y="${constraintY}" text-anchor="middle" font-size="10" font-style="italic" class="runiq-edge-constraint">${escapeXml(constraintText)}</text>`;
   }
 
   // UML Multiplicity labels (at endpoints)
@@ -434,9 +452,21 @@ export function renderEdge(
   return edgeMarkup;
 }
 
-function getEdgeLabelPoint(
+interface EdgeLabelAnchor {
+  x: number;
+  y: number;
+}
+
+interface EdgeLabelSegment {
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+  length: number;
+  orientation: 'horizontal' | 'vertical';
+}
+
+function getEdgeLabelAnchor(
   points: { x: number; y: number }[]
-): { x: number; y: number } {
+): EdgeLabelAnchor {
   if (points.length === 2) {
     return {
       x: (points[0].x + points[1].x) / 2,
@@ -444,32 +474,96 @@ function getEdgeLabelPoint(
     };
   }
 
-  const segmentLengths: number[] = [];
-  let total = 0;
+  const segments: EdgeLabelSegment[] = [];
   for (let i = 1; i < points.length; i++) {
+    const from = points[i - 1];
+    const to = points[i];
     const dx = points[i].x - points[i - 1].x;
     const dy = points[i].y - points[i - 1].y;
     const length = Math.sqrt(dx * dx + dy * dy);
-    segmentLengths.push(length);
-    total += length;
+    if (length === 0) continue;
+    segments.push({
+      from,
+      to,
+      length,
+      orientation: Math.abs(dx) >= Math.abs(dy) ? 'horizontal' : 'vertical',
+    });
   }
 
-  const target = total / 2;
-  let walked = 0;
-  for (let i = 1; i < points.length; i++) {
-    const segmentLength = segmentLengths[i - 1];
-    if (walked + segmentLength >= target) {
-      const remaining = target - walked;
-      const t = segmentLength > 0 ? remaining / segmentLength : 0;
-      return {
-        x: points[i - 1].x + (points[i].x - points[i - 1].x) * t,
-        y: points[i - 1].y + (points[i].y - points[i - 1].y) * t,
-      };
-    }
-    walked += segmentLength;
+  if (segments.length === 0) {
+    const fallback = points[Math.floor(points.length / 2)];
+    return { x: fallback.x, y: fallback.y };
   }
 
-  return points[Math.floor(points.length / 2)];
+  const horizontalSegments = segments.filter(
+    (segment) => segment.orientation === 'horizontal'
+  );
+  const chosen =
+    horizontalSegments.length > 0
+      ? horizontalSegments[horizontalSegments.length - 1]
+      : segments.reduce((longest, segment) =>
+          segment.length > longest.length ? segment : longest
+        );
+
+  return {
+    x: (chosen.from.x + chosen.to.x) / 2,
+    y: (chosen.from.y + chosen.to.y) / 2,
+  };
+}
+
+function renderLabelWithBackground(
+  text: string,
+  x: number,
+  y: number,
+  options: {
+    className: string;
+    fontSize: number;
+    fontStyle?: string;
+  }
+): string {
+  const lines = text.split('\n');
+  const lineHeight = options.fontSize * 1.2;
+  const maxLineLength = Math.max(...lines.map((line) => line.length), 1);
+  const width = Math.ceil(maxLineLength * options.fontSize * 0.62 + 10);
+  const height = Math.ceil(lines.length * lineHeight + 6);
+  const rectX = x - width / 2;
+  const rectY = y - height / 2;
+
+  return (
+    `<rect x="${rectX}" y="${rectY}" width="${width}" height="${height}" rx="3" ry="3" fill="#ffffff" opacity="0.86" class="runiq-edge-label-bg" />` +
+    renderMultilineText(text, x, y, {
+      textAnchor: 'middle',
+      dominantBaseline: 'middle',
+      fontSize: options.fontSize,
+      fontStyle: options.fontStyle,
+      className: options.className,
+    })
+  );
+}
+
+function getOffsetLabelAnchor(
+  labelPosition: NonNullable<RoutedEdge['labelPosition']>,
+  points: { x: number; y: number }[],
+  offset: number
+): EdgeLabelAnchor {
+  const center = {
+    x: labelPosition.x + labelPosition.width / 2,
+    y: labelPosition.y + labelPosition.height / 2,
+  };
+
+  if (points.length < 2 || offset === 0) return center;
+
+  const start = points[0];
+  const end = points[points.length - 1];
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const length = Math.sqrt(dx * dx + dy * dy);
+  if (length === 0) return center;
+
+  return {
+    x: center.x + (-dy / length) * offset,
+    y: center.y + (dx / length) * offset,
+  };
 }
 
 function formatStereotypeText(stereotype: string): string {
@@ -491,7 +585,10 @@ function isOrthogonalElbow(points: { x: number; y: number }[]): boolean {
   return firstOrthogonal && secondOrthogonal;
 }
 
-function getParallelEdgeOffset(routed: RoutedEdge, diagram: DiagramAst): number {
+function getParallelEdgeOffset(
+  routed: RoutedEdge,
+  diagram: DiagramAst
+): number {
   const matching = diagram.edges
     .map((edge, index) => ({ edge, index }))
     .filter(({ edge }) => edge.from === routed.from && edge.to === routed.to);

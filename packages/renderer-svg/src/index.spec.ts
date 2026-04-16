@@ -163,6 +163,41 @@ describe('renderer-svg', () => {
       expect(result.warnings).toHaveLength(0);
     });
 
+    it('should render edges before nodes so node fills cover crossing segments', () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [{ from: 'A', to: 'B' }],
+      };
+
+      const layout: LaidOutDiagram = {
+        nodes: [
+          { id: 'A', x: 10, y: 50, width: 100, height: 60 },
+          { id: 'B', x: 200, y: 50, width: 100, height: 60 },
+        ],
+        edges: [
+          {
+            from: 'A',
+            to: 'B',
+            points: [
+              { x: 0, y: 80 },
+              { x: 320, y: 80 },
+            ],
+          },
+        ],
+        size: { width: 350, height: 150 },
+      };
+
+      const result = renderSvg(diagram, layout);
+
+      expect(result.svg.indexOf('<path')).toBeLessThan(
+        result.svg.indexOf('<rect')
+      );
+    });
+
     it('should render edge with label', () => {
       const diagram: DiagramAst = {
         astVersion: '1.0',
@@ -1316,7 +1351,7 @@ describe('renderer-svg', () => {
 
       const result = renderSvg(diagram, layout);
 
-      expect(result.svg).toContain('&lt;&lt;include&gt;&gt;');
+      expect(result.svg).toContain('«include»');
       expect(result.svg).toContain('class="runiq-edge-stereotype"');
       expect(result.warnings).toHaveLength(0);
     });
@@ -1358,7 +1393,7 @@ describe('renderer-svg', () => {
 
       const result = renderSvg(diagram, layout);
 
-      expect(result.svg).toContain('&lt;&lt;extend&gt;&gt;');
+      expect(result.svg).toContain('«extend»');
       expect(result.svg).toContain('conditional');
       expect(result.warnings).toHaveLength(0);
     });
@@ -1401,7 +1436,7 @@ describe('renderer-svg', () => {
 
       const result = renderSvg(diagram, layout);
 
-      expect(result.svg).toContain('&lt;&lt;include&gt;&gt;');
+      expect(result.svg).toContain('«include»');
       expect(result.svg).toContain('stroke-dasharray="5,3"');
       expect(result.svg).toContain('arrow-open-Checkout-Payment');
       expect(result.warnings).toHaveLength(0);
@@ -1488,7 +1523,7 @@ describe('renderer-svg', () => {
 
       const result = renderSvg(diagram, layout);
 
-      expect(result.svg).toContain('&lt;&lt;implements&gt;&gt;');
+      expect(result.svg).toContain('«implements»');
       expect(result.svg).toContain('stroke-dasharray="5,3"');
       expect(result.svg).toContain('arrow-hollow-ArrayList-List');
       expect(result.warnings).toHaveLength(0);

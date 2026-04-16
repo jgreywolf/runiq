@@ -250,12 +250,50 @@ export class ElkLayoutEngine implements LayoutEngine {
     // Increase spacing for container-heavy diagrams, but keep small flat diagrams compact.
     const hasContainers = diagram.containers && diagram.containers.length > 0;
     const nodeCount = diagram.nodes.length;
+    const edgeCount = diagram.edges.length;
+    const denseFlatDiagram =
+      !hasContainers &&
+      nodeCount > 6 &&
+      (edgeCount >= 12 || edgeCount > nodeCount * 1.35);
     const compactFlatDiagram = !hasContainers && nodeCount <= 6;
-    const baseSpacing = hasContainers ? 140 : compactFlatDiagram ? 65 : 95;
+    const compactVerticalContainerDiagram =
+      hasContainers &&
+      (direction === 'DOWN' || direction === 'UP') &&
+      nodeCount <= 8 &&
+      edgeCount <= nodeCount + 2 &&
+      (diagram.containers?.length ?? 0) <= 2;
+    const baseSpacing = hasContainers
+      ? compactVerticalContainerDiagram
+        ? 75
+        : 140
+      : compactFlatDiagram
+        ? 65
+        : denseFlatDiagram
+          ? 130
+          : 95;
     const spacing = opts.spacing || baseSpacing;
-    const layerSpacing = compactFlatDiagram ? Math.round(spacing * 1.2) : Math.round(spacing * 1.5);
-    const edgeEdgeSpacing = compactFlatDiagram ? '14' : '25';
-    const edgeNodeSpacing = compactFlatDiagram ? '20' : '35';
+    const layerSpacing = compactFlatDiagram
+      ? Math.round(spacing * 1.2)
+      : compactVerticalContainerDiagram
+        ? Math.round(spacing * 1.25)
+        : denseFlatDiagram
+          ? Math.round(spacing * 1.8)
+          : Math.round(spacing * 1.5);
+    const edgeEdgeSpacing = compactFlatDiagram
+      ? '14'
+      : compactVerticalContainerDiagram
+        ? '18'
+        : denseFlatDiagram
+          ? '36'
+          : '25';
+    const edgeNodeSpacing = compactFlatDiagram
+      ? '20'
+      : compactVerticalContainerDiagram
+        ? '26'
+        : denseFlatDiagram
+          ? '48'
+          : '35';
+    const thoroughness = denseFlatDiagram ? '30' : '10';
     const selectedAlgorithm =
       (opts as LayoutOptions & { algorithm?: string }).algorithm ||
       LayoutAlgorithm.LAYERED;
@@ -281,44 +319,47 @@ export class ElkLayoutEngine implements LayoutEngine {
     const elkGraph: ElkNode = {
       id: 'root',
       layoutOptions: isUseCaseDiagram
-          ? {
-              // For use case diagrams, use BOX algorithm which is better for clustered layouts
-              // This prevents actors and use cases from bunching up
-              'elk.algorithm': 'box',
-              'elk.spacing.nodeNode': compactFlatDiagram ? '110' : '150', // Increased spacing for better readability
-              'elk.edgeRouting': 'POLYLINE', // Use polyline routing for cleaner connections
-              'elk.box.packingMode': 'GROUP_DEC', // Group nodes and pack efficiently
-            }
-          : {
-              'elk.algorithm': selectedAlgorithm,
-              'elk.direction': direction,
-              'elk.spacing.nodeNode': spacing.toString(),
-              'elk.layered.spacing.nodeNodeBetweenLayers': layerSpacing.toString(),
-              // Force pure orthogonal (right-angle) routing - no diagonals
-              'elk.edgeRouting': 'ORTHOGONAL',
-              'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
-              // IMPORTANT: Only restrict to north/south ports if no anchor constraints specified
-              // Otherwise, allow all port sides (north/south/east/west) for explicit anchor control
-              ...(hasAnchorConstraints
-                ? {}
-                : { 'elk.layered.northOrSouthPort': 'true' }),
-              // Port constraints - respect port sides when ports are specified
-              'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
-              // Edge spacing to prevent overlap - increased for better separation
-              'elk.spacing.edgeEdge': edgeEdgeSpacing, // Space between parallel edges
-              'elk.spacing.edgeNode': edgeNodeSpacing, // Space between edges and nodes
-              'elk.layered.spacing.edgeEdgeBetweenLayers': edgeEdgeSpacing, // Space between edges crossing layers
-              'elk.layered.spacing.edgeNodeBetweenLayers': edgeNodeSpacing, // Space between edges and nodes across layers
-              // Edge crossing minimization
-              'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-              'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
-              // Prefer obstacle avoidance over perfectly straight edge runs in dense container stacks.
-              // This reduces the "edge disappears under sibling node" effect.
-              'elk.layered.nodePlacement.favorStraightEdges': 'false',
-              'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
-              // Improve edge separation
-              'elk.layered.thoroughness': '10', // Higher value = better edge routing (1-100)
-            },
+        ? {
+            // For use case diagrams, use BOX algorithm which is better for clustered layouts
+            // This prevents actors and use cases from bunching up
+            'elk.algorithm': 'box',
+            'elk.spacing.nodeNode': compactFlatDiagram ? '110' : '150', // Increased spacing for better readability
+            'elk.edgeRouting': 'POLYLINE', // Use polyline routing for cleaner connections
+            'elk.box.packingMode': 'GROUP_DEC', // Group nodes and pack efficiently
+          }
+        : {
+            'elk.algorithm': selectedAlgorithm,
+            'elk.direction': direction,
+            'elk.spacing.nodeNode': spacing.toString(),
+            'elk.layered.spacing.nodeNodeBetweenLayers':
+              layerSpacing.toString(),
+            // Force pure orthogonal (right-angle) routing - no diagonals
+            'elk.edgeRouting': 'ORTHOGONAL',
+            'elk.layered.unnecessaryBendpoints': 'true', // Remove unnecessary bend points
+            // Restrict sparse diagrams to north/south ports for cleaner vertical flows.
+            // Dense diagrams need all sides available to reduce shared edge corridors.
+            ...(hasAnchorConstraints || denseFlatDiagram
+              ? {}
+              : { 'elk.layered.northOrSouthPort': 'true' }),
+            // Port constraints - respect port sides when ports are specified
+            'elk.portConstraints': 'FIXED_SIDE', // Honor port side constraints (north/south/east/west)
+            // Edge spacing to prevent overlap - increased for better separation
+            'elk.spacing.edgeEdge': edgeEdgeSpacing, // Space between parallel edges
+            'elk.spacing.edgeNode': edgeNodeSpacing, // Space between edges and nodes
+            'elk.layered.spacing.edgeEdgeBetweenLayers': edgeEdgeSpacing, // Space between edges crossing layers
+            'elk.layered.spacing.edgeNodeBetweenLayers': edgeNodeSpacing, // Space between edges and nodes across layers
+            // Edge crossing minimization
+            'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+            'elk.layered.layering.strategy': 'NETWORK_SIMPLEX',
+            'elk.layered.cycleBreaking.strategy': 'GREEDY',
+            'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX', // Better crossing reduction
+            // Prefer obstacle avoidance over perfectly straight edge runs in dense container stacks.
+            // This reduces the "edge disappears under sibling node" effect.
+            'elk.layered.nodePlacement.favorStraightEdges': 'false',
+            'elk.layered.considerModelOrder.strategy': 'PREFER_EDGES', // Optimize for edge clarity
+            // Improve edge separation
+            'elk.layered.thoroughness': thoroughness, // Higher value = better edge routing (1-100)
+          },
       children: [],
       edges: [],
     };
@@ -437,11 +478,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       const toId = toContainer ? `__container__${toContainer}` : toNodeId;
 
       if (!elkGraph.edges) elkGraph.edges = [];
-      const elkEdge: any = {
-        id: `${edge.from}->${edge.to}#${edgeIndex}`, // Include index to distinguish multiple edges between same nodes
-        sources: [fromId],
-        targets: [toId],
-      };
+      const elkEdge: any = this.createElkEdge(edge, edgeIndex, fromId, toId);
 
       // Add port constraints if edge has anchor specifications
       if (edge.anchorFrom && !fromContainer) {
@@ -612,6 +649,12 @@ export class ElkLayoutEngine implements LayoutEngine {
       direction
     );
 
+    // Snap edge endpoints to shape anchor points for better visual accuracy.
+    this.snapEdgesToAnchors(diagram, edges, nodes, measureText, direction);
+
+    // Simplify edges to straight lines for radial/mindmap layouts
+    this.simplifyRadialEdges(diagram, edges);
+
     // Calculate overall diagram bounds (including negative space)
     let minX = 0;
     let minY = 0;
@@ -660,10 +703,12 @@ export class ElkLayoutEngine implements LayoutEngine {
           const estimatedLabelWidth = labelText.length * 8;
           const estimatedLabelHeight = 14;
 
-          // Edge labels are rendered centered on the edge with dominant-baseline="middle"
-          // (see edge.ts - labels at midPoint.y with vertical centering)
-          const labelCenterX = midPoint.x;
-          const labelCenterY = midPoint.y; // Centered on edge
+          const labelCenterX = edge.labelPosition
+            ? edge.labelPosition.x + edge.labelPosition.width / 2
+            : midPoint.x;
+          const labelCenterY = edge.labelPosition
+            ? edge.labelPosition.y + edge.labelPosition.height / 2
+            : midPoint.y;
 
           // Calculate label bounding box
           // With dominant-baseline="middle", the label extends equally above and below
@@ -706,6 +751,10 @@ export class ElkLayoutEngine implements LayoutEngine {
             point.y += offsetY;
           }
         }
+        if (edge.labelPosition) {
+          edge.labelPosition.x += offsetX;
+          edge.labelPosition.y += offsetY;
+        }
       }
 
       // Adjust max bounds
@@ -718,12 +767,6 @@ export class ElkLayoutEngine implements LayoutEngine {
       width: maxX + 20,
       height: maxY + 20,
     };
-
-    // Snap edge endpoints to shape anchor points for better visual accuracy
-    this.snapEdgesToAnchors(diagram, edges, nodes, measureText, direction);
-
-    // Simplify edges to straight lines for radial/mindmap layouts
-    this.simplifyRadialEdges(diagram, edges);
 
     return { nodes, edges, size, containers };
   }
@@ -810,6 +853,7 @@ export class ElkLayoutEngine implements LayoutEngine {
       // Snap first point (source) to fromNode's anchor
       let newStartPoint: { x: number; y: number } | null = null;
       let startAnchor: { x: number; y: number; name?: string } | null = null;
+      const hasElkRoutedPath = edge.points.length > 2;
       if (fromShape.anchors) {
         const anchors = fromShape.anchors({
           node: fromNodeDef,
@@ -817,13 +861,15 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const firstPoint = edge.points[0];
-        startAnchor = this.findPreferredAnchor(
-          anchors,
-          fromNode,
-          toNode,
-          firstPoint,
-          direction
-        );
+        startAnchor = hasElkRoutedPath
+          ? this.findNearestAnchor(firstPoint, anchors, fromNode)
+          : this.findPreferredAnchor(
+              anchors,
+              fromNode,
+              toNode,
+              firstPoint,
+              direction
+            );
         if (startAnchor) {
           newStartPoint = {
             x: fromNode.x + startAnchor.x,
@@ -842,13 +888,15 @@ export class ElkLayoutEngine implements LayoutEngine {
           measureText,
         });
         const lastPoint = edge.points[edge.points.length - 1];
-        endAnchor = this.findPreferredTargetAnchor(
-          anchors,
-          fromNode,
-          toNode,
-          lastPoint,
-          direction
-        );
+        endAnchor = hasElkRoutedPath
+          ? this.findNearestAnchor(lastPoint, anchors, toNode)
+          : this.findPreferredTargetAnchor(
+              anchors,
+              fromNode,
+              toNode,
+              lastPoint,
+              direction
+            );
         if (endAnchor) {
           newEndPoint = {
             x: toNode.x + endAnchor.x,
@@ -1097,7 +1145,10 @@ export class ElkLayoutEngine implements LayoutEngine {
     return null;
   }
 
-  private anchorMatches(anchorName: string | undefined, desired: string): boolean {
+  private anchorMatches(
+    anchorName: string | undefined,
+    desired: string
+  ): boolean {
     return this.normalizeAnchorSide(anchorName) === desired;
   }
 
@@ -1153,12 +1204,7 @@ export class ElkLayoutEngine implements LayoutEngine {
     const offset = anchorSide === 'left' ? -12 : 12;
     const midX = start.x + offset;
 
-    edge.points = [
-      start,
-      { x: midX, y: start.y },
-      { x: midX, y: end.y },
-      end,
-    ];
+    edge.points = [start, { x: midX, y: start.y }, { x: midX, y: end.y }, end];
 
     this.ensureOrthogonalPath(edge);
     if (endAnchor?.name) {
@@ -1241,10 +1287,7 @@ export class ElkLayoutEngine implements LayoutEngine {
   /**
    * Align the final segment with the anchor direction so arrowheads point correctly.
    */
-  private alignEndSegmentToAnchor(
-    edge: RoutedEdge,
-    anchorName: string
-  ): void {
+  private alignEndSegmentToAnchor(edge: RoutedEdge, anchorName: string): void {
     if (!edge.points || edge.points.length < 2) return;
 
     const side = this.normalizeAnchorSide(anchorName);
@@ -1400,7 +1443,6 @@ export class ElkLayoutEngine implements LayoutEngine {
 
     return this.findNearestAnchor(fallbackPoint, anchors, toNode);
   }
-
 
   /**
    * Calculate positions for sibling containers based on orientation
@@ -1604,6 +1646,9 @@ export class ElkLayoutEngine implements LayoutEngine {
             for (const point of edge.points) {
               point.y += deltaY;
             }
+            if (edge.labelPosition) {
+              edge.labelPosition.y += deltaY;
+            }
           }
           // Cross-container edges will be recalculated after this function returns
         }
@@ -1638,6 +1683,9 @@ export class ElkLayoutEngine implements LayoutEngine {
             // Internal edge - adjust all points
             for (const point of edge.points) {
               point.x += deltaX;
+            }
+            if (edge.labelPosition) {
+              edge.labelPosition.x += deltaX;
             }
           }
           // Cross-container edges will be recalculated after all containers are positioned
@@ -1723,7 +1771,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           ? container.containerStyle.padding
           : this.getDefaultContainerPadding(container);
       const paddingLeft = container.containerStyle?.paddingLeft ?? basePadding;
-      const paddingRight = container.containerStyle?.paddingRight ?? basePadding;
+      const paddingRight =
+        container.containerStyle?.paddingRight ?? basePadding;
       const innerWidth = Math.max(
         0,
         positioned.width - paddingLeft - paddingRight
@@ -1815,7 +1864,10 @@ export class ElkLayoutEngine implements LayoutEngine {
       if (isCrossContainer) {
         // Find the existing edge that was extracted (it will have wrong routing)
         const existingEdgeIndex = edges.findIndex(
-          (e) => e.from === edge.from && e.to === edge.to && e.edgeIndex === edgeIndex
+          (e) =>
+            e.from === edge.from &&
+            e.to === edge.to &&
+            e.edgeIndex === edgeIndex
         );
 
         // Find actual node positions
@@ -1823,40 +1875,259 @@ export class ElkLayoutEngine implements LayoutEngine {
         const toNode = nodes.find((n) => n.id === toNodeId);
 
         if (fromNode && toNode) {
-          // Generate orthogonal (step) routing instead of straight lines
-          const fromCenterX = fromNode.x + fromNode.width / 2;
-          const fromCenterY = fromNode.y + fromNode.height / 2;
-          const toCenterX = toNode.x + toNode.width / 2;
-          const toCenterY = toNode.y + toNode.height / 2;
-
-          const newPoints = this.generateOrthogonalRouting(
-            fromCenterX,
-            fromCenterY,
-            toCenterX,
-            toCenterY,
-            direction
-          );
+          const existingEdge =
+            existingEdgeIndex >= 0 ? edges[existingEdgeIndex] : undefined;
+          const existingPoints = existingEdge?.points ?? [];
+          const newPoints =
+            existingPoints && existingPoints.length >= 2
+              ? this.replaceRouteEndpointsWithNodeBoundaries(
+                  existingPoints,
+                  fromNode,
+                  toNode,
+                  direction
+                )
+              : this.generateNodeBoundaryRouting(fromNode, toNode, direction);
 
           if (existingEdgeIndex >= 0) {
+            const labelPosition =
+              existingEdge?.labelPosition ??
+              this.calculateRoutedEdgeLabelPosition(
+                edge,
+                newPoints,
+                edges,
+                existingEdgeIndex
+              );
             // Replace the edge with corrected routing
             edges[existingEdgeIndex] = {
               from: edge.from,
               to: edge.to,
               points: newPoints,
               edgeIndex,
+              labelPosition,
             };
           } else {
+            const labelPosition = this.calculateRoutedEdgeLabelPosition(
+              edge,
+              newPoints,
+              edges
+            );
             // Edge wasn't extracted (Issue #10), add it manually
             edges.push({
               from: edge.from,
               to: edge.to,
               points: newPoints,
               edgeIndex,
+              labelPosition,
             });
           }
         }
       }
     }
+  }
+
+  private calculateRoutedEdgeLabelPosition(
+    edge: EdgeAst,
+    points: Array<{ x: number; y: number }>,
+    existingEdges: RoutedEdge[],
+    ignoreEdgeIndex = -1
+  ): RoutedEdge['labelPosition'] {
+    const label = this.getEdgeLayoutLabel(edge);
+    if (!label || points.length < 2) return undefined;
+
+    const candidates: Array<{
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      score: number;
+    }> = [];
+
+    for (let i = 1; i < points.length; i++) {
+      const from = points[i - 1];
+      const to = points[i];
+      const dx = to.x - from.x;
+      const dy = to.y - from.y;
+      const length = Math.sqrt(dx * dx + dy * dy);
+      if (length === 0) continue;
+
+      const isHorizontal = Math.abs(dx) >= Math.abs(dy);
+      const x = (from.x + to.x - label.width) / 2;
+      const y = (from.y + to.y - label.height) / 2;
+      const overlapPenalty = this.getLabelOverlapPenalty(
+        { x, y, width: label.width, height: label.height },
+        existingEdges,
+        ignoreEdgeIndex
+      );
+      const shortSegmentPenalty = Math.max(0, label.width - length);
+      const orientationPenalty = isHorizontal ? 0 : 500;
+      const targetSideBonus = i / points.length;
+
+      candidates.push({
+        x,
+        y,
+        width: label.width,
+        height: label.height,
+        score:
+          overlapPenalty * 10000 +
+          shortSegmentPenalty * 20 +
+          orientationPenalty -
+          targetSideBonus,
+      });
+    }
+
+    const chosen = candidates.reduce((best, candidate) =>
+      candidate.score < best.score ? candidate : best
+    );
+
+    return {
+      x: chosen.x,
+      y: chosen.y,
+      width: chosen.width,
+      height: chosen.height,
+    };
+  }
+
+  private getLabelOverlapPenalty(
+    label: NonNullable<RoutedEdge['labelPosition']>,
+    existingEdges: RoutedEdge[],
+    ignoreEdgeIndex: number
+  ): number {
+    let penalty = 0;
+
+    for (let i = 0; i < existingEdges.length; i++) {
+      if (i === ignoreEdgeIndex) continue;
+      const other = existingEdges[i].labelPosition;
+      if (!other) continue;
+
+      const overlapX =
+        Math.min(label.x + label.width, other.x + other.width) -
+        Math.max(label.x, other.x);
+      const overlapY =
+        Math.min(label.y + label.height, other.y + other.height) -
+        Math.max(label.y, other.y);
+
+      if (overlapX > 0 && overlapY > 0) {
+        penalty += overlapX * overlapY;
+      }
+    }
+
+    return penalty;
+  }
+
+  private replaceRouteEndpointsWithNodeBoundaries(
+    routePoints: Array<{ x: number; y: number }>,
+    fromNode: PositionedNode,
+    toNode: PositionedNode,
+    direction: string
+  ): Array<{ x: number; y: number }> {
+    const fromCenter = {
+      x: fromNode.x + fromNode.width / 2,
+      y: fromNode.y + fromNode.height / 2,
+    };
+    const toCenter = {
+      x: toNode.x + toNode.width / 2,
+      y: toNode.y + toNode.height / 2,
+    };
+    const start = this.getNodeBoundaryPointForFlow(
+      fromNode,
+      toCenter,
+      direction
+    );
+    const end = this.getNodeBoundaryPointForFlow(toNode, fromCenter, direction);
+    const points = [start, ...routePoints.slice(1, -1), end];
+
+    return this.removeConsecutiveDuplicatePoints(points);
+  }
+
+  private generateNodeBoundaryRouting(
+    fromNode: PositionedNode,
+    toNode: PositionedNode,
+    direction: string
+  ): Array<{ x: number; y: number }> {
+    const fromCenter = {
+      x: fromNode.x + fromNode.width / 2,
+      y: fromNode.y + fromNode.height / 2,
+    };
+    const toCenter = {
+      x: toNode.x + toNode.width / 2,
+      y: toNode.y + toNode.height / 2,
+    };
+    const start = this.getNodeBoundaryPointForFlow(
+      fromNode,
+      toCenter,
+      direction
+    );
+    const end = this.getNodeBoundaryPointForFlow(toNode, fromCenter, direction);
+
+    return this.generateOrthogonalRouting(
+      start.x,
+      start.y,
+      end.x,
+      end.y,
+      direction
+    );
+  }
+
+  private getNodeBoundaryPointToward(
+    node: PositionedNode,
+    point: { x: number; y: number }
+  ): { x: number; y: number } {
+    const centerX = node.x + node.width / 2;
+    const centerY = node.y + node.height / 2;
+    const dx = point.x - centerX;
+    const dy = point.y - centerY;
+
+    if (Math.abs(dx) * node.height >= Math.abs(dy) * node.width) {
+      return {
+        x: dx >= 0 ? node.x + node.width : node.x,
+        y: centerY,
+      };
+    }
+
+    return {
+      x: centerX,
+      y: dy >= 0 ? node.y + node.height : node.y,
+    };
+  }
+
+  private getNodeBoundaryPointForFlow(
+    node: PositionedNode,
+    point: { x: number; y: number },
+    direction: string
+  ): { x: number; y: number } {
+    const centerX = node.x + node.width / 2;
+    const centerY = node.y + node.height / 2;
+
+    if (direction === 'RIGHT' || direction === 'LEFT') {
+      return {
+        x: point.x >= centerX ? node.x + node.width : node.x,
+        y: centerY,
+      };
+    }
+
+    if (direction === 'DOWN' || direction === 'UP') {
+      return {
+        x: centerX,
+        y: point.y >= centerY ? node.y + node.height : node.y,
+      };
+    }
+
+    return this.getNodeBoundaryPointToward(node, point);
+  }
+
+  private removeConsecutiveDuplicatePoints(
+    points: Array<{ x: number; y: number }>
+  ): Array<{ x: number; y: number }> {
+    const result: Array<{ x: number; y: number }> = [];
+
+    for (const point of points) {
+      const previous = result[result.length - 1];
+      if (!previous || previous.x !== point.x || previous.y !== point.y) {
+        result.push(point);
+      }
+    }
+
+    return result;
   }
 
   /**
@@ -1899,16 +2170,16 @@ export class ElkLayoutEngine implements LayoutEngine {
       const algorithm = this.mapAlgorithmToElk(
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
-      const containerSpacing =
-        container.layoutOptions?.spacing?.toString() ??
-        this.getContainerSpacing(
-          container,
-          LayoutDefaults.NODE_SPACING
-        ).toString();
 
       // Determine layout direction based on container options or shape
       // Priority: container.layoutOptions.direction > container.shape override > default
       const direction = this.getContainerDirection(container, 'DOWN');
+      const containerSpacing = this.getContainerSpacing(
+        container,
+        LayoutDefaults.NODE_SPACING,
+        direction,
+        diagram
+      ).toString();
 
       // For radial/mindmap layouts, use straight lines instead of orthogonal routing
       const isRadialLayout =
@@ -2024,11 +2295,12 @@ export class ElkLayoutEngine implements LayoutEngine {
           container.children.includes(fromNodeId) &&
           container.children.includes(toNodeId)
         ) {
-          const containerEdge: any = {
-            id: `${edge.from}->${edge.to}#${edgeIndex}`,
-            sources: [fromNodeId],
-            targets: [toNodeId],
-          };
+          const containerEdge: any = this.createElkEdge(
+            edge,
+            edgeIndex,
+            fromNodeId,
+            toNodeId
+          );
 
           // Add port constraints if edge has anchor specifications
           if (edge.anchorFrom) {
@@ -2157,7 +2429,10 @@ export class ElkLayoutEngine implements LayoutEngine {
           contentHeight += itemGap * (items.length - 1);
         }
 
-        if (container.shape === 'folder' && (container.collapsed || items.length === 0)) {
+        if (
+          container.shape === 'folder' &&
+          (container.collapsed || items.length === 0)
+        ) {
           containerPlaceholders.set(container.id!, {
             width: rowWidth,
             height: rowHeight,
@@ -2166,7 +2441,10 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
 
         containerPlaceholders.set(container.id!, {
-          width: Math.max(rowWidth, padding.left + contentWidth + padding.right),
+          width: Math.max(
+            rowWidth,
+            padding.left + contentWidth + padding.right
+          ),
           height: Math.max(46, padding.top + contentHeight + padding.bottom),
         });
         continue;
@@ -2204,12 +2482,16 @@ export class ElkLayoutEngine implements LayoutEngine {
       const algorithm = this.mapAlgorithmToElk(
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
-      const containerSpacing = this.getContainerSpacing(container, spacing);
-
       // Determine container direction: explicit option > shape override > parent direction
       const containerDirection = this.getContainerDirection(
         container,
         direction
+      );
+      const containerSpacing = this.getContainerSpacing(
+        container,
+        spacing,
+        containerDirection,
+        diagram
       );
 
       const containerGraph: ElkNode = {
@@ -2218,7 +2500,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           'elk.algorithm': algorithm,
           'elk.direction': containerDirection,
           'elk.spacing.nodeNode': containerSpacing.toString(),
-          'elk.layered.spacing.nodeNodeBetweenLayers': containerSpacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers':
+            containerSpacing.toString(),
           // Force pure orthogonal routing
           'elk.edgeRouting': 'ORTHOGONAL',
           'elk.layered.unnecessaryBendpoints': 'true',
@@ -2266,11 +2549,9 @@ export class ElkLayoutEngine implements LayoutEngine {
           container.children.includes(edge.from) &&
           container.children.includes(edge.to)
         ) {
-          containerGraph.edges!.push({
-            id: `${edge.from}->${edge.to}#${edgeIndex}`,
-            sources: [edge.from],
-            targets: [edge.to],
-          });
+          containerGraph.edges!.push(
+            this.createElkEdge(edge, edgeIndex, edge.from, edge.to)
+          );
         }
       }
 
@@ -2425,7 +2706,11 @@ export class ElkLayoutEngine implements LayoutEngine {
         }
 
         const nestedContainers: PositionedContainer[] = [];
-        if (!container.collapsed && container.containers && container.containers.length > 0) {
+        if (
+          !container.collapsed &&
+          container.containers &&
+          container.containers.length > 0
+        ) {
           await this.layoutContainersWithNodes(
             container.containers,
             diagram,
@@ -2449,7 +2734,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           width: containerWidth,
           height: containerHeight,
           label: container.label,
-          containers: nestedContainers.length > 0 ? nestedContainers : undefined,
+          containers:
+            nestedContainers.length > 0 ? nestedContainers : undefined,
         });
         continue;
       }
@@ -2481,12 +2767,16 @@ export class ElkLayoutEngine implements LayoutEngine {
       const algorithm = this.mapAlgorithmToElk(
         container.layoutOptions?.algorithm || LayoutAlgorithm.LAYERED
       );
-      const containerSpacing = this.getContainerSpacing(container, spacing);
-
       // Determine container direction: explicit option > shape override > parent direction
       const containerDirection = this.getContainerDirection(
         container,
         direction
+      );
+      const containerSpacing = this.getContainerSpacing(
+        container,
+        spacing,
+        containerDirection,
+        diagram
       );
 
       const containerGraph: ElkNode = {
@@ -2495,7 +2785,8 @@ export class ElkLayoutEngine implements LayoutEngine {
           'elk.algorithm': algorithm,
           'elk.direction': containerDirection, // Use container-specific direction
           'elk.spacing.nodeNode': containerSpacing.toString(),
-          'elk.layered.spacing.nodeNodeBetweenLayers': containerSpacing.toString(),
+          'elk.layered.spacing.nodeNodeBetweenLayers':
+            containerSpacing.toString(),
           // Force pure orthogonal (right-angle) routing - no diagonals
           'elk.edgeRouting': 'ORTHOGONAL',
           // Orthogonal edge routing specific options
@@ -2545,11 +2836,9 @@ export class ElkLayoutEngine implements LayoutEngine {
           container.children.includes(edge.from) &&
           container.children.includes(edge.to)
         ) {
-          containerGraph.edges!.push({
-            id: `${edge.from}->${edge.to}#${edgeIndex}`,
-            sources: [edge.from],
-            targets: [edge.to],
-          });
+          containerGraph.edges!.push(
+            this.createElkEdge(edge, edgeIndex, edge.from, edge.to)
+          );
         }
       }
 
@@ -2588,6 +2877,10 @@ export class ElkLayoutEngine implements LayoutEngine {
             for (const point of edge.points) {
               point.x += containerPos.x + paddingLeft;
               point.y += containerPos.y + paddingTop;
+            }
+            if (edge.labelPosition) {
+              edge.labelPosition.x += containerPos.x + paddingLeft;
+              edge.labelPosition.y += containerPos.y + paddingTop;
             }
           }
 
@@ -2773,8 +3066,14 @@ export class ElkLayoutEngine implements LayoutEngine {
 
   private getContainerSpacing(
     container: ContainerDeclaration,
-    spacing: number
+    spacing: number,
+    direction?: string,
+    diagram?: DiagramAst
   ): number {
+    if (container.layoutOptions?.spacing !== undefined) {
+      return container.layoutOptions.spacing;
+    }
+
     switch (container.shape) {
       case 'wbs':
         return Math.max(36, Math.round(spacing * 0.45));
@@ -2783,8 +3082,60 @@ export class ElkLayoutEngine implements LayoutEngine {
       case 'requirementPackage':
         return Math.max(26, Math.round(spacing * 0.32));
       default:
+        if (
+          diagram &&
+          (direction === 'DOWN' || direction === 'UP') &&
+          this.isSimpleLinearContainerFlow(container, diagram)
+        ) {
+          return Math.min(spacing, 70);
+        }
         return spacing;
     }
+  }
+
+  private isSimpleLinearContainerFlow(
+    container: ContainerDeclaration,
+    diagram: DiagramAst
+  ): boolean {
+    if (container.layoutOptions?.algorithm) return false;
+
+    const childIds = new Set(container.children);
+    const childNodeCount = diagram.nodes.filter((node) =>
+      childIds.has(node.id)
+    ).length;
+    if (childNodeCount < 2) return false;
+
+    const incoming = new Map<string, number>();
+    const outgoing = new Map<string, number>();
+    for (const id of childIds) {
+      incoming.set(id, 0);
+      outgoing.set(id, 0);
+    }
+
+    let internalEdgeCount = 0;
+    for (const edge of diagram.edges) {
+      const from = this.extractNodeId(edge.from);
+      const to = this.extractNodeId(edge.to);
+      if (!childIds.has(from) || !childIds.has(to)) continue;
+
+      internalEdgeCount++;
+      outgoing.set(from, (outgoing.get(from) ?? 0) + 1);
+      incoming.set(to, (incoming.get(to) ?? 0) + 1);
+    }
+
+    if (internalEdgeCount !== childNodeCount - 1) return false;
+
+    let starts = 0;
+    let ends = 0;
+    for (const id of childIds) {
+      const inCount = incoming.get(id) ?? 0;
+      const outCount = outgoing.get(id) ?? 0;
+      if (inCount > 1 || outCount > 1) return false;
+      if (inCount === 0 && outCount === 1) starts++;
+      if (inCount === 1 && outCount === 0) ends++;
+    }
+
+    return starts === 1 && ends === 1;
   }
 
   private getFileTreeIndent(container: ContainerDeclaration): number {
@@ -2822,7 +3173,12 @@ export class ElkLayoutEngine implements LayoutEngine {
     diagram: DiagramAst,
     measureText: ReturnType<typeof createTextMeasurer>,
     containerPlaceholders: Map<string, { width: number; height: number }>
-  ): Array<{ kind: 'node' | 'container'; id: string; width: number; height: number }> {
+  ): Array<{
+    kind: 'node' | 'container';
+    id: string;
+    width: number;
+    height: number;
+  }> {
     if (container.collapsed) {
       return [];
     }
@@ -2832,13 +3188,20 @@ export class ElkLayoutEngine implements LayoutEngine {
     return ordered
       .map((item) => {
         if (item.kind === 'node') {
-          const node = diagram.nodes.find((candidate) => candidate.id === item.id);
+          const node = diagram.nodes.find(
+            (candidate) => candidate.id === item.id
+          );
           if (!node) return null;
           const shapeImpl = shapeRegistry.get(node.shape);
           if (!shapeImpl) return null;
           const style = node.style ? diagram.styles?.[node.style] || {} : {};
           const bounds = shapeImpl.bounds({ node, style, measureText });
-          return { kind: 'node' as const, id: item.id, width: bounds.width, height: bounds.height };
+          return {
+            kind: 'node' as const,
+            id: item.id,
+            width: bounds.width,
+            height: bounds.height,
+          };
         }
 
         const nestedSize = containerPlaceholders.get(item.id);
@@ -3183,13 +3546,90 @@ export class ElkLayoutEngine implements LayoutEngine {
         to = toPart;
       }
 
+      const label = elkEdge.labels?.[0];
+      const labelPosition =
+        label &&
+        label.x !== undefined &&
+        label.y !== undefined &&
+        label.width !== undefined &&
+        label.height !== undefined
+          ? {
+              x: label.x,
+              y: label.y,
+              width: label.width,
+              height: label.height,
+            }
+          : undefined;
+
       edges.push({
         from,
         to,
         points,
         edgeIndex,
+        labelPosition,
       });
     }
+  }
+
+  private createElkEdge(
+    edge: EdgeAst,
+    edgeIndex: number,
+    source: string,
+    target: string
+  ): ElkExtendedEdge {
+    const elkEdge: ElkExtendedEdge = {
+      id: `${edge.from}->${edge.to}#${edgeIndex}`,
+      sources: [source],
+      targets: [target],
+    };
+
+    const label = this.getEdgeLayoutLabel(edge);
+    if (label) {
+      elkEdge.labels = [label];
+    }
+
+    return elkEdge;
+  }
+
+  private getEdgeLayoutLabel(
+    edge: EdgeAst
+  ): { text: string; width: number; height: number } | undefined {
+    const transitionLabel = this.getTransitionLabel(edge);
+    const labelText = transitionLabel || (edge as any).label;
+    if (!labelText) return undefined;
+
+    const lines = String(labelText).split('\n');
+    const fontSize = 12;
+    const lineHeight = fontSize * 1.2;
+    const maxLineLength = Math.max(...lines.map((line) => line.length), 1);
+
+    return {
+      text: String(labelText),
+      width: Math.ceil(maxLineLength * fontSize * 0.62 + 18),
+      height: Math.ceil(lines.length * lineHeight + 10),
+    };
+  }
+
+  private getTransitionLabel(edge: EdgeAst): string {
+    const event = (edge as any).event;
+    const guard = (edge as any).guard;
+    const effect = (edge as any).effect;
+    let transitionLabel = '';
+
+    if (event) {
+      transitionLabel += event;
+    }
+    if (guard) {
+      transitionLabel += ` ${guard}`;
+    }
+    if (effect) {
+      const effectText = String(effect).startsWith('/')
+        ? effect
+        : `/ ${effect}`;
+      transitionLabel += ` ${effectText}`;
+    }
+
+    return transitionLabel;
   }
 
   /**

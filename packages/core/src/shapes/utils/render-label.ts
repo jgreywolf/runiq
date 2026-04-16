@@ -1,6 +1,21 @@
 import type { ShapeRenderContext } from '../../types/index.js';
 import { escapeXml } from '../../types/shape-types.js';
 
+const WRAPPED_LABEL_KEY = '__runiqWrappedLabel';
+const WRAPPED_LABEL_SOURCE_KEY = '__runiqWrappedLabelSource';
+
+function getEffectiveLabel(ctx: ShapeRenderContext, label: string): string {
+  const data = ctx.node?.data as Record<string, unknown> | undefined;
+  if (
+    data?.[WRAPPED_LABEL_SOURCE_KEY] === label &&
+    typeof data[WRAPPED_LABEL_KEY] === 'string'
+  ) {
+    return data[WRAPPED_LABEL_KEY];
+  }
+
+  return label;
+}
+
 /**
  * Helper function to render labels consistently across all shapes.
  * Uses ctx.renderLabel if available (supports inline icons like "fa:fa-star Label"),
@@ -22,6 +37,7 @@ export function renderShapeLabel(
   textAnchor: 'start' | 'middle' | 'end' = 'middle',
   dominantBaseline: string = 'middle'
 ): string {
+  const effectiveLabel = getEffectiveLabel(ctx, label);
   const textColor =
     (typeof ctx.style.color === 'string' ? ctx.style.color : undefined) ||
     '#000';
@@ -53,7 +69,7 @@ export function renderShapeLabel(
 
   // Use renderLabel if available (supports inline icons), otherwise plain text
   if (ctx.renderLabel) {
-    return ctx.renderLabel(label, adjustedX, y, {
+    return ctx.renderLabel(effectiveLabel, adjustedX, y, {
       fontSize,
       fontFamily,
       fill: textColor,
@@ -66,7 +82,7 @@ export function renderShapeLabel(
   }
 
   // Check if label contains newlines for multiline rendering
-  const lines = label.split('\n');
+  const lines = effectiveLabel.split('\n');
   const lineHeight = fontSize * 1.2;
 
   // Build base attributes
@@ -84,7 +100,7 @@ export function renderShapeLabel(
 
   // Single line - simple text element
   if (lines.length === 1) {
-    return `<text x="${adjustedX}" y="${y}" dominant-baseline="${dominantBaseline}" ${allAttrs}>${escapeXml(label)}</text>`;
+    return `<text x="${adjustedX}" y="${y}" dominant-baseline="${dominantBaseline}" ${allAttrs}>${escapeXml(effectiveLabel)}</text>`;
   }
 
   // Multiple lines - use tspan elements

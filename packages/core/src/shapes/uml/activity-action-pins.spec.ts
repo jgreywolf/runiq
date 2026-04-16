@@ -178,6 +178,18 @@ describe('Activity Shape with Action Pins', () => {
       // Bounds should be wider to accommodate long pin names
       expect(bounds.width).toBeGreaterThan(150);
     });
+
+    it('should wrap long activity labels instead of growing indefinitely', () => {
+      const ctx = createMockContext(
+        'Collect updated billing and shipping information'
+      );
+      const bounds = activityShape.bounds(ctx);
+      const svg = activityShape.render(ctx, { x: 0, y: 0 });
+
+      expect(bounds.width).toBeLessThan(220);
+      expect(bounds.height).toBeGreaterThan(50);
+      expect(svg).toContain('<tspan');
+    });
   });
 
   describe('Pin rendering details', () => {

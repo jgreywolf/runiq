@@ -132,7 +132,19 @@ export function renderSvg(
   // Add default styles and patterns
   svg += renderDefs();
 
-  // Render nodes outside containers behind container backgrounds
+  // Render containers (as backgrounds for contained nodes)
+  if (layout.containers) {
+    for (const container of layout.containers) {
+      svg += renderContainer(container, diagram, strict, layout);
+    }
+  }
+
+  // Render edges (so they appear behind nodes but above containers)
+  for (const edge of layout.edges) {
+    svg += renderEdge(edge, diagram, strict, warnings, theme);
+  }
+
+  // Render all nodes above edges so routes never visibly cut through shapes.
   for (const node of freeNodes) {
     const nodeIndex = nodeIndexById.get(node.id) ?? 0;
     svg += renderNode(
@@ -144,18 +156,6 @@ export function renderSvg(
       theme,
       nodeIndex
     );
-  }
-
-  // Render containers (as backgrounds for contained nodes)
-  if (layout.containers) {
-    for (const container of layout.containers) {
-      svg += renderContainer(container, diagram, strict, layout);
-    }
-  }
-
-  // Render edges (so they appear behind nodes but above containers)
-  for (const edge of layout.edges) {
-    svg += renderEdge(edge, diagram, strict, warnings, theme);
   }
 
   // Render contained nodes on top of containers

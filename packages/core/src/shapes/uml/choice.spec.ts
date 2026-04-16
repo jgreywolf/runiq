@@ -62,6 +62,27 @@ describe('UML Choice', () => {
     expect(svg).toContain('[x &gt; 0]');
   });
 
+  it('should size labeled choices so guard text fits', () => {
+    const ctx = createMockContext('[payment valid?]');
+    const bounds = choiceShape.bounds(ctx);
+    const svg = choiceShape.render(ctx, { x: 0, y: 0 });
+
+    expect(bounds.width).toBeGreaterThan(80);
+    expect(bounds.height).toBeGreaterThan(60);
+    expect(svg).toContain('[payment');
+    expect(svg).toContain('valid?]');
+  });
+
+  it('should wrap longer guard labels', () => {
+    const ctx = createMockContext('[payment method still valid?]');
+    const bounds = choiceShape.bounds(ctx);
+    const svg = choiceShape.render(ctx, { x: 0, y: 0 });
+
+    expect(bounds.width).toBeLessThan(180);
+    expect(bounds.height).toBeGreaterThan(70);
+    expect(svg).toContain('<tspan');
+  });
+
   it('should handle empty labels', () => {
     const ctx = createMockContext('');
     const bounds = choiceShape.bounds(ctx);

@@ -42,7 +42,13 @@ describe('ElkLayoutEngine helper methods', () => {
       { x: 50, y: 90 },
     ]);
 
-    const horizontal = engine.generateOrthogonalRouting(10, 10, 90, 50, 'RIGHT');
+    const horizontal = engine.generateOrthogonalRouting(
+      10,
+      10,
+      90,
+      50,
+      'RIGHT'
+    );
     expect(horizontal).toEqual([
       { x: 10, y: 10 },
       { x: 50, y: 10 },
@@ -55,10 +61,18 @@ describe('ElkLayoutEngine helper methods', () => {
     const engine = new ElkLayoutEngine() as any;
 
     expect(engine.mapAlgorithmToElk(LayoutAlgorithm.LAYERED)).toBe('layered');
-    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.FORCE)).toBe('org.eclipse.elk.force');
-    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.STRESS)).toBe('org.eclipse.elk.stress');
-    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.RADIAL)).toBe('org.eclipse.elk.radial');
-    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.MRTREE)).toBe('org.eclipse.elk.mrtree');
+    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.FORCE)).toBe(
+      'org.eclipse.elk.force'
+    );
+    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.STRESS)).toBe(
+      'org.eclipse.elk.stress'
+    );
+    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.RADIAL)).toBe(
+      'org.eclipse.elk.radial'
+    );
+    expect(engine.mapAlgorithmToElk(LayoutAlgorithm.MRTREE)).toBe(
+      'org.eclipse.elk.mrtree'
+    );
     expect(engine.mapAlgorithmToElk(LayoutAlgorithm.CIRCULAR)).toBe('circular');
     expect(engine.mapAlgorithmToElk('unknown')).toBe('layered');
 
@@ -401,7 +415,13 @@ describe('ElkLayoutEngine helper methods', () => {
     ];
     const edges: RoutedEdge[] = [{ from: 'A', to: 'B', points: [] }];
 
-    engine.recalculateCrossContainerEdges(diagram, nodeContainerMap, nodes, edges, 'DOWN');
+    engine.recalculateCrossContainerEdges(
+      diagram,
+      nodeContainerMap,
+      nodes,
+      edges,
+      'DOWN'
+    );
 
     expect(edges.some((e) => e.points.length >= 2)).toBe(true);
   });
@@ -433,7 +453,14 @@ describe('ElkLayoutEngine helper methods', () => {
       { id: 'B', x: 20, y: 220, width: 40, height: 20 },
     ];
     const edges: RoutedEdge[] = [
-      { from: 'A', to: 'B', points: [{ x: 40, y: 30 }, { x: 40, y: 230 }] },
+      {
+        from: 'A',
+        to: 'B',
+        points: [
+          { x: 40, y: 30 },
+          { x: 40, y: 230 },
+        ],
+      },
     ];
     const nodeContainerMap = new Map<string, string>([
       ['A', 'lane1'],
@@ -570,21 +597,25 @@ describe('ElkLayoutEngine helper methods', () => {
     nodeContainerMap.set('B', 'child');
     nodeContainerMap.set('__parent__child', 'parent');
 
-    expect(engine.findLowestCommonAncestor('parent', 'child', nodeContainerMap)).toBe(
-      'parent'
-    );
-    expect(engine.findLowestCommonAncestor('parent', 'parent', nodeContainerMap)).toBe(
-      'parent'
-    );
-    expect(engine.findLowestCommonAncestor(undefined, 'child', nodeContainerMap)).toBeNull();
-    expect(engine.findLowestCommonAncestor(undefined, undefined, nodeContainerMap)).toBeNull();
-    expect(engine.findLowestCommonAncestor('orphanA', 'orphanB', nodeContainerMap)).toBeNull();
+    expect(
+      engine.findLowestCommonAncestor('parent', 'child', nodeContainerMap)
+    ).toBe('parent');
+    expect(
+      engine.findLowestCommonAncestor('parent', 'parent', nodeContainerMap)
+    ).toBe('parent');
+    expect(
+      engine.findLowestCommonAncestor(undefined, 'child', nodeContainerMap)
+    ).toBeNull();
+    expect(
+      engine.findLowestCommonAncestor(undefined, undefined, nodeContainerMap)
+    ).toBeNull();
+    expect(
+      engine.findLowestCommonAncestor('orphanA', 'orphanB', nodeContainerMap)
+    ).toBeNull();
 
     const elkGraph: any = {
       id: 'root',
-      children: [
-        { id: 'parent', children: [{ id: 'child' }], edges: [] },
-      ],
+      children: [{ id: 'parent', children: [{ id: 'child' }], edges: [] }],
       edges: [],
     };
 
@@ -605,7 +636,11 @@ describe('ElkLayoutEngine helper methods', () => {
       edges: [],
     };
 
-    engine.distributeEdges([{ from: 'A', to: 'B' }], fallbackGraph, nodeContainerMap);
+    engine.distributeEdges(
+      [{ from: 'A', to: 'B' }],
+      fallbackGraph,
+      nodeContainerMap
+    );
 
     expect(fallbackGraph.edges).toHaveLength(1);
   });
@@ -614,9 +649,7 @@ describe('ElkLayoutEngine helper methods', () => {
     const engine = new ElkLayoutEngine() as any;
     const elkGraph: any = {
       id: 'root',
-      children: [
-        { id: 'level1', children: [{ id: 'level2' }] },
-      ],
+      children: [{ id: 'level1', children: [{ id: 'level2' }] }],
     };
 
     expect(engine.findElkNodeById(elkGraph, 'level2')?.id).toBe('level2');
@@ -779,5 +812,4 @@ describe('ElkLayoutEngine helper methods', () => {
     expect(branch.data?.fillColor).toBe('#123456');
     expect(leaf.data?.strokeColor).toBeDefined();
   });
-
 });

@@ -136,6 +136,7 @@ export interface Style {
   fontStyle?: 'normal' | 'italic';
   textDecoration?: 'none' | 'underline';
   textAlign?: string;
+  maxTextWidth?: number;
   rx?: number;
   ry?: number;
   padding?: number;

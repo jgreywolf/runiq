@@ -114,6 +114,42 @@ describe('calculate-bounds utilities', () => {
       expect(result.width).toBeGreaterThan(0);
       expect(result.height).toBeGreaterThan(0);
     });
+
+    it('should wrap long labels at maxTextWidth', () => {
+      const ctx = createMockContext({
+        node: {
+          id: 'test',
+          label: 'Check whether the payment method is valid',
+        },
+      });
+
+      const result = calculateSimpleBounds(ctx, { maxTextWidth: 96 });
+
+      expect(result.width).toBeLessThanOrEqual(116);
+      expect(result.height).toBeGreaterThan(36);
+      expect(ctx.node.data?.__runiqWrappedLabel).toContain('\n');
+      expect(ctx.node.data?.__runiqWrappedLabelSource).toBe(
+        'Check whether the payment method is valid'
+      );
+    });
+
+    it('should not keep stale wrapped labels when text no longer wraps', () => {
+      const ctx = createMockContext({
+        node: {
+          id: 'test',
+          label: 'Short',
+          data: {
+            __runiqWrappedLabel: 'Old\nLabel',
+            __runiqWrappedLabelSource: 'Old Label',
+          },
+        },
+      });
+
+      calculateSimpleBounds(ctx, { maxTextWidth: 200 });
+
+      expect(ctx.node.data?.__runiqWrappedLabel).toBeUndefined();
+      expect(ctx.node.data?.__runiqWrappedLabelSource).toBeUndefined();
+    });
   });
 
   describe('calculateFixedBounds', () => {

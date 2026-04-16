@@ -1,4 +1,5 @@
 import type { ShapeDefinition } from '../../types/index.js';
+import { calculateSimpleBounds } from '../utils/calculate-bounds.js';
 import { calculateDiamondAnchors, extractBasicStyles } from '../utils/index.js';
 import { renderShapeLabel } from '../utils/render-label.js';
 
@@ -11,9 +12,24 @@ export const choiceShape: ShapeDefinition = {
   id: 'choice',
 
   bounds(ctx) {
-    // Small diamond, optionally with label
-    const size = ctx.node.label ? 40 : 24;
-    return { width: size, height: size };
+    if (!ctx.node.label) {
+      return { width: 24, height: 24 };
+    }
+
+    const labelStyle = {
+      ...ctx.style,
+      fontSize: (ctx.style.fontSize || 14) * 0.8,
+    };
+    return calculateSimpleBounds(
+      { ...ctx, style: labelStyle },
+      {
+        widthPaddingMultiplier: 4,
+        heightPaddingMultiplier: 4,
+        maxTextWidth: 110,
+        minWidth: 90,
+        minHeight: 70,
+      }
+    );
   },
 
   anchors(ctx) {
@@ -49,12 +65,7 @@ export const choiceShape: ShapeDefinition = {
         fontSize: (ctx.style.fontSize || 14) * 0.8,
       };
       const labelCtx = { ...ctx, style: labelStyle };
-      svg += renderShapeLabel(
-        labelCtx,
-        ctx.node.label,
-        x + w / 2,
-        y + h / 2 + 5
-      );
+      svg += renderShapeLabel(labelCtx, ctx.node.label, x + w / 2, y + h / 2);
     }
 
     svg += `</g>`;

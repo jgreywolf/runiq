@@ -729,6 +729,7 @@ describe('renderEdge', () => {
 
       expect(result).toContain('Edge Label');
       expect(result).toContain('runiq-edge-text');
+      expect(result).toContain('runiq-edge-label-bg');
     });
 
     it('should escape XSS in edge label', () => {
@@ -801,6 +802,58 @@ describe('renderEdge', () => {
       // Midpoint should be at (200, 200)
       expect(result).toContain('x="200"');
       expect(result).toContain('y="200"');
+    });
+
+    it('should prefer a horizontal segment for labels on orthogonal routes', () => {
+      const edgeAst: EdgeDeclaration = {
+        from: 'node1',
+        to: 'node2',
+      };
+      (edgeAst as any).label = 'To target';
+
+      const routed: RoutedEdge = {
+        from: 'node1',
+        to: 'node2',
+        points: [
+          { x: 0, y: 0 },
+          { x: 50, y: 0 },
+          { x: 50, y: 200 },
+          { x: 160, y: 200 },
+        ],
+      };
+
+      const diagram = createMinimalDiagram([edgeAst]);
+      const result = renderEdge(routed, diagram, false, warnings);
+
+      expect(result).toContain('To target');
+      expect(result).toContain('x="105"');
+      expect(result).toContain('y="200"');
+    });
+
+    it('should prefer the target-side horizontal segment when multiple horizontal segments exist', () => {
+      const edgeAst: EdgeDeclaration = {
+        from: 'node1',
+        to: 'node2',
+      };
+      (edgeAst as any).label = 'To target';
+
+      const routed: RoutedEdge = {
+        from: 'node1',
+        to: 'node2',
+        points: [
+          { x: 300, y: 200 },
+          { x: 200, y: 200 },
+          { x: 200, y: 50 },
+          { x: 100, y: 50 },
+        ],
+      };
+
+      const diagram = createMinimalDiagram([edgeAst]);
+      const result = renderEdge(routed, diagram, false, warnings);
+
+      expect(result).toContain('To target');
+      expect(result).toContain('x="150"');
+      expect(result).toContain('y="50"');
     });
   });
 

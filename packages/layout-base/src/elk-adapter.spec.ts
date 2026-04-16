@@ -37,7 +37,6 @@ describe('ElkLayoutEngine', () => {
       render: (_ctx, position) =>
         `<polygon points="${position.x + 50},${position.y} ${position.x + 100},${position.y + 50} ${position.x + 50},${position.y + 100} ${position.x},${position.y + 50}" />`,
     });
-
   });
 
   describe('Engine Metadata', () => {
@@ -326,6 +325,78 @@ describe('ElkLayoutEngine', () => {
       expect(result.edges[0].from).toBe('A');
       expect(result.edges[0].to).toBe('B');
       expect(result.edges[0].points.length).toBeGreaterThanOrEqual(2);
+    });
+  });
+
+  describe('Container Edge Labels', () => {
+    it('should assign label positions for manually routed cross-container edges', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        direction: 'LR',
+        nodes: [
+          { id: 'A', shape: 'rounded' },
+          { id: 'B', shape: 'rounded' },
+        ],
+        edges: [{ from: 'A', to: 'B', label: 'Cross Container Label' }],
+        containers: [
+          {
+            type: 'container',
+            id: 'left',
+            label: 'Left',
+            children: ['A'],
+          },
+          {
+            type: 'container',
+            id: 'right',
+            label: 'Right',
+            children: ['B'],
+          },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+      const edge = result.edges[0];
+
+      expect(edge.labelPosition).toBeDefined();
+      expect(edge.labelPosition?.width).toBeGreaterThan(0);
+      expect(edge.labelPosition?.height).toBeGreaterThan(0);
+    });
+
+    it('should compact small vertical container flows', async () => {
+      const diagram: DiagramAst = {
+        astVersion: '1.0',
+        direction: 'TB',
+        nodes: [
+          { id: 'customer', shape: 'rounded' },
+          { id: 'webapp', shape: 'rounded' },
+          { id: 'api', shape: 'rounded' },
+          { id: 'db', shape: 'rounded' },
+          { id: 'email', shape: 'rounded' },
+        ],
+        edges: [
+          { from: 'customer', to: 'webapp', label: 'Uses' },
+          { from: 'webapp', to: 'api', label: 'API calls' },
+          { from: 'api', to: 'db', label: 'Reads/Writes' },
+          { from: 'api', to: 'email', label: 'Sends email' },
+        ],
+        containers: [
+          {
+            type: 'container',
+            id: 'web',
+            label: 'Web Container',
+            children: ['webapp', 'api', 'db'],
+          },
+        ],
+      };
+
+      const result = await engine.layout(diagram);
+      const webapp = result.nodes.find((node) => node.id === 'webapp')!;
+      const api = result.nodes.find((node) => node.id === 'api')!;
+      const db = result.nodes.find((node) => node.id === 'db')!;
+
+      expect(api.y - webapp.y).toBeLessThan(280);
+      expect(db.y - api.y).toBeLessThan(280);
+      expect(result.size.height).toBeLessThan(1400);
     });
   });
 
@@ -704,9 +775,7 @@ describe('ElkLayoutEngine', () => {
           { id: 'A', shape: 'rounded' },
           { id: 'B', shape: 'rounded' },
         ],
-        edges: [
-          { from: 'A', to: 'B', anchorFrom: 'east', anchorTo: 'west' },
-        ],
+        edges: [{ from: 'A', to: 'B', anchorFrom: 'east', anchorTo: 'west' }],
       };
 
       const result = await engine.layout(diagram);
