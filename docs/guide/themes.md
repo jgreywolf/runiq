@@ -251,7 +251,7 @@ timeline "Sustainability Initiative" {
 
   event implementation date:"2024-06-01" label:"Start Implementation"
     description:"Begin green initiatives"
-    color:"#2E7D32"
+    textColor:"#2E7D32"
 
   event review date:"2024-12-01" label:"Annual Review"
     description:"Measure impact and progress"
@@ -259,11 +259,11 @@ timeline "Sustainability Initiative" {
 
   period phase1 startDate:"2024-01-15" endDate:"2024-05-31"
     label:"Planning Phase"
-    color:"#C8E6C9"
+    textColor:"#C8E6C9"
 
   period phase2 startDate:"2024-06-01" endDate:"2024-12-31"
     label:"Implementation Phase"
-    color:"#A5D6A7"
+    textColor:"#A5D6A7"
 
   orientation horizontal
 }
@@ -290,7 +290,7 @@ glyphset pyramid "Product Maturity" {
 - **Nodes**: Theme colors cycle through nodes automatically
 - **Edges**: Use theme's default edge color
 - **Containers**: Subtle theme-based backgrounds
-- **Override**: Individual node `fill` and `stroke` properties override theme
+- **Override**: Individual node `fillColor` and `strokeColor` properties override theme
 
 ### Sequence Diagrams
 
@@ -304,7 +304,7 @@ glyphset pyramid "Product Maturity" {
 - **Events**: Default marker colors from theme
 - **Periods**: Background colors from theme palette
 - **Milestones**: Accent colors for key events
-- **Override**: Individual `color` properties override theme
+- **Override**: Individual `textColor` properties override theme
 
 ### Glyphsets
 

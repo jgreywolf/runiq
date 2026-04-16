@@ -90,7 +90,7 @@ When colors are not specified, pyramids cycle through:
 
 diagram "Psychological Needs" {
 
-  style pyramidTitle fontSize:18 fontWeight:bold color:"#2d3748"
+  style pyramidTitle fontSize:18 fontWeight:bold textColor:"#2d3748"
 
   shape maslow as @pyramid
     label:"Maslow's Hierarchy of Needs"
@@ -112,7 +112,7 @@ diagram "Psychological Needs" {
 ```runiq
 diagram "Company Hierarchy" {
 
-  style orgChart fontSize:16 fontWeight:600 color:"#1a202c"
+  style orgChart fontSize:16 fontWeight:600 textColor:"#1a202c"
 
   shape organization as @pyramid
     label:"Employee Distribution"
@@ -189,8 +189,8 @@ colors:["#991b1b", "#dc2626", "#f97316", "#fb923c", "#fbbf24"]
 ### Typography
 
 ```runiq
-style pyramidHeader fontSize:20 fontWeight:bold color:"#1a202c"
-style pyramidText fontSize:14 fontWeight:500 color:"#4a5568"
+style pyramidHeader fontSize:20 fontWeight:bold textColor:"#1a202c"
+style pyramidText fontSize:14 fontWeight:500 textColor:"#4a5568"
 
 shape pyramid as @pyramid
   label:"Title"

@@ -29,9 +29,9 @@ Unlike classical circuits that process bits (0 or 1), quantum circuits process *
 ```runiq
 diagram "Bell State Circuit" {
 
-    style H0 fill:"#e8f5e9" strokeColor:"#000"
-    style control0 fill:"#333" strokeColor:"#000"
-    style target1 fill:"#fff" strokeColor:"#000"
+    style H0 fillColor:"#e8f5e9" strokeColor:"#000"
+    style control0 fillColor:"#333" strokeColor:"#000"
+    style target1 fillColor:"#fff" strokeColor:"#000"
 
     shape q0 as @qubitWire label:"q0" style: H0
     shape q1 as @qubitWire label:"q1" style: control0

@@ -119,10 +119,8 @@ interface Edge {
 
 ```typescript
 interface Style {
-  fill?: string; // Background color
-  fillColor?: string; // Alias for fill
-  stroke?: string; // Border color
-  strokeColor?: string; // Alias for stroke
+  fillColor?: string; // Background color
+  strokeColor?: string; // Border color
   strokeWidth?: number; // Border width (px)
   font?: string;
   fontSize?: number; // Font size (px)
@@ -133,8 +131,7 @@ interface Style {
   ry?: number;
   padding?: number;
   opacity?: number;
-  textColor?: string; // Alternative to fill for text
-  color?: string; // Generic color
+  textColor?: string; // Text color
   tagFill?: string;
   extensions?: Record<string, string | number | boolean>;
 }
@@ -229,7 +226,7 @@ if (validation.success) {
 diagram "Process Flow" {
   direction LR
 
-  style default fill:"#e3f2fd" strokeColor:"#1976d2"
+  style default fillColor:"#e3f2fd" strokeColor:"#1976d2"
 
   shape start as @rounded label:"Start"
   shape process as @rect label:"Process Data"
@@ -249,8 +246,8 @@ diagram "Process Flow" {
   "direction": "LR",
   "styles": {
     "default": {
-      "fill": "#e3f2fd",
-      "stroke": "#1976d2"
+      "fillColor": "#e3f2fd",
+      "strokeColor": "#1976d2"
     }
   },
   "nodes": [
@@ -476,9 +473,9 @@ interface ProcessTemplate {
 }
 
 const themes = {
-  blue: { fill: '#e3f2fd', stroke: '#1976d2' },
-  green: { fill: '#e8f5e9', stroke: '#388e3c' },
-  orange: { fill: '#fff3e0', stroke: '#f57c00' },
+  blue: { fillColor: '#e3f2fd', strokeColor: '#1976d2' },
+  green: { fillColor: '#e8f5e9', strokeColor: '#388e3c' },
+  orange: { fillColor: '#fff3e0', strokeColor: '#f57c00' },
 };
 
 function generateProcess(template: ProcessTemplate): DiagramAst {
@@ -490,8 +487,8 @@ function generateProcess(template: ProcessTemplate): DiagramAst {
     direction: 'LR',
     styles: {
       theme: {
-        fill: theme.fill,
-        stroke: theme.stroke,
+        fillColor: theme.fillColor,
+        strokeColor: theme.strokeColor,
       },
     },
     nodes: template.steps.map((step, i) => ({
@@ -520,8 +517,8 @@ const process = generateProcess({
 function generateDashboard(metrics: Metric[]): DiagramAst {
   const nodes: NodeAst[] = [];
   const styles: Record<string, Style> = {
-    success: { fill: '#c8e6c9', stroke: '#388e3c' },
-    warning: { fill: '#ffccbc', stroke: '#d84315' },
+    success: { fillColor: '#c8e6c9', strokeColor: '#388e3c' },
+    warning: { fillColor: '#ffccbc', strokeColor: '#d84315' },
   };
 
   metrics.forEach((metric, i) => {
@@ -605,7 +602,7 @@ interface Node {
 
 // Presentation layer
 const styles: Record<string, Style> = {
-  primary: { fill: '#e3f2fd', stroke: '#1976d2' },
+  primary: { fillColor: '#e3f2fd', strokeColor: '#1976d2' },
 };
 
 function nodeToAst(node: Node, styleName: string): NodeAst {
@@ -628,7 +625,5 @@ function nodeToAst(node: Node, styleName: string): NodeAst {
 ---
 
 **Next Steps**: Try converting an existing DSL diagram to JSON using `@runiq/io-json`, then experiment with programmatic generation using the template examples above.
-
-
 
 

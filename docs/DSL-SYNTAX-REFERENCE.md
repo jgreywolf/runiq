@@ -48,8 +48,8 @@ style name property: "value" property: number
 Examples:
 
 ```runiq
-style default fill: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
-style highlight fill: "#fffacd" strokeColor: "#daa520"
+style default fillColor: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
+style highlight fillColor: "#fffacd" strokeColor: "#daa520"
 style link strokeColor: "#2a6fdb" strokeWidth: 2
 ```
 
@@ -193,14 +193,14 @@ Customer -> Order
 
 #### Style Properties (space before colon)
 
-- `fill: "#color"`
+- `fillColor: "#color"`
 - `strokeColor: "#color"`
 - `strokeWidth: number`
 - `fontSize: number`
 - `fontFamily: "fontname"`
 - `fontWeight: number`
 - `textAlign: left|center|right`
-- `color: "#color"`
+- `textColor: "#color"`
 
 ⚠️ **RESERVED KEYWORDS - Cannot be used in generic style declarations:**
 
@@ -213,7 +213,7 @@ The following keywords are reserved for specific container or layout properties 
 | `borderStyle:`   | Container property | `lineStyle:` (for edges)           |
 | `strokeColor:`   | Container property | `strokeColor:` (for shapes)        |
 | `strokeWidth:`   | Container property | `strokeWidth:` (for shapes)        |
-| `fillColor:`     | Container property | `fill:` (for shapes)               |
+| `fillColor:`     | Container property | `fillColor:` (for shapes)               |
 | `labelPosition:` | Container label    | Custom positioning                 |
 | `algorithm:`     | Container layout   | N/A (layout property only)         |
 | `spacing:`       | Container layout   | N/A (layout property only)         |
@@ -222,7 +222,7 @@ The following keywords are reserved for specific container or layout properties 
 
 ```runiq
 // ✅ CORRECT - Safe properties in style declarations
-style myStyle fill: "#ff0000" strokeColor: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
+style myStyle fillColor: "#ff0000" strokeColor: "#000000" strokeWidth: 2 fontSize: 14 fontFamily: "Arial"
 
 // ✅ CORRECT - Reserved keywords in container declarations
 container "Box" fillColor:"#e3f2fd" strokeColor:"#1976d2" strokeWidth:3 padding:20 {
@@ -241,8 +241,8 @@ style badStyle padding: 10 opacity: 0.8 fillColor: "#fff"
 diagram "Simple Flowchart" {
   direction LR
 
-  style default fill: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
-  style highlight fill: "#fffacd" strokeColor: "#daa520"
+  style default fillColor: "#f0f8ff" strokeColor: "#4682b4" fontSize: 14
+  style highlight fillColor: "#fffacd" strokeColor: "#daa520"
 
   shape start as @rounded label:"Start" style:highlight
   shape process as @rect label:"Process"
@@ -314,7 +314,7 @@ diagram "Name"
   shape x as @rect label:"X"
 
 // Spaces in style properties
-style default fill:"#color" strokeColor:"#color"
+style default fillColor:"#color" strokeColor:"#color"
 
 // Space before colon in node properties
 shape x as @rect label: "X"
@@ -334,7 +334,7 @@ diagram "Name" {
 }
 
 // Space and quotes in style properties
-style default fill: "#color" strokeColor: "#color"
+style default fillColor: "#color" strokeColor: "#color"
 
 // No space in node properties
 shape x as @rect label:"X"

@@ -250,7 +250,7 @@ group backend [api, db, cache]
 
 ```runiq
 style highlight {
-  fill: "#ffeb3b"
+  fillColor: "#ffeb3b"
   strokeColor: "#f57c00"
   strokeWidth: 3
 }
@@ -532,7 +532,7 @@ shape gauge as @gauge-circular label: "Speed" value: 75
 `value` is allowed as a node ID through FlexibleID.
 :::
 
-### `color`
+### `textColor`
 
 **Purpose**: Color property for styling or data visualization.
 
@@ -542,11 +542,11 @@ shape gauge as @gauge-circular label: "Speed" value: 75
 
 ```runiq
 shape box as @rectangle label: "Alert" textColor: "#ff0000"
-period planning color: "#e0e7ff"
+period planning textColor: "#e0e7ff"
 ```
 
 ::: tip
-`color` is allowed as a node ID through FlexibleID.
+`textColor` is allowed as a node ID through FlexibleID.
 :::
 
 ### `icon`
@@ -1020,7 +1020,7 @@ The following keywords are **allowed** as node IDs through the FlexibleID system
 
 **Property Keywords**:
 
-- `label`, `name`, `id`, `type`, `value`, `format`, `color`, `header`, `delimiter`
+- `label`, `name`, `id`, `type`, `value`, `format`, `textColor`, `header`, `delimiter`
 
 **Control Flow Keywords**:
 
@@ -1100,7 +1100,7 @@ shape node as @rectangle label:"Text" textColor:"#ff0000"
 
 # Style properties - WITH SPACE
 style myStyle {
-  fill: "#ff0000"
+  fillColor: "#ff0000"
   strokeColor: "#000000"
 }
 ```

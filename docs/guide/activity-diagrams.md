@@ -377,7 +377,7 @@ Use stereotypes like `<<input>>`, `<<output>>`, `<<parameter>>` to annotate obje
 diagram "E-Commerce Order Processing" {
   direction TB
 
-  container "Customer Interface" fill: "#e3f2fd" {
+  container "Customer Interface" fillColor: "#e3f2fd" {
     shape start as @initialState
     shape browse as @activity label: "Browse Products"
     shape addToCart as @activity label: "Add to Cart"
@@ -386,7 +386,7 @@ diagram "E-Commerce Order Processing" {
     shape end as @activityFinal
   }
 
-  container "Order Processing" fill: "#fff3e0" {
+  container "Order Processing" fillColor: "#fff3e0" {
     shape validateOrder as @activity label: "Validate Order"
       inputPins: ["order", "customer"]
       outputPins: ["validOrder", "errors"]
@@ -397,13 +397,13 @@ diagram "E-Commerce Order Processing" {
     shape inventoryCheck as @diamond
   }
 
-  container "Payment Gateway" fill: "#f3e5f5" {
+  container "Payment Gateway" fillColor: "#f3e5f5" {
     shape processPayment as @activity label: "Process Payment"
     shape paymentCheck as @diamond
     shape refund as @activity label: "Issue Refund"
   }
 
-  container "Fulfillment" fill: "#e8f5e9" {
+  container "Fulfillment" fillColor: "#e8f5e9" {
     shape pickItems as @activity label: "Pick Items"
     shape packOrder as @activity label: "Pack Order"
     shape shipOrder as @activity label: "Ship Order"

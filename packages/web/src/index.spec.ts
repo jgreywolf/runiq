@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { parseRuniq, layoutRuniq, renderRuniqToSvg } from './index.js';
+import {
+  layoutRuniq,
+  parseRuniq,
+  parseRuniqDocument,
+  renderRuniqDocumentToSvg,
+  renderRuniqProfileToSvg,
+  renderRuniqToSvg,
+} from './index.js';
 
 const sample = `diagram "My Diagram" {
   direction TB
@@ -24,5 +31,64 @@ describe('@runiq/web API', () => {
     const result = await renderRuniqToSvg(sample, {}, { title: 'Sample' });
     expect(result.svg).toContain('<svg');
     expect(result.svg).toContain('<title id="diagram-title">Sample</title>');
+  });
+
+  it('registers bundled icon providers for rendering', async () => {
+    const result = await renderRuniqToSvg(`diagram "Icons" {
+      shape api as @rect label:"API" icon:fa/server
+    }`);
+
+    expect(result.svg).toContain('<svg');
+    expect(result.svg).toContain('viewBox="0 0 512 512"');
+    expect(result.warnings).toHaveLength(0);
+  });
+
+  it('registers all default shapes for diagram rendering', async () => {
+    const result = await renderRuniqToSvg(`diagram "Network" {
+      direction LR
+      shape api as @server label:"API"
+      shape db as @database label:"Database"
+      api -> db
+    }`);
+
+    expect(result.svg).toContain('<svg');
+    expect(result.warnings).not.toContain('Unknown shape: server');
+    expect(result.warnings).not.toContain('Unknown shape: database');
+  });
+
+  it('parses full documents with non-diagram profiles', () => {
+    const document = parseRuniqDocument(`sequence "Login" {
+      participant "User" as actor
+      participant "App" as entity
+      message from:"User" to:"App" label:"Sign in" type:sync
+    }`);
+
+    expect(document.profiles).toHaveLength(1);
+    expect(document.profiles[0].type).toBe('sequence');
+  });
+
+  it('renders a parsed non-diagram profile', async () => {
+    const document = parseRuniqDocument(`sequence "Login" {
+      participant "User" as actor
+      participant "App" as entity
+      message from:"User" to:"App" label:"Sign in" type:sync
+    }`);
+
+    const result = await renderRuniqDocumentToSvg(document);
+
+    expect(result.svg).toContain('<svg');
+    expect(result.svg).toContain('Login');
+  });
+
+  it('renders schematic profiles through the web package', async () => {
+    const document = parseRuniqDocument(`pneumatic "Air Prep" {
+      net SUPPLY, FILTERED
+      part FILTER type:FILTER pins:(SUPPLY,FILTERED)
+    }`);
+
+    const result = await renderRuniqProfileToSvg(document.profiles[0]);
+
+    expect(result.svg).toContain('<svg');
+    expect(result.svg).toContain('Air Prep');
   });
 });

@@ -48,13 +48,13 @@ Edge adornments:
 ## Styles
 
 ```runiq
-style default fill:"#f7f7ff" strokeColor:"#444"
-style decision fill:"#fff7e6" strokeColor:"#aa7700"
+style default fillColor:"#f7f7ff" strokeColor:"#444"
+style decision fillColor:"#fff7e6" strokeColor:"#aa7700"
 
 shape Decide as @rhombus label:"OK?" style:decision
 ```
 
-Supported style keys vary by renderer; common keys include `fill`, `stroke`, `strokeWidth`, `fontSize`.
+Supported style keys vary by renderer; common keys include `fillColor`, `strokeColor`, `strokeWidth`, `fontSize`, and `textColor`.
 
 ## Containers
 
@@ -95,8 +95,8 @@ The electrical profile uses electrical circuit symbols and enables SPICE/Verilog
 diagram "Auth Flow" {
   direction LR
 
-  style default fill:"#f7f7ff" strokeColor:"#444"
-  style decisionStyle fill:"#fff7e6" strokeColor:"#aa7700"
+  style default fillColor:"#f7f7ff" strokeColor:"#444"
+  style decisionStyle fillColor:"#fff7e6" strokeColor:"#aa7700"
 
   shape User     as @actor   label:"Visitor"
   shape Landing  as @rounded label:"Landing Page"

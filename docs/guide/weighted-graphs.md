@@ -209,7 +209,7 @@ See [Graph Metrics](../reference/graph-metrics.md) for more details on graph ana
 
 1. **Consistent Units**: Use the same units for all weights in a diagram (miles, milliseconds, dollars, etc.)
 2. **Meaningful Labels**: Always label weighted edges with value and unit
-3. **Visual Encoding**: Use `strokeWidth` or `stroke` color to reinforce weight magnitude
+3. **Visual Encoding**: Use `strokeWidth` or `strokeColor` to reinforce weight magnitude
 4. **Scale Appropriately**: Normalize weights if values span multiple orders of magnitude
 5. **Document Purpose**: Explain what weights represent in diagram title or documentation
 

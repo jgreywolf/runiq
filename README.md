@@ -250,8 +250,8 @@ Runiq uses **[Langium](https://langium.org/)** for parsing - a modern TypeScript
 diagram "Auth Flow"
 direction LR
 
-style default fill:#f7f7ff strokeColor:#444 font:Inter fontSize:14
-style decision fill:#fff7e6 strokeColor:#aa7700
+style default fillColor:#f7f7ff strokeColor:#444 font:Inter fontSize:14
+style decision fillColor:#fff7e6 strokeColor:#aa7700
 
 shape User     as @actor   label:"Visitor" icon:fa/user
 shape Landing  as @rounded label:"Landing Page"
