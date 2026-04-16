@@ -1,6 +1,6 @@
 {
   "name": "@runiq/glyphsets",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Pre-built diagram patterns (GlyphSets) for Runiq - SmartArt-style templates",
   "type": "module",
   "main": "./dist/index.js",
@@ -38,7 +38,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@runiq/core": "^1.2.0"
+    "@runiq/core": "^1.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",

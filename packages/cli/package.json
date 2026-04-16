@@ -1,6 +1,6 @@
 {
   "name": "@runiq/cli",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Command line interface for Runiq",
   "type": "module",
   "main": "./dist/index.js",
@@ -28,15 +28,15 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runiq/core": "^1.2.0",
-    "@runiq/parser-dsl": "^1.2.0",
-    "@runiq/io-json": "^1.2.0",
-    "@runiq/layout-base": "^1.2.0",
-    "@runiq/renderer-schematic": "^1.2.0",
-    "@runiq/renderer-svg": "^1.2.0",
-    "@runiq/icons-brand": "^1.2.0",
-    "@runiq/icons-fontawesome": "^1.2.0",
-    "@runiq/icons-iconify": "^1.2.0",
+    "@runiq/core": "^1.3.0",
+    "@runiq/parser-dsl": "^1.3.0",
+    "@runiq/io-json": "^1.3.0",
+    "@runiq/layout-base": "^2.0.0",
+    "@runiq/renderer-schematic": "^1.3.0",
+    "@runiq/renderer-svg": "^2.0.0",
+    "@runiq/icons-brand": "^1.3.0",
+    "@runiq/icons-fontawesome": "^1.3.0",
+    "@runiq/icons-iconify": "^1.3.0",
     "commander": "^11.1.0"
   },
   "devDependencies": {
