@@ -202,7 +202,7 @@ diagram "Microservices Architecture" {
     shape order as @hexagon label:"Order Service"
   }
 
-  container data "Data Layer" {
+  container dataLayer "Data Layer" {
     shape db as @cylinder label:"PostgreSQL"
     shape cache as @cylinder label:"Redis"
   }

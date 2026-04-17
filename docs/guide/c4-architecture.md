@@ -132,7 +132,7 @@ diagram "E-Commerce Platform" {
 [Go]"
   }
 
-  container data "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
+  container dataLayer "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
     shape userDb as @c4Container label:"User DB
 [PostgreSQL]"
     shape catalogDb as @c4Container label:"Catalog DB

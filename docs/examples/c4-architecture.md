@@ -166,7 +166,7 @@ diagram "E-Commerce Platform" {
     shape orders as @c4Container label:"Orders Service\n[Go]"
   }
 
-  container data "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
+  container dataLayer "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
     shape userDb as @c4Container label:"User DB\n[PostgreSQL]"
     shape catalogDb as @c4Container label:"Catalog DB\n[MongoDB]"
     shape cache as @c4Container label:"Cache\n[Redis]"

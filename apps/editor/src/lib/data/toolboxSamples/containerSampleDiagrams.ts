@@ -70,7 +70,7 @@ container backend "Backend Services" fillColor:"#e3f2fd" strokeColor:"#1976d2" s
   shape payments as @rectangle label:"Payments Service"
 }
 
-container data "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
+container dataLayer "Data Layer" fillColor:"#f3e5f5" strokeColor:"#7b1fa2" strokeWidth:2 {
   shape cache as @cylinder label:"Redis"
   shape db as @cylinder label:"PostgreSQL"
 }
